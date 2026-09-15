@@ -1,0 +1,21 @@
+{
+  "islands": [
+    {
+      "id": "CB01",
+      "official_name": "Scatarie Island",
+      "kind": "Island",
+      "key": "CBHMU",
+      "official_point_inside_reference_exterior": true,
+      "official_point_used_as_gcp": false
+    },
+    {
+      "id": "CB04",
+      "official_name": "Hay Island",
+      "kind": "Island",
+      "key": "CAPXQ",
+      "official_point_inside_reference_exterior": true,
+      "official_point_used_as_gcp": false
+    }
+  ],
+  "scope": "Independent official identity support only; source shape review and accuracy remain separate."
+}

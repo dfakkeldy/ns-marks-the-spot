@@ -1,0 +1,59 @@
+{
+  "points": [
+    {
+      "id": "CB01",
+      "frame": {
+        "county": "cape-breton",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+        "origin": [
+          30700,
+          17300
+        ],
+        "extent": [
+          4800,
+          3300
+        ],
+        "display": [
+          1600,
+          1100
+        ],
+        "rotation": 0
+      },
+      "source_outline_bounds": [
+        31045.0,
+        17759.0,
+        34510.0,
+        19640.0
+      ],
+      "vertices_outside_content_boundary": []
+    },
+    {
+      "id": "CB04",
+      "frame": {
+        "county": "cape-breton",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+        "origin": [
+          33950,
+          17900
+        ],
+        "extent": [
+          1000,
+          1200
+        ],
+        "display": [
+          1000,
+          1200
+        ],
+        "rotation": 0
+      },
+      "source_outline_bounds": [
+        34226.0,
+        18073.0,
+        34449.0,
+        18387.0
+      ],
+      "vertices_outside_content_boundary": []
+    }
+  ],
+  "scope": "Recorded original island outlines versus preserved content cutline; not geographic accuracy"
+}

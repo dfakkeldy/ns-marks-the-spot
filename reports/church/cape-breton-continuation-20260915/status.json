@@ -1,0 +1,29 @@
+{
+  "panel": "cape-breton/main",
+  "state": "continuation in progress; provisional baseline and southern support trials",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "baseline_controls": [
+    "CB01",
+    "CB07",
+    "CB08"
+  ],
+  "prospective_southern_control": "CB10",
+  "diagnostics": [
+    "CB04",
+    "CB09"
+  ],
+  "fresh_checks_after_model_comparison": 0,
+  "selected_replacement": null,
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_work": [
+    "Resolve additional distributed mainland and interior controls; Catalone context is ready for native review.",
+    "Reserve fresh checks only after a fit is selected and frozen.",
+    "Finish full raster/reference window, edge and seam assessment after defensible refinement.",
+    "Continue to Inverness south if correspondence-backed refinement stalls, retaining its accepted July baseline."
+  ],
+  "unresolved_searches": "unresolved-searches.json",
+  "salmon_followup": "salmon-mouth-followup.json"
+}

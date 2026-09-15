@@ -1,0 +1,55 @@
+{
+  "status": "Identity corroborated; source point withheld pending precise shared shore definition",
+  "source_crop": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/CB2-salmon-mouth-native.jpg",
+  "frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      15900,
+      22200
+    ],
+    "extent": [
+      1000,
+      1000
+    ],
+    "display": [
+      1400,
+      1400
+    ],
+    "rotation": 0
+  },
+  "native_review": "Inspected the completed native crop. Northern mouth shoulder is close to a dark building/road termination; repeated offshore engraving curves must not be mistaken for the innermost shoreline.",
+  "reference_findings": {
+    "northern_shore_corner": {
+      "feature": 167717,
+      "class": "WARV20",
+      "name": "Mira River",
+      "vertex": 5,
+      "lonlat": [
+        -60.30138029450592,
+        45.9131482161573
+      ]
+    },
+    "bank_join": {
+      "features": [
+        167717,
+        183765
+      ],
+      "vertices": [
+        0,
+        571
+      ],
+      "names": [
+        "Mira River",
+        "Salmon River"
+      ],
+      "lonlat": [
+        -60.30152384687251,
+        45.91305979147828
+      ]
+    }
+  },
+  "correction_to_search_note": "Earlier summary speculated coast coding or missing names. Original features are WARV20 river banks and include Salmon River by name. The earlier search did not establish absence.",
+  "adopted_control": false,
+  "scored": false
+}
