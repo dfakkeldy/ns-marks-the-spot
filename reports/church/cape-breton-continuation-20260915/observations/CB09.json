@@ -1,0 +1,72 @@
+{
+  "id": "CB09",
+  "role": "check",
+  "label": "Low Point northern mainland shoreline apex",
+  "pixel_xy": [
+    21308.0,
+    8339.666666666666
+  ],
+  "lonlat": [
+    -60.126425046406986,
+    46.26763975908702
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      21180,
+      8170
+    ],
+    "extent": [
+      400,
+      400
+    ],
+    "display": [
+      1200,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    384,
+    509
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/CB2-low-point-native.jpg",
+  "source_crop_sha256": "f8ec4485b239452875ae93a43dd9f2fdb73aaf8e19fdc6186c1ce30b7f800a10",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    12911
+  ],
+  "reference_vertex": {
+    "feature_id": 12911,
+    "vertex": 9
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "The source labels Low Point and Low Pt Light on the headland separating the Sydney Harbour approach from the eastward coast toward Barachois and Lingan. Its long southwest shore, rounded northern head and steep eastern return agree with the original coastline. Select the northern apex on the innermost land/water line, excluding offshore engraving contours and the lighthouse symbol. The northern head is rounded and generalized, so140m uncertainty is retained. Original WACO20 vertex12911v9 is the northernmost mainland coast of this headland; the official interior name point is not used.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/CB2-low-point-context.jpg",
+    "sha256": "baeaa157b3ae0000bf882ce898d0d81fc8007e861db76d04a7aacc4f5f72cd3d",
+    "frame": {
+      "county": "cape-breton",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+      "origin": [
+        19300,
+        7400
+      ],
+      "extent": [
+        4300,
+        3600
+      ],
+      "display": [
+        1290,
+        1080
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh northern check against unchanged frozen three-control affine; no fitting or tuning",
+  "recorded_at": "2026-09-15T12:23:03.114942+00:00",
+  "freeze_sha256": "37b513e0cd1a6de367f9c62d9bcea41a1a8d1925e6259010427143b408a899b3"
+}

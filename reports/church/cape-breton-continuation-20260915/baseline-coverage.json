@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/rendered/cape-breton-affine3-review-20m.tif",
+  "raster_sha256": "261fbfed2bca12b678ce4f82831264ce0f19323bcb6e439a913b88c3f62eb70f",
+  "cutline_sha256": "f5fc713b1fcc39dfe3c9c6fe6a015bd927879df550deea34300479b2f57176cf",
+  "expected_interior_cells": 23046137,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}
