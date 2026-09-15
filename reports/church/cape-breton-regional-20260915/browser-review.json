@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-09-15T15:22:49.460257+00:00",
+  "web_code_commit": "75b1b75cae8e91de5d794a7ff7f751ac47842dbc",
+  "artifact_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "native_raster_size": [
+    6716,
+    5374
+  ],
+  "actual_import_and_navigation_reload": true,
+  "only_active_historical_import": "cape-breton-tps11-review-20m",
+  "opacity_percent": 70,
+  "full_2d_view": [
+    46,
+    -60.24,
+    10
+  ],
+  "macadams_3d_view": [
+    45.9139,
+    -60.3552,
+    14
+  ],
+  "stewarts_2d_view": [
+    45.94593,
+    -60.01112,
+    14
+  ],
+  "stewarts_3d_view": [
+    45.9459,
+    -60.0111,
+    14
+  ],
+  "exaggeration": 10,
+  "tilt_degrees": 50,
+  "direction_degrees": 0,
+  "separate_low_ground_scale": false,
+  "error_logs": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/browser/tps11-full-2d.png",
+      "sha256": "573645a0321c0fa537b6c0acdb89b6ff5dd3d283e07654c5436bb93005108c15"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/browser/tps11-macadams-10x.png",
+      "sha256": "dec8a9602923ef577945b6e4a807c5dcab7cc74dfd45575b72bf6b4e404fb1d6"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/browser/tps11-stewarts-10x.png",
+      "sha256": "01b9adeb2b20f8ebdd5684db9bbbe14a322ccb4d5bcccda1df818af20d85b261"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/browser/tps11-stewarts-2d.png",
+      "sha256": "14e23ea7c83cdeb5da8b7077f048b944657bc70dc1ab544752a4416775a74ff6"
+    }
+  ],
+  "findings": [
+    "MacAdams now aligns at its promoted control; this is fitting context, not independent validation.",
+    "Stewarts northern connection and the surrounding drawn lake shapes remain displaced.",
+    "The full retained envelope, MacAdams10x and Stewarts2D/10x scenes were inspected. All measured pixels remain in native frames."
+  ],
+  "geographic_acceptance": false
+}

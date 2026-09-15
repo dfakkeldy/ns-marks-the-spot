@@ -1,0 +1,44 @@
+{
+  "panel": "cape-breton/main",
+  "state": "TPS11 provisional; two fresh islands pass working target, Stewarts fails; full acceptance incomplete",
+  "fit": "selected-tps11/freeze.json",
+  "controls": [
+    "CB01",
+    "CB07",
+    "CB08",
+    "CB10",
+    "CB11",
+    "CB12",
+    "CB09",
+    "CB14",
+    "CB15",
+    "CB17",
+    "CB16"
+  ],
+  "Scatarie_control_aliases": [
+    "CB01",
+    "CB14"
+  ],
+  "diagnostics": [
+    "CB04",
+    "CB13"
+  ],
+  "fresh_checks": [
+    "CB18",
+    "CB19",
+    "CB20"
+  ],
+  "fresh_rms_ground_m": 520.8597992686243,
+  "diagnostic_rms_ground_m": 210.28343925844405,
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_work": [
+    "Investigate Stewarts source/reference geometry and obtain additional identifiable interior checks without discarding its first failure.",
+    "Extend fresh coverage beyond the present two island regions and one lake.",
+    "Resolve southern-extension and other withheld matches before any geographic claim there.",
+    "Assess shared-feature seams. Continue to Inverness south if defensible Cape Breton refinement stalls, preserving its accepted baseline."
+  ]
+}

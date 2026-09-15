@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Boularderie+Island%27%2C%27Stewarts+Lake%27%2C%27Cape+Chameau%27%2C%27Fourchu+Head%27%2C%27Fourchu%27%29&%24limit=100",
+  "query": {
+    "$where": "geoname in ('Boularderie Island','Stewarts Lake','Cape Chameau','Fourchu Head','Fourchu')",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-15T14:19:38.171249+00:00",
+  "sha256": "05df8f4a7bd2493bfbb6dd2127dee5073b065232b55bc2f759722864594616c6"
+}

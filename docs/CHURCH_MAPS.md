@@ -9,7 +9,7 @@ financial reasons, so the survey date and the publication date differ.
 
 ## Status in this project
 
-Four Cape Breton Island counties are **catalogued but not rendered**. They
+Four Cape Breton Island counties are **catalogued but not published as layers**. They
 appear in `web/src/layers/layerCatalog.ts` and
 `ns-marks-the-spot/Layers/LayerCatalog.swift` with full metadata and
 attribution, but no tiles have been produced, so:
@@ -34,7 +34,21 @@ adds five physical checks, corrects Inverness north's First Fork source placemen
 and records Cape Breton's first three-control physical affine trial and a separate
 south diagnostic audit. Sparse validation and failed checks prevent new whole-panel
 acceptance; previous baselines, observations and raster artifacts remain preserved.
-Its `status.json` records the current unresolved work.
+Its `status.json` records the unresolved work at that checkpoint.
+
+The 14–15 September continuations retain separate diagnostics, fresh checks and
+provisional artifacts. Use these panel reports for the current research state:
+
+- [Richmond coverage continuation](../reports/church/coverage-continuation-20260914/README.md)
+- [Inverness north](../reports/church/inverness-north-continuation-20260914/README.md)
+- [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
+- [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
+- [Cape Breton regional support](../reports/church/cape-breton-regional-20260915/README.md)
+- [Inverness south physical review](../reports/church/physical-review-20260913/inverness-south/README.md)
+
+These reports include actual local GeoTIFF and browser terrain review. They do not
+establish new whole-panel acceptance or change the preserved July south baseline.
+The July results below remain frozen historical records.
 
 The full four-county run was **frozen and rejected on 2026-07-26**. Inverness
 south passed, but Inverness north was unmeasurable; Richmond failed its fixed
