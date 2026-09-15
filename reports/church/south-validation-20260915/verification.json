@@ -1,22 +1,27 @@
 {
-  "metric_sets_replayed": 34,
-  "fresh_observations_audited": 10,
+  "metric_sets_replayed": 46,
+  "first_validation_observations_audited": 14,
   "derived_crop_frames_verified": 3,
   "reference_features_by_file": {
     "southwest-water-lines.geojson": 2406,
     "south-west-water-lines.geojson": 4435,
     "water-lines.geojson": 62719,
     "roads.geojson": 14920,
-    "highways.geojson": 643
+    "highways.geojson": 643,
+    "interior-water.geojson": 1455
   },
   "original_lake_exteriors_verified": 3,
-  "all_checks_outside_control_hull": true,
+  "inside_control_hull": [
+    "IS31"
+  ],
+  "outside_control_hull_count": 13,
   "retained_affine_and_raster_unchanged": true,
   "accepted_baseline_inputs_unchanged": true,
-  "actual_raster_windows": 10,
-  "editable_inventories": 4,
+  "actual_raster_windows": 14,
+  "editable_inventories": 5,
   "first_five_inputs_unchanged": true,
   "first_seven_inputs_unchanged": true,
+  "first_ten_inputs_unchanged": true,
   "transport_source_id_sets_verified": 4,
   "geographic_acceptance": false
 }

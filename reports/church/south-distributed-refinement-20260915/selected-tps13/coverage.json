@@ -1,0 +1,10 @@
+{
+  "raster": "/var/home/dan/nsmarks-church-20260915/south-distributed/rendered/inverness-south-tps13-review-20m.tif",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "cutline_sha256": "d2026bd3950c0f4292fce83e72a4a1b1bd1cd4bafdb68f7e55ed66ac5cc9a84d",
+  "expected_interior_cells": 22702159,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

@@ -1,0 +1,13 @@
+{
+  "metric_sets_replayed": 24,
+  "unchanged_original_controls": 13,
+  "promoted_aliases_excluded": true,
+  "fresh_checks": 0,
+  "editable_inventories": 5,
+  "actual_raster_windows": 27,
+  "zero_alpha_holes": true,
+  "orientation_samples": 36615,
+  "production_embedded_import_verified": true,
+  "browser_import_reload_and_terrain_receipts_verified": true,
+  "geographic_acceptance": false
+}

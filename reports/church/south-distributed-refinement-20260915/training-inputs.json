@@ -1,0 +1,47 @@
+{
+  "input_commit": "a38e8f6b7bd377fa5e4eb89a6659ec8e749530de",
+  "inputs": [
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/control-observations.json",
+      "sha256": "19429fe3a3398e798356176c1eda0af6b2b237f13d8f686f3f043c08fade3759"
+    },
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/fresh-observation.json",
+      "sha256": "c139275ea37f94a8b1450643b40b483e87ff79bc83b818c42b11118f275ba04a"
+    },
+    {
+      "path": "reports/church/inverness-south-continuation-20260915/observations/IS18.json",
+      "sha256": "6205d063414f99cf02f6c4efb280945280bc2699e32572dc24225c3338d749c2"
+    },
+    {
+      "path": "reports/church/inverness-south-continuation-20260915/observations/IS19.json",
+      "sha256": "48ee0b74514069486f18b8f0b5d1910873488317d6559da80687c825911afa1b"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/observations/IS20.json",
+      "sha256": "29ade27409e15102a8d9e70cbed74c31dae8a8775073d9dae8a017a67d4861e8"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/observations/IS21.json",
+      "sha256": "287c887747906a8124e02686f39970870bcdc41a4233410455e3593133b60407"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/observations/IS24.json",
+      "sha256": "a7541ed1f6f798ce918827352d3a152d46c3962f3ae7548c995f2b03a2af6ea7"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/observations/IS25.json",
+      "sha256": "07f99b820d7ac4b62131dd0fc8e756950d4646fb0247bcbccd95466b075ab0a2"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/observations/IS26.json",
+      "sha256": "4a274cf056f65bddca0d432338765bc8a7518bfc72127d1da0547ca0380ee1b6"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/observations/IS27.json",
+      "sha256": "c0cebe7ed276a12c2fb8e4d5a2f3bf51350809b6ef0c4e14569f32b460319f35"
+    }
+  ],
+  "unchanged_source_coordinates": true,
+  "accepted_july_inputs_unchanged": true
+}

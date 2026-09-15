@@ -1,0 +1,208 @@
+[
+  {
+    "name": "IS6-denys-west",
+    "query_name": "denys-west",
+    "lonlat": [
+      -61.245328624804834,
+      45.85939717515331
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 156395,
+        "vertex": 0,
+        "street": "Northside River Denys Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 198254,
+        "vertex": 4,
+        "street": "Northside River Denys Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 314969,
+        "vertex": 0,
+        "street": "Southside River Denys Rd",
+        "kind": "RRRDLOZ2"
+      }
+    ],
+    "guide_pixel_xy": [
+      22891.0771886838,
+      22778.572024748
+    ],
+    "origin": [
+      20300,
+      20200
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern candidate; historical route continuity and exact source position require review."
+  },
+  {
+    "name": "IS6-denys-east",
+    "query_name": "denys-east",
+    "lonlat": [
+      -61.08737176073207,
+      45.851594399654154
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 6525,
+        "vertex": 72,
+        "street": "Southside River Denys Rd",
+        "kind": "RRRDLOY2"
+      },
+      {
+        "layer": 8,
+        "id": 45577,
+        "vertex": 0,
+        "street": "Marble Mountain Rd",
+        "kind": "RRRDLOY2"
+      },
+      {
+        "layer": 8,
+        "id": 51612,
+        "vertex": 10,
+        "street": "Marble Mountain Rd",
+        "kind": "RRRDLOY2"
+      }
+    ],
+    "guide_pixel_xy": [
+      27377.3863518471,
+      23090.6009047184
+    ],
+    "origin": [
+      24800,
+      20500
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern candidate; historical route continuity and exact source position require review."
+  },
+  {
+    "name": "IS6-portage",
+    "query_name": "portage",
+    "lonlat": [
+      -60.99003282724146,
+      45.94969475132645
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 294998,
+        "vertex": 7,
+        "street": "Portage Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 294999,
+        "vertex": 9,
+        "street": "Orangedale-Iona Rd",
+        "kind": "RRRDLOZ2"
+      },
+      {
+        "layer": 8,
+        "id": 295001,
+        "vertex": 0,
+        "street": "Portage Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 295002,
+        "vertex": 0,
+        "street": "Farghers Lane",
+        "kind": "RRRDLOZ2"
+      }
+    ],
+    "guide_pixel_xy": [
+      30151.5992144282,
+      19084.5750470407
+    ],
+    "origin": [
+      27600,
+      16500
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern candidate; historical route continuity and exact source position require review."
+  },
+  {
+    "name": "IS6-long-stretch",
+    "query_name": "long-stretch",
+    "lonlat": [
+      -61.32360811092793,
+      45.682389177584085
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 4451,
+        "vertex": 32,
+        "street": "Crandall Rd",
+        "kind": "RRRDLOY2"
+      },
+      {
+        "layer": 8,
+        "id": 154164,
+        "vertex": 0,
+        "street": "Crandall Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 154232,
+        "vertex": 39,
+        "street": "Long Stretch Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 293989,
+        "vertex": 0,
+        "street": "Long Stretch Rd",
+        "kind": "RRRDLOY1"
+      }
+    ],
+    "guide_pixel_xy": [
+      20650.9720381542,
+      29986.329228865
+    ],
+    "origin": [
+      18100,
+      27400
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern candidate; historical route continuity and exact source position require review."
+  }
+]
