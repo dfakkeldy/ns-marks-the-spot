@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-09-15T17:04:09.806720+00:00",
+  "existing_raster_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "web_code_commit": "8cda9fc422c8627883b79c79b43cc8cb3b196999",
+  "new_import_or_fit_change": false,
+  "opacity_percent": 70,
+  "views": {
+    "gaspereaux_2d": [
+      45.86216,
+      -60.49632,
+      14
+    ],
+    "enon_2d": [
+      45.81124,
+      -60.53707,
+      14
+    ],
+    "enon_3d": [
+      45.81121,
+      -60.53707,
+      14
+    ],
+    "south_head_2d": [
+      46.1288,
+      -59.7977,
+      14
+    ]
+  },
+  "enon_exaggeration": 10,
+  "enon_tilt": 50,
+  "enon_direction": 0,
+  "error_logs": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-validation-20260915/browser/enon-10x.png",
+      "sha256": "5bc22a45af30ec4892b21cd80c1755a5d95137eab832fe55e235bfaabadbf601"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-validation-20260915/browser/enon-2d.png",
+      "sha256": "9fee129e598ea9b0aceaf001af4a93abb90b365de590a8500ddc13cfe25cef17"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-validation-20260915/browser/gaspereaux-2d.png",
+      "sha256": "a0f071b0d38c1140b53040db3f9b38735aa6f2f77c22d59ce1e03513ac8f2fe0"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-validation-20260915/browser/south-head-2d.png",
+      "sha256": "e119f50fdfe6466abb41e0f2aee8d2b5639c17fc53731ac877f6bb9d8017f49e"
+    }
+  ],
+  "scope": "Existing frozen TPS11 layer in the actual web app; new regional views only. Original importer/coverage proof remains in the regional report. No coordinates measured in terrain.",
+  "geographic_acceptance": false
+}
