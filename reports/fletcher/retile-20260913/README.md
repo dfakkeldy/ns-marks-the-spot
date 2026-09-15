@@ -52,18 +52,32 @@ The Fletcher suite passed all 300 tests. `verify_mosaic.py` checks all 24 source
 
 ## R2 publication
 
-Target: `ns-marks-fletcher-tiles/fletcher-full-sheets-20260913.1/`, served at
-`https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/` once uploaded.
-At preparation time nothing from this revision has been uploaded: the dashboard
-rejected the complete batch because it supports only 100 files per upload. The
-package has 44,342 objects (44,340 tiles plus two JSON manifests), 2,448,005,158
-bytes.
+Published and verified on 15 September 2026 in
+`ns-marks-fletcher-tiles/fletcher-full-sheets-20260913.1/`.
 
-`publish.py` uses caller-provided `R2_ACCOUNT_ID`, `AWS_ACCESS_KEY_ID`, and
-`AWS_SECRET_ACCESS_KEY`, plus an AWS CLI. It uploads PNGs first and manifests last,
-uses immutable cache headers, never deletes objects, and compares the complete
-R2 key list, byte sizes and single-part MD5 ETags with local files. No credentials
-belong in this repository or the public tile package. Run:
+- [Public source manifest](https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/source.json)
+- [Public tile inventory](https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/tile-inventory.json)
+- Tile template: `https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/{z}/{x}/{y}.png`
+- 44,342 objects (44,340 PNG tiles plus two JSON manifests), 2,448,005,158 bytes.
+
+`publication.json` records exact agreement of the complete R2 key list, every
+object size and every single-part MD5 ETag. The fresh local SHA-256 inventory
+check is in `local-inventory-verification.json`. `public-verification.json`
+records 66 byte-identical responses through the public host, covering both
+manifests, every zoom, transparent/opaque samples and all 24 sheet centres.
+PNG cross-origin delivery and content types pass; immutable cache headers are
+recorded. The verifier identifies itself as `NSMarksTileVerification/1.0` because
+the host rejects Python's default user agent.
+
+The temporary Object Read & Write token was scoped only to this bucket with a
+24-hour expiry. It was revoked after verification and its local credentials were
+removed; see `credential-cleanup.json`. No credentials are included here or in
+the public package.
+
+`publish.py` takes caller-provided `R2_ACCOUNT_ID`, `AWS_ACCESS_KEY_ID` and
+`AWS_SECRET_ACCESS_KEY`, plus an AWS CLI. It uploads PNGs first, manifests last,
+never deletes objects, and verifies remote sizes/ETags. The dashboard's 100-file
+batch limit makes the S3 bulk uploader necessary for this package. Example:
 
 ```sh
 python3 reports/fletcher/retile-20260913/publish.py \
@@ -72,22 +86,17 @@ python3 reports/fletcher/retile-20260913/publish.py \
   --out reports/fletcher/retile-20260913/publication.json
 ```
 
-Bulk upload is awaiting approval to create a temporary 24-hour Object Read & Write
-token scoped only to this bucket, use it for this upload, then revoke it and remove
-temporary local credentials. Existing account tokens and bucket settings are
-unchanged. The new revision must not be described as hosted before the upload and
-public-host checks succeed.
+Use `verify_public.py --tiles PACKAGE --out PUBLIC_RECEIPT` to replay public
+checks without credentials. Do not overwrite this immutable revision with
+changed rasters or metadata; generate a new revision.
 
+Final local tile verification covers all 44,340 inventory hashes and eight XYZ
+grids. The continuous zoom-15 comparison covers 1,216,437,446 opaque cells, with
+zero missing source coverage, zero tile-edge RGB differences and a maximum
+interior rounding difference of one 8-bit level. The composite retains
+1,122,602,317 source coverage cells across all 24 sheets with zero loss.
 
-Final local verification passed: all 44,340 inventory hashes and all eight XYZ
-zoom grids match. The continuous zoom-15 comparison covers 1,216,437,446 opaque
-cells with zero lost source coverage, zero tile-edge RGB differences, and a
-maximum interior rounding difference of one 8-bit level. The independent
-composite check retains 1,122,602,317 source coverage cells across all 24 sheets
-with zero loss. See `tile-verification.json` and `mosaic-verification.json`.
-
-After R2 upload, `verify_public.py --tiles PACKAGE --out PUBLIC_RECEIPT` verifies
-byte parity and response headers for both manifests, every zoom, transparent and
-opaque samples, and centre tiles across all 24 sheets. It has not yet run because
-this revision is not uploaded. Publication scripts are prepared; external upload
-and verification remain pending the scoped token approval.
+This uploads a provisional review mosaic. Existing web/native tile revisions,
+label projection pins, geographic acceptance and bucket configuration are
+unchanged. This mosaic uses one XYZ template; the existing per-sheet production
+layer is a separate delivery format and has not been switched.

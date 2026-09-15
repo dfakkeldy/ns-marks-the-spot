@@ -38,7 +38,10 @@ for sheet in source['provenance']['sheets']:
         selected.add(rel)
 
 def check(rel):
-    request = urllib.request.Request(root+'/'+rel, headers={'Origin':'https://kinnokilabs.com'})
+    request = urllib.request.Request(root+'/'+rel, headers={
+        'Origin':'https://kinnokilabs.com',
+        'User-Agent':'NSMarksTileVerification/1.0',
+    })
     with urllib.request.urlopen(request,timeout=60) as response:
         body = response.read()
         expected = (a.tiles/rel).read_bytes()

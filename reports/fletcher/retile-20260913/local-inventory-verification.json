@@ -1,0 +1,8 @@
+{
+  "verified_at": "2026-09-15T11:28:13.277719+00:00",
+  "tile_count": 44340,
+  "tile_bytes": 2441632228,
+  "all_local_sha256_and_sizes_match": true,
+  "source_matches_committed_receipt": true,
+  "inventory_sha256": "5fcd277d4daf50974cf33a035c1859af775f9b5075de9208a1b9b750f5d39851"
+}
