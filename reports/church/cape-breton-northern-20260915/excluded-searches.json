@@ -1,0 +1,15 @@
+{
+  "Blacketts_Lake": {
+    "status": "No GCP or score adopted",
+    "reason": "Sydney River was dammed in1902 and the upstream water configuration changed. A matching historical whole-basin/outlet definition was not established.",
+    "source": "https://www.canada.ca/en/environment-climate-change/services/species-risk-public-registry/management-plans/yellow-lampmussel-lampsilis-cariosa-proposed-2009.html",
+    "section": "Executive summary and1.3 Populations and Distribution",
+    "scope": "Search exclusion, not a quantified historic shoreline-change estimate."
+  },
+  "inherited_unresolved": [
+    "Point Aconi",
+    "Cape Gabarus exact headland/islet distinction",
+    "Catalone landform under L",
+    "Salmon/Mira exact bank corner"
+  ]
+}

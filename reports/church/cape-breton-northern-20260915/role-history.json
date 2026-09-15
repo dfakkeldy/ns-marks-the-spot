@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-09-15T13:26:26.212199+00:00",
+  "promoted_control": "CB09",
+  "new_prospective_control": "CB14",
+  "Scatarie_feature_aliases": [
+    "CB01",
+    "CB14"
+  ],
+  "diagnostics": [
+    "CB04",
+    "CB13"
+  ],
+  "newly_diagnostic": "CB13",
+  "preserved_first_results": [
+    "../cape-breton-continuation-20260915/CB09-first.json",
+    "../cape-breton-interior-20260915/CB13-first.json"
+  ],
+  "fresh_checks_after_selection": 0,
+  "geographic_acceptance": false
+}
