@@ -1,0 +1,118 @@
+{
+  "finding": "Raw geographic shoelace sums lose precision for small polygons. Original frozen measurements remain unchanged; new VM23 corrected before any fit or score.",
+  "VM23_revision": {
+    "original": "centroid-arithmetic-audit/VM23-original-unscored.json",
+    "original_sha256": "85733f1345a178500904f259c562a8032f0109de83a4bf2c27df24c12b37b82a",
+    "reason": "Numerical cancellation in unshifted polygon_centroid on tiny geographic polygons; corrected before any scoring/fitting",
+    "delta_ground_m": 3.5203761979127273,
+    "source_pixel_and_ring_unchanged": true
+  },
+  "legacy_comparison_only": [
+    {
+      "id": "VM01",
+      "difference_ground_m": 0.06986231572342169,
+      "original_lonlat": [
+        -60.74620908596013,
+        46.09490632232079
+      ],
+      "stable_lonlat": [
+        -60.74620847458657,
+        46.094905858644644
+      ],
+      "original_inputs_unchanged": true
+    },
+    {
+      "id": "VM02",
+      "difference_ground_m": 2.982474897223813,
+      "original_lonlat": [
+        -60.93470268806524,
+        46.045341747362244
+      ],
+      "stable_lonlat": [
+        -60.93467654776289,
+        46.04532199321615
+      ],
+      "original_inputs_unchanged": true
+    },
+    {
+      "id": "VM06",
+      "difference_ground_m": 0.036361503914000684,
+      "original_lonlat": [
+        -60.3756104385498,
+        46.38319208814743
+      ],
+      "stable_lonlat": [
+        -60.37561012218046,
+        46.383191844623795
+      ],
+      "original_inputs_unchanged": true
+    },
+    {
+      "id": "VM11",
+      "difference_ground_m": 0.13880147090610348,
+      "original_lonlat": [
+        -60.71815103491827,
+        46.28826339157159
+      ],
+      "stable_lonlat": [
+        -60.71814982153114,
+        46.28826246684653
+      ],
+      "original_inputs_unchanged": true
+    },
+    {
+      "id": "VM10",
+      "difference_ground_m": 0.2620895195928491,
+      "original_lonlat": [
+        -60.39540334733471,
+        46.36613326223714
+      ],
+      "stable_lonlat": [
+        -60.39540563051939,
+        46.36613501533313
+      ],
+      "original_inputs_unchanged": true
+    },
+    {
+      "id": "VM08",
+      "difference_ground_m": 0.19695411840816113,
+      "original_lonlat": [
+        -60.6921555472276,
+        46.27788843269826
+      ],
+      "stable_lonlat": [
+        -60.692157268646554,
+        46.27788974485255
+      ],
+      "original_inputs_unchanged": true
+    },
+    {
+      "id": "VM07",
+      "difference_ground_m": 0.4967065564275142,
+      "original_lonlat": [
+        -60.751663399189795,
+        46.07803071863643
+      ],
+      "stable_lonlat": [
+        -60.751667745228936,
+        46.07803401487812
+      ],
+      "original_inputs_unchanged": true
+    },
+    {
+      "id": "VM12",
+      "difference_ground_m": 7.573280648615765,
+      "original_lonlat": [
+        -60.77475979339034,
+        46.087586018943135
+      ],
+      "stable_lonlat": [
+        -60.774826068052995,
+        46.087636277243156
+      ],
+      "original_inputs_unchanged": true
+    }
+  ],
+  "largest_legacy_difference_ground_m": 7.573280648615765,
+  "scope": "Metre-scale arithmetic difference, not an explanation of hundreds of metres of historical displacement. Shared helper and all previous inputs unchanged."
+}

@@ -1,0 +1,37 @@
+{
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "reference_type": "Original NSTDB full feature geometry; not survey checkpoints",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/reference-full/water-lines.geojson",
+      "sha256": "673209e63acee749e37559280b5c808c5b9d67d903682d362ec0be64720b1538"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/reference-full/water-lines.geojson",
+      "sha256": "37ae738e9faddce3ef91b8668f3811dadc6bd174fc1af6bf322ca1390261b696"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/reference-full/water-lines.geojson",
+      "sha256": "9f124d54d990cec76804663323ecd9780792aab2ac2cd2ecb84e0d759ce7d26e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/reference-full/water-lines.geojson",
+      "sha256": "f9bb31b25cf1febe7f11eba2aa47c9aeeabec5587909e58e65cbfd4fa50c4719"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+      "sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/bird-water-lines.geojson",
+      "sha256": "a2c0797df71cf232000011b7e914f5405b1ab090e517eacfa78d1099af80bfb8"
+    }
+  ],
+  "additional_receipts": [
+    "../physical-review-20260913/victoria-main/bird-reference-receipt.json",
+    "../physical-review-20260913/cape-breton/reference-receipt.json"
+  ],
+  "name_records": "name-identity-audit; identity only, no representative name point used as a GCP",
+  "source_scan_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621"
+}

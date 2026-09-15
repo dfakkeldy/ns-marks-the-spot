@@ -1,0 +1,21 @@
+{
+  "frozen_at": "2026-09-15T04:14:53.065043+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "615ed4b09d4c31dc5e849aea50589396189d008f636b3931378e619268d8f216",
+  "boundary_sha256": "d0979e3b1a6f3c5742f9224279bbde8f4eac8b5975d282bed1c7b38a9f45958e",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "selection": "Fourteen valid physical controls after excluding VM12 mainland-pond mismatch. Best valid supported trial on the same six diagnostics;284.92m RMS remains above the250m working target. All previous experiments preserved and invalid-control candidates explicitly rejected.",
+  "excluded_wrong_reference": [
+    "VM12"
+  ],
+  "diagnostics": [
+    "VM21",
+    "VM22",
+    "VM24",
+    "VM25",
+    "VM27",
+    "VM28"
+  ],
+  "fresh_count": 0,
+  "geographic_acceptance": false
+}

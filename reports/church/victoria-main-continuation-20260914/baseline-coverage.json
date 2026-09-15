@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/rendered/victoria-main-affine4-boundary-draft-20m.tif",
+  "raster_sha256": "c45f08b2ad9d4358b628178b71a958bd2ea7dcec0d50eb3a3318ea88ee656e17",
+  "cutline_sha256": "7c7377a59aef7a744cc0c2d875442723634ed74a7612a2195a111bd923ad4517",
+  "expected_interior_cells": 18638157,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

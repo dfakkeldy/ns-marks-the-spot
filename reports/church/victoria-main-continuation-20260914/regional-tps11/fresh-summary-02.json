@@ -1,0 +1,56 @@
+{
+  "phase": "Two fresh checks against frozen regional TPS11; no tuning or promotion after either score",
+  "tps11": {
+    "count": 2,
+    "points": [
+      {
+        "label": "VM20",
+        "east_ground_m": -233.24774531362468,
+        "north_ground_m": 150.60528955019373,
+        "error_ground_m": 277.6444919936054
+      },
+      {
+        "label": "VM21",
+        "east_ground_m": -149.3569044853524,
+        "north_ground_m": 143.33615767825916,
+        "error_ground_m": 207.0090312411839
+      }
+    ],
+    "rms_ground_m": 244.8869156874257,
+    "median_ground_m": 242.32676161739465,
+    "p95_ground_m": 274.11271895598435,
+    "max_ground_m": 277.6444919936054,
+    "mean_east_ground_m": -191.30232489948855,
+    "mean_north_ground_m": 146.97072361422644,
+    "scatter_rms_ground_m": 42.10259330803178,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "affine4_same_features": {
+    "count": 2,
+    "points": [
+      {
+        "label": "VM20",
+        "east_ground_m": -10.313824639735229,
+        "north_ground_m": 196.97335062694725,
+        "error_ground_m": 197.2431895805417
+      },
+      {
+        "label": "VM21",
+        "east_ground_m": -846.7388310203462,
+        "north_ground_m": 635.6051733128785,
+        "error_ground_m": 1058.7542605816502
+      }
+    ],
+    "rms_ground_m": 761.533144431581,
+    "median_ground_m": 627.9987250810959,
+    "p95_ground_m": 1015.6787070315947,
+    "max_ground_m": 1058.7542605816502,
+    "mean_east_ground_m": -428.5263278300407,
+    "mean_north_ground_m": 416.2892619699129,
+    "scatter_rms_ground_m": 472.22999353376196,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}
