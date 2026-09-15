@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "file": "richmond-controls.csv",
+      "controls": 14,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 7.273861836555093e-9
+        }
+      ]
+    },
+    {
+      "file": "richmond-new-validation.csv",
+      "controls": 14,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 7.273861836555093e-9
+        }
+      ]
+    },
+    {
+      "file": "richmond-cumulative-validation.csv",
+      "controls": 14,
+      "checks": 16,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 7.273861836555093e-9
+        }
+      ]
+    }
+  ],
+  "scope": "Production CSV parser and frozen Richmond affine solver at fresh checks and content vertices; not raw-scan browser mesh acceptance."
+}

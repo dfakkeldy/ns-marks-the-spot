@@ -1,0 +1,41 @@
+{
+  "scope": "Inverse frozen fit locates search windows only, not observations",
+  "candidates": [
+    {
+      "identity": "Cranberry",
+      "lonlat": [
+        -60.98465884117454,
+        45.907983194873744
+      ],
+      "guide_pixel_xy": [
+        12739.25970463599,
+        4993.260144285244
+      ],
+      "richmond_alpha": 255
+    },
+    {
+      "identity": "Cameron",
+      "lonlat": [
+        -61.013475,
+        45.813973
+      ],
+      "guide_pixel_xy": [
+        11940.49426121033,
+        8783.38799949496
+      ],
+      "richmond_alpha": 0
+    },
+    {
+      "identity": "CrammondSW",
+      "lonlat": [
+        -61.094899,
+        45.750129
+      ],
+      "guide_pixel_xy": [
+        9606.692256089278,
+        11359.755946363128
+      ],
+      "richmond_alpha": 255
+    }
+  ]
+}

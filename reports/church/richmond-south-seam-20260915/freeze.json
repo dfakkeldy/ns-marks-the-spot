@@ -1,0 +1,50 @@
+{
+  "recorded_at": "2026-09-15T22:47:53.118426+00:00",
+  "input_commit": "f10c2875b773115f226573d7f25af81ef5985ad8",
+  "inputs": {
+    "richmond_controls": {
+      "path": "reports/church/coverage-20260914/richmond/affine14-controls.csv",
+      "sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca"
+    },
+    "richmond_freeze": {
+      "path": "reports/church/coverage-20260914/richmond/affine14-freeze.json",
+      "sha256": "8932f8d1611d7706450472a2a762897ed5e4b8b4cdd1eadaea1c0d968ec3c417"
+    },
+    "south_controls": {
+      "path": "reports/church/south-distributed-refinement-20260915/selected-tps13/controls.csv",
+      "sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527"
+    },
+    "south_freeze": {
+      "path": "reports/church/south-distributed-refinement-20260915/selected-tps13/freeze.json",
+      "sha256": "cd15fd212b4f0b25c271d3c3109c65eff9f13cfc0fa6d3f2b13031199b9f3178"
+    },
+    "south_cranberry": {
+      "path": "reports/church/south-tps13-validation-20260915/observations/IS35.json",
+      "sha256": "2e3dfb65c1e2befc2071f4b48aaa3756bd4fb8ae2d4d711ff6eadddc0754c027"
+    },
+    "south_original_controls": {
+      "path": "reports/church/physical-review-20260913/inverness-south/control-observations.json",
+      "sha256": "19429fe3a3398e798356176c1eda0af6b2b237f13d8f686f3f043c08fade3759"
+    },
+    "richmond_prior_fresh": {
+      "path": "reports/church/coverage-continuation-20260914/richmond/cumulative-validation.csv",
+      "sha256": "df9b5c22f41d2cdfe745882496a962b5821a4ff52c0f0277ad80c111f893a83c"
+    },
+    "richmond_prior_diagnostics": {
+      "path": "reports/church/coverage-20260914/richmond/affine14-diagnostic-review.csv",
+      "sha256": "9e5a8520be47ef654b6cb08dde7d8edca547f037671fc08c0d92a179c515c162"
+    }
+  },
+  "richmond_raster": {
+    "path": "/Users/dfakkeldy/Downloads/church-coverage-20260914/richmond-affine14/richmond-affine14-20m.tif",
+    "sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0"
+  },
+  "south_raster": {
+    "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+    "sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040"
+  },
+  "fit_changes": false,
+  "working_independent_rms_ground_m": 250,
+  "stretch_independent_rms_ground_m": 200,
+  "seam_scope": "Report ground separation between matched source observations; no separate seam threshold is invented; sparse matches do not validate entire seam."
+}

@@ -39,7 +39,7 @@ Its `status.json` records the unresolved work at that checkpoint.
 The 14–15 September continuations retain separate diagnostics, fresh checks and
 provisional artifacts. Use these panel reports for the current research state:
 
-- [Richmond coverage continuation](../reports/church/coverage-continuation-20260914/README.md)
+- [Richmond validation and the Inverness south seam](../reports/church/richmond-south-seam-20260915/README.md) — sixteen fresh Richmond checks, 220.70 m RMS; two local seam pairs, with whole-panel and whole-seam acceptance still unproven.
 - [Inverness north](../reports/church/inverness-north-continuation-20260914/README.md)
 - [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
 - [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
