@@ -1,0 +1,41 @@
+{
+  "panel": "cape-breton/main",
+  "state": "TPS8 coastal refinement retained; fails distributed fresh validation",
+  "fit": "selected-tps8/freeze.json",
+  "controls": [
+    "CB01",
+    "CB07",
+    "CB08",
+    "CB10",
+    "CB11",
+    "CB12",
+    "CB09",
+    "CB14"
+  ],
+  "control_alias_group": [
+    "CB01",
+    "CB14"
+  ],
+  "diagnostics": [
+    "CB04",
+    "CB13"
+  ],
+  "fresh_checks": [
+    "CB15",
+    "CB16",
+    "CB17"
+  ],
+  "diagnostic_rms_ground_m": 164.23858109911876,
+  "fresh_rms_ground_m": 845.1736752059242,
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_work": [
+    "Address MacAdams interior displacement, retaining the first failed check and network-audit evidence.",
+    "Investigate the Dalem/northwestern and Louisbourg coastal support gaps; preserve first results and reclassify any checks used in subsequent selection.",
+    "Obtain new distributed checks after any repaired fit is frozen; three fresh checks are insufficient for whole-panel accuracy.",
+    "Complete seam and intervening coast/interior assessment; continue to Inverness south if defensible refinement stalls."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+%3D+%27Dalem+Lake%27&%24limit=50",
+  "query": {
+    "$where": "geoname = 'Dalem Lake'",
+    "$limit": 50
+  },
+  "retrieved_at": "2026-09-15T13:40:23.922251+00:00",
+  "sha256": "75d80910576f65ce956ffaf550b6b5ce5dd8eef2d26cb9520b9c200298ee433b"
+}

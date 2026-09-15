@@ -1,0 +1,63 @@
+{
+  "id": "CB17",
+  "role": "check",
+  "label": "Dalem Lake southeastern shore and stream junction",
+  "pixel_xy": [
+    12615.333333333334,
+    9199.333333333334
+  ],
+  "lonlat": [
+    -60.42621324825891,
+    46.24796658152057
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      12200,
+      8750
+    ],
+    "extent": [
+      800,
+      900
+    ],
+    "display": [
+      1200,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    623,
+    674
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/CB4-dalem-native.jpg",
+  "source_crop_sha256": "f357fae5a3bc435db794ab2bd7dc61a005c8fba563aad88d71988506df42ac5d",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    128781,
+    128782,
+    178427
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 128781,
+      "vertex": 0
+    },
+    {
+      "feature_id": 128782,
+      "vertex": 82
+    },
+    {
+      "feature_id": 178427,
+      "vertex": 0
+    }
+  ],
+  "uncertainty_ground_m": 140,
+  "official_identity_key": "CAIUU",
+  "identity_evidence": "The source shows a near-round inland lake in the western Boularderie part of the main geographic panel, southeast of the long coastal inlet and northwest of the trunk brook reaching the southeastern shore of the island. A single stream leaves the lake southeastern edge and runs southeast/south, crossing the dashed county boundary well below the lake. This isolated lake shape and drainage topology correspond to official Dalem Lake CAIUU (physical Lake, Victoria county), not the Cape Breton community record CBVHJ. Original lake banks128781v0/128782v82 and stream178427v0 share the measured coordinate. Native source is faded, but the southeastern junction is distinct. Do not measure the later county-line crossing or infer a whole-lake centroid through the faded western shore. The panel includes this mapped Victoria portion; the observation does not change administrative county identity.",
+  "phase": "Fresh physical check against frozen TPS8; no fitting or selection use",
+  "recorded_at": "2026-09-15T13:46:39.386423+00:00"
+}
