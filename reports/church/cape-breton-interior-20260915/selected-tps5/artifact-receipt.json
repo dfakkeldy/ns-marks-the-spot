@@ -1,0 +1,45 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "source_scope": "Hash-verified original archival Cape Breton TIFF.",
+  "controls_sha256": "9fc6f454eccbbd2883ce673a3ba467e44acbf955334e2f29f27dcaf9a49d25ac",
+  "freeze_sha256": "9d2ecd910f7fc5cf1906012ec0b5710200746edcebe49054ba23db051732b4c6",
+  "boundary_sha256": "96ce252e8e00633611e38e4406eff15edeba339cb8d93246b6dd067d7ac6e48e",
+  "transform": "GDAL TPS -et 0",
+  "cutline_sample_native_px": 250,
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260915/cape-interior/rendered/cape-breton-tps5-review-20m.tif",
+  "output_sha256": "8ba9855380de8097f65c4a0c96c31994ad56c0025400c20e2aa22a39700c78a1",
+  "size": [
+    6704,
+    5430
+  ],
+  "geotransform": [
+    -6773380.0,
+    20.0,
+    0.0,
+    5841760.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260915/cape-interior/rendered/cape-breton-tps5-cutline.geojson",
+  "cutline_sha256": "0208e6fe8d6015d9dd300f67793723767a2f7c4aa379a69fd9e0c982613c8fec",
+  "orientation": {
+    "sample_count": 23815,
+    "coarse_spacing_native_px": 200,
+    "near_control_spacing_native_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -16.417411549340386,
+      -14.912668137701898
+    ],
+    "anisotropy_range": [
+      1.0003431381406531,
+      1.1119336002078655
+    ],
+    "scope": "Finite one-pixel forward differences only, not a proof of the continuous TPS surface"
+  },
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false
+}

@@ -1,0 +1,51 @@
+{
+  "id": "CB11",
+  "role": "control",
+  "label": "Grand Lake northernmost shore apex, western corner of northern basin",
+  "pixel_xy": [
+    26301,
+    20468
+  ],
+  "lonlat": [
+    -59.95558889300277,
+    45.97033719280668
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      26000,
+      20200
+    ],
+    "extent": [
+      1100,
+      1600
+    ],
+    "display": [
+      1100,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    301,
+    268
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/CB3-shaw-lake-native.jpg",
+  "source_crop_sha256": "20f7040ea567ccf024c66dde5c4529e5613d4e83ead65639e935377f85d01060",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    126301
+  ],
+  "reference_vertex": {
+    "feature_id": 126301,
+    "vertex": 175
+  },
+  "uncertainty_ground_m": 150,
+  "official_identity_key": "CAOED",
+  "identity_evidence": "Native detail reads Grand Lake, correcting the earlier Shaw Lake search reading before adoption. Official Grand Lake CAOED is south of Mira Bay; its representative point lies inside the water polygon reconstructed from original lake and adjoining river banks. Source and reference share the northern squared basin with a shallow central north-bank recess, a narrowed middle connection and broader southern basin, south of Catalone Lake and east of Stewarts Lake. The measurement is the northernmost western lobe apex, on the actual shore boundary outside the interior engraving rings. Original WALK20 feature126301 vertex175 is the northernmost point of the corresponding basin. The name point identifies the lake only and is not a GCP. The source generalizes the basin and small islands, so this is a shore-extremity match with150m uncertainty, not a whole-outline equivalence.",
+  "phase": "Prospective eastern interior control selected before any score or model comparison; never fresh validation",
+  "recorded_at": "2026-09-15T12:48:36.378942+00:00"
+}

@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+%3D+%27Grand+Lake%27&%24limit=200",
+  "query": {
+    "$where": "geoname = 'Grand Lake'",
+    "$limit": 200
+  },
+  "retrieved_at": "2026-09-15T12:46:42.958784+00:00",
+  "sha256": "a2ec4c3817621cce5ceffe48509e4041da88e9d3a7b25a118c3bd62f986b6068"
+}

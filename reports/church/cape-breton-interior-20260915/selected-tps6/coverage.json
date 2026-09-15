@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/tps6-rendered/cape-breton-tps6-review-20m.tif",
+  "raster_sha256": "9ece5d16898647390987aa7614cb93367943947b6d62bceeafc95b34d0aaf072",
+  "cutline_sha256": "db698ccbdafca27a8bd0ff521e3de1e1a4a493a495fa98acbf4aee0fcb0fe005",
+  "expected_interior_cells": 23363177,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

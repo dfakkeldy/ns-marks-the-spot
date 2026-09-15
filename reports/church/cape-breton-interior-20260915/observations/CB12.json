@@ -1,0 +1,64 @@
+{
+  "id": "CB12",
+  "role": "check",
+  "label": "Ken Power Brook junction at northern Lake Uist neck",
+  "pixel_xy": [
+    9031.333333333334,
+    27503.333333333332
+  ],
+  "lonlat": [
+    -60.559398010865394,
+    45.81006311414416
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      8650,
+      27050
+    ],
+    "extent": [
+      850,
+      1000
+    ],
+    "display": [
+      1275,
+      1500
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    572,
+    680
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/CB3-uist-neck-native.jpg",
+  "source_crop_sha256": "87191fe5aec9b294ff7b3ff264db69c43a091fe032ac50c058cfc1d6e9cb665f",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    139324,
+    139325,
+    295489
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 139324,
+      "vertex": 0
+    },
+    {
+      "feature_id": 139325,
+      "vertex": 50
+    },
+    {
+      "feature_id": 295489,
+      "vertex": 74
+    }
+  ],
+  "uncertainty_ground_m": 180,
+  "official_identity_key": "CBMSG",
+  "identity_evidence": "The source explicitly labels Lake Uist at the county boundary. Its northern neck connects northeast to the southwestern end of the upper of two neighbouring lakes, identified in reference context as Munroe Lake; Enon Lake lies east/southeast of that upper lake. Original single-line Ken Power Brook295489 connects Munroe to the northern Lake Uist shore and ends at the shared lake vertices139324v0/139325v50. Measure the middle of the historical narrow approach where it opens into the main Lake Uist shore, below the nearby road crossing, not the road crossing or county-line intersection. Source draws a double-line approach while reference generalizes it to a single line. The stated180m uncertainty covers this mouth-definition/generalization limit. No whole-basin centroid is inferred from the portion cut by the county boundary.",
+  "phase": "Fresh physical check selected against frozen TPS5, following no tuning to this feature; region reserved before native point placement",
+  "frozen_fit": "../selected-tps5/freeze.json",
+  "recorded_at": "2026-09-15T12:59:22.156485+00:00"
+}

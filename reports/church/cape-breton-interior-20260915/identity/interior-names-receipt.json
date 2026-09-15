@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Lake+Uist%27%2C%27Uist+Lake%27%2C%27Blacketts+Lake%27%2C%27Blackett+Lake%27%2C%27MacAdams+Lake%27%2C%27MacAdam+Lake%27%29&%24limit=200",
+  "query": {
+    "$where": "geoname in ('Lake Uist','Uist Lake','Blacketts Lake','Blackett Lake','MacAdams Lake','MacAdam Lake')",
+    "$limit": 200
+  },
+  "retrieved_at": "2026-09-15T12:51:55.107308+00:00",
+  "sha256": "1a125c4213a371193fd21d7ed4b44f09049cd6b8f45a27f8dceaa9f2329e55b8"
+}
