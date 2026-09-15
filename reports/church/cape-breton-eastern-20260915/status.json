@@ -1,0 +1,36 @@
+{
+  "panel": "cape-breton/main",
+  "state": "Frozen TPS11 eastern validation expanded to eight fresh checks; provisional, geographic target failed",
+  "frozen_input_commit": "506aed8ba512b31c868bc02eb2e9a6f01ff66e90",
+  "fit_changed": false,
+  "fresh_checks": [
+    "CB18",
+    "CB19",
+    "CB20",
+    "CB21",
+    "CB22",
+    "CB23",
+    "CB24",
+    "CB25"
+  ],
+  "new_checks": [
+    "CB24",
+    "CB25"
+  ],
+  "cumulative_rms_ground_m": 588.2138994852742,
+  "new_two_rms_ground_m": 853.9178748272138,
+  "diagnostics_excluded": [
+    "CB04",
+    "CB13"
+  ],
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_panel": "inverness-south",
+  "next_work": [
+    "Continue Inverness south refinement, preserving its accepted July baseline.",
+    "Cape Breton remains provisional: unresolved geographic failures, western/interior and southern-extension coverage, and shared-feature seams."
+  ]
+}

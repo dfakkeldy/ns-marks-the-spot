@@ -43,7 +43,7 @@ provisional artifacts. Use these panel reports for the current research state:
 - [Inverness north](../reports/church/inverness-north-continuation-20260914/README.md)
 - [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
 - [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
-- [Cape Breton validation expansion](../reports/church/cape-breton-validation-20260915/README.md)
+- [Cape Breton eastern validation](../reports/church/cape-breton-eastern-20260915/README.md)
 - [Inverness south physical review](../reports/church/physical-review-20260913/inverness-south/README.md)
 
 These reports include actual local GeoTIFF and browser terrain review. They do not
