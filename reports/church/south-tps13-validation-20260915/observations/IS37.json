@@ -1,0 +1,55 @@
+{
+  "id": "IS37",
+  "label": "Port Hood Island western Susannah Point",
+  "role": "check",
+  "phase": "Western expansion of first independent validation against unchanged frozen TPS13",
+  "recorded_at": "2026-09-15T23:14:54.162312+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      13200,
+      16000
+    ],
+    "extent": [
+      1800,
+      1800
+    ],
+    "display": [
+      1440,
+      1440
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/port-hood-native.jpg",
+  "source_crop_sha256": "98f3081e16b4c44094ed72f1056e55ee8afd087bba1e081e89fbf81a3d409775",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    158,
+    854
+  ],
+  "pixel_xy": [
+    13397.5,
+    17067.5
+  ],
+  "lonlat": [
+    -61.581798809753025,
+    46.00061897592033
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+  "reference_sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+  "reference_kind": "Visible island outer-shore extremum",
+  "reference_vertices": [
+    {
+      "feature_id": 20913,
+      "vertex": 32,
+      "code": "WACOIS10"
+    }
+  ],
+  "reference_extremum": "min_lon of original island outer shore",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Westernmost outer-shore corner at the southwest shoulder of the island; not the southern spit tip.",
+  "identity_evidence": "The source calls the larger island Smith\u2019s Island. Its broad north cap, west-side concavity, southwest projecting shoulder labelled Susannah Point and long narrow southern Portsmouth Point match Port Hood Island\u2019s original exterior. Port Hood town lies across the water to the east, and Henry Island southwest. The exact source pixel is on the clean western corner, below the north-coast property labels and above the Susannah label.",
+  "withheld_alternative": "Whole-island source centroid not adopted: dense property/shore ink on the northern/eastern coast.",
+  "reference_shape_limit": "The modern shoreline is rounded; its extreme-coordinate vertex is slightly north of the lower turning tip. Match the extreme longitude, not a label centre or an invented sharp apex."
+}

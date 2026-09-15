@@ -7,8 +7,8 @@ from PIL import Image,ImageDraw
 from tools.church.gcps import load_gcps
 from tools.church.georeference import build_gcp_arguments
 from tools.church.geometry import lonlat_to_mercator
-R=Path(__file__).resolve().parent;E=R;C=Path('/Users/dfakkeldy/Downloads/church-south-road-validation-20260915');freeze=json.loads((R/'freeze.json').read_text());raster=Path(freeze['raster']);assert hashlib.sha256(raster.read_bytes()).hexdigest()==freeze['raster_sha256'];cs=load_gcps(R/'controls.csv')
-points=[json.loads((R/f'observations/IS{i}.json').read_text()) for i in [34,35,36]]
+R=Path(__file__).resolve().parent;E=R/'western-expansion';C=Path('/Users/dfakkeldy/Downloads/church-south-road-validation-20260915');freeze=json.loads((R/'freeze.json').read_text());raster=Path(freeze['raster']);assert hashlib.sha256(raster.read_bytes()).hexdigest()==freeze['raster_sha256'];cs=load_gcps(R/'controls.csv')
+points=[json.loads((R/f'observations/IS{i}.json').read_text()) for i in [37,38]]
 features=[];refs=[]
 for layer,name in [(8,'roads'),(7,'highways'),(5,'bridges'),(6,'railways')]:
  p=C/(name+'.geojson');refs.append(p)

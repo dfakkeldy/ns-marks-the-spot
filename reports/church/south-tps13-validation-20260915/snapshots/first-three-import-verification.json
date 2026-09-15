@@ -15,19 +15,7 @@
     {
       "file": "fresh-validation.csv",
       "controls": 13,
-      "checks": 5,
-      "semanticRoundtrip": true,
-      "comparisons": [
-        {
-          "method": "tps",
-          "maxDifferenceProjectedMetres": 7.273861836555093e-9
-        }
-      ]
-    },
-    {
-      "file": "western-expansion/new-checks.csv",
-      "controls": 13,
-      "checks": 2,
+      "checks": 3,
       "semanticRoundtrip": true,
       "comparisons": [
         {

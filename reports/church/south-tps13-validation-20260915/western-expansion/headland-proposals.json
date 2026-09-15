@@ -1,0 +1,86 @@
+[
+  {
+    "id": "IS37",
+    "island": "Port Hood Island",
+    "source_display_pixel_xy": [
+      158,
+      854
+    ],
+    "pixel_xy": [
+      13397.5,
+      17067.5
+    ],
+    "lonlat": [
+      -61.581798809753025,
+      46.00061897592033
+    ],
+    "reference_vertices": [
+      {
+        "feature_id": 20913,
+        "vertex": 32,
+        "code": "WACOIS10"
+      }
+    ],
+    "reference_definition": "min_lon of original island outer shore",
+    "source_frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        13200,
+        16000
+      ],
+      "extent": [
+        1800,
+        1800
+      ],
+      "display": [
+        1440,
+        1440
+      ],
+      "rotation": 0
+    },
+    "scope": "Unscored headland proposal pending crosshair review; whole-island source centroid not adopted"
+  },
+  {
+    "id": "IS38",
+    "island": "Henry Island",
+    "source_display_pixel_xy": [
+      576,
+      901
+    ],
+    "pixel_xy": [
+      13126.0,
+      18001.0
+    ],
+    "lonlat": [
+      -61.59042061660727,
+      45.97504106403808
+    ],
+    "reference_vertices": [
+      {
+        "feature_id": 22576,
+        "vertex": 5,
+        "code": "WACOIS10"
+      }
+    ],
+    "reference_definition": "max_lon of original island outer shore",
+    "source_frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        12550,
+        17100
+      ],
+      "extent": [
+        1200,
+        1300
+      ],
+      "display": [
+        1200,
+        1300
+      ],
+      "rotation": 0
+    },
+    "scope": "Unscored headland proposal pending crosshair review; whole-island source centroid not adopted"
+  }
+]
