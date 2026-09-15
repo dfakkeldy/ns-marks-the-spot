@@ -1,0 +1,25 @@
+{
+  "panel": "inverness-south",
+  "state": "Two new physical checks and six explicit refinement trials; retain frozen affine4 and accepted July baseline separately",
+  "selected_fit": "physical affine4",
+  "fit_changed": false,
+  "accepted_july_baseline_replaced": false,
+  "first_validation_check_count": 3,
+  "first_validation_rms_ground_m": 326.2819344428707,
+  "current_validation_phase": "Prior fresh checks consumed by explicit refinement comparisons; now diagnostics",
+  "fresh_checks_after_selection": 0,
+  "new_observations": [
+    "IS18",
+    "IS19"
+  ],
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_work": [
+    "Continue distributed south validation, especially southwestern coastal reaches, inland mountains, northern edge and shared-feature seams.",
+    "Preserve the Ainslie/Skye and Black Point identities and first failures; do not repeat their initial search or count promoted trial features as fresh.",
+    "Seven-control TPS remains an unselected numerical candidate with no rendered geography or fresh validation. Do not activate it from its historical diagnostic RMS."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "selected": "retain frozen affine4",
+  "affine5": "Not selected: same-eight RMS178.32 to243.25 and maximum290.70 to355.77.",
+  "tps5": "Not selected: same-eight RMS344.42, recent outlet/coast RMS648.41.",
+  "affine6": "Not selected: same-seven RMS170.74 to225.67.",
+  "tps6": "Not selected: same-seven RMS321.08; Ainslie outlet779.63.",
+  "affine7": "Not selected: same-six historical RMS141.16 to178.44; maximum313.98.",
+  "tps7": "Unselected candidate: same-six RMS134.98 versus141.16 but maximum257.41 versus223.71. Modest average improvement on clustered approximate historical diagnostics does not demonstrate better regional geography; no independent post-fit validation or new raster rendered.",
+  "criteria": "Keep the simpler frozen affine until a broader refinement demonstrates a defensible regional improvement, retaining the established preference for smaller tails over a slight RMS gain.",
+  "trials_preserved": true,
+  "source_coordinates_changed_after_first_scores": false
+}
