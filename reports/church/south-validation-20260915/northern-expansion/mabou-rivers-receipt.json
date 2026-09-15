@@ -1,0 +1,6 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27East+Mabou+River%27%2C%27Mull+River%27%2C%27Southwest+Mabou+River%27%2C%27Mabou+River%27%2C%27Northeast+Mabou+River%27%29&%24limit=1000",
+  "query": "geoname in ('East Mabou River','Mull River','Southwest Mabou River','Mabou River','Northeast Mabou River')",
+  "at": "2026-09-15T18:59:59.196263+00:00",
+  "sha256": "6df404831948b7e0f0888b9f326c348969fe06f8989b1c75b3569d14940910ee"
+}

@@ -1,0 +1,6 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=nad83_lat+between+46.08+and+46.42+AND+nad83_lon+between+-61.48+and+-60.90+AND+%28generic_tm+like+%27%25Lake%25%27+OR+generic_tm+like+%27%25Pond%25%27%29&%24limit=1000",
+  "query": "nad83_lat between 46.08 and 46.42 AND nad83_lon between -61.48 and -60.90 AND (generic_tm like '%Lake%' OR generic_tm like '%Pond%')",
+  "at": "2026-09-15T18:59:58.713135+00:00",
+  "sha256": "e4e03f7c3bdfb3e5932345ad56d6d2b182e1e58e228f5cb411107ea25a3fa503"
+}

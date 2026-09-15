@@ -1,17 +1,19 @@
 {
   "panel": "inverness-south",
   "selected_fit": "retained affine4, unchanged",
-  "state": "Fresh distributed validation in progress; working target not met by first five",
+  "state": "Seven fresh distributed checks; unchanged affine4, target still not met",
   "fresh_check_ids": [
     "IS20",
     "IS21",
     "IS22",
     "IS23",
-    "IS24"
+    "IS24",
+    "IS25",
+    "IS26"
   ],
-  "fresh_check_count": 5,
+  "fresh_check_count": 7,
   "physical_affine": {
-    "count": 5,
+    "count": 7,
     "points": [
       {
         "label": "IS20",
@@ -42,20 +44,31 @@
         "east_ground_m": 73.98843486282122,
         "north_ground_m": -378.72663160749823,
         "error_ground_m": 385.8861878614103
+      },
+      {
+        "label": "IS25",
+        "east_ground_m": 338.88993548405557,
+        "north_ground_m": 102.11041815051867,
+        "error_ground_m": 353.9391556005935
+      },
+      {
+        "label": "IS26",
+        "east_ground_m": 62.87961392987396,
+        "north_ground_m": -395.9807943882058,
+        "error_ground_m": 400.94218457563744
       }
     ],
-    "rms_ground_m": 291.5050932166822,
-    "median_ground_m": 285.6898285428593,
-    "p95_ground_m": 374.9374691521762,
-    "max_ground_m": 385.8861878614103,
-    "mean_east_ground_m": 55.11170940074935,
-    "mean_north_ground_m": -137.02728029125439,
-    "scatter_rms_ground_m": 251.3194049694053,
+    "rms_ground_m": 318.6811344310616,
+    "median_ground_m": 331.14259431523993,
+    "p95_ground_m": 396.4253855613693,
+    "max_ground_m": 400.94218457563744,
+    "mean_east_ground_m": 96.7611566310966,
+    "mean_north_ground_m": -139.85811109913703,
+    "scatter_rms_ground_m": 269.50816827966867,
     "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
     "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
   },
   "no_tuning_after_checks": true,
-  "all_five_outside_control_hull": true,
   "prior_diagnostics_not_pooled": [
     "IS15",
     "IS18",
@@ -68,9 +81,10 @@
   "catalog_activation": false,
   "deployment": false,
   "next_work": [
-    "Keep the retained affine frozen and expand this same fresh batch toward distributed coverage; preserve every first result.",
-    "Prioritize central/northern interior, eastern reaches and shared-feature seams to balance the southwest-heavy first five.",
-    "Do not score unselected five/six/seven-control trial fits against this batch or promote its checks during collection.",
-    "Red Lake remains unscored; do not restart its inverse-guide-only search as evidence."
-  ]
+    "Continue the same frozen validation batch; retain all first results and abstentions.",
+    "Expand northern edge, eastern reaches, intervening interior and shared-feature seams; seven checks remain insufficient.",
+    "Do not tune or score unselected trial fits against this batch during collection.",
+    "Do not recycle the withheld northern ponds or Ryan junction as accepted matches without new physical evidence."
+  ],
+  "all_seven_outside_control_hull": true
 }

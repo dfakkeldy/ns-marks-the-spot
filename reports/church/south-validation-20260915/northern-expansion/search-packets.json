@@ -1,0 +1,106 @@
+[
+  {
+    "name": "IS4-st-rose",
+    "query_name": "St. Rose Pond",
+    "official_identity_key": "CBGXD",
+    "lonlat": [
+      -61.185024,
+      46.355617
+    ],
+    "guide_pixel_xy": [
+      24650.5084879018,
+      2455.45361487647
+    ],
+    "origin": [
+      22600,
+      400
+    ],
+    "extent": [
+      4000,
+      4000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only; neither name point nor inverse guide is a physical observation"
+  },
+  {
+    "name": "IS4-arsenaults",
+    "query_name": "Arsenaults Pond",
+    "official_identity_key": "CAAXW",
+    "lonlat": [
+      -61.075451,
+      46.376419
+    ],
+    "guide_pixel_xy": [
+      27765.0703415183,
+      1595.37525959751
+    ],
+    "origin": [
+      25700,
+      0
+    ],
+    "extent": [
+      4000,
+      4000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only; neither name point nor inverse guide is a physical observation"
+  },
+  {
+    "name": "IS4-first-olaw",
+    "query_name": "First Lake O'Law",
+    "official_identity_key": "CALZF",
+    "lonlat": [
+      -60.960571,
+      46.277289
+    ],
+    "guide_pixel_xy": [
+      31019.131973441,
+      5666.67950633636
+    ],
+    "origin": [
+      29000,
+      3600
+    ],
+    "extent": [
+      4000,
+      4000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only; neither name point nor inverse guide is a physical observation"
+  },
+  {
+    "name": "IS4-maclellans",
+    "query_name": "MacLellans Pond",
+    "official_identity_key": "CAWWC",
+    "lonlat": [
+      -61.291197,
+      46.246859
+    ],
+    "guide_pixel_xy": [
+      21624.2826986654,
+      6928.98515393817
+    ],
+    "origin": [
+      19600,
+      4900
+    ],
+    "extent": [
+      4000,
+      4000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only; neither name point nor inverse guide is a physical observation"
+  }
+]

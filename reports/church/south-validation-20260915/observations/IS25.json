@@ -1,0 +1,58 @@
+{
+  "id": "IS25",
+  "label": "Sheas Brook / Mull River junction",
+  "role": "check",
+  "phase": "Fresh expansion of the same frozen affine4 validation batch; no tuning or model-selection use",
+  "recorded_at": "2026-09-15T19:24:57.683995+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      20200,
+      14800
+    ],
+    "extent": [
+      1800,
+      1600
+    ],
+    "display": [
+      1350,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/IS4-sheas-native.jpg",
+  "source_crop_sha256": "e0f6367044d6d5d39f29d6cd92a0beb54f4a4dfaf51d4243e771e168f4c9a5cc",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    525,
+    400
+  ],
+  "pixel_xy": [
+    20900.0,
+    15333.333333333334
+  ],
+  "lonlat": [
+    -61.32039452992194,
+    46.04085693758985
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+  "reference_sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+  "uncertainty_ground_m": 150,
+  "identity_evidence": "The broad source traces the eastern branch labelled East Mabou River through Brook Village, west under the road near the tannery and into the north-south river at a distinct three-way water junction. The southern trunk winds north before continuing northwest toward Hillsboro/Mabou. Native detail separates this water junction from the road fork farther east. Original modern Sheas Brook WARV50 meets the Mull River east bank at the recorded shared node. The nearby Mull/Mabou naming boundary has different coordinates and is not the observation. The historical/current branch labels are reported as drawn and attributed, not treated as proof of a documentary renaming.",
+  "point_definition": "Drawn water confluence paired with original tributary endpoint on the east river bank;150m uncertainty includes the generalized single-line versus bank representation.",
+  "reference_vertices": [
+    {
+      "feature_id": 158574,
+      "vertex": 0
+    },
+    {
+      "feature_id": 158575,
+      "vertex": 96
+    },
+    {
+      "feature_id": 278944,
+      "vertex": 51
+    }
+  ]
+}
