@@ -1,6 +1,6 @@
 {
-  "metric_sets_replayed": 16,
-  "fresh_observations_audited": 5,
+  "metric_sets_replayed": 8,
+  "fresh_observations_audited": 3,
   "original_exteriors_verified": 2,
   "exact_water_confluences_verified": 1,
   "inside_control_hull": [
@@ -8,16 +8,12 @@
     "IS36"
   ],
   "outside_control_hull": [
-    "IS35",
-    "IS37",
-    "IS38"
+    "IS35"
   ],
   "controls_and_raster_unchanged": true,
   "accepted_baseline_inputs_unchanged": true,
-  "actual_raster_windows": 5,
-  "editable_inventories": 3,
-  "coastal_extrema_verified": 2,
-  "first_three_preserved": true,
+  "actual_raster_windows": 3,
+  "editable_inventories": 2,
   "browser_2d_and_10x_terrain_verified": true,
   "geographic_acceptance": false
 }

@@ -1,0 +1,8 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Port+Hood+Island%27%2C%27Henry+Island%27%29&%24limit=100",
+  "retrieved_at": "2026-09-15T23:04:53.147808+00:00",
+  "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/island-names.geojson",
+  "sha256": "53d2e57dd9df35c2c15cae4440b049ab7c4d7330d30848ba44d1f566980a5467",
+  "count": 4,
+  "scope": "Identity search only; no source coordinate or score"
+}

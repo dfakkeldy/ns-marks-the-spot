@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-09-15T23:27:36.055434+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active My Maps raster among16, opacity70%, source4751x6488. IS37 z14 and IS38 z15 in 2D and terrain10x/50deg/north-up. No new import, inferred missing western Henry coast, or coordinate measurement from perspective.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS37-2d.png",
+      "sha256": "d480ee1b8dabbd2428f09f2de1e5dda17c42c7e1abc443b207ccb4bd04d9c611"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS37-terrain10x.png",
+      "sha256": "ec88a1c773d6ba40bcf01601d1e8666d8412840d773c18ebc9691df639a0d24e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS38-2d.png",
+      "sha256": "d9c374a87ae7433e83fe5bccd3abb431cf1b2f54993ef6a8c867f44b085652fe"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS38-terrain10x.png",
+      "sha256": "ca2f30503850e9947a0a940909246e39a7729f69951f1aaeeeeffb44f80f9da3"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS37-import-state.txt",
+      "sha256": "fe81eb506b8db0bbb4f8a113d8495ea85eec3e1b8aee740fa1eb5eb3111096c3"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS37-terrain10x-state.txt",
+      "sha256": "4c7f7198a44c045a1364cbf7849e466d5e22bdae44247caffba9335677a56d57"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS38-import-state.txt",
+      "sha256": "ce0abd22ad120f091a7edf9476ce9fec9b31d4cd32179d6d674179a1024e4164"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/browser/IS38-terrain10x-state.txt",
+      "sha256": "73da2efc66db782b3ba2ddcf90277bb7ce1c73d4df5acea58b0f622f8d5ec2c5"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

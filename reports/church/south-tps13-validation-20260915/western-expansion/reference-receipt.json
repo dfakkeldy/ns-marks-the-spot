@@ -1,0 +1,11 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "bbox": "-61.65,45.94,-61.08,46.30",
+  "count": 4435,
+  "sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+  "retrieved": "2026-09-13T04:15:46.605144+00:00",
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "method": "existing paged fetch helper, complete original geometry",
+  "path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson"
+}
