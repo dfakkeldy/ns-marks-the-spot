@@ -1,0 +1,365 @@
+{
+  "currentVersion": 11.5,
+  "cimVersion": "3.5.0",
+  "serviceDescription": "Roads theme map service created using the Nova Scotia Topographic Database (NSTDB) data in the UTM/NAD83 projection/datum. Map displays and symbology have been designed for custom UTM scale levels.",
+  "mapName": "NSTDB_10k_Roads",
+  "description": "Roads theme map service created using the Nova Scotia Topographic Database (NSTDB) data in the UTM/NAD83 projection/datum. Map displays and symbology have been designed for custom UTM scale levels.",
+  "copyrightText": "Service Nova Scotia",
+  "supportsDynamicLayers": true,
+  "layers": [
+    {
+      "id": 0,
+      "name": "Labels (Group Layer)",
+      "parentLayerId": -1,
+      "defaultVisibility": true,
+      "subLayerIds": [
+        1,
+        2
+      ],
+      "minScale": 3500000,
+      "maxScale": 0,
+      "type": "Group Layer",
+      "supportsDynamicLegends": false
+    },
+    {
+      "id": 1,
+      "name": "Streets",
+      "parentLayerId": 0,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 150000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 2,
+      "name": "Highway Crests",
+      "parentLayerId": 0,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 5500000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 3,
+      "name": "Road Points",
+      "parentLayerId": -1,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 25000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPoint",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 4,
+      "name": "Road Lines (Group Layer)",
+      "parentLayerId": -1,
+      "defaultVisibility": true,
+      "subLayerIds": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "minScale": 0,
+      "maxScale": 0,
+      "type": "Group Layer",
+      "supportsDynamicLegends": false
+    },
+    {
+      "id": 5,
+      "name": "Bridges",
+      "parentLayerId": 4,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 0,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 6,
+      "name": "Railways",
+      "parentLayerId": 4,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 150000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 7,
+      "name": "Highways",
+      "parentLayerId": 4,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 0,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 8,
+      "name": "Roads",
+      "parentLayerId": 4,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 150000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 9,
+      "name": "Ferry Crossings",
+      "parentLayerId": 4,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 1000000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 10,
+      "name": "Non Vehicle Features",
+      "parentLayerId": 4,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 25000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolyline",
+      "supportsDynamicLegends": true
+    },
+    {
+      "id": 11,
+      "name": "Road Polygons",
+      "parentLayerId": -1,
+      "defaultVisibility": true,
+      "subLayerIds": null,
+      "minScale": 25000,
+      "maxScale": 0,
+      "type": "Feature Layer",
+      "geometryType": "esriGeometryPolygon",
+      "supportsDynamicLegends": true
+    }
+  ],
+  "tables": [],
+  "spatialReference": {
+    "wkid": 2038,
+    "latestWkid": 2961,
+    "xyTolerance": 0.001,
+    "zTolerance": 0.001,
+    "mTolerance": 0.001,
+    "falseX": -5120900,
+    "falseY": -9998100,
+    "xyUnits": 10000,
+    "falseZ": -100000,
+    "zUnits": 10000,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "singleFusedMapCache": true,
+  "tileInfo": {
+    "rows": 256,
+    "cols": 256,
+    "dpi": 96,
+    "format": "PNG32",
+    "compressionQuality": 0,
+    "origin": {
+      "x": -5120900,
+      "y": 9998100
+    },
+    "spatialReference": {
+      "wkid": 2038,
+      "latestWkid": 2961,
+      "vcsWkid": 5713,
+      "latestVcsWkid": 5713,
+      "xyTolerance": 0.001,
+      "zTolerance": 0.001,
+      "mTolerance": 0.001,
+      "falseX": -5120900,
+      "falseY": -9998100,
+      "xyUnits": 450445547.3910538,
+      "falseZ": -100000,
+      "zUnits": 10000,
+      "falseM": -100000,
+      "mUnits": 10000
+    },
+    "lods": [
+      {
+        "level": 0,
+        "resolution": 1455.211243755821,
+        "scale": 5500000
+      },
+      {
+        "level": 1,
+        "resolution": 926.0435187537042,
+        "scale": 3500000
+      },
+      {
+        "level": 2,
+        "resolution": 529.1677250021168,
+        "scale": 2000000
+      },
+      {
+        "level": 3,
+        "resolution": 264.5838625010584,
+        "scale": 1000000
+      },
+      {
+        "level": 4,
+        "resolution": 132.2919312505292,
+        "scale": 500000
+      },
+      {
+        "level": 5,
+        "resolution": 66.1459656252646,
+        "scale": 250000
+      },
+      {
+        "level": 6,
+        "resolution": 39.687579375158755,
+        "scale": 150000
+      },
+      {
+        "level": 7,
+        "resolution": 26.458386250105836,
+        "scale": 100000
+      },
+      {
+        "level": 8,
+        "resolution": 13.229193125052918,
+        "scale": 50000
+      },
+      {
+        "level": 9,
+        "resolution": 6.614596562526459,
+        "scale": 25000
+      },
+      {
+        "level": 10,
+        "resolution": 2.6458386250105836,
+        "scale": 10000
+      },
+      {
+        "level": 11,
+        "resolution": 1.3229193125052918,
+        "scale": 5000
+      },
+      {
+        "level": 12,
+        "resolution": 0.5291677250021167,
+        "scale": 2000
+      },
+      {
+        "level": 13,
+        "resolution": 0.26458386250105836,
+        "scale": 1000
+      },
+      {
+        "level": 14,
+        "resolution": 0.13229193125052918,
+        "scale": 500
+      }
+    ]
+  },
+  "storageInfo": {
+    "storageFormat": "esriMapCacheStorageModeCompactV2",
+    "packetSize": 128
+  },
+  "initialExtent": {
+    "xmin": -317867.4597264418,
+    "ymin": 4351252.507525569,
+    "xmax": 1310513.922036322,
+    "ymax": 5605644.599643087,
+    "spatialReference": {
+      "wkid": 2038,
+      "latestWkid": 2961,
+      "xyTolerance": 0.001,
+      "zTolerance": 0.001,
+      "mTolerance": 0.001,
+      "falseX": -5120900,
+      "falseY": -9998100,
+      "xyUnits": 10000,
+      "falseZ": -100000,
+      "zUnits": 10000,
+      "falseM": -100000,
+      "mUnits": 10000
+    }
+  },
+  "fullExtent": {
+    "xmin": -378683.03174100403,
+    "ymin": 4330441.581337862,
+    "xmax": 1373391.3057410049,
+    "ymax": 5711437.051662136,
+    "spatialReference": {
+      "wkid": 2038,
+      "latestWkid": 2961,
+      "xyTolerance": 0.001,
+      "zTolerance": 0.001,
+      "mTolerance": 0.001,
+      "falseX": -5120900,
+      "falseY": -9998100,
+      "xyUnits": 10000,
+      "falseZ": -100000,
+      "zUnits": 10000,
+      "falseM": -100000,
+      "mUnits": 10000
+    }
+  },
+  "datesInUnknownTimezone": false,
+  "minScale": 5500000,
+  "maxScale": 1000,
+  "units": "esriMeters",
+  "supportedImageFormatTypes": "PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP",
+  "documentInfo": {
+    "Title": "NSTDB 10K Roads",
+    "Author": "",
+    "Comments": "Roads theme map service created using the Nova Scotia Topographic Database (NSTDB) data in the UTM/NAD83 projection/datum. Map displays and symbology have been designed for custom UTM scale levels.",
+    "Subject": "Nova Scotia Topographic Database (NSTDB) roads theme.",
+    "Category": "",
+    "Version": "3.5.0",
+    "AntialiasingMode": "Fast",
+    "TextAntialiasingMode": "Force",
+    "Keywords": "Nova Scotia,NSTDB,10K,Roads"
+  },
+  "supportsQueryDomains": true,
+  "capabilities": "Map,Query,Data",
+  "supportedQueryFormats": "JSON, geoJSON, PBF",
+  "exportTilesAllowed": false,
+  "referenceScale": 0.0,
+  "supportsDatumTransformation": true,
+  "archivingInfo": {
+    "supportsHistoricMoment": false
+  },
+  "supportsClipping": true,
+  "supportsSpatialFilter": true,
+  "supportsTimeRelation": true,
+  "supportsQueryDataElements": true,
+  "mapUnits": {
+    "uwkid": 9001
+  },
+  "maxSelectionCount": 2000,
+  "maxRecordCount": 2000,
+  "maxImageHeight": 4096,
+  "maxImageWidth": 4096,
+  "supportedExtensions": "WMSServer",
+  "resampling": false
+}

@@ -1,7 +1,7 @@
 {
   "panel": "inverness-south",
   "selected_fit": "retained affine4, unchanged",
-  "state": "Seven fresh distributed checks; unchanged affine4, target still not met",
+  "state": "Ten fresh physical checks including three road junctions; retained affine unchanged and target unmet",
   "fresh_check_ids": [
     "IS20",
     "IS21",
@@ -9,11 +9,14 @@
     "IS23",
     "IS24",
     "IS25",
-    "IS26"
+    "IS26",
+    "IS27",
+    "IS28",
+    "IS29"
   ],
-  "fresh_check_count": 7,
+  "fresh_check_count": 10,
   "physical_affine": {
-    "count": 7,
+    "count": 10,
     "points": [
       {
         "label": "IS20",
@@ -56,15 +59,33 @@
         "east_ground_m": 62.87961392987396,
         "north_ground_m": -395.9807943882058,
         "error_ground_m": 400.94218457563744
+      },
+      {
+        "label": "IS27",
+        "east_ground_m": -254.01635724710792,
+        "north_ground_m": -444.4199295249443,
+        "error_ground_m": 511.89196468400127
+      },
+      {
+        "label": "IS28",
+        "east_ground_m": 35.5902232311918,
+        "north_ground_m": -106.19389253174509,
+        "error_ground_m": 111.99913749975886
+      },
+      {
+        "label": "IS29",
+        "east_ground_m": 387.4037015650289,
+        "north_ground_m": 12.21321338070413,
+        "error_ground_m": 387.59616944362153
       }
     ],
-    "rms_ground_m": 318.6811344310616,
-    "median_ground_m": 331.14259431523993,
-    "p95_ground_m": 396.4253855613693,
-    "max_ground_m": 400.94218457563744,
-    "mean_east_ground_m": 96.7611566310966,
-    "mean_north_ground_m": -139.85811109913703,
-    "scatter_rms_ground_m": 269.50816827966867,
+    "rms_ground_m": 337.003210514675,
+    "median_ground_m": 342.5408749579167,
+    "p95_ground_m": 461.9645636352374,
+    "max_ground_m": 511.89196468400127,
+    "mean_east_ground_m": 84.63056639667892,
+    "mean_north_ground_m": -151.74073863699445,
+    "scatter_rms_ground_m": 288.76215016250836,
     "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
     "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
   },
@@ -81,10 +102,10 @@
   "catalog_activation": false,
   "deployment": false,
   "next_work": [
-    "Continue the same frozen validation batch; retain all first results and abstentions.",
-    "Expand northern edge, eastern reaches, intervening interior and shared-feature seams; seven checks remain insufficient.",
-    "Do not tune or score unselected trial fits against this batch during collection.",
-    "Do not recycle the withheld northern ponds or Ryan junction as accepted matches without new physical evidence."
+    "Continue the frozen validation batch with identifiable physical features and explicit route-continuity checks for road candidates.",
+    "Ten checks remain insufficient for whole-panel coverage, including northern/eastern intervals, interior gaps and shared-feature seams.",
+    "Do not promote checks or score unselected trial fits during collection.",
+    "Keep the three unresolved road cases and prior withheld water features unscored unless new physical evidence resolves them."
   ],
-  "all_seven_outside_control_hull": true
+  "all_ten_outside_control_hull": true
 }

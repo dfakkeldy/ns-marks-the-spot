@@ -1,0 +1,11 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/6/query",
+  "bbox": "-61.65,45.65,-60.87,46.42",
+  "count": 286,
+  "sha256": "974868322effea1acac2c1d71a182719828aa73284c90ef06213031ccab38318",
+  "retrieved": "2026-09-15T20:06:19.775240+00:00",
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "method": "Paged original geometry with independent complete ID-set check; no clipping",
+  "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/railways.geojson"
+}
