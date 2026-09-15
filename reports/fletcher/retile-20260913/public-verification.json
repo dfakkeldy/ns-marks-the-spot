@@ -1,0 +1,602 @@
+{
+  "public_root": "https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1",
+  "verified_at": "2026-09-15T11:45:23.008118+00:00",
+  "samples": [
+    {
+      "path": "10/336/359.png",
+      "status": 200,
+      "bytes": 334,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "10/337/364.png",
+      "status": 200,
+      "bytes": 158866,
+      "sha256": "cd67ddbd68d3d64770b611343fdf887e9c951995fe93eae10b4b067381fe9aee",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "11/673/719.png",
+      "status": 200,
+      "bytes": 334,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "11/675/728.png",
+      "status": 200,
+      "bytes": 169985,
+      "sha256": "a669be311cce7f357079e3be4706c0b9839cb7fba7b5179bada52b7cd98376da",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "12/1346/1438.png",
+      "status": 200,
+      "bytes": 334,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "12/1353/1449.png",
+      "status": 200,
+      "bytes": 172850,
+      "sha256": "7a8bbf90efab3afe6654e23baf96e53ccea594fd0ea351c5ea90e6ac28e57818",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2693/2876.png",
+      "status": 200,
+      "bytes": 334,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2698/2908.png",
+      "status": 200,
+      "bytes": 117932,
+      "sha256": "7e5a73b0813d177b8b1bcee6b8c7e4c7ccc6c4d03d63de1150c2702a98a8f374",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2698/2914.png",
+      "status": 200,
+      "bytes": 124901,
+      "sha256": "1350ff504b456424725d8d488ffb84d538b3f32944e59df621b8376a64c0efdb",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2698/2919.png",
+      "status": 200,
+      "bytes": 135321,
+      "sha256": "44d28ee6a717411319b3ec8c8f68af7bb3fd8f037fb6e2d35cbe22fcd307d8a1",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2698/2925.png",
+      "status": 200,
+      "bytes": 133796,
+      "sha256": "506ecdffc6b9b281e3132083668f9bee57a8b3af3409d9b93944793375feac47",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2698/2931.png",
+      "status": 200,
+      "bytes": 110427,
+      "sha256": "d45658e0fad3d02103fbe494556042f9a8dcb6bedec100cfe14de2304912fcd9",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2705/2905.png",
+      "status": 200,
+      "bytes": 168875,
+      "sha256": "1e86f15f1559bbb3792fc2b5ab7e825d18f4c555b59da3fae50c999b1ac66249",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2706/2902.png",
+      "status": 200,
+      "bytes": 152690,
+      "sha256": "5639274d231205fac171774e3e8e6f9d7aad3e25af41da99eaafe89b14ccb187",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2707/2891.png",
+      "status": 200,
+      "bytes": 86854,
+      "sha256": "e6abfb1e09df584ba3e8c468322567efffa4b16061d3ab41d86de683473193fd",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2707/2896.png",
+      "status": 200,
+      "bytes": 125433,
+      "sha256": "dd54b795d3e9dd626f61bbaa7d494ef46f5a2cabada6d04eddd42c7f573d7793",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2707/2908.png",
+      "status": 200,
+      "bytes": 122019,
+      "sha256": "2b91f50d208a1c9a770f21fc7fecc64e5e74287fc73d9c952596a7f8ec5636d0",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2707/2914.png",
+      "status": 200,
+      "bytes": 138858,
+      "sha256": "b42734c93a9ef6401f70e8650e2d4b2368fe40296660ea1c4958f31effa2daad",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2707/2919.png",
+      "status": 200,
+      "bytes": 129013,
+      "sha256": "80a5446c893480313291ae0e7f74449b8447652920a499489847fb8a0495f785",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2707/2925.png",
+      "status": 200,
+      "bytes": 137320,
+      "sha256": "04e0f5ea754fe3c8ae8de69c58b205d10ded7603bcfd396c7667c3e1c594afc0",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2707/2931.png",
+      "status": 200,
+      "bytes": 114984,
+      "sha256": "8a690b33174ea890b2f2287511d56b9f6fd26f8024f83b8166d6e2dd7c233db6",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2715/2885.png",
+      "status": 200,
+      "bytes": 103185,
+      "sha256": "3c4f4e501fa17862aa9e1b9db59c4ee7a8beb0a572b31aa6a729f110be4f7496",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2715/2891.png",
+      "status": 200,
+      "bytes": 105283,
+      "sha256": "1c5fffee9a89867e1ddd5c40bcb7c9feef9b357e8dbf26095e2370a076d67076",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2715/2896.png",
+      "status": 200,
+      "bytes": 117474,
+      "sha256": "e4d37c007580deb4893bcb2e2adeafc8a5acbd07cd6d2960c7efdad076e41b51",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2715/2902.png",
+      "status": 200,
+      "bytes": 104078,
+      "sha256": "ca028a1620774922cab146e4d4689492a14740252deae9e9c07885bc4cc91323",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2715/2908.png",
+      "status": 200,
+      "bytes": 118548,
+      "sha256": "be6330b8a87a2f2992890bf4e9c53802f79b12e9efa5acebc8905eb6aae72f52",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2715/2919.png",
+      "status": 200,
+      "bytes": 94333,
+      "sha256": "af22e9b13dd2822dd7aae5f150925547a9e56599ef0bb3877e3a94275493478f",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2715/2925.png",
+      "status": 200,
+      "bytes": 129137,
+      "sha256": "ffbca94bc976db820efd8bfd04ee5cdad6db2abf3d738879de916173af7a42a8",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2718/2879.png",
+      "status": 200,
+      "bytes": 84326,
+      "sha256": "30da3f63c57cd9d8565bd37543aef5af2647c6c70e5ed1effb10cc556cf7991c",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2723/2896.png",
+      "status": 200,
+      "bytes": 77151,
+      "sha256": "d6fcd6cb651a9d6e5a0cb34f1cb3d48246da8f239b14cb0f6d52a18aeb2b1f3c",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2724/2885.png",
+      "status": 200,
+      "bytes": 82162,
+      "sha256": "b7f08e5da076a3367bed80dfb6b030d5b8a524e82432fc771f481358aa83ddcd",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "13/2724/2891.png",
+      "status": 200,
+      "bytes": 90862,
+      "sha256": "7b97da8d60abe276349607f0099f302798442e6a52e50358b47a1564d51ca4dd",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "14/5387/5753.png",
+      "status": 200,
+      "bytes": 334,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "14/5414/5799.png",
+      "status": 200,
+      "bytes": 153911,
+      "sha256": "39da9136009675f1217baca508fa5484fb26ad1af0dde305746dd227a4364dd9",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10775/11507.png",
+      "status": 200,
+      "bytes": 334,
+      "sha256": "44ae23104855fe174c127ad93d1edbe96b77c439bf4d7881c01cd5e70e4002b7",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10793/11633.png",
+      "status": 200,
+      "bytes": 97880,
+      "sha256": "a67146cd7e70ea39c1bef3b976909287548eb5e3b6ecd47da046a0f5a6e1581b",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10794/11656.png",
+      "status": 200,
+      "bytes": 107532,
+      "sha256": "36328483197582a7ec71abd8f27468a569f153c31668148843d9e3b8387368c7",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10794/11679.png",
+      "status": 200,
+      "bytes": 81425,
+      "sha256": "50d341989629afa234e8acc4f732ff37302df213a8a20cac9324877d73048f4b",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10794/11701.png",
+      "status": 200,
+      "bytes": 95453,
+      "sha256": "d271d45b2289e2b507e0fbb1fa3048e0fed03a1b7f9731e593ef01edd428596f",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10794/11725.png",
+      "status": 200,
+      "bytes": 85589,
+      "sha256": "fb2759d95732de9caa6e5584c83a8573be321be32ec7ad57ac1bd9b352d3205e",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10819/11687.png",
+      "status": 200,
+      "bytes": 132459,
+      "sha256": "dd4d6177ae8df7b26c3a65a3ca97ce44d27d162b0c1119d2624c58320487957e",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10826/11610.png",
+      "status": 200,
+      "bytes": 113494,
+      "sha256": "a0bd8b07bba285820935cfeea335515ce47e97c0a9ffc1a73940e2f7a4bce334",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10828/11564.png",
+      "status": 200,
+      "bytes": 91573,
+      "sha256": "d53f620010f28c62473e205f2a8daf0713535cfd76114545cd220a105941d4d9",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10828/11587.png",
+      "status": 200,
+      "bytes": 115393,
+      "sha256": "569423526ec2371db915775236b5da42c086c23571aaf49b64e45ed5a51552cc",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10828/11633.png",
+      "status": 200,
+      "bytes": 86531,
+      "sha256": "93ba305496c57b72c9e4808ecbda092b542d69eb98f3432db1adb99cea68d3f6",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10828/11656.png",
+      "status": 200,
+      "bytes": 112161,
+      "sha256": "5da1a4921b4448d3c54138d08b8cfb6ca5dc22eeb53d71139ed83ac4b1abdc35",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10828/11679.png",
+      "status": 200,
+      "bytes": 120296,
+      "sha256": "9b1d50eefb76d1c963d35eb30d50d894e86addd7bf70e275ef0f7c0aa081a0a2",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10828/11701.png",
+      "status": 200,
+      "bytes": 109320,
+      "sha256": "bb9f7e5e1d52f2929b4b20e26598a10cee0c866866400da3f25f84fad3af8419",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10828/11724.png",
+      "status": 200,
+      "bytes": 81266,
+      "sha256": "d024a9305f0b8639ffbe5f5251aff482b5617b7085f1ca9e041e1e5051e1380b",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10860/11541.png",
+      "status": 200,
+      "bytes": 80305,
+      "sha256": "5e6b2f91546646e30ec8f02fdefb7f10e2a37678a7e0bdc6e64644531f26e793",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10861/11587.png",
+      "status": 200,
+      "bytes": 114896,
+      "sha256": "f02140a54b8bf0f62133fda84e530feadd830de7a08c68cb2fa4c98bf5d8cddc",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10862/11565.png",
+      "status": 200,
+      "bytes": 92078,
+      "sha256": "169b3ac39cd1b0cddccf3575739e108de359b297f9d82a9c45f443f44aa6282c",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10862/11634.png",
+      "status": 200,
+      "bytes": 102574,
+      "sha256": "6827976e5b98e4c439f6257584fe2786d2c174945e7dda04bc3d2c421aa65b41",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10862/11679.png",
+      "status": 200,
+      "bytes": 103013,
+      "sha256": "1ae8989c83df13b420ae828ef8b3d68345a0830c90e2f3cb12763356cbbe66a7",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10862/11702.png",
+      "status": 200,
+      "bytes": 108736,
+      "sha256": "d6b41d8ad5bfdd31b2013188641c1fdbc31b746102d0d5e97cfde7ba64fb7ff9",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10863/11610.png",
+      "status": 200,
+      "bytes": 95117,
+      "sha256": "30caa0a05b3499bbf99ed4fd4769d6fd50b6b8c92d09d78f598b7d9f1deea83a",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10873/11519.png",
+      "status": 200,
+      "bytes": 87075,
+      "sha256": "99144e4062ea2e20ac72e0125cc2b7826a82446567370ed320dfc04b6d356e7d",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10895/11586.png",
+      "status": 200,
+      "bytes": 71181,
+      "sha256": "76b91015fb604dfcf940ee5927e58681ccc51b271c7631060d572173dac7bbf0",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10896/11564.png",
+      "status": 200,
+      "bytes": 91547,
+      "sha256": "06a54287f095bd1249d3e87febb935c2bdf18e79fc69169bd19a5fd6a2c845b6",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "15/10897/11541.png",
+      "status": 200,
+      "bytes": 102071,
+      "sha256": "36bc7bad29f775fe2d0b480d11c8f3129ca582ecce37cf615620acce894460cd",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "8/84/90.png",
+      "status": 200,
+      "bytes": 69683,
+      "sha256": "113975ccc36c6033828520b83d96627875718fedb105648d81360fc6e9e9072a",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "8/85/91.png",
+      "status": 200,
+      "bytes": 451,
+      "sha256": "505efed1cc4f4d7813b052b8e903a2b79abb89cb47bfae743a39bad5a63cb23b",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "9/168/179.png",
+      "status": 200,
+      "bytes": 334,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "9/169/181.png",
+      "status": 200,
+      "bytes": 129950,
+      "sha256": "415d2b8c734df5efdbdca50e1052a0f26ddc880720bc1efe74dd34c7ce014192",
+      "content_type": "image/png",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "source.json",
+      "status": 200,
+      "bytes": 37689,
+      "sha256": "f09c9e9d934a7956f811012bbd37fc8080be3bbef059038ddc9a6b8ffcf2cb7c",
+      "content_type": "application/json",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    },
+    {
+      "path": "tile-inventory.json",
+      "status": 200,
+      "bytes": 6335241,
+      "sha256": "5fcd277d4daf50974cf33a035c1859af775f9b5075de9208a1b9b750f5d39851",
+      "content_type": "application/json",
+      "cache_control": "public, max-age=31536000, immutable",
+      "allow_origin": "https://kinnokilabs.com"
+    }
+  ],
+  "all_sample_bytes_match": true,
+  "scope": "Both manifests, every zoom, opaque/transparent tiles and centre tiles for all 24 sheets. Complete R2 object verification is recorded separately in publication.json."
+}
