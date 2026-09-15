@@ -1,0 +1,61 @@
+{
+  "results": [
+    {
+      "file": "interior-support-trial/controls.csv",
+      "controls": 5,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.585445079827193e-9
+    },
+    {
+      "file": "interior-support-trial/diagnostic-review.csv",
+      "controls": 5,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.585445079827193e-9
+    },
+    {
+      "file": "selected-tps5/controls.csv",
+      "controls": 5,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.585445079827193e-9
+    },
+    {
+      "file": "selected-tps5/fresh-validation.csv",
+      "controls": 5,
+      "checks": 1,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.585445079827193e-9
+    },
+    {
+      "file": "western-support-trial/controls.csv",
+      "controls": 6,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 7.902534095792632e-9
+    },
+    {
+      "file": "western-support-trial/diagnostic-review.csv",
+      "controls": 6,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 7.902534095792632e-9
+    },
+    {
+      "file": "selected-tps6/controls.csv",
+      "controls": 6,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 7.902534095792632e-9
+    },
+    {
+      "file": "selected-tps6/fresh-validation.csv",
+      "controls": 6,
+      "checks": 1,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 7.902534095792632e-9
+    }
+  ],
+  "scope": "Production parser and TPS solver at checks and content vertices only; not raw-scan browser mesh acceptance."
+}
