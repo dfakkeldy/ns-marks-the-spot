@@ -44,7 +44,7 @@ provisional artifacts. Use these panel reports for the current research state:
 - [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
 - [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
 - [Cape Breton eastern validation](../reports/church/cape-breton-eastern-20260915/README.md)
-- [Inverness south continuation and refinement trials](../reports/church/inverness-south-continuation-20260915/README.md)
+- [Inverness south frozen-fit validation](../reports/church/south-validation-20260915/README.md)
 
 These reports include actual local GeoTIFF and browser terrain review. They do not
 establish new whole-panel acceptance or change the preserved July south baseline.

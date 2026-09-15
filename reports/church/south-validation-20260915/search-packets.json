@@ -1,0 +1,106 @@
+[
+  {
+    "name": "IS3-macneil-point",
+    "query_name": "MacNeil Point",
+    "official_identity_key": "CAXAH",
+    "lonlat": [
+      -61.530989,
+      45.967797
+    ],
+    "guide_pixel_xy": [
+      14786.5004943945,
+      18365.9854636586
+    ],
+    "origin": [
+      12200,
+      15800
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only, name point and inverse guide are not observations"
+  },
+  {
+    "name": "IS3-long-point",
+    "query_name": "Long Point",
+    "official_identity_key": "CAVKA",
+    "lonlat": [
+      -61.495232,
+      45.80303
+    ],
+    "guide_pixel_xy": [
+      15786.902460608,
+      25084.9404134864
+    ],
+    "origin": [
+      13200,
+      22500
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only, name point and inverse guide are not observations"
+  },
+  {
+    "name": "IS3-red-lake",
+    "query_name": "Red Lake",
+    "official_identity_key": "CBFMG",
+    "lonlat": [
+      -61.370105,
+      45.830622
+    ],
+    "guide_pixel_xy": [
+      19343.9141978538,
+      23956.1455901735
+    ],
+    "origin": [
+      16800,
+      21400
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only, name point and inverse guide are not observations"
+  },
+  {
+    "name": "IS3-brileys-lake",
+    "query_name": "Brileys Lake",
+    "official_identity_key": "CAFCO",
+    "lonlat": [
+      -61.404156,
+      45.753134
+    ],
+    "guide_pixel_xy": [
+      18369.4366584456,
+      27112.6291128692
+    ],
+    "origin": [
+      15800,
+      24600
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Search only, name point and inverse guide are not observations"
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "id": "IS20",
+  "label": "MacNeil Point western corner, engraved Ragged Point",
+  "role": "check",
+  "phase": "Fresh validation of frozen retained affine4; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T18:35:45.785531+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      14200,
+      17700
+    ],
+    "extent": [
+      1300,
+      1300
+    ],
+    "display": [
+      1300,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/IS3-macneil-native.jpg",
+  "source_crop_sha256": "7982c96c126c4da88b389618f482273332a1a4aebb74fbc01183887ddeb1e1a4",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    560,
+    584
+  ],
+  "pixel_xy": [
+    14760.0,
+    18284.0
+  ],
+  "lonlat": [
+    -61.53111845346505,
+    45.96728902049786
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson",
+  "reference_sha256": "46db449bce463d75cb0f5f6f6a6af6e6334ac81fd70a7f5c9a0585bb4b403a50",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Western of the two small southern noses at the end of the northern coast approach, before the eastward return; original coast vertex, not gazetteer point.",
+  "identity_evidence": "The source main coast north of Little Judique Harbour makes a sharp western corner labelled Ragged Point, then returns east before trending south to the harbour entrance. The same original coast sequence identifies the western nose of modern MacNeil Point (gazetteer CAXAH); multiple small modern scallops are generalized in the drawing. The northern coast approach, eastern shore return and harbour/river valley farther south distinguish this nose from the next eastern scallop. This is a physical correspondence, not a documented renaming claim.",
+  "reference_vertices": [
+    {
+      "feature_id": 10783,
+      "vertex": 2
+    }
+  ]
+}
