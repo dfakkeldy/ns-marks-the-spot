@@ -1,0 +1,16 @@
+{
+  "decided_at": "2026-09-16T06:19:05.914848+00:00",
+  "retained_model": "previous TPS5 unchanged",
+  "rejected_model": "selected/ TPS6 adding I17",
+  "reason": "Reserved I16 worsened from94.72 m on TPS5 to301.30 m on TPS6, despite improved selection diagnostics. Reject rather than tune after seeing the check.",
+  "role_history": {
+    "I15": "Original TPS5 fresh failure416.61 m preserved; trial control only, final diagnostic after model comparison.",
+    "I16": "Reserved before trial selection; scored once after TPS6 freeze; subsequently diagnostic because it informed rejection.",
+    "I17": "First TPS5 check246.45 m preserved; promoted unchanged in rejected trials; final diagnostic."
+  },
+  "post_decision_fresh_check_count": 0,
+  "geographic_acceptance": false,
+  "new_raster": false,
+  "catalog_activation": false,
+  "next_panel": "Victoria northwest, then Victoria main separately"
+}

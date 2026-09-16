@@ -1,0 +1,16 @@
+{
+  "frozen_at": "2026-09-16T06:17:47.745298+00:00",
+  "model": "tps",
+  "control_count": 6,
+  "controls_csv_sha256": "25026440c5a9f265bfe01881f2cd8b85f1ef91956fb05566f55479112c00de1d",
+  "selection": "Add unchanged I17 Calumruadh to TPS5. Best same-two diagnostic RMS (219.10 m), improved I13 from345.29 to308.94 m; affine alternatives exceed516 m. Adding coarse Presquile worsens N03 and barely changes I13, so that promotion is rejected. No I16 score inspected.",
+  "reserved_checks": [
+    "I16"
+  ],
+  "diagnostics": [
+    "N03",
+    "I13",
+    "I15"
+  ],
+  "geographic_acceptance": false
+}

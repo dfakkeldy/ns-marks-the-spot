@@ -1,0 +1,81 @@
+{
+  "id": "I17",
+  "role": "check",
+  "pixel_xy": [
+    9403,
+    22927
+  ],
+  "lonlat": [
+    -60.83913929592003,
+    46.52903319857015
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 277740,
+      "vertex": 33,
+      "name": "South Calumruadh Brook"
+    },
+    {
+      "feature_id": 279457,
+      "vertex": 35,
+      "name": "Calumruadh Brook"
+    },
+    {
+      "feature_id": 279458,
+      "vertex": 0,
+      "name": "Calumruadh Brook"
+    }
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_feature_class": "WARV50",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      8900,
+      22400
+    ],
+    "extent": [
+      1200,
+      1200
+    ],
+    "display": [
+      1200,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-north-coast-validation-20260916/calumruadh-native.jpg",
+  "source_crop_sha256": "d5ca426922516fede0237a6bffce1a6d99be366b88f83b94ffc1d24e915e7eb6",
+  "uncertainty_ground_m": 180,
+  "recorded_at": "2026-09-16T06:16:37.757769+00:00",
+  "phase": "Prospective control; first frozen TPS5 result must be preserved before trial promotion",
+  "identity_evidence": "Calumruadh northern arm joins South Calumruadh eastern arm with westward outflow toward The Three Brooks. Coinneach lies farther south. Pixel marks three-way ink convergence; short gap on eastern arm retained as uncertainty.",
+  "source_display_pixel_xy": [
+    503,
+    527
+  ],
+  "broad_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-north-coast-validation-20260916/calumruadh.jpg",
+    "sha256": "692c3eb9cfbe983c17d2e70cd46d62f3bd140fe76795996c2a79881d2840fd8a",
+    "frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        8400,
+        21900
+      ],
+      "extent": [
+        2300,
+        2200
+      ],
+      "display": [
+        1495,
+        1430
+      ],
+      "rotation": 0
+    }
+  }
+}
