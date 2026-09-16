@@ -1,0 +1,16 @@
+{
+  "metric_sets_replayed": 12,
+  "new_physical_checks": 2,
+  "fresh_checks": 13,
+  "original_confluences_verified": true,
+  "inside_control_hull": [
+    "IS45",
+    "IS46"
+  ],
+  "outside_control_hull": [],
+  "first_eleven_and_frozen_fit_preserved": true,
+  "actual_raster_windows": 2,
+  "editable_inventories": 3,
+  "browser_terrain_verified": true,
+  "geographic_acceptance": false
+}

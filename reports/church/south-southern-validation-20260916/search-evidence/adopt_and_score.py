@@ -1,0 +1,22 @@
+raise SystemExit('Archived adoption recipe; use verify_reports.py to replay preserved results.')
+from pathlib import Path
+import json,hashlib,datetime,shutil,importlib.util
+from shapely.geometry import MultiPoint,Point
+from tools.church.gcps import GroundControlPoint,load_gcps
+R=Path('reports/church/south-southern-validation-20260916');R.mkdir(exist_ok=True);(R/'observations').mkdir(exist_ok=True);(R/'search-evidence').mkdir(exist_ok=True);C=Path('/Users/dfakkeldy/Downloads/church-south-southern-validation-20260916');P=Path('reports/church/south-coast-validation-20260916')
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def save(p,o):p.write_text(json.dumps(o,indent=2)+'\n')
+f=json.loads((P/'freeze.json').read_text());f['input_commit']='50da4966fc325a524fb1672940aa187e62037b41'
+for key,name in [('controls','controls.csv'),('prior_inventory','fresh-validation.csv'),('prior_accuracy','accuracy-summary.json'),('prior_status','status.json')]:
+ p=P/name;f['inputs'][key]={'path':str(p),'sha256':sha(p)}
+f['scope']='New southwestern interior check against unchanged frozen TPS13; preceding eleven first results retained';save(R/'freeze.json',f);shutil.copy2(P/'controls.csv',R/'controls.csv')
+q=json.loads((C/'named-junction-search.json').read_text())[4];src=C/'macleod-native.jpg';ref=Path('/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson')
+o={'id':'IS45','label':'MacLeod Brook / Southwest Mabou River confluence','role':'check','recorded_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_frame':json.loads((C/'macleod-native-frame.json').read_text()),'source_crop_path':str(src),'source_crop_sha256':sha(src),'source_sha256':'37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8','source_display_pixel_xy':[491,575],'pixel_xy':[19791,20375],'lonlat':q['lonlat'],'reference_path':str(ref),'reference_sha256':sha(ref),'reference_vertices':[{'feature_id':v['feature_id'],'vertex':v['vertex']} for v in q['branches']],'reference_kind':'Original single-line water confluence','uncertainty_ground_m':180,'point_definition':'Single-line junction of the southeast tributary and southwest river branch, with the combined channel continuing north.','identity_evidence':'Southwest branch bends into the north-going main river; the southeast tributary joins at the clear three-way junction below McLeod Settlement. Farther north, two separate eastern tributaries and the river-road relationship identify the reach. The southeastern branch continues past the MacEachern locality. An additional smaller western reference tributary farther north is not clearly depicted in the source and is not a matching point. Modern road routing differs locally, so road nodes are not used as control evidence. Source crosshair is on the water-line convergence, away from lettering.','phase':'Fresh independent validation of frozen TPS13; excluded from fitting and model selection'}
+save(R/'observations/IS45.json',o)
+for a,b in [('macleod-proposal.jpg','IS45-native-review.jpg'),('macleod-proposal-detail.jpg','IS45-native-enlarged.jpg')]:shutil.copy2(C/a,R/'observations'/b)
+for p in C.iterdir():
+ if p.suffix in ['.py','.json','.jpg']:shutil.copy2(p,R/'search-evidence'/p.name)
+cs=load_gcps(R/'controls.csv');prior=[p for p in load_gcps(P/'fresh-validation.csv') if p.role=='check'];base=load_gcps(Path(f['inputs']['baseline_controls']['path']));p=GroundControlPoint(*o['pixel_xy'],*o['lonlat'],'check','IS45');s=importlib.util.spec_from_file_location('score',R.parent/'target-refinement-20260913/score_models.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+first={'scored_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'observation_sha256':sha(R/'observations/IS45.json'),'freeze_sha256':sha(R/'freeze.json'),'inside_control_hull':MultiPoint([(q.pixel_x,q.pixel_y) for q in cs]).convex_hull.covers(Point(*o['pixel_xy'])),'physical_tps13':m.score(cs,[p],'tps'),'accepted_baseline_tps':m.score(base,[p],'tps')};save(R/'IS45-first.json',first)
+row=f'{p.pixel_x},{p.pixel_y},{p.lon},{p.lat},check,IS45\n';(R/'fresh-validation.csv').write_text((P/'fresh-validation.csv').read_text()+row);(R/'new-check.csv').write_text((P/'controls.csv').read_text()+row);a={'physical_tps13':m.score(cs,prior+[p],'tps'),'accepted_baseline_tps':m.score(base,prior+[p],'tps')};save(R/'accuracy-summary.json',a)
+print(json.dumps({'first':first,'cumulative':a['physical_tps13']},indent=2))

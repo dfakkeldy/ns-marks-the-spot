@@ -1,0 +1,59 @@
+{
+  "id": "IS46",
+  "label": "MacColls Brook / River Inhabitants confluence",
+  "role": "check",
+  "recorded_at": "2026-09-16T02:35:56.747982+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      19900,
+      23800
+    ],
+    "extent": [
+      1800,
+      1800
+    ],
+    "display": [
+      1800,
+      1800
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-southern-validation-20260916/glendale.jpg",
+  "source_crop_sha256": "451d78a727669978485700616bd224990a761211a353f6402015e6fe5bae7b60",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    873,
+    992
+  ],
+  "pixel_xy": [
+    20773,
+    24792
+  ],
+  "lonlat": [
+    -61.318905073694495,
+    45.811838020279964
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson",
+  "reference_sha256": "46db449bce463d75cb0f5f6f6a6af6e6334ac81fd70a7f5c9a0585bb4b403a50",
+  "reference_vertices": [
+    {
+      "feature_id": 269367,
+      "vertex": 12
+    },
+    {
+      "feature_id": 276069,
+      "vertex": 0
+    },
+    {
+      "feature_id": 276071,
+      "vertex": 291
+    }
+  ],
+  "reference_kind": "Original single-line water confluence",
+  "uncertainty_ground_m": 180,
+  "point_definition": "Northern tributary enters the main east-west river east/upstream of the separate Glendale Brook junction.",
+  "identity_evidence": "The northern tributary has a small split/rejoining reach farther north and crosses the east-west road before entering the river. The main river approaches from the east through the separately marked falls reach, and continues west/southwest toward Glendale and Red Bridge. Glendale Brook enters farther west near dense road/label ink, so that separate junction is withheld. The exact MacColls junction is clear south of the road and north of the chapel lettering. Current road realignments are not used as matching nodes. Native crosshair and marked original reference junction were inspected before scoring.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and model selection"
+}
