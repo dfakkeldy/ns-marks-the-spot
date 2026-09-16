@@ -44,7 +44,7 @@ provisional artifacts. Use these panel reports for the current research state:
 - [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
 - [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
 - [Cape Breton eastern validation](../reports/church/cape-breton-eastern-20260915/README.md)
-- [Inverness south frozen TPS13 validation](../reports/church/south-tps13-validation-20260915/README.md) — five fresh checks, 144.60 m RMS; northern and broader regional coverage remains insufficient. The [distributed-control refinement](../reports/church/south-distributed-refinement-20260915/README.md) and [closed affine validation](../reports/church/south-validation-20260915/README.md) preserve all preceding trials and first results.
+- [Inverness south frozen TPS13 validation](../reports/church/south-tps13-validation-20260915/README.md) — seven fresh checks, 181.65 m RMS; the new northern pair gives 251.43 m RMS and broader coverage remains insufficient. The [distributed-control refinement](../reports/church/south-distributed-refinement-20260915/README.md) and [closed affine validation](../reports/church/south-validation-20260915/README.md) preserve all preceding trials and first results.
 
 These reports include actual local GeoTIFF and browser terrain review. They do not
 establish new whole-panel acceptance or change the preserved July south baseline.

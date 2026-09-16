@@ -7,7 +7,7 @@ import {toMercator} from '../../../web/src/userMaps/transform/webMercator';
 const root='reports/church/south-tps13-validation-20260915/';
 const ring=JSON.parse(readFileSync('reports/church/physical-review-20260913/inverness-south/final-artifact-receipt.json','utf8')).source_cutline as number[][];
 const results=[];
-for(const [file,ncontrols,nchecks] of [['controls.csv',13,0],['fresh-validation.csv',13,5],['western-expansion/new-checks.csv',13,2]] as const){
+for(const [file,ncontrols,nchecks] of [['controls.csv',13,0],['fresh-validation.csv',13,7],['western-expansion/new-checks.csv',13,2],['northern-expansion/new-checks.csv',13,2]] as const){
  const p=parseFletcherGcps(readFileSync(root+file,'utf8'),{pixelSize:{width:34427,height:34543}});
  assert.equal(p.gcps.length,ncontrols);assert.equal(p.checks.length,nchecks);assert.deepEqual(parseFletcherGcps(serializeFletcherGcps(p)).rows,p.rows);
  const result=solveTps(p.gcps);assert.ok(result.ok);

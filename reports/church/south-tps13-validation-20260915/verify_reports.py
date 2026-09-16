@@ -23,7 +23,7 @@ for path,key in [('controls_path','controls_sha256'),('selected_freeze_path','se
 assert (R/'controls.csv').read_bytes()==(ROOT/f['controls_path']).read_bytes();assert sha(Path(f['raster']))==f['raster_sha256'];assert f['method']=='tps'
 for v in read(R.parent/'south-validation-20260915/baseline-inputs.json')['inputs']:
  p=ROOT/v['path'];assert sha(p)==v['sha256'];assert p.read_bytes()==subprocess.check_output(['git','show',commit+':'+v['path']])
-cs=load_gcps(R/'controls.csv');base=load_gcps(ROOT/'tools/church/gcps/inverness-south.csv');rows=load_gcps(R/'fresh-validation.csv');assert [p for p in rows if p.role=='control']==cs;checks=[p for p in rows if p.role=='check'];assert [p.label for p in checks]==['IS34','IS35','IS36','IS37','IS38'];assert len(cs)==13
+cs=load_gcps(R/'controls.csv');base=load_gcps(ROOT/'tools/church/gcps/inverness-south.csv');rows=load_gcps(R/'fresh-validation.csv');assert [p for p in rows if p.role=='control']==cs;checks=[p for p in rows if p.role=='check'];assert [p.label for p in checks]==['IS34','IS35','IS36','IS37','IS38','IS39','IS40'];assert len(cs)==13
 previous=load_gcps(ROOT/f['prior_selection_inventory'])+load_gcps(ROOT/'tools/church/checks/inverness-south.csv');assert not {p.label for p in checks}&{p.label for p in previous};assert not {(p.lon,p.lat) for p in checks}&{(p.lon,p.lat) for p in previous}
 hull=MultiPoint([(p.pixel_x,p.pixel_y) for p in cs]).convex_hull;cutline=Cutline(tuple(map(tuple,read(PREV/'content-boundary.json')['ring_pixel_xy'])));refs={};inside=[];metric_sets=0
 for p in checks:
@@ -41,12 +41,17 @@ for p in checks:
   assert edges<=original
  else:
   for v in o['reference_vertices']:assert features[v['feature_id']]['geometry']['coordinates'][v['vertex']][:2]==o['lonlat']
+ for v in o.get('corroborating_reference_vertices',[]):
+  q=v['reference_path']
+  if q not in refs:
+   assert sha(Path(q))==v['reference_sha256'];refs[q]={f['properties']['OBJECTID']:f for f in read(Path(q))['features']}
+  assert refs[q][v['feature_id']]['geometry']['coordinates'][v['vertex']][:2]==o['lonlat']
  for v in read(R/'observations'/(p.label+'-reference-features.geojson'))['features']:assert v==features[v['properties']['OBJECTID']]
  first=read(R/(p.label+'-first.json'));assert first['observation_sha256']==sha(path);assert first['freeze_sha256']==sha(R/'freeze.json');assert first['scored_at']>=o['recorded_at'];assert first['inside_control_hull']==hull.covers(Point(p.pixel_x,p.pixel_y))
  if first['inside_control_hull']:inside.append(p.label)
  compare(m.score(cs,[p],'tps'),first['physical_tps13']);compare(m.score(base,[p],'tps'),first['accepted_baseline_tps']);metric_sets+=2
 summary=read(R/'accuracy-summary.json');compare(m.score(cs,checks,'tps'),summary['physical_tps13']);compare(m.score(base,checks,'tps'),summary['accepted_baseline_tps']);metric_sets+=2
-assert inside==['IS34','IS36'];windows=read(R/'warped-review/receipt.json');assert windows['raster_sha256']==f['raster_sha256'];assert len(windows['reviews'])==3
+assert inside==['IS34','IS36','IS39','IS40'];windows=read(R/'warped-review/receipt.json');assert windows['raster_sha256']==f['raster_sha256'];assert len(windows['reviews'])==3
 for v in windows['reviews']:assert sha(R/'warped-review'/v['figure'])==v['figure_sha256'] and v['source_pixel_alpha']>0
 for v in windows['references']:assert sha(Path(v['path']))==v['sha256']
 for v in read(R/'browser-review.json')['screenshots']+read(R/'browser-review.json')['states']:assert sha(Path(v['path']))==v['sha256']
@@ -60,9 +65,9 @@ for v in published['stable_files']:
  p=R/v['path'];assert sha(p)==v['sha256'];assert p.read_bytes()==subprocess.check_output(['git','show',previous_commit+':'+str(p.relative_to(ROOT))])
 assert (R/'fresh-validation.csv').read_bytes().startswith(subprocess.check_output(['git','show',previous_commit+':'+published['previous_csv_path']]))
 assert (R/'snapshots/first-three-accuracy-summary.json').read_bytes()==subprocess.check_output(['git','show',previous_commit+':'+published['previous_summary_path']])
-for expected,ps in [(read(R/'snapshots/first-three-accuracy-summary.json'),checks[:3]),(read(e/'accuracy-summary.json'),checks[3:])]:
+for expected,ps in [(read(R/'snapshots/first-three-accuracy-summary.json'),checks[:3]),(read(e/'accuracy-summary.json'),checks[3:5])]:
  compare(m.score(cs,ps,'tps'),expected['physical_tps13']);compare(m.score(base,ps,'tps'),expected['accepted_baseline_tps']);metric_sets+=2
-assert load_gcps(e/'new-checks.csv')==cs+checks[3:]
+assert load_gcps(e/'new-checks.csv')==cs+checks[3:5]
 rr=read(e/'reference-receipt.json');assert sha(Path(rr['path']))==rr['sha256'];west=refs[rr['path']];assert len(west)==rr['count']==4435
 packets=read(e/'search-packets.json')
 for ident,name,which in [('IS37','Port Hood Island',min),('IS38','Henry Island',max)]:
@@ -80,7 +85,29 @@ for name in ['IS37','IS38']:
  text=next(Path(v['path']).read_text() for v in wb['states'] if Path(v['path']).name==name+'-import-state.txt');assert 'checkbox "inverness-south-tps13-review-20m" [checked]' in text and 'checkbox "richmond-affine14-20m" [checked]' not in text
  text=next(Path(v['path']).read_text() for v in wb['states'] if Path(v['path']).name==name+'-terrain10x-state.txt');assert 'status: 10×' in text
 overview=read(e/'coverage-overview.json');assert sha(e/'coverage-overview.jpg')==overview['figure_sha256'] and overview['raster_sha256']==f['raster_sha256'];assert len(overview['points'])==18
-imports=read(R/'import-verification.json')['results'];assert len(imports)==3
+n=R/'northern-expansion';published=read(n/'previous-published.json');nc=published['input_commit'];subprocess.run(['git','merge-base','--is-ancestor',nc,'origin/nightly'],check=True)
+for v in published['stable_files']:
+ q=R/v['path'];assert sha(q)==v['sha256'];assert q.read_bytes()==subprocess.check_output(['git','show',nc+':'+str(q.relative_to(ROOT))])
+assert (R/'fresh-validation.csv').read_bytes().startswith(subprocess.check_output(['git','show',nc+':'+published['previous_csv_path']]))
+assert (R/'snapshots/first-five-accuracy-summary.json').read_bytes()==subprocess.check_output(['git','show',nc+':'+published['previous_summary_path']])
+for expected,ps in [(read(R/'snapshots/first-five-accuracy-summary.json'),checks[:5]),(read(n/'accuracy-summary.json'),checks[5:])]:
+ compare(m.score(cs,ps,'tps'),expected['physical_tps13']);compare(m.score(base,ps,'tps'),expected['accepted_baseline_tps']);metric_sets+=2
+assert load_gcps(n/'new-checks.csv')==cs+checks[5:]
+for id in ['IS39','IS40']:
+ for v in read(n/(id+'-reference-context.json')):
+  q=v['reference_path']
+  if q not in refs:refs[q]={f['properties']['OBJECTID']:f for f in read(Path(q))['features']}
+  assert v['feature']==refs[q][v['feature']['properties']['OBJECTID']]
+shore=refs[read(R/'observations/IS40.json')['reference_path']][7059]['geometry']['coordinates'];assert shore[1][1]>=shore[0][1] and shore[1][1]>=shore[2][1]
+w=read(n/'warped-review/receipt.json');assert w['raster_sha256']==f['raster_sha256'] and len(w['reviews'])==2
+for v in w['reviews']:assert sha(n/'warped-review'/v['figure'])==v['figure_sha256'] and v['source_pixel_alpha']>0
+nb=read(n/'browser-review.json');assert nb['raster_sha256']==f['raster_sha256'] and nb['console_errors']==[]
+for v in nb['screenshots']+nb['states']:assert sha(Path(v['path']))==v['sha256']
+for id in ['IS39','IS40']:
+ text=next(Path(v['path']).read_text() for v in nb['states'] if Path(v['path']).name==id+'-import-state.txt');assert 'checkbox "inverness-south-tps13-review-20m" [checked]' in text
+ text=next(Path(v['path']).read_text() for v in nb['states'] if Path(v['path']).name==id+'-terrain10x-state.txt');assert 'status: 10×' in text
+ov=read(n/'coverage-overview.json');assert sha(n/'coverage-overview.jpg')==ov['figure_sha256'] and ov['raster_sha256']==f['raster_sha256'] and len(ov['points'])==20
+imports=read(R/'import-verification.json')['results'];assert len(imports)==4
 for v in imports:assert v['semanticRoundtrip'] and all(c['maxDifferenceProjectedMetres']<.001 for c in v['comparisons'])
-status=read(R/'status.json');assert status['fresh_check_count']==5 and status['no_tuning_after_checks'] and not status['geographic_acceptance'];compare(status['physical_tps13'],summary['physical_tps13'])
-print(json.dumps(dict(metric_sets_replayed=metric_sets,fresh_observations_audited=5,original_exteriors_verified=2,exact_water_confluences_verified=1,inside_control_hull=inside,outside_control_hull=['IS35','IS37','IS38'],controls_and_raster_unchanged=True,accepted_baseline_inputs_unchanged=True,actual_raster_windows=5,editable_inventories=3,coastal_extrema_verified=2,first_three_preserved=True,browser_2d_and_10x_terrain_verified=True,geographic_acceptance=False),indent=2))
+status=read(R/'status.json');assert status['fresh_check_count']==7 and status['no_tuning_after_checks'] and not status['geographic_acceptance'];compare(status['physical_tps13'],summary['physical_tps13'])
+print(json.dumps(dict(metric_sets_replayed=metric_sets,fresh_observations_audited=7,original_exteriors_verified=2,exact_water_confluences_verified=1,inside_control_hull=inside,outside_control_hull=['IS35','IS37','IS38'],controls_and_raster_unchanged=True,accepted_baseline_inputs_unchanged=True,actual_raster_windows=7,editable_inventories=4,northern_road_junction_verified=True,northern_headland_verified=True,coastal_extrema_verified=2,first_three_preserved=True,first_five_preserved=True,browser_2d_and_10x_terrain_verified=True,geographic_acceptance=False),indent=2))
