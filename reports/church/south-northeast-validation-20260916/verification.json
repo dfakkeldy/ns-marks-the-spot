@@ -1,0 +1,16 @@
+{
+  "metric_sets_replayed": 10,
+  "new_physical_checks": 2,
+  "fresh_checks": 18,
+  "original_water_confluences_verified": true,
+  "inside_control_hull": [],
+  "outside_control_hull": [
+    "IS50",
+    "IS51"
+  ],
+  "first_sixteen_and_frozen_fit_preserved": true,
+  "actual_raster_windows": 2,
+  "editable_inventories": 3,
+  "browser_terrain_verified": true,
+  "geographic_acceptance": false
+}
