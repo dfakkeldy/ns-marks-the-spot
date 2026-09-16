@@ -1,0 +1,16 @@
+{
+  "feature": "Historical McIntyre Lake / modern MacIntyre reservoir",
+  "status": "withheld-unscored",
+  "reason": "Whole-basin outlines do not share a stable definition: the source shows a smaller eastern basin with a western inlet and southwest mill/outlet, whereas original current water lines outline a wider western extent. The 2026 environmental assessment documents MacIntyre as a reservoir with embankment dam and spillway, corroborating water-level/impoundment concerns. No centroid or shoreline control was adopted.",
+  "source_crop": "mcintyre-native.jpg",
+  "reference_file": "extension-water-lines.geojson",
+  "external_evidence": {
+    "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf",
+    "title": "Little River Pumping and Transmission System Project Environmental Assessment Registration",
+    "document_date": "2026-01-05",
+    "section": "5 Environmental Effects Assessment, page 5-16",
+    "retrieved": "2026-09-16T02:53:22.873647+00:00",
+    "support": "Documents MacIntyre Lake as a reservoir formed by an embankment dam and spillway; identifies Barberton Road and Highway 4 as bordering features.",
+    "limitation": "Does not itself establish the date or exact magnitude of shoreline change from the Church scan."
+  }
+}
