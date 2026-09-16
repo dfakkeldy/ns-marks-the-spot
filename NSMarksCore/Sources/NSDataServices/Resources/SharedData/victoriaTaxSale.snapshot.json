@@ -3,35 +3,24 @@
   "municipality": "Municipality of the County of Victoria",
   "source": "https://victoriacounty.com/property-tax-sale-notice/",
   "landingPage": "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
-  "retrievedDate": "2026-09-03",
+  "retrievedDate": "2026-09-16",
   "publishedOn": "2026-08-13",
-  "sourceFactsSha256": "812d8d6a38c568d8af7ba1ab27add614643ee57e57a526236751e44dfab85584",
+  "sourceFactsSha256": "bd8df1ae76e9344fd310697338e47b1c4d1200dc0454d34ea7be00696e880ac3",
   "sourceHashPolicy": "The overwrite-prone official HTML contains assessed-owner names. This receipt hashes normalized owner-free event and row facts; the external Wayback receipt preserves the full official page bytes before ingestion.",
   "archiveReceipt": {
-    "timestamp": "20260903202648",
-    "url": "https://web.archive.org/web/20260903202648id_/https://victoriacounty.com/property-tax-sale-notice/",
-    "sha256": "45158563b490976d3270e776dd618ef925c6df1d997e0de7235cda0bcca7da1f"
+    "timestamp": "20260914201103",
+    "url": "https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/",
+    "sha256": "4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5"
   },
   "ownerNamesExcluded": true,
   "eventDate": "2026-09-14",
   "bidDeadlineTime": "12:00",
   "venue": "Municipal Administration Building, 495 Chebucto Street, Baddeck, NS B0E 1B0",
   "sourceRowCount": 9,
-  "opaqueRemovedRowCount": 4,
-  "listingCount": 5,
-  "parcelIdentifierCount": 5,
+  "opaqueRemovedRowCount": 5,
+  "listingCount": 4,
+  "parcelIdentifierCount": 4,
   "listings": [
-    {
-      "item": 3,
-      "aan": "01511165",
-      "pids": [
-        "85032795"
-      ],
-      "description": "10608 No. 5 Hwy, Ross Ferry, Land/Dwelling, 22,500Sq. Feet +/-",
-      "redeemable": true,
-      "totalOwingCents": 184935,
-      "listingStatus": "advertised"
-    },
     {
       "item": 4,
       "aan": "02266288",
