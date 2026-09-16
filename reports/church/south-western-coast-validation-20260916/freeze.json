@@ -1,0 +1,39 @@
+{
+  "input_commit": "df2722b34bd516deaa0eadf5f4d672ca98d9356c",
+  "inputs": {
+    "controls": {
+      "path": "reports/church/south-extension-validation-20260916/controls.csv",
+      "sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527"
+    },
+    "prior_inventory": {
+      "path": "reports/church/south-extension-validation-20260916/fresh-validation.csv",
+      "sha256": "474811b149bf237cdbc05357e58bf7fb69ebf2384b29f030e1d87d55b9c91a37"
+    },
+    "prior_accuracy": {
+      "path": "reports/church/south-extension-validation-20260916/accuracy-summary.json",
+      "sha256": "cab85014dfaddd4ae73a75a5c4c9f025b6250eec60707f5c9cadf27beace23e0"
+    },
+    "prior_status": {
+      "path": "reports/church/south-extension-validation-20260916/status.json",
+      "sha256": "7859615eec951ca07419d1e2e67b3bce3ef754154ead9f1bb2f255e4067bc46f"
+    },
+    "selection_freeze": {
+      "path": "reports/church/south-distributed-refinement-20260915/selected-tps13/freeze.json",
+      "sha256": "cd15fd212b4f0b25c271d3c3109c65eff9f13cfc0fa6d3f2b13031199b9f3178"
+    },
+    "baseline_controls": {
+      "path": "tools/church/gcps/inverness-south.csv",
+      "sha256": "f1d52dd101853995fe785dc41da87d3a14eeb14cb2a1b2bbf1143eb11ce2a847"
+    },
+    "baseline_checks": {
+      "path": "tools/church/checks/inverness-south.csv",
+      "sha256": "7e96e98e0b54d03d58f50f582db9f580eb22a5d82da5ad7cfa981d9d4d1dabf9"
+    }
+  },
+  "method": "tps",
+  "raster": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "scope": "New Cape Mabou coast checks against unchanged frozen TPS13; preceding fourteen first results retained"
+}
