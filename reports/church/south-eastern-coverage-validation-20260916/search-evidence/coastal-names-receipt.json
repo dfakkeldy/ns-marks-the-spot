@@ -1,0 +1,7 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=lower%28geoname%29+like+%27%25maciver%25%27+OR+lower%28geoname%29+like+%27%25malagawatch%25%27&%24limit=1000",
+  "retrieved": "2026-09-16T04:00:49.166663+00:00",
+  "sha256": "6ba43a8b1549dc936f8def42b32925be5189d5bbc453eb3f50fe0f4f4d5e7f47",
+  "count": 9,
+  "scope": "Locality identification only; not measurement coordinates"
+}

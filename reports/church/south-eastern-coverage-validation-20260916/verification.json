@@ -1,0 +1,12 @@
+{
+  "metric_sets_replayed": 19,
+  "untouched_fresh_checks": 19,
+  "corrected_reference_diagnostics": 1,
+  "corrected_inventory_checks": 20,
+  "original_wrong_correspondence_and_first_scores_preserved": true,
+  "source_pixels_and_fits_unchanged": true,
+  "shared_model_seams": 1,
+  "actual_raster_windows": 3,
+  "editable_inventories": 5,
+  "geographic_acceptance": false
+}

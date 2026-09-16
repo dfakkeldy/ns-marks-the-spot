@@ -44,7 +44,7 @@ provisional artifacts. Use these panel reports for the current research state:
 - [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
 - [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
 - [Cape Breton eastern validation](../reports/church/cape-breton-eastern-20260915/README.md)
-- [Inverness south northeastern interior validation](../reports/church/south-northeast-validation-20260916/README.md) — eighteen fresh checks, 211.08 m RMS; the new pair tests extrapolation beyond the control hull. Green Point and earlier regional failures remain preserved; whole-panel acceptance is unproven.
+- [Inverness south eastern checks and reference audit](../reports/church/south-eastern-coverage-validation-20260916/README.md) — nineteen untouched fresh checks, 206.09 m RMS; adding one explicitly corrected reference gives 207.53 m across twenty held-out checks. The original mismatch and regional failures remain preserved; full acceptance remains unproven.
 
 These reports include actual local GeoTIFF and browser terrain review. They do not
 establish new whole-panel acceptance or change the preserved July south baseline.
