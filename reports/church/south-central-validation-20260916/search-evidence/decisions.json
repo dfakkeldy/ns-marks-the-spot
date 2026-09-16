@@ -1,0 +1,17 @@
+{
+  "Beatons_Brook": {
+    "state": "withheld, unscored",
+    "reason": "The expected junction area lies beneath Kennedy lettering and near the road crossing; an exact source junction was not isolated."
+  },
+  "MacLellan_Brook": {
+    "initial_unscored_display_xy": [
+      1081,
+      515
+    ],
+    "corrected_before_score_display_xy": [
+      1080,
+      510
+    ],
+    "reason": "Enlarged native crosshair showed the initial proposal just below the branch junction. Corrected from visible line convergence, before any score."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "input_commit": "609e61ed91df664e72ad18247b2c46c4b0d69155",
+  "inputs": {
+    "controls": {
+      "path": "reports/church/south-interior-validation-20260916/controls.csv",
+      "sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527"
+    },
+    "prior_inventory": {
+      "path": "reports/church/south-interior-validation-20260916/fresh-validation.csv",
+      "sha256": "d4cbccb509beb4393b39323dd99b71634a9380188580810a9739394d407659b9"
+    },
+    "prior_accuracy": {
+      "path": "reports/church/south-interior-validation-20260916/accuracy-summary.json",
+      "sha256": "73d60f1bef99f04235728baa07b61d6216c25a4888e86d4aecde54cc9641e967"
+    },
+    "prior_status": {
+      "path": "reports/church/south-interior-validation-20260916/status.json",
+      "sha256": "95ccb08b8c628001b25bcc99c167937c3acc3382ffff4b41eb87da5e821d6f41"
+    },
+    "selection_freeze": {
+      "path": "reports/church/south-distributed-refinement-20260915/selected-tps13/freeze.json",
+      "sha256": "cd15fd212b4f0b25c271d3c3109c65eff9f13cfc0fa6d3f2b13031199b9f3178"
+    },
+    "baseline_controls": {
+      "path": "tools/church/gcps/inverness-south.csv",
+      "sha256": "f1d52dd101853995fe785dc41da87d3a14eeb14cb2a1b2bbf1143eb11ce2a847"
+    },
+    "baseline_checks": {
+      "path": "tools/church/checks/inverness-south.csv",
+      "sha256": "7e96e98e0b54d03d58f50f582db9f580eb22a5d82da5ad7cfa981d9d4d1dabf9"
+    }
+  },
+  "method": "tps",
+  "raster": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "scope": "One new independent stream junction appended to eight unchanged first checks; no fitting or promotion"
+}
