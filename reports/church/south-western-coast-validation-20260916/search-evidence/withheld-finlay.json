@@ -1,0 +1,22 @@
+{
+  "feature": "Finlay Point",
+  "status": "withheld-unscored",
+  "reason": "The source label overlaps the western cape front. The nearby clear southern turn has a different broad/rounded definition from the angular modern front, so no unique precise source/reference point is adopted in this pass. Namepoint is locality evidence only. No score computed.",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      16200,
+      10750
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  }
+}

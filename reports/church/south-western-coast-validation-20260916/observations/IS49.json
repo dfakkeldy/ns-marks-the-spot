@@ -1,0 +1,59 @@
+{
+  "id": "IS49",
+  "label": "Stream mouth north of Sight Point",
+  "role": "check",
+  "recorded_at": "2026-09-16T03:11:22.674487+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      17100,
+      8800
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/sight-native.jpg",
+  "source_crop_sha256": "f7426df04d1e1f32ab38a229d996332acdeb16c803bebe0bcc37fe776ba01922",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    873,
+    629
+  ],
+  "pixel_xy": [
+    17973,
+    9429
+  ],
+  "lonlat": [
+    -61.424902523706635,
+    46.18523513425128
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+  "reference_sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+  "reference_vertices": [
+    {
+      "feature_id": 196692,
+      "vertex": 33
+    },
+    {
+      "feature_id": 12778,
+      "vertex": 101
+    },
+    {
+      "feature_id": 12779,
+      "vertex": 0
+    }
+  ],
+  "reference_kind": "river-coast-junction",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Single-line stream/coast junction just north of the Sight Point cape locality.",
+  "identity_evidence": "The creek enters from the southeast, crossing the inland coastal road shortly before meeting the shore. A separate creek mouth lies farther south and another drainage entry lies northeast along the coast. Their order, the winding inland drainage and the parallel road distinguish this mouth. The crosshair lies on the water/coast junction, away from the Sight Point label and the separate road junction. The modern river is unnamed; no stream name is invented.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and model selection"
+}
