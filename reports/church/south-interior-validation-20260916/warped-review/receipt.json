@@ -1,0 +1,46 @@
+{
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "reviews": [
+    {
+      "id": "IS41",
+      "figure": "IS41.jpg",
+      "figure_sha256": "5a91abf65ee6317d419c6fd9ee8b90cb77f4f635a7a28fdd7d9b9538e5b11483",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+      "sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/highways.geojson",
+      "sha256": "cb2948e070869b3c2c15fe27a3875e8ccef0a1aea4c72d4dfd2405175a94caad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/bridges.geojson",
+      "sha256": "b20b941df0c990b48c6dfceef72de0ca5f21fa9e26af058c434f460dacac1023"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/railways.geojson",
+      "sha256": "974868322effea1acac2c1d71a182719828aa73284c90ef06213031ccab38318"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson",
+      "sha256": "46db449bce463d75cb0f5f6f6a6af6e6334ac81fd70a7f5c9a0585bb4b403a50"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+      "sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+      "sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/interior-water.geojson",
+      "sha256": "48a47d12e3be8128e07e3ab0921afa1c4cee72e7856eb5c1712f9c9dc9650abf"
+    }
+  ],
+  "geographic_acceptance": false
+}

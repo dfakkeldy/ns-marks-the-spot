@@ -1,0 +1,793 @@
+{
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+  "candidates": [
+    {
+      "lonlat": [
+        -61.295280523901056,
+        46.21097070726714
+      ],
+      "lines": [
+        {
+          "feature_id": 183967,
+          "vertex": 120,
+          "name": ""
+        },
+        {
+          "feature_id": 184836,
+          "vertex": 131,
+          "name": ""
+        },
+        {
+          "feature_id": 191655,
+          "vertex": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.289796716581016,
+        46.18754048352408
+      ],
+      "lines": [
+        {
+          "feature_id": 183971,
+          "vertex": 208,
+          "name": ""
+        },
+        {
+          "feature_id": 261083,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261084,
+          "vertex": 123,
+          "name": "Broad Cove River"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.2952549816005,
+        46.196881447106335
+      ],
+      "lines": [
+        {
+          "feature_id": 184835,
+          "vertex": 39,
+          "name": ""
+        },
+        {
+          "feature_id": 185240,
+          "vertex": 32,
+          "name": ""
+        },
+        {
+          "feature_id": 185241,
+          "vertex": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.28840000935171,
+        46.183651283401986
+      ],
+      "lines": [
+        {
+          "feature_id": 184858,
+          "vertex": 67,
+          "name": ""
+        },
+        {
+          "feature_id": 261084,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261085,
+          "vertex": 47,
+          "name": "Broad Cove River"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.28816223724129,
+        46.19489798037666
+      ],
+      "lines": [
+        {
+          "feature_id": 185241,
+          "vertex": 91,
+          "name": ""
+        },
+        {
+          "feature_id": 260156,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 260157,
+          "vertex": 5,
+          "name": "Broad Cove River"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.28971269137218,
+        46.192588341207085
+      ],
+      "lines": [
+        {
+          "feature_id": 190924,
+          "vertex": 13,
+          "name": ""
+        },
+        {
+          "feature_id": 263939,
+          "vertex": 0,
+          "name": "Frasers Brook"
+        },
+        {
+          "feature_id": 263940,
+          "vertex": 397,
+          "name": "Frasers Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.28813846256578,
+        46.194411613534186
+      ],
+      "lines": [
+        {
+          "feature_id": 190925,
+          "vertex": 80,
+          "name": ""
+        },
+        {
+          "feature_id": 260157,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261081,
+          "vertex": 82,
+          "name": "Broad Cove River"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.29695357823199,
+        46.21417721014554
+      ],
+      "lines": [
+        {
+          "feature_id": 191030,
+          "vertex": 92,
+          "name": ""
+        },
+        {
+          "feature_id": 191031,
+          "vertex": 0,
+          "name": ""
+        },
+        {
+          "feature_id": 191656,
+          "vertex": 52,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31823144270912,
+        46.17969035358579
+      ],
+      "lines": [
+        {
+          "feature_id": 191073,
+          "vertex": 92,
+          "name": ""
+        },
+        {
+          "feature_id": 191194,
+          "vertex": 102,
+          "name": ""
+        },
+        {
+          "feature_id": 192419,
+          "vertex": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31364851166348,
+        46.167491419478736
+      ],
+      "lines": [
+        {
+          "feature_id": 191441,
+          "vertex": 53,
+          "name": ""
+        },
+        {
+          "feature_id": 191442,
+          "vertex": 0,
+          "name": ""
+        },
+        {
+          "feature_id": 268530,
+          "vertex": 43,
+          "name": "Beatons Brook"
+        },
+        {
+          "feature_id": 268531,
+          "vertex": 0,
+          "name": "Beatons Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31734002320799,
+        46.16729022436463
+      ],
+      "lines": [
+        {
+          "feature_id": 191442,
+          "vertex": 44,
+          "name": ""
+        },
+        {
+          "feature_id": 192417,
+          "vertex": 41,
+          "name": ""
+        },
+        {
+          "feature_id": 192418,
+          "vertex": 17,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31620408241342,
+        46.1816306490028
+      ],
+      "lines": [
+        {
+          "feature_id": 191443,
+          "vertex": 0,
+          "name": ""
+        },
+        {
+          "feature_id": 192419,
+          "vertex": 52,
+          "name": ""
+        },
+        {
+          "feature_id": 192420,
+          "vertex": 22,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31338052322623,
+        46.18544920448294
+      ],
+      "lines": [
+        {
+          "feature_id": 191443,
+          "vertex": 76,
+          "name": ""
+        },
+        {
+          "feature_id": 269072,
+          "vertex": 38,
+          "name": "MacIsaacs Brook"
+        },
+        {
+          "feature_id": 269169,
+          "vertex": 0,
+          "name": "MacIsaacs Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.28162868751074,
+        46.17299510991663
+      ],
+      "lines": [
+        {
+          "feature_id": 191444,
+          "vertex": 0,
+          "name": ""
+        },
+        {
+          "feature_id": 192007,
+          "vertex": 18,
+          "name": ""
+        },
+        {
+          "feature_id": 192008,
+          "vertex": 22,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.288049066385945,
+        46.177092067196206
+      ],
+      "lines": [
+        {
+          "feature_id": 191444,
+          "vertex": 123,
+          "name": ""
+        },
+        {
+          "feature_id": 261086,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261087,
+          "vertex": 102,
+          "name": "Broad Cove River"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31845283270816,
+        46.16767021274826
+      ],
+      "lines": [
+        {
+          "feature_id": 191700,
+          "vertex": 67,
+          "name": ""
+        },
+        {
+          "feature_id": 192416,
+          "vertex": 44,
+          "name": ""
+        },
+        {
+          "feature_id": 192418,
+          "vertex": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31967054311179,
+        46.159502407044776
+      ],
+      "lines": [
+        {
+          "feature_id": 191701,
+          "vertex": 57,
+          "name": ""
+        },
+        {
+          "feature_id": 269547,
+          "vertex": 95,
+          "name": "MacLellan Brook"
+        },
+        {
+          "feature_id": 269548,
+          "vertex": 0,
+          "name": "MacLellan Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31590433703982,
+        46.17069816494697
+      ],
+      "lines": [
+        {
+          "feature_id": 191704,
+          "vertex": 24,
+          "name": ""
+        },
+        {
+          "feature_id": 268529,
+          "vertex": 15,
+          "name": "Beatons Brook"
+        },
+        {
+          "feature_id": 268530,
+          "vertex": 0,
+          "name": "Beatons Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.254730551426015,
+        46.198843838212696
+      ],
+      "lines": [
+        {
+          "feature_id": 191868,
+          "vertex": 49,
+          "name": ""
+        },
+        {
+          "feature_id": 276622,
+          "vertex": 137,
+          "name": "Jack MacQuarries Brook"
+        },
+        {
+          "feature_id": 276759,
+          "vertex": 0,
+          "name": "Jack MacQuarries Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.25638733017719,
+        46.20605250529991
+      ],
+      "lines": [
+        {
+          "feature_id": 191869,
+          "vertex": 46,
+          "name": ""
+        },
+        {
+          "feature_id": 276617,
+          "vertex": 49,
+          "name": "Jack MacQuarries Brook"
+        },
+        {
+          "feature_id": 276622,
+          "vertex": 0,
+          "name": "Jack MacQuarries Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.25480736527298,
+        46.18164110679766
+      ],
+      "lines": [
+        {
+          "feature_id": 192139,
+          "vertex": 35,
+          "name": ""
+        },
+        {
+          "feature_id": 276619,
+          "vertex": 80,
+          "name": "Jack MacQuarries Brook"
+        },
+        {
+          "feature_id": 276620,
+          "vertex": 0,
+          "name": "Jack MacQuarries Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.28986404489338,
+        46.159504877833406
+      ],
+      "lines": [
+        {
+          "feature_id": 192143,
+          "vertex": 53,
+          "name": ""
+        },
+        {
+          "feature_id": 192144,
+          "vertex": 0,
+          "name": ""
+        },
+        {
+          "feature_id": 192278,
+          "vertex": 93,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.289582638568476,
+        46.1587221358586
+      ],
+      "lines": [
+        {
+          "feature_id": 192144,
+          "vertex": 24,
+          "name": ""
+        },
+        {
+          "feature_id": 280399,
+          "vertex": 0,
+          "name": "Black River"
+        },
+        {
+          "feature_id": 280400,
+          "vertex": 171,
+          "name": "Black River"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.29329671871392,
+        46.17314295375497
+      ],
+      "lines": [
+        {
+          "feature_id": 192279,
+          "vertex": 95,
+          "name": ""
+        },
+        {
+          "feature_id": 261088,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261216,
+          "vertex": 129,
+          "name": "Broad Cove River"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.308456175099295,
+        46.16729408130917
+      ],
+      "lines": [
+        {
+          "feature_id": 192280,
+          "vertex": 18,
+          "name": ""
+        },
+        {
+          "feature_id": 268531,
+          "vertex": 73,
+          "name": "Beatons Brook"
+        },
+        {
+          "feature_id": 268674,
+          "vertex": 0,
+          "name": "Beatons Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.3192066142811,
+        46.190587758387565
+      ],
+      "lines": [
+        {
+          "feature_id": 192283,
+          "vertex": 103,
+          "name": ""
+        },
+        {
+          "feature_id": 192284,
+          "vertex": 34,
+          "name": ""
+        },
+        {
+          "feature_id": 192411,
+          "vertex": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.316450122834624,
+        46.185751869433325
+      ],
+      "lines": [
+        {
+          "feature_id": 192411,
+          "vertex": 76,
+          "name": ""
+        },
+        {
+          "feature_id": 269072,
+          "vertex": 0,
+          "name": "MacIsaacs Brook"
+        },
+        {
+          "feature_id": 269176,
+          "vertex": 89,
+          "name": "MacIsaacs Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.311472152352486,
+        46.197507698594066
+      ],
+      "lines": [
+        {
+          "feature_id": 192412,
+          "vertex": 74,
+          "name": ""
+        },
+        {
+          "feature_id": 263938,
+          "vertex": 42,
+          "name": "Frasers Brook"
+        },
+        {
+          "feature_id": 263940,
+          "vertex": 0,
+          "name": "Frasers Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31494770668485,
+        46.20282340071723
+      ],
+      "lines": [
+        {
+          "feature_id": 192415,
+          "vertex": 26,
+          "name": ""
+        },
+        {
+          "feature_id": 264088,
+          "vertex": 90,
+          "name": "Frasers Brook"
+        },
+        {
+          "feature_id": 264089,
+          "vertex": 0,
+          "name": "Frasers Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31702791413473,
+        46.17149143603489
+      ],
+      "lines": [
+        {
+          "feature_id": 192557,
+          "vertex": 15,
+          "name": ""
+        },
+        {
+          "feature_id": 268395,
+          "vertex": 26,
+          "name": "Beatons Brook"
+        },
+        {
+          "feature_id": 268529,
+          "vertex": 0,
+          "name": "Beatons Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.288418421198614,
+        46.192199057119566
+      ],
+      "lines": [
+        {
+          "feature_id": 261081,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261082,
+          "vertex": 86,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 263939,
+          "vertex": 23,
+          "name": "Frasers Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.303370319852554,
+        46.16633126777385
+      ],
+      "lines": [
+        {
+          "feature_id": 261217,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261218,
+          "vertex": 30,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 268674,
+          "vertex": 86,
+          "name": "Beatons Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.31095125991059,
+        46.157302015640155
+      ],
+      "lines": [
+        {
+          "feature_id": 261221,
+          "vertex": 0,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 261222,
+          "vertex": 152,
+          "name": "Broad Cove River"
+        },
+        {
+          "feature_id": 269549,
+          "vertex": 129,
+          "name": "MacLellan Brook"
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.2520967154899,
+        46.185278971987316
+      ],
+      "lines": [
+        {
+          "feature_id": 271105,
+          "vertex": 391,
+          "name": "Ottawa Brook"
+        },
+        {
+          "feature_id": 276618,
+          "vertex": 321,
+          "name": "Jack MacQuarries Brook"
+        },
+        {
+          "feature_id": 276619,
+          "vertex": 0,
+          "name": "Jack MacQuarries Brook"
+        }
+      ]
+    }
+  ],
+  "scope": "Unscored reference candidates; native topology and pixel required"
+}
