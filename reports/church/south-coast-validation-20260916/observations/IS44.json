@@ -1,0 +1,50 @@
+{
+  "id": "IS44",
+  "label": "Chimney Corner headland northern apex",
+  "role": "check",
+  "recorded_at": "2026-09-16T01:57:21.657916+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      24400,
+      780
+    ],
+    "extent": [
+      1600,
+      1300
+    ],
+    "display": [
+      1600,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-mouth-validation-20260916/chimney-native.jpg",
+  "source_crop_sha256": "7ec0416b456930f5ae33c217fa4e57187fc558eed972e3b8a6ca9a2fac366ea1",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    664,
+    211
+  ],
+  "pixel_xy": [
+    25064,
+    991
+  ],
+  "lonlat": [
+    -61.17117399833485,
+    46.392952403614196
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 3927,
+      "vertex": 25
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Northern apex of the southern Chimney Corner headland, bounding the beach/cove to its northeast; not the namepoint or engraved meridian.",
+  "identity_evidence": "The long western coastal face terminates at this north-facing headland. Its eastern side returns into the beach/cove, with a coastal road inland and the north coast continuing toward the neatline. That sequence matches the original coast geometry. The native shoreline crosses the engraved meridian near the apex; the selected pixel follows the shoreline, not the rule. The point is fully drawn below the northern neatline, and the original WACO20 vertex is the local northern apex.",
+  "phase": "Fresh northern-edge validation against unchanged TPS13; no fitting or selection use"
+}

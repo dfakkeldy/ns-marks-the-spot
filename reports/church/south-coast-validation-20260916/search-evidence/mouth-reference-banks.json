@@ -1,0 +1,38 @@
+[
+  {
+    "lonlat": [
+      -61.2958537079009,
+      46.24705069555437
+    ],
+    "river": {
+      "feature_id": 156991,
+      "vertex": 162,
+      "code": "WARV10"
+    },
+    "coast": [
+      {
+        "feature_id": 11661,
+        "vertex": 40,
+        "code": "WACO20"
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.29590137311848,
+      46.2470049205893
+    ],
+    "river": {
+      "feature_id": 171067,
+      "vertex": 194,
+      "code": "WARV20"
+    },
+    "coast": [
+      {
+        "feature_id": 11333,
+        "vertex": 0,
+        "code": "WACO20"
+      }
+    ]
+  }
+]
