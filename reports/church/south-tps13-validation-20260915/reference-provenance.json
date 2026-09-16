@@ -23,9 +23,26 @@
     {
       "path": "reports/church/south-tps13-validation-20260915/western-expansion/reference-receipt.json",
       "sha256": "092f1dd5aef6b9fb64424bc9a60cb6c8ebb8854d30672f4411f5bb3d6ff58b00"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+      "sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/highways.geojson",
+      "sha256": "cb2948e070869b3c2c15fe27a3875e8ccef0a1aea4c72d4dfd2405175a94caad"
+    },
+    {
+      "path": "reports/church/south-tps13-validation-20260915/northern-expansion/roads-receipt.json",
+      "sha256": "13cd242c9dcd71e6fef3f0ffd70037ef0d4bc0aebf130bc5ef4f8d3998aa5a15"
+    },
+    {
+      "path": "reports/church/south-tps13-validation-20260915/northern-expansion/highways-receipt.json",
+      "sha256": "081f6928e48dda59dc0035c82f5f6ebd7c71756559398169ea737341aca5ee3a"
     }
   ],
-  "scope": "Original EPSG:4326 NSTDB water geometry, no simplification or clipping. Existing extraction receipts preserved. Public name points identify locality, not coordinates for fitting.",
+  "scope": "Original EPSG:4326 NSTDB water and transport geometry, no simplification or clipping. Existing extraction receipts preserved. Public names identify locality, not fitting coordinates.",
   "source_service": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4",
-  "cranberry_class_audit": "The initial coastline-only polygon search found no closed island. WACOIS10 features 23467 and 23468 supply the original complete exterior; WACO20 mainland coast and WALK20 pond lines are excluded from this island measurement."
+  "cranberry_class_audit": "The initial coastline-only polygon search found no closed island. WACOIS10 features 23467 and 23468 supply the original complete exterior; WACO20 mainland coast and WALK20 pond lines are excluded from this island measurement.",
+  "transport_source_service": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer"
 }

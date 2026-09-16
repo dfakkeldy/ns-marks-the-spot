@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image,ImageDraw
 R=Path(__file__).resolve().parent
 cache={}
-for path in sorted((R/'observations').glob('IS*.json')):
+for path in [R/f'observations/IS{i}.json' for i in range(34,39)]:
  o=json.loads(path.read_text());key=o['reference_path']
  if key not in cache:cache[key]=json.loads(Path(key).read_text())['features']
  lon,lat=o['lonlat'];c=math.cos(math.radians(lat));span=1600;im=Image.new('RGB',(1000,1040),'white');d=ImageDraw.Draw(im)
