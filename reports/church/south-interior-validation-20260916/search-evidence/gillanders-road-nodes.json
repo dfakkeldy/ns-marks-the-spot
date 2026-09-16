@@ -1,0 +1,54 @@
+[
+  {
+    "lonlat": [
+      -61.14400340733963,
+      46.13929477013865
+    ],
+    "lines": [
+      {
+        "layer": 8,
+        "feature_id": 40920,
+        "vertex": 0,
+        "street": "Gillanders Mountain Rd"
+      },
+      {
+        "layer": 7,
+        "feature_id": 43519,
+        "vertex": 0,
+        "street": "Highway 395"
+      },
+      {
+        "layer": 7,
+        "feature_id": 55574,
+        "vertex": 31,
+        "street": "Highway 395"
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.13872631518167,
+      46.14070928970762
+    ],
+    "lines": [
+      {
+        "layer": 8,
+        "feature_id": 40920,
+        "vertex": 20,
+        "street": "Gillanders Mountain Rd"
+      },
+      {
+        "layer": 8,
+        "feature_id": 40921,
+        "vertex": 0,
+        "street": "Gillanders Mountain Rd"
+      },
+      {
+        "layer": 8,
+        "feature_id": 40921,
+        "vertex": 1,
+        "street": "Gillanders Mountain Rd"
+      }
+    ]
+  }
+]

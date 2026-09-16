@@ -1,0 +1,42 @@
+[
+  {
+    "lonlat": [
+      -61.136735148170686,
+      46.09947629561756
+    ],
+    "river": {
+      "feature_id": 175605,
+      "vertex": 0,
+      "code": "WARV20",
+      "name": "Trout Brook"
+    },
+    "lake": [
+      {
+        "feature_id": 130542,
+        "vertex": 135,
+        "code": "WALK20",
+        "height": 57.4
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.13724326750491,
+      46.0989103569176
+    ],
+    "river": {
+      "feature_id": 175608,
+      "vertex": 41,
+      "code": "WARV20",
+      "name": "Trout Brook"
+    },
+    "lake": [
+      {
+        "feature_id": 131350,
+        "vertex": 0,
+        "code": "WALK20",
+        "height": 57.4
+      }
+    ]
+  }
+]
