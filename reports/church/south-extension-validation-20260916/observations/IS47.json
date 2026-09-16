@@ -1,0 +1,59 @@
+{
+  "id": "IS47",
+  "label": "North Little River / engraved South Branch confluence",
+  "role": "check",
+  "recorded_at": "2026-09-16T02:55:19.887750+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      20200,
+      30900
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/north-little-native.jpg",
+  "source_crop_sha256": "69aa381e989aa36291a535c526559d80eb2b346ee3b529bcaae63a99db74bbb7",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    884,
+    708
+  ],
+  "pixel_xy": [
+    21084,
+    31608
+  ],
+  "lonlat": [
+    -61.31164076115359,
+    45.64589889785037
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson",
+  "reference_sha256": "7072888111b756bd27e2da5e04b0790db91303af0be4a0485344fa091d8a762f",
+  "reference_vertices": [
+    {
+      "feature_id": 196410,
+      "vertex": 188
+    },
+    {
+      "feature_id": 271460,
+      "vertex": 276
+    },
+    {
+      "feature_id": 271461,
+      "vertex": 0
+    }
+  ],
+  "reference_kind": "Original single-line water confluence",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Long western tributary meets the northwest main channel; combined river continues southeast before a separate southern tributary and eastward bend.",
+  "identity_evidence": "The northwestern approach bends south into a clearly drawn junction. The long western branch has the same broad upstream northward bow; the joined channel goes southeast to a separate southern tributary, then bends east. Source labels North Branch, South Branch and Little River corroborate the topology. The western reference tributary has a blank name field, so no modern South Branch name is asserted. The crosshair is on the three-way water-line convergence, separate from lettering and the downstream road crossing.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and selection"
+}
