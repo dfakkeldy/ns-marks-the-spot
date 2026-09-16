@@ -1,0 +1,82 @@
+[
+  {
+    "lonlat": [
+      -61.10795839728032,
+      45.648694522043
+    ],
+    "river": {
+      "feature_id": 196884,
+      "vertex": 0
+    },
+    "lake": [
+      {
+        "feature_id": 124547,
+        "vertex": 0
+      },
+      {
+        "feature_id": 124549,
+        "vertex": 31
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.09823198161479,
+      45.645313314739234
+    ],
+    "river": {
+      "feature_id": 198106,
+      "vertex": 0
+    },
+    "lake": [
+      {
+        "feature_id": 124550,
+        "vertex": 63
+      },
+      {
+        "feature_id": 125812,
+        "vertex": 0
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.09941216034194,
+      45.64707195675247
+    ],
+    "river": {
+      "feature_id": 198146,
+      "vertex": 92
+    },
+    "lake": [
+      {
+        "feature_id": 124548,
+        "vertex": 61
+      },
+      {
+        "feature_id": 124550,
+        "vertex": 0
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.103986852980604,
+      45.64784377619658
+    ],
+    "river": {
+      "feature_id": 198265,
+      "vertex": 51
+    },
+    "lake": [
+      {
+        "feature_id": 124547,
+        "vertex": 38
+      },
+      {
+        "feature_id": 124548,
+        "vertex": 0
+      }
+    ]
+  }
+]
