@@ -40,7 +40,7 @@ The 14–15 September continuations retain separate diagnostics, fresh checks an
 provisional artifacts. Use these panel reports for the current research state:
 
 - [Richmond western-interior validation](../reports/church/richmond-interior-validation-20260916/README.md) — seventeen fresh checks, 217.70 m RMS; the new Buchanan Lake junction is a limited interior-coverage addition. Previous failures and local seam results remain preserved, with full acceptance unproven.
-- [Inverness north](../reports/church/inverness-north-continuation-20260914/README.md)
+- [Inverness north refinement audit](../reports/church/north-coast-refinement-20260916/README.md) — added inland control rejected after reserved validation worsened from 94.72 to 301.30 m; TPS5 retained, five diagnostics at 269.66 m RMS, no fresh checks after the decision. Actual 10× terrain review preserved.
 - [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
 - [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
 - [Cape Breton eastern validation](../reports/church/cape-breton-eastern-20260915/README.md)

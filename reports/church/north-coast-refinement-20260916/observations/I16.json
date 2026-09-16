@@ -1,0 +1,81 @@
+{
+  "id": "I16",
+  "role": "check",
+  "pixel_xy": [
+    8918,
+    21329
+  ],
+  "lonlat": [
+    -60.85023931900273,
+    46.564490214966796
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 271011,
+      "vertex": 40,
+      "name": "North Branch Northeast Margaree River"
+    },
+    {
+      "feature_id": 271193,
+      "vertex": 54,
+      "name": "Northeast Margaree River"
+    },
+    {
+      "feature_id": 271195,
+      "vertex": 0,
+      "name": "Northeast Margaree River"
+    }
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_feature_class": "WARV50",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      8500,
+      20800
+    ],
+    "extent": [
+      1200,
+      1200
+    ],
+    "display": [
+      1200,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-north-coast-validation-20260916/north-branch-native.jpg",
+  "source_crop_sha256": "019e21a58a087bc9f3e49d7db8184be19590dda4d61a24c5278cf7452caf0550",
+  "uncertainty_ground_m": 180,
+  "recorded_at": "2026-09-16T06:16:37.753858+00:00",
+  "phase": "Reserved before model selection; not scored during selection",
+  "identity_evidence": "North Branch meets Northeast Margaree at The Two Brooks. North arm, eastern main reach, downstream double bank and Campbell Brook/White Birch Pool order corroborate identity. Pixel marks generalized ink convergence at start of double-bank reach, not a surveyed centreline.",
+  "source_display_pixel_xy": [
+    418,
+    529
+  ],
+  "broad_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-north-coast-validation-20260916/north-branch.jpg",
+    "sha256": "e4852bc4fbd808ada99cd50256faf28d031cd0c8751eadc6bed8f484ec4f7788",
+    "frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        7900,
+        20200
+      ],
+      "extent": [
+        2400,
+        2300
+      ],
+      "display": [
+        1560,
+        1495
+      ],
+      "rotation": 0
+    }
+  }
+}
