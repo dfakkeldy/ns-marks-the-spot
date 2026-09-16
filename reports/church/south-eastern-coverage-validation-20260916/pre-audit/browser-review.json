@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-09-16T04:18:27.498747+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active at 70% opacity; both eastern headlands inspected in 2D and 10× terrain, 50° tilt, north up, zoom 15, with Modern map enabled. Coordinates remain from native scan and original reference geometry. No new import or fit change.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-2d.png",
+      "sha256": "f93480cbeda4ac4624fa3a447165f0d76bdef5647cd97cc72b8aad55809ee929"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-terrain10x.png",
+      "sha256": "21f8fb4922acc14c395e41d8bff5bc70445646245d9220227dfc1ffc372cacef"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-2d.png",
+      "sha256": "114d0f58d4bf9c3b80c47e29da2ebb1b60f5f9d95fc85265b6f47f6ddf8e8308"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-terrain10x.png",
+      "sha256": "fd7c39b6b2a8d8039137e2c2f580126e563ab875eed1dd876f23040f49331e06"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-import-state.txt",
+      "sha256": "18ead7930491662357a2dd544685918f899e453daa3016a20abbba01e4c98fa2"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-terrain10x-state.txt",
+      "sha256": "22371325516282866a04da814c36b665e6f89322413f916a3fa168be5eee7d2b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-import-state.txt",
+      "sha256": "ecc65f80d3e60fdcdaac607077dc058b1048d8adf3b7c0e2424163004365fbda"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-terrain10x-state.txt",
+      "sha256": "e56c758274e9448dc7f8e375ff2b236578c6d87c5082ae1a6def910520dd9a72"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

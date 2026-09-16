@@ -1,0 +1,24 @@
+{
+  "input_commit": "c7f0242ffab658f64e13378beb1484fc736aa9ef",
+  "inputs": {
+    "observation": {
+      "path": "reports/church/victoria-main-continuation-20260914/observations/VM27.json",
+      "sha256": "52592e7fee478cd8735624a0f60d63d0b3cdb59df132b6dfe989d8914519027c"
+    },
+    "controls": {
+      "path": "reports/church/victoria-main-continuation-20260914/reference-correction/controls.csv",
+      "sha256": "615ed4b09d4c31dc5e849aea50589396189d008f636b3931378e619268d8f216"
+    },
+    "freeze": {
+      "path": "reports/church/victoria-main-continuation-20260914/reference-correction/freeze.json",
+      "sha256": "52f71ea4743c87e9d62ea1f059743bc27f7cf971ef62d772a39c081094b9b801"
+    },
+    "artifact_receipt": {
+      "path": "reports/church/victoria-main-continuation-20260914/reference-correction/artifact-receipt.json",
+      "sha256": "7a6156cb3cb2884be2e9f4ac672b85411b88a756e4e1ac20cbc921cfe6b62bcf"
+    }
+  },
+  "victoria_raster": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/corrected-tps14-rendered/victoria-main-corrected-tps14-review-20m.tif",
+  "victoria_raster_sha256": "3fb0ece4147593efc8f5dbd6dfae8f4159b5ed6e668779ce8e862e078ead3ac3",
+  "scope": "VM27 is an existing Victoria selection diagnostic, not fresh Victoria validation."
+}

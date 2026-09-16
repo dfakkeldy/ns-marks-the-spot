@@ -1,0 +1,52 @@
+{
+  "id": "IS53",
+  "label": "Malagawatch Point eastern shoreline extremum",
+  "role": "check",
+  "recorded_at": "2026-09-16T04:06:33.626690+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      31500,
+      21500
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/malagawatch-native.jpg",
+  "source_crop_sha256": "89cbf9cfd1faa11a0d51774342c5ce0ff0d063de32b25d79c5cbfb7d342fb2dd",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    855,
+    856
+  ],
+  "pixel_xy": [
+    32355,
+    22356
+  ],
+  "lonlat": [
+    -60.91334405358056,
+    45.86976565630351
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 13892,
+      "vertex": 16
+    }
+  ],
+  "reference_kind": "coastal-extremum",
+  "extremum_direction": "east",
+  "uncertainty_ground_m": 150,
+  "point_definition": "eastern extremum of the mapped headland",
+  "identity_evidence": "The peninsula approaches from the west and curves around its eastern face into a long northwestern hook, with the enclosed cove, detached islets to the northwest and the southern harbour shore in the same sequence. The eastern outer-coast extremum is clear away from the label. The interior ponds and finer modern shoreline details are not substituted for the outer coast.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and selection"
+}
