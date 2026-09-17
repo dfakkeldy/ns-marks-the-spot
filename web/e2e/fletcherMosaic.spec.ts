@@ -32,14 +32,14 @@ for (const width of [390, 1440]) test(`Fletcher mosaic stays single and overzoom
   await expect(layer).toHaveCSS('opacity', '0.15');
   expect(requests.length).toBe(beforeOpacity);
   if (width === 390) await page.keyboard.press('Escape');
-  const map = page.locator('.leaflet-container');
+  const mapPane = page.locator('.leaflet-map-pane');
   for (const zoom of [15, 16, 17]) {
     // The URL can update while Leaflet is still animating. A second click in
     // that interval is ignored, so wait for the rendered camera to settle.
-    await expect(map).not.toHaveClass(/leaflet-zoom-anim/);
+    await expect(mapPane).not.toHaveClass(/leaflet-zoom-anim/);
     await page.locator('.leaflet-control-zoom-in').click();
     await expect.poll(() => new URL(page.url()).searchParams.get('position')?.split(',')[2]).toBe(String(zoom));
-    await expect(map).not.toHaveClass(/leaflet-zoom-anim/);
+    await expect(mapPane).not.toHaveClass(/leaflet-zoom-anim/);
   }
   await expect(layer).toHaveCount(1);
   expect(requests.length).toBeGreaterThan(0);
