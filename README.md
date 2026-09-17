@@ -60,12 +60,19 @@ same style, glyphs, sprite and provincial archive (revision
 OpenStreetMap). Closer zooms magnify the deepest rendered level rather than
 adding detail, and the supplemental OpenStreetMap context in those tiles is as
 fetched when they were rendered. Fletcher now has a host-neutral,
-default-off web control for the 24 independently accepted direct-Rumsey sheets,
-with bounded per-sheet requests, opacity, share, print, evidence, attribution,
-and failure handling. Ordinary iOS and web builds default to
-`https://tiles.kinnokilabs.com` (revision `fletcher-direct-rumsey-20260831.1`);
+default-off web control for the published 24-sheet mosaic, fetched as one XYZ
+pyramid (`{base}/{revision}/{z}/{x}/{y}.png`; source receipt
+`{base}/{revision}/source.json`), with opacity, share, print, evidence,
+attribution, and failure handling. Ordinary iOS and web builds default to
+`https://tiles.kinnokilabs.com` (revision `fletcher-full-sheets-20260913.1`);
 an empty `VITE_FLETCHER_TILE_BASE_URL` or `FLETCHER_TILE_BASE_URL` override
-disables hosting. Sheet bounds, attribution, and that revision are unchanged.
+disables hosting. Sheet footprints remain coverage metadata rather than
+per-sheet fetches. Alignment is approximate, with gaps at some joins;
+geographic acceptance findings are unchanged. Attribution remains David
+Rumsey Map Collection / David Rumsey Map Center, Stanford University
+Libraries and [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
+Hosted delivery is recorded in
+[docs/FLETCHER_GEOREFERENCING.md](docs/FLETCHER_GEOREFERENCING.md).
 Four A.F. Church Cape Breton
 county maps (Inverness, Victoria, Richmond, Cape Breton; 1884–85, David
 Rumsey Map Collection) are catalogued alongside it as disabled rows, with
