@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { validateStyleMin } from '@maplibre/maplibre-gl-style-spec';
 import { buildReviewStyle } from './overlays';
+import { fletcherTileRegions, FLETCHER_TILE_REVISION } from '../layers/fletcherLayer';
 
 describe('atlas review evidence boundary', () => {
   it('does not create a Province source before licence acceptance', () => {
@@ -16,6 +17,9 @@ describe('atlas review evidence boundary', () => {
     expect(validateStyleMin(style)).toEqual([]);
     expect(style.sources).toHaveProperty('parcels');
     expect(style.layers.find(layer => layer.id === 'parcels')?.minzoom).toBe(14);
-    expect(style.sources['fletcher-13']).toMatchObject({ bounds: [-61.2213134765625, 46.09989991062731, -60.8477783203125, 46.27483447871402] });
+    const [[south, west], [north, east]] = fletcherTileRegions[0].bounds;
+    expect(Object.keys(style.sources).filter(id => id.startsWith('fletcher-'))).toEqual(['fletcher-mosaic']);
+    expect(style.sources['fletcher-mosaic']).toMatchObject({ bounds: [west, south, east, north], maxzoom: 15,
+      tiles: [`https://tiles.example.org/${FLETCHER_TILE_REVISION}/{z}/{x}/{y}.png`] });
   });
 });

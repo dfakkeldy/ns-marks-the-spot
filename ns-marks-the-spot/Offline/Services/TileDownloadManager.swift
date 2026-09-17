@@ -104,11 +104,8 @@ nonisolated final class TileDownloadManager: Sendable {
 
 /// Downloads Fletcher tiles for a saved offline area.
 ///
-/// Resolves and stacks the covering sheets exactly as `OpacityTileOverlay`
-/// does, and for the same reason: the survey is 24 pyramids whose margins
-/// overlap, so a seam coordinate is only whole once every sheet that has ink
-/// there has been drawn into it. Saving one sheet's half of a seam tile would
-/// put a picture on the disk that the online map never showed.
+/// Reads the same precomposited mosaic PNG that the online map displays.
+/// Source-sheet extents bound the plan, but never cause duplicate requests.
 nonisolated struct FletcherTileLoader: TileDataLoading {
     let tileFetcher: TileFetcher
     let baseURL: URL
@@ -133,84 +130,23 @@ nonisolated struct FletcherTileLoader: TileDataLoading {
     }
 
     func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
-        let covering = FletcherSheets.sheets(
-            coveringTileX: coordinate.x, y: coordinate.y, z: coordinate.z
-        )
-        guard !covering.isEmpty else {
-            throw NoCoveringSheet(coordinate: coordinate)
-        }
-
-        var stacked: [Data] = []
-        var blockingError: (any Error)?
-        var refusalError: (any Error)?
-        for sheet in covering {
-            guard let template = FletcherTileURL.tileTemplate(
-                sheet: sheet.sheet, baseURL: baseURL
-            ), let templateURL = URL(string: template) else { continue }
-            do {
-                stacked.append(
-                    try await tileFetcher.fetchTile(
-                        z: coordinate.z,
-                        x: coordinate.x,
-                        y: coordinate.y,
-                        from: templateURL,
-                        layerName: layerID,
-                        cacheResult: false
-                    )
-                )
-            } catch {
-                // A 404 means this sheet has no ink here, which is a complete
-                // answer and leaves the stack whole. A 403 is provisional: an
-                // object store answers it for a missing key, but a host also
-                // answers it for a ban — held until the pass shows which.
-                // Anything else is a sheet we could have had, and saving the
-                // tile without it would put a picture on the disk that the
-                // online map never showed — permanently, since a stored tile
-                // is preferred over a fetch.
-                if TileFetcherError.meansNoTileExists(error) {
-                    continue
-                } else if TileFetcherError.meansAccessRefused(error) {
-                    refusalError = error
-                } else {
-                    blockingError = error
-                }
-            }
-        }
-
-        if let blockingError {
-            throw SheetsUnavailable(coordinate: coordinate, underlying: blockingError)
-        }
-
-        // A refusal counts as a missing key only when some sibling sheet in
-        // this same pass actually answered — a banned or misconfigured host
-        // refuses everything, and writing blanks under it would freeze the
-        // episode into the saved area forever.
-        if let refusalError, stacked.isEmpty {
-            throw SheetsUnavailable(coordinate: coordinate, underlying: refusalError)
-        }
-
-        // Every covering sheet answered, and none of them had anything: the
-        // rotated scans leave empty corners inside their own bounding boxes.
-        // A blank tile is what the map draws there, so saving one finishes the
-        // coordinate honestly instead of failing it forever.
-        if stacked.isEmpty {
-            guard let blank = TileComposite.transparent else {
-                throw SheetsUnavailable(
-                    coordinate: coordinate,
-                    underlying: NoCoveringSheet(coordinate: coordinate)
-                )
-            }
-            return blank
-        }
-
-        // Non-empty in, nil out means the bytes would not decode, which is a
-        // real failure rather than absent ground.
-        guard let data = TileComposite.stack(stacked) else {
-            throw SheetsUnavailable(
-                coordinate: coordinate,
-                underlying: TileFetcherError.invalidImageData
+        guard FletcherSheets.zoomRange.contains(coordinate.z),
+              !FletcherSheets.sheets(coveringTileX: coordinate.x, y: coordinate.y, z: coordinate.z).isEmpty
+        else { throw NoCoveringSheet(coordinate: coordinate) }
+        guard let template = FletcherTileURL.tileTemplate(baseURL: baseURL),
+              let url = URL(string: template)
+        else { throw SheetsUnavailable(coordinate: coordinate, underlying: URLError(.badURL)) }
+        do {
+            // Each PNG already contains every source sheet at this coordinate.
+            // Even an overlap is one request, with its original alpha intact.
+            return try await tileFetcher.fetchTile(
+                z: coordinate.z, x: coordinate.x, y: coordinate.y,
+                from: url, layerName: layerID, cacheResult: false
             )
+        } catch {
+            // The complete pyramid includes transparent PNGs. A missing key is
+            // a source failure, not permission to save a fabricated blank.
+            throw SheetsUnavailable(coordinate: coordinate, underlying: error)
         }
-        return data
     }
 }

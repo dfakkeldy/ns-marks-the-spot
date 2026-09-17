@@ -4,12 +4,11 @@ import GeoCore
 /// One georeferenced sheet of the Fletcher survey.
 ///
 /// The panel shows a single "Fletcher" switch, but the layer behind it is 24
-/// separately scanned and separately georeferenced sheets. Each one is its own
-/// tile pyramid at its own extent, so the map draws the sheets a viewport
-/// overlaps and nothing else.
+/// separately scanned and separately georeferenced sheets. Their footprints describe coverage; the hosted revision is one precomposited
+/// tile pyramid, fetched once for each coordinate.
 public struct FletcherSheet: Hashable, Sendable {
     /// 1…24, matching the sheet numbers printed on the originals and the
-    /// `sheet-NN` path segment in the tile build.
+    /// source identifiers in the published manifest.
     public let sheet: Int
     public let bounds: GeoBoundingBox
 
@@ -21,12 +20,9 @@ public struct FletcherSheet: Hashable, Sendable {
 
 /// The Fletcher sheet index, transcribed from `web/src/layers/fletcherLayer.ts`.
 ///
-/// These 96 numbers are the georeferencing: a sheet drawn to the wrong extent
-/// is a historical map pointing at the wrong ground, which is the one failure
-/// this app cannot ship. Nothing here is derived — every value is checked
-/// against the web's exported fixture by `FletcherSheetParityTests`, because a
-/// hand transcription of 96 doubles is precisely the operation that needs a
-/// witness rather than a careful reader.
+/// These extents come from the selected raster receipts. They bound requests and
+/// saved-area coverage; the pixel georeferencing is already in the mosaic.
+/// Every value is checked against the web fixture by FletcherSheetParityTests.
 public enum FletcherSheets {
     /// The tile build both surfaces expect, as a path segment.
     ///
@@ -34,60 +30,34 @@ public enum FletcherSheets {
     /// re-rendered sheet lands somewhere new and no cache anywhere — on device,
     /// in a CDN, in a proxy — can serve last month's pixels for this month's
     /// build. Bumping this string is how a re-render ships.
-    public static let tileRevision = "fletcher-direct-rumsey-20260831.1"
+    public static let tileRevision = "fletcher-full-sheets-20260913.1"
 
     /// Every sheet, in sheet-number order.
     public static let all: [FletcherSheet] = [
-        FletcherSheet(1, south: 46.96525940034928, west: -60.8203125,
-                      north: 47.14116119721896, east: -60.435791015625),
-        FletcherSheet(2, south: 46.7925382703598, west: -60.46875,
-                      north: 46.96525940034928, east: -60.084228515625),
-        FletcherSheet(3, south: 46.7925382703598, west: -60.8477783203125,
-                      north: 46.969008033119586, east: -60.46875),
-        FletcherSheet(4, south: 46.611714625368954, west: -60.4742431640625,
-                      north: 46.796298989977444, east: -60.0787353515625),
-        FletcherSheet(5, south: 46.619261036171515, west: -60.8477783203125,
-                      north: 46.7925382703598, east: -60.46875),
-        FletcherSheet(6, south: 46.619261036171515, west: -61.2213134765625,
-                      north: 46.796298989977444, east: -60.8367919921875),
-        FletcherSheet(7, south: 46.437856895024204, west: -60.46875,
-                      north: 46.623033847214735, east: -60.084228515625),
-        FletcherSheet(8, south: 46.441642327624976, west: -60.8477783203125,
-                      north: 46.61548796222357, east: -60.46875),
-        FletcherSheet(9, south: 46.44921240385256, west: -61.226806640625,
-                      north: 46.619261036171515, east: -60.8477783203125),
-        FletcherSheet(10, south: 46.27103747280261, west: -60.8477783203125,
-                      north: 46.44542749723385, east: -60.46875),
-        FletcherSheet(11, south: 46.27103747280261, west: -61.2322998046875,
-                      north: 46.44542749723385, east: -60.8477783203125),
-        FletcherSheet(12, south: 46.09228143052648, west: -60.853271484375,
-                      north: 46.278631221560865, east: -60.4632568359375),
-        FletcherSheet(13, south: 46.09989991062731, west: -61.2213134765625,
-                      north: 46.27483447871402, east: -60.8477783203125),
-        FletcherSheet(14, south: 46.09228143052648, west: -61.600341796875,
-                      north: 46.278631221560865, east: -61.2103271484375),
-        FletcherSheet(15, south: 45.924408558629, west: -61.2213134765625,
-                      north: 46.09609080214316, east: -60.8477783203125),
-        // Sheets 16 and 19 are feature-led TPS refits in this revision; 16's
-        // tree is the full sheet (the July cutline crop is gone).
-        FletcherSheet(16, south: 45.912944127373926, west: -61.611328125,
-                      north: 46.09989991062731, east: -61.2103271484375),
-        FletcherSheet(17, south: 45.74452698046843, west: -60.853271484375,
-                      north: 45.92822950933617, east: -60.4632568359375),
-        FletcherSheet(18, south: 45.74452698046843, west: -61.226806640625,
-                      north: 45.924408558629, east: -60.8367919921875),
-        FletcherSheet(19, south: 45.74452698046843, west: -61.6168212890625,
-                      north: 45.9320501968563, east: -61.2103271484375),
-        FletcherSheet(20, south: 45.73685954736048, west: -60.8477783203125,
-                      north: 45.924408558629, east: -60.4632568359375),
-        FletcherSheet(21, south: 45.56790960986129, west: -61.226806640625,
-                      north: 45.75985868785574, east: -60.8367919921875),
-        FletcherSheet(22, south: 45.510196544985575, west: -61.5948486328125,
-                      north: 45.698506587388465, east: -61.204833984375),
-        FletcherSheet(23, south: 45.394592696926615, west: -61.226806640625,
-                      north: 45.58328975600631, east: -60.831298828125),
-        FletcherSheet(24, south: 45.398449976304086, west: -61.58935546875,
-                      north: 45.57560020947801, east: -61.2158203125),
+        FletcherSheet(1, south: 46.9616094, west: -60.7331201, north: 47.1303101, east: -60.3513361),
+        FletcherSheet(2, south: 46.7829336, west: -60.4780884, north: 46.9711727, east: -60.0696244),
+        FletcherSheet(3, south: 46.7811189, west: -60.9072136, north: 46.9749118, east: -60.4558101),
+        FletcherSheet(4, south: 46.6168071, west: -60.4785375, north: 46.7928056, east: -60.0881746),
+        FletcherSheet(5, south: 46.6083531, west: -60.8548867, north: 46.7835487, east: -60.4704527),
+        FletcherSheet(6, south: 46.6127345, west: -61.2252621, north: 46.7932668, east: -60.8479248),
+        FletcherSheet(7, south: 46.4451559, west: -60.4711264, north: 46.635469, east: -60.1262183),
+        FletcherSheet(8, south: 46.4398942, west: -60.8795904, north: 46.62054, east: -60.4536542),
+        FletcherSheet(9, south: 46.4478174, west: -61.2232858, north: 46.6151411, east: -60.8547969),
+        FletcherSheet(10, south: 46.2663797, west: -60.8588842, north: 46.4512525, east: -60.4422007),
+        FletcherSheet(11, south: 46.2708819, west: -61.2714804, north: 46.4527379, east: -60.8493621),
+        FletcherSheet(12, south: 46.0706614, west: -60.8535392, north: 46.274297, east: -60.4704976),
+        FletcherSheet(13, south: 46.0956159, west: -61.2311011, north: 46.2751353, east: -60.8413221),
+        FletcherSheet(14, south: 46.091847, west: -61.6152657, north: 46.2699194, east: -61.2231061),
+        FletcherSheet(15, south: 45.9194474, west: -61.2242739, north: 46.0997272, east: -60.8476553),
+        FletcherSheet(16, south: 45.9208535, west: -61.6018359, north: 46.0946815, east: -61.2201866),
+        FletcherSheet(17, south: 45.7415267, west: -60.8508443, north: 45.9263837, east: -60.464434),
+        FletcherSheet(18, south: 45.7468554, west: -61.2286757, north: 45.9223533, east: -60.8425798),
+        FletcherSheet(19, south: 45.7450374, west: -61.5959519, north: 45.9251653, east: -61.219468),
+        FletcherSheet(20, south: 45.5572192, west: -60.8484637, north: 45.7489867, east: -60.4723391),
+        FletcherSheet(21, south: 45.5725647, west: -61.2224773, north: 45.747733, east: -60.840873),
+        FletcherSheet(22, south: 45.570741, west: -61.596446, north: 45.7497389, east: -61.2200519),
+        FletcherSheet(23, south: 45.3971006, west: -61.2197375, north: 45.5777837, east: -60.846712),
+        FletcherSheet(24, south: 45.3768803, west: -61.5924485, north: 45.5771235, east: -61.219423),
     ]
 
     /// The zooms the sheets were actually rendered at.
@@ -97,7 +67,7 @@ public enum FletcherSheets {
     /// and nothing else. Leaflet takes it as `maxNativeZoom` and upscales past
     /// it; `MKTileOverlay.maximumZ` behaves the same way, so both surfaces stop
     /// requesting at the same place and keep drawing beyond it.
-    public static let zoomRange = 8...16
+    public static let zoomRange = 8...15
 
     public static func sheet(_ number: Int) -> FletcherSheet? {
         all.first { $0.sheet == number }

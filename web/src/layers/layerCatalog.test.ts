@@ -121,13 +121,13 @@ describe("web native-layer parity catalog", () => {
     expect(fletcherLayerCatalog.nativeDefaultVisibility).toBe(true);
     expect(fletcherLayerCatalog.webAvailability).toBe("available");
     expect(fletcherLayerCatalog.webCaveat).toBe(
-      "24 sheets · positions can sit several hundred metres off modern ground; sheets 16 & 19 refit to modern features",
+      "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
     );
     expect(fletcherLayerCatalog.minZoom).toBe(8);
     // Display runs to the map maximum; the sheets' real tile depth stays 16
     // and Leaflet upscales past it, so the layer survives tracing zoom.
     expect(fletcherLayerCatalog.maxZoom).toBe(23);
-    expect(fletcherLayerCatalog.maxNativeZoom).toBe(16);
+    expect(fletcherLayerCatalog.maxNativeZoom).toBe(15);
     expect(
       JSON.stringify(nativeLayerCatalog).toLowerCase(),
     ).not.toContain("oldmapsonline");

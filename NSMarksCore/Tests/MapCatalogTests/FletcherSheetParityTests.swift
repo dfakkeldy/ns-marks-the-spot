@@ -143,38 +143,13 @@ struct FletcherSheetParityTests {
         }
     }
 
-    @Test("Refuses the ring of tiles that only touch a sheet's edge")
-    func rejectsTilesLyingAgainstASheetEdge() throws {
-        // The browser never asks for these. Leaflet's `_isValidTile` uses
-        // `overlaps`, which is strict, so a tile lying exactly against a
-        // layer's bounds is not requested; the phone asks MapKit's question
-        // itself and had been answering with the inclusive test. The
-        // difference is a ring around every sheet at every zoom, and since the
-        // tile build wrote nothing outside the sheet extents, every one of
-        // those requests is a 404.
-        let one = try #require(FletcherSheets.sheet(1))
-        let zoom = 16
-        let centre = one.bounds.center
-        let beyond = TileMath.tileXY(latitude: centre.lat, longitude: one.bounds.east, zoom: zoom)
-        let beyondBounds = TileMath.geographicBounds(x: beyond.x, y: beyond.y, z: zoom)
-
-        // The premise: the sheets were cut on tile boundaries, so the tile
-        // east of sheet 1 begins exactly where sheet 1 ends. If this ever
-        // fails, the sheet has been re-georeferenced off the grid and the
-        // assertions under it are asking about a different tile.
-        #expect(
-            beyondBounds.west == one.bounds.east,
-            "sheet 1's east edge is no longer on a zoom \(zoom) tile boundary"
-        )
-        #expect(
-            !FletcherSheets.covers(one, x: beyond.x, y: beyond.y, z: zoom),
-            "sheet 1 is serving a tile it shares only an edge with"
-        )
-        #expect(FletcherSheets.sheets(coveringTileX: beyond.x, y: beyond.y, z: zoom).isEmpty)
-        #expect(
-            FletcherSheets.covers(one, x: beyond.x - 1, y: beyond.y, z: zoom),
-            "the tile inside the edge is the one that must still be served"
-        )
+    @Test("Coverage excludes a tile that only touches a footprint edge")
+    func rejectsTilesLyingAgainstASheetEdge() {
+        let z = 15, x = 10800, y = 11500
+        let box = TileMath.geographicBounds(x: x, y: y, z: z)
+        let footprint = FletcherSheet(99, south: box.south, west: box.west, north: box.north, east: box.east)
+        #expect(FletcherSheets.covers(footprint, x: x, y: y, z: z))
+        #expect(!FletcherSheets.covers(footprint, x: x + 1, y: y, z: z))
     }
 
     @Test("A tile's geographic bounds round-trip through tileXY")
@@ -194,26 +169,10 @@ struct FletcherSheetParityTests {
         }
     }
 
-    @Test("Every sheet but one shares ground with a neighbour")
+    @Test("Current footprints retain overlaps without claiming a seamless survey")
     func sheetsOverlap() {
-        // The originals were surveyed with margins, so adjacent scans share
-        // ground rather than tiling cleanly. Recorded as a property because it
-        // is what forces sheet-number ordering in `sheets(intersecting:)` —
-        // with a clean tiling the draw order would never be visible.
-        //
-        // `overlapping` rather than `intersecting`: the inclusive test counts a
-        // sheet lying against a neighbour's edge, so it would report shared
-        // ground where the two merely abut.
-        let sharing = FletcherSheets.all.filter { sheet in
-            FletcherSheets.sheets(overlapping: sheet.bounds).count > 1
-        }
-
-        // Sheet 9 is the exception and stays named here rather than rounded
-        // into the rule: its north, east and west edges coincide with sheets 5,
-        // 8 and 6 to the digit, so it shares an edge with them and no ground.
-        // A future re-georeference that gives it a margin should have to come
-        // back and change this line.
-        #expect(Set(sharing.map(\.sheet)) == Set(FletcherSheets.all.map(\.sheet)).subtracting([9]))
-        #expect(FletcherSheets.sheets(intersecting: FletcherSheets.sheet(9)!.bounds).count > 1)
+        let sharing = FletcherSheets.all.filter { FletcherSheets.sheets(overlapping: $0.bounds).count > 1 }
+        #expect(!sharing.isEmpty)
+        #expect(sharing.contains { $0.sheet == 19 })
     }
 }

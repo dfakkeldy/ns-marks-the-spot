@@ -5,11 +5,9 @@ import MapCatalog
 /// Clears the tile cache once, on the first launch after the Fletcher source
 /// changes.
 ///
-/// This is a rights obligation before it is a housekeeping one. Every Fletcher
-/// tile cached by an earlier build came from OldMapsOnline, and the David
-/// Rumsey permission recorded in `docs/FLETCHER_GEOREFERENCING.md` explicitly
-/// does not extend to OldMapsOnline-derived tiles, warps, bounds or metadata.
-/// Those bytes have to go, not merely stop being read.
+/// Originally required to remove OldMapsOnline-derived imagery, the same
+/// revision sweep also retires superseded direct-Rumsey alignments. Old cached
+/// pixels must not override the newly published mosaic.
 ///
 /// It clears everything rather than the Fletcher entries alone. The cache is
 /// keyed by a hash of each layer's source configuration, so the old Fletcher
@@ -18,12 +16,9 @@ import MapCatalog
 /// or ArcGIS tile that re-fetches on next view, so the cost is one cold pan;
 /// the alternative is leaving tiles behind because their key is unrecoverable.
 ///
-/// Saved offline areas lose their Fletcher tiles too, and that is deliberate
-/// despite the cost. `TileStore` keys them by layer ID, which has stayed
-/// `"fletcher"` across the source change, so every one of those tiles is an
-/// OldMapsOnline tile the app would go on serving — and would prefer over a
-/// fresh fetch, since a stored tile short-circuits the download. "The user
-/// downloaded it" does not put it inside the permission.
+/// Saved offline areas lose their Fletcher tiles too. TileStore keys these
+/// by layer ID rather than revision, so an upgrade must remove the old pixels
+/// before saved tiles can take priority over the new source.
 ///
 /// What survives is the user's actual work: the areas themselves, with their
 /// names, bounds and zoom ranges. `OfflineAreasViewModel.applyingStorageSummary`

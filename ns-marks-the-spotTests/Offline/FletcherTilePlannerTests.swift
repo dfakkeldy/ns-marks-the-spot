@@ -228,11 +228,18 @@ struct FletcherTilePlannerTests {
         // and short of the counting limit so the number is exact rather than
         // the early return. No upper bound beyond that: the saved-area cap
         // that used to sit between these two numbers was dropped once revision
-        // 20260831.1 put the whole survey under it (94,608 tiles at zoom 8-16),
+        // 20260913.1 carries the 24-sheet mosaic at zoom 8-15,
         // and a reader may now save all of it.
-        #expect(estimate.tileCount > 50_000)
+        #expect(estimate.tileCount > 20_000)
         #expect(estimate.tileCount < FletcherTilePlanner.countingLimit)
         #expect(estimate.estimatedBytes == estimate.tileCount * 12_000)
+    }
+
+    @Test func neverPlansUnpublishedOverzoomTiles() {
+        let native = FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 15...15)
+        #expect(!native.isEmpty)
+        #expect(FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 15...23) == native)
+        #expect(FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 16...23).isEmpty)
     }
 
     @Test func normalizesInvertedBounds() {

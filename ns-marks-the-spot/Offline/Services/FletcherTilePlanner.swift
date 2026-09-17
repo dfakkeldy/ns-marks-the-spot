@@ -23,7 +23,10 @@ nonisolated enum FletcherTilePlanner {
         guard let normalized = clippedToCoverage(bounds) else { return [] }
         var coordinates: Set<TileCoordinate> = []
 
-        for zoom in zoomRange {
+        let low = max(zoomRange.lowerBound, FletcherSheets.zoomRange.lowerBound)
+        let high = min(zoomRange.upperBound, FletcherSheets.zoomRange.upperBound)
+        guard low <= high else { return [] }
+        for zoom in low...high {
             let range = tileRange(for: normalized, zoom: zoom)
 
             for x in range.x {
@@ -60,8 +63,8 @@ nonisolated enum FletcherTilePlanner {
 
     /// The most tiles `tileCount` will enumerate before it stops counting.
     ///
-    /// Above anything the picker can ask for — the whole survey at zoom 8-16
-    /// is 94,608 tiles — so every count a reader is shown is exact. Nothing
+    /// Above anything the picker can ask for — the complete published mosaic at zoom 8-15
+    /// contains 44,340 tiles — so every count a reader is shown is exact. Nothing
     /// refuses a count past this any more (the saved-area cap is gone), which
     /// means a deeper pyramid that made this reachable would under-quote the
     /// download; raise it alongside `FletcherSheets.zoomRange`.
@@ -85,7 +88,10 @@ nonisolated enum FletcherTilePlanner {
         guard let normalized = clippedToCoverage(bounds) else { return 0 }
         var count = 0
 
-        for zoom in zoomRange {
+        let low = max(zoomRange.lowerBound, FletcherSheets.zoomRange.lowerBound)
+        let high = min(zoomRange.upperBound, FletcherSheets.zoomRange.upperBound)
+        guard low <= high else { return 0 }
+        for zoom in low...high {
             let range = tileRange(for: normalized, zoom: zoom)
             for x in range.x {
                 for y in range.y where isCovered(x: x, y: y, z: zoom) {

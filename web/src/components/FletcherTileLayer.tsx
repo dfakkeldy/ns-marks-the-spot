@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import L, { type TileLayer } from "leaflet";
 import { useMap } from "react-leaflet";
 import {
-  fletcherSheets,
+  fletcherTileRegions,
   fletcherTileUrl,
 } from "../layers/fletcherLayer";
 import { fletcherLayerCatalog } from "../layers/layerCatalog";
@@ -26,16 +26,9 @@ export function FletcherTileLayer({
   onStatusChange: (status: MapLayerStatus) => void;
 }) {
   const map = useMap();
-  /**
-   * One PERSISTENT TileLayer per sheet, diffed against the viewport on each
-   * moveend. The previous version tore every sheet layer down and rebuilt it
-   * on every moveend, zoomend, and opacity tick — discarding all decoded
-   * tiles, re-requesting the same URLs, and restarting the fade-in (a visible
-   * blink of the historical overlay) for every pan gesture. Keeping layers
-   * lets Leaflet's own incremental tile management and keepBuffer do their
-   * job; only sheets entering or leaving the viewport change.
-   */
-  const layersRef = useRef(new Map<number, TileLayer>());
+  // Keep the single mosaic layer mounted across pans and opacity changes.
+  // Source-sheet footprints are metadata, not 24 independently drawn copies.
+  const layersRef = useRef(new Map<string, TileLayer>());
   const opacityRef = useRef(opacity);
 
   useEffect(() => {
@@ -45,14 +38,14 @@ export function FletcherTileLayer({
     let loadedTiles = 0;
     let pendingSheets = 0;
 
-    const removeLayer = (sheet: number, layer: TileLayer) => {
+    const removeLayer = (id: string, layer: TileLayer) => {
       layer.off();
       map.removeLayer(layer);
-      layers.delete(sheet);
+      layers.delete(id);
     };
     const removeAll = () => {
-      for (const [sheet, layer] of layers) {
-        removeLayer(sheet, layer);
+      for (const [id, layer] of layers) {
+        removeLayer(id, layer);
       }
     };
 
@@ -76,22 +69,22 @@ export function FletcherTileLayer({
         return;
       }
 
-      const visibleSheets = fletcherSheets.filter(({ bounds }) =>
+      const visibleRegions = fletcherTileRegions.filter(({ bounds }) =>
         map.getBounds().intersects(L.latLngBounds(bounds)),
       );
-      const visibleIds = new Set(visibleSheets.map(({ sheet }) => sheet));
+      const visibleIds = new Set(visibleRegions.map(({ id }) => id));
 
-      for (const [sheet, layer] of layers) {
-        if (!visibleIds.has(sheet)) {
-          removeLayer(sheet, layer);
+      for (const [id, layer] of layers) {
+        if (!visibleIds.has(id)) {
+          removeLayer(id, layer);
         }
       }
 
-      for (const { sheet, bounds } of visibleSheets) {
-        if (layers.has(sheet)) {
+      for (const { id, bounds } of visibleRegions) {
+        if (layers.has(id)) {
           continue;
         }
-        const url = fletcherTileUrl(sheet, tileBaseUrl);
+        const url = fletcherTileUrl(tileBaseUrl);
         if (!url) continue;
         const layer = L.tileLayer(url, {
           bounds: L.latLngBounds(bounds),
@@ -124,7 +117,7 @@ export function FletcherTileLayer({
             );
           }
         });
-        layers.set(sheet, layer);
+        layers.set(id, layer);
         layer.addTo(map);
       }
 

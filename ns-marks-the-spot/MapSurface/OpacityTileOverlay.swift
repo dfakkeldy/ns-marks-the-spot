@@ -181,7 +181,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
                 return (saved, .served, Self.substance(ofSaved: saved))
             }
 
-            let sheet = await Self.fletcherSheetTile(
+            let sheet = await Self.fletcherMosaicTile(
                 z: z, x: x, y: y,
                 baseURL: baseURL, layerName: cacheKey,
                 fetcher: fetcher, cache: tileCache
@@ -323,116 +323,26 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         return data
     }
 
-    /// One Fletcher tile, from every sheet that covers it.
-    ///
-    /// The sheets overlap along their surveyed margins, so a tile can fall under
-    /// two or three of them — and where it does, each sheet usually holds only
-    /// part of the picture, because a sheet's declared bounds are its
-    /// georeferenced extent rather than the exact footprint of its scan. Taking
-    /// the first sheet that answers would leave the rest of that tile blank.
-    /// The web does not do that: Leaflet mounts all 24 as separate layers and
-    /// stacks them, so a seam tile is drawn from every sheet that has pixels
-    /// there.
-    ///
-    /// So this stacks too, in sheet order, lowest first — the same order Leaflet
-    /// mounts them in, which is what decides who wins where two sheets both have
-    /// ink. The single-sheet case is the overwhelming majority and returns its
-    /// bytes untouched rather than paying a decode and re-encode for nothing.
-    ///
-    /// Returns `nil` data when no sheet covers the tile, which is most of the
-    /// world — and `.served` with it, because a square the survey never mapped
-    /// is an answer rather than an outage.
-    private static func fletcherSheetTile(
-        z: Int,
-        x: Int,
-        y: Int,
-        baseURL: URL,
-        layerName: String,
-        fetcher: TileFetcher,
-        cache: TileCache?
+    /// Fetch the published mosaic once, preserving its precomposited alpha.
+    private static func fletcherMosaicTile(
+        z: Int, x: Int, y: Int, baseURL: URL, layerName: String,
+        fetcher: TileFetcher, cache: TileCache?
     ) async -> (data: Data?, outcome: TileLoadOutcome) {
-        let covering = FletcherSheets.sheets(coveringTileX: x, y: y, z: z)
-        guard !covering.isEmpty else { return (nil, .served) }
-
-        var stacked: [Data] = []
-        var isWhole = true
-        var sawRefusal = false
-        for sheet in covering {
-            guard let template = FletcherTileURL.tileTemplate(
-                sheet: sheet.sheet, baseURL: baseURL
-            ), let templateURL = URL(string: template) else {
-                isWhole = false
-                continue
-            }
-            // Cached per sheet, not per layer: two sheets can answer for the
-            // same (z, x, y), and one key for both would let a margin tile from
-            // sheet 5 be served where sheet 6 was asked for.
-            let sheetLayerName = Self.sheetCacheIdentifier(layerName, sheet: sheet.sheet)
-            if let cached = cache?.cachedTile(z: z, x: x, y: y, layerName: sheetLayerName) {
-                stacked.append(cached)
-                continue
-            }
-            do {
-                stacked.append(
-                    try await fetcher.fetchTile(
-                        z: z, x: x, y: y, from: templateURL, layerName: sheetLayerName
-                    )
-                )
-            } catch {
-                // Nobody is waiting for this tile any more, so the remaining
-                // sheets are round trips spent on a square that will not be
-                // drawn. Returning here also keeps the cancellation from being
-                // recorded as an incomplete stack.
-                if TileLoadOutcome(classifying: error) == .cancelled {
-                    return (nil, .cancelled)
-                }
-                // A sheet with no ink here answers 404, and that is a complete
-                // answer: the composite is whole without it. A 403 is held as
-                // provisional — a missing object-store key answers that way,
-                // but so does a banned or misconfigured host. Only a sheet we
-                // could not reach leaves the tile unfinished, and the
-                // consequence of getting that wrong is a half-drawn seam frozen
-                // into the cache.
-                if TileFetcherError.meansNoTileExists(error) {
-                    continue
-                } else if TileFetcherError.meansAccessRefused(error) {
-                    sawRefusal = true
-                } else {
-                    isWhole = false
-                }
-            }
+        guard FletcherSheets.zoomRange.contains(z),
+              !FletcherSheets.sheets(coveringTileX: x, y: y, z: z).isEmpty
+        else { return (nil, .served) }
+        guard let template = FletcherTileURL.tileTemplate(baseURL: baseURL),
+              let url = URL(string: template)
+        else { return (nil, .failed) }
+        do {
+            let data = try await fetcher.fetchTile(
+                z: z, x: x, y: y, from: url, layerName: layerName, cacheResult: false
+            )
+            cache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+            return (data, .served)
+        } catch {
+            return (nil, TileLoadOutcome(classifying: error))
         }
-
-        // A refusal reads as a missing key only when a sibling sheet in this
-        // same pass answered with bytes; a host refusing everything has told
-        // us nothing about ink, and caching blanks under it would freeze the
-        // episode into the cache.
-        if sawRefusal, stacked.isEmpty {
-            isWhole = false
-        }
-
-        // `isWhole` is the outcome: a sheet that answered 404 has told us there
-        // is no ink there, and a sheet we could not reach has told us nothing.
-        let outcome: TileLoadOutcome = isWhole ? .served : .failed
-
-        guard let composited = TileComposite.stack(stacked) else { return (nil, outcome) }
-
-        // Cached under the layer key when the stack is whole, so `loadTile`'s
-        // opening lookup skips all of this on the next draw. A partial stack is
-        // deliberately not cached: the sheet that failed is the network, and
-        // caching what we drew without it would freeze a half-drawn seam in
-        // place until the cache was swept.
-        //
-        // Keyed on how many sheets *cover* the tile, not how many answered.
-        // Over the interior one sheet covers, its bytes are already cached
-        // under its own key, and a second copy under the layer key would double
-        // the cache for most of the survey. At a seam two or more cover, and
-        // caching the composite is what stops every later draw re-requesting
-        // the sheet that legitimately 404s there.
-        if isWhole, covering.count > 1 {
-            cache?.cacheTile(composited, z: z, x: x, y: y, layerName: layerName)
-        }
-        return (composited, outcome)
     }
 
     /// A tile the user downloaded into a saved area, once the source sweep has
@@ -466,16 +376,6 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     /// drawn either way.
     private static func substance(ofSaved data: Data) -> TileSubstance {
         data == TileComposite.transparent ? .outsideCoverage : .source
-    }
-
-    /// The cache layer name for one sheet of a Fletcher layer.
-    ///
-    /// Not shared with the offline downloader, which writes saved areas to
-    /// `TileStore` under the layer id — the two stores answer different
-    /// questions, and a saved area outliving a cache sweep is the point of
-    /// having both. `savedTile` is where a stored tile gets read back.
-    private static func sheetCacheIdentifier(_ layerName: String, sheet: Int) -> String {
-        "\(layerName)_sheet-\(sheet)"
     }
 
     private static func fallbackTile(z: Int, x: Int, y: Int) -> Data? {

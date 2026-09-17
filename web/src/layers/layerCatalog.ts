@@ -517,15 +517,15 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     nativeDefaultVisibility: true,
     minZoom: 8,
     maxZoom: 23,
-    maxNativeZoom: 16,
+    maxNativeZoom: 15,
     opacity: 0.72,
     licence: "rumsey-reference",
     webAvailability: "available",
     webCaveat:
-      "24 sheets · positions can sit several hundred metres off modern ground; sheets 16 & 19 refit to modern features",
+      "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
     sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
     scale: "Independently georeferenced · accuracy varies by sheet",
-    coverage: "Cape Breton Island · 24 individual sheets",
+    coverage: "Cape Breton Island · 24 source sheets in one mosaic",
   },
   {
     id: "ns-aerial",
