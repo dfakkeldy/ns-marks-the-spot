@@ -36,9 +36,18 @@ export function pokerOfflinePlugin(): Plugin {
 const CACHE = 'ns-poker-${revision}';
 const URLS = ${JSON.stringify([...paths])}.map(path => new URL(path, self.location.href).href);
 const SHELL = new URL('poker.html', self.location.href).href;
+async function validCache(cache) {
+  try {
+    if (!(await Promise.all(URLS.map(url => cache.match(url)))).every(Boolean)) return false;
+    const receipt = await (await cache.match(new URL('poker/source.json', self.location.href).href)).json();
+    const bytes = new Uint8Array(await (await cache.match(new URL('poker/data.json.gz', self.location.href).href)).arrayBuffer());
+    const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(n => n.toString(16).padStart(2, '0')).join('');
+    return hash === (bytes[0] === 0x1f && bytes[1] === 0x8b ? receipt.sha256 : receipt.decodedSha256);
+  } catch { return false; }
+}
 self.addEventListener('install', event => event.waitUntil((async () => {
   const cache = await caches.open(CACHE);
-  try { await cache.addAll(URLS.map(url => new Request(url, { cache: 'reload' }))); }
+  try { await cache.addAll(URLS.map(url => new Request(url, { cache: 'reload' }))); if (!await validCache(cache)) throw Error('Incomplete offline pack'); }
   catch (error) { await caches.delete(CACHE); throw error; }
 })()));
 self.addEventListener('activate', event => event.waitUntil((async () => {
@@ -48,12 +57,12 @@ self.addEventListener('activate', event => event.waitUntil((async () => {
 self.addEventListener('message', event => {
   if (event.data === 'ACTIVATE') event.waitUntil(self.skipWaiting());
   if (event.data === 'SAVE_OFFLINE') event.waitUntil((async () => {
-    try { const cache = await caches.open(CACHE); await cache.addAll(URLS.map(url => new Request(url, { cache: 'reload' }))); event.ports[0]?.postMessage(true); }
+    try { const cache = await caches.open(CACHE); await cache.addAll(URLS.map(url => new Request(url, { cache: 'reload' }))); event.ports[0]?.postMessage(await validCache(cache)); }
     catch { event.ports[0]?.postMessage(false); }
   })());
   if (event.data === 'CHECK_OFFLINE') event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    const ready = (await Promise.all(URLS.map(url => cache.match(url)))).every(Boolean);
+    const ready = await validCache(cache);
     event.ports[0]?.postMessage(ready);
   })());
 });

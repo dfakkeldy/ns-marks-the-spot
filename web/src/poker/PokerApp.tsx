@@ -122,7 +122,7 @@ export function PokerApp() {
   };
   const save = async () => {
     setSaving(true); setOfflineNotice('Saving the app, addresses and Atlas road map…');
-    try { const protectedStorage = await saveOffline(); setSaved(true); setOfflineNotice(protectedStorage ? 'Saved offline on this device.' : 'Saved offline. Your browser may remove downloads if device storage is low.'); }
+    try { const protectedStorage = await saveOffline(); setSaved(true); setRetry(v => v + 1); setOfflineNotice(protectedStorage ? 'Saved offline on this device.' : 'Saved offline. Your browser may remove downloads if device storage is low.'); }
     catch (error) { setOfflineNotice(error instanceof Error ? error.message : 'Could not save offline.'); }
     finally { setSaving(false); }
   };

@@ -26,7 +26,8 @@ export async function saveOffline(): Promise<boolean> {
       pending.addEventListener('statechange', change); change();
     });
   }
-  if (!await offlineReady(registration) && !await offlineReady(registration, 'SAVE_OFFLINE')) throw Error('Offline files are incomplete. Stay online and try again.');
+  const ready = await offlineReady(registration, pending ? 'CHECK_OFFLINE' : 'SAVE_OFFLINE');
+  if (!ready) throw Error('Offline files are incomplete. Stay online and try again.');
   // Browsers decide whether storage may be protected from automatic eviction.
   try { return await navigator.storage?.persist?.() ?? false; } catch { return false; }
 }

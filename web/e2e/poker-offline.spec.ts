@@ -35,6 +35,18 @@ for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844
     });
     await page.getByRole('button', {name:'Update offline copy'}).click();
     await expect(page.locator('.poker-notice')).toContainText('Saved offline', {timeout:45000});
+    // A present but mismatched data/receipt pair must also be detected and repaired.
+    await page.evaluate(async () => {
+      const name = (await caches.keys()).find(name => name.startsWith('ns-poker-'))!;
+      const cache = await caches.open(name);
+      const request = (await cache.keys()).find(request => request.url.endsWith('/poker/source.json'))!;
+      await cache.put(request, new Response(JSON.stringify({ sha256: 'bad', decodedSha256: 'bad', totalAddresses: 0 })));
+    });
+    await page.reload();
+    await expect(page.getByRole('alert')).toContainText('Saved address files do not match');
+    await page.getByRole('button', {name:/^(Save offline|Update offline copy)$/}).click();
+    await expect(page.locator('.poker-notice')).toContainText('Saved offline', {timeout:45000});
+    await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
     await context.setOffline(true);
     await page.reload();
     await expect(page.locator('.poker-connection')).toContainText('Offline · using saved Atlas');
