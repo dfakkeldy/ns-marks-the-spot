@@ -46,6 +46,7 @@ function MapContents({ data, state, setState, mapRef, aerial }: {
     }
     return labels;
   }, [data.roads, map, view]);
+  const metres = pathDistanceMetres(state.points);
   const selected = data.addresses.find(a => a.mailing.id === state.selectedId)?.civic;
   return <>
     <GeoJSON data={data.water} interactive={false} style={feature => waterStyle(feature?.properties?.feat_desc ?? '')} />
@@ -65,7 +66,12 @@ function MapContents({ data, state, setState, mapRef, aerial }: {
     </CircleMarker>)}
     {selected && <CircleMarker center={[selected.coordinates[1], selected.coordinates[0]]} radius={8} interactive={false} pathOptions={{ color: '#b73324', weight: 3, fillOpacity: 0 }} />}
     {state.points.length > 1 && <Polyline positions={state.points} interactive={false} pathOptions={{ color: '#b73324', weight: 4 }} />}
-    {state.points.map((point, i) => <CircleMarker key={i} center={point} radius={5} interactive={false} pathOptions={{ color: '#b73324', fillColor: '#fff', fillOpacity: 1 }} />)}
+    {state.points.map((point, i) => <CircleMarker key={i} center={point} radius={5} interactive={false} pathOptions={{ color: '#b73324', fillColor: '#fff', fillOpacity: 1 }}>
+      {i === state.points.length - 1 && state.points.length > 1 && <Tooltip permanent direction="top" offset={[0,-10]} className={`poker-distance${state.finished && metres > 500 ? ' over-limit' : ''}`}>
+        <strong>{metres.toFixed(1)} m</strong>
+        {state.finished && <span>{metres > 500 ? 'Card parcel · over 500 m' : 'Within 500 m'}</span>}
+      </Tooltip>}
+    </CircleMarker>)}
     <ScaleControl position="bottomleft" imperial={false} />
   </>;
 }
@@ -89,6 +95,7 @@ export function PokerApp() {
   const [aerialError, setAerialError] = useState(false);
   const [licenceDialog, setLicenceDialog] = useState(false);
   const [help, setHelp] = useState(false);
+  const [optionsOpen, setOptionsOpen] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => { setStorageFailed(!writeSession(state)); }, [state]);
@@ -117,7 +124,6 @@ export function PokerApp() {
     return () => controller.abort();
   }, [retry]);
   const matches = useMemo(() => data ? searchAddresses(data.addresses, state.query, state.postalCode) : [], [data, state.query, state.postalCode]);
-  const selected = data?.addresses.find(a => a.mailing.id === state.selectedId);
   const metres = pathDistanceMetres(state.points);
   const chooseAddress = (address: PokerAddress) => {
     if (!address.civic) return;
@@ -139,41 +145,55 @@ export function PokerApp() {
     if (accepted) { setAerialPermitted(true); setAerialError(false); setAerial(true); } else setLicenceDialog(true);
   };
   return <main className="poker-app">
-    <header className="poker-header"><div><h1>Poker</h1><p>Judique · Port Hood · Mabou</p></div>
-      <div className="poker-header-actions"><button onClick={() => setHelp(true)} aria-label="Help and sources">?</button><button onClick={() => void save()} disabled={saving || !online}>{saving ? 'Saving…' : saved ? 'Update offline copy' : 'Save offline'}</button></div>
-    </header>
+    <h1 className="sr-only">Poker — Judique, Port Hood and Mabou</h1>
+    <button className="poker-options" aria-label="Map options" aria-haspopup="dialog" onClick={() => setOptionsOpen(true)}>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+      <span className={`poker-status-dot${!online ? ' is-offline' : ''}`} aria-hidden="true" />
+    </button>
     <section className="poker-searchbar" aria-label="Find an address">
       <input ref={inputRef} type="search" aria-label="Search civic address" placeholder="Civic number, road or postal code" value={state.query}
         onFocus={event => { event.currentTarget.select(); setSearchOpen(true); }}
         onChange={event => { setState(s => ({ ...s, query: event.target.value })); setSearchOpen(true); }}
         onKeyDown={event => { if (event.key === 'Escape') setSearchOpen(false); if (event.key === 'Enter' && matches.length === 1) chooseAddress(matches[0]); }} />
-      <select aria-label="Postal area" value={state.postalCode} onChange={event => { setState(s => ({ ...s, postalCode: event.target.value, query: '' })); setSearchOpen(true); }}>
-        <option value="">All three areas</option><option value="B0E1P0">Judique · B0E 1P0</option><option value="B0E2W0">Port Hood · B0E 2W0</option><option value="B0E1X0">Mabou · B0E 1X0</option>
-      </select>
       {searchOpen && data && <div className="poker-results"><div className="poker-results-heading"><span>{matches.length ? `${matches.length} matches${matches.length > 40 ? ' · showing first 40; refine your search' : ''}` : 'No match in this saved address list.'}</span><button onClick={() => setSearchOpen(false)}>Close results</button></div>
         <ul>{matches.slice(0,40).map(a => <li key={a.mailing.id}><button disabled={!a.civic} onClick={() => chooseAddress(a)}>{mailingLabel(a.mailing)}{!a.civic && <small>No unique civic map point verified</small>}</button></li>)}</ul>
       </div>}
     </section>
-    <div className="poker-connection" role="status">{online ? saved ? 'Saved for offline use' : 'Online · save once for offline use' : saved ? 'Offline · using saved Atlas map and addresses' : 'Offline · no complete download confirmed'}{storageFailed && ' · Session could not be saved in this browser'}</div>
-    {offlineNotice && <div className="poker-notice" role="status">{offlineNotice}</div>}
+    {storageFailed && <p className="poker-storage-error" role="alert">This browser could not save your session.</p>}
     <section className="poker-map" aria-label="Driveway map">
       {loadError ? <div className="poker-load-error" role="alert">{loadError}<button onClick={() => setRetry(v => v + 1)}>Retry</button></div> : !data ? <p className="poker-loading" role="status">Loading local addresses and Atlas road map…</p> :
         <MapContainer center={state.center} zoom={state.zoom} minZoom={9} maxZoom={21} maxBounds={[[data.bounds[1], data.bounds[0]], [data.bounds[3], data.bounds[2]]]} maxBoundsViscosity={.8} preferCanvas doubleClickZoom={false} attributionControl={false}>
           <MapContents key={packRevision} data={data} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
         </MapContainer>}
-      <button className="poker-basemap" onClick={toggleAerial} disabled={!online}>{aerial && online && !aerialError ? 'Use Atlas map' : 'Aerial (online)'}</button>
+      <button className="poker-basemap" onClick={toggleAerial} disabled={!online} aria-label={aerial && online && !aerialError ? 'Use Atlas map' : 'Aerial (online)'}>{aerial && online && !aerialError ? 'Atlas' : 'Aerial'}</button>
       {aerialError && <p className="poker-map-notice" role="status">Aerial imagery unavailable. Showing Atlas.</p>}
     </section>
-    <section className={`poker-measurement${state.finished && metres > 500 ? ' over-limit' : ''}`} aria-label="Driveway measurement">
-      <div className="poker-selected">{selected ? mailingLabel(selected.mailing) : 'Choose an address, then tap along the driveway.'}</div>
-      <div className="poker-readout" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
-      <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={() => setState(s => ({ ...s, finished: true }))}>Finish</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear trace</button></div>
-      <small>Trace the actual driveway to your delivery route. Civic points may not mark the house. Distances are approximate.</small>
+    <section className="poker-measurement" aria-label="Driveway measurement">
+      {state.points.length < 2 && <p className="poker-hint">Tap the house, then trace the driveway to your route.</p>}
+      <div className="poker-readout sr-only" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
+      <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={() => setState(s => ({ ...s, finished: true }))}>Finish</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button><button aria-label="Clear trace" disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear</button></div>
     </section>
-    <footer className="poker-footer">Atlas · <button onClick={() => setHelp(true)}>Sources &amp; offline help</button></footer>
+    <footer className="poker-footer">{!online && <span>Offline · Atlas</span>}<button onClick={() => setHelp(true)}>Sources</button></footer>
+    {optionsOpen && <dialog className="poker-modal poker-settings" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setOptionsOpen(false)} aria-labelledby="poker-options-title">
+      <div className="poker-modal-heading"><h2 id="poker-options-title">Poker</h2><button autoFocus aria-label="Close map options" onClick={() => setOptionsOpen(false)}>Done</button></div>
+      <label className="poker-setting-label" htmlFor="poker-postal-area">Postal area</label>
+      <select id="poker-postal-area" aria-label="Postal area" value={state.postalCode} onChange={event => { setState(s => ({ ...s, postalCode: event.target.value, query: '' })); setOptionsOpen(false); setSearchOpen(true); }}>
+        <option value="">All three areas</option><option value="B0E1P0">Judique · B0E 1P0</option><option value="B0E2W0">Port Hood · B0E 2W0</option><option value="B0E1X0">Mabou · B0E 1X0</option>
+      </select>
+
+      <div className="poker-offline-settings">
+        <button onClick={() => void save()} disabled={saving || !online}>{saving ? 'Saving…' : saved ? 'Update offline copy' : 'Save offline'}</button>
+    <div className="poker-connection" role="status">{online ? saved ? 'Saved for offline use' : 'Online · save once for offline use' : saved ? 'Offline · using saved Atlas map and addresses' : 'Offline · no complete download confirmed'}{storageFailed && ' · Session could not be saved in this browser'}</div>
+    {offlineNotice && <div className="poker-notice" role="status">{offlineNotice}</div>}
+
+      </div>
+      <p className="poker-settings-help">Your address, map view and trace are saved automatically in this browser.</p>
+      <button className="poker-help-link" onClick={() => { setOptionsOpen(false); setHelp(true); }}>Help &amp; sources</button>
+    </dialog>}
     {help && <dialog className="poker-modal" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setHelp(false)} aria-labelledby="poker-help"><h2 id="poker-help">Your pocket route map</h2>
+      <p>Trace the actual driveway from the house to your delivery route. Civic points may not mark the house, and distances are approximate. A finished trace over 500 metres is flagged for carding.</p>
       <p>Return to <strong>kinnokilabs.com/poker</strong>. This browser remembers your search, map position and current trace. Selecting a different address starts a new trace. Nothing is uploaded.</p>
-      <p>Tap <strong>Save offline</strong> while connected. Then use your browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. Each browser or installed copy saves its own session. Clearing website data removes downloads and the saved trace.</p>
+      <p>Open <strong>Map options</strong> and tap <strong>Save offline</strong> while connected. Then use your browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. Each browser or installed copy saves its own session. Clearing website data removes downloads and the saved trace.</p>
       <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it.</p>
       <p>{data?.addresses.length.toLocaleString()} postal records from June 2026; {data?.addresses.filter(a => !a.civic).length} lack a unique verified civic point and cannot be placed. Missing records are not evidence that an address does not exist. This is address lookup, not resident or owner lookup.</p>
       <p>{OPEN_GOVERNMENT_ATTRIBUTION} <a href={OPEN_GOVERNMENT_LICENCE_URL}>Provincial licence</a>. Civic points, NSRN roads, NSTDB buildings and water are dated source features, not verified delivery routes or access permission. <a href={new URL('poker/source.json', document.baseURI).href}>Source dates and receipt</a>.</p>

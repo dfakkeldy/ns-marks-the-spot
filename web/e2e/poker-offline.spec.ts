@@ -1,8 +1,14 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 const pack = JSON.parse(gunzipSync(readFileSync(new URL('../public/poker/data.json.gz', import.meta.url))).toString());
 const record = pack.addresses.find((a: { civic: unknown; mailing: { postalCode: string } }) => a.civic && a.mailing.postalCode === 'B0E1P0');
+async function openOptions(page: Page) {
+  await page.getByRole('button', {name:'Map options', exact:true}).click();
+}
+async function closeOptions(page: Page) {
+  await page.getByRole('button', {name:'Close map options', exact:true}).click();
+}
 for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844,height:390},{width:1440,height:1000}]) {
   test(`short Poker URL restores address, trace and offline map at ${viewport.width}`, async ({page,context}, info) => {
     await page.setViewportSize(viewport);
@@ -18,12 +24,21 @@ for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844
     await expect(page.locator('.poker-number').first()).toBeVisible();
     const map = page.locator('.poker-map .leaflet-container');
     const box = (await map.boundingBox())!;
+    expect(box.height).toBeGreaterThanOrEqual(viewport.height - 1);
+    expect(box.width).toBe(viewport.width);
+    await expect(page.getByRole('button', {name:'Map options',exact:true})).toBeInViewport({ratio:1});
+    await expect(page.getByRole('button', {name:'Finish',exact:true})).toBeInViewport({ratio:1});
+    await expect(page.locator('.poker-measurement')).toHaveCSS('position','absolute');
+    await expect(page.locator('.poker-header,.poker-selected')).toHaveCount(0);
     await map.click({position:{x:box.width*.4,y:box.height*.4}});
     await map.click({position:{x:box.width*.6,y:box.height*.6}});
     await page.getByRole('button',{name:'Finish',exact:true}).click();
     const readout = (await page.locator('.poker-readout').textContent())!;
+    await expect(page.locator('.poker-distance')).toContainText('m');
+    await expect(page.locator('.poker-distance')).toBeInViewport({ratio:1});
     const session = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
     expect(session.points).toHaveLength(2); expect(session.finished).toBe(true);
+    await openOptions(page);
     await page.getByRole('button',{name:'Save offline',exact:true}).click();
     await expect(page.locator('.poker-connection')).toContainText('Saved for offline use',{timeout:45000});
     await expect(page).toHaveURL(/\/poker$/);
@@ -44,12 +59,16 @@ for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844
     });
     await page.reload();
     await expect(page.getByRole('alert')).toContainText('Saved address files do not match');
+    await openOptions(page);
     await page.getByRole('button', {name:/^(Save offline|Update offline copy)$/}).click();
     await expect(page.locator('.poker-notice')).toContainText('Saved offline', {timeout:45000});
     await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+    await closeOptions(page);
     await context.setOffline(true);
     await page.reload();
+    await openOptions(page);
     await expect(page.locator('.poker-connection')).toContainText('Offline · using saved Atlas');
+    await closeOptions(page);
     await expect(input).toHaveValue(session.query);
     await expect(page.locator('.poker-readout')).toHaveText(readout);
     await expect(page.locator('.poker-number').first()).toBeVisible();
@@ -57,6 +76,12 @@ for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844
     expect(reopened.points).toEqual(session.points); expect(reopened.center[0]).toBeCloseTo(session.center[0],4); expect(reopened.zoom).toBe(session.zoom);
     await input.fill('B0E2W0');
     await expect(page.locator('.poker-results')).toContainText('PORT HOOD');
+    await page.getByRole('button',{name:'Close results'}).click();
+    await openOptions(page);
+    await expect(page.getByRole('dialog', {name:'Poker', exact:true})).toBeInViewport({ratio:1});
+    await page.getByRole('combobox', {name:'Postal area'}).selectOption('B0E1P0');
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+    await expect(page.locator('.poker-results')).toContainText('JUDIQUE');
     await page.getByRole('button',{name:'Close results'}).click();
     await page.screenshot({path:info.outputPath('poker-offline.png')});
     await page.getByRole('button',{name:'Clear trace'}).click();
@@ -85,8 +110,10 @@ test('aerial preference survives refresh, retains its licence gate, and is never
   await expect.poll(() => requests).toBeGreaterThan(0);
   await page.reload();
   await expect(page.getByRole('button',{name:'Use Atlas map'})).toBeVisible();
+  await openOptions(page);
   await page.getByRole('button',{name:'Save offline',exact:true}).click();
   await expect(page.locator('.poker-connection')).toContainText('Saved for offline use',{timeout:45000});
+  await closeOptions(page);
   await page.waitForLoadState('networkidle');
   expect(await page.evaluate(async () => {
     const names = (await caches.keys()).filter(name=>name.startsWith('ns-poker-'));
