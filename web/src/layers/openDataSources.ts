@@ -39,8 +39,12 @@ export function openDataSourceLinks(source: OpenDataSource) {
   return source.parts.map(({ dataset }) => ({ url: openDatasetUrl(dataset), name: sourceReceipt.datasets.find(({ id }) => id === dataset)?.name ?? dataset }));
 }
 
+function geometryNote(source?: OpenDataSource) {
+  return source?.roads ? "NSRN roads retain source geometry; other display geometry simplified within 10 m" : "display geometry simplified within 10 m";
+}
+
 export function openDataPrintCredit(source?: OpenDataSource): string {
-  return source ? ` Project-rendered open data; display geometry simplified within 10 m. Sources: ${openDataSourceLinks(source).map(({ url }) => url).join(", ")}.` : "";
+  return source ? ` Project-rendered open data; ${geometryNote(source)}. Sources: ${openDataSourceLinks(source).map(({ url }) => url).join(", ")}.` : "";
 }
 
 export function openSourceMetadata<T extends { id: string; sourceDate: string; scale: string; webCaveat: string }>(layer: T, source?: OpenDataSource): T & { openData?: OpenDataSource } {
@@ -55,7 +59,7 @@ export function openSourceMetadata<T extends { id: string; sourceDate: string; s
     licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
     attribution: OPEN_GOVERNMENT_ATTRIBUTION,
     sourceDate: "Open-government datasets · verified September 12, 2026 · observation dates vary",
-    scale: layer.id === "contours" ? "NSTDB 1:10,000 contours · display geometry simplified within 10 m" : `${layer.scale.replace(" · publisher scale-dependent symbols", "")} · project-rendered open data; display geometry simplified within 10 m`,
+    scale: layer.id === "contours" ? "NSTDB 1:10,000 contours · display geometry simplified within 10 m" : `${layer.scale.replace(" · publisher scale-dependent symbols", "")} · project-rendered open data; ${geometryNote(source)}`,
     webCaveat: layer.id === "contours" ? "Terrain screening only · open NSTDB contour elevations in metres; interval and survey dates vary" : layer.id === "crown-lands" ? "Includes partial Crown interests · not proof of title or public access" : layer.id === "water-features" ? "Rivers, lakes, wetlands & more · open-data detail from zoom 11+" : layer.webCaveat,
   };
 }

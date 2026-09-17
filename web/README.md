@@ -163,7 +163,9 @@ is retained. Main roads do not redraw the network when Roads is already on.
 Extra road and place-name labels are suppressed over a labelled basemap or
 provincial topographic map. Labels baked into separate raster images cannot be
 removed individually. Standalone NSRN overlays use unsimplified source geometry
-from zoom 15. Completed overlays remain visible during replacement loads;
+at every zoom. Completed road collections up to 8 MiB are cached in memory for
+60 seconds with a 10% margin on each edge, so small pans reuse source geometry.
+Zoom changes or leaving that area fetch fresh data. Completed overlays remain visible during replacement loads;
 failed replacements clear the layer and name the failed dataset and HTTP status
 when available.
 
@@ -650,8 +652,10 @@ buildings, contours, and 15 infrastructure controls. The 24 controls use bounded
 Socrata GeoJSON queries and shared browser/PDF cartography. Source row IDs,
 constituent dataset links, licence attribution and scale caveats are retained.
 `src/data/openLayerSources.json` records the metadata and schemas checked on
-September 12, 2026; it is not a frozen geometry snapshot. Display geometries use
-subpixel, topology-preserving simplification capped at 10 metres. Requests are
+September 12, 2026; it is not a frozen geometry snapshot. NSRN roads retain their
+original geometry without a server simplification pass. Other display geometries
+use subpixel, topology-preserving simplification capped at 10 metres, converted
+to degrees for Socrata’s geographic coordinates. Requests are
 limited to 12,000 features and 24 MiB per layer; oversized areas ask the user to
 zoom in instead of displaying partial results. Source failures are not empty maps.
 
