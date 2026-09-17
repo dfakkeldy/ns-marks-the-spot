@@ -101,8 +101,18 @@ rendering stays inside `MapSurface/`.
 
 Both iOS build configurations default `FLETCHER_TILE_BASE_URL` to
 `https://tiles.kinnokilabs.com`. The app Info.plist expands that setting into
-`FletcherTileBaseURL`; build overrides remain supported. Both surfaces pin
-`fletcher-direct-rumsey-20260831.1`.
+`FletcherTileBaseURL`; build overrides remain supported. An empty
+`FLETCHER_TILE_BASE_URL` or `VITE_FLETCHER_TILE_BASE_URL` override still
+disables hosting. Both surfaces pin the published 24-sheet mosaic revision
+`fletcher-full-sheets-20260913.1`, fetched as one precomposited XYZ pyramid
+`{base}/{revision}/{z}/{x}/{y}.png` (zooms 8–15; overzoom past 15). The
+source receipt is `{base}/{revision}/source.json`. Sheet footprints remain
+coverage metadata rather than per-sheet fetches. Alignment is approximate,
+with gaps at some joins; geographic acceptance findings are unchanged.
+Attribution remains David Rumsey Map Collection, David Rumsey Map Center,
+Stanford University Libraries and
+[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
+Hosted delivery is recorded in `docs/FLETCHER_GEOREFERENCING.md`.
 
 Viewed tiles are persisted through `TileStore`. Fletcher tiles can also be
 downloaded for rectangular saved areas through the controller's
@@ -473,13 +483,21 @@ After licence acceptance, the default web composition leaves the opaque modern
 map off, turns NS Aerial, NSPRD boundaries, complete Province water features,
 and roads on, and fits the first loaded view once to the visible tax-sale
 parcel geometries. Fletcher remains the final row in the layer list. The web
-layer uses 24 bounded per-sheet XYZ trees under an immutable revision,
-preserving overlap provenance without last-write-wins flattening. It is
-default-off and uses `https://tiles.kinnokilabs.com` by default.
+layer fetches one precomposited XYZ pyramid
+`{base}/{revision}/{z}/{x}/{y}.png` from the immutable
+`fletcher-full-sheets-20260913.1` revision at zooms 8–15, enlarging zoom 15
+at closer display scales. Sheet footprints remain coverage metadata, not
+24 bounded per-sheet XYZ trees. Alignment is approximate, with gaps at some
+joins; geographic acceptance findings are unchanged. Attribution remains
+David Rumsey Map Collection, David Rumsey Map Center, Stanford University
+Libraries and
+[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The
+source receipt is `{base}/{revision}/source.json`. It is default-off and
+uses `https://tiles.kinnokilabs.com` by default.
 `VITE_FLETCHER_TILE_BASE_URL` can disable it with an empty value or name an
 authorized HTTPS host; opacity, share state, print/evidence provenance, and
 retry status use the normal web-layer contracts. This does not change native
-URLs or native offline bundling. Geology & Resources is collapsed: its original
+offline bundling. Geology & Resources is collapsed: its original
 three open source-backed overlays, separately licence-gated derived parcel row,
 and added context controls all start off. The Hydro terrain pilot is also collapsed and off by default.
 Forestry is collapsed and its open old-growth policy overlay starts off.
@@ -641,10 +659,11 @@ after the user activates the external link.
 
 The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is available to a configured web build
-only through the immutable direct-Rumsey package; builds without an authorized
-tile host show an honest disabled state. The scoped permission does not by
-itself clear native offline bundling, and this workflow does not change the
-existing native layer.
+only through the published 24-sheet mosaic revision
+`fletcher-full-sheets-20260913.1`; builds without an authorized tile host show
+an honest disabled state. The scoped permission does not by itself clear
+native offline bundling, and this workflow does not change the existing
+native layer.
 
 Current-notice source rows and rendered parcel geometry are also separate
 evidence states. A municipal PID that returns no exact NSPRD feature remains in
