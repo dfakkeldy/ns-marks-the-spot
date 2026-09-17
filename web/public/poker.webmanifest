@@ -1,0 +1,15 @@
+{
+  "id": "../../../poker",
+  "name": "Poker — local address map",
+  "short_name": "Poker",
+  "description": "Judique, Port Hood and Mabou address lookup and driveway measurement.",
+  "start_url": "../../../poker",
+  "scope": "../../../poker",
+  "display": "standalone",
+  "background_color": "#f3efe3",
+  "theme_color": "#304746",
+  "icons": [
+    { "src": "./app-icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "./app-icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

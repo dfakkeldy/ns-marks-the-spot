@@ -1,0 +1,191 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import L from 'leaflet';
+import { CircleMarker, GeoJSON, MapContainer, Polyline, ScaleControl, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet';
+import { gunzipSync, strFromU8 } from 'fflate';
+import { atlasPalettes } from '../atlas/palette';
+import { pathDistanceMetres } from '../services/geodesy';
+import { mailingLabel, MAILING_ATTRIBUTION, MAILING_LICENCE_URL } from '../services/mailingAddresses';
+import { OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL, PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL, PROVINCE_LICENSE_ACCEPTANCE_KEY } from '../licensing/provinceLicense';
+import { deliveryStatus, readSession, searchAddresses, writeSession, type PokerAddress, type PokerData, type PokerState } from './model';
+import { waterStyle, roadStyle } from './cartography';
+import { offlineReady, saveOffline } from './offline';
+import 'leaflet/dist/leaflet.css';
+import './poker.css';
+const palette = atlasPalettes.day;
+const AERIAL = 'https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer/tile/{z}/{y}/{x}';
+const tileEvents = { tileerror: () => window.dispatchEvent(new Event('poker-aerial-error')) };
+function MapContents({ data, state, setState, mapRef, aerial }: {
+  data: PokerData; state: PokerState; setState: React.Dispatch<React.SetStateAction<PokerState>>; mapRef: React.RefObject<L.Map | null>; aerial: boolean;
+}) {
+  const map = useMap();
+  const [view, setView] = useState(0);
+  useEffect(() => { mapRef.current = map; return () => { mapRef.current = null; }; }, [map, mapRef]);
+  useMapEvents({
+    moveend: () => { const center = map.getCenter(); setState(s => ({ ...s, center: [center.lat, center.lng], zoom: map.getZoom() })); setView(v => v + 1); },
+    click: ({ latlng }) => setState(s => s.finished || s.points.length >= 5000 ? s : { ...s, points: [...s.points, { lat: latlng.lat, lng: latlng.lng }] }),
+  });
+  const visibleCivic = useMemo(() => {
+    void view;
+    return map.getZoom() < 16 ? [] : data.civic.filter(a => map.getBounds().contains([a.coordinates[1], a.coordinates[0]])).slice(0, 500);
+  }, [data.civic, map, view]);
+  const roadLabels = useMemo(() => {
+    void view;
+    if (map.getZoom() < 15) return [];
+    const bounds = map.getBounds();
+    const names = new Set<string>();
+    const labels: { name: string; point: [number, number] }[] = [];
+    for (const feature of data.roads.features) {
+      const name = feature.properties?.street;
+      if (typeof name !== 'string' || !name || names.has(name) || /^(Track|Trail|Driveway|Railroad|Unknown)$/iu.test(name)) continue;
+      const lines = feature.geometry.type === 'MultiLineString' ? feature.geometry.coordinates : feature.geometry.type === 'LineString' ? [feature.geometry.coordinates] : [];
+      const visible = lines.flat().filter(p => bounds.contains([p[1], p[0]]));
+      if (!visible.length) continue;
+      const point = visible[Math.floor(visible.length / 2)];
+      labels.push({ name, point: [point[1], point[0]] }); names.add(name);
+      if (labels.length === 30) break;
+    }
+    return labels;
+  }, [data.roads, map, view]);
+  const selected = data.addresses.find(a => a.mailing.id === state.selectedId)?.civic;
+  return <>
+    <GeoJSON data={data.water} interactive={false} style={feature => waterStyle(feature?.properties?.feat_desc ?? '')} />
+    <GeoJSON data={data.roads} style={feature => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '', true)} interactive={false} />
+    <GeoJSON data={data.roads} style={feature => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '')} onEachFeature={(feature, layer) => {
+      const name = feature.properties?.street;
+      if (typeof name === 'string' && name) { const label = document.createElement('span'); label.textContent = name; layer.bindTooltip(label, { sticky: true }); }
+    }} />
+    <GeoJSON data={data.footprints} interactive={false} style={{ color: palette.mutedInk, weight: .6, fillColor: palette.building, fillOpacity: 1 }} />
+    <GeoJSON data={data.buildings} interactive={false} pointToLayer={(_, point) => L.circleMarker(point, { radius: 2.5, color: palette.mutedInk, weight: 1, fillColor: palette.building, fillOpacity: 1, interactive: false })} />
+    {aerial && <TileLayer url={AERIAL} maxNativeZoom={19} maxZoom={21} zIndex={450} eventHandlers={tileEvents} />}
+    {roadLabels.map(label => <CircleMarker key={label.name} center={label.point} radius={0} interactive={false} pathOptions={{ opacity: 0 }}>
+      <Tooltip permanent direction="center" className="poker-road-label">{label.name}</Tooltip>
+    </CircleMarker>)}
+    {visibleCivic.map(address => <CircleMarker key={address.pntid} center={[address.coordinates[1], address.coordinates[0]]} radius={2} interactive={false} pathOptions={{ color: palette.ink, fillColor: '#fff', fillOpacity: 1, weight: 1 }}>
+      <Tooltip permanent direction="top" className="poker-number">{String(address.properties.civicnum ?? '')}{String(address.properties.civsuffix ?? '')}</Tooltip>
+    </CircleMarker>)}
+    {selected && <CircleMarker center={[selected.coordinates[1], selected.coordinates[0]]} radius={8} interactive={false} pathOptions={{ color: '#b73324', weight: 3, fillOpacity: 0 }} />}
+    {state.points.length > 1 && <Polyline positions={state.points} interactive={false} pathOptions={{ color: '#b73324', weight: 4 }} />}
+    {state.points.map((point, i) => <CircleMarker key={i} center={point} radius={5} interactive={false} pathOptions={{ color: '#b73324', fillColor: '#fff', fillOpacity: 1 }} />)}
+    <ScaleControl position="bottomleft" imperial={false} />
+  </>;
+}
+export function PokerApp() {
+  const [state, setState] = useState(readSession);
+  const [data, setData] = useState<PokerData | null>(null);
+  const [packRevision, setPackRevision] = useState('');
+  const [loadError, setLoadError] = useState('');
+  const [retry, setRetry] = useState(0);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [online, setOnline] = useState(navigator.onLine);
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [offlineNotice, setOfflineNotice] = useState('');
+  const [storageFailed, setStorageFailed] = useState(false);
+  const [aerialPermitted, setAerialPermitted] = useState(() => {
+    try { return localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === 'accepted'; } catch { return false; }
+  });
+  const aerial = state.basemap === 'aerial' && aerialPermitted;
+  const setAerial = (enabled: boolean) => setState(s => ({ ...s, basemap: enabled ? 'aerial' : 'atlas' }));
+  const [aerialError, setAerialError] = useState(false);
+  const [licenceDialog, setLicenceDialog] = useState(false);
+  const [help, setHelp] = useState(false);
+  const mapRef = useRef<L.Map | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => { setStorageFailed(!writeSession(state)); }, [state]);
+  useEffect(() => {
+    const update = () => setOnline(navigator.onLine);
+    const imageryFailure = () => setAerialError(true);
+    window.addEventListener('online', update); window.addEventListener('offline', update); window.addEventListener('poker-aerial-error', imageryFailure);
+    if ('serviceWorker' in navigator) void navigator.serviceWorker.getRegistration('/poker').then(async r => { if (r) setSaved(await offlineReady(r)); }).catch(() => {});
+    return () => { window.removeEventListener('online', update); window.removeEventListener('offline', update); window.removeEventListener('poker-aerial-error', imageryFailure); };
+  }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoadError('');
+    void (async () => {
+      const [response, receiptResponse] = await Promise.all(['poker/data.json.gz','poker/source.json'].map(path => fetch(new URL(path, document.baseURI), { signal: controller.signal })));
+      if (!response.ok || !receiptResponse.ok) throw Error('Address download failed. Connect to the internet and retry.');
+      const bytes = new Uint8Array(await response.arrayBuffer());
+      const receipt = await receiptResponse.json();
+      const compressed = bytes[0] === 0x1f && bytes[1] === 0x8b;
+      const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(n => n.toString(16).padStart(2, '0')).join('');
+      if (hash !== (compressed ? receipt.sha256 : receipt.decodedSha256)) throw Error('Saved address files do not match. Reconnect and save the offline copy again.');
+      const value = JSON.parse(strFromU8(compressed ? gunzipSync(bytes) : bytes)) as PokerData;
+      if (value.version !== 1 || value.addresses.length !== receipt.totalAddresses || !value.roads.features || !value.civic.length) throw Error('The address pack is incomplete. Reconnect and retry.');
+      if (!controller.signal.aborted) { setData(value); setPackRevision(receipt.sha256); }
+    })().catch(error => { if (!controller.signal.aborted) setLoadError(error instanceof Error ? error.message : 'Address download failed.'); });
+    return () => controller.abort();
+  }, [retry]);
+  const matches = useMemo(() => data ? searchAddresses(data.addresses, state.query, state.postalCode) : [], [data, state.query, state.postalCode]);
+  const selected = data?.addresses.find(a => a.mailing.id === state.selectedId);
+  const metres = pathDistanceMetres(state.points);
+  const chooseAddress = (address: PokerAddress) => {
+    if (!address.civic) return;
+    setState(s => ({ ...s, selectedId: address.mailing.id, query: mailingLabel(address.mailing), points: [], finished: false }));
+    setSearchOpen(false); inputRef.current?.blur();
+    const [lng, lat] = address.civic.coordinates;
+    mapRef.current?.setView([lat, lng], 18);
+  };
+  const save = async () => {
+    setSaving(true); setOfflineNotice('Saving the app, addresses and Atlas road map…');
+    try { const protectedStorage = await saveOffline(); setSaved(true); setRetry(v => v + 1); setOfflineNotice(protectedStorage ? 'Saved offline on this device.' : 'Saved offline. Your browser may remove downloads if device storage is low.'); }
+    catch (error) { setSaved(false); setOfflineNotice(error instanceof Error ? error.message : 'Could not save offline.'); }
+    finally { setSaving(false); }
+  };
+  const toggleAerial = () => {
+    if (aerial && !aerialError) { setAerial(false); return; }
+    let accepted = false;
+    try { accepted = localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === 'accepted'; } catch { /* Still allow session-only acceptance. */ }
+    if (accepted) { setAerialPermitted(true); setAerialError(false); setAerial(true); } else setLicenceDialog(true);
+  };
+  return <main className="poker-app">
+    <header className="poker-header"><div><h1>Poker</h1><p>Judique · Port Hood · Mabou</p></div>
+      <div className="poker-header-actions"><button onClick={() => setHelp(true)} aria-label="Help and sources">?</button><button onClick={() => void save()} disabled={saving || !online}>{saving ? 'Saving…' : saved ? 'Update offline copy' : 'Save offline'}</button></div>
+    </header>
+    <section className="poker-searchbar" aria-label="Find an address">
+      <input ref={inputRef} type="search" aria-label="Search civic address" placeholder="Civic number, road or postal code" value={state.query}
+        onFocus={event => { event.currentTarget.select(); setSearchOpen(true); }}
+        onChange={event => { setState(s => ({ ...s, query: event.target.value })); setSearchOpen(true); }}
+        onKeyDown={event => { if (event.key === 'Escape') setSearchOpen(false); if (event.key === 'Enter' && matches.length === 1) chooseAddress(matches[0]); }} />
+      <select aria-label="Postal area" value={state.postalCode} onChange={event => { setState(s => ({ ...s, postalCode: event.target.value, query: '' })); setSearchOpen(true); }}>
+        <option value="">All three areas</option><option value="B0E1P0">Judique · B0E 1P0</option><option value="B0E2W0">Port Hood · B0E 2W0</option><option value="B0E1X0">Mabou · B0E 1X0</option>
+      </select>
+      {searchOpen && data && <div className="poker-results"><div className="poker-results-heading"><span>{matches.length ? `${matches.length} matches${matches.length > 40 ? ' · showing first 40; refine your search' : ''}` : 'No match in this saved address list.'}</span><button onClick={() => setSearchOpen(false)}>Close results</button></div>
+        <ul>{matches.slice(0,40).map(a => <li key={a.mailing.id}><button disabled={!a.civic} onClick={() => chooseAddress(a)}>{mailingLabel(a.mailing)}{!a.civic && <small>No unique civic map point verified</small>}</button></li>)}</ul>
+      </div>}
+    </section>
+    <div className="poker-connection" role="status">{online ? saved ? 'Saved for offline use' : 'Online · save once for offline use' : saved ? 'Offline · using saved Atlas map and addresses' : 'Offline · no complete download confirmed'}{storageFailed && ' · Session could not be saved in this browser'}</div>
+    {offlineNotice && <div className="poker-notice" role="status">{offlineNotice}</div>}
+    <section className="poker-map" aria-label="Driveway map">
+      {loadError ? <div className="poker-load-error" role="alert">{loadError}<button onClick={() => setRetry(v => v + 1)}>Retry</button></div> : !data ? <p className="poker-loading" role="status">Loading local addresses and Atlas road map…</p> :
+        <MapContainer center={state.center} zoom={state.zoom} minZoom={9} maxZoom={21} maxBounds={[[data.bounds[1], data.bounds[0]], [data.bounds[3], data.bounds[2]]]} maxBoundsViscosity={.8} preferCanvas doubleClickZoom={false} attributionControl={false}>
+          <MapContents key={packRevision} data={data} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
+        </MapContainer>}
+      <button className="poker-basemap" onClick={toggleAerial} disabled={!online}>{aerial && online && !aerialError ? 'Use Atlas map' : 'Aerial (online)'}</button>
+      {aerialError && <p className="poker-map-notice" role="status">Aerial imagery unavailable. Showing Atlas.</p>}
+    </section>
+    <section className={`poker-measurement${state.finished && metres > 500 ? ' over-limit' : ''}`} aria-label="Driveway measurement">
+      <div className="poker-selected">{selected ? mailingLabel(selected.mailing) : 'Choose an address, then tap along the driveway.'}</div>
+      <div className="poker-readout" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
+      <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={() => setState(s => ({ ...s, finished: true }))}>Finish</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear trace</button></div>
+      <small>Trace the actual driveway to your delivery route. Civic points may not mark the house. Distances are approximate.</small>
+    </section>
+    <footer className="poker-footer">Atlas · <button onClick={() => setHelp(true)}>Sources &amp; offline help</button></footer>
+    {help && <dialog className="poker-modal" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setHelp(false)} aria-labelledby="poker-help"><h2 id="poker-help">Your pocket route map</h2>
+      <p>Return to <strong>kinnokilabs.com/poker</strong>. This browser remembers your search, map position and current trace. Selecting a different address starts a new trace. Nothing is uploaded.</p>
+      <p>Tap <strong>Save offline</strong> while connected. Then use your browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. Each browser or installed copy saves its own session. Clearing website data removes downloads and the saved trace.</p>
+      <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it.</p>
+      <p>{data?.addresses.length.toLocaleString()} postal records from June 2026; {data?.addresses.filter(a => !a.civic).length} lack a unique verified civic point and cannot be placed. Missing records are not evidence that an address does not exist. This is address lookup, not resident or owner lookup.</p>
+      <p>{OPEN_GOVERNMENT_ATTRIBUTION} <a href={OPEN_GOVERNMENT_LICENCE_URL}>Provincial licence</a>. Civic points, NSRN roads, NSTDB buildings and water are dated source features, not verified delivery routes or access permission. <a href={new URL('poker/source.json', document.baseURI).href}>Source dates and receipt</a>.</p>
+      <p>{MAILING_ATTRIBUTION} <a href={MAILING_LICENCE_URL}>Statistics Canada licence</a>.</p>
+      {aerial && <p>{PROVINCE_ATTRIBUTION} <a href={PROVINCE_LICENSE_URL}>Aerial service licence</a>.</p>}
+      <button autoFocus onClick={() => setHelp(false)}>Close help</button>
+    </dialog>}
+    {licenceDialog && <dialog className="poker-modal" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setLicenceDialog(false)} aria-labelledby="poker-licence"><h2 id="poker-licence">Provincial aerial imagery</h2>
+      <p>The Province of Nova Scotia makes no representations, expressed or implied, as to the accuracy, completeness and timeliness of the information, maps and other data, including PID numbers or property boundaries, which are displayed in this map that is presented in this application.</p>
+      <p>The map is provided on the understanding that it is not guaranteed to be correct or complete or current, is subject to change, and conclusions drawn or decisions made, based on an interpretation of the data, are the responsibility of the user.</p>
+      <p>By continuing to use this application, you agree to the terms of this disclaimer.</p><p><a href={PROVINCE_LICENSE_URL}>Read the service licence</a>. Online viewing only; imagery is not included in the offline pack.</p>
+      <button autoFocus onClick={() => { try { localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, 'accepted'); } catch { /* session only */ } setLicenceDialog(false); setAerialPermitted(true); setAerialError(false); setAerial(true); }}>Accept and show aerial</button><button onClick={() => setLicenceDialog(false)}>Cancel</button>
+    </dialog>}
+  </main>;
+}

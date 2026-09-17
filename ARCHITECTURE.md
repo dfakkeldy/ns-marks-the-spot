@@ -906,3 +906,17 @@ row and popup names its origin file. User vector layers are excluded from
 print capture and share links by construction — `PrintMap` takes no vector
 prop — per the print/export boundary above. Everything is client-side;
 nothing is uploaded.
+
+### Persistent Poker pocket app
+
+`web/src/poker/` is the dedicated `/poker` entry, separate from the research
+map's theme. It reuses civic parsing, conservative mailing-address matching,
+Atlas palette tokens, Leaflet and spherical path measurement. Its bounded
+open-data snapshot retains source IDs and provenance; postal records without
+one unique civic match remain visible but unplaceable. Storage is local only.
+`pokerOfflinePlugin.ts` emits a versioned service worker with only the entry's
+asset dependency closure, manifest, icons and regional data. The worker scope is
+`/poker`; KinNoKi must set `Service-Worker-Allowed: /poker` on its script and
+rewrite both short-route spellings to the dedicated HTML. KinNoKi's sync step
+sets that shell's base URL to the pinned map directory. Aerial viewing keeps the
+provincial licence gate and is never written into the offline cache.
