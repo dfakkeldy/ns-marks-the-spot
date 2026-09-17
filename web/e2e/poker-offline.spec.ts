@@ -98,3 +98,19 @@ test('aerial preference survives refresh, retains its licence gate, and is never
   await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
   await expect(page.getByRole('button',{name:'Aerial (online)',exact:true})).toBeDisabled();
 });
+
+test('one tap retries aerial imagery after a source failure', async ({page}) => {
+  let failing = true;
+  await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1','accepted'));
+  await page.route('https://nsgiwa.novascotia.ca/**', route => failing
+    ? route.fulfill({status:503,body:'Unavailable'})
+    : route.fulfill({contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"/>'}));
+  await page.goto('/poker');
+  await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+  await page.getByRole('button',{name:'Aerial (online)',exact:true}).click();
+  await expect(page.locator('.poker-map-notice')).toContainText('Aerial imagery unavailable');
+  failing = false;
+  await page.getByRole('button',{name:'Aerial (online)',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Use Atlas map'})).toBeVisible();
+  await expect(page.locator('.poker-map-notice')).toHaveCount(0);
+});

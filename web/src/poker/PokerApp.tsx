@@ -129,11 +129,11 @@ export function PokerApp() {
   const save = async () => {
     setSaving(true); setOfflineNotice('Saving the app, addresses and Atlas road map…');
     try { const protectedStorage = await saveOffline(); setSaved(true); setRetry(v => v + 1); setOfflineNotice(protectedStorage ? 'Saved offline on this device.' : 'Saved offline. Your browser may remove downloads if device storage is low.'); }
-    catch (error) { setOfflineNotice(error instanceof Error ? error.message : 'Could not save offline.'); }
+    catch (error) { setSaved(false); setOfflineNotice(error instanceof Error ? error.message : 'Could not save offline.'); }
     finally { setSaving(false); }
   };
   const toggleAerial = () => {
-    if (aerial) { setAerial(false); return; }
+    if (aerial && !aerialError) { setAerial(false); return; }
     let accepted = false;
     try { accepted = localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === 'accepted'; } catch { /* Still allow session-only acceptance. */ }
     if (accepted) { setAerialPermitted(true); setAerialError(false); setAerial(true); } else setLicenceDialog(true);
