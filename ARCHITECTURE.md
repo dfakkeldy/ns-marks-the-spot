@@ -303,11 +303,16 @@ a public/commercial bulk-print API.
 from the web's `provinceLayerCatalog`. `layerParity.ts` projects the native
 catalogue. `layers/openDataSources.ts` replaces nine provincial controls and
 15 NSTDB infrastructure controls with explicitly identified OGL-NS datasets.
-`services/openDataOverlay.ts` queries only the viewport, paginates by source row
+`services/openDataOverlay.ts` queries bounded viewport areas, paginates by source row
 ID and fails closed on missing geometry, repeated rows, failed constituents or
 size limits. `services/renderOpenData.ts` supplies the same project cartography
 to `OpenDataLayer` and the PDF compositor. Display geometry can be simplified
-within half a pixel, capped at 10 metres; parcel evidence never uses this path.
+within half a pixel, capped at 10 metres and converted to geographic degrees
+for Socrata. NSRN roads retain original geometry at every zoom. Complete road
+collections up to 8 MiB are cached per source in memory for 60 seconds with a
+10% viewport margin per edge; zoom changes invalidate reuse. If the margin
+exceeds download limits, the exact viewport is retried. Parcel evidence never
+uses this path.
 Dataset links and licence credits remain attached to all constituent sources.
 
 The web's default-off `sentinel-2` context background uses EOX's CC BY 4.0 2016

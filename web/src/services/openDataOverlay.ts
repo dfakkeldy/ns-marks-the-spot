@@ -9,17 +9,25 @@ const MAX_RESPONSE_BYTES = 24 * 1024 * 1024;
 export class OpenDataAreaTooLargeError extends Error {}
 export type OpenDataCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry, Record<string, unknown>>;
 
-export function openDataQuery(part: OpenDataPart, bounds: MapEnvelope, offset: number, zoom = 24): string {
+function validateBounds(bounds: MapEnvelope) {
   const { west, east, south, north } = bounds;
   if (![west, east, south, north].every(Number.isFinite) || west >= east || south >= north || west < -180 || east > 180 || south < -90 || north > 90) throw new Error("Invalid map bounds");
+}
+
+export function openDataQuery(part: OpenDataPart, bounds: MapEnvelope, offset: number, zoom = 24): string {
+  validateBounds(bounds);
+  const { west, east, south, north } = bounds;
   const ring = `${west} ${south},${east} ${south},${east} ${north},${west} ${north},${west} ${south}`;
   const url = new URL(openDatasetApi(part.dataset));
   const geometryType = sourceReceipt.datasets.find(({ id }) => id === part.dataset)?.geometryType;
-  const tolerance = Math.max(0.01, Math.min(10, 156543.034 * Math.cos((south + north) / 2 * Math.PI / 180) / 2 ** zoom / 2));
+  const toleranceMetres = Math.max(0.01, Math.min(10, 156543.034 * Math.cos((south + north) / 2 * Math.PI / 180) / 2 ** zoom / 2));
+  // Socrata simplifies in the geometry's own units (degrees). Use the larger
+  // metres-per-degree axis conservatively, with enough decimals for subpixels.
+  const toleranceDegrees = toleranceMetres / 111_320;
   // Only display geometry is simplified. Filtering always uses original geometry;
   // this path must never supply parcel intersection or distance evidence.
-  const geometry = geometryType && geometryType !== "point" && zoom < (part.dataset === "484g-adjn" ? 15 : 18)
-    ? `simplify_preserve_topology(the_geom,${tolerance.toFixed(2)}) as the_geom`
+  const geometry = part.dataset !== "484g-adjn" && geometryType && geometryType !== "point" && zoom < 18
+    ? `simplify_preserve_topology(the_geom,${toleranceDegrees.toFixed(8)}) as the_geom`
     : "the_geom";
   url.searchParams.set("$select", [":id as source_row_id", geometry, ...part.fields].join(","));
   url.searchParams.set("$where", `intersects(the_geom, 'POLYGON((${ring}))')${part.where ? ` AND (${part.where})` : ""}`);
@@ -29,8 +37,48 @@ export function openDataQuery(part: OpenDataPart, bounds: MapEnvelope, offset: n
   return url.toString();
 }
 
+// One short-lived, complete collection per mounted road source. Weak keys let
+// unmounted layers release their geometry; large responses are never retained.
+const roadCache = new WeakMap<OpenDataSource, {
+  bounds: MapEnvelope; zoom: number; expires: number; collection: OpenDataCollection;
+}>();
+
 /** Complete bounded queries only. Partial, malformed and oversized layers fail closed. */
 export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal?: AbortSignal, zoom = 24): Promise<OpenDataCollection> {
+  validateBounds(bounds);
+  signal?.throwIfAborted();
+  const cached = roadCache.get(source);
+  if (cached && cached.expires > Date.now() && cached.zoom === zoom &&
+      bounds.west >= cached.bounds.west && bounds.east <= cached.bounds.east &&
+      bounds.south >= cached.bounds.south && bounds.north <= cached.bounds.north) {
+    return cached.collection;
+  }
+  roadCache.delete(source);
+  // Ten percent per edge permits small pans without repeating a spatial query.
+  const dx = (bounds.east - bounds.west) * 0.1;
+  const dy = (bounds.north - bounds.south) * 0.1;
+  let requestedBounds = source.roads ? {
+    west: Math.max(-180, bounds.west - dx), east: Math.min(180, bounds.east + dx),
+    south: Math.max(-90, bounds.south - dy), north: Math.min(90, bounds.north + dy),
+  } : bounds;
+  let result;
+  try {
+    result = await downloadOpenDataOverlay(source, requestedBounds, signal, zoom);
+  } catch (error) {
+    // Padding must not turn an otherwise valid viewport into a zoom-in error.
+    if (!source.roads || !(error instanceof OpenDataAreaTooLargeError)) throw error;
+    signal?.throwIfAborted();
+    requestedBounds = bounds;
+    result = await downloadOpenDataOverlay(source, bounds, signal, zoom);
+  }
+  signal?.throwIfAborted();
+  if (source.roads && result.bytes <= 8 * 1024 * 1024) {
+    roadCache.set(source, { bounds: requestedBounds, zoom, expires: Date.now() + 60_000, collection: result.collection });
+  }
+  return result.collection;
+}
+
+async function downloadOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal: AbortSignal | undefined, zoom: number) {
   const features: OpenDataCollection["features"] = [];
   const seen = new Set<string>();
   let bytes = 0;
@@ -69,5 +117,5 @@ export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEn
       if (data.features.length < PAGE_SIZE) break;
     }
   }
-  return { type: "FeatureCollection", features };
+  return { collection: { type: "FeatureCollection", features } as OpenDataCollection, bytes };
 }
