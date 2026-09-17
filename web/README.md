@@ -144,9 +144,10 @@ is disclosed in the export receipt. Neither path silently substitutes OSM.
 `/atlas.html` remains a comparison study with Baddeck, Mabou, Halifax, Judique
 and Port Hawkesbury bookmarks. Its WebGL historical preview requires tile-host CORS permission;
 the research map uses ordinary image overlays instead. Fletcher uses the same
-`VITE_FLETCHER_TILE_BASE_URL`, revision, accepted sheet bounds, and imagery terms
-on both surfaces. Builds default to `https://tiles.kinnokilabs.com`; an explicit
-empty override disables the historical control.
+`VITE_FLETCHER_TILE_BASE_URL`, mosaic revision, sheet footprints, and imagery
+terms on both surfaces. Builds default to `https://tiles.kinnokilabs.com`
+(revision `fletcher-full-sheets-20260913.1`); an explicit empty override
+disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
 The sidebar's **Appearance** selector offers **Match map**, **System**, **Light**
@@ -714,15 +715,22 @@ The layers a reader is most likely to ask about:
   in metres; intervals and survey dates vary. They do not claim the former
   service's uniform 5 m LiDAR interval or establish surveyed grade, drainage,
   stability, flood exposure or buildability.
-- Fletcher has a real default-off control for the 24 independently accepted
-  direct-Rumsey sheets. The browser renders bounded per-sheet XYZ trees from
-  the immutable `fletcher-direct-rumsey-20260831.1` revision (twelve sheets
-  cropped to their engraved neat line in this package; the other twelve were
-  already cropped) and supports opacity, share links, print/evidence
-  attribution, and retryable error state. It defaults to
-  `https://tiles.kinnokilabs.com`; `VITE_FLETCHER_TILE_BASE_URL` can override
-  that HTTPS object host or explicitly disable hosting with an empty value.
-  No OldMapsOnline endpoint is used.
+- Fletcher has a real default-off control for the published 24-sheet mosaic.
+  The browser fetches one precomposited XYZ pyramid
+  (`{base}/{revision}/{z}/{x}/{y}.png`) from the immutable
+  `fletcher-full-sheets-20260913.1` revision at zooms 8–15, enlarging zoom 15
+  at closer display scales. Sheet footprints remain coverage metadata; they
+  do not cause the mosaic to be fetched or painted once per overlapping
+  sheet. Alignment is approximate, with gaps at some joins; geographic
+  acceptance findings are unchanged. Attribution remains David Rumsey Map
+  Collection, David Rumsey Map Center, Stanford University Libraries and
+  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The
+  source receipt is `{base}/{revision}/source.json`. The control supports
+  opacity, share links, print/evidence attribution, and retryable error
+  state. It defaults to `https://tiles.kinnokilabs.com`;
+  `VITE_FLETCHER_TILE_BASE_URL` can override that HTTPS object host or
+  explicitly disable hosting with an empty value. No OldMapsOnline endpoint
+  is used.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
   as disabled rows: no tiles have been produced for them yet. See
@@ -1569,25 +1577,29 @@ included and to use KMZ. "Add photos to map" bulk-places geotagged JPEGs
 from its own file picker (not the shared drop zone): files are classified
 in-view, out-of-view, or no-location, and confirmed photos become a
 photos-source layer of points.
-The Fletcher web integration and immutable, bounded per-sheet package are
-implemented and default to `https://tiles.kinnokilabs.com`. An explicit empty
-`VITE_FLETCHER_TILE_BASE_URL` disables the layer. The 24 direct-Rumsey source trees are kept
-separate so overlapping XYZ keys are never resolved by last-write-wins copying.
-The public revision includes a source receipt; private object and duplicate-key
-receipts stay with the deployable package. Hosting, upload verification, and
-custom-domain acceptance remain separate gates. The permission does not by
-itself clear native offline bundling. Unsupported historical
-sources remain fail-closed; this web workflow does not change the native app.
+The Fletcher web integration and published 24-sheet mosaic are implemented and
+default to `https://tiles.kinnokilabs.com` (revision
+`fletcher-full-sheets-20260913.1`). Tiles are fetched as
+`{base}/{revision}/{z}/{x}/{y}.png`; the source receipt is
+`{base}/{revision}/source.json`. An explicit empty `VITE_FLETCHER_TILE_BASE_URL`
+disables the layer. Sheet footprints remain coverage metadata rather than
+per-sheet XYZ trees. Hosting, upload verification, and custom-domain
+acceptance remain separate gates. The permission does not by itself clear
+native offline bundling. Unsupported historical sources remain fail-closed;
+this web workflow does not change the native app.
 
 ### Fletcher full-sheets review preview
 
-`VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` optionally enables a local review overlay
-of the complete cropped Cape Mabou / Broad Cove (14), Judique (19), Mabou (16),
-and Hawkesbury (22) sheets from the immutable `fletcher-full-sheets-20260909.3`
-revision. Example local host: `http://127.0.0.1:4198` (see `.env.example`). When
-the variable is absent or unset, the control is absent. It does not replace the
-published 24-sheet Fletcher layer. Alignment is approximate, with gaps at some
-joins; this is a review preview only, not a geographically accepted production
-replacement. It has its own visibility and opacity control and is excluded from
-map exports and print. Sheet 11 is a provisional draft and is not in this tile
-package. See [package and local preview instructions](../reports/fletcher/full-sheets/README.md).
+`VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` / `FletcherFullSheetsPreview` optionally
+enables a separate local review overlay of the older partial revision
+`fletcher-full-sheets-20260909.3` (complete cropped Cape Mabou / Broad Cove (14),
+Judique (19), Mabou (16), and Hawkesbury (22) sheets). Example local host:
+`http://127.0.0.1:4198` (see `.env.example`). When the variable is absent or
+unset, the control is absent. This is not the published layer: published
+Fletcher is the `fletcher-full-sheets-20260913.1` 24-sheet mosaic, served through
+the main `VITE_FLETCHER_TILE_BASE_URL` host. Alignment is approximate, with gaps
+at some joins; this preview does not change geographic acceptance. It has its
+own visibility and opacity control and is excluded from map exports and print.
+Sheet 11 is a provisional draft and is not in the
+`fletcher-full-sheets-20260909.3` preview package. See
+[package and local preview instructions](../reports/fletcher/full-sheets/README.md).
