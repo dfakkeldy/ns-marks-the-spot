@@ -163,6 +163,9 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         }
 
         if let cache = tileCache, let cached = cache.cachedTile(z: z, x: x, y: y, layerName: cacheKey) {
+            if case .fletcherSheets = configuration.source {
+                return (cached, .served, Self.substance(of: cached))
+            }
             return (cached, .served, .source)
         }
 
@@ -178,7 +181,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
             // After the cache above rather than before it, because the two hold
             // the same picture and the cache answers from memory.
             if let saved = await savedTile(z: z, x: x, y: y) {
-                return (saved, .served, Self.substance(ofSaved: saved))
+                return (saved, .served, Self.substance(of: saved))
             }
 
             let sheet = await Self.fletcherMosaicTile(
@@ -187,7 +190,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
                 fetcher: fetcher, cache: tileCache
             )
             if let tileData = sheet.data {
-                return (tileData, sheet.outcome, .source)
+                return (tileData, sheet.outcome, Self.substance(of: tileData))
             }
             // No sheet covers this square, or the ones that do could not be
             // reached. The outcome already separates those two; the substance
@@ -361,21 +364,25 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         return await tileStore.tile(z: z, x: x, y: y, layerID: configuration.id)
     }
 
-    /// What a saved tile actually holds.
-    ///
-    /// The downloader writes `TileComposite.transparent` byte for byte where
-    /// every covering sheet answered and none of them had ink, so comparing
-    /// against it tells the printed legend the same thing the live path tells
-    /// it there: ground inside a sheet's bounding box that the scan leaves
-    /// blank is coverage answered, not a picture drawn.
-    ///
-    /// Bytes that do not match are treated as ink. That is the honest fallback
-    /// for the one case this can miss — a tile saved before an OS whose PNG
-    /// encoder writes a different blank — because it credits the sheet the
-    /// coordinate really does sit inside, and a blank square is what gets
-    /// drawn either way.
-    private static func substance(ofSaved data: Data) -> TileSubstance {
-        data == TileComposite.transparent ? .outsideCoverage : .source
+    /// Blank source PNGs are answered coverage, not imagery to credit in print.
+    private static func substance(of data: Data) -> TileSubstance {
+        // Server PNGs need not share our encoder's byte representation. Classify
+        // actual alpha so blank mosaic tiles do not acquire a print credit just
+        // because they came from R2 or survived an offline round trip.
+        if data == TileComposite.transparent { return .outsideCoverage }
+        guard let image = UIImage(data: data)?.cgImage else { return .source }
+        var pixels = [UInt8](repeating: 0, count: image.width * image.height * 4)
+        let isBlank = pixels.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(
+                data: buffer.baseAddress, width: image.width, height: image.height,
+                bitsPerComponent: 8, bytesPerRow: image.width * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ) else { return false }
+            context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+            return stride(from: 3, to: buffer.count, by: 4).allSatisfy { buffer[$0] == 0 }
+        }
+        return isBlank ? .outsideCoverage : .source
     }
 
     private static func fallbackTile(z: Int, x: Int, y: Int) -> Data? {
@@ -383,12 +390,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
             return generatePlaceholderTile(z: z, x: x, y: y)
         }
 
-        // The one definition of a blank tile, shared with the offline
-        // downloader. Every square outside sheet coverage takes this path on
-        // MapKit's tile queues — rendering and PNG-encoding byte-identical
-        // output there was pure churn, and a second blank encoding would also
-        // break `substance(ofSaved:)`, which recognises blanks by comparing
-        // against this exact constant.
+        // Reuse the fallback instead of encoding the same blank on every request.
         return TileComposite.transparent
     }
 

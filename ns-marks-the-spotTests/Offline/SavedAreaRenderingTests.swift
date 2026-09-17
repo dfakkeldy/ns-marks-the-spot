@@ -73,8 +73,7 @@ struct SavedAreaRenderingTests {
         )
     }
 
-    /// Runs the real download path: the loader resolves the covering sheets and
-    /// stacks what they answer, and the manager writes the result.
+    /// Runs the real mosaic loader and stores the returned bytes.
     private static func download(
         host: String, store: TileStore
     ) async -> TileDownloadProgress {
@@ -211,23 +210,18 @@ struct SavedAreaRenderingTests {
         #expect(StubURLProtocol.requestCount(host: host) > 0)
     }
 
-    /// The whole chain in one test: sheets answered, tile stacked, tile stored,
-    /// tile read back.
-    ///
-    /// Each half had tests and the join did not. What this pins is the blank
-    /// tile's identity across it — `FletcherTileLoader` saves
-    /// `TileComposite.transparent` where every covering sheet answered 404, and
-    /// the overlay decides "outside coverage" by comparing against that same
-    /// constant. Two blanks written by two encoders would read as a picture
-    /// drawn, and a printed legend would credit a source for ground it never
-    /// reached.
+    /// An explicitly blank mosaic tile survives download and offline rendering.
+    /// HTTP 404 is a missing object now, not a legitimate blank. The PNG is
+    /// encoded independently so this also covers server-produced blank bytes.
     @Test func groundNoSheetInkedIsSavedAndReadBackAsCoverageAnswered() async throws {
         let downloadHost = "download-blank.tiles.test"
         let drawHost = "draw-blank.tiles.test"
-        // 404 is a sheet saying it has no ink here. 503 on the drawing host is
-        // the guard: if the map went to the network for this square instead of
-        // to the store, the substance would come back a placeholder.
-        StubURLProtocol.stub(host: downloadHost, with: .status(404))
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = false
+        let blank = UIGraphicsImageRenderer(size: CGSize(width: 128, height: 128), format: format)
+            .pngData { _ in }
+        StubURLProtocol.stub(host: downloadHost, with: .success(blank))
         StubURLProtocol.stub(host: drawHost, with: .status(503))
         defer {
             StubURLProtocol.clear(host: downloadHost)
