@@ -1,3 +1,4 @@
+import { pokerOfflinePlugin } from "./scripts/pokerOfflinePlugin";
 import { configDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { loadEnv, type PreviewServer, type ViteDevServer } from "vite";
@@ -17,7 +18,7 @@ function localArchiveHeaders(request: IncomingMessage, response: ServerResponse,
 }
 
 export default defineConfig(({ mode }) => ({
-  plugins: [react(), {
+  plugins: [react(), pokerOfflinePlugin(), {
     name: "local-pmtiles-range-cache",
     configureServer(server: ViteDevServer) { server.middlewares.use(localArchiveHeaders); },
     configurePreviewServer(server: PreviewServer) { server.middlewares.use(localArchiveHeaders); },
@@ -43,7 +44,7 @@ export default defineConfig(({ mode }) => ({
     manifest: true,
     rollupOptions: {
       input: {
-        app: "index.html", atlas: "atlas.html", terrain: "terrain.html",
+        app: "index.html", poker: "poker.html", atlas: "atlas.html", terrain: "terrain.html",
         // Exercise print components in preview without shipping the synthetic fixture.
         ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html" } : {}),
       },

@@ -1607,3 +1607,36 @@ own visibility and opacity control and is excluded from map exports and print.
 Sheet 11 is a provisional draft and is not in the
 `fletcher-full-sheets-20260909.3` preview package. See
 [package and local preview instructions](../reports/fletcher/full-sheets/README.md).
+
+## Poker pocket app
+
+`/poker` is a separate, small address-and-driveway app (`poker.html`), built from
+this repository and published by KinNoKi with a rewrite that preserves the short
+URL. It restores this browser's search, postal filter, chosen address, viewport
+and current trace from `ns-marks:poker:v1`. Selecting an address starts a new
+trace; Finish checks the user's strictly-over-500-metre carding threshold against
+the unrounded geodesic path length. Civic numbers stay available at street zoom.
+The research map's older Poker theme remains separate; old KinNoKi Poker links
+lead to the dedicated app, including browsers that cached the former redirect.
+
+Save offline downloads Poker's dependency closure and the approximately 4.5 MB
+regional data pack. Its `/poker`-scoped service worker never caches aerial imagery,
+other remote services, or the general research map. It confirms every required
+file before reporting success and can repair missing cached files. The manifest
+opens `/poker`; browser storage availability/eviction and clearing website data
+still affect saved sessions. Installing or using another browser does not sync
+sessions. The offline map uses Atlas Day colours with open NSRN roads and NSTDB
+water/building geometry; it is a bounded subset, not the full provincial Atlas.
+Aerial remains an online, licence-gated option.
+
+`public/poker/source.json` records exact source queries, dates, counts, hashes,
+licences and the conservative NAR-to-civic matching policy. All 1,575 NAR records
+in B0E 1P0, B0E 2W0 and B0E 1X0 remain searchable; 1,017 have a unique verified
+civic point. The remaining 558 are visibly unverified and cannot be placed.
+No resident names, ownership inference, invented postal boundaries or delivery
+routes are included. A missing/unmatched record is not evidence of absence.
+Regenerate with `python3 scripts/fetchPokerSources.py --cache <external-folder>`
+then `node scripts/buildPokerData.mjs <external-folder>` from `web/`. Raw sources
+stay outside Git. The build checks the compressed pack against its receipt.
+Browser tests exercise real pack search, refresh, offline reload, civic numbers,
+trace persistence, and clearing the trace at phone and desktop widths.

@@ -460,7 +460,7 @@ function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
     : null;
 }
 
-function civicAddressForFeature(
+export function civicAddressForFeature(
   feature: CivicPointFeature,
 ): CivicAddress | null {
   if (
