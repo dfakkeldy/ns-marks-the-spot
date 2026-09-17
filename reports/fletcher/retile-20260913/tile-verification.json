@@ -1,0 +1,14 @@
+{
+  "source_sha256": "501749928dd3efd5b01017bf2b6906695c41248064d7a279d078b3d4f4c50324",
+  "inventory_sha256": "5fcd277d4daf50974cf33a035c1859af775f9b5075de9208a1b9b750f5d39851",
+  "tile_count": 44340,
+  "complete_xyz_pyramids": true,
+  "native_zoom": 15,
+  "missing_source_coverage_cells": 0,
+  "opaque_cells_compared": 1216437446,
+  "opaque_rgb_max_difference": 1,
+  "opaque_rgb_mean_difference": 1.0960969162185208e-09,
+  "tile_edge_opaque_rgb_max_difference": 0,
+  "rgb_tolerance": "One 8-bit level: strip and tile sampling can round at a half value; exact-zero diagnostic retained separately",
+  "scope": "Tile mechanics only. Source geographic gaps are retained, not certified or filled."
+}
