@@ -1,0 +1,71 @@
+{
+  "id": "VN15",
+  "role": "check",
+  "label": "Donovan Brook northern-bank entry into Black Brook",
+  "aliases": [
+    "Previously withheld VN10, labelled Duncan Brook in the earlier report"
+  ],
+  "pixel_xy": [
+    7095.0,
+    14023.5
+  ],
+  "lonlat": [
+    -60.480951780234356,
+    46.764249761082056
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      6990,
+      13930
+    ],
+    "extent": [
+      300,
+      280
+    ],
+    "display": [
+      1200,
+      1120
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    420,
+    374
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-donovan-junction.jpg",
+  "source_crop_sha256": "150c3dadc6db974f47cdef6f1712222fda1651c740f2cd439b2dec55f1fc598a",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/reference-full/water-lines.geojson",
+  "reference_sha256": "93623a04337678ae4136d4fa067ef087d673f32baedaf4ea94ed9e1df68fdb7e",
+  "reference_feature_ids": [
+    170752,
+    170894,
+    281431
+  ],
+  "reference_vertex": {
+    "feature_id": 281431,
+    "vertex": 54
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 170752,
+      "vertex": 187,
+      "code": "WARV20"
+    },
+    {
+      "feature_id": 170894,
+      "vertex": 0,
+      "code": "WARV20"
+    },
+    {
+      "feature_id": 281431,
+      "vertex": 54,
+      "code": "WARV50"
+    }
+  ],
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "Larger original crop reads Donovan Brook, not Duncan. Its tributary approaches from the northwest and meets the north side of Black Brook at the bend before the eastward gorge. The small opposite-bank tributary is immediately west in both sources and is not selected. Use the tributary stroke meeting the north edge of the main-river stroke, not lettering or the southern junction. Original NSTDB281431 is named Donovan Brook and joins banks170752/170894 at the exact selected vertex. Provincial GeoNames CBQAN corroborates identity at this reach; its name coordinate was not used as the measured target. Original withheld VN10 had no matched/scored pair and remains preserved.",
+  "phase": "First scored resolution of previously withheld VN10, after affine7 freeze; no tuning"
+}

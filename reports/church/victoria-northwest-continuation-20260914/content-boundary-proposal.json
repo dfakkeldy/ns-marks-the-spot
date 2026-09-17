@@ -1,0 +1,44 @@
+{
+  "county": "victoria",
+  "panel": "northwest",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "ring_pixel_xy": [
+    [
+      400,
+      650
+    ],
+    [
+      12750,
+      650
+    ],
+    [
+      12750,
+      20550
+    ],
+    [
+      400,
+      20550
+    ],
+    [
+      400,
+      7260
+    ],
+    [
+      3770,
+      7260
+    ],
+    [
+      3770,
+      3260
+    ],
+    [
+      400,
+      3260
+    ]
+  ],
+  "status": "Proposed full-content review envelope, not yet accepted or used to replace production boundary",
+  "basis": "Measured original source views: full field, harbour inset and southern border. Margins enclose mapped ink and complete graticule labels; not asserted exact engraved-rule coordinates.",
+  "inset_exclusion": "New Haven / Neils Harbour independent plan: proposed exclusion x400..3770,y3260..7260.",
+  "problems_in_old": "Old notch begins below inset top, extends well below inset bottom through mapped western tributaries; old right and bottom edges trim mapped content.",
+  "production_boundary_unchanged": true
+}

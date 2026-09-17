@@ -1,0 +1,8 @@
+{
+  "score_sets_replayed": 15,
+  "new_observation_frames_and_reference_vertices": 3,
+  "frozen_models": 2,
+  "actual_raster_windows": 9,
+  "csv_inventories_verified_in_production_parser": 8,
+  "geographic_acceptance": false
+}

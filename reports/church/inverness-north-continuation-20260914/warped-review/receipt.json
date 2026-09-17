@@ -1,0 +1,68 @@
+{
+  "raster_sha256": "8856e0fdd99f3ce01774f4ee22d182755728369961de9113f76af4cc047b62e8",
+  "reviews": [
+    {
+      "id": "I14",
+      "role": "CONTROL - not validation",
+      "figure": "I14-tps5.jpg",
+      "sha256": "85e1c646aff6d14d3a99ee2f95569f786eabd754a06746be13ae691812839599",
+      "source_pixel_alpha": 255,
+      "raster_pixel_xy": [
+        3030.0353781389817,
+        77.65592067496131
+      ]
+    },
+    {
+      "id": "I15",
+      "role": "fresh check",
+      "figure": "I15-tps5.jpg",
+      "sha256": "463ad3d20e74682691dd439f41bbb1a339a6c423ee1ba686c437b5e2968bc63f",
+      "source_pixel_alpha": 255,
+      "raster_pixel_xy": [
+        984.2524065294581,
+        2977.927770919476
+      ]
+    },
+    {
+      "id": "N03",
+      "role": "diagnostic",
+      "figure": "N03-tps5.jpg",
+      "sha256": "42dddc3d1a6d0125c5944bb33d16bbdf5b465c3b5a43d816a82433dd722be82b",
+      "source_pixel_alpha": 255,
+      "raster_pixel_xy": [
+        2038.3578012244589,
+        1658.7777255029719
+      ]
+    },
+    {
+      "id": "I13",
+      "role": "diagnostic",
+      "figure": "I13-tps5.jpg",
+      "sha256": "b51b975146e4a728e16637809631f00f6ecbe5eedc92ff9e1ccd0e08cf5153ae",
+      "source_pixel_alpha": 255,
+      "raster_pixel_xy": [
+        1413.7375081755033,
+        4636.03795210047
+      ]
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/reference-full/water-lines.geojson",
+      "sha256": "5b1725ed4a77195ee24d2d25dcec0f36c03f4a85688c57582da3c2160eb1e59a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/reference-full/water-lines.geojson",
+      "sha256": "85adc29cf071b6499a8ff0a78e2e7f74e047ec58d0457b606056b159bec38961"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/reference-full/water-lines.geojson",
+      "sha256": "8f1eaf5ef2d54e6782a8caf91d7ff95175e9c8f7d23a04570049f50817779cf5"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/83da/ns-marks-the-spot/reports/church/distributed-review-20260913/inverness-north/I13-reference-features.geojson",
+      "sha256": "2bf78f70a9631e3e394148e57e4b4281ad0adde3f59e250bb528daed37603d5c"
+    }
+  ],
+  "geographic_acceptance": false
+}

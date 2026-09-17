@@ -1,0 +1,11 @@
+{
+  "prior_report": "../../distributed-review-20260913/victoria-northwest/excluded-candidates.json",
+  "prior_id": "VN10",
+  "new_id": "VN15",
+  "correction": "Larger original source reads Donovan Brook. The earlier Duncan reading was incorrect.",
+  "false_name_match": "CAKDD Duncan Brook is a different Victoria County stream flowing into Middle River at46.280783,-60.894314; rejected for this northwestern location.",
+  "corroborating_name_key": "CBQAN",
+  "chosen_reference": "Original NSTDB Donovan Brook281431v54 at shared north-bank entry170752v187/170894v0",
+  "gazetteer_point_not_used_as_gcp": true,
+  "original_reports_unchanged": true
+}

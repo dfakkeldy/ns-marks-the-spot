@@ -1,0 +1,21 @@
+{
+  "promoted_id": "I14",
+  "source_observation_sha256": "b9c925c2a3494d51696174ca8da7d5eb6590ed41080420c0f81648e3103687e5",
+  "original_first_result": "../first-results/I14.json",
+  "unchanged_pixel_xy": [
+    14346,
+    920
+  ],
+  "unchanged_lonlat": [
+    -60.59836641693324,
+    47.041967210032965
+  ],
+  "excluded_from_checks": [
+    "I14"
+  ],
+  "diagnostic_after_selection": [
+    "N03",
+    "I13"
+  ],
+  "prior_mismatched_I12": "remains excluded; original pair and first result retained in predecessor"
+}

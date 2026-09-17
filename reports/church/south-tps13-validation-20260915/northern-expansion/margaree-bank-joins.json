@@ -1,0 +1,82 @@
+[
+  {
+    "lonlat": [
+      -61.09308094929853,
+      46.335850103353415
+    ],
+    "lines": [
+      {
+        "id": 159343,
+        "vertex": 46,
+        "name": "Northeast Margaree River",
+        "code": "WARV10"
+      },
+      {
+        "id": 159968,
+        "vertex": 0,
+        "name": "Margaree River",
+        "code": "WARV10"
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.09329926175551,
+      46.335684004398644
+    ],
+    "lines": [
+      {
+        "id": 159969,
+        "vertex": 1,
+        "name": "Margaree River",
+        "code": "WARV10"
+      },
+      {
+        "id": 183668,
+        "vertex": 56,
+        "name": "Northeast Margaree River",
+        "code": "WARV20"
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.09330592810553,
+      46.33599641696683
+    ],
+    "lines": [
+      {
+        "id": 167428,
+        "vertex": 0,
+        "name": "Margaree River",
+        "code": "WARV20"
+      },
+      {
+        "id": 182056,
+        "vertex": 18,
+        "name": "Southwest Margaree River",
+        "code": "WARV20"
+      }
+    ]
+  },
+  {
+    "lonlat": [
+      -61.09349876679309,
+      46.33580096658874
+    ],
+    "lines": [
+      {
+        "id": 167429,
+        "vertex": 1,
+        "name": "Margaree River",
+        "code": "WARV20"
+      },
+      {
+        "id": 173817,
+        "vertex": 15,
+        "name": "Southwest Margaree River",
+        "code": "WARV10"
+      }
+    ]
+  }
+]

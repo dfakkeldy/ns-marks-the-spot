@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Map as AtlasMap } from './mapLibreRuntime';
+import { terrainFailureMessage } from '../terrain/terrainStatus';
 import { buildAtlasStyle } from './style';
 import type { AtlasMode } from './palette';
 import type { MapLayerStatus } from '../components/MapCanvas';
@@ -27,7 +28,12 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
     node.setAttribute('aria-hidden', 'true');
     leaflet.getContainer().prepend(node);
     const report = (next: MapLayerStatus) => { if (!disposed) status.current(next); };
-    const fail = () => { failed = true; report({ status: 'error' }); };
+    const fail = (message = 'Atlas graphics connection lost. Retry the map.') => {
+      failed = true;
+      window.clearTimeout(watchdog);
+      watchdog = 0;
+      report({ status: 'error', message });
+    };
     const loading = () => {
       if (failed) return;
       report({ status: 'loading' });
@@ -57,8 +63,12 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
       return;
     }
     loading();
-    atlas.on('error', event => { if (!('name' in event.error) || event.error.name !== 'AbortError') fail(); });
-    atlas.on('webglcontextlost', fail);
+    atlas.on('error', event => {
+      if ('name' in event.error && event.error.name === 'AbortError') return;
+      console.warn('Atlas source failed', 'sourceId' in event ? event.sourceId : undefined, event.error);
+      fail(terrainFailureMessage(event));
+    });
+    atlas.on('webglcontextlost', () => fail());
     atlas.on('dataloading', () => { if (!watchdog) loading(); });
     atlas.on('idle', () => {
       window.clearTimeout(watchdog);

@@ -1,0 +1,52 @@
+{
+  "id": "IS52",
+  "label": "MacIvers Point western shoreline extremum",
+  "role": "check",
+  "recorded_at": "2026-09-16T04:06:33.516228+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      31400,
+      15000
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/maciver-native.jpg",
+  "source_crop_sha256": "2fe2c69a18d0135d0a9c788877f74ca88da67b10068d92062b381f80e6d0d9ee",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    616,
+    429
+  ],
+  "pixel_xy": [
+    32016,
+    15429
+  ],
+  "lonlat": [
+    -60.92521510390629,
+    46.03719145893317
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 10117,
+      "vertex": 80
+    }
+  ],
+  "reference_kind": "coastal-extremum",
+  "extremum_direction": "west",
+  "uncertainty_ground_m": 200,
+  "point_definition": "western extremum of the mapped headland",
+  "identity_evidence": "The west-facing headland has a notched northern shore, a western front and a southern return into MacDonald Cove. The long cove and the opposing channel shore identify the feature independently of the namepoint. The engraved front is more angular than the original modern shoreline; the western extremum is the shared definition and uncertainty is 200 m. The modern name record is in Victoria County, but this adjacent shore is explicitly drawn inside the Inverness south main-map content and cutline.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and selection"
+}

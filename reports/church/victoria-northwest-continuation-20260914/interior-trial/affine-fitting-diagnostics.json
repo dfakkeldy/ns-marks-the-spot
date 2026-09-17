@@ -1,0 +1,38 @@
+{
+  "scope": "Fitting diagnostics, not validation. Affine8 still misses the verified Donovan control substantially.",
+  "rms_ground_m": 322.0109823984689,
+  "points": [
+    {
+      "id": "VN01",
+      "error_ground_m": 306.99081379457886
+    },
+    {
+      "id": "VN04",
+      "error_ground_m": 224.30400161364983
+    },
+    {
+      "id": "VN06",
+      "error_ground_m": 26.593876497913634
+    },
+    {
+      "id": "VN05",
+      "error_ground_m": 422.2177840216116
+    },
+    {
+      "id": "VN08",
+      "error_ground_m": 203.6902057491486
+    },
+    {
+      "id": "VN12",
+      "error_ground_m": 137.02455080800024
+    },
+    {
+      "id": "VN13",
+      "error_ground_m": 134.88690889505557
+    },
+    {
+      "id": "VN15",
+      "error_ground_m": 653.8638545927035
+    }
+  ]
+}

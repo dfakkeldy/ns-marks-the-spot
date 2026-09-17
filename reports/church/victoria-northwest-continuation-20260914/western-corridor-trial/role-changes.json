@@ -1,0 +1,10 @@
+{
+  "promoted_unchanged": "VN19",
+  "source_observation_sha256": "181a23950f1c23fabedf3113d68eac01163d749028fb93d42a9ab25d8f150b97",
+  "preserved_first": "../edge-and-interior-trial/VN19-first.json",
+  "preserved_ten_control_comparison": "../western-repair/model-comparison.json",
+  "excluded_aliases": [
+    "VN19 Doherty entry"
+  ],
+  "originals_unchanged": true
+}

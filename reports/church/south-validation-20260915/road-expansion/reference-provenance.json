@@ -1,0 +1,40 @@
+{
+  "layers": [
+    {
+      "layer": 8,
+      "name": "roads",
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+      "sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc",
+      "receipt": "roads-receipt.json"
+    },
+    {
+      "layer": 7,
+      "name": "highways",
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/highways.geojson",
+      "sha256": "cb2948e070869b3c2c15fe27a3875e8ccef0a1aea4c72d4dfd2405175a94caad",
+      "receipt": "highways-receipt.json"
+    },
+    {
+      "layer": 5,
+      "name": "bridges",
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/bridges.geojson",
+      "sha256": "b20b941df0c990b48c6dfceef72de0ca5f21fa9e26af058c434f460dacac1023",
+      "receipt": "bridges-receipt.json"
+    },
+    {
+      "layer": 6,
+      "name": "railways",
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/railways.geojson",
+      "sha256": "974868322effea1acac2c1d71a182719828aa73284c90ef06213031ccab38318",
+      "receipt": "railways-receipt.json"
+    }
+  ],
+  "context_layer_codes": {
+    "0": "Water context, from prior BASE_NSTDB_10k_Water_WM84/MapServer/4 extracts;0 is a local plotting code, not the source layer ID.",
+    "5": "Bridges",
+    "6": "Railways",
+    "7": "Highways",
+    "8": "Local roads"
+  },
+  "scope": "All candidate matching uses original source geometry. Public street names alone do not establish historic road continuity."
+}

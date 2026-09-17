@@ -192,6 +192,48 @@ describe("Halifax September 2026 tender refresh", () => {
     ])).toThrow(/Expected 11 Halifax Schedule A PIDs, found 10/);
   });
 
+  it("retains the last Schedule A when bidding is closed and results are unpublished", async () => {
+    const { classifyLandingPage, assertHalifaxResultsStillHistorical } = await loadModule();
+    const closedLanding = `
+      <h1>Property Tax Sales</h1>
+      <p>Please Bidding for <strong>TAXSALE23 LIST – Tuesday, September 15,2026 </strong>is now <strong>Closed.</strong></p>
+      <p>Please continue to monitor this website page for the Results</p>`;
+    const historicalResults = `
+      <h1>Tax Sale Results</h1>
+      <p>HRM-TaxSale22 (May 12, 2026) - RESULTS</p>
+      <a href="/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-may-12.26.pdf">RESULTS</a>`;
+
+    expect(classifyLandingPage(closedLanding)).toEqual({
+      kind: "closed-awaiting-results",
+      tenderNumber: "HRM-TaxSale23",
+      eventDate: "2026-09-15",
+    });
+    expect(() => assertHalifaxResultsStillHistorical(historicalResults)).not.toThrow();
+  });
+
+  it("fails closed if a closed landing page still hosts tender PDFs or TaxSale23 results appear", async () => {
+    const { classifyLandingPage, assertHalifaxResultsStillHistorical, parseLandingPage } =
+      await loadModule();
+    const closedWithPdf = `
+      <p>Bidding for TAXSALE23 LIST – Tuesday, September 15, 2026 is now Closed.</p>
+      <p>Please continue to monitor this website page for the Results</p>
+      <a href="/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf">Tender</a>`;
+    const taxSale23Results = `
+      <h1>Tax Sale Results</h1>
+      <p>HRM-TaxSale23 (September 15, 2026) - RESULTS</p>`;
+
+    const closedWithoutDocuments = `
+      <p>Bidding for TAXSALE23 LIST – Tuesday, September 15, 2026 is now Closed.</p>
+      <p>Please continue to monitor this website page for the Results</p>`;
+    expect(() => classifyLandingPage(closedWithPdf)).toThrow(/mixes a closed TaxSale23 notice/);
+    expect(() => parseLandingPage(closedWithoutDocuments)).toThrow(
+      /found closed-awaiting-results/,
+    );
+    expect(() => assertHalifaxResultsStillHistorical(taxSale23Results)).toThrow(
+      /TaxSale23 results appear/,
+    );
+  });
+
   it("fails closed on a shifted column, duplicate PID, or unfamiliar status", async () => {
     const { parseScheduleText } = await loadModule();
     expect(() => parseScheduleText(scheduleText.replace(/^00276111/u, " 00276111"))).toThrow(/fixed Schedule A columns/i);

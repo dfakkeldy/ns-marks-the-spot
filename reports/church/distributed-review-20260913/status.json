@@ -1,0 +1,50 @@
+{
+  "date": "2026-09-13",
+  "prior_report": "../physical-review-20260913/README.md",
+  "prior_report_landed_commit": "d2cb82040e10f68d50e805702f71d33f7e2148db",
+  "task_base_commit": "a8c1d6878cf679ddf2af25c2b725414b70005723",
+  "queue": [
+    "richmond",
+    "inverness-north",
+    "victoria-northwest",
+    "victoria-main",
+    "cape-breton",
+    "inverness-south"
+  ],
+  "completed_reviews": [
+    "richmond",
+    "inverness-north",
+    "victoria-northwest",
+    "victoria-main",
+    "cape-breton",
+    "inverness-south"
+  ],
+  "active": null,
+  "pass_complete": true,
+  "full_georeferencing_complete": false,
+  "working_target_rms_ground_m": 250,
+  "stretch_target_rms_ground_m": 200,
+  "whole_panel_working_target_met": [],
+  "new_accepted_panels": [],
+  "new_physical_checks": 5,
+  "new_mainland_controls": 2,
+  "corrected_existing_controls": 1,
+  "retraced_historical_diagnostics": 1,
+  "existing_richmond_artifact_preserved": true,
+  "existing_inverness_south_acceptance_preserved": true,
+  "no_new_warped_raster": true,
+  "no_catalog_activation": true,
+  "no_tiles_generated": true,
+  "no_deployment": true,
+  "unresolved_geographic_work": {
+    "richmond": "richmond/README.md",
+    "inverness-north": "inverness-north/README.md",
+    "victoria-northwest": "victoria-northwest/README.md",
+    "victoria-main": "victoria-main/README.md",
+    "cape-breton": "cape-breton/README.md",
+    "inverness-south": "inverness-south/README.md"
+  },
+  "verification": "verification-summary.json",
+  "parser_verification": "parser-verification.json",
+  "raster_review": "raster-review-receipt.json"
+}

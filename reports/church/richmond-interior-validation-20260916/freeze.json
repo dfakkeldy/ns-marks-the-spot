@@ -1,0 +1,35 @@
+{
+  "input_commit": "5b2c963867bb2bd628ec5e5433a66e6a0ef1c68a",
+  "method": "affine",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "inputs": {
+    "controls": {
+      "path": "reports/church/richmond-south-seam-20260915/richmond-controls.csv",
+      "sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca"
+    },
+    "prior_inventory": {
+      "path": "reports/church/richmond-south-seam-20260915/richmond-cumulative-validation.csv",
+      "sha256": "a62b7919178ee6478d3cf20f5c25a5263d9e7c8d4916df1accb265c547d714c1"
+    },
+    "prior_accuracy": {
+      "path": "reports/church/richmond-south-seam-20260915/accuracy-summary.json",
+      "sha256": "9adcb4eabf5bebe597c558cf51e995a97ba5a966221b63febb189c4b40eba87f"
+    },
+    "selection_freeze": {
+      "path": "reports/church/coverage-20260914/richmond/affine14-freeze.json",
+      "sha256": "8932f8d1611d7706450472a2a762897ed5e4b8b4cdd1eadaea1c0d968ec3c417"
+    },
+    "baseline_controls": {
+      "path": "reports/church/physical-review-20260912/richmond/refinement-04/frozen-fit.csv",
+      "sha256": "a38b2074b7c5e525b684b02a8d848b7be6f8299bdcc53647afdb1dce09d800be"
+    },
+    "diagnostics": {
+      "path": "reports/church/coverage-20260914/richmond/affine14-diagnostic-review.csv",
+      "sha256": "9e5a8520be47ef654b6cb08dde7d8edca547f037671fc08c0d92a179c515c162"
+    }
+  },
+  "raster": "/Users/dfakkeldy/Downloads/church-coverage-20260914/richmond-affine14/richmond-affine14-20m.tif",
+  "raster_sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "scope": "Fresh western-interior check against unchanged Richmond affine14; all preceding first results retained"
+}

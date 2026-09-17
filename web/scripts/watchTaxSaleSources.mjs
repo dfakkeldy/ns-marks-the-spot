@@ -68,6 +68,18 @@ export async function runWatch(
   }
   const html = await response.text();
   const livePageSha256 = sha256(html);
+  if (!source.containsResultsTable(html)) {
+    if (snapshot.ingestedEventId && source.isUpcomingNotice?.(html)) {
+      return {
+        status: "unchanged",
+        snapshot,
+        summary: `${source.id}: live page is an upcoming notice without results; retaining ingested ${snapshot.ingestedEventId}.`,
+      };
+    }
+    throw new Error(
+      `${source.id}: live page has no dated results table and is not a recognized upcoming notice; refusing to guess.`,
+    );
+  }
   const sale = source.parseResults(html);
   const eventId = eventIdFor(source.id, sale.saleDate);
 

@@ -1,0 +1,16 @@
+{
+  "reviewed": [
+    "VN11",
+    "VN15",
+    "VN16",
+    "VN17",
+    "VN18",
+    "VN19",
+    "VN20",
+    "VN21",
+    "VN22"
+  ],
+  "finding": "The actual raster places the fresh Halfway, Middle Head and Mary Ann features at the predicted displaced positions. Offsets are visible in raster/reference windows, not only numerical reports. No measured source pixels changed after first scores.",
+  "limitation": "Control-centroid agreement does not establish detailed shoreline agreement; North Pond island outlines and northern contextual coast remain generalized.",
+  "geographic_acceptance": false
+}

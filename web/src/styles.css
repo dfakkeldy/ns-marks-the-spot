@@ -66,7 +66,7 @@
    meaning, and a dark ground is where a colour that was chosen for a white
    one goes muddy. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-map-appearance="day"]) {
+  :root:not([data-map-appearance]) {
     color: #e8f1f0;
     background: #0d1f24;
     --chart-ink: #e8f1f0;
@@ -157,62 +157,11 @@ a {
      obligations whose length is set by whichever layers are on, and a fixed
      46px clipped the coastal notices — and the Data & licences button under
      them — the moment a coastal layer was switched on. */
-  grid-template-rows: 68px minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) auto;
   height: var(--app-viewport-height, 100dvh);
   min-height: var(--app-viewport-height, 100dvh);
   overflow: hidden;
   background: var(--fog);
-}
-
-.app-header {
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 8px 28px;
-  color: var(--chart-ink);
-  background: var(--white);
-  border-bottom: 1px solid var(--line);
-}
-
-.header-collapse {
-  display: grid;
-  flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  padding: 0;
-  color: var(--chart-ink);
-  font-size: 1.35rem;
-  line-height: 1;
-  background: var(--fog);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.header-collapse:hover {
-  background: var(--tint-blue);
-}
-
-.app-shell.header-collapsed {
-  grid-template-rows: 36px minmax(0, 1fr) auto;
-}
-
-.header-collapsed .app-header {
-  justify-content: flex-end;
-  padding-block: 2px;
-}
-
-.header-collapsed .app-brand,
-.header-collapsed .offline-nav {
-  display: none;
-}
-
-.header-collapsed .header-collapse {
-  width: 34px;
-  height: 30px;
 }
 
 .app-brand {
@@ -2525,7 +2474,7 @@ a {
 .modern-map-error {
   position: absolute;
   z-index: 500;
-  top: 12px;
+  top: 72px;
   right: 12px;
   display: flex;
   align-items: center;
@@ -3528,8 +3477,7 @@ a {
 }
 
 @media (max-width: 860px) {
-  .app-shell,
-  .app-shell.header-collapsed {
+  .app-shell {
     position: relative;
     grid-template-rows: minmax(0, 1fr);
     height: var(--app-viewport-height, 100dvh);
@@ -7290,3 +7238,25 @@ a {
 .electoral-map-legends { position: absolute; left: 4.5rem; bottom: 2rem; z-index: 1000; max-width: min(28rem, calc(100% - 6rem)); background: rgb(var(--surface-rgb)); color: var(--ink); border-radius: 8px; font-size: .7rem; padding: 0 .6rem; }
 .electoral-map-legends:empty { display: none; }
 @media (max-width:640px) { .electoral-map-legends { left: .6rem; bottom: 2rem; max-width: calc(100% - 1.2rem); } }
+
+/* Fletcher's paper and ink carry into the controls without changing map data. */
+:root[data-map-appearance="fletcher"] {
+  color-scheme: light;
+  --chart-ink: #352c1d;
+  --deep-water: #3b5760;
+  --survey-blue: #77431f;
+  --fog: #e9dcb9;
+  --paper: #f3e9cf;
+  --white: #faf3df;
+  --line: rgba(53, 44, 29, .24);
+  --muted: rgba(53, 44, 29, .76);
+  --surface-rgb: 250, 243, 223;
+  --fog-rgb: 233, 220, 185;
+  --paper-rgb: 243, 233, 207;
+  --tint-blue: #eee1ba;
+  color: var(--chart-ink);
+  background: var(--fog);
+}
+.interface-appearance-control { margin-bottom: 12px; }
+
+.poker-mode .modern-map-error { top: max(210px, calc(env(safe-area-inset-top) + 198px)); }

@@ -1,0 +1,24 @@
+{
+  "county": "inverness",
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+  "origin": [
+    22820.0,
+    22706.666666666668
+  ],
+  "extent": [
+    306.66666666666663,
+    260.0
+  ],
+  "display": [
+    690,
+    585
+  ],
+  "rotation": 0,
+  "derived_from": "IS6-denys-west-native.jpg",
+  "derived_crop_box": [
+    540,
+    530,
+    770,
+    725
+  ]
+}

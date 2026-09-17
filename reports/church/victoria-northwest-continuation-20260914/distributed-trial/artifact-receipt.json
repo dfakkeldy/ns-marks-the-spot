@@ -1,0 +1,28 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "control_csv_sha256": "d212d7fb57210717085f2b1ebbaff934bedeac0d3a69319b5091854e66b7578f",
+  "boundary_sha256": "848770cbdb371abdec736a2af1d79461ed1d0967ebee0fb1fa06b6529f3acad4",
+  "transform": "Frozen affine encoded as explicit GeoTransform; exact -et 0",
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260914/victoria-northwest-review/affine7-rendered/victoria-northwest-affine7-review-20m.tif",
+  "output_sha256": "0b48c10e37d3efe44620431d7b6549909fc00a3fad778c3706d0d18fccd2f21a",
+  "size": [
+    2311,
+    3837
+  ],
+  "geotransform": [
+    -6757540.0,
+    20.0,
+    0.0,
+    5956340.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260914/victoria-northwest-review/affine7-rendered/affine14-cutline.geojson",
+  "cutline_sha256": "e623537a1374891b96dc8b41882579cb94a985b43534f962363eb514ffaf4a05",
+  "orientation_determinant": -14.380049310484177,
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false
+}

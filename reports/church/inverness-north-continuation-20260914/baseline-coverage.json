@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-north-continuation-20260914/rendered/inverness-north-affine4-review-20m.tif",
+  "raster_sha256": "b46bdd402b3d5d4bb235c92e0ff82310c2002a48d8c95dda0648cdbc3917deb1",
+  "cutline_sha256": "43b73a76e8f22fa865cd48544d77f8d2f30079debefc5643fb3d9f269808d4a8",
+  "expected_interior_cells": 9949366,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

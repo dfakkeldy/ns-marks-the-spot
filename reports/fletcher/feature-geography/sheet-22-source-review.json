@@ -27449,6 +27449,5145 @@
       "reviewer": "Codex coordinator, all 41 native height contexts and targeted 4x details, 2026-09-13",
       "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x; targeted detail frames record their 4x scale and original crop origins. No rotation.",
       "review_batch": "hawkesbury-heights-7-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-003",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4517,
+          1443,
+          18,
+          21
+        ],
+        [
+          4420,
+          1620,
+          43,
+          66
+        ]
+      ],
+      "source_context_xywh": [
+        4178,
+        1061,
+        900,
+        650
+      ],
+      "note": "Craignish is represented by the bounded printed church and postal-symbol groups below the name. These actual service marks provide locational evidence; they do not delineate the whole settlement, and the separately reviewed northern school/shop remain separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-009",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4920,
+          2091,
+          25,
+          23
+        ]
+      ],
+      "source_context_xywh": [
+        4435,
+        1749,
+        900,
+        650
+      ],
+      "note": "Three compact marks at the road immediately below D.McDonald form the associated source group. No individual mark is selected as a residence, address or property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-022",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6603,
+          1478,
+          45,
+          35
+        ],
+        [
+          6619,
+          1532,
+          55,
+          49
+        ]
+      ],
+      "source_context_xywh": [
+        6119,
+        1257,
+        900,
+        650
+      ],
+      "note": "Two clusters of compact marks beside the central north-south road lie immediately above/within the Queensville caption. Keep these bounded roadside groups separate from the geological stripes, lettering and more distant school district; the lower cluster partly overlaps the lettering.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-029",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8401,
+          1708,
+          27,
+          30
+        ],
+        [
+          8648,
+          1824,
+          40,
+          51
+        ]
+      ],
+      "source_context_xywh": [
+        8010,
+        1431,
+        900,
+        650
+      ],
+      "note": "The compact cluster above Askilton and the southeastern school/church group supply two source regions. The rectilinear pattern and river/rail district are separate; this is not a settlement boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-044",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2222,
+          2920,
+          69,
+          72
+        ],
+        [
+          2340,
+          2921,
+          55,
+          29
+        ]
+      ],
+      "source_context_xywh": [
+        1943,
+        2669,
+        900,
+        650
+      ],
+      "note": "The printed school and postal candidate groups below the central Cape Jack road supply the bounded settlement reference. Their prior native group geometry is reused; no whole-town extent or individual property is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-054",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2978,
+          2720,
+          40,
+          50
+        ],
+        [
+          3001,
+          2837,
+          50,
+          24
+        ],
+        [
+          2976,
+          2841,
+          31,
+          47
+        ]
+      ],
+      "source_context_xywh": [
+        2683,
+        2504,
+        900,
+        650
+      ],
+      "note": "The shop, factory and forge groups along the harbour-side road supply the bounded Havre Bouché settlement reference. Existing source group geometry is reused. The name is not placed at its lettering centre or used to outline the entire harbour.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-059",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3877,
+          2666,
+          29,
+          29
+        ],
+        [
+          3927,
+          3146,
+          13,
+          13
+        ]
+      ],
+      "source_context_xywh": [
+        3376,
+        2543,
+        900,
+        650
+      ],
+      "note": "The actual lighthouse glyph and roadside school mark supply a bounded two-part locational group for North Canso. Their source positions are independently reviewed; this does not define a settlement centre or extent.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-072",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5853,
+        2118,
+        900,
+        650
+      ],
+      "note": "L. Murray is interpreted as the lake name from its position above the printed pond and the corroborating CGNDB Lake Murray record. Retain this bounded northern/eastern shore from actual source ink. The original text, pixel boxes, inventory category and earlier unlocated review survive; no residence, ownership, current bank or gazetteer-centre coordinate is substituted.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913",
+      "source_path_xy": [
+        [
+          6308,
+          2489
+        ],
+        [
+          6314,
+          2482
+        ],
+        [
+          6329,
+          2475
+        ],
+        [
+          6338,
+          2472
+        ],
+        [
+          6346,
+          2476
+        ],
+        [
+          6353,
+          2483
+        ],
+        [
+          6369,
+          2480
+        ],
+        [
+          6387,
+          2474
+        ],
+        [
+          6405,
+          2466
+        ],
+        [
+          6423,
+          2460
+        ],
+        [
+          6442,
+          2452
+        ],
+        [
+          6455,
+          2449
+        ],
+        [
+          6472,
+          2454
+        ],
+        [
+          6487,
+          2449
+        ],
+        [
+          6494,
+          2451
+        ],
+        [
+          6494,
+          2457
+        ],
+        [
+          6485,
+          2467
+        ],
+        [
+          6482,
+          2478
+        ],
+        [
+          6486,
+          2491
+        ],
+        [
+          6480,
+          2498
+        ],
+        [
+          6466,
+          2490
+        ]
+      ],
+      "previous_source_reviews": [
+        {
+          "annotation_id": "F22-HAW-072",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "source_context_xywh": [
+            5853,
+            2118,
+            900,
+            650
+          ],
+          "note": "L. Murray is printed immediately above a small pond without a distinct associated personal/site mark. The initial L. may be an abbreviation connected with the waterbody or a personal initial; the original reading and inventory kind remain preserved. Do not invent a residence or place a feature at the lettering centre.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+          "review_batch": "hawkesbury-names-2-20260913"
+        }
+      ],
+      "kind_correction": {
+        "from": "personal-name",
+        "to": "waterbody",
+        "reason": "The caption lies above a drawn waterbody, with no associated personal/site mark. CGNDB CBAWC identifies Lake Murray in this locality; the reviewed interpretation is L. as Lake, while the original inventory category and wording remain unchanged.",
+        "supporting_sources": [
+          {
+            "title": "CGNDB: Lake Murray (CBAWC)",
+            "url": "https://geonames.nrcan.gc.ca/search-place-names/unique/CBAWC"
+          }
+        ],
+        "reviewed_at": "2026-09-13"
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-074",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5706,
+          2858,
+          23,
+          30
+        ]
+      ],
+      "source_context_xywh": [
+        5301,
+        2502,
+        900,
+        650
+      ],
+      "note": "The two compact marks at the western end of the road directly below Widow Mc Askill form the associated group. The more distant eastern pair is separate. No individual dwelling or ownership is identified.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-082",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6777,
+          3181,
+          40,
+          18
+        ]
+      ],
+      "source_context_xywh": [
+        6352,
+        2838,
+        900,
+        650
+      ],
+      "note": "Two compact marks immediately below McQuarrie form the associated source pair. The horizontal hatch and more distant roadside marks remain separate; no individual residence or property is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-083",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6818,
+        3268
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6353,
+        2950,
+        900,
+        650
+      ],
+      "note": "The actual printed road/brook crossing at the end of Big Brook Road supplies the locational anchor for Dortons Bridge. Native 6x detail distinguishes the crossing from the overprinted name. It is a source crossing, not a surveyed bridge structure, settlement centre or current road identity.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-087",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8391,
+          2831,
+          29,
+          31
+        ]
+      ],
+      "source_context_xywh": [
+        8052,
+        2534,
+        900,
+        650
+      ],
+      "note": "The two compact marks immediately above/left of J. Dowling and east of the road form the source pair. The lower roadside mark and the stream are separate; no individual property or residence is identified.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-094",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        9165,
+        3040,
+        900,
+        650
+      ],
+      "note": "Ferguson lies amid the heavy dashed line and nearby stream/road annotation district. No unique associated personal/site mark can be confidently separated from boundary dots, hatching and the separate compact marks near Fall. Retain the unlocated name rather than assigning a boundary, nearby mark or lettering centre as a residence.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-095",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9424,
+        3571
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        8833,
+        3179,
+        996,
+        650
+      ],
+      "note": "The actual east-west road crossing of River Inhabitants below the two-line alternative-name caption supplies this source anchor. Native 6x detail locates the crossing between the printed river banks. The geological diagonal and the bridge lettering are separate; no bridge footprint or current crossing is asserted.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-097",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2821,
+          3499,
+          68,
+          43
+        ],
+        [
+          2769,
+          3640,
+          111,
+          30
+        ]
+      ],
+      "source_context_xywh": [
+        2349,
+        3219,
+        900,
+        650
+      ],
+      "note": "Two bounded clusters of compact roadside marks immediately beside and below Harbour Bouché supply its settlement reference. The eastern/northern peripheral clusters remain separate; the groups do not delineate the complete settlement or any property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-106",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1897,
+          4048,
+          23,
+          23
+        ],
+        [
+          1850,
+          4070,
+          52,
+          60
+        ]
+      ],
+      "source_context_xywh": [
+        1616,
+        3822,
+        900,
+        650
+      ],
+      "note": "The printed episcopal church glyph and postal candidate group beside the coastal road supply the bounded Little Tracadie settlement reference. The river, harbour lettering and southern road network are separate; this is not a settlement boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-112",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2509,
+          4465,
+          31,
+          25
+        ]
+      ],
+      "source_context_xywh": [
+        2155,
+        4150,
+        900,
+        650
+      ],
+      "note": "Two compact marks immediately left/below J. Stuart beside the railway/stream district form the source pair. Railway ties and the nearby crossing are not added as individual site candidates.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-113",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1904,
+          4673,
+          28,
+          22
+        ]
+      ],
+      "source_context_xywh": [
+        1522,
+        4333,
+        900,
+        650
+      ],
+      "note": "Native 5x detail resolves two compact marks immediately below Gilbert Benoit above the road. Retain both as a group; the caption does not identify an individual structure, residence or ownership.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-117",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3968,
+          3580,
+          21,
+          30
+        ]
+      ],
+      "source_context_xywh": [
+        3520,
+        3297,
+        900,
+        650
+      ],
+      "note": "The two compact marks below the road bend and directly above D. McDonald form the source pair. The isolated mark farther above the road is separate. No current person, residence or property is matched.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-124",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4348,
+          3724,
+          27,
+          51
+        ]
+      ],
+      "source_context_xywh": [
+        4017,
+        3449,
+        900,
+        650
+      ],
+      "note": "Three compact marks on both sides of the road immediately left of G. Strachan form the associated group. The geological arrow above and the height caption below are separate; no individual dwelling is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-131",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5025.4,
+          4213.0
+        ],
+        [
+          5029.0,
+          4213.2
+        ],
+        [
+          5033.2,
+          4215.2
+        ],
+        [
+          5036.4,
+          4217.4
+        ],
+        [
+          5042.0,
+          4220.8
+        ],
+        [
+          5048.0,
+          4224.6
+        ],
+        [
+          5053.2,
+          4227.6
+        ],
+        [
+          5058.8,
+          4230.6
+        ],
+        [
+          5064.0,
+          4233.2
+        ],
+        [
+          5068.2,
+          4235.4
+        ],
+        [
+          5073.0,
+          4237.8
+        ],
+        [
+          5079.0,
+          4240.8
+        ],
+        [
+          5084.2,
+          4244.2
+        ],
+        [
+          5088.2,
+          4249.0
+        ],
+        [
+          5091.6,
+          4253.6
+        ],
+        [
+          5095.8,
+          4257.2
+        ],
+        [
+          5101.0,
+          4260.4
+        ],
+        [
+          5106.6,
+          4263.2
+        ],
+        [
+          5114.0,
+          4267.6
+        ],
+        [
+          5120.4,
+          4272.2
+        ],
+        [
+          5126.4,
+          4276.2
+        ],
+        [
+          5133.4,
+          4281.2
+        ],
+        [
+          5142.6,
+          4288.0
+        ],
+        [
+          5149.2,
+          4291.8
+        ],
+        [
+          5156.2,
+          4293.6
+        ]
+      ],
+      "source_context_xywh": [
+        4662,
+        3874,
+        900,
+        650
+      ],
+      "note": "Auld Cove is located by a bounded section of the actual southern embayment bank below its caption. Native 5x detail distinguishes the coastal edge from the paired road lines. The original inventory category is preserved; this bank trace is not a settlement boundary, current shoreline or residence.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-135",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4486,
+          4432,
+          29,
+          22
+        ],
+        [
+          4550,
+          4430,
+          27,
+          77
+        ]
+      ],
+      "source_context_xywh": [
+        3950,
+        4203,
+        900,
+        650
+      ],
+      "note": "The station glyph and adjacent compact roadside marks above Cape Porcupine form the bounded source grouping. The rail ties, dyke mark and geological overprint are separate; no settlement extent or current station is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-138",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5736.5,
+        4197.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5254,
+        3728,
+        900,
+        650
+      ],
+      "note": "Native 4x detail identifies an actual street junction within the paired-line road grid below Hastings. This chosen printed junction supplies a locational anchor, not a settlement centre, municipal boundary or present intersection.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-153",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6610,
+          3550,
+          40,
+          45
+        ]
+      ],
+      "source_context_xywh": [
+        6286,
+        3240,
+        900,
+        650
+      ],
+      "note": "Three compact marks at the end of the road immediately left/below A.G. Fraser form the source group. No individual mark is selected as a residence or property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-161",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7848,
+          3462,
+          17,
+          35
+        ],
+        [
+          7818,
+          3514,
+          17,
+          32
+        ]
+      ],
+      "source_context_xywh": [
+        7519,
+        3209,
+        900,
+        650
+      ],
+      "note": "Two roadside pairs beside Hector McDonald supply separate source regions on the two sides of the road. The dotted geological boundary and farther northern marks remain separate; the name establishes no current ownership or residence.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-163",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7782.5,
+        3849.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        7245,
+        3522,
+        900,
+        650
+      ],
+      "note": "Native 8x detail distinguishes an isolated star-like source mark immediately right of J. McQuarrie from the final lettering and adjacent hatch. Its function is not established; the actual mark is retained without interpreting it as a house, residence or property.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-171",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7751.5,
+        4578.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        7416,
+        4245,
+        900,
+        650
+      ],
+      "note": "Native 8x detail identifies the isolated filled mark between the rectilinear patches and left of J. McVicar. The mark is separate from the J and grid strokes. No current building, residence, parcel or ownership is identified.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-190",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2401,
+          5668,
+          68,
+          38
+        ]
+      ],
+      "source_context_xywh": [
+        1959,
+        5410,
+        900,
+        650
+      ],
+      "note": "The compact central cluster above Mathy Settlement supplies this bounded source group. Peripheral roadside marks and the separately reviewed mill remain separate; no settlement boundary or individual property is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-195",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3538,
+          4963,
+          45,
+          24
+        ]
+      ],
+      "source_context_xywh": [
+        3036,
+        4621,
+        900,
+        650
+      ],
+      "note": "The two compact marks on opposite sides of the road immediately below McIsaac form the source pair. The Old Post Road caption, tributary and boundary line remain separate; no current person or property is matched.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-196",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3115,
+          5197,
+          40,
+          24
+        ],
+        [
+          3180,
+          5198,
+          15,
+          17
+        ]
+      ],
+      "source_context_xywh": [
+        2717,
+        4851,
+        900,
+        650
+      ],
+      "note": "The compact marks on both sides of the road directly beneath Grosvenor provide two bounded groups. The northern postal district and western peripheral marks remain separate; no whole-settlement extent is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-209",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5874,
+          5110,
+          13,
+          14
+        ],
+        [
+          5918,
+          5128,
+          14,
+          13
+        ],
+        [
+          5912,
+          5284,
+          14,
+          14
+        ]
+      ],
+      "source_context_xywh": [
+        5628,
+        4836,
+        900,
+        650
+      ],
+      "note": "The actual postal, hotel and mill marks provide a bounded three-part source group for Port Mulgrave. Their existing native positions are retained. This is locational evidence from printed services, not a municipal boundary, current property or reconstructed town footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-226",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6495,
+          5162,
+          68,
+          66
+        ],
+        [
+          6784,
+          5240,
+          21,
+          21
+        ]
+      ],
+      "source_context_xywh": [
+        6198,
+        4799,
+        900,
+        683
+      ],
+      "note": "The printed Emery’s Wharf group and church glyph provide a bounded two-part source group for Hawkesbury. Their existing source geometry supplies locational evidence without outlining the city, inferring present access or identifying current properties.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-245",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9233,
+          4788,
+          29,
+          29
+        ]
+      ],
+      "source_context_xywh": [
+        8854,
+        4479,
+        900,
+        650
+      ],
+      "note": "Two compact marks immediately left of J. Mack on the western river headland form the source pair. The 12-degree notation and shoreline are separate; the name is not a current ownership or residence claim.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-252",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9338,
+          5241,
+          29,
+          21
+        ],
+        [
+          9334,
+          5404,
+          15,
+          15
+        ]
+      ],
+      "source_context_xywh": [
+        8673,
+        5022,
+        900,
+        650
+      ],
+      "note": "The printed postal group and school mark near the coastal road provide the bounded reference for Lower River Inhabitants. The ferry landing and shoreline are separately reviewed; no settlement boundary or ferry route is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-262",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1625,
+          6163,
+          24,
+          17
+        ],
+        [
+          1778,
+          6235,
+          14,
+          14
+        ]
+      ],
+      "source_context_xywh": [
+        1428,
+        5983,
+        900,
+        650
+      ],
+      "note": "The source postal pair and Old Mill mark provide the bounded reference for Upper Big Tracadie. Their complete native geometry is retained near the southern/western margins, without inventing a settlement extent or current property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-279",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8345,
+          6247,
+          15,
+          15
+        ],
+        [
+          8524,
+          6238,
+          15,
+          15
+        ]
+      ],
+      "source_context_xywh": [
+        7982,
+        5873,
+        900,
+        650
+      ],
+      "note": "The printed postal and school marks below Caribacou provide a bounded two-part settlement reference. Their independent source positions are retained; this does not define a municipal boundary or current addresses.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-285",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8846,
+          5906,
+          15,
+          15
+        ],
+        [
+          8900,
+          5905,
+          43,
+          49
+        ]
+      ],
+      "source_context_xywh": [
+        8734,
+        5541,
+        900,
+        650
+      ],
+      "note": "The school mark and two distinct projecting shore marks on the western side of the Port Richmond district provide the bounded source reference. Native 5x detail confirms the shore projections as separate marks. Their facility identity and current condition/access are not established; the group does not define the whole settlement.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-7-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-006",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          4373,
+          1754
+        ],
+        [
+          4357,
+          1766
+        ],
+        [
+          4344,
+          1789
+        ],
+        [
+          4339,
+          1812
+        ],
+        [
+          4341,
+          1850
+        ],
+        [
+          4345,
+          1870
+        ],
+        [
+          4339,
+          1890
+        ],
+        [
+          4339,
+          1931
+        ],
+        [
+          4344,
+          1955
+        ],
+        [
+          4357,
+          1973
+        ],
+        [
+          4384,
+          1997
+        ],
+        [
+          4404,
+          2017
+        ],
+        [
+          4423,
+          2041
+        ],
+        [
+          4430,
+          2060
+        ],
+        [
+          4432,
+          2084
+        ],
+        [
+          4447,
+          2111
+        ],
+        [
+          4453,
+          2136
+        ],
+        [
+          4454,
+          2164
+        ]
+      ],
+      "source_context_xywh": [
+        3697,
+        1533,
+        1000,
+        800
+      ],
+      "note": "The actual coastal outline immediately east of Flat Point supplies this bounded bank trace, from the northern bend to the southeastern coast below the nearby compact marks. The geological dashes and dip arrows are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-010",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2143,
+          2194,
+          174,
+          179
+        ]
+      ],
+      "source_context_xywh": [
+        1733,
+        1752,
+        1000,
+        800
+      ],
+      "note": "The complete dotted and cross-marked Jack Shoal graphic below the name supplies one bounded group region. The two internal oval rock marks remain inside that group; no individual reef point or current drying/tidal condition is inferred. The adjacent Rock dries at half tide wording remains separate historical annotation evidence.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-037",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          2069,
+          2800
+        ],
+        [
+          2077,
+          2775
+        ],
+        [
+          2076,
+          2758
+        ],
+        [
+          2089,
+          2738
+        ],
+        [
+          2090,
+          2722
+        ],
+        [
+          2087,
+          2705
+        ],
+        [
+          2093,
+          2687
+        ],
+        [
+          2091,
+          2668
+        ],
+        [
+          2097,
+          2649
+        ],
+        [
+          2104,
+          2632
+        ],
+        [
+          2115,
+          2620
+        ],
+        [
+          2133,
+          2610
+        ],
+        [
+          2149,
+          2603
+        ],
+        [
+          2166,
+          2606
+        ],
+        [
+          2175,
+          2618
+        ],
+        [
+          2181,
+          2637
+        ],
+        [
+          2181,
+          2657
+        ],
+        [
+          2188,
+          2671
+        ],
+        [
+          2211,
+          2682
+        ],
+        [
+          2239,
+          2694
+        ],
+        [
+          2267,
+          2706
+        ],
+        [
+          2292,
+          2720
+        ],
+        [
+          2322,
+          2733
+        ]
+      ],
+      "source_context_xywh": [
+        1489,
+        2218,
+        1000,
+        800
+      ],
+      "note": "The western and northern coastal outline of Cape Jack supplies this bounded headland reach. The 45ft lettering, geological stripes and Cape Pond banks are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-048",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          1751,
+          3097
+        ],
+        [
+          1724,
+          3112
+        ],
+        [
+          1694,
+          3125
+        ],
+        [
+          1666,
+          3141
+        ],
+        [
+          1638,
+          3161
+        ],
+        [
+          1621,
+          3184
+        ],
+        [
+          1605,
+          3207
+        ],
+        [
+          1592,
+          3229
+        ],
+        [
+          1586,
+          3240
+        ],
+        [
+          1592,
+          3246
+        ],
+        [
+          1610,
+          3250
+        ],
+        [
+          1614,
+          3262
+        ],
+        [
+          1627,
+          3268
+        ],
+        [
+          1640,
+          3268
+        ],
+        [
+          1650,
+          3277
+        ],
+        [
+          1649,
+          3299
+        ],
+        [
+          1645,
+          3323
+        ],
+        [
+          1644,
+          3345
+        ],
+        [
+          1648,
+          3371
+        ]
+      ],
+      "source_context_xywh": [
+        1124,
+        2708,
+        1000,
+        800
+      ],
+      "note": "The actual western coastal outline of Cape Blue supplies this bounded headland reach. The source extends beyond the inner neatline; preserve the entire trace and let the recorded fit boundary gate it. The geological hatch, caption and parallel road are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-096",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5400,
+          4370
+        ],
+        [
+          5422,
+          4376
+        ],
+        [
+          5442,
+          4385
+        ],
+        [
+          5467,
+          4410
+        ],
+        [
+          5492,
+          4433
+        ],
+        [
+          5518,
+          4452
+        ],
+        [
+          5542,
+          4475
+        ],
+        [
+          5552,
+          4496
+        ],
+        [
+          5572,
+          4514
+        ],
+        [
+          5596,
+          4528
+        ],
+        [
+          5618,
+          4544
+        ],
+        [
+          5637,
+          4554
+        ]
+      ],
+      "source_context_xywh": [
+        3870,
+        2195,
+        3043,
+        4176
+      ],
+      "note": "The Strait of Canso is represented by a bounded section of its actual western bank at Cape Porcupine, reusing the independently inspected native bank from annotation143. The full source context records the distributed STRAIT OF CANSO lettering and opposing banks. This is one locational shore reach, not the whole strait, a centreline, a water-area boundary or a navigation route.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-101",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          1842,
+          3844
+        ],
+        [
+          1841,
+          3865
+        ],
+        [
+          1834,
+          3890
+        ],
+        [
+          1824,
+          3909
+        ],
+        [
+          1811,
+          3921
+        ],
+        [
+          1800,
+          3923
+        ],
+        [
+          1797,
+          3929
+        ],
+        [
+          1804,
+          3939
+        ],
+        [
+          1812,
+          3948
+        ],
+        [
+          1812,
+          3974
+        ],
+        [
+          1817,
+          3993
+        ],
+        [
+          1825,
+          4010
+        ],
+        [
+          1824,
+          4023
+        ],
+        [
+          1819,
+          4034
+        ],
+        [
+          1819,
+          4053
+        ],
+        [
+          1813,
+          4073
+        ],
+        [
+          1800,
+          4085
+        ],
+        [
+          1800,
+          4097
+        ],
+        [
+          1811,
+          4095
+        ],
+        [
+          1825,
+          4084
+        ],
+        [
+          1836,
+          4084
+        ],
+        [
+          1846,
+          4089
+        ],
+        [
+          1853,
+          4102
+        ],
+        [
+          1859,
+          4118
+        ],
+        [
+          1864,
+          4133
+        ]
+      ],
+      "source_context_xywh": [
+        1192,
+        3604,
+        1000,
+        823
+      ],
+      "note": "The eastern Little Tracadie Harbour bank immediately beside the distributed caption supplies this bounded reach. The offshore islands, dotted shoal marks, church glyph and large administrative A are separate. The trace does not delineate the complete harbour.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-126",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          4992,
+          3260
+        ],
+        [
+          5000,
+          3296
+        ],
+        [
+          5018,
+          3331
+        ],
+        [
+          5034,
+          3371
+        ],
+        [
+          5052,
+          3413
+        ],
+        [
+          5069,
+          3455
+        ],
+        [
+          5087,
+          3502
+        ],
+        [
+          5103,
+          3547
+        ],
+        [
+          5125,
+          3590
+        ],
+        [
+          5146,
+          3633
+        ],
+        [
+          5172,
+          3683
+        ],
+        [
+          5194,
+          3729
+        ],
+        [
+          5215,
+          3774
+        ],
+        [
+          5218,
+          3794
+        ],
+        [
+          5234,
+          3816
+        ],
+        [
+          5249,
+          3835
+        ],
+        [
+          5261,
+          3852
+        ],
+        [
+          5270,
+          3870
+        ],
+        [
+          5285,
+          3882
+        ],
+        [
+          5297,
+          3890
+        ],
+        [
+          5309,
+          3893
+        ],
+        [
+          5317,
+          3892
+        ],
+        [
+          5323,
+          3887
+        ]
+      ],
+      "source_context_xywh": [
+        4547,
+        3194,
+        1000,
+        800
+      ],
+      "note": "The seaward edge of the printed Ghost Beach barrier supplies this bounded coastal trace. The initial candidate lay west of the actual edge; the second followed the inner edge near the southern tip. Native 4x tip detail supports the retained outer-edge correction. Long Pond banks and its islands remain separate; no present beach width or access is inferred.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-139",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5440,
+          4088
+        ],
+        [
+          5440,
+          4097
+        ],
+        [
+          5445,
+          4107
+        ],
+        [
+          5455,
+          4111
+        ],
+        [
+          5465,
+          4116
+        ],
+        [
+          5467,
+          4126
+        ],
+        [
+          5461,
+          4139
+        ],
+        [
+          5455,
+          4148
+        ],
+        [
+          5456,
+          4155
+        ],
+        [
+          5462,
+          4155
+        ],
+        [
+          5469,
+          4148
+        ],
+        [
+          5478,
+          4131
+        ],
+        [
+          5488,
+          4117
+        ],
+        [
+          5496,
+          4116
+        ],
+        [
+          5512,
+          4121
+        ]
+      ],
+      "source_context_xywh": [
+        4802,
+        3755,
+        1000,
+        800
+      ],
+      "note": "The narrow McMillan Point projection below the Cable caption is traced along its actual coastal edge. The nearby hollow cable/site mark, road and lettering are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-142",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5638,
+          4158
+        ],
+        [
+          5656,
+          4171
+        ],
+        [
+          5672,
+          4187
+        ],
+        [
+          5685,
+          4206
+        ],
+        [
+          5691,
+          4223
+        ],
+        [
+          5695,
+          4238
+        ],
+        [
+          5701,
+          4250
+        ],
+        [
+          5712,
+          4256
+        ],
+        [
+          5723,
+          4255
+        ],
+        [
+          5732,
+          4250
+        ],
+        [
+          5736,
+          4242
+        ],
+        [
+          5745,
+          4233
+        ],
+        [
+          5754,
+          4233
+        ],
+        [
+          5762,
+          4238
+        ]
+      ],
+      "source_context_xywh": [
+        5073,
+        3848,
+        1000,
+        800
+      ],
+      "note": "The southern McKeen Point coastal bulge below the Hastings street grid supplies this bounded bank trace. The dip arrows, 85-degree label, street lines and more eastern hatched shoreline are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-143",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5400,
+          4370
+        ],
+        [
+          5422,
+          4376
+        ],
+        [
+          5442,
+          4385
+        ],
+        [
+          5467,
+          4410
+        ],
+        [
+          5492,
+          4433
+        ],
+        [
+          5518,
+          4452
+        ],
+        [
+          5542,
+          4475
+        ],
+        [
+          5552,
+          4496
+        ],
+        [
+          5572,
+          4514
+        ],
+        [
+          5596,
+          4528
+        ],
+        [
+          5618,
+          4544
+        ],
+        [
+          5637,
+          4554
+        ]
+      ],
+      "source_context_xywh": [
+        5075,
+        3974,
+        1000,
+        800
+      ],
+      "note": "The actual Cape Porcupine shoreline south of the narrows supplies this bounded source reach. The red report lettering overprints the line but the coastal outline is continuously distinguishable; inland geological boundaries and the old cable mark are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-144",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5854,
+          4239
+        ],
+        [
+          5862,
+          4268
+        ],
+        [
+          5876,
+          4296
+        ],
+        [
+          5893,
+          4318
+        ],
+        [
+          5916,
+          4341
+        ],
+        [
+          5940,
+          4363
+        ],
+        [
+          5966,
+          4384
+        ],
+        [
+          5991,
+          4402
+        ],
+        [
+          6016,
+          4417
+        ],
+        [
+          6040,
+          4429
+        ],
+        [
+          6067,
+          4435
+        ],
+        [
+          6084,
+          4443
+        ],
+        [
+          6101,
+          4458
+        ]
+      ],
+      "source_context_xywh": [
+        5260,
+        3933,
+        1000,
+        800
+      ],
+      "note": "The eastern bank of Plaster Cove south of the historical Hastings district supplies this bounded source reach. The road crosses the coastal corridor but is not used as the bank geometry. This is not the full cove extent.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-149",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5627,
+          4555
+        ],
+        [
+          5646,
+          4562
+        ],
+        [
+          5666,
+          4565
+        ],
+        [
+          5689,
+          4563
+        ],
+        [
+          5707,
+          4567
+        ],
+        [
+          5728,
+          4579
+        ],
+        [
+          5742,
+          4586
+        ],
+        [
+          5753,
+          4597
+        ],
+        [
+          5762,
+          4615
+        ],
+        [
+          5768,
+          4634
+        ],
+        [
+          5782,
+          4655
+        ],
+        [
+          5795,
+          4674
+        ],
+        [
+          5802,
+          4695
+        ],
+        [
+          5808,
+          4714
+        ]
+      ],
+      "source_context_xywh": [
+        5385,
+        4204,
+        1000,
+        800
+      ],
+      "note": "The outer coastal edge at Keaton Point supplies this bounded trace. Native 4x detail distinguishes that edge from the parallel road line; the first inner-road candidate is retained in the proposal history and the outward correction follows the printed coast.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-180",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9413,
+          4207
+        ],
+        [
+          9384,
+          4215
+        ],
+        [
+          9357,
+          4225
+        ],
+        [
+          9333,
+          4228
+        ],
+        [
+          9316,
+          4232
+        ],
+        [
+          9310,
+          4239
+        ],
+        [
+          9312,
+          4251
+        ],
+        [
+          9319,
+          4261
+        ],
+        [
+          9333,
+          4268
+        ],
+        [
+          9353,
+          4272
+        ],
+        [
+          9372,
+          4284
+        ],
+        [
+          9390,
+          4301
+        ]
+      ],
+      "source_context_xywh": [
+        8929,
+        3851,
+        1000,
+        800
+      ],
+      "note": "The actual Grant Point river-bank projection beneath the name supplies this bounded source reach on River Inhabitants. The southern railway proposal and northern cemetery marks are separate; this Grant Point is distinct from annotation211 at Hawkesbury.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-183",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9457,
+          4460
+        ],
+        [
+          9475,
+          4473
+        ],
+        [
+          9486,
+          4487
+        ],
+        [
+          9494,
+          4503
+        ],
+        [
+          9503,
+          4518
+        ],
+        [
+          9503,
+          4530
+        ],
+        [
+          9513,
+          4546
+        ],
+        [
+          9519,
+          4557
+        ],
+        [
+          9517,
+          4564
+        ],
+        [
+          9511,
+          4565
+        ],
+        [
+          9502,
+          4560
+        ],
+        [
+          9492,
+          4561
+        ],
+        [
+          9476,
+          4566
+        ],
+        [
+          9460,
+          4570
+        ],
+        [
+          9443,
+          4571
+        ],
+        [
+          9432,
+          4580
+        ],
+        [
+          9424,
+          4591
+        ]
+      ],
+      "source_context_xywh": [
+        8913,
+        4136,
+        1000,
+        800
+      ],
+      "note": "The actual Long Point river-bank projection beneath the name supplies this bounded source reach. The road crossing farther north, geological hatching and opposite-bank 70ft caption are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-211",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6514,
+          4963
+        ],
+        [
+          6493,
+          4967
+        ],
+        [
+          6471,
+          4968
+        ],
+        [
+          6455,
+          4974
+        ],
+        [
+          6443,
+          4986
+        ],
+        [
+          6436,
+          5002
+        ],
+        [
+          6433,
+          5020
+        ],
+        [
+          6434,
+          5036
+        ],
+        [
+          6441,
+          5053
+        ],
+        [
+          6453,
+          5070
+        ],
+        [
+          6464,
+          5091
+        ]
+      ],
+      "source_context_xywh": [
+        5824,
+        4614,
+        1000,
+        800
+      ],
+      "note": "The actual Hawkesbury Grant Point coastal bulge supplies this bounded bank trace. The parallel inland road, Emery Pond and wharf marks remain separate; this feature is distinct from annotation180 on River Inhabitants.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-213",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6385,
+          5435
+        ],
+        [
+          6375,
+          5413
+        ],
+        [
+          6363,
+          5391
+        ],
+        [
+          6351,
+          5370
+        ],
+        [
+          6344,
+          5356
+        ],
+        [
+          6346,
+          5348
+        ],
+        [
+          6353,
+          5345
+        ],
+        [
+          6367,
+          5345
+        ],
+        [
+          6385,
+          5349
+        ],
+        [
+          6407,
+          5356
+        ],
+        [
+          6429,
+          5361
+        ],
+        [
+          6456,
+          5364
+        ]
+      ],
+      "source_context_xywh": [
+        5719,
+        4925,
+        1000,
+        800
+      ],
+      "note": "The actual Point Tupper headland outline surrounding the northern tip supplies this bounded coastal reach. The light glyph and Marine Slip lettering are separate, and no current structure or access is inferred.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-215",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5985,
+          5289
+        ],
+        [
+          5975,
+          5298
+        ],
+        [
+          5959,
+          5305
+        ],
+        [
+          5957,
+          5321
+        ],
+        [
+          5954,
+          5338
+        ],
+        [
+          5957,
+          5355
+        ],
+        [
+          5967,
+          5374
+        ],
+        [
+          5980,
+          5394
+        ],
+        [
+          5992,
+          5415
+        ]
+      ],
+      "source_context_xywh": [
+        5285,
+        4994,
+        1000,
+        800
+      ],
+      "note": "The shore of Wylde’s Cove immediately north of the printed railway-terminus projection supplies this bounded source reach. Native 4x detail distinguishes the outside coastal line from the parallel road and railway; the long projecting terminal mark remains a separate transport feature.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-222",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6470,
+          5656
+        ],
+        [
+          6489,
+          5684
+        ],
+        [
+          6508,
+          5710
+        ],
+        [
+          6523,
+          5738
+        ],
+        [
+          6541,
+          5759
+        ],
+        [
+          6560,
+          5772
+        ],
+        [
+          6583,
+          5781
+        ],
+        [
+          6614,
+          5790
+        ],
+        [
+          6639,
+          5802
+        ],
+        [
+          6665,
+          5818
+        ],
+        [
+          6689,
+          5826
+        ],
+        [
+          6710,
+          5828
+        ]
+      ],
+      "source_context_xywh": [
+        5965,
+        5387,
+        1000,
+        800
+      ],
+      "note": "The western Madden Point coastal bulge supplies this bounded source reach above Madden Cove. Geological stripes and dip arrows do not define the shoreline.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-228",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6517,
+          5181
+        ],
+        [
+          6537,
+          5199
+        ],
+        [
+          6553,
+          5219
+        ],
+        [
+          6577,
+          5242
+        ],
+        [
+          6598,
+          5261
+        ],
+        [
+          6625,
+          5278
+        ],
+        [
+          6650,
+          5297
+        ],
+        [
+          6682,
+          5313
+        ],
+        [
+          6710,
+          5330
+        ],
+        [
+          6740,
+          5346
+        ],
+        [
+          6769,
+          5362
+        ],
+        [
+          6795,
+          5375
+        ],
+        [
+          6819,
+          5386
+        ]
+      ],
+      "source_context_xywh": [
+        6098,
+        4915,
+        1000,
+        800
+      ],
+      "note": "The northern Ship Harbour bank beneath Hawkesbury supplies this bounded shore reach. The line follows the bank between projecting wharf marks and remains separate from the inland railway; it does not define the full harbour, current waterfront or a navigation route.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-244",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9407,
+          4767
+        ],
+        [
+          9392,
+          4786
+        ],
+        [
+          9375,
+          4804
+        ],
+        [
+          9362,
+          4824
+        ],
+        [
+          9348,
+          4844
+        ],
+        [
+          9338,
+          4857
+        ],
+        [
+          9336,
+          4865
+        ],
+        [
+          9344,
+          4869
+        ],
+        [
+          9356,
+          4864
+        ],
+        [
+          9377,
+          4852
+        ],
+        [
+          9403,
+          4840
+        ],
+        [
+          9428,
+          4825
+        ],
+        [
+          9451,
+          4816
+        ],
+        [
+          9471,
+          4813
+        ]
+      ],
+      "source_context_xywh": [
+        9006,
+        4373,
+        1000,
+        800
+      ],
+      "note": "The southwest-facing Brule Point river-bank projection supplies this bounded source reach. Macmillan Creek, the southern island and geological lettering remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-254",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9437,
+          5314
+        ],
+        [
+          9457,
+          5318
+        ],
+        [
+          9475,
+          5313
+        ],
+        [
+          9488,
+          5316
+        ],
+        [
+          9507,
+          5324
+        ],
+        [
+          9528,
+          5332
+        ],
+        [
+          9543,
+          5336
+        ],
+        [
+          9546,
+          5344
+        ],
+        [
+          9539,
+          5353
+        ],
+        [
+          9530,
+          5366
+        ],
+        [
+          9524,
+          5388
+        ],
+        [
+          9520,
+          5405
+        ],
+        [
+          9508,
+          5424
+        ],
+        [
+          9504,
+          5443
+        ]
+      ],
+      "source_context_xywh": [
+        8917,
+        4963,
+        1000,
+        800
+      ],
+      "note": "The northern and eastern Mussel Point river-bank projection supplies this bounded source reach beneath the name. The Ferry district, school and FAULT notation remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-255",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9625,
+          5507
+        ],
+        [
+          9608,
+          5514
+        ],
+        [
+          9599,
+          5519
+        ],
+        [
+          9595,
+          5528
+        ],
+        [
+          9592,
+          5541
+        ],
+        [
+          9585,
+          5540
+        ],
+        [
+          9576,
+          5530
+        ],
+        [
+          9566,
+          5523
+        ],
+        [
+          9562,
+          5526
+        ],
+        [
+          9563,
+          5537
+        ],
+        [
+          9569,
+          5553
+        ],
+        [
+          9577,
+          5570
+        ],
+        [
+          9588,
+          5583
+        ],
+        [
+          9601,
+          5589
+        ],
+        [
+          9618,
+          5590
+        ],
+        [
+          9629,
+          5595
+        ]
+      ],
+      "source_context_xywh": [
+        9127,
+        5167,
+        1000,
+        800
+      ],
+      "note": "The hooked Whale Point river-bank projection on the eastern shore supplies this bounded source reach. The caption and inland road are separate; retain its complete native shape near the sheet edge.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-256",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9492,
+          5619
+        ],
+        [
+          9502,
+          5641
+        ],
+        [
+          9516,
+          5661
+        ],
+        [
+          9529,
+          5674
+        ],
+        [
+          9544,
+          5684
+        ],
+        [
+          9553,
+          5692
+        ],
+        [
+          9555,
+          5697
+        ],
+        [
+          9546,
+          5700
+        ],
+        [
+          9530,
+          5702
+        ],
+        [
+          9515,
+          5707
+        ],
+        [
+          9492,
+          5712
+        ],
+        [
+          9472,
+          5723
+        ],
+        [
+          9453,
+          5736
+        ]
+      ],
+      "source_context_xywh": [
+        9121,
+        5318,
+        1000,
+        800
+      ],
+      "note": "The southeast-facing River Point river-bank projection supplies this bounded source reach. The inland road approaching the tip and the broader Richmond district are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-270",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6205,
+          6020
+        ],
+        [
+          6215,
+          6022
+        ],
+        [
+          6221,
+          6027
+        ],
+        [
+          6220,
+          6035
+        ],
+        [
+          6212,
+          6035
+        ],
+        [
+          6205,
+          6031
+        ],
+        [
+          6199,
+          6035
+        ],
+        [
+          6198,
+          6046
+        ],
+        [
+          6204,
+          6054
+        ],
+        [
+          6218,
+          6058
+        ],
+        [
+          6238,
+          6059
+        ],
+        [
+          6260,
+          6062
+        ],
+        [
+          6279,
+          6068
+        ],
+        [
+          6286,
+          6072
+        ],
+        [
+          6297,
+          6064
+        ],
+        [
+          6307,
+          6069
+        ],
+        [
+          6308,
+          6076
+        ],
+        [
+          6304,
+          6081
+        ],
+        [
+          6311,
+          6092
+        ],
+        [
+          6326,
+          6105
+        ]
+      ],
+      "source_context_xywh": [
+        5700,
+        5606,
+        1000,
+        800
+      ],
+      "note": "The actual eastern/southern Pirate Harbour bank, including the small hooked projection and nearby coastal indentations, supplies this bounded source reach. The railway terminus and East Brook crossing remain separate; no whole harbour footprint or route is reconstructed.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-274",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6714,
+          5830
+        ],
+        [
+          6730,
+          5842
+        ],
+        [
+          6754,
+          5857
+        ],
+        [
+          6777,
+          5870
+        ],
+        [
+          6797,
+          5885
+        ],
+        [
+          6811,
+          5901
+        ],
+        [
+          6816,
+          5915
+        ],
+        [
+          6817,
+          5932
+        ],
+        [
+          6815,
+          5950
+        ],
+        [
+          6808,
+          5968
+        ],
+        [
+          6802,
+          5988
+        ],
+        [
+          6800,
+          6009
+        ],
+        [
+          6802,
+          6033
+        ]
+      ],
+      "source_context_xywh": [
+        6180,
+        5525,
+        1000,
+        800
+      ],
+      "note": "The recessed coastal bank of Madden Cove between Madden and Peebles Points supplies this bounded source reach. The small inner pond, road and 83ft caption are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-276",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6801,
+          6022
+        ],
+        [
+          6804,
+          6052
+        ],
+        [
+          6810,
+          6081
+        ],
+        [
+          6822,
+          6101
+        ],
+        [
+          6840,
+          6114
+        ],
+        [
+          6862,
+          6124
+        ],
+        [
+          6885,
+          6131
+        ],
+        [
+          6900,
+          6145
+        ],
+        [
+          6915,
+          6165
+        ],
+        [
+          6928,
+          6188
+        ]
+      ],
+      "source_context_xywh": [
+        6192,
+        5696,
+        1000,
+        800
+      ],
+      "note": "The western Peebles Point coastal bulge supplies this bounded source reach below Madden Cove. The small eastern pond, geological stripes and neighbouring road are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-277",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6336,
+          6115
+        ],
+        [
+          6356,
+          6128
+        ],
+        [
+          6378,
+          6139
+        ],
+        [
+          6397,
+          6153
+        ],
+        [
+          6411,
+          6172
+        ],
+        [
+          6419,
+          6193
+        ],
+        [
+          6428,
+          6210
+        ],
+        [
+          6428,
+          6225
+        ],
+        [
+          6433,
+          6236
+        ],
+        [
+          6446,
+          6241
+        ],
+        [
+          6461,
+          6247
+        ],
+        [
+          6475,
+          6260
+        ],
+        [
+          6493,
+          6278
+        ]
+      ],
+      "source_context_xywh": [
+        5999,
+        5750,
+        1000,
+        800
+      ],
+      "note": "The eastern Roger Point coastal bulge supplies this bounded source reach below Pirate Harbour. The parallel inland road and geological boundaries remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-286",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9485,
+          5994
+        ],
+        [
+          9505,
+          5990
+        ],
+        [
+          9516,
+          5986
+        ],
+        [
+          9524,
+          5976
+        ],
+        [
+          9534,
+          5971
+        ],
+        [
+          9552,
+          5967
+        ],
+        [
+          9568,
+          5971
+        ],
+        [
+          9584,
+          5978
+        ],
+        [
+          9599,
+          5990
+        ],
+        [
+          9613,
+          6003
+        ],
+        [
+          9619,
+          6013
+        ],
+        [
+          9615,
+          6020
+        ],
+        [
+          9599,
+          6027
+        ],
+        [
+          9578,
+          6034
+        ],
+        [
+          9556,
+          6041
+        ],
+        [
+          9535,
+          6049
+        ],
+        [
+          9514,
+          6063
+        ],
+        [
+          9498,
+          6076
+        ],
+        [
+          9487,
+          6084
+        ]
+      ],
+      "source_context_xywh": [
+        9117,
+        5554,
+        1000,
+        800
+      ],
+      "note": "The eastern Indian Point headland, including its dotted coastal tip, supplies this bounded source reach. The internal small oval, western rectilinear marks and separate southern island remain separate; no current shoreline condition is asserted.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-287",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8776,
+          6277
+        ],
+        [
+          8773,
+          6296
+        ],
+        [
+          8766,
+          6311
+        ],
+        [
+          8753,
+          6323
+        ],
+        [
+          8735,
+          6330
+        ],
+        [
+          8710,
+          6336
+        ],
+        [
+          8690,
+          6342
+        ],
+        [
+          8669,
+          6344
+        ],
+        [
+          8648,
+          6339
+        ],
+        [
+          8631,
+          6338
+        ],
+        [
+          8614,
+          6342
+        ],
+        [
+          8597,
+          6340
+        ],
+        [
+          8578,
+          6333
+        ],
+        [
+          8558,
+          6325
+        ],
+        [
+          8537,
+          6314
+        ]
+      ],
+      "source_context_xywh": [
+        8457,
+        5895,
+        1000,
+        800
+      ],
+      "note": "The southern Carleton Head coastal outline supplies this bounded source reach beneath the name. The rectilinear marks on land, 54/26-degree arrows and graticule remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-288",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9354,
+          6388
+        ],
+        [
+          9347,
+          6363
+        ],
+        [
+          9345,
+          6343
+        ],
+        [
+          9348,
+          6331
+        ],
+        [
+          9359,
+          6321
+        ],
+        [
+          9377,
+          6310
+        ],
+        [
+          9386,
+          6295
+        ],
+        [
+          9389,
+          6273
+        ],
+        [
+          9395,
+          6261
+        ],
+        [
+          9413,
+          6253
+        ],
+        [
+          9435,
+          6245
+        ],
+        [
+          9459,
+          6235
+        ],
+        [
+          9479,
+          6225
+        ],
+        [
+          9503,
+          6221
+        ],
+        [
+          9523,
+          6223
+        ],
+        [
+          9535,
+          6230
+        ],
+        [
+          9545,
+          6240
+        ],
+        [
+          9548,
+          6246
+        ],
+        [
+          9538,
+          6245
+        ],
+        [
+          9530,
+          6241
+        ],
+        [
+          9518,
+          6245
+        ],
+        [
+          9506,
+          6257
+        ],
+        [
+          9498,
+          6271
+        ],
+        [
+          9497,
+          6285
+        ],
+        [
+          9504,
+          6298
+        ],
+        [
+          9519,
+          6308
+        ],
+        [
+          9533,
+          6318
+        ],
+        [
+          9537,
+          6316
+        ],
+        [
+          9532,
+          6306
+        ],
+        [
+          9535,
+          6302
+        ],
+        [
+          9551,
+          6302
+        ],
+        [
+          9574,
+          6305
+        ],
+        [
+          9597,
+          6308
+        ],
+        [
+          9621,
+          6312
+        ],
+        [
+          9648,
+          6313
+        ],
+        [
+          9672,
+          6322
+        ]
+      ],
+      "source_context_xywh": [
+        9028,
+        5984,
+        1000,
+        800
+      ],
+      "note": "The visible northern Evans or Macnamara Island shoreline supplies this bounded source reach around its hooked northern indentation. The separate small northern island, fault line, graticule and inner neatline remain separate. The source shows only part of the island; the trace is deliberately open and does not invent the unseen perimeter.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-016",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5827.5,
+        2187.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5232,
+        1801,
+        1000,
+        800
+      ],
+      "note": "Native 6x detail distinguishes the isolated elliptical, diagonally crossed mark beside Ice grooves from the nearby road, fault/contact dots and lettering. Its actual glyph centre supplies a source anchor; no measured groove extent, orientation or current exposure is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-021",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6979,
+        809,
+        1000,
+        800
+      ],
+      "note": "Coal said to have been found here is a qualified historical statement beside the Lainey Brook/fault district. No unique coal, pit or mine mark is attached to this caption. Keep its wording and unlocated status; nearby dots, fault boundaries and the lettering centre do not establish a coal site.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-080",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6005,
+        2415,
+        1000,
+        800
+      ],
+      "note": "Barrens names a broad landscape without a distinct vegetation boundary or associated site glyph. Geological colour, streams, road and dip arrows are separate evidence. Do not invent a barren-area polygon or a feature point from the caption.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-091",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8264,
+          2318
+        ],
+        [
+          8248,
+          2343
+        ],
+        [
+          8226,
+          2369
+        ],
+        [
+          8201,
+          2395
+        ],
+        [
+          8174,
+          2422
+        ],
+        [
+          8144,
+          2448
+        ],
+        [
+          8118,
+          2475
+        ],
+        [
+          8098,
+          2501
+        ],
+        [
+          8081,
+          2531
+        ],
+        [
+          8064,
+          2565
+        ],
+        [
+          8048,
+          2602
+        ],
+        [
+          8034,
+          2640
+        ],
+        [
+          8023,
+          2676
+        ],
+        [
+          8013,
+          2716
+        ],
+        [
+          8000,
+          2755
+        ],
+        [
+          7987,
+          2795
+        ],
+        [
+          7974,
+          2834
+        ],
+        [
+          7962,
+          2874
+        ],
+        [
+          7952,
+          2912
+        ],
+        [
+          7948,
+          2946
+        ],
+        [
+          7952,
+          2976
+        ],
+        [
+          7964,
+          3003
+        ],
+        [
+          7985,
+          3032
+        ],
+        [
+          8008,
+          3058
+        ],
+        [
+          8038,
+          3085
+        ],
+        [
+          8066,
+          3110
+        ],
+        [
+          8095,
+          3135
+        ],
+        [
+          8124,
+          3162
+        ],
+        [
+          8155,
+          3193
+        ],
+        [
+          8178,
+          3224
+        ],
+        [
+          8192,
+          3253
+        ],
+        [
+          8200,
+          3283
+        ],
+        [
+          8204,
+          3316
+        ],
+        [
+          8204,
+          3351
+        ],
+        [
+          8201,
+          3388
+        ],
+        [
+          8199,
+          3425
+        ],
+        [
+          8202,
+          3461
+        ],
+        [
+          8211,
+          3496
+        ],
+        [
+          8225,
+          3534
+        ],
+        [
+          8239,
+          3571
+        ],
+        [
+          8249,
+          3603
+        ],
+        [
+          8236,
+          3641
+        ]
+      ],
+      "source_context_xywh": [
+        7646,
+        2103,
+        1000,
+        1789
+      ],
+      "note": "The actual tie-marked proposed railway supplies a bounded native trace from the northern bend through the Northwest Arm crossing district to the southern bend beside the final route wording. The white fault band, nearby roads and brook are separate. Preserve PROPOSED status; this is not evidence that the route was built or exists today.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-092",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8264,
+          2318
+        ],
+        [
+          8248,
+          2343
+        ],
+        [
+          8226,
+          2369
+        ],
+        [
+          8201,
+          2395
+        ],
+        [
+          8174,
+          2422
+        ],
+        [
+          8144,
+          2448
+        ],
+        [
+          8118,
+          2475
+        ],
+        [
+          8098,
+          2501
+        ],
+        [
+          8081,
+          2531
+        ],
+        [
+          8064,
+          2565
+        ],
+        [
+          8048,
+          2602
+        ],
+        [
+          8034,
+          2640
+        ],
+        [
+          8023,
+          2676
+        ],
+        [
+          8013,
+          2716
+        ],
+        [
+          8000,
+          2755
+        ],
+        [
+          7987,
+          2795
+        ],
+        [
+          7974,
+          2834
+        ],
+        [
+          7962,
+          2874
+        ],
+        [
+          7952,
+          2912
+        ],
+        [
+          7948,
+          2946
+        ],
+        [
+          7952,
+          2976
+        ],
+        [
+          7964,
+          3003
+        ],
+        [
+          7985,
+          3032
+        ],
+        [
+          8008,
+          3058
+        ],
+        [
+          8038,
+          3085
+        ],
+        [
+          8066,
+          3110
+        ],
+        [
+          8095,
+          3135
+        ],
+        [
+          8124,
+          3162
+        ],
+        [
+          8155,
+          3193
+        ],
+        [
+          8178,
+          3224
+        ],
+        [
+          8192,
+          3253
+        ],
+        [
+          8200,
+          3283
+        ],
+        [
+          8204,
+          3316
+        ],
+        [
+          8204,
+          3351
+        ],
+        [
+          8201,
+          3388
+        ],
+        [
+          8199,
+          3425
+        ],
+        [
+          8202,
+          3461
+        ],
+        [
+          8211,
+          3496
+        ],
+        [
+          8225,
+          3534
+        ],
+        [
+          8239,
+          3571
+        ],
+        [
+          8249,
+          3603
+        ],
+        [
+          8236,
+          3641
+        ]
+      ],
+      "source_context_xywh": [
+        7646,
+        2103,
+        1000,
+        1789
+      ],
+      "note": "Surveyed by W.H. Tremaine, C.E., in 1875 is attached to the same printed railway proposal as annotation91. Reuse that independently traced bounded source alignment and full native context, preserving the survey wording/date as historical annotation evidence. This does not convert a proposed route into an operational railway.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-122",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        1381,
+        3596,
+        3778,
+        800
+      ],
+      "note": "The distributed ANTIGONISH caption is an administrative-region label, not a point or a closed region boundary. Its lettering and context are retained; the separately reviewed county-line segment cannot establish a complete county polygon.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-133",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5218.5,
+        4335.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        4758,
+        3913,
+        1000,
+        800
+      ],
+      "note": "The isolated hollow circle below the western Cable caption at the coast/road district supplies this source anchor. It is distinct from the nearby eastern Cable circle, geological boundary and lettering. No cable route, offshore connection, current facility or access is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-140",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5463.5,
+        4101.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        4883,
+        3706,
+        1000,
+        800
+      ],
+      "note": "The isolated compact mark beside Cable on the McMillan Point side of the strait supplies this source anchor. The nearby coastal loop, road and caption are separate. No offshore cable geometry, destination or current facility is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-141",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5310.5,
+        4342
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        4861,
+        3935,
+        1000,
+        800
+      ],
+      "note": "The isolated hollow circle left/below the eastern Cable caption near the central graticule supplies this source anchor. The western Cable mark is retained separately; no line between cable marks or across the strait is invented.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-146",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5837.5,
+        3753
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5412,
+        3337,
+        1000,
+        800
+      ],
+      "note": "Native 6x detail confirms an isolated filled circular mark beside Quarry at the hatched geological/contact district. Its centre supplies the source anchor; nearby hatching, the Q letter and dip arrow are not substituted for an excavation footprint. No current quarry extent or condition is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-150",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5619,
+        4558
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5190,
+        4140,
+        1000,
+        800
+      ],
+      "note": "The small isolated hollow circle immediately left/below Old Cable supplies this source anchor. The source coastline, inland geological boundary and word descenders are separate. Preserve Old as historical wording without inferring a present facility or cable route.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-154",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6256,
+        3490,
+        1000,
+        800
+      ],
+      "note": "Barren is a broad landscape caption above the road district, without a distinct associated site mark or land-cover boundary. The diagonal geological stripes and dotted contact cannot be treated as barren-land extent. Retain the unlocated annotation.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-169",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8397,
+          4466
+        ],
+        [
+          8419,
+          4439
+        ],
+        [
+          8441,
+          4413
+        ],
+        [
+          8468,
+          4392
+        ],
+        [
+          8497,
+          4375
+        ],
+        [
+          8529,
+          4365
+        ],
+        [
+          8565,
+          4355
+        ],
+        [
+          8600,
+          4341
+        ],
+        [
+          8633,
+          4323
+        ],
+        [
+          8663,
+          4301
+        ],
+        [
+          8689,
+          4275
+        ],
+        [
+          8715,
+          4250
+        ],
+        [
+          8745,
+          4225
+        ],
+        [
+          8777,
+          4207
+        ],
+        [
+          8810,
+          4193
+        ],
+        [
+          8846,
+          4181
+        ],
+        [
+          8879,
+          4171
+        ],
+        [
+          8913,
+          4164
+        ],
+        [
+          8948,
+          4159
+        ],
+        [
+          8986,
+          4155
+        ],
+        [
+          9023,
+          4151
+        ],
+        [
+          9060,
+          4142
+        ],
+        [
+          9098,
+          4130
+        ],
+        [
+          9135,
+          4114
+        ]
+      ],
+      "source_context_xywh": [
+        8098,
+        3861,
+        1370,
+        938
+      ],
+      "note": "The actual tie-marked proposed railway east/northeast of Beaver Dam Lake supplies this bounded source alignment beneath PROPOSED RAILWAY TO LOUISBURG. The lake bank, county-line dashes and roads remain separate. Preserve its proposal status; no current railway or destination route is reconstructed.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-170",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8586,
+          4099
+        ],
+        [
+          8663,
+          4045
+        ],
+        [
+          8742,
+          3988
+        ],
+        [
+          8823,
+          3930
+        ],
+        [
+          8905,
+          3871
+        ],
+        [
+          8986,
+          3813
+        ],
+        [
+          9069,
+          3753
+        ],
+        [
+          9152,
+          3692
+        ],
+        [
+          9235,
+          3630
+        ]
+      ],
+      "source_context_xywh": [
+        8305,
+        3351,
+        1175,
+        967
+      ],
+      "note": "The heavy dash-dot COUNTY LINE supplies a bounded source trace between the McIntyre Lake district and the northeastern road/river district. The line is distinct from the tie-marked railway and geological contact. It is a historical printed boundary segment, not a present administrative or parcel boundary.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-194",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1712,
+          5750,
+          22,
+          26
+        ]
+      ],
+      "source_context_xywh": [
+        1134,
+        5345,
+        1000,
+        800
+      ],
+      "note": "Native 6x detail distinguishes the small closed water/pool loop at the confluence beside Salmon Hole from the larger circled F and the dash-dot line. A bounded group encloses that actual printed loop without inventing pool depth, current fishing conditions or a precise point site.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-216",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5988,
+          5358,
+          17,
+          69
+        ]
+      ],
+      "source_context_xywh": [
+        5317,
+        5028,
+        1000,
+        800
+      ],
+      "note": "The long dark projection beside Railway Terminus at Wylde’s Cove supplies a bounded source group. The shore, parallel road and railway are separate; the group does not establish a current structure, terminal footprint, ferry route or access.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-219",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5427,
+        5303,
+        1000,
+        800
+      ],
+      "note": "The apparent small mark below Quarry was inspected at 6x and rejected: it is the hooked descender of the italic y. No separate individual quarry symbol is resolved among the adjacent geological/contact hatching and watercourse. Preserve the rejected point candidate and retain the annotation as unlocated.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-224",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6685,
+        4511,
+        1000,
+        800
+      ],
+      "note": "Black shale follows the roadside geological district, but the scan does not distinguish a bounded shale exposure from the parallel road strokes or provide a separate outcrop mark. Retain the wording unlocated; do not turn a road, stripe, caption centre or broad geological unit into an exposure footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-232",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        7119,
+        4949,
+        1129,
+        800
+      ],
+      "note": "Rocky Barrens spans the railway/road district without a discrete site mark or boundary defining its full landscape extent. The rail curves and geological stripes are separate. Retain the unlocated caption rather than inventing a polygon.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-237",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8697.5,
+        5338
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        8239,
+        4941,
+        1000,
+        800
+      ],
+      "note": "Native 6x detail confirms the isolated filled circle immediately left of Pit in the Little River/Mines Road district. Its centre supplies the source anchor. The separate Shales with small pieces of coal caption is retained independently; no excavation size, present mine condition or material quantity is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-238",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        8162,
+        4977,
+        1000,
+        800
+      ],
+      "note": "Shales with small pieces of coal is a geological observation below the Pit district. No separate outcrop mark or exposure boundary is attached to the observation. The neighbouring pit is preserved as annotation237, but its point is not silently promoted to the exact extent/location of this broader material statement.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-240",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8553,
+          5477
+        ],
+        [
+          8587,
+          5488
+        ],
+        [
+          8623,
+          5499
+        ],
+        [
+          8659,
+          5511
+        ],
+        [
+          8692,
+          5525
+        ],
+        [
+          8724,
+          5542
+        ],
+        [
+          8749,
+          5564
+        ],
+        [
+          8768,
+          5590
+        ],
+        [
+          8783,
+          5618
+        ],
+        [
+          8798,
+          5648
+        ],
+        [
+          8812,
+          5678
+        ],
+        [
+          8825,
+          5711
+        ],
+        [
+          8835,
+          5745
+        ],
+        [
+          8845,
+          5782
+        ],
+        [
+          8854,
+          5816
+        ],
+        [
+          8853,
+          5841
+        ]
+      ],
+      "source_context_xywh": [
+        8220,
+        5209,
+        1000,
+        800
+      ],
+      "note": "The actual tie-marked RAILWAY curve south of Little River supplies this bounded native trace through the southern road/fault-crossing district. The brook, road and white fault band are separate. The source wording alone does not establish present rail operation or public access.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-242",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        7728,
+        5324,
+        1000,
+        800
+      ],
+      "note": "Barren is printed within the broad geological district between the railway and pond, without an associated site symbol or vegetation boundary. Preserve the unlocated caption; the geological stripes and stream network do not define barren-land extent.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-257",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        8729,
+        5234,
+        1000,
+        800
+      ],
+      "note": "Barren lies within the broad River Point/Richmond district with no distinct site glyph or vegetation boundary. The nearby compact mark belongs to separate site evidence and is not assigned to this landscape caption. Retain the annotation unlocated.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-258",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        7490,
+        4832,
+        2031,
+        1017
+      ],
+      "note": "The retained R I lettering is an incomplete distributed administrative-region caption. Preserve those exact letters and source boxes without expanding them into a guessed name, point or county polygon.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-259",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        1495,
+        5567,
+        4652,
+        800
+      ],
+      "note": "The distributed GUYSBOROUGH caption identifies a broad administrative region without defining a closed region geometry. Preserve the source lettering and context; no label centre, modern boundary or arbitrary whole-sheet area is substituted.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-263",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        1614.5,
+        6325
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        1100,
+        5891,
+        1000,
+        800
+      ],
+      "note": "Native 6x detail confirms the isolated filled circle beside Pit near Upper Big Tracadie. Its actual centre supplies the source anchor, separate from the 70-degree arrow, road, lettering and nearby Q. veins note. The whole point is retained near the lower western sheet edge for later coverage review.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-264",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        1151,
+        5977,
+        1000,
+        800
+      ],
+      "note": "Q. veins in slate is printed near the lower sheet edge, without a distinct attached vein trace or exposure boundary. The neighbouring Pit mark is separate annotation263. Preserve the abbreviation and statement without converting the pit, road, dip arrow or lettering centre into a quartz-vein location.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-267",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5486,
+        5584,
+        1000,
+        800
+      ],
+      "note": "The apparent small mark below Quarry was inspected at 6x and rejected because it is the hooked descender of the italic y. Adjacent geological/contact hatching does not resolve an individual quarry site. Preserve the rejected candidate and keep this annotation unlocated.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-291",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          7144,
+          1089
+        ],
+        [
+          7210,
+          1104
+        ],
+        [
+          7278,
+          1119
+        ],
+        [
+          7347,
+          1135
+        ],
+        [
+          7417,
+          1150
+        ],
+        [
+          7488,
+          1166
+        ],
+        [
+          7557,
+          1182
+        ],
+        [
+          7627,
+          1197
+        ]
+      ],
+      "source_context_xywh": [
+        6870,
+        715,
+        1041,
+        800
+      ],
+      "note": "The distinct pale diagonal fault band beneath FAULT ? supplies this bounded printed line. Native overlay review corrected its southeastern vertices to follow that band. The regular vertical geological striping, Lainey Brook and report lettering are separate. Preserve the question mark and historical interpretation; no present fault trace or activity is asserted.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-292",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8590,
+          1403
+        ],
+        [
+          8655,
+          1419
+        ],
+        [
+          8720,
+          1436
+        ],
+        [
+          8786,
+          1453
+        ],
+        [
+          8851,
+          1469
+        ],
+        [
+          8917,
+          1485
+        ],
+        [
+          8986,
+          1502
+        ]
+      ],
+      "source_context_xywh": [
+        8282,
+        1029,
+        1000,
+        800
+      ],
+      "note": "The pale diagonal band beneath FAULT, distinct from the regular vertical geological striping, supplies this bounded printed line through the road/river district north of Askilton. The historical fault interpretation is retained without claiming a modern mapped fault or activity.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-293",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8107,
+          1653
+        ],
+        [
+          8096,
+          1736
+        ],
+        [
+          8086,
+          1818
+        ],
+        [
+          8075,
+          1900
+        ],
+        [
+          8066,
+          1982
+        ],
+        [
+          8057,
+          2063
+        ],
+        [
+          8047,
+          2145
+        ]
+      ],
+      "source_context_xywh": [
+        7549,
+        1442,
+        1000,
+        875
+      ],
+      "note": "The narrow slanting pale fault band immediately right of the vertical FAULT caption supplies this bounded source line west of the Long Stretch Bridge rail/river district. Its diagonal course distinguishes it from the regular vertical geological stripes. No current fault location or activity is inferred.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-294",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          7936,
+          3049
+        ],
+        [
+          7925,
+          3116
+        ],
+        [
+          7914,
+          3183
+        ],
+        [
+          7902,
+          3250
+        ],
+        [
+          7891,
+          3316
+        ],
+        [
+          7880,
+          3383
+        ],
+        [
+          7867,
+          3450
+        ]
+      ],
+      "source_context_xywh": [
+        7380,
+        2718,
+        1000,
+        877
+      ],
+      "note": "The pale slanting fault band beside the FAULT caption supplies this bounded source line west of the proposed railway and east of the road district. The repeated vertical geological stripes and railway ties remain separate; the line preserves a historical geological interpretation only.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-295",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          7756,
+          4243
+        ],
+        [
+          7752,
+          4301
+        ],
+        [
+          7746,
+          4358
+        ],
+        [
+          7737,
+          4416
+        ],
+        [
+          7730,
+          4473
+        ],
+        [
+          7721,
+          4530
+        ],
+        [
+          7713,
+          4587
+        ]
+      ],
+      "source_context_xywh": [
+        7205,
+        3949,
+        1000,
+        899
+      ],
+      "note": "The dotted/pale geological boundary beside FAULT supplies this bounded source line between differently oriented striped units near the Little River and Saint Peter’s Road district. Roads, channels and individual site marks remain separate. This is not a present fault survey or activity claim.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-296",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8363,
+          5169
+        ],
+        [
+          8417,
+          5184
+        ],
+        [
+          8474,
+          5202
+        ],
+        [
+          8532,
+          5219
+        ],
+        [
+          8588,
+          5235
+        ],
+        [
+          8647,
+          5252
+        ],
+        [
+          8703,
+          5272
+        ],
+        [
+          8758,
+          5291
+        ]
+      ],
+      "source_context_xywh": [
+        8048,
+        4787,
+        1000,
+        800
+      ],
+      "note": "The dotted/pale diagonal boundary beneath FAULT by Richmond Mine supplies this bounded source line. Native overlay review corrected the southeastern vertices to the printed boundary. The Mines Road, Little River and separate mine/pit marks remain separate; no modern fault trace or resource inference is made.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-297",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9197,
+          5424
+        ],
+        [
+          9247,
+          5438
+        ],
+        [
+          9298,
+          5452
+        ],
+        [
+          9351,
+          5468
+        ],
+        [
+          9404,
+          5483
+        ],
+        [
+          9456,
+          5499
+        ],
+        [
+          9481,
+          5504
+        ]
+      ],
+      "source_context_xywh": [
+        8899,
+        5061,
+        1000,
+        800
+      ],
+      "note": "The dotted/pale boundary beneath FAULT ? near Mussel Point supplies this bounded source line. Keep the question mark, shoreline and separate road crossing distinct. The line does not assert a present fault or geological hazard.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-298",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8785,
+          5773
+        ],
+        [
+          8745,
+          5822
+        ],
+        [
+          8706,
+          5871
+        ],
+        [
+          8668,
+          5921
+        ],
+        [
+          8629,
+          5970
+        ],
+        [
+          8593,
+          6020
+        ],
+        [
+          8555,
+          6070
+        ],
+        [
+          8519,
+          6121
+        ]
+      ],
+      "source_context_xywh": [
+        8141,
+        5496,
+        1000,
+        838
+      ],
+      "note": "The dotted/pale diagonal boundary beneath FAULT west of the Richmond coast supplies this bounded source line between differently striped geological units. The pond, railway and county-line dashes are separate. It preserves a historical interpretation without asserting current fault activity or exact subsurface geometry.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-7-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-299",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9534,
+          6446
+        ],
+        [
+          9563,
+          6431
+        ],
+        [
+          9593,
+          6416
+        ],
+        [
+          9624,
+          6401
+        ],
+        [
+          9654,
+          6386
+        ],
+        [
+          9684,
+          6374
+        ],
+        [
+          9710,
+          6364
+        ]
+      ],
+      "source_context_xywh": [
+        9129,
+        5970,
+        1000,
+        800
+      ],
+      "note": "The pale diagonal band beneath FAULT on the visible Evans or Macnamara Island portion supplies this bounded source line. The native trace ends at the visible eastern sheet district and does not invent continuation beyond the map. The regular striping, shore and graticule are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-7-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-300",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4487,
+          3344,
+          47,
+          40
+        ]
+      ],
+      "source_context_xywh": [
+        4078,
+        2963,
+        1000,
+        800
+      ],
+      "note": "The discrete red patch immediately left of Dyke on the coast north of McDonald Brook supplies a bounded source group. The red patch is separate from report text, road and brook. Its drawn extent is historical geological evidence, not a measured current outcrop footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-7-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-301",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4319,
+          4463,
+          47,
+          52
+        ]
+      ],
+      "source_context_xywh": [
+        3803,
+        4050,
+        1000,
+        800
+      ],
+      "note": "The discrete red patch below Dyke at the Cape Porcupine railway bend supplies a bounded source group. The railway overprints the patch; the station, caption and dash-dot line are separate. Retain the whole source patch group without inventing an individual exposure point, modern structure or current dyke extent.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, final native contexts, enlarged mark details and corrected source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected mark details at recorded 6x crops. Large administrative overviews were display-resized and supplied no feature coordinates. No rotation.",
+      "review_batch": "hawkesbury-final-7-20260913"
     }
   ]
 }

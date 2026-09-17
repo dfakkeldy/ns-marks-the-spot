@@ -1,0 +1,46 @@
+{
+  "id": "R36",
+  "label": "Northern shoreline tip of the eastern Malagawatch Point hook",
+  "role": "check",
+  "pixel_xy": [
+    14677.5,
+    6357.5
+  ],
+  "lonlat": [
+    -60.917609176195946,
+    45.87417721578419
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      14500,
+      6220
+    ],
+    "extent": [
+      600,
+      550
+    ],
+    "display": [
+      1200,
+      1100
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    355,
+    275
+  ],
+  "source_crop_sha256": "54b6fa1527e496dd7b0ed43a961dfd6e46b4dad57b5b59ae524b76e90c7ccbd2",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    13866
+  ],
+  "reference_vertex": {
+    "feature_id": 13866,
+    "vertex": 34
+  },
+  "uncertainty_ground_m": 110,
+  "identity_evidence": "Northern tip of the eastern hooked Malagawatch mainland promontory, north of the long concave eastern coast and east of two detached islands. Broad source and reference preserve the westward-facing bay, long eastward hook, narrow northern lobe and neighbouring island order. The modified narrow channel/pond network farther south is not the selected feature. The northern extreme of the outer shoreline is visible in both sources. Source engraving thickness, generalized corner and possible beach change remain uncertainty; this is not an island centroid or an alias of prior island checks.",
+  "phase": "Additional post-freeze physical check after the preserved six-check phase; candidate14 unchanged; no tuning"
+}

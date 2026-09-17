@@ -1,0 +1,90 @@
+{
+  "id": "VN23",
+  "role": "control",
+  "status": "Prospective southwestern support, selected before model evaluation; not yet fitted",
+  "label": "South Clyburn Brook entry into Clyburn Brook",
+  "pixel_xy": [
+    6022.666666666667,
+    18246.333333333332
+  ],
+  "lonlat": [
+    -60.52911346631275,
+    46.664608943163216
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      5820,
+      18050
+    ],
+    "extent": [
+      500,
+      450
+    ],
+    "display": [
+      1500,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    608,
+    589
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-south-clyburn-junction.jpg",
+  "source_crop_sha256": "3a258f86814d681e2042f9fa901e2b7d98a5521e8341d930ea4790838095d719",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/reference-full/water-lines.geojson",
+  "reference_sha256": "93623a04337678ae4136d4fa067ef087d673f32baedaf4ea94ed9e1df68fdb7e",
+  "reference_feature_ids": [
+    155442,
+    155564,
+    277991
+  ],
+  "reference_vertex": {
+    "feature_id": 277991,
+    "vertex": 57
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 155442,
+      "vertex": 14,
+      "code": "WARV10"
+    },
+    {
+      "feature_id": 155564,
+      "vertex": 0,
+      "code": "WARV10"
+    },
+    {
+      "feature_id": 277991,
+      "vertex": 57,
+      "code": "WARV50"
+    }
+  ],
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "The source explicitly marks South Branch joining the named Clyburn main stem from the southwest; the main river approaches from the northwest and continues east. Curtis Brook joins from the north farther east, preserving the two named tributary order and main-reach relationship. Modern277991 is named South Clyburn Brook and enters the south bank at155442/155564. Upstream branch lengths and minor tributaries are generalized and not all equated; the selected feature is the main confluence. Provincial CBJNU corroborates identity but its coordinate is not used. Point is on the southwest branch meeting the lower edge of the main stroke.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-clyburn-valley.jpg",
+    "sha256": "9afad7c9bb93e798705ddccb3b9c506a7afcec3c6ff48a5245926318f11338cf",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        3500,
+        17300
+      ],
+      "extent": [
+        5500,
+        3000
+      ],
+      "display": [
+        1925,
+        1050
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Prospective control for the unsupported southwestern field, not a held-out check"
+}

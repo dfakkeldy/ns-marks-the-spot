@@ -1,0 +1,60 @@
+{
+  "source_native_image": {
+    "origin": [
+      20000,
+      9950
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "IS42-native-enlarged.jpg": {
+    "parent": "IS42-native-review.jpg",
+    "crop_box_in_parent": [
+      1020,
+      450,
+      1135,
+      575
+    ],
+    "native_origin": [
+      21020,
+      10400
+    ],
+    "native_extent": [
+      115,
+      125
+    ],
+    "display": [
+      690,
+      750
+    ],
+    "rotation": 0
+  },
+  "initial_proposal_detail": {
+    "crop_box_in_parent": [
+      1020,
+      450,
+      1135,
+      575
+    ],
+    "native_origin": [
+      21020,
+      10400
+    ],
+    "native_extent": [
+      115,
+      125
+    ],
+    "display": [
+      690,
+      750
+    ],
+    "rotation": 0
+  }
+}

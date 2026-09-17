@@ -1,0 +1,75 @@
+{
+  "raster_sha256": "9ece5d16898647390987aa7614cb93367943947b6d62bceeafc95b34d0aaf072",
+  "reviews": [
+    {
+      "id": "CB01",
+      "role": "CONTROL - not validation",
+      "figure": "CB01.jpg",
+      "figure_sha256": "b951c81b94b0b9c4f6cc3480e83d793be63dc76bce79b52c6723f2a90ff99701",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB04",
+      "role": "selection diagnostic",
+      "figure": "CB04.jpg",
+      "figure_sha256": "fd0b45770c4928178f501dc640b750f79addaf2e1caada9d1e0f2a1703a07b73",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB07",
+      "role": "CONTROL - not validation",
+      "figure": "CB07.jpg",
+      "figure_sha256": "aa20f05d9259aa46cd7c34eb38c709c4e61bd9dbf511ed640acbbefe070d7df4",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB08",
+      "role": "CONTROL - not validation",
+      "figure": "CB08.jpg",
+      "figure_sha256": "1ff23a3845ea809695acca975ac4a9947cf189bdccb7de27c6ce62746637b2b1",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB09",
+      "role": "selection diagnostic",
+      "figure": "CB09.jpg",
+      "figure_sha256": "7e98ad58c1973756a3b7d70c5c6461cd76ecb05db17ed9c3a3fc468041cc193a",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB10",
+      "role": "CONTROL - not validation",
+      "figure": "CB10.jpg",
+      "figure_sha256": "81bd1188024f646afe62f6b83af94222bdbb6f660854a00eb7470878df679b6a",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB11",
+      "role": "CONTROL - not validation",
+      "figure": "CB11.jpg",
+      "figure_sha256": "34d55716c25a50ea9cc05ab96b7f1629034d0b879bc14ffa6fdb46a71820c7a5",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB12",
+      "role": "CONTROL - not validation",
+      "figure": "CB12.jpg",
+      "figure_sha256": "ebcad6acb333b856672ac004509b4e4589c0f3ec36239c0b1a97a4bd53a5a204",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB13",
+      "role": "fresh after TPS6 freeze",
+      "figure": "CB13.jpg",
+      "figure_sha256": "01861f1d7e174974e11cade141d96d7f8c0fa0e5d6ac80bcc1cf65abd918dc98",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+      "sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6"
+    }
+  ],
+  "geographic_acceptance": false
+}

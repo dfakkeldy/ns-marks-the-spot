@@ -1,0 +1,8 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Southwest+Margaree%27%2C%27Strathlorne%27%2C%27East+Lake+Ainslie%27%2C%27Scotsville%27%29+AND+county%3D%27Inverness%27&%24limit=100",
+  "retrieved_at": "2026-09-16T00:19:28.129737+00:00",
+  "path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/locality-names.geojson",
+  "sha256": "17f39dfc95e93d662456a99890567b7dcb8d2341de143438b8b22774433bac4b",
+  "count": 3,
+  "scope": "Locality search only; no source observation or score"
+}

@@ -1,0 +1,24 @@
+{
+  "county": "inverness",
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+  "origin": [
+    30673.333333333332,
+    4203.333333333333
+  ],
+  "extent": [
+    306.66666666666663,
+    346.66666666666663
+  ],
+  "display": [
+    920,
+    1040
+  ],
+  "rotation": 0,
+  "derived_from": "IS4-ryan-native.jpg",
+  "derived_crop_box": [
+    430,
+    340,
+    660,
+    600
+  ]
+}

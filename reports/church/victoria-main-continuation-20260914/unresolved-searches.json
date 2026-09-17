@@ -1,0 +1,10 @@
+{
+  "VM16_coastal_pond": {
+    "status": "withheld; no source centroid, reference or score adopted",
+    "source_crop": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-coastal-pond.jpg",
+    "reason": "The conspicuous modern pond136/238 is south of the MacLeods outlet, whereas the historical closed pond is north. The small modern pond39862/39863 occupies the correct relative area but its shape/size are too different for a defensible whole-outline centroid. Do not use nearest-polygon distance or swap the nearby stream names to force a match."
+  },
+  "Stony_Island": "Source island retained, but prior reference is a mainland WALK20 pond. No valid replacement marine-island correspondence established; see stony-island-correspondence-audit. Do not reuse the old reference or substitute a nearest feature.",
+  "Washabuck_Peters_Brook": "Official namesake identified and original reference endpoint available, but the historical source creek connection was not distinguished confidently; no observation or score adopted.",
+  "Goose_Cove_Brook_mouth": "Source drainage located; diffuse modern delta/marsh geometry was not assigned an arbitrary class-boundary point. Munro Point is a different measured cape, not a proxy mouth."
+}

@@ -1,0 +1,11 @@
+{
+  "pixel_xy": [
+    22100,
+    31360
+  ],
+  "predicted_lonlat": [
+    -61.27347685066172,
+    45.651448155764214
+  ],
+  "role": "search only, not an observation"
+}

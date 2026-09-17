@@ -162,7 +162,17 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Test rendered web behavior
+        id: browser-tests
         run: npm run test:browser
+
+      - name: Keep browser failure evidence
+        if: failure() && steps.browser-tests.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-results
+          path: web/test-results
+          retention-days: 7
+          if-no-files-found: warn
 
       - name: Lint web app
         run: npm run lint

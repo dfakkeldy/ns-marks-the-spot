@@ -1,0 +1,10 @@
+{
+  "numerical_replays": 76,
+  "observation_audits": 16,
+  "parsed_inventories": 23,
+  "selected_controls": 15,
+  "fresh_checks": 2,
+  "previous_inputs_unchanged": true,
+  "raster_alpha_holes": 0,
+  "geographic_acceptance": false
+}

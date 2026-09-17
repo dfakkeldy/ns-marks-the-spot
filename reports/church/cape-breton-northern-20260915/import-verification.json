@@ -1,0 +1,47 @@
+{
+  "results": [
+    {
+      "file": "northern-support-trial/controls.csv",
+      "controls": 7,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 8.011539715381923e-9
+    },
+    {
+      "file": "northern-support-trial/diagnostic-review.csv",
+      "controls": 7,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 8.011539715381923e-9
+    },
+    {
+      "file": "island-support-trial/controls.csv",
+      "controls": 8,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.71586259354649e-9
+    },
+    {
+      "file": "island-support-trial/diagnostic-review.csv",
+      "controls": 8,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.71586259354649e-9
+    },
+    {
+      "file": "selected-tps8/controls.csv",
+      "controls": 8,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.71586259354649e-9
+    },
+    {
+      "file": "selected-tps8/fresh-validation.csv",
+      "controls": 8,
+      "checks": 3,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 6.71586259354649e-9
+    }
+  ],
+  "scope": "Production parser and TPS solver at checks and content vertices only; not raw-scan browser mesh acceptance."
+}

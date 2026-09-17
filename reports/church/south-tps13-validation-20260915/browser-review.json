@@ -1,0 +1,59 @@
+{
+  "recorded_at": "2026-09-15T22:37:25.989687+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active My Maps raster among 16, opacity 70%, 4751x6488 source dimensions. IS34, IS35 and IS36 inspected in 2D and 10x terrain at 50 degree tilt, north up, zoom15. No new import and no measured coordinates from perspective screenshots.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS34-2d.png",
+      "sha256": "7bb3483f987b65f683251dc8f2dcdbe96a769f8853230a31ae376005fc49060c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS34-terrain10x.png",
+      "sha256": "3466ffbfa1d4d6cc7c16be60cd111627cd70f5f781a60c51463c602353e8967e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS35-2d.png",
+      "sha256": "070bd08ffc52080d892b70cc73391d405f2aa8f1a988c2634b356afe69cee201"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS35-terrain10x.png",
+      "sha256": "adddcfe5a2b6178182f5c590af5f636bd25e4b2d3cf05e41c3fb4faaf10422e4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS36-2d.png",
+      "sha256": "d6e94a69b6fa2600f15c96688d94e3cd67ac892a0db6c6fa17179b2e3e7714d8"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS36-terrain10x.png",
+      "sha256": "92d415ab02b65cc360c831eb5ab9744250c4f07985c025dff6e132df9821f4a0"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS34-import-state.txt",
+      "sha256": "fb197a68580c86d632a044ba4980459282449ac2912a25bd637a50bc827c27ca"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS34-terrain10x-state.txt",
+      "sha256": "61666bebaebb869ab2c636db94f57d527ed5d85d79ea40826e2f7b85fe76fb9a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS35-import-state.txt",
+      "sha256": "4be96715455f887af584a4d23b6f5f0bebb24110257b32aaeb02b2c6030a35f6"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS35-terrain10x-state.txt",
+      "sha256": "a9603104095580d85f331cad2071cb8b63c4ed37f4489de390dbdf3d3b6309c4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS36-import-state.txt",
+      "sha256": "f5fb1a29835d08db9e557f3a701d2f8d2e99a32fd13d776963c96c8842eeb826"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-tps13-validation-20260915/browser/IS36-terrain10x-state.txt",
+      "sha256": "7ad7cd231e783b74bb7eaf56cb791cbbe1205fc3e3b8c5a7eb1cbf75ae9f5ed4"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

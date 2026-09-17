@@ -1,0 +1,17 @@
+{
+  "attempts": [
+    {
+      "method": "Direct original JP2 to JPEG; default threads",
+      "duration_before_termination_seconds": 1052,
+      "status": "Terminated owned worker after >17 minutes, 0-byte JPEG, no completed frame; partial filename retained",
+      "remote_output": "/var/home/dan/nsmarks-church-20260912/target-refinement-20260913/crops/IN2-north-context.jpg"
+    },
+    {
+      "method": "Original JP2 to MEM then JPEG; OPJ_NUM_THREADS=2 and GDAL_NUM_THREADS=2",
+      "duration_seconds": 81.02,
+      "status": "Completed",
+      "file": "IN2-north-context-mem.jpg"
+    }
+  ],
+  "causality": "Two changes were made together (MEM intermediate and thread limits); this does not isolate the underlying GDAL/OpenJPEG cause. Same source window and display dimensions. No geographic observations changed."
+}

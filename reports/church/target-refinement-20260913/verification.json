@@ -1,0 +1,10 @@
+{
+  "numerical_replays": 34,
+  "source_and_reference_observations": 6,
+  "frozen_phases": [
+    "four",
+    "six"
+  ],
+  "preserved_landed_inputs": true,
+  "geographic_acceptance": false
+}

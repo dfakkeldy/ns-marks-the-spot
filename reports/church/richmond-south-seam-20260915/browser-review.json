@@ -1,0 +1,62 @@
+{
+  "recorded_at": "2026-09-15T23:02:16.180147+00:00",
+  "scope": "Two persisted rasters switched at each shared feature, one active at a time, opacity70%, zoom14, ordinary 2D and terrain10x/50deg/north-up. Richmond source6532x4513; south4751x6488. No new import or measurement from perspective screenshots.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/crammond-richmond-2d.png",
+      "sha256": "645591c9b381e916cc198bdb317911f14cdcbf6642d77e0ba68e98cfcd8c28af"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/crammond-richmond-terrain10x.png",
+      "sha256": "a7d064279454ea3cd4ca3b124deaf6a4c2b329a661c2e10a314b06f02c6c3e7f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/crammond-south-2d.png",
+      "sha256": "dab92317c19cc85ddd480007c6251a794b9b2dfc2209daf0f968f34639b017bc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/crammond-south-terrain10x.png",
+      "sha256": "cb36cba16ef1a90ccd69d602148d436f0a1ea643a6ecf55bbe01fe081c396c98"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/cranberry-richmond-2d.png",
+      "sha256": "131ef470c270cbe8164156c29d85ecca301049b1fbf84fad90aff75d4a50de5e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/cranberry-richmond-terrain10x.png",
+      "sha256": "7173d6669f7ec9dcea9464faaec195466e5532e873c5db5f00af4263ab8943b1"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/cranberry-south-2d.png",
+      "sha256": "c6a11e956b7055a913bcac9a188b5566ad8b4984508c17e4efc5f6e74d243632"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/cranberry-south-terrain10x.png",
+      "sha256": "78a173e669f160bf936e00d1e7ddd8be90318dc0ac94a2dd455cd2d5ebba8f6e"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/crammond-richmond-terrain10x-state.txt",
+      "sha256": "a633eadaa97ea0e13f89e6c34999efd1d9ae51067b6779a8d826b2245e2d8ba9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/crammond-south-terrain10x-state.txt",
+      "sha256": "55b49ad9c6cb9fea40518c6dbb7a9b7511cdf9f67dcd12bc23a9beb28cfe31a4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/cranberry-richmond-2d-state.txt",
+      "sha256": "635a8dcb5ab2a2c4b263ccb5160afcd08fddd4837191a6224af27ea209dc3807"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/cranberry-richmond-terrain10x-state.txt",
+      "sha256": "1e76b4dfbf74c28d337af1920e46cf258c05163d5a32aa6fd6c40c4f0d880ed3"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-south-seam-20260915/browser/cranberry-south-terrain10x-state.txt",
+      "sha256": "7814ad9140b14b641e431e99868b2817ed488b1b835f7a0201f98707e17f3e66"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

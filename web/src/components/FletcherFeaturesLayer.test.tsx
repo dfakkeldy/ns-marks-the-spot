@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { createRef } from 'react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MapContainer } from 'react-leaflet';
 import L from 'leaflet';
@@ -32,6 +33,25 @@ describe('reviewed Fletcher features', () => {
     await waitFor(() => expect(document.querySelectorAll('.fletcher-feature-evidence')).toHaveLength(2));
     expect(screen.getByRole('heading', { name: 'Shop' })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'P.O.' })).toBeVisible();
+  });
+  it('opens a group from its visible label without relying on an exposed polygon edge', async () => {
+    render(layer());
+    fireEvent.click(await screen.findByRole('tooltip', { name: 'Shop / P.O.' }));
+    await waitFor(() => expect(document.querySelectorAll('.fletcher-feature-evidence')).toHaveLength(2));
+    expect(screen.getByRole('heading', { name: 'Shop' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'P.O.' })).toBeVisible();
+  });
+  it('switches between hover and permanent labels when crossing zoom15', async () => {
+    const data = { ...fixture, features: [fixture.features[0]] };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => data }));
+    const map = createRef<L.Map>();
+    render(<MapContainer ref={map} center={[45.88, -61.49]} zoom={14}><FletcherFeaturesLayer onStatus={vi.fn()} /></MapContainer>);
+    await screen.findByTitle(`${data.features[0].properties.source_text} · approximate Fletcher location`);
+    expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
+    act(() => { map.current!.setZoom(15); });
+    await waitFor(() => expect(screen.queryAllByRole('tooltip')).toHaveLength(1));
+    act(() => { map.current!.setZoom(14); });
+    await waitFor(() => expect(screen.queryAllByRole('tooltip')).toHaveLength(0));
   });
   it('does not restart popup auto-pan when the parent reports an unchanged viewport', async () => {
     const status = vi.fn();

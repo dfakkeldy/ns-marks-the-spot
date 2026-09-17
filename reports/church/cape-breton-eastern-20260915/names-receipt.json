@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Morrisons+Lake%27%2C%27Morrison+Lake%27%2C%27Cape+Breton%27%29+AND+nad83_lat+between+45.9+and+46.0+AND+nad83_lon+between+-60.1+and+-59.7&%24limit=100",
+  "query": {
+    "$where": "geoname in ('Morrisons Lake','Morrison Lake','Cape Breton') AND nad83_lat between 45.9 and 46.0 AND nad83_lon between -60.1 and -59.7",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-15T17:17:41.421983+00:00",
+  "sha256": "f3a2450ea4fa7263811be102ab0a1a96ea491e995978f3f42485ec9f05a086a9"
+}

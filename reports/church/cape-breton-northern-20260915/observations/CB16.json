@@ -1,0 +1,51 @@
+{
+  "id": "CB16",
+  "role": "check",
+  "label": "Lighthouse Point southernmost mainland shore, Louisbourg Harbour",
+  "pixel_xy": [
+    26199.0,
+    23020.0
+  ],
+  "lonlat": [
+    -59.95892840720341,
+    45.90568669761383
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      25400,
+      22300
+    ],
+    "extent": [
+      1700,
+      1400
+    ],
+    "display": [
+      1700,
+      1400
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    799,
+    720
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/CB4-lighthouse-native.jpg",
+  "source_crop_sha256": "3e5b4d53afed989e6a4c2dde55900591a5651fe7afefeb65746553e3448a85f6",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    12817
+  ],
+  "reference_vertex": {
+    "feature_id": 12817,
+    "vertex": 3
+  },
+  "uncertainty_ground_m": 150,
+  "official_identity_key": "CBQQT",
+  "identity_evidence": "The source labels Lighthouse Point and Louisbourg Light on the eastern side of Louisbourg Harbour. Its hooked western harbour shore, southern projecting coast, northeast return and three harbour islands below distinguish the main-sheet headland from the separate Louisbourg plan. Measure the southernmost continuous coastline of the headland, below the double-line access route and west of the lighthouse symbol. Enlarged native detail separates the access route around displayy660 from the true coastal boundary aroundy720 and repeated sea contours below it. Original WACO20 feature12817 vertex3 is the southernmost local shoreline extremity, west of the representative lighthouse name point. The name point and lighthouse building are not GCPs. Allow150m for generalized shoreline/rounded extremity and potential local shore change.",
+  "phase": "Fresh physical check against frozen TPS8; no fitting or selection use",
+  "recorded_at": "2026-09-15T13:39:25.918489+00:00"
+}

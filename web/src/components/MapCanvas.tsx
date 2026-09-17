@@ -1,3 +1,4 @@
+import { atlasPalettes } from "../atlas/palette";
 import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
 import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
 import type { ElectoralSelection } from "../elections/electoralData";
@@ -5,6 +6,7 @@ import { ContextTileLayer } from "./ContextTileLayer";
 import "../terrain/researchTerrain.css";
 import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
 import { ReliefControls } from "../terrain/ReliefControls";
+import type { TerrainStatus } from "../terrain/terrainStatus";
 import { TerrainCameraControls } from "../terrain/TerrainCameraControls";
 import type { Map as TerrainMap } from "maplibre-gl";
 import { DEFAULT_RELIEF } from "../terrain/reliefMath";
@@ -113,7 +115,7 @@ import {
   representativeParcelPoints,
 } from "../services/parcelMarkers";
 import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot";
-import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
+import { parcelOutlineColor, parcelBoundaryRenderer, parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { FletcherTileLayer } from "./FletcherTileLayer";
@@ -332,10 +334,10 @@ export type MapLayerId =
   | ContextLayerId;
 
 export type MapLayerStatus =
-  | { status: "idle" | "loading" | "error" | "source-error" | "returned-empty" | "outside-coverage" | "licence-blocked" }
+  | { status: "idle" | "loading" | "error" | "source-error" | "returned-empty" | "outside-coverage" | "licence-blocked"; message?: string }
   | { status: "zoom"; minZoom: number }
   /** `observedAt`: ISO observation time of a live frame, when the source states one. */
-  | { status: "ready"; count?: number; observedAt?: string };
+  | { status: "ready"; count?: number; observedAt?: string; message?: string };
 
 export type ResourceLayerStatus = MapLayerStatus;
 
@@ -489,7 +491,9 @@ function ArcGISMapLayer({
   visible,
   onStatusChange,
   renderMode,
+  outlineColor,
 }: {
+  outlineColor?: string;
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
@@ -513,6 +517,7 @@ function ArcGISMapLayer({
             {
               serviceUrl: layer.serviceUrl,
               ...options,
+              ...(layer.id === "nsprd" && outlineColor && renderMode !== "print" ? { dynamicLayers: parcelBoundaryRenderer(outlineColor) } : {}),
             },
             {
               minZoom: layer.minZoom,
@@ -589,7 +594,7 @@ function ArcGISMapLayer({
       map.off("zoomend", reportZoom);
       tileLayers.forEach((tileLayer) => map.removeLayer(tileLayer));
     };
-  }, [layer, map, onStatusChange, renderMode, visible]);
+  }, [layer, map, onStatusChange, renderMode, visible, outlineColor]);
 
   return null;
 }
@@ -645,7 +650,7 @@ function ResourceArcGISMapLayer({
         updateWhenZooming: false,
         keepBuffer: 2,
         className:
-          renderMode === "print" ? `print-layer-${layer.id}` : undefined,
+          renderMode === "print" ? `print-layer-${layer.id}` : `map-layer-${layer.id}`,
       },
     );
     let loadedTiles = 0;
@@ -1990,13 +1995,19 @@ export function MapCanvas({
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
+  const [modernMapFailure, setModernMapFailure] = useState<string | null>(null);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
   const measuring = poker !== null || measureMode !== "off";
   const [terrainRequested, setTerrainRequested] = useState(false);
   const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
-  const [terrainStatus, setTerrainStatus] = useState("Loading 3D terrain…");
+  const [terrainStatus, setTerrainStatus] = useState<TerrainStatus>({ kind: "loading", message: "Loading 3D terrain…" });
+  const reportTerrainStatus = useCallback((status: TerrainStatus) => {
+    setTerrainStatus(previous => previous.kind === status.kind && previous.message === status.message ? previous : status);
+  }, []);
+  const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
+  const [terrainRetry, setTerrainRetry] = useState(0);
   const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
-  const terrainBlocked = Boolean(isPrintMode || measuring || georeference || userVectorEdit || exportFrame);
+  const terrainBlocked = Boolean(isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
   useLayoutEffect(() => {
@@ -2063,11 +2074,18 @@ export function MapCanvas({
   // every feature sub-layer rewriting SVG attributes. A fresh closure per
   // render restyled every visible parcel on every App render — each map move,
   // keystroke, and tile-status event.
+  // An image above Atlas may hide its roads and names; retain overlays there.
+  const exposedBasemap = showModernMap && !provinceLayers['ns-aerial'] && !fletcherVisible
+    && !contextLayers['sentinel-2'] && !contextLayers['ns-topographic'] && userMaps.length === 0;
+  const atlasRoads = exposedBasemap && basemapStyle !== 'osm' && !modernMapFailed;
+  const backgroundLabels = exposedBasemap || contextLayers['ns-topographic'];
+  const outlineColor = parcelOutlineColor(basemapStyle, Boolean(contextLayers["sentinel-2"] || provinceLayers["ns-aerial"]));
   const parcelStyle = useCallback(
     (
       feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
     ): PathOptions =>
       parcelStyleForFeature(feature, {
+        outlineColor,
         selectedPid,
         showTaxSale,
         taxSalePids,
@@ -2076,6 +2094,7 @@ export function MapCanvas({
       }, renderMode),
     [
       historicalTaxSalePids,
+      outlineColor,
       renderMode,
       selectedPid,
       showHistoricalTaxSales,
@@ -2535,12 +2554,15 @@ export function MapCanvas({
               mode={basemapStyle}
               print={isPrintMode}
               onStatus={(status) => {
-                if (!isPrintMode) setModernMapFailed(status.status === "error");
+                if (!isPrintMode) {
+                  setModernMapFailed(status.status === "error");
+                  setModernMapFailure(status.status === "error" ? status.message ?? null : null);
+                }
                 reportModernStatus(status);
               }}
             />
           </Suspense>
-        ) : showModernMap ? (
+        ) : showModernMap && !terrainActive ? (
           <TileLayer
             key={`modern-${modernMapRetry}`}
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -2580,11 +2602,12 @@ export function MapCanvas({
           onStatusChange={reportFletcherStatus}
         />
         {provinceLayerCatalog.map((layer) => layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
         ) : (
           <ArcGISMapLayer
             key={layer.id}
             layer={layer}
+            outlineColor={outlineColor}
             visible={provinceLayers[layer.id]}
             onStatusChange={reportLayerStatus}
             renderMode={renderMode}
@@ -2607,7 +2630,7 @@ export function MapCanvas({
         {contextLayerCatalog.map((layer) => isElectoralLayerId(layer.id) ? (
           <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} />
         ) : layer.delivery === "tile" ? (
           <ContextTileLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
         ) : layer.delivery === "static-image" ? (
@@ -2885,11 +2908,11 @@ export function MapCanvas({
               node.addEventListener("dblclick", L.DomEvent.stopPropagation);
             }}>
               <PokerMapTools session={poker} />
-              <MeasureTool key={`poker-${poker.revision}`} driveway mode="distance" onModeChange={setMeasureMode} />
+              <MeasureTool key={`poker-${poker.revision}`} driveway suspended={terrainActive} mode="distance" onModeChange={setMeasureMode} />
             </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
-        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={setTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}
+        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer key={terrainRetry} basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={reportTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}
         <MapPositionController
           onPositionChange={onPositionChange}
           onViewportChange={onViewportChange}
@@ -2899,20 +2922,29 @@ export function MapCanvas({
 
       {!isPrintMode ? <>
       <div className="research-terrain-controls" aria-label="Map dimension">
-        <button type="button" aria-pressed={terrainActive} disabled={terrainBlocked}
-          title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
-          onClick={() => { setTerrainStatus("Loading 3D terrain…"); setTerrainRequested(value => !value); }}>
-          {terrainActive ? "Return to 2D" : "3D terrain"}
-        </button>
-        {terrainActive ? <>
+        <div className="terrain-control-bar">
+          <button type="button" aria-label={terrainActive ? "Return to 2D" : "3D terrain"} aria-pressed={terrainActive} disabled={terrainBlocked}
+            title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
+            onClick={() => { setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" }); setTerrainSettingsOpen(false); setTerrainRequested(value => !value); }}>
+            {terrainActive ? "2D" : "3D terrain"}
+          </button>
+          {terrainActive ? <button type="button" aria-expanded={terrainSettingsOpen} aria-controls="terrain-settings" onClick={() => setTerrainSettingsOpen(value => !value)}>3D settings</button> : null}
+        </div>
+        {terrainActive && terrainSettingsOpen ? <div id="terrain-settings" className="terrain-settings-body">
           {terrainMap ? <TerrainCameraControls map={terrainMap} /> : null}
           <details className="terrain-height-settings"><summary>Terrain height</summary><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /></details>
           <small className="terrain-touch-help">One finger moves. Pinch to zoom; twist to rotate. Slide two fingers up/down to tilt.</small>
           <small className="terrain-mouse-help">Right-drag to tilt/rotate. Scroll to zoom.</small>
           <small>Mapzen terrain; source detail varies.</small>
-        </> : null}
+        </div> : null}
       </div>
-      {terrainActive && terrainStatus !== "Ready" ? <p className="research-terrain-status" role="status">{terrainStatus}</p> : null}
+      {terrainActive && terrainStatus.kind !== "ready" ? <div className="research-terrain-status" role="status">
+        <span>{terrainStatus.message}</span>
+        {terrainStatus.kind === "error" ? <button type="button" onClick={() => {
+          setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" });
+          setTerrainRetry(value => value + 1);
+        }}>Retry 3D</button> : null}
+      </div> : null}
       <button
         className="location-button"
         type="button"
@@ -3083,7 +3115,7 @@ export function MapCanvas({
       ) : null}
       {showModernMap && modernMapFailed && !terrainActive ? (
         <div className="modern-map-error" role="status">
-          <span>Some modern-map data did not load. The map may be incomplete.</span>
+          <span>{modernMapFailure ?? "Some modern-map data did not load. The map may be incomplete."}</span>
           {basemapStyle !== "osm" && onUseOsmBasemap ? (
             <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
           ) : null}

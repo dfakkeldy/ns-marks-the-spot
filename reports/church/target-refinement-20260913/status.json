@@ -1,0 +1,45 @@
+{
+  "objective": "full georeferencing complete",
+  "goal_status": "active",
+  "started": "2026-09-13",
+  "updated": "2026-09-14T05:05:00.980731+00:00",
+  "prior_report": "../distributed-review-20260913/README.md",
+  "prior_landed_commit": "09e3adf467b6d684934303fae2306cbbcd390263",
+  "active_panel": "richmond",
+  "queue": [
+    "richmond",
+    "inverness-north",
+    "victoria-northwest",
+    "victoria-main",
+    "cape-breton",
+    "inverness-south"
+  ],
+  "full_georeferencing_complete": false,
+  "new_accepted_panels": [],
+  "richmond": {
+    "candidate": "richmond/candidate-controls.csv",
+    "transform": "tps",
+    "controls": 14,
+    "fresh_checks": 6,
+    "fresh_rms_ground_m": 291.9981158810364,
+    "acceptance": false,
+    "pending": "Northern extension, southwestern mainland, intervening interior and seams still need defensible coverage; central Barren Lake failure preserved. No tuning since candidate freeze.",
+    "retained_baseline": "../physical-review-20260912/richmond/refinement-04/frozen-fit.csv",
+    "fresh_phase": "Six measurements after candidate14 freeze; first four phase preserved separately",
+    "candidate_status": "Rejected as a replacement for retained v4 after failing fresh RMS target"
+  },
+  "local_cache": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913",
+  "remote_cache": "/var/home/dan/nsmarks-church-20260912/target-refinement-20260913",
+  "terrain_review": {
+    "url": "http://127.0.0.1:49370/__church_review_assets/index.html",
+    "browser": "Brave via CUA",
+    "tab_id": "1761749343",
+    "exaggeration": 10,
+    "uses_production_terrain_style": true,
+    "scope": "Separate local raster comparison; not main-app importer acceptance. In-app browser viewport capture clipped; Brave file chooser blocked, native picker unavailable while Mac locked. Separate preview works without unlocking."
+  },
+  "geographic_acceptance": false,
+  "tiles_generated": false,
+  "catalog_activation": false,
+  "deployment": false
+}

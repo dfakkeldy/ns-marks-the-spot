@@ -1,0 +1,91 @@
+{
+  "id": "VM19",
+  "role": "control",
+  "label": "North Branch Baddeck River confluence centre at Baddeck Forks",
+  "pixel_xy": [
+    20713.0,
+    19432.0
+  ],
+  "lonlat": [
+    -60.773270914683025,
+    46.17498171504908
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      20400,
+      18800
+    ],
+    "extent": [
+      1000,
+      1300
+    ],
+    "display": [
+      1000,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    313,
+    632
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-baddeck-junction-detail.jpg",
+  "source_crop_sha256": "757d8a160e8164a9556386bbaecb336417fb8feab82dd1db197468fd600ffe12",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/reference-full/water-lines.geojson",
+  "reference_sha256": "9f124d54d990cec76804663323ecd9780792aab2ac2cd2ecb84e0d759ce7d26e",
+  "reference_feature_ids": [
+    181337,
+    159474,
+    156465,
+    156466
+  ],
+  "reference_mouth_midpoint": {
+    "method": "EPSG3857 midpoint of original northern/southern mouth bank vertices, transformed back to lonlat; project-derived centre because source depicts single channels.",
+    "bank_vertices": [
+      {
+        "feature_id": 181337,
+        "vertex": 279,
+        "lonlat": [
+          -60.77326243998339,
+          46.1750520179989
+        ]
+      },
+      {
+        "feature_id": 159474,
+        "vertex": 58,
+        "lonlat": [
+          -60.773279389382665,
+          46.1749114120094
+        ]
+      }
+    ]
+  },
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "The source labels Baddeck Forks. The northern/western tributary passes the New Glen valley and meanders to join the northeast main Baddeck River; the combined river then curves south past the McRae/Jones properties toward the later Baddeck Bridge crossing. The selected point is the single-line water junction, not the road intersection or bridge northwest of it. Original named North Branch banks181337/159474 terminate on the western bank of Baddeck River156465/156466. Their mouth centre matches the historical single-channel definition. Gazetteer coordinates located the vicinity but were not used as the reference.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-baddeck-forks.jpg",
+    "sha256": "fa2b5097aeb9cd3f70f7b3ba45d982383d4a147bbfa1c73ba574ccad4d6aa7c4",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        18500,
+        17400
+      ],
+      "extent": [
+        4700,
+        4400
+      ],
+      "display": [
+        1410,
+        1320
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Prospective interior control selected before evaluating model effect; never a fresh check",
+  "recorded_at": "2026-09-14T23:20:19.876833+00:00"
+}

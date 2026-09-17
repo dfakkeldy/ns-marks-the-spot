@@ -1,7 +1,8 @@
 # Reviewed Fletcher features
 
-The combined export contains **241 annotations**: 126 from Judique and 115
-from [Port Hawkesbury](HAWKESBURY.md). Source and fit identities stay separate.
+The combined export contains **326 annotations**: 126 from Judique, 184
+from [Port Hawkesbury](HAWKESBURY.md), and 16 from [Port Hood/Mabou](MABOU.md).
+Source and fit identities stay separate.
 
 Judique contributes **126 annotations: 27 approximate points,
 53 source-group records and 46 traced reaches/road sections**. Shared groups

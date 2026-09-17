@@ -1,0 +1,13 @@
+{
+  "input_commit": "506aed8ba512b31c868bc02eb2e9a6f01ff66e90",
+  "controls": "reports/church/cape-breton-regional-20260915/selected-tps11/controls.csv",
+  "controls_sha256": "aac3fcd0896c8eccc5ffaa8296462b0b5ad5907b1ec4ffe9f83a48a643ff93d3",
+  "fit_freeze": "reports/church/cape-breton-regional-20260915/selected-tps11/freeze.json",
+  "fit_freeze_sha256": "b3646e69768a0cccb286a5fd9c8f2b4cef30800344c8ecc2766fa3eacd5ceedd",
+  "raster": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/rendered/cape-breton-tps11-review-20m.tif",
+  "raster_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "previous_cumulative": "reports/church/cape-breton-validation-20260915/cumulative-fresh.csv",
+  "previous_cumulative_sha256": "2e59e9bd2a77a882454f32e373d557c116ed30b35c93fcecb597d6ea6e38b53b",
+  "previous_summary": "reports/church/cape-breton-validation-20260915/accuracy-summary.json",
+  "previous_summary_sha256": "1929b8c972c28f8cd6727a81592943b045ceba846cc9b8d5f94103a50f86d735"
+}

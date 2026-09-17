@@ -1,0 +1,41 @@
+{
+  "reviewed_at": "2026-09-13",
+  "source_review_sha256": "7c0439f7f8627fe3c74807524c5a37d858c592551aef4dc259c91b74b46105af",
+  "annotation_ids": [
+    "F16-PHM-001",
+    "F16-PHM-003",
+    "F16-PHM-005",
+    "F16-PHM-006",
+    "F16-PHM-007",
+    "F16-PHM-017",
+    "F16-PHM-019",
+    "F16-PHM-021",
+    "F16-PHM-022",
+    "F16-PHM-023",
+    "F16-PHM-024",
+    "F16-PHM-042"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-service-contexts.json",
+      "sha256": "af6500a8acd3b00b5d2015e3ef8633e15d160e716ddb5d6790ea791ee6071b10"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-first-service-proposals.json",
+      "sha256": "0476c19a6129a3018fc28c377c944a526478467c71c61ab9c8ed66198a5399b8"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-first-service-detail-frames.json",
+      "sha256": "90affecf1290d56da499b0f9645badaad8e42dc4b532b8c9b4db96def829428b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-service-42-detail.png",
+      "sha256": "ab4dedaa28aaca22c4d0a4bee3af3040b713ea36c02d661c00d15099682b0602"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-service-42-detail-frame.json",
+      "sha256": "345ab789dfe93d2313742e732c779958af791e040c533330c8f471071907180d"
+    }
+  ],
+  "note": "Five actual glyph anchors, six bounded groups and one breakwater trace. Source placement precedes geographic coverage review. The recorded36-control Glendyer fit is preserved; no modern site identity or whole-sheet acceptance is inferred."
+}

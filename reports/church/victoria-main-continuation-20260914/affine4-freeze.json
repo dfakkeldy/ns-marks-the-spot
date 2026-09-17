@@ -1,0 +1,9 @@
+{
+  "method": "affine",
+  "control_csv_sha256": "1fecf8c1dba9fa7cccd6fb064d6c49deedae929566eca517e0dd08cf0ffbf368",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "boundary_sha256": "d0979e3b1a6f3c5742f9224279bbde8f4eac8b5975d282bed1c7b38a9f45958e",
+  "frozen_input_commit": "145197182659eda548ac61a692a573430b2c5dc3",
+  "scope": "Unchanged four-control physical affine; draft reviewed-boundary experiment only. No model tuning. Original diagnostics and fresh VM15 retained.",
+  "geographic_acceptance": false
+}

@@ -1,0 +1,39 @@
+{
+  "panel": "cape-breton/main",
+  "state": "six-control TPS provisional; refinement and distributed validation incomplete",
+  "selected_fit": "selected-tps6/freeze.json",
+  "controls": [
+    "CB01",
+    "CB07",
+    "CB08",
+    "CB10",
+    "CB11",
+    "CB12"
+  ],
+  "diagnostics": [
+    "CB04",
+    "CB09"
+  ],
+  "fresh_validation": [
+    "CB13"
+  ],
+  "promoted_and_excluded_from_checks": [
+    "CB12"
+  ],
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "diagnostic_rms_ground_m": 422.6676107190311,
+  "fresh_check_count": 1,
+  "fresh_rms_ground_m": 350.69802626030673,
+  "fresh_check_inside_hull": false,
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "remaining": [
+    "Northern support is absent beyond the control hull; Low Point diagnostic322.11m and North Head fresh350.70m remain west of their references.",
+    "Hay Island diagnostic503.53m remains displaced relative to the Scatarie-controlled region.",
+    "Fresh interior, western intermediate, southern coastal and seam checks remain insufficient; one fresh northern check does not support whole-panel accuracy.",
+    "Catalone landform and Salmon/Mira point definitions remain withheld.",
+    "Continue to Inverness south when defensible Cape Breton refinement stalls, preserving its accepted July baseline."
+  ]
+}

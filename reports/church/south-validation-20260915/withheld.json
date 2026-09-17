@@ -1,0 +1,17 @@
+{
+  "candidates": [
+    {
+      "name": "Red Lake",
+      "official_identity_key": "CBFMG",
+      "status": "Unscored; no source correspondence established",
+      "source_context": "IS3-red-lake.jpg",
+      "reason": "The modern named polygon is available, but the inspected source context around River Denys Road/Glendale has no clearly corresponding closed lake outline. Do not substitute the inverse-guide location or assert historical absence."
+    }
+  ],
+  "resolved_searches": [
+    {
+      "name": "Brileys Lake",
+      "status": "IS22 adopted after native enlargement and comparison with the original lake/stream topology; initial overview alone was insufficient."
+    }
+  ]
+}

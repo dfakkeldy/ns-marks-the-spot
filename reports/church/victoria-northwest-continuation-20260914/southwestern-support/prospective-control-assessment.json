@@ -1,0 +1,24 @@
+{
+  "scope": "Prospective southwestern control, not a held-out check. Selected from physical confluence identity before this evaluation. Current TPS14 displacement is a control-scout diagnostic; all old validation phases remain unchanged.",
+  "observation_sha256": "afd96c773399e90d94a26184d70d28157ecb745f33d80cb2a362a9757ca8e0d4",
+  "before": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VN23",
+        "east_ground_m": 1091.6456483869872,
+        "north_ground_m": 1643.8594798594054,
+        "error_ground_m": 1973.3130038506006
+      }
+    ],
+    "rms_ground_m": 1973.3130038506006,
+    "median_ground_m": 1973.3130038506006,
+    "p95_ground_m": 1973.3130038506006,
+    "max_ground_m": 1973.3130038506006,
+    "mean_east_ground_m": 1091.6456483869872,
+    "mean_north_ground_m": 1643.8594798594054,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "IS40",
+  "label": "Marsh Point north-facing spur tip",
+  "role": "check",
+  "phase": "Northern expansion of independent validation against unchanged frozen TPS13",
+  "recorded_at": "2026-09-15T23:55:02.997645+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      22300,
+      4250
+    ],
+    "extent": [
+      1600,
+      1300
+    ],
+    "display": [
+      1600,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/dunvegan-marsh-native.jpg",
+  "source_crop_sha256": "53d3b90f9e795f777ac1c0dbb03d7e803f7e46d2ae1f139ad821d8135a9653b0",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    370,
+    240
+  ],
+  "pixel_xy": [
+    22670,
+    4490
+  ],
+  "lonlat": [
+    -61.2579915410091,
+    46.30568274478465
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 7059,
+      "vertex": 1
+    }
+  ],
+  "reference_kind": "Coastal headland tip",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Northern apex of the compact north-facing Marsh Point spur, immediately southwest of the northeast cove; not the lower western-face corner or a label centre.",
+  "identity_evidence": "The source labels Marsh Point beside a short north-facing coastal spur. Its northeast cove, adjoining higher coast and west-side face leading south toward the coastal road match the original WACO20 shoreline. The headland name record identifies locality only. The original vertex7059 v1 is the apex of this local spur. The enlarged source crosshair was corrected upward before any scoring."
+}

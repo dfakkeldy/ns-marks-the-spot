@@ -1,0 +1,63 @@
+{
+  "rasters": [
+    {
+      "id": "v4",
+      "raster": "/Users/dfakkeldy/Downloads/church-refinement-04/rendered/richmond-refined-v4-tps-20m.tif",
+      "raster_sha256": "aa8048e9ba82007a4aaa0cf2484c9559bb22fbc8c90ce8a7e14d891a781e741d",
+      "url": "/__church_review_assets/v4.png",
+      "coordinates": [
+        [
+          -61.40505989821718,
+          45.966734486743746
+        ],
+        [
+          -60.22090069069083,
+          45.966734486743746
+        ],
+        [
+          -60.22090069069083,
+          45.402052077998746
+        ],
+        [
+          -61.40505989821718,
+          45.402052077998746
+        ]
+      ],
+      "size": [
+        6591,
+        4499
+      ]
+    },
+    {
+      "id": "candidate14",
+      "raster": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/rendered/richmond-candidate14-tps-20m.tif",
+      "raster_sha256": "10e22efaf4d64e93c7ef21594a62c5ae947a7f494f1387a6a158c6d5c852614d",
+      "url": "/__church_review_assets/candidate14.png",
+      "coordinates": [
+        [
+          -61.40613787655813,
+          45.967983267270945
+        ],
+        [
+          -60.21371416841787,
+          45.967983267270945
+        ],
+        [
+          -60.21371416841787,
+          45.400412151231535
+        ],
+        [
+          -61.40613787655813,
+          45.400412151231535
+        ]
+      ],
+      "size": [
+        6637,
+        4522
+      ]
+    }
+  ],
+  "water_url": "/__church_review_assets/water.geojson",
+  "water_sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6",
+  "scope": "Exact georeferenced raster images on the production Mapzen terrain style. Separate inspection preview; does not exercise the main-app importer or establish geographic acceptance."
+}

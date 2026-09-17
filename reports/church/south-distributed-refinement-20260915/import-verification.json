@@ -1,0 +1,65 @@
+{
+  "results": [
+    {
+      "file": "controls.csv",
+      "controls": 11,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 6.71586259354649e-9
+        }
+      ]
+    },
+    {
+      "file": "diagnostics.csv",
+      "controls": 11,
+      "checks": 16,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 6.71586259354649e-9
+        }
+      ]
+    },
+    {
+      "file": "thirteen-controls/controls.csv",
+      "controls": 13,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 7.273861836555093e-9
+        }
+      ]
+    },
+    {
+      "file": "thirteen-controls/diagnostics.csv",
+      "controls": 13,
+      "checks": 14,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 7.273861836555093e-9
+        }
+      ]
+    },
+    {
+      "file": "selected-tps13/controls.csv",
+      "controls": 13,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 7.273861836555093e-9
+        }
+      ]
+    }
+  ],
+  "scope": "Production CSV parser and TPS solver at diagnostic checks and content vertices; not raw-scan browser mesh acceptance."
+}

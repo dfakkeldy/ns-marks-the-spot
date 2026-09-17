@@ -1,0 +1,43 @@
+{
+  "id": "I10",
+  "role": "control",
+  "prior_pixel_xy": [
+    7347.0,
+    25733.0
+  ],
+  "pixel_xy": [
+    7948,
+    25473
+  ],
+  "lonlat": [
+    -60.895167054464686,
+    46.4699988456567
+  ],
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      7750,
+      25280
+    ],
+    "extent": [
+      500,
+      450
+    ],
+    "display": [
+      1000,
+      900
+    ],
+    "rotation": 0
+  },
+  "source_crop_sha256": "b3c137fd9bab32b61543788efd145eb5bb9086cb0d31739f5940eecc97490148",
+  "source_display_pixel_xy": [
+    396,
+    386
+  ],
+  "identity_evidence": "Continuous north/south main river reaches meet First Fork at the northern bank apex below MacLeods Pool; Second Fork is upstream. The old pixel is on the downstream river/road complex southwest of the actual confluence. The source north-bank apex is corrected from native evidence; modern bank coordinate/feature 182427 vertex 0 remains unchanged.",
+  "prior_record": "../../physical-review-20260913/inverness-north/observations.json",
+  "prior_trial_sha256": "15a9fc3e1d11cc3264b20d85458c3dcd431044a97c477925ef6a189fe1b4c12f",
+  "frozen_csv_sha256": "7a784da6a9afc92965b8294e0ccd153fc61d70152626fe390bbd96ff470e5fa5",
+  "uncertainty_ground_m": 130
+}

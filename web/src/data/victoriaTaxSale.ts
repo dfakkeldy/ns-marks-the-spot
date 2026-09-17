@@ -3,7 +3,7 @@ import { halifaxTimestamp } from "./halifaxTime";
 import victoriaTaxSaleSnapshot from "./victoriaTaxSale.snapshot.json";
 
 export const VICTORIA_TAX_SALE_DATASET_SHA256 =
-  "b206e77975f4c7dec37dab71723a0f7e74d9e59597a72229e0db5593b563b32e";
+  "c91f5a8b2b2268454d3282395318b3bc238f7224aaf895d58ee396a4d6466a87";
 
 const VICTORIA_EVENT_ID = "victoria-county-2026-09-14";
 

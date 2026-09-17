@@ -1,12 +1,17 @@
 # Port Hawkesbury source-feature review
 
-All **194 reviewed source associations/holdbacks** now have initial geographic
-decisions: 80 service/industrial/transport annotations, 17 roads, 26 stream/river
-captions, 14 lake/pond shorelines, 16 water notes and 41 heights. **115** are integrated
-locally, while **79** remain withheld. The other **107 of 301** annotations still
-need initial source association. Ninety-two Hawkesbury features merged through
-PR463; 23 further placements pass local checks. The combined 241-record export
-retains all 126 Judique annotations.
+All **301 retained annotations** now have initial source-feature and geographic
+decisions. **184** have merged into nightly, while **117** remain withheld. No
+Hawkesbury annotation remains without an initial decision. The
+[closeout receipt](hawkesbury-initial-review-closeout.json) lists every holdback:
+59 source locations unresolved, 49 outside conservative coverage, 2 outside the fit
+neatline and 7 local geographic relationships unresolved. This is not acceptance of
+the whole-sheet fit or completion of the 24-sheet project.
+
+All 184 Hawkesbury placements merged through PR473 after all required CI passed.
+The initial review retains the 126 earlier Judique annotations.
+Original wording, source boxes, qualified readings and correction histories remain
+preserved. Work continues with sheet 16 Port Hood/Mabou and its recorded 36-control fit.
 
 ## Source and geography
 
@@ -339,3 +344,115 @@ links, native excerpts, clean consoles and absence of all 79 Hawkesbury holdback
 Local checks: 300 Python tests (eight existing skips), eight Fletcher component tests,
 web script tests, lint and build pass. PR463's initial simulator-launch timeout passed
 on an unchanged-head rerun before merge; it introduced no native code change.
+
+## Settlement and personal-name review
+
+[The append receipt](hawkesbury-names-append-receipt.json) records all 37 original
+inventory entries, using actual source groups, marks, road/river crossings, a street
+junction and a cove bank. Seven native figures preserve the source associations:
+
+- [Names 1](hawkesbury-names-1-20260913.jpg), [2](hawkesbury-names-2-20260913.jpg), [3](hawkesbury-names-3-20260913.jpg), [4](hawkesbury-names-4-20260913.jpg).
+- [Names 5](hawkesbury-names-5-20260913.jpg), [6](hawkesbury-names-6-20260913.jpg), [7](hawkesbury-names-7-20260913.jpg).
+
+Bounded settlement groups reuse reviewed service marks where appropriate, without
+inventing settlement limits or treating individual marks as current residences or
+properties. Named bridge crossings retain their actual source locations. Auld Cove
+uses a printed bank, and Hastings uses a specific printed street junction as its
+locational anchor. Original categories remain in the source annotations.
+
+[L. Murray reconciliation](lake-murray-identity-reconciliation.json) preserves the
+first unlocated review and raw personal-name category. The source waterbody and
+CGNDB CBAWC record support a derived waterbody classification; the native bank is
+traced without substituting modern coordinates. The pipeline permits this explicit,
+evidenced shoreline correction while leaving the original inventory unchanged.
+
+Ferguson94 remains unlocated. Mathy Settlement190 retains an unresolved road/stream
+relationship and modern-channel overlap. Complete source geometry for 95,245,252,
+262,285 exceeds conservative support. Thirty other entries are integrated.
+
+The [browser receipt](browser-hawkesbury-names-verification.json) records pointer
+selection of every addition, the CGNDB link, native excerpts and clean consoles.
+Visible labels now receive pointer events; multipart-group labels and popups use
+the group bounds centre for presentation so a reused service label does not obscure
+the settlement label. These display anchors do not alter stored feature geometry.
+Labels also remount when crossing the hover/permanent zoom threshold, with real
+zoom-control and unit regressions. The earlier Judique Coal multipart group remains
+selectable. Local checks: 301 Python tests (eight existing skips), ten Fletcher
+component tests, web script tests, lint and build pass.
+
+Base reconciliation preserves PR465's terrain-control work. PR435's sheet21 handoff
+retains the fifteen-control provisional baseline and rejects its seventeen-control
+experiment; no new priority-corridor fit or whole-sheet acceptance is adopted.
+
+The final branch also preserves PR466’s mobile terrain and Crown Land loading changes.
+All thirty browser cases, the real label zoom threshold, prior Coal selection,
+component tests, lint and build passed again with that nightly base.
+
+## Coastal review
+
+[The append receipt](hawkesbury-coasts-append-receipt.json) records 30 retained
+coastal entries: 29 bounded source-bank traces and the complete Jack Shoal symbol
+group. Five native figures preserve the source associations:
+
+- [Coasts 1](hawkesbury-coasts-1-20260913.jpg), [2](hawkesbury-coasts-2-20260913.jpg), [3](hawkesbury-coasts-3-20260913.jpg), [4](hawkesbury-coasts-4-20260913.jpg), [5](hawkesbury-coasts-5-20260913.jpg).
+
+Ghost Beach’s earlier westward and inner-tip candidates remain in the proposal
+history; the retained seaward trace was checked in enlarged native detail. Keaton
+Point and Wylde’s Cove use the coastal edge distinguished from parallel road/rail
+lines. The Strait of Canso has one bounded western-bank reference shared with
+Cape Porcupine; it is not a whole-strait outline or centreline. The visible Evans
+or Macnamara Island trace stays open where the source does not show the perimeter.
+
+Eighteen traces pass approximate-locality review against the actual current raster
+and NSTDB Highways7, Roads8, Bridges5, rail and water. Their notes preserve inland
+and seaward offsets and distinguish historical banks from present shores. Twelve
+complete source geometries exceed conservative support and remain withheld:
+10,37,48,180,183,244,254,255,256,286,287,288. They are not trimmed to gain acceptance.
+
+The [browser receipt](browser-hawkesbury-coasts-verification.json) verifies all
+18 additions by visible-label selection at desktop/phone widths, including both
+annotations on the shared bank, native excerpts, placement notes and clean consoles.
+All 271 earlier export records keep their geometry/content apart from the updated
+Hawkesbury evidence hash. Local checks: 301 Python tests (eight existing skips), ten
+Fletcher component tests, web script tests and build pass. No web code changed.
+
+Final base reconciliation preserves PR467/471 terrain controls, retries and popup
+fixes, plus PR470’s separate Church-map evidence. All 18 coastal browser cases,
+component tests, lint and build passed again on that combined base.
+
+## Final initial-review batch
+
+[The append receipt](hawkesbury-final-append-receipt.json) records the final 40
+annotations: 26 associated source geometries and 14 unlocated captions. Seven native
+figures preserve those decisions:
+
+- [Final 1](hawkesbury-final-1-20260913.jpg), [2](hawkesbury-final-2-20260913.jpg), [3](hawkesbury-final-3-20260913.jpg), [4](hawkesbury-final-4-20260913.jpg).
+- [Final 5](hawkesbury-final-5-20260913.jpg), [6](hawkesbury-final-6-20260913.jpg), [7](hawkesbury-final-7-20260913.jpg).
+
+Native detail confirms the ice-groove glyph, four cable marks, a quarry circle and
+two pit circles. Two other apparent quarry marks were rejected as italic-y
+descenders, with the candidates preserved. The railway-terminus projection, Salmon
+Hole loop and two red dyke patches remain bounded source groups. Railway proposals,
+the dated survey note, the printed county-line segment and fault bands retain their
+source meanings. No proposed route is promoted to a built railway, and no historical
+fault line is promoted to current geological activity. Broad landscape, material and
+administrative captions without distinct feature geometry remain unlocated.
+
+Twenty-one additional placements pass geographic locality review. Four complete
+source geometries exceed the conservative control hull (240,263,291,297), and 299
+exceeds the fit neatline; they remain withheld. The 14 new unlocated records are
+21,80,122,154,219,224,232,238,242,257,258,259,264,267.
+
+The [browser receipt](browser-hawkesbury-final-verification.json) verifies all 21
+additions at desktop/phone widths, including both annotations sharing the proposed
+railway geometry. The long combined railway/survey label originally overflowed a
+390px viewport as a 702px nowrap line. Fletcher labels now keep their natural width
+up to a viewport-based maximum and wrap, preserving the full text. No source or
+map geometry is changed by this presentation fix. Native excerpts, placement notes
+and clean consoles were checked. Local checks: 301 Python tests (eight existing
+skips), ten Fletcher component tests, web script tests, lint and build pass.
+
+PR473 merged as `a96063b663028395cf3ee54c23c51a6ebd03bc01`. Its final hosted run
+passed all required checks, including all 36 browser tests with one worker. Earlier
+two-worker terrain timing failures and the isolated local pass informed that
+configuration change; every assertion and timeout was retained.

@@ -9,26 +9,31 @@ import { collectScene, installTerrainViewport, layerOrder, readGridTile, type Sc
 import './researchTerrain.css';
 import { withTerrainCameraUpdate } from './terrainViewport';
 import type { ReliefSettings } from './reliefMath';
+import { contextLayerCatalog } from '../layers/contextLayerCatalog';
+import { provinceLayerCatalog, resourceLayerCatalog } from '../layers/layerCatalog';
+import { terrainFailureMessage, type TerrainStatus } from './terrainStatus';
 import { configureTerrainRelief, registerTerrainReliefProtocol } from './terrainRelief';
 
-type Props = { basemap: BasemapStyle; modern: boolean; relief: ReliefSettings; onStatus: (status: string) => void; onMapReady: (map: GLMap | null) => void };
+type Props = { basemap: BasemapStyle; modern: boolean; relief: ReliefSettings; onStatus: (status: TerrainStatus) => void; onMapReady: (map: GLMap | null) => void };
 const TRANSPARENT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
 
 export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus, onMapReady }: Props) {
   const leaflet = useMap();
   const mapRef = useRef<GLMap | null>(null);
   const readyRef = useRef(false);
+  const failedRef = useRef(false);
   const currentRelief = useRef(relief);
   useEffect(() => {
     currentRelief.current = relief;
     if (readyRef.current && mapRef.current) {
       configureTerrainRelief(mapRef.current, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', relief);
-      if (!mapRef.current.areTilesLoaded()) onStatus('Updating terrain relief…');
+      if (!failedRef.current && !mapRef.current.areTilesLoaded()) onStatus({ kind: 'loading', message: 'Updating terrain relief…' });
     }
   }, [relief, onStatus]);
 
   useEffect(() => {
     registerTerrainReliefProtocol();
+    failedRef.current = false;
     const container = leaflet.getContainer();
     const node = document.createElement('div');
     node.className = 'research-terrain-map';
@@ -45,18 +50,25 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     container.classList.add('has-research-terrain');
     const protocol = `research${L.stamp(node)}`;
     const originalBounds = leaflet.getBounds;
-    let disposed = false, syncing = false, loaded = false, failed = false;
+    let disposed = false, syncing = false, loaded = false;
     let cameraGesture = false;
     let frame = 0, timeout = 0;
     let gl: GLMap;
     let scene: Scene = { rasters: [], paths: [], markers: [], layers: new Map() };
     const sources = new Set<string>();
+    const pathData = new Map<string, string>();
+    let previousOrder = "";
     const sceneLayers = new Map<string, number>();
-    const markers = new Map<number, { marker: Marker; html: string }>();
+    const markers = new Map<number, { marker: Marker; html: string; opacity: number }>();
     const rasterEntries = new Map<string, RasterEntry>();
     const terrainSubscriptions = new Set<L.Layer>();
     let popup: Popup | undefined;
-    const report = (message: string) => { if (!disposed) onStatus(message); };
+    let popupSource: L.Popup | undefined;
+    const report = (message: string, kind: TerrainStatus['kind'] = 'loading') => {
+      if (disposed) return;
+      if (kind === 'error') failedRef.current = true;
+      onStatus({ kind, message });
+    };
     addProtocol(protocol, async (request, controller) => {
       const url = new URL(request.url);
       const entry = rasterEntries.get(url.hostname);
@@ -75,7 +87,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
         maxBounds: [[-66.6, 43.2], [-59.5, 47.5]],
       });
     } catch {
-      report('3D could not start. Return to 2D or try another browser.');
+      report('3D graphics could not start. Return to 2D or retry.', 'error');
       container.classList.remove('has-research-terrain'); node.remove(); removeProtocol(protocol);
       return;
     }
@@ -83,25 +95,47 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     gl.addControl(new NavigationControl({ showZoom: false, visualizePitch: true }), 'top-left');
     gl.addControl(new AttributionControl({ compact: true }), 'bottom-right');
 
-    const showPopup = (layer: L.Layer, latlng: L.LatLng) => {
-      const content = layer.getPopup()?.getContent();
-      const value = typeof content === 'function' ? content(layer) : content;
-      if (!value) return;
+    const showPopup = (layer: L.Layer, source: L.Popup | undefined, latlng: L.LatLng, autoPan: boolean | undefined) => {
+      const content = source?.getContent();
+      // React Leaflet portals into the content node; getContent() is undefined.
+      const value = (typeof content === 'function' ? content(layer) : content)
+        ?? source?.getElement()?.querySelector<HTMLElement>('.leaflet-popup-content');
+      if (!source?.isOpen() || !value) return false;
       popup?.remove();
-      popup = new Popup({ maxWidth: '360px' }).setLngLat([latlng.lng, latlng.lat]);
-      // Content has already passed the existing Leaflet popup builders. Keep
-      // their DOM nodes and event handlers (including local photo actions).
-      if (typeof value === 'string') popup.setHTML(value); else popup.setDOMContent(value);
-      popup.addTo(gl);
+      source.options.autoPan = false;
+      const mirror = new Popup({ maxWidth: '360px', className: source.options.className }).setLngLat([latlng.lng, latlng.lat]);
+      const parent = typeof value === 'string' ? null : value.parentNode;
+      const next = typeof value === 'string' ? null : value.nextSibling;
+      const closeMirror = () => mirror.remove();
+      mirror.on('close', () => {
+        source.off('remove', closeMirror);
+        // Return the portal target before closing so reopening in 2D or 3D
+        // retains React ownership, source evidence and local photo handlers.
+        if (typeof value !== 'string' && parent) parent.insertBefore(value, next?.parentNode === parent ? next : null);
+        source.close();
+        source.options.autoPan = autoPan;
+        if (popup === mirror) { popup = undefined; popupSource = undefined; }
+      });
+      source.on('remove', closeMirror);
+      if (typeof value === 'string') mirror.setHTML(value); else mirror.setDOMContent(value);
+      popup = mirror; popupSource = source;
+      mirror.addTo(gl);
+      // MapLibre appends this after the content; put it first so the phone's
+      // sticky close action remains reachable while source evidence scrolls.
+      const closeButton = mirror.getElement()?.querySelector('.maplibregl-popup-close-button');
+      if (closeButton) closeButton.parentElement?.prepend(closeButton);
+      return true;
     };
     const activate = (layer: L.Layer | undefined, latlng: L.LatLng, originalEvent: MouseEvent | KeyboardEvent) => {
       if (layer && (layer.options as L.InteractiveLayerOptions).interactive !== false && layer.listens('click', true)) {
-        const existing = layer.getPopup();
+        // GeoJSON children propagate selection to the group that owns the popup.
+        const existing = layer.getPopup() ?? [...scene.layers.values()]
+          .find(candidate => candidate instanceof L.LayerGroup && candidate.hasLayer(layer) && candidate.getPopup())?.getPopup();
+        if (existing && existing === popupSource) { popup?.remove(); return; }
         const autoPan = existing?.options.autoPan;
         if (existing) existing.options.autoPan = false;
         layer.fire('click', { latlng, originalEvent }, true);
-        showPopup(layer, latlng);
-        if (existing) existing.options.autoPan = autoPan;
+        if (!showPopup(layer, existing, latlng, autoPan) && existing) existing.options.autoPan = autoPan;
       } else {
         leaflet.fire('click', { latlng, originalEvent, containerPoint: leaflet.latLngToContainerPoint(latlng), layerPoint: leaflet.latLngToLayerPoint(latlng) });
       }
@@ -132,7 +166,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
         if (layer && 'source' in layer && layer.source === id) { gl.removeLayer(layerId); sceneLayers.delete(layerId); }
       }
       if (gl.getSource(id)) gl.removeSource(id);
-      sources.delete(id); rasterEntries.delete(id);
+      sources.delete(id); rasterEntries.delete(id); pathData.delete(id);
     };
     const syncScene = () => {
       frame = 0;
@@ -175,9 +209,16 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
       for (const rank of ranks) {
         const id = `paths-${rank}`;
         const data: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: scene.paths.filter(feature => feature.properties!.order === rank) };
-        if (gl.getSource(id)) (gl.getSource(id) as GeoJSONSource).setData(data);
+        const serialized = JSON.stringify(data);
+        if (gl.getSource(id)) {
+          if (pathData.get(id) !== serialized) (gl.getSource(id) as GeoJSONSource).setData(data);
+        }
         else {
           gl.addSource(id, { type: 'geojson', data }); sources.add(id);
+          addLayer({ id: `${id}-labels`, type: 'symbol', source: id, filter: ['!=', ['get', 'label'], ''],
+            layout: { 'text-field': ['get', 'label'], 'text-font': ['Atlas Sans Bold'], 'text-size': 12,
+              'text-anchor': 'bottom', 'text-offset': [0, -0.4], 'text-padding': 4 },
+            paint: { 'text-color': '#173a4a', 'text-halo-color': '#ffffff', 'text-halo-width': 2 } }, rank + 0.1);
           addLayer({ id: `${id}-fill`, type: 'fill', source: id, filter: ['==', ['geometry-type'], 'Polygon'],
             paint: { 'fill-color': ['get', 'fillColor'], 'fill-opacity': ['get', 'fillOpacity'] } }, rank);
           addLayer({ id: `${id}-line`, type: 'line', source: id, filter: ['all', ['!=', ['geometry-type'], 'Point'], ['==', ['get', 'dash'], '']],
@@ -186,6 +227,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
             paint: { 'circle-color': ['get', 'fillColor'], 'circle-opacity': ['get', 'fillOpacity'], 'circle-radius': ['get', 'radius'],
               'circle-stroke-color': ['get', 'color'], 'circle-stroke-opacity': ['get', 'opacity'], 'circle-stroke-width': ['get', 'weight'] } }, rank);
         }
+        pathData.set(id, serialized);
         const dashes = [...new Set(data.features.map(feature => String(feature.properties!.dash)).filter(Boolean))];
         for (const dash of dashes) {
           const layerId = `${id}-dash-${dash}`;
@@ -200,6 +242,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
         const id = L.stamp(layer), element = layer.getElement();
         if (!element) continue;
         const html = [element.className, element.innerHTML, element instanceof HTMLImageElement ? element.src : '', element.style.backgroundColor, element.style.borderColor].join('|');
+        const opacity = layer.options.opacity ?? 1;
         let entry = markers.get(id);
         if (!entry || entry.html !== html) {
           entry?.marker.remove();
@@ -212,15 +255,21 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
           clone.addEventListener('keydown', event => {
             if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); activate(layer, layer.getLatLng(), event); }
           });
-          const marker = new Marker({ element: clone, offset: [size.x / 2 - anchor.x, size.y / 2 - anchor.y] }).setLngLat([layer.getLatLng().lng, layer.getLatLng().lat]).addTo(gl);
-          entry = { marker, html }; markers.set(id, entry);
+          const marker = new Marker({ element: clone, opacity, opacityWhenCovered: opacity, offset: [size.x / 2 - anchor.x, size.y / 2 - anchor.y] }).setLngLat([layer.getLatLng().lng, layer.getLatLng().lat]).addTo(gl);
+          entry = { marker, html, opacity }; markers.set(id, entry);
         }
         entry.marker.setLngLat([layer.getLatLng().lng, layer.getLatLng().lat]);
-        entry.marker.getElement().style.opacity = String(layer.options.opacity ?? 1);
+        // These are research annotations, not physical 3D objects. Preserve
+        // their source opacity instead of implying uncertainty behind a ridge.
+        if (entry.opacity !== opacity) { entry.marker.setOpacity(opacity, opacity); entry.opacity = opacity; }
       }
       const ordered = (gl.getStyle().layers ?? []).map((layer, index) => ({ id: layer.id, order: sceneLayers.get(layer.id) ?? basemapLayerOrder(layer), index }))
         .sort((a, b) => a.order - b.order || a.index - b.index);
-      for (const { id } of ordered) gl.moveLayer(id);
+      const order = ordered.map(layer => layer.id).join('|');
+      if (order !== previousOrder) {
+        for (const { id } of ordered) gl.moveLayer(id);
+        previousOrder = order;
+      }
       for (const layer of terrainSubscriptions) if (!scene.layers.has(L.stamp(layer))) { layer.off('terrainchange', schedule); terrainSubscriptions.delete(layer); }
       for (const layer of scene.layers.values()) if ('getTerrainDrape' in layer && !terrainSubscriptions.has(layer)) { layer.on('terrainchange', schedule); terrainSubscriptions.add(layer); }
     };
@@ -267,12 +316,17 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     gl.on('load', () => { loaded = true; readyRef.current = true; onMapReady(gl); configureTerrainRelief(gl, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', currentRelief.current); syncScene(); fromGL(); });
     gl.on('error', event => {
       if ('name' in event.error && event.error.name === 'AbortError') return;
-      console.warn('3D layer failed', event.error);
-      failed = true; report('A 3D layer failed to load. Return to 2D or retry 3D; the view may be incomplete.');
+      console.warn('3D layer failed', 'sourceId' in event ? event.sourceId : undefined, event.error);
+      const sourceId = 'sourceId' in event ? String(event.sourceId) : '';
+      const entry = rasterEntries.get(sourceId);
+      const classes = entry ? (entry.layer.options as L.TileLayerOptions).className ?? '' : '';
+      const catalog = [...provinceLayerCatalog, ...contextLayerCatalog, ...resourceLayerCatalog];
+      const label = catalog.find(layer => classes.split(' ').includes(`map-layer-${layer.id}`))?.name;
+      report(terrainFailureMessage(event, label), 'error');
     });
-    gl.on('webglcontextlost', () => { failed = true; report('3D graphics connection lost. Return to 2D to continue.'); });
-    gl.on('idle', () => { if (!failed) report('Ready'); });
-    timeout = window.setTimeout(() => { if (!failed && !gl.areTilesLoaded()) report('3D layers are still loading.'); }, 25000);
+    gl.on('webglcontextlost', () => { report('3D graphics connection lost. Return to 2D or retry.', 'error'); });
+    gl.on('idle', () => { if (!failedRef.current) report('Ready', 'ready'); });
+    timeout = window.setTimeout(() => { if (!failedRef.current && !gl.areTilesLoaded()) report('3D layers are still loading.'); }, 25000);
     return () => {
       disposed = true; clearTimeout(frame); clearTimeout(timeout); observer.disconnect(); resize.disconnect();
       leaflet.off('moveend', fromLeaflet); leaflet.off('layeradd layerremove', schedule);

@@ -9,7 +9,7 @@ financial reasons, so the survey date and the publication date differ.
 
 ## Status in this project
 
-Four Cape Breton Island counties are **catalogued but not rendered**. They
+Four Cape Breton Island counties are **catalogued but not published as layers**. They
 appear in `web/src/layers/layerCatalog.ts` and
 `ns-marks-the-spot/Layers/LayerCatalog.swift` with full metadata and
 attribution, but no tiles have been produced, so:
@@ -28,6 +28,27 @@ for exact inputs, rejected matches, editable controls, raster/browser evidence,
 and remaining geographic coverage.
 
 The [13 September sequential physical review](../reports/church/physical-review-20260913/README.md) adds inland checks and separate panel trials. A native printed-label audit corrected Victoria main's 10-minute longitude anchor-index error; that coordinate-frame repair does not establish physical accuracy or activate the layer.
+
+The subsequent [distributed correspondence review](../reports/church/distributed-review-20260913/README.md)
+adds five physical checks, corrects Inverness north's First Fork source placement,
+and records Cape Breton's first three-control physical affine trial and a separate
+south diagnostic audit. Sparse validation and failed checks prevent new whole-panel
+acceptance; previous baselines, observations and raster artifacts remain preserved.
+Its `status.json` records the unresolved work at that checkpoint.
+
+The 14–15 September continuations retain separate diagnostics, fresh checks and
+provisional artifacts. Use these panel reports for the current research state:
+
+- [Richmond western-interior validation](../reports/church/richmond-interior-validation-20260916/README.md) — seventeen fresh checks, 217.70 m RMS; the new Buchanan Lake junction is a limited interior-coverage addition. Previous failures and local seam results remain preserved, with full acceptance unproven.
+- [Inverness north refinement audit](../reports/church/north-coast-refinement-20260916/README.md) — added inland control rejected after reserved validation worsened from 94.72 to 301.30 m; TPS5 retained, five diagnostics at 269.66 m RMS, no fresh checks after the decision. Actual 10× terrain review preserved.
+- [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
+- [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
+- [Cape Breton eastern validation](../reports/church/cape-breton-eastern-20260915/README.md)
+- [Inverness south eastern checks and reference audit](../reports/church/south-eastern-coverage-validation-20260916/README.md) — nineteen untouched fresh checks, 206.09 m RMS; adding one explicitly corrected reference gives 207.53 m across twenty held-out checks. The original mismatch and regional failures remain preserved; full acceptance remains unproven.
+
+These reports include actual local GeoTIFF and browser terrain review. They do not
+establish new whole-panel acceptance or change the preserved July south baseline.
+The July results below remain frozen historical records.
 
 The full four-county run was **frozen and rejected on 2026-07-26**. Inverness
 south passed, but Inverness north was unmeasurable; Richmond failed its fixed

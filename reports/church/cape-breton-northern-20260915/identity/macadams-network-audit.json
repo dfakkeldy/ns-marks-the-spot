@@ -1,0 +1,49 @@
+{
+  "phase": "Follow-up identity audit after the failed first score; original observation, coordinates, fit and first result are unchanged",
+  "original_observation_sha256": "946317b650547f405cfcac43356b699c34e25c2d855c7b45a7aa08f7883f609c",
+  "lake_east_reference_feature": 131999,
+  "Bonds_Meadow_Brook_path": [
+    261714,
+    156511,
+    169595,
+    261585
+  ],
+  "Bonds_to_Gaspereaux": {
+    "lonlat": [
+      -60.33222761703448,
+      45.915973791223216
+    ],
+    "shared_vertices": [
+      [
+        261585,
+        67
+      ],
+      [
+        160734,
+        904
+      ],
+      [
+        160881,
+        0
+      ]
+    ]
+  },
+  "Gaspereaux_to_Salmon": {
+    "lonlat": [
+      -60.32157830439951,
+      45.92088602282531
+    ],
+    "shared_vertices": [
+      [
+        160881,
+        197
+      ],
+      [
+        181447,
+        8
+      ]
+    ]
+  },
+  "clarification": "The brook east of MacAdams joins the Gaspereaux River upstream of its connection to the Salmon River. The original observation broadly referred to the looping Salmon reach; these original attributes distinguish the reaches. The source brook joins the larger meandering watercourse west of the main Mira mouth, consistent with this connection order.",
+  "decision": "Retain the same failed check. Network topology supports identity; directional/shape generalization and1.33km displacement remain unresolved. No promotion or tuning follows in this report."
+}

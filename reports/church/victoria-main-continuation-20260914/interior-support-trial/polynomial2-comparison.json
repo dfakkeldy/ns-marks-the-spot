@@ -1,0 +1,48 @@
+{
+  "scope": "Additional supported six-control model on the identical five retained diagnostics",
+  "polynomial2": {
+    "count": 5,
+    "points": [
+      {
+        "label": "VM10",
+        "east_ground_m": 256.91928364119735,
+        "north_ground_m": 351.38356381372085,
+        "error_ground_m": 435.2906238654093
+      },
+      {
+        "label": "VM08",
+        "east_ground_m": -834.617088770556,
+        "north_ground_m": -670.1092697411583,
+        "error_ground_m": 1070.3420566626664
+      },
+      {
+        "label": "VM07",
+        "east_ground_m": -189.40151642177497,
+        "north_ground_m": 32.09539043465161,
+        "error_ground_m": 192.10166191373935
+      },
+      {
+        "label": "VM12",
+        "east_ground_m": 153.97788016270556,
+        "north_ground_m": -334.34617885331255,
+        "error_ground_m": 368.09856681765524
+      },
+      {
+        "label": "VM15",
+        "east_ground_m": 256.85352928660853,
+        "north_ground_m": -173.8990420918485,
+        "error_ground_m": 310.18480354048484
+      }
+    ],
+    "rms_ground_m": 566.3434048767031,
+    "median_ground_m": 368.09856681765524,
+    "p95_ground_m": 943.3317701032149,
+    "max_ground_m": 1070.3420566626664,
+    "mean_east_ground_m": -71.25358242036393,
+    "mean_north_ground_m": -158.9751072875894,
+    "scatter_rms_ground_m": 538.8828207528061,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

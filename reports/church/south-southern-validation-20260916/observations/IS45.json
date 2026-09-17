@@ -1,0 +1,59 @@
+{
+  "id": "IS45",
+  "label": "MacLeod Brook / Southwest Mabou River confluence",
+  "role": "check",
+  "recorded_at": "2026-09-16T02:32:22.130013+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      19300,
+      19800
+    ],
+    "extent": [
+      1300,
+      1500
+    ],
+    "display": [
+      1300,
+      1500
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-southern-validation-20260916/macleod-native.jpg",
+  "source_crop_sha256": "d1b1a4a6f3f1de7816553bc9ea8c958f2c2355366be44455ca2631360dc3a49b",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    491,
+    575
+  ],
+  "pixel_xy": [
+    19791,
+    20375
+  ],
+  "lonlat": [
+    -61.354561320999906,
+    45.919512795453265
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson",
+  "reference_sha256": "46db449bce463d75cb0f5f6f6a6af6e6334ac81fd70a7f5c9a0585bb4b403a50",
+  "reference_vertices": [
+    {
+      "feature_id": 269441,
+      "vertex": 46
+    },
+    {
+      "feature_id": 277650,
+      "vertex": 0
+    },
+    {
+      "feature_id": 277651,
+      "vertex": 37
+    }
+  ],
+  "reference_kind": "Original single-line water confluence",
+  "uncertainty_ground_m": 180,
+  "point_definition": "Single-line junction of the southeast tributary and southwest river branch, with the combined channel continuing north.",
+  "identity_evidence": "Southwest branch bends into the north-going main river; the southeast tributary joins at the clear three-way junction below McLeod Settlement. Farther north, two separate eastern tributaries and the river-road relationship identify the reach. The southeastern branch continues past the MacEachern locality. An additional smaller western reference tributary farther north is not clearly depicted in the source and is not a matching point. Modern road routing differs locally, so road nodes are not used as control evidence. Source crosshair is on the water-line convergence, away from lettering.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and model selection"
+}

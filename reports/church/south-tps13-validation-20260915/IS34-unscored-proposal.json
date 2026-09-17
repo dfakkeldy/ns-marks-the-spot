@@ -1,0 +1,22 @@
+{
+  "id": "IS34-proposal",
+  "lonlat": [
+    -61.2329391337459,
+    45.87092182381855
+  ],
+  "pixel_xy": [
+    23225.333333333332,
+    22329.333333333332
+  ],
+  "source_display_pixel_xy": [
+    844,
+    247
+  ],
+  "role": "Unscored proposal; not adopted",
+  "reference_candidates": {
+    "266451": 523,
+    "266452": 0,
+    "274779": 488
+  },
+  "identity": "MacPhail Brook / River Denys upstream from Chisholm Bridge; confirm topology before adoption"
+}

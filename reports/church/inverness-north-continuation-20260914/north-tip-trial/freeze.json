@@ -1,0 +1,24 @@
+{
+  "frozen_at": "2026-09-14T11:10:45.031197+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "b20145acf800f6b0cf1a2fe146e30937a2450bf7658dc0b54c2bde7b8bcc334d",
+  "controls": [
+    "N02",
+    "N04",
+    "I10",
+    "I11",
+    "I14"
+  ],
+  "selection": "Five-control TPS selected provisionally after same-two diagnostic comparison. Five-control affine rejected. Prior corrected four-control affine preserved as baseline.",
+  "diagnostics": [
+    "N03",
+    "I13"
+  ],
+  "fresh_count": 0,
+  "excluded": [
+    "I14 control and all aliases",
+    "I12 unresolved mismatch"
+  ],
+  "scope": "New fresh checks must be selected after this freeze. Two diagnostics do not establish whole-panel acceptance.",
+  "geographic_acceptance": false
+}

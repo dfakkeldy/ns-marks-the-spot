@@ -1,0 +1,70 @@
+{
+  "id": "VN21",
+  "role": "check",
+  "label": "Middle Head eastern mainland tip",
+  "pixel_xy": [
+    11032.666666666666,
+    18791.666666666668
+  ],
+  "lonlat": [
+    -60.34941307014683,
+    46.65359529636769
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      10900,
+      18630
+    ],
+    "extent": [
+      400,
+      400
+    ],
+    "display": [
+      1200,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    398,
+    485
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-middle-head-detail.jpg",
+  "source_crop_sha256": "6ca1c7e75c1d474a2b2f56fbb2e1b4172ad225089058afcbc233fbe749581546",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/reference-full/water-lines.geojson",
+  "reference_sha256": "5e9de8a51eeb813e092ea841423bb26fa543b0fade8de6df55068f9d7c25ffa4",
+  "reference_feature_ids": [
+    8513
+  ],
+  "reference_vertex": {
+    "feature_id": 8513,
+    "vertex": 4
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "Easternmost mainland shore of the terminal Middle Head headland between North Bay and South Bay. Both sources preserve the narrow connection westward, terminal southern lobe, eastern shore and detached rock/island just north of the headland. Exclude that offshore feature and the label. Small shore indentations and rock size/spacing are generalized in the engraving. Provincial GeoNames CAZDQ identifies the peninsula but is west of the measured extremum; its coordinate is not used.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-middle-head.jpg",
+    "sha256": "33cc641e194ca5b3ae82669336a79403c3a7b47e7031e7995583f2350a628c02",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        10400,
+        18000
+      ],
+      "extent": [
+        2400,
+        1900
+      ],
+      "display": [
+        1680,
+        1330
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh southern coastal check after North Pond-supported TPS11 freeze; no tuning"
+}

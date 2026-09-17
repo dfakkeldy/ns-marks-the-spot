@@ -1,0 +1,11 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "bbox": "-61.45,45.50,-61.10,45.68",
+  "count": 2434,
+  "sha256": "6659d899c9c8bddd2aa196d61191cf482a26c5a9159df3a0520d01551140774a",
+  "retrieved": "2026-09-13T15:20:38.867088+00:00",
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "method": "existing paged fetch; complete original geometries",
+  "path": "/Users/dfakkeldy/Downloads/church-distributed-20260913/richmond-southwest-water.geojson"
+}

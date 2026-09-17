@@ -1,0 +1,71 @@
+{
+  "recorded_at": "2026-09-16T00:14:14.752436+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active My Maps raster, opacity70%, source4751x6488. IS39 and IS40 inspected in2D and10x terrain at50deg tilt/north-up, zoom15. No new import or coordinate measurement from perspective.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS39-2d.png",
+      "sha256": "f6b0a935f12d079464d7dc1d28fba4e1942b6fe41ff5b11cf519c443f735a38f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS39-terrain10x.png",
+      "sha256": "bdc31bdb0f11a7ae1978bc03810806e46a24d06edf843f3b368008f9f9d81170"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS40-2d.png",
+      "sha256": "192cd1080b872c25165b9e32989584569a4e165a8704dc83333b8027e2e22b42"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS40-terrain10x.png",
+      "sha256": "393ff13ab5670fae47a0a46f1052590b88060ab2ac5c52415238c9a7067af78e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-10x-topdown.png",
+      "sha256": "b99828f4a60de90c1b65d50392090f244d37fcf5a83aa8f0efad74879a90eacd"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-10x.png",
+      "sha256": "8a484ec7568b1993d350839e569cf59bf425174700ffebe5586747581017d6c1"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-2d.png",
+      "sha256": "239c7cd8755c78e9a9dccc184ab657eb388924ff52a0a3da4e01408a2cd24135"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/sheas-10x.png",
+      "sha256": "7c514855fd835ad055a9801e25dd15ae4938810ad98534c2127e099c287c2991"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/sheas-2d.png",
+      "sha256": "73ace28dbd093a10598c593b2d2b8c550e440c59b621da2c2372a49f9131fba8"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS39-import-state.txt",
+      "sha256": "5e7e3622762c4584c2102dce59733d80414c70c92b869a8a11ffc2ce6cfc9e43"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS39-terrain10x-state.txt",
+      "sha256": "3d003838616828229103ab8c3806e4e712fa3b3394c0c6f717de1d794beb8f99"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS40-import-state.txt",
+      "sha256": "c295eac96b9f3132dac796f58ba1f4e887aad5d3d6b5e0d49462fa67d709a48e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/IS40-terrain10x-state.txt",
+      "sha256": "8c1c135396fcad860adf3a116221086e4c18f98f81fb04a9534ead657e4c8f18"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-state.txt",
+      "sha256": "7893777fbff99c3630ac0ab5c852470e6897ab3e1252fbeadf9d96c74bd6cc97"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/sheas-state.txt",
+      "sha256": "2b2a35efaccef47bd00d2ee78fd54854004dbbf83a9359f9b68d85d8369b1cab"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

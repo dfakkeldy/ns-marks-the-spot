@@ -8,11 +8,11 @@
       "annotation_id": "F16-PHM-001",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-fit-neatline",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The actual observation-station glyph lies outside the current fit neatline. Preserve the whole native point with no map placement; do not move it inward or substitute lettering."
     },
     {
       "annotation_id": "F16-PHM-002",
@@ -28,11 +28,11 @@
       "annotation_id": "F16-PHM-003",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-004",
@@ -48,31 +48,31 @@
       "annotation_id": "F16-PHM-005",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-006",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-007",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-008",
@@ -168,11 +168,11 @@
       "annotation_id": "F16-PHM-017",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-018",
@@ -188,11 +188,11 @@
       "annotation_id": "F16-PHM-019",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-020",
@@ -208,41 +208,41 @@
       "annotation_id": "F16-PHM-021",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-022",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-023",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-024",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F16-PHM-025",
@@ -418,11 +418,11 @@
       "annotation_id": "F16-PHM-042",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-043",
@@ -438,71 +438,71 @@
       "annotation_id": "F16-PHM-044",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-045",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F16-PHM-046",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-047",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-048",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F16-PHM-049",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-050",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-051",
@@ -518,61 +518,61 @@
       "annotation_id": "F16-PHM-052",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-053",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-054",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-055",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-056",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-057",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F16-PHM-058",
@@ -608,11 +608,11 @@
       "annotation_id": "F16-PHM-061",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F16-PHM-062",
@@ -638,11 +638,11 @@
       "annotation_id": "F16-PHM-064",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-065",
@@ -688,11 +688,11 @@
       "annotation_id": "F16-PHM-069",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-070",
@@ -848,21 +848,21 @@
       "annotation_id": "F16-PHM-085",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-086",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "remaining_question": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
     },
     {
       "annotation_id": "F16-PHM-087",

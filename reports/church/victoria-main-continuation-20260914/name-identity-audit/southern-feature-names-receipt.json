@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+like+%27%25Benacadie%25%27+or+geoname+like+%27%25Macpherson%25%27+or+geoname+like+%27%25MacPherson%25%27+or+geoname+like+%27%25Piper%25%27&%24limit=100",
+  "query": {
+    "$where": "geoname like '%Benacadie%' or geoname like '%Macpherson%' or geoname like '%MacPherson%' or geoname like '%Piper%'",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-14T23:59:14.265562+00:00",
+  "sha256": "ff7a1516955d5898cc13aec180f1cb0295b62c607cb25ad534d0aff28a149991",
+  "scope": "Official identity context only; representative points are not physical GCP coordinates"
+}

@@ -112,4 +112,42 @@ struct MeasurementEndpointTests {
         #expect(!leaked)
         #expect(map.selectedAnnotations.isEmpty)
     }
+
+    @Test func aSingleTapOnBareMapDoesNotCompeteWithMapKitsSingleTap() {
+        let map = TapHitMapView()
+        let controller = MapController()
+        let identify = UITapGestureRecognizer()
+        identify.name = MapController.identifyTapName
+        map.addGestureRecognizer(identify)
+        let mapKitTap = UITapGestureRecognizer()
+        #expect(controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: mapKitTap))
+        #expect(controller.gestureRecognizer(mapKitTap, shouldRecognizeSimultaneouslyWith: identify))
+
+        // Neither a drag nor a zoom may become a point placement.
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: UIPanGestureRecognizer()))
+        mapKitTap.numberOfTapsRequired = 2
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: mapKitTap))
+        mapKitTap.numberOfTapsRequired = 1
+        mapKitTap.numberOfTouchesRequired = 2
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: mapKitTap))
+    }
+
+    @Test func selectingAnAnnotationDoesNotAlsoIdentifyTheGroundBehindIt() {
+        let map = TapHitMapView()
+        let controller = MapController()
+        let identify = UITapGestureRecognizer()
+        identify.name = MapController.identifyTapName
+        map.addGestureRecognizer(identify)
+        let annotation = MKAnnotationView()
+        let content = UIView()
+        annotation.addSubview(content)
+        map.hitView = content
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: UITapGestureRecognizer()))
+    }
+}
+
+@MainActor
+private final class TapHitMapView: MKMapView {
+    var hitView: UIView?
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? { hitView }
 }

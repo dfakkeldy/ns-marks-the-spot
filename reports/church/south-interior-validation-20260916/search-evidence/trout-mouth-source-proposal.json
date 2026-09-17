@@ -1,0 +1,18 @@
+{
+  "source_banks_display_pixels": [
+    [
+      800,
+      239
+    ],
+    [
+      773,
+      279
+    ]
+  ],
+  "source_display_pixel_xy": [
+    786.5,
+    259.0
+  ],
+  "definition": "Proposed midpoint between the two lakeward bank turns before the road crossing; requires visual confirmation",
+  "state": "unscored"
+}

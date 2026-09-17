@@ -1,0 +1,20 @@
+{
+  "church_tests": {
+    "command": "python3 -m unittest discover -s tools/church/tests -t .",
+    "count": 428,
+    "passed": true,
+    "exit_code": 0
+  },
+  "current_report_replays": 11,
+  "prior_report_replays": 7,
+  "editable_csv_roundtrips": 9,
+  "affine_gdal_comparisons": 6,
+  "original_report_and_production_inputs_unchanged": true,
+  "selected_raster_hashes_unchanged": true,
+  "actual_raster_windows_visually_reviewed": 4,
+  "reused_reference_hashes_match_prior_receipts": true,
+  "notes": [
+    "Initial validator incorrectly selected Richmond production cutline. Corrected validator to frozen review content-boundary.json; no geographic input changed.",
+    "Report and data work only; no native build or production deployment performed."
+  ]
+}

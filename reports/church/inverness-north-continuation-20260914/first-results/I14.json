@@ -1,0 +1,27 @@
+{
+  "observation_sha256": "b9c925c2a3494d51696174ca8da7d5eb6590ed41080420c0f81648e3103687e5",
+  "controls_sha256": "7a784da6a9afc92965b8294e0ccd153fc61d70152626fe390bbd96ff470e5fa5",
+  "affine4": {
+    "count": 1,
+    "points": [
+      {
+        "label": "I14",
+        "east_ground_m": -1058.2360266622045,
+        "north_ground_m": -1274.9653967188628,
+        "error_ground_m": 1656.9249382383914
+      }
+    ],
+    "rms_ground_m": 1656.9249382383914,
+    "median_ground_m": 1656.9249382383914,
+    "p95_ground_m": 1656.9249382383914,
+    "max_ground_m": 1656.9249382383914,
+    "mean_east_ground_m": -1058.2360266622045,
+    "mean_north_ground_m": -1274.9653967188628,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "inside_source_control_hull": false,
+  "distance_to_hull_native_px": 5484.580932031179,
+  "geographic_acceptance": false
+}

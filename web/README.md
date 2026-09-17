@@ -116,7 +116,7 @@ strokes come from the procedural sprite in `public/atlas/sprite`
 unlocated specimens for future historical site symbols and lettering.
 
 The Fletcher style also enables a separately identified reviewed historical-feature
-layer: currently 241 annotations from Judique and Port Hawkesbury, with approximate points, traced reaches and
+layer: currently 326 annotations from Judique, Port Hawkesbury and Port Hood/Mabou, with approximate points, traced reaches and
 unresolved group outlines. Its checkbox is below the style selector. Select a
 mark from zoom 12 for original source pixels, reading/placement uncertainty,
 fit provenance and prior-coordinate evidence; persistent labels appear at zoom
@@ -149,9 +149,26 @@ on both surfaces. Builds default to `https://tiles.kinnokilabs.com`; an explicit
 empty override disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
+The sidebar's **Appearance** selector offers **Match map**, **System**, **Light**
+and **Dark** independently of the basemap. Match map carries Fletcher's paper and
+ink into the controls. The choice stays in this browser. Property boundaries use
+mustard outlines on Fletcher, bright yellow over Night or aerial imagery, and
+teal on light backgrounds, with no context fill. Crown Land remains fill-only;
+selected and tax-sale parcels retain their distinct evidence symbols.
+
+On-screen road overlays reuse exposed Atlas roads while retaining supplemental
+bridge/structure geometry. When imagery hides Atlas, the separate road overlay
+is retained. Main roads do not redraw the network when Roads is already on.
+Extra road and place-name labels are suppressed over a labelled basemap or
+provincial topographic map. Labels baked into separate raster images cannot be
+removed individually. Standalone NSRN overlays use unsimplified source geometry
+from zoom 15. Completed overlays remain visible during replacement loads;
+failed replacements clear the layer and name the failed dataset and HTTP status
+when available.
+
 ### Main-map 3D terrain
 
-The research map's **3D terrain / Return to 2D** control changes the current map
+The research map's **3D terrain / 2D** control changes the current map
 in place, keeping its centre and selected layers. The 3D view uses
 [Mapzen Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/)
 ([source attribution and licences](https://github.com/tilezen/joerd/blob/master/docs/attribution.md))
@@ -162,16 +179,31 @@ between 0–20 m or 0–100 m. Higher terrain retains the overall relief scale a
 is offset to join the lower band continuously. Sea level stays fixed; underwater
 elevations retain the overall scale. These are display controls: source rasters,
 recorded elevations and measurements are unchanged.
-The 3D panel offers a Tilt slider (0° looks straight down), rotation buttons,
+Poker also supports 3D. Switching dimensions suspends driveway measurement
+capture and preserves the measurement for returning to 2D; civic numbers remain
+visible in 3D with label collision handling. The 3D renderer avoids loading a
+second basemap and does not resubmit unchanged path geometry.
+
+The compact 3D toolbar keeps **2D** and **3D settings** visible. Settings start
+collapsed; opening them offers a Tilt slider (0° looks straight down), rotation buttons,
 and North up. On touch screens, use one finger to pan, pinch to zoom, twist to
 rotate, or slide two fingers up/down together to tilt. **Terrain height** opens
 the exaggeration settings. Touch-screen terrain rendering caps pixel density
 at 1.5 to reduce GPU work; interface text keeps the screen's native resolution.
+The settings body scrolls within a bounded panel, keeping both toolbar buttons
+reachable on short screens. Failed sources are named where available, with
+HTTP status codes and **Retry 3D** to reload the view at the current location
+with its selected layers and height settings. Graphics failures have a separate
+message. An error remains visible until retry or returning to 2D; changing
+height settings cannot conceal it.
 Tilt, bearing and dimension choice are not persisted in shared URLs.
 
 MapLibre mirrors the mounted Leaflet image and tile layers, local warped
 rasters, paths and markers. The existing data queries and licence gates still
-own these layers, and parcel clicks are forwarded by geographic position.
+own these layers, and parcel clicks are forwarded by geographic position. Research markers retain
+their configured opacity even behind terrain; fading is not used as a confidence
+indicator. Feature evidence opens in the 3D view without a hidden 2D popup
+pulling the camera back after a drag. Closing it restores the map controls.
 User-loaded raster and vector inputs remain in the browser. Roads, bridges
 and property outlines draw above water. Editing, measurement and print framing
 use the 2D map; print/export does not capture a tilted terrain scene. Remote
@@ -417,7 +449,7 @@ keeps its own saved setups locally.
 
 `docs/assets/app-icon.svg` is the source of truth for the app mark: a red
 lobster embracing Cape Breton over the Nova Scotia land mass. The web app
-imports it for the header brand, the `docs/*.html` pages use it as their
+keeps the map full-height without a top bar; the `docs/*.html` pages use it as their
 favicon and header logo, and the iOS `AppIcon.appiconset` SVGs are copies of
 it — the tinted slot is the same artwork in grayscale so iOS can apply the
 user's tint by luminance. The province outline is derived from Natural Earth
@@ -1230,7 +1262,10 @@ value, changed table schema, or ambiguous event detail fails closed.
 
 `npm run watch:tax-sales` handles sources that publish results to a single page
 they overwrite each sale, where the previous sale's results are destroyed rather
-than kept at a dated URL — Cumberland today. On no change it does nothing. When a
+than kept at a dated URL — Cumberland today. On no change it does nothing. When
+the live page is a later pre-sale notice (no dated results heading; owner names
+mixed into the location column) it retains the already ingested result event and
+does not invent a current-notice dataset from that table. When a
 new sale appears it submits the page to the Wayback Machine and, if a capture's
 raw `id_` bytes carry the results table, ingests the event, records, and ledger
 entry against that capture; if no capture carries the table yet, it records the
@@ -1315,9 +1350,9 @@ closed on an unrecognized winning-bid value or identifier mismatch.
 - Current official source: [September 14, 2026 Tax Sale by Tender](https://victoriacounty.com/property-tax-sale-notice/),
   dated August 13, 2026. Sealed bids must arrive by noon at the Municipal
   Administration Building in Baddeck.
-- The official table contains nine numbered rows. Rows 1, 2, 8, and 9 now print
-  `REMOVED` in every public field, including AAN and PID, so they remain four
-  opaque removed-row counts without parcel identities. The other five rows
+- The official table contains nine numbered rows. Rows 1, 2, 3, 8, and 9 now
+  print `REMOVED` in every public field, including AAN and PID, so they remain
+  five opaque removed-row counts without parcel identities. The other four rows
   publish exact AAN/PID pairs, descriptions, redeemability, and total owing.
   Two land-only rows print TOTAL OWING as `$digits.cents + hst`; the advertised
   dollar amount is stored and HST is not added.
@@ -1325,14 +1360,14 @@ closed on an unrecognized winning-bid value or identifier mismatch.
   snapshot are written. Land-registration values are validated for known
   `YES`/`NO` input but are not added to the public map schema. The normalized
   owner-free source-facts SHA-256 is
-  `812d8d6a38c568d8af7ba1ab27add614643ee57e57a526236751e44dfab85584`;
+  `bd8df1ae76e9344fd310697338e47b1c4d1200dc0454d34ea7be00696e880ac3`;
   the byte-for-byte public dataset SHA-256 is
-  `b206e77975f4c7dec37dab71723a0f7e74d9e59597a72229e0db5593b563b32e`.
+  `c91f5a8b2b2268454d3282395318b3bc238f7224aaf895d58ee396a4d6466a87`.
 - Because the municipality overwrites this HTML notice as properties are
   removed, the page was archived before ingestion. The raw replay bytes are
-  preserved at the [Wayback Machine](https://web.archive.org/web/20260903202648id_/https://victoriacounty.com/property-tax-sale-notice/)
+  preserved at the [Wayback Machine](https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/)
   with SHA-256
-  `45158563b490976d3270e776dd618ef925c6df1d997e0de7235cda0bcca7da1f`.
+  `4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5`.
 
 Run `npm run refresh:victoria-tax-sale` to reparse the official table. A partial
 removal, malformed or duplicate identifier, unfamiliar `YES`/`NO` state, row
@@ -1342,7 +1377,13 @@ archive capture fails closed.
 ## Halifax September 2026 source receipt
 
 - Official landing page: [Halifax Tax Sale](https://www.halifax.ca/home-property/property-taxes/tax-sale).
-  Tender `HRM-TaxSale23` closes at 10:00 AM September 15, 2026. The official
+  Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. As of the
+  2026-09-16 refresh the landing page states that bidding for the TaxSale23
+  list is closed and to monitor that page for results. No TaxSale23 result PDF
+  is published yet on the landing page or the
+  [results page](https://www.halifax.ca/home-property/property-taxes/tax-sale/tax-sale-results),
+  so the last verified Schedule A remains the current owner-free snapshot.
+  The official
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
   have SHA-256
   `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`;
@@ -1360,10 +1401,13 @@ archive capture fails closed.
   byte-for-byte owner-free public dataset SHA-256 is
   `e325d369945024df438fb52a47731ec586a272b4e41c3ad9ac0983f1caacf826`.
 
-Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs. The
-refresh fails closed on a changed document link, tender number, layout,
-identifier, amount, flag, row/PID count, or a geometry-exception pin that does
-not match a live Schedule A row.
+Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs, or
+to confirm the official closed/awaiting-results landing page and leave the last
+verified Schedule A in place. The refresh fails closed on a changed document
+link, tender number, layout, identifier, amount, flag, row/PID count, a
+geometry-exception pin that does not match a live Schedule A row, a closed
+notice mixed with current tender documents, or published TaxSale23 results
+before an outcomes importer exists.
 The live NSPRD test requires every mapped PID to resolve and every declared
 exception PID to remain empty, so either provincial change triggers review.
 

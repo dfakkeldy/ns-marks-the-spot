@@ -1,0 +1,155 @@
+{
+  "panel": "inverness-south",
+  "selected_fit": "Frozen distributed TPS13, unchanged",
+  "fresh_check_count": 7,
+  "fresh_check_ids": [
+    "IS34",
+    "IS35",
+    "IS36",
+    "IS37",
+    "IS38",
+    "IS39",
+    "IS40"
+  ],
+  "physical_tps13": {
+    "count": 7,
+    "points": [
+      {
+        "label": "IS34",
+        "east_ground_m": -27.70586448843437,
+        "north_ground_m": -193.91704292259703,
+        "error_ground_m": 195.88627941460277
+      },
+      {
+        "label": "IS35",
+        "east_ground_m": 69.67471153643136,
+        "north_ground_m": 69.58044738333533,
+        "error_ground_m": 98.46828974725831
+      },
+      {
+        "label": "IS36",
+        "east_ground_m": -63.25272221657062,
+        "north_ground_m": -18.607853921653273,
+        "error_ground_m": 65.93298943151473
+      },
+      {
+        "label": "IS37",
+        "east_ground_m": 105.62870329046932,
+        "north_ground_m": -160.88456138517714,
+        "error_ground_m": 192.46107411870804
+      },
+      {
+        "label": "IS38",
+        "east_ground_m": 106.27903290351864,
+        "north_ground_m": 61.571074344932015,
+        "error_ground_m": 122.82601528542861
+      },
+      {
+        "label": "IS39",
+        "east_ground_m": 149.3605186435718,
+        "north_ground_m": -4.046620263187344,
+        "error_ground_m": 149.41532607142815
+      },
+      {
+        "label": "IS40",
+        "east_ground_m": 322.1033974896599,
+        "north_ground_m": -18.88840509390816,
+        "error_ground_m": 322.6567379141081
+      }
+    ],
+    "rms_ground_m": 181.6489561576905,
+    "median_ground_m": 149.41532607142815,
+    "p95_ground_m": 284.6256003642564,
+    "max_ground_m": 322.6567379141081,
+    "mean_east_ground_m": 94.58396816552087,
+    "mean_north_ground_m": -37.884708836893665,
+    "scatter_rms_ground_m": 150.38272864789388,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "accepted_baseline_tps": {
+    "count": 7,
+    "points": [
+      {
+        "label": "IS34",
+        "east_ground_m": -107.98992471292357,
+        "north_ground_m": 178.95508418395005,
+        "error_ground_m": 209.01374594697725
+      },
+      {
+        "label": "IS35",
+        "east_ground_m": 18.23633289520786,
+        "north_ground_m": 359.64414815188064,
+        "error_ground_m": 360.10620258106735
+      },
+      {
+        "label": "IS36",
+        "east_ground_m": -35.34844937831931,
+        "north_ground_m": -3.3822201263126765,
+        "error_ground_m": 35.509889980601706
+      },
+      {
+        "label": "IS37",
+        "east_ground_m": 256.240709092222,
+        "north_ground_m": 189.7938749042851,
+        "error_ground_m": 318.8746085019442
+      },
+      {
+        "label": "IS38",
+        "east_ground_m": 191.8707912269594,
+        "north_ground_m": 502.60131776611354,
+        "error_ground_m": 537.9800044112172
+      },
+      {
+        "label": "IS39",
+        "east_ground_m": 104.05234662090042,
+        "north_ground_m": 54.24249239085962,
+        "error_ground_m": 117.34197381196752
+      },
+      {
+        "label": "IS40",
+        "east_ground_m": 336.9471023875292,
+        "north_ground_m": 52.67360741023122,
+        "error_ground_m": 341.03938002078183
+      }
+    ],
+    "rms_ground_m": 315.27871434996956,
+    "median_ground_m": 318.8746085019442,
+    "p95_ground_m": 484.61786386217216,
+    "max_ground_m": 537.9800044112172,
+    "mean_east_ground_m": 109.14412973308228,
+    "mean_north_ground_m": 190.64690066871532,
+    "scatter_rms_ground_m": 226.1459394558982,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "no_tuning_after_checks": true,
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "accepted_july_baseline_replaced": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "inside_control_hull": [
+    "IS34",
+    "IS36",
+    "IS39",
+    "IS40"
+  ],
+  "outside_control_hull": [
+    "IS35",
+    "IS37",
+    "IS38"
+  ],
+  "coverage_limitations": [
+    "Seven checks remain sparse; the new northern pair occupies one coastal locality.",
+    "The northern two give 251.43 m RMS; the pooled 181.65 m does not establish whole-panel accuracy.",
+    "Northeastern/intervening interiors, farther edges and shared shoreline intervals need additional evidence.",
+    "Western island checks and the limited two-feature seam review retain their prior limitations."
+  ],
+  "next_work": [
+    "Continue frozen-fit independent validation in northeastern and intervening areas, beyond the new Dunvegan/Marsh Point cluster.",
+    "Seek20\u201330 identifiable distributed checks where feasible; preserve every first result without tuning to each failure.",
+    "Keep the Margaree bank candidate and lower O\u2019Law candidates unscored until exact source definitions are defensible."
+  ]
+}

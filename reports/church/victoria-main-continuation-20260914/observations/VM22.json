@@ -1,0 +1,79 @@
+{
+  "id": "VM22",
+  "role": "check",
+  "label": "Gillis Point northern peninsula tip at Boulaceet Harbour",
+  "pixel_xy": [
+    20518.666666666668,
+    25635.666666666668
+  ],
+  "lonlat": [
+    -60.7759403090615,
+    46.02371905801543
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      20400,
+      25500
+    ],
+    "extent": [
+      360,
+      360
+    ],
+    "display": [
+      1080,
+      1080
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    356,
+    407
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-gillis-tip-native.jpg",
+  "source_crop_sha256": "bfd5672b479b58086e95b300cdc73a16ded8e8e4c756954bc84f486154bdad14",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    7224,
+    6583
+  ],
+  "reference_vertex": {
+    "feature_id": 7224,
+    "vertex": 2
+  },
+  "uncertainty_ground_m": 120,
+  "identity_evidence": "The original labels Gillis Point beside the narrow northeast-facing mainland promontory on the southern side of Boulaceet Harbour. The harbour western recess, opposing hooked peninsula to the north, and long southward coast corroborate the feature. Select the northern tip of the mainland peninsula; original WACO20 vertex7224v2 is its northernmost tip, distinct from the representative name point. Native detail separates the coastline from the Gillis lettering. Official cape CBQEJ identifies this Victoria feature; the same-named Inverness cape and the nearby community record are not used. Historical angular tip versus modern rounded outline is covered by120m stated uncertainty.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-gillis-point.jpg",
+    "sha256": "ed4629075b2ad2dad77ba4b63ad85e683403c6c9a86b8b6c896ff6c234e39e60",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        19800,
+        25200
+      ],
+      "extent": [
+        1200,
+        1100
+      ],
+      "display": [
+        1320,
+        1210
+      ],
+      "rotation": 0
+    }
+  },
+  "name_source": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/southern-coast-names.geojson",
+    "sha256": "f121f41afc17dc75db2209a1b2512436754ed04ef8c29c44e911c390f97b11d1",
+    "key": "CBQEJ",
+    "role": "identity only"
+  },
+  "phase": "Fresh check after frozen regional TPS11; not fitted or used in model selection",
+  "recorded_at": "2026-09-14T23:42:42.047432+00:00",
+  "freeze_sha256": "f81f905b0de4ecedf7a1193220925cc7896bcc65d782f6ac045d88f24b660379"
+}

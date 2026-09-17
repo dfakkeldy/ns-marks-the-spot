@@ -1,0 +1,6 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Skye+River%27%2C%27Mull+River%27%2C%27River+Denys%27%2C%27Whycocomagh+River%27%2C%27Mabou+River%27%29&%24limit=100",
+  "query": "geoname in ('Skye River','Mull River','River Denys','Whycocomagh River','Mabou River')",
+  "at": "2026-09-15T17:45:49.779764+00:00",
+  "sha256": "aa81d42665d4839936681966b4ae329ae73e5f1a3f7fb25657a675b19818bbd2"
+}

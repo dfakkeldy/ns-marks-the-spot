@@ -1,0 +1,38 @@
+{
+  "IS48-enlarged": {
+    "origin": [
+      16236,
+      12948
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "IS49-enlarged": {
+    "origin": [
+      17873,
+      9329
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "review_timing": {
+    "native_crosshairs_inspected_before_first_scores": true,
+    "exact_coordinate_reference_figures_finalized_and_inspected_after_first_scores": true,
+    "coordinate_changes_after_first_scores": false,
+    "reference_figure_review_recorded_at": "2026-09-16T03:14:43.079427+00:00"
+  }
+}

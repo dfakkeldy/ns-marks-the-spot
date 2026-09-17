@@ -1,0 +1,30 @@
+{
+  "promoted_unchanged": [
+    "VM10",
+    "VM12",
+    "VM15"
+  ],
+  "controls": [
+    "VM01",
+    "VM02",
+    "VM06",
+    "VM11",
+    "VM17",
+    "VM18",
+    "VM08",
+    "VM19",
+    "VM10",
+    "VM12",
+    "VM15"
+  ],
+  "retained_diagnostics": [
+    "VM07"
+  ],
+  "preserved_originals": [
+    "reports/church/physical-review-20260913/victoria-main/observations.json",
+    "reports/church/physical-review-20260913/victoria-main/comparison.json",
+    "reports/church/distributed-review-20260913/victoria-main/observations.json"
+  ],
+  "basis": "Fit a provisional curved candidate to the verified regional anchor network after broad affine and sparse curved trials cannot represent the observed local offsets. Original measurements and all prior trials preserved. New physical validation required; no claim from fitting residuals.",
+  "geographic_acceptance": false
+}

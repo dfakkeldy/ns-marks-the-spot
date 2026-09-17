@@ -1,0 +1,46 @@
+[
+  {
+    "name": "IS6-denys-west",
+    "context_covered": false,
+    "point_covered": false,
+    "window_bounds": [
+      -61.28406899890798,
+      45.832417544774245,
+      -61.206588250701685,
+      45.88637680553238
+    ]
+  },
+  {
+    "name": "IS6-denys-east",
+    "context_covered": true,
+    "point_covered": true,
+    "window_bounds": [
+      -61.12610669944358,
+      45.82461476927509,
+      -61.048636822020555,
+      45.87857403003322
+    ]
+  },
+  {
+    "name": "IS6-portage",
+    "context_covered": true,
+    "point_covered": true,
+    "window_bounds": [
+      -61.02883626594733,
+      45.92271512094738,
+      -60.95122938853559,
+      45.976674381705514
+    ]
+  },
+  {
+    "name": "IS6-long-stretch",
+    "context_covered": false,
+    "point_covered": true,
+    "window_bounds": [
+      -61.362225731566454,
+      45.65540954720502,
+      -61.2849904902894,
+      45.70936880796315
+    ]
+  }
+]

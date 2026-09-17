@@ -1,0 +1,17 @@
+{
+  "metric_sets_replayed": 10,
+  "new_physical_checks": 2,
+  "fresh_checks": 16,
+  "original_coast_extremum_and_stream_mouth_verified": true,
+  "inside_control_hull": [
+    "IS48"
+  ],
+  "outside_control_hull": [
+    "IS49"
+  ],
+  "first_fourteen_and_frozen_fit_preserved": true,
+  "actual_raster_windows": 2,
+  "editable_inventories": 3,
+  "browser_terrain_verified": true,
+  "geographic_acceptance": false
+}

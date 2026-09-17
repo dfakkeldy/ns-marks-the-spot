@@ -1,0 +1,59 @@
+{
+  "id": "IS30",
+  "label": "McLennan Brook / River Denys confluence",
+  "role": "check",
+  "phase": "Fresh expansion of unchanged affine4 validation; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T21:23:43.154438+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      22100,
+      22000
+    ],
+    "extent": [
+      2000,
+      1800
+    ],
+    "display": [
+      1500,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/IS6-denys-west-native.jpg",
+  "source_crop_sha256": "31e48cf384fd12433f1478cad44c4eabcf5f521e2699b63b58c234d27ca61a49",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    701,
+    644
+  ],
+  "pixel_xy": [
+    23034.666666666668,
+    22858.666666666668
+  ],
+  "lonlat": [
+    -61.23999890157839,
+    45.859609847778856
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/interior-water.geojson",
+  "reference_sha256": "48a47d12e3be8128e07e3ab0921afa1c4cee72e7856eb5c1712f9c9dc9650abf",
+  "reference_kind": "Single-line water confluence",
+  "reference_vertices": [
+    {
+      "feature_id": 266455,
+      "vertex": 33
+    },
+    {
+      "feature_id": 266586,
+      "vertex": 0
+    },
+    {
+      "feature_id": 274498,
+      "vertex": 412
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Meeting of the drawn water lines, paired with the exact original three-stream WARV50 node; not the road intersection or bridge centre.",
+  "identity_evidence": "The source explicitly labels McLennan Brook on the southwest approach. It reaches River Denys just downstream of the crossing labelled Chisholm Bridge. The main river approaches from the north and turns east; MacPhail Brook joins that main river farther upstream and is a different junction. The original named WARV50 reference network has the same tributary order and southwest approach. The initially searched nearby road meeting remains unscored; the adopted point is the separate water confluence."
+}

@@ -1,0 +1,66 @@
+{
+  "id": "IS29",
+  "label": "Glencoe Road / Whycocomagh Port Hood Road junction",
+  "role": "check",
+  "phase": "Fresh expansion of unchanged affine4 validation; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T20:25:50.621363+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      20200,
+      17600
+    ],
+    "extent": [
+      1800,
+      1700
+    ],
+    "display": [
+      1350,
+      1275
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/IS5-glencoe-native.jpg",
+  "source_crop_sha256": "706f72a6de4c869186b679d6c76298c630a258e87d0579b89c777f66e083c397",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    555,
+    456
+  ],
+  "pixel_xy": [
+    20940.0,
+    18208.0
+  ],
+  "lonlat": [
+    -61.31937591551279,
+    45.971335809840454
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+  "reference_sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc",
+  "reference_service": "BASE_NSTDB_10k_Roads_UT83/MapServer/8",
+  "reference_kind": "Road centreline junction",
+  "reference_vertices": [
+    {
+      "feature_id": 28917,
+      "vertex": 0,
+      "layer": 8,
+      "street": "Whycocomagh Port Hood Rd"
+    },
+    {
+      "feature_id": 39569,
+      "vertex": 0,
+      "layer": 8,
+      "street": "Glencoe Rd"
+    },
+    {
+      "feature_id": 155342,
+      "vertex": 92,
+      "layer": 8,
+      "street": "Whycocomagh Port Hood Rd"
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Centre of the identified three-road meeting; centreline reference node. Small local engineering and cartographic differences remain within stated observation uncertainty, not subtracted from residuals.",
+  "identity_evidence": "The source main road approaches from the northwest and turns northeast at the junction north of Glencoe. A third road leaves southeast, bends south by the stream, and meets the lower alternate western approach farther downstream. The provincial reference has the same three-way meeting, initial southeast/south bend and downstream road/stream loop. The neighbouring upper road junction northeast of this site is a different feature. The point is measured on the road meeting north of the Glencoe label."
+}

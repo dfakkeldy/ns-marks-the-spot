@@ -1,0 +1,10 @@
+{
+  "frozen_at": "2026-09-14T23:23:31.096389+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "d684e099d1b7b04a62d9e55d29b750be66026e589b0854d9210457af8d71b331",
+  "boundary_sha256": "d0979e3b1a6f3c5742f9224279bbde8f4eac8b5975d282bed1c7b38a9f45958e",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "scope": "Provisional regional candidate, not selected on a claimed passing RMS. Bone Island remains diagnostic; fresh checks must follow this freeze.",
+  "fresh_count": 0,
+  "geographic_acceptance": false
+}

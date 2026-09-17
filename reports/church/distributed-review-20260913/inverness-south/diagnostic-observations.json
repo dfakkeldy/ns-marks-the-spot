@@ -1,0 +1,239 @@
+{
+  "points": [
+    {
+      "id": "IS07-retrace",
+      "label": "island-45-797n-61-049w",
+      "feature_name": "Cow Island outer shoreline centroid",
+      "role": "check",
+      "pixel_xy": [
+        28502.943103807476,
+        25335.823361128474
+      ],
+      "lonlat": [
+        -61.048998,
+        45.796575
+      ],
+      "source_frame": {
+        "id": "IS06",
+        "label": "island-45-801n-61-038w",
+        "xy": [
+          28804.0,
+          25134.0
+        ],
+        "origin": [
+          28204,
+          24534
+        ],
+        "extent": [
+          1200,
+          1200
+        ],
+        "display": [
+          1200,
+          1200
+        ],
+        "rotation": 0,
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2"
+      },
+      "source_outline_display_pixels": [
+        [
+          238,
+          634
+        ],
+        [
+          261,
+          642
+        ],
+        [
+          288,
+          631
+        ],
+        [
+          317,
+          623
+        ],
+        [
+          329,
+          641
+        ],
+        [
+          334,
+          674
+        ],
+        [
+          334,
+          709
+        ],
+        [
+          324,
+          738
+        ],
+        [
+          320,
+          758
+        ],
+        [
+          329,
+          775
+        ],
+        [
+          354,
+          790
+        ],
+        [
+          366,
+          820
+        ],
+        [
+          368,
+          839
+        ],
+        [
+          382,
+          864
+        ],
+        [
+          392,
+          881
+        ],
+        [
+          398,
+          903
+        ],
+        [
+          389,
+          923
+        ],
+        [
+          371,
+          933
+        ],
+        [
+          337,
+          931
+        ],
+        [
+          319,
+          939
+        ],
+        [
+          303,
+          948
+        ],
+        [
+          279,
+          963
+        ],
+        [
+          262,
+          966
+        ],
+        [
+          245,
+          956
+        ],
+        [
+          240,
+          935
+        ],
+        [
+          244,
+          919
+        ],
+        [
+          242,
+          911
+        ],
+        [
+          230,
+          900
+        ],
+        [
+          244,
+          879
+        ],
+        [
+          256,
+          866
+        ],
+        [
+          274,
+          843
+        ],
+        [
+          284,
+          824
+        ],
+        [
+          286,
+          802
+        ],
+        [
+          293,
+          785
+        ],
+        [
+          301,
+          768
+        ],
+        [
+          296,
+          753
+        ],
+        [
+          286,
+          747
+        ],
+        [
+          267,
+          744
+        ],
+        [
+          243,
+          748
+        ],
+        [
+          222,
+          753
+        ],
+        [
+          207,
+          752
+        ],
+        [
+          204,
+          741
+        ],
+        [
+          212,
+          716
+        ],
+        [
+          225,
+          703
+        ],
+        [
+          222,
+          686
+        ],
+        [
+          221,
+          667
+        ],
+        [
+          228,
+          645
+        ]
+      ],
+      "source_crop_sha256": "23abcb19573a27331910a0724b46a5eb2cf202d8fb1a7e5321f3a34dfb030ac5",
+      "original_pixel_xy": [
+        28469.0,
+        25318.0
+      ],
+      "modern_reference": "Unchanged July measured NSTDB centroid from historical-checks.csv; modern ring reviewed separately",
+      "uncertainty_ground_m": 120,
+      "identity_evidence": "Cow Island, the two-lobed island southwest of the elongated northern island and west of the pair of southern islands. Source/modern hourglass connection and asymmetric lobes agree. Trace excludes residence symbol and label. This is a new source-outline measurement of an old diagnostic feature; no fresh-validation claim.",
+      "validation_phase": "retrace of retained historical diagnostic; source coordinates differ, fitting and modern coordinates unchanged"
+    }
+  ]
+}

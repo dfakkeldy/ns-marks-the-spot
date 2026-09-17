@@ -1,0 +1,9 @@
+{
+  "church_unit_tests": 428,
+  "church_unit_tests_passed": true,
+  "command": "python3 -m unittest discover -s tools/church/tests -t .",
+  "measurement_replay": "verification.json",
+  "web_parser_and_solvers": "import-verification.json",
+  "browser": "browser-review.json",
+  "geographic_acceptance": false
+}

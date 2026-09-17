@@ -1,0 +1,89 @@
+{
+  "id": "VN19",
+  "role": "check",
+  "label": "Doherty Brook northern-bank entry into Black Brook",
+  "pixel_xy": [
+    5012.0,
+    14058.0
+  ],
+  "lonlat": [
+    -60.54976363193282,
+    46.761989952762434
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      4900,
+      13930
+    ],
+    "extent": [
+      350,
+      300
+    ],
+    "display": [
+      1400,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    448,
+    512
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-doherty-junction.jpg",
+  "source_crop_sha256": "e5bc10d3c4da743e8a4dda9807cf1380cf5a3213ec4b527d5d52ede692b2aa13",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/reference-full/water-lines.geojson",
+  "reference_sha256": "93623a04337678ae4136d4fa067ef087d673f32baedaf4ea94ed9e1df68fdb7e",
+  "reference_feature_ids": [
+    170895,
+    170896,
+    281426
+  ],
+  "reference_vertex": {
+    "feature_id": 281426,
+    "vertex": 91
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 170895,
+      "vertex": 0,
+      "code": "WARV20"
+    },
+    {
+      "feature_id": 170896,
+      "vertex": 122,
+      "code": "WARV20"
+    },
+    {
+      "feature_id": 281426,
+      "vertex": 91,
+      "code": "WARV50"
+    }
+  ],
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "The broad engraving explicitly labels Doherty Br. on the northwestern tributary meeting Black Brook before its northeast turn and eastward reach toward Donovan. The Sunday Lake/Snipe reach lies southwest and Donovan downstream to the east. Original NSTDB281426 is named Doherty Brook and shares the selected north-bank node with170895/170896. Provincial GeoNames CBPYP independently corroborates locality/name; its point coordinate is not the measured target. Place on the actual northwestern tributary/main-stroke junction, not nearby BLACK/BROOK lettering or a cascades label.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-black-network.jpg",
+    "sha256": "d9127d2b6c32d449fd218378d89c77828f4a1395dd3084b1c4b7796668645d2f",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        2800,
+        11000
+      ],
+      "extent": [
+        5300,
+        4700
+      ],
+      "display": [
+        1855,
+        1645
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Second fresh western-interior check after nine-control TPS freeze; no tuning"
+}

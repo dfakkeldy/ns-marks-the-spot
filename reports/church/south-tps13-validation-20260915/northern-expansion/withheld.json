@@ -1,0 +1,7 @@
+{
+  "candidate": "Margaree Forks bank junction / land tongue",
+  "reference_candidates": "margaree-bank-joins.json",
+  "finding": "Bank-name joins identify four nearby original nodes. The northern land-tongue tip is a possible physical reference, but the corresponding source bank could not be isolated confidently from the dense bridge/road and label ink. No native pixel or score adopted. Other river-name transitions alone do not establish a physical corner.",
+  "source_frame_note": "Full native crop1700x1700 was displayed resized1600x1600 during context review; no measured coordinate was transferred from it.",
+  "state": "unscored, withheld"
+}

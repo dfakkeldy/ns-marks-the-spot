@@ -45,8 +45,10 @@ export function MeasureTool({
   mode,
   onModeChange,
   driveway = false,
+  suspended = false,
 }: {
   driveway?: boolean;
+  suspended?: boolean;
   mode: MeasureMode;
   onModeChange: (mode: MeasureMode) => void;
 }) {
@@ -109,7 +111,7 @@ export function MeasureTool({
       </div>}
       {mode !== "off" ? (
         // key remounts capture state when switching distance ↔ area.
-        <MeasureCapture key={mode} mode={mode} driveway={driveway} onExit={() => onModeChange("off")} />
+        <MeasureCapture key={mode} mode={mode} driveway={driveway} suspended={suspended} onExit={() => onModeChange("off")} />
       ) : null}
     </>
   );
@@ -123,10 +125,12 @@ interface Measurement {
 function MeasureCapture({
   mode,
   driveway,
+  suspended,
   onExit,
 }: {
   mode: ActiveMeasureMode;
   driveway: boolean;
+  suspended: boolean;
   onExit: () => void;
 }) {
   const map = useMap();
@@ -137,11 +141,12 @@ function MeasureCapture({
   const [cursor, setCursor] = useState<GeoPoint | null>(null);
 
   useEffect(() => {
+    if (suspended) return;
     map.doubleClickZoom.disable();
     return () => {
       map.doubleClickZoom.enable();
     };
-  }, [map]);
+  }, [map, suspended]);
 
   const finish = () =>
     setMeasurement((current) =>
@@ -151,14 +156,14 @@ function MeasureCapture({
     );
 
   useMapEvents({
-    click: ({ latlng }) =>
+    click: ({ latlng }) => !suspended &&
       setMeasurement((current) => {
         const point = { lat: latlng.lat, lng: latlng.lng };
         return current.finished
           ? { points: [point], finished: false }
           : { points: [...current.points, point], finished: false };
       }),
-    dblclick: () =>
+    dblclick: () => !suspended &&
       // The double-click's own second click just added a duplicate vertex;
       // drop it before finishing.
       setMeasurement((current) => {
@@ -170,11 +175,12 @@ function MeasureCapture({
         const points = current.points.slice(0, -1);
         return { points, finished: points.length >= MIN_FINISH_POINTS[mode] };
       }),
-    mousemove: ({ latlng }) => setCursor({ lat: latlng.lat, lng: latlng.lng }),
+    mousemove: ({ latlng }) => !suspended && setCursor({ lat: latlng.lat, lng: latlng.lng }),
   });
 
   const isEmpty = measurement.points.length === 0;
   useEffect(() => {
+    if (suspended) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       const target = event.target;
       if (
@@ -199,6 +205,8 @@ function MeasureCapture({
     return () => window.removeEventListener("keydown", handleKeyDown);
     // finish is recreated per render; subscribing per render is harmless here.
   });
+
+  if (suspended) return null;
 
   const { points, finished } = measurement;
   const preview =

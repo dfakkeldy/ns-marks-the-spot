@@ -1,0 +1,27 @@
+{
+  "promoted_unchanged": "VM20",
+  "original_observation_sha256": "fe4e711b271d4367e7fa59c61213d8e653b94775e9edb6a081d1912704ad682d",
+  "preserved_first": "../regional-tps11/VM20-first.json",
+  "preserved_later": "../southern-island-support/model-comparison.json",
+  "excluded_from_checks": [
+    "VM01",
+    "VM02",
+    "VM06",
+    "VM11",
+    "VM17",
+    "VM18",
+    "VM08",
+    "VM19",
+    "VM10",
+    "VM12",
+    "VM15",
+    "VM23",
+    "VM07",
+    "VM20"
+  ],
+  "diagnostics": [
+    "VM21",
+    "VM22"
+  ],
+  "geographic_acceptance": false
+}

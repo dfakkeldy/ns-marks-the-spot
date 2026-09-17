@@ -1,0 +1,76 @@
+{
+  "recorded_at": "2026-09-16T04:43:30.547994+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Initial South-only 2D/10× reviews are preserved. After reference audit, the corrected corner at 46.03843,-60.92501 was compared with South TPS13 and Victoria corrected TPS14 separately in 2D and 10× terrain, 50° tilt, north up, zoom 15. Both at 70% opacity; only one historical raster active at a time. South restored as sole active historical raster. No new import, pixel measurement from screenshot, or fit change.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-2d.png",
+      "sha256": "f93480cbeda4ac4624fa3a447165f0d76bdef5647cd97cc72b8aad55809ee929"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-south-2d.png",
+      "sha256": "0bfee53ebdba7b2267e1355c49a6ae500b9a05d4bd4eb0185592400d3dbebaca"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-south-terrain10x.png",
+      "sha256": "26f2196a1f94bcc7f8f30d2619ef85cea8f270f159a7a36aa0c1a9181374f839"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-victoria-2d.png",
+      "sha256": "904994184e1e03426be544bfd0c01fc21cc8a10e05e1b466a1e7154a36a84d54"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-victoria-terrain10x.png",
+      "sha256": "2e5b87caea3828575401daec9dd96e45242512033af958224bcb1608d2d87516"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-terrain10x.png",
+      "sha256": "21f8fb4922acc14c395e41d8bff5bc70445646245d9220227dfc1ffc372cacef"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-2d.png",
+      "sha256": "114d0f58d4bf9c3b80c47e29da2ebb1b60f5f9d95fc85265b6f47f6ddf8e8308"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-terrain10x.png",
+      "sha256": "fd7c39b6b2a8d8039137e2c2f580126e563ab875eed1dd876f23040f49331e06"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-south-state.txt",
+      "sha256": "4af506d944cfddaf4d1f64237e8b45fbd43a01c94a2a33aa0a61022d15400810"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-south-terrain-state.txt",
+      "sha256": "fa445a2be51cab72382653e76a913c0116cc2240aad1706b88ed635d2f0b3266"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-victoria-state.txt",
+      "sha256": "9a7dc25bf9c31ac24711db9c62175f44f3fcca4f854caa4319691030ee45b013"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-corrected-victoria-terrain-state.txt",
+      "sha256": "2036372a39e6e215fb66d9fc6579d2d677bbb58cc8c22fe09baa3ab34f971acc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-import-state.txt",
+      "sha256": "18ead7930491662357a2dd544685918f899e453daa3016a20abbba01e4c98fa2"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS52-terrain10x-state.txt",
+      "sha256": "22371325516282866a04da814c36b665e6f89322413f916a3fa168be5eee7d2b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-import-state.txt",
+      "sha256": "ecc65f80d3e60fdcdaac607077dc058b1048d8adf3b7c0e2424163004365fbda"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/browser/IS53-terrain10x-state.txt",
+      "sha256": "e56c758274e9448dc7f8e375ff2b236578c6d87c5082ae1a6def910520dd9a72"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false,
+  "victoria_raster_sha256": "3fb0ece4147593efc8f5dbd6dfae8f4159b5ed6e668779ce8e862e078ead3ac3"
+}

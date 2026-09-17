@@ -1,0 +1,78 @@
+{
+  "id": "VM18",
+  "role": "control",
+  "label": "West/Middle Branch North River northern interfluve apex",
+  "pixel_xy": [
+    22913.5,
+    12606.0
+  ],
+  "lonlat": [
+    -60.695582867752684,
+    46.339563233545135
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      22600,
+      12250
+    ],
+    "extent": [
+      700,
+      700
+    ],
+    "display": [
+      1400,
+      1400
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    627,
+    712
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-north-river-upper-junction.jpg",
+  "source_crop_sha256": "bbf87434b8d22390e3a96bc5655408969cc213db52f13c2c986ddd466b8e8d4a",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/reference-full/water-lines.geojson",
+  "reference_sha256": "37ae738e9faddce3ef91b8668f3811dadc6bd174fc1af6bf322ca1390261b696",
+  "reference_feature_ids": [
+    160146,
+    173174
+  ],
+  "reference_vertex": {
+    "feature_id": 160146,
+    "vertex": 206
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 173174,
+      "vertex": 0
+    }
+  ],
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "Broad original context explicitly labels Middle Branch approaching from the northwest, East Branch from the north joining upstream, and West Branch approaching from the west/southwest past Great Falls. Select the lower Middle/West confluence, not the upstream East Branch connection or any mill cross-line. The source apex is the corner where the western bank of Middle Branch turns into the northern bank of West Branch. Original named bank160146 joins West Branch bank173174 at the same interfluve. The downstream river bends southeast, then south past the road and settlements. Channel outlines around the historical sawmill are generalized; no particular mill structure is used. The multiple modern upstream East Branch channels are only topology context, not additional controls.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-north-river-forks.jpg",
+    "sha256": "12a55fd02557c0980726b4070751b188a4180f4afcb15d8631f4c754871b1632",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        20100,
+        10100
+      ],
+      "extent": [
+        5500,
+        5000
+      ],
+      "display": [
+        1375,
+        1250
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Prospective interior control selected from physical identity before evaluating its fit effect; never a fresh check",
+  "recorded_at": "2026-09-14T23:14:56.495810+00:00"
+}

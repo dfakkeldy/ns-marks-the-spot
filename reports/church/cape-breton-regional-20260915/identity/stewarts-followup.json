@@ -1,0 +1,13 @@
+{
+  "reviewed_at": "2026-09-15T15:22:49.457018+00:00",
+  "original_observation_sha256": "36f0a9a65b052e1a3e834f7dee3733ea5d067dba1f61a019f6f8e1ff4e423941",
+  "original_first_sha256": "89ea5ceca5dd43b0741a5e89bbeaeb33f7b9c010ef5efc8d542fa99e20e4fcd0",
+  "source": "https://cbrm.ns.ca/wp-content/uploads/2025/11/Kelly-Lake-Source-Water-Protection-Plan-2013.pdf",
+  "source_pages_pdf_zero_based": [
+    11,
+    16,
+    19
+  ],
+  "finding": "The municipal plan confirms dual outlets and documents beaver dams maintaining roughly half a metre of additional water in2009. It does not establish an1880 shoreline or a horizontal change explaining this discrepancy.",
+  "decision": "Retain the failed check unchanged; no correction, exclusion, promotion or model tuning follows. The differing drawn lake geometry and possible boundary changes remain limitations, not an assumed numerical explanation."
+}

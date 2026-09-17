@@ -1,0 +1,137 @@
+[
+  {
+    "lonlat": [
+      -60.90796049566025,
+      46.71539991154051
+    ],
+    "branches": [
+      {
+        "feature_id": 260761,
+        "vertex": 22,
+        "name": "Corney Brook"
+      },
+      {
+        "feature_id": 265498,
+        "vertex": 0,
+        "name": "Corney Brook"
+      },
+      {
+        "feature_id": 277724,
+        "vertex": 23,
+        "name": "South Branch Corney Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      6728.14831996309,
+      15001.7569952402
+    ]
+  },
+  {
+    "lonlat": [
+      -60.93885997642003,
+      46.64796349695716
+    ],
+    "branches": [
+      {
+        "feature_id": 276500,
+        "vertex": 186,
+        "name": "Ruisseau des Habitations Neuves"
+      },
+      {
+        "feature_id": 295349,
+        "vertex": 69,
+        "name": "Ruisseau des Pl\u00e9es Ferr\u00e9es"
+      },
+      {
+        "feature_id": 295350,
+        "vertex": 0,
+        "name": "Ruisseau des Pl\u00e9es Ferr\u00e9es"
+      }
+    ],
+    "inverse_search_guide": [
+      6083.48789572221,
+      17940.7057209809
+    ]
+  },
+  {
+    "lonlat": [
+      -60.93416781609285,
+      46.64821991654517
+    ],
+    "branches": [
+      {
+        "feature_id": 283834,
+        "vertex": 356,
+        "name": "Robert Brook"
+      },
+      {
+        "feature_id": 295348,
+        "vertex": 320,
+        "name": "Ruisseau des Pl\u00e9es Ferr\u00e9es"
+      },
+      {
+        "feature_id": 295349,
+        "vertex": 0,
+        "name": "Ruisseau des Pl\u00e9es Ferr\u00e9es"
+      }
+    ],
+    "inverse_search_guide": [
+      6219.25208869883,
+      17919.9493554589
+    ]
+  },
+  {
+    "lonlat": [
+      -60.85023931900273,
+      46.564490214966796
+    ],
+    "branches": [
+      {
+        "feature_id": 271011,
+        "vertex": 40,
+        "name": "North Branch Northeast Margaree River"
+      },
+      {
+        "feature_id": 271193,
+        "vertex": 54,
+        "name": "Northeast Margaree River"
+      },
+      {
+        "feature_id": 271195,
+        "vertex": 0,
+        "name": "Northeast Margaree River"
+      }
+    ],
+    "inverse_search_guide": [
+      8954.05368570841,
+      21333.2079873236
+    ]
+  },
+  {
+    "lonlat": [
+      -60.83913929592003,
+      46.52903319857015
+    ],
+    "branches": [
+      {
+        "feature_id": 277740,
+        "vertex": 33,
+        "name": "South Calumruadh Brook"
+      },
+      {
+        "feature_id": 279457,
+        "vertex": 35,
+        "name": "Calumruadh Brook"
+      },
+      {
+        "feature_id": 279458,
+        "vertex": 0,
+        "name": "Calumruadh Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      9391.4425078745,
+      22832.3521511147
+    ]
+  }
+]

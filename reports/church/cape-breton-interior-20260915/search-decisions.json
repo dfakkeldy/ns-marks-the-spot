@@ -1,0 +1,19 @@
+{
+  "Grand_Lake": {
+    "original_search_reading": "Shaw Lake",
+    "native_reading": "Grand Lake",
+    "decision": "Corrected before adoption/scoring; CB11 uses the northern shore, not a name point. Original misnamed crop filenames retained."
+  },
+  "Catalone_landform": {
+    "decision": "Withheld",
+    "reason": "Large L covers source tip; modern exterior is WACOIS10 island geometry while the historical connection remains unresolved. No guessed peninsula/island centroid adopted."
+  },
+  "Uist": {
+    "decision": "CB12 adopted at verified Ken Power Brook junction",
+    "reason": "County boundary clips the drawn basin; match the northern neck and connected Munroe/Enon topology rather than fabricate a whole-basin centroid."
+  },
+  "North_Head": {
+    "decision": "CB13 physical eastern apex adopted",
+    "reason": "Source Coal Point on west shore of Indian Bay corresponds through coast and basin topology to official North Head; no implied historical naming authority beyond that match."
+  }
+}

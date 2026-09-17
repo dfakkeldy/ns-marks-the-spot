@@ -1,0 +1,33 @@
+{
+  "input_commit": "8cda9fc422c8627883b79c79b43cc8cb3b196999",
+  "controls": "reports/church/cape-breton-regional-20260915/selected-tps11/controls.csv",
+  "controls_sha256": "aac3fcd0896c8eccc5ffaa8296462b0b5ad5907b1ec4ffe9f83a48a643ff93d3",
+  "fit_freeze": "reports/church/cape-breton-regional-20260915/selected-tps11/freeze.json",
+  "fit_freeze_sha256": "b3646e69768a0cccb286a5fd9c8f2b4cef30800344c8ecc2766fa3eacd5ceedd",
+  "raster": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/rendered/cape-breton-tps11-review-20m.tif",
+  "raster_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "previous_fresh": [
+    {
+      "id": "CB18",
+      "first_path": "reports/church/cape-breton-regional-20260915/CB18-first.json",
+      "first_sha256": "89ea5ceca5dd43b0741a5e89bbeaeb33f7b9c010ef5efc8d542fa99e20e4fcd0",
+      "observation_path": "reports/church/cape-breton-regional-20260915/observations/CB18.json",
+      "observation_sha256": "36f0a9a65b052e1a3e834f7dee3733ea5d067dba1f61a019f6f8e1ff4e423941"
+    },
+    {
+      "id": "CB19",
+      "first_path": "reports/church/cape-breton-regional-20260915/CB19-first.json",
+      "first_sha256": "38f22369d4ed4c1a5a5b9b4707c0031e5e5a5d0a3ed36f1104d5176df2588597",
+      "observation_path": "reports/church/cape-breton-regional-20260915/observations/CB19.json",
+      "observation_sha256": "57690d079daf06da3d8c6c8c8ea7f9778b2de574d64a3f4b4b0d1ebecd2d3acc"
+    },
+    {
+      "id": "CB20",
+      "first_path": "reports/church/cape-breton-regional-20260915/CB20-first.json",
+      "first_sha256": "5ea9953b987a77f6c2a71bb3d0ca5acb8b76b456a2dbd83ec69b015c7bddfbb8",
+      "observation_path": "reports/church/cape-breton-regional-20260915/observations/CB20.json",
+      "observation_sha256": "a910fce5d3eccc843716ffdb3875c9d0eaee0ce12d3bf38c7200faa672d0901f"
+    }
+  ],
+  "fit_changed": false
+}

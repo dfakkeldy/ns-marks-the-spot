@@ -226,9 +226,9 @@ describe("the multi-municipality tax-sale catalog", () => {
       "victoria-county-2026-09-14",
       "halifax-2026-09-15",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(61);
-    expect(pidsForEvents(upcoming)).toHaveLength(64);
-    expect(advertisedPidsForEvents(upcoming)).toHaveLength(44);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(60);
+    expect(pidsForEvents(upcoming)).toHaveLength(63);
+    expect(advertisedPidsForEvents(upcoming)).toHaveLength(43);
     expect(geometryExceptionPidsForEvents(upcoming)).toEqual([]);
     expect(historical.map(({ id }) => id)).toEqual([
       "cbrm-2026-07-21",
@@ -245,7 +245,8 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(listingContextForPid("05266937")?.event.municipalityId).toBe(
       "annapolis-county",
     );
-    expect(listingContextForPid("85032795")?.event.municipalityId).toBe(
+    expect(listingContextForPid("85032795")).toBeUndefined();
+    expect(listingContextForPid("85066322")?.event.municipalityId).toBe(
       "victoria-county",
     );
     expect(listingContextForPid("00577643")?.event.municipalityId).toBe(

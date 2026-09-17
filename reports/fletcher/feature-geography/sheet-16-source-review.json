@@ -1,0 +1,699 @@
+{
+  "sheet": 16,
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "source_dimensions_px": [
+    10822,
+    7531
+  ],
+  "associations": [
+    {
+      "annotation_id": "F16-PHM-001",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4195.5,
+        983
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        3568,
+        652,
+        907,
+        700
+      ],
+      "note": "Native 6x detail confirms the observation-station glyph on the northern coastal tip, distinct from the nearby neatline and coastline. Its actual glyph centre supplies the source anchor; the entire point remains subject to the current fit boundary and support checks.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-1-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-003",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          4365,
+          1153
+        ],
+        [
+          4396,
+          1161
+        ],
+        [
+          4429,
+          1169
+        ],
+        [
+          4460,
+          1177
+        ]
+      ],
+      "source_context_xywh": [
+        3829,
+        816,
+        900,
+        700
+      ],
+      "note": "The actual straight printed breakwater at the northern end of the southern harbour spit supplies this bounded line. The stippled shore, harbour lettering and opposite coastal road are separate; no current structure, condition or access is inferred.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-1-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-005",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4797,
+          1075,
+          25,
+          16
+        ]
+      ],
+      "source_context_xywh": [
+        4296,
+        721,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms two compact marks immediately right of Plaster Quarry. Retain both as a bounded source group; the regular geological striping, graticule and more southern school mark are separate. No individual quarry footprint is invented.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-1-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-006",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4776.5,
+        1142
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        4350,
+        771,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the isolated filled square immediately below School and above the coastal road. Its actual centre supplies this source anchor, separate from the nearby Plaster Quarry pair and geological grid.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-1-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-007",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4587,
+        1210.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        4237,
+        896,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the filled shore projection immediately left of the rotated Lobster Factory caption. Its actual mark supplies the anchor. The first letter of Lobster and nearby rectilinear pattern are separate; no current facility extent or access is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-1-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-017",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3677,
+          1869,
+          31,
+          30
+        ]
+      ],
+      "source_context_xywh": [
+        3308,
+        1526,
+        900,
+        700
+      ],
+      "note": "The two compact marks immediately left of School below the coastal-road bend form the associated source pair. Keep both in a bounded group rather than choosing an individual school building. The geological dashed line, stripes and more distant roadside marks are separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-1-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-019",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5068,
+          1117,
+          14,
+          40
+        ]
+      ],
+      "source_context_xywh": [
+        4675,
+        799,
+        900,
+        700
+      ],
+      "note": "The two compact marks immediately left of Forge, one above the caption and one level with it, form a bounded source pair beside the road/grid district. More distant marks to the right are separate. No individual forge building or current facility is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-2-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-021",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5307,
+          1209,
+          48,
+          51
+        ]
+      ],
+      "source_context_xywh": [
+        4941,
+        880,
+        900,
+        700
+      ],
+      "note": "The compact cluster immediately west of P.O. on both sides of the coastal road supplies this bounded source group. No individual mark is asserted to be the postal building; the nearby shop and more distant eastern marks remain separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-2-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-022",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5253,
+        1297.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        4828,
+        923,
+        900,
+        700
+      ],
+      "note": "Native 6x detail distinguishes the isolated hollow loop-like mark below the Shop caption on the northern harbour bank. It is separate from the lettering and shore line; its actual centre supplies the source anchor without asserting a current shop or structure footprint.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-2-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-023",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5869,
+          1077,
+          27,
+          32
+        ]
+      ],
+      "source_context_xywh": [
+        5531,
+        762,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the two compact marks west of the road and left of School. Preserve that bounded pair rather than selecting an individual building. The river/road strokes and nearby dip arrow are separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-2-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-024",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5948,
+        1486.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5451,
+        1139,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the church cross immediately right of R.C.Ch. beside the road. Its cross centre supplies the source anchor, separate from the nearby compact marks and caption. No modern church identity or property claim is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-2-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-042",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7060,
+          1106,
+          21,
+          17
+        ]
+      ],
+      "source_context_xywh": [
+        6552,
+        732,
+        900,
+        700
+      ],
+      "note": "Native 6x detail resolves two compact marks east of the road/river crossing below Weaving Mills, distinct from the thick river line, caption and nearby 25-degree note. Retain the pair as a bounded source group without inventing individual mill buildings or moving it to a fit control.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native sheet16 contexts, 6x mark detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-2-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-044",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6931,
+          1407,
+          16,
+          57
+        ]
+      ],
+      "source_context_xywh": [
+        6597,
+        1050,
+        900,
+        700
+      ],
+      "note": "The vertical cluster of compact marks immediately below the Cheese Factory caption and east of the river supplies this bounded source group. The nearby rectilinear pattern and isolated eastern mark remain separate. No individual factory building or current footprint is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-3-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-045",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6883.5,
+        1565
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6412,
+        1192,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the church cross below Church beside the road at the western side of the river bend. Its cross centre supplies the source anchor; nearby hatching, the river and the separate eastern church remain distinct.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-3-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-046",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6894,
+          1595,
+          50,
+          40
+        ]
+      ],
+      "source_context_xywh": [
+        6552,
+        1236,
+        900,
+        700
+      ],
+      "note": "The compact cluster at the road/river bend beside Tannery and Shop supplies a shared bounded source group for both captions. The source does not distinguish their individual buildings. The nearby church cross and surrounding hatching remain separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-3-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-047",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6894,
+          1595,
+          50,
+          40
+        ]
+      ],
+      "source_context_xywh": [
+        6524,
+        1267,
+        900,
+        700
+      ],
+      "note": "The compact cluster beside Shop and Tannery is shared with annotation46 as one bounded source group. Individual shop and tannery buildings cannot be distinguished from the caption arrangement; do not invent separate point sites or current property identities.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-3-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-048",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7069.5,
+        1687
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6614,
+        1319,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the church cross immediately below Church at the eastern roadside bend. Its actual cross centre supplies the source anchor, separate from the nearby school/roadside marks and the western church.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-3-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-049",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7112,
+          1730,
+          65,
+          54
+        ]
+      ],
+      "source_context_xywh": [
+        6697,
+        1369,
+        900,
+        700
+      ],
+      "note": "The compact cluster immediately below School on the northeast side of the road supplies this bounded source group. The nearby church cross and the three marks farther north/west remain separate. No individual school building is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-3-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-050",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6180,
+          1576,
+          61,
+          42
+        ],
+        [
+          6370,
+          1533,
+          31,
+          45
+        ]
+      ],
+      "source_context_xywh": [
+        5844,
+        1196,
+        900,
+        700
+      ],
+      "note": "Two bounded clusters of compact roadside marks flank the Stage Stables caption. The exact stable building cannot be selected from those generic marks; retain both candidate groups. The more distant eastern mark and dense postal/school junction cluster remain separate, and no current stable or property is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-4-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-052",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6093,
+          1607,
+          105,
+          79
+        ]
+      ],
+      "source_context_xywh": [
+        5673,
+        1250,
+        900,
+        700
+      ],
+      "note": "The dense compact-mark cluster around the junction below T. & P.O. and beside School supplies a shared bounded source group. The original telegraph/postal wording remains attached, but individual telegraph, postal and school buildings cannot be distinguished. No current address, property or facility is identified.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-4-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-053",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6093,
+          1607,
+          105,
+          79
+        ]
+      ],
+      "source_context_xywh": [
+        5767,
+        1322,
+        900,
+        700
+      ],
+      "note": "The compact junction cluster beside School is shared with the T. & P.O. annotation52. The source does not distinguish an individual school building within those marks. Preserve the bounded group rather than a lettering centre or an invented building footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-4-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-054",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7187,
+          1816,
+          19,
+          29
+        ]
+      ],
+      "source_context_xywh": [
+        6800,
+        1483,
+        900,
+        700
+      ],
+      "note": "The compact pair immediately left of Forge beside the road supplies this bounded source group. The postal marks farther south and the school cluster farther north remain separate. No individual forge building is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-4-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-055",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7228,
+          1850,
+          49,
+          25
+        ]
+      ],
+      "source_context_xywh": [
+        6813,
+        1533,
+        900,
+        700
+      ],
+      "note": "The three compact marks immediately above P.O. supply the bounded postal group. The forge pair, more eastern roadside pair and shops near the river remain separate. No individual postal building or modern facility is identified.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-4-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-056",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7337,
+          1893,
+          38,
+          32
+        ]
+      ],
+      "source_context_xywh": [
+        6941,
+        1545,
+        900,
+        700
+      ],
+      "note": "The compact marks immediately below Shops on the northern side of the road/river district supply this bounded source group. The separate mill-ring glyph in the river and the more western postal marks are not treated as shops. No individual shop building is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-4-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-057",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7365,
+        1931.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6887,
+        1604,
+        900,
+        700
+      ],
+      "note": "Native 6x detail distinguishes the small ring-like mill mark in the thick watercourse below Shops and above Mill. Its actual centre supplies the source anchor; neighbouring shop squares, road lines and lettering are separate. No mill footprint or current operating site is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-5-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-061",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7512,
+          1843,
+          22,
+          25
+        ]
+      ],
+      "source_context_xywh": [
+        7123,
+        1501,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms two compact marks immediately left of Mills beside the Hillsboro road/river corridor. Retain both as a bounded group, separate from the road strokes and nearby T.E. Fraser caption. No individual mill building, current residence or ownership is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-5-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-064",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9065,
+        1497
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        8687,
+        1151,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the isolated filled square immediately left of School beside the northeastern road. Its actual centre supplies the source anchor, separate from geological hatching, the graticule and more distant marks.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-5-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-069",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9579.5,
+        2059
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        9165,
+        1689,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the compact school mark immediately below School and above the road near the eastern sheet edge. Its actual centre supplies the anchor; the entire point remains subject to the current coverage gate without moving it inward.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-5-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-085",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3141,
+        2591.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        2755,
+        2237,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the isolated hollow quarry circle beside Quarry in the Little Mabou district. Its centre supplies the source anchor. The separate filled Pit circle, heavy geological line, caption and dip arrow are not substituted for a quarry footprint.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-5-20260913"
+    },
+    {
+      "annotation_id": "F16-PHM-086",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3142,
+        2627.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        2652,
+        2267,
+        900,
+        700
+      ],
+      "note": "Native 6x detail confirms the filled Pit circle below the quarry district near Little Mabou. Its actual centre supplies the source anchor, distinct from the hollow quarry circle and Black shale caption. No excavation dimensions, current condition or material quantity is inferred.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native Mabou/Glendyer/eastern service contexts, 6x detail and source overlays, 2026-09-13",
+      "pixel_convention": "Original 10822 x 7531 scan, continuous pixel edges, x right/y down. Native contexts at 1x; selected detail crops at recorded 6x scales and origins. No rotation.",
+      "review_batch": "mabou-services-5-20260913"
+    }
+  ]
+}

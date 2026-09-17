@@ -1,0 +1,49 @@
+{
+  "id": "VN12",
+  "role": "check",
+  "label": "Cape North northern mainland tip",
+  "pixel_xy": [
+    8970.0,
+    2758.0
+  ],
+  "lonlat": [
+    -60.41458318933296,
+    47.036948118430104
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      8850,
+      2660
+    ],
+    "extent": [
+      500,
+      500
+    ],
+    "display": [
+      1500,
+      1500
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    360,
+    294
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-cape-north-detail.jpg",
+  "source_crop_sha256": "5a941ed36486d8e763d9e4cba2a9d20e31cafb108846552e033084c184ab671f",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/reference-full/water-lines.geojson",
+  "reference_sha256": "5b1725ed4a77195ee24d2d25dcec0f36c03f4a85688c57582da3c2160eb1e59a",
+  "reference_feature_ids": [
+    8126
+  ],
+  "reference_vertex": {
+    "feature_id": 8126,
+    "vertex": 48
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "Sharp northern turn of the mainland Cape North shore, above the broad east-facing recess and north of Money Point. Broad context distinguishes Cape North on the east side of St Lawrence Bay from Cape St Lawrence on the west. Use the shore stroke just west of the CAPE label; offshore modern islands/rocks are excluded. Shoreline generalization and stroke gaps limit precision; no lighthouse or label centre used.",
+  "phase": "New check against unchanged Victoria northwest affine4; no tuning"
+}

@@ -1,0 +1,43 @@
+{
+  "decided_at": "2026-09-14T21:58:34.073679+00:00",
+  "decision": "Adopt unchanged draftv2 ring for provisional full-content review. Original proposal status and draft artifact bytes remain preserved; this later decision establishes the review selection only.",
+  "selected_boundary": "content-boundary.json",
+  "boundary_sha256": "d0979e3b1a6f3c5742f9224279bbde8f4eac8b5975d282bed1c7b38a9f45958e",
+  "old_production_ring": [
+    [
+      18500.0,
+      1200.0
+    ],
+    [
+      33200.0,
+      1200.0
+    ],
+    [
+      33200.0,
+      21300.0
+    ],
+    [
+      25200.0,
+      21300.0
+    ],
+    [
+      25200.0,
+      30000.0
+    ],
+    [
+      13800.0,
+      30000.0
+    ]
+  ],
+  "restored_native_px2": 74131892.61766034,
+  "removed_native_px2": 26520780.117660336,
+  "basis": [
+    "Original full context identifies title-space inclusion and western/southern/eastern clipping in the old production boundary.",
+    "Original native western border restores Whycocomagh shore to the map/inset separator.",
+    "Original native Baddeck corners establish the tilted inset top; the ring follows the border gap rather than cropping the coastal approach prematurely.",
+    "Native northern/title edge shows mapped streams on the retained side and title space on the excluded side."
+  ],
+  "limits": "Conservative mapped-content envelope including margin/border ink, not geographic support or an exact neatline trace. The inset border is retained where necessary to preserve adjacent main-sheet shoreline; independent inset cartography is excluded.",
+  "production_boundary_unchanged": true,
+  "geographic_acceptance": false
+}

@@ -1,0 +1,50 @@
+{
+  "id": "IS21",
+  "label": "Long Point western shoreline extremum",
+  "role": "check",
+  "phase": "Fresh validation of frozen retained affine4; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T18:35:45.812441+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      15300,
+      24550
+    ],
+    "extent": [
+      1200,
+      1400
+    ],
+    "display": [
+      1200,
+      1400
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/IS3-long-native.jpg",
+  "source_crop_sha256": "1b0c2eb6f239a1811906f854f8a5518975c271ceb58cd4c243e9e2d53e92cb01",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    455,
+    537
+  ],
+  "pixel_xy": [
+    15755.0,
+    25087.0
+  ],
+  "lonlat": [
+    -61.496305571696126,
+    45.80357667121052
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson",
+  "reference_sha256": "46db449bce463d75cb0f5f6f6a6af6e6334ac81fd70a7f5c9a0585bb4b403a50",
+  "uncertainty_ground_m": 200,
+  "point_definition": "Western shoreline extremum of the locally projecting Long Point landform; not a nearest-shoreline residual.",
+  "identity_evidence": "The source explicitly labels the mainland Long Point south of Campbell Point, on the coast west of the road and north of the following small coastal indentation. Both shorelines approach south-southwest then turn southeast around this projecting point. The modern extremum is broad/rounded compared with the sharper engraved turn;200m uncertainty acknowledges that definition. Name CAVKA establishes locality only.",
+  "reference_vertices": [
+    {
+      "feature_id": 10434,
+      "vertex": 16
+    }
+  ]
+}

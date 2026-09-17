@@ -1,0 +1,48 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "bbox": "-61.46,45.56,-61.23,45.71",
+  "count": 1346,
+  "sha256": "7072888111b756bd27e2da5e04b0790db91303af0be4a0485344fa091d8a762f",
+  "retrieved": "2026-09-16T02:49:20.323342+00:00",
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "method": "Paged original geometry ordered by OBJECTID; unique IDs compared with separate returnIdsOnly query; no clipping or simplification",
+  "pages": [
+    {
+      "parameters": {
+        "geometry": "-61.46,45.56,-61.23,45.71",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "outSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "outFields": "*",
+        "returnGeometry": "true",
+        "f": "geojson",
+        "resultOffset": "0",
+        "resultRecordCount": "1000",
+        "orderByFields": "OBJECTID ASC"
+      },
+      "count": 1000,
+      "exceededTransferLimit": true
+    },
+    {
+      "parameters": {
+        "geometry": "-61.46,45.56,-61.23,45.71",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "outSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "outFields": "*",
+        "returnGeometry": "true",
+        "f": "geojson",
+        "resultOffset": "1000",
+        "resultRecordCount": "1000",
+        "orderByFields": "OBJECTID ASC"
+      },
+      "count": 346,
+      "exceededTransferLimit": null
+    }
+  ],
+  "complete_id_set_verified": true,
+  "path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+}

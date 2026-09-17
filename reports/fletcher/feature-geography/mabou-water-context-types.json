@@ -1,0 +1,37 @@
+{
+  "retrieved_at": "2026-09-13T21:37:18.214034+00:00",
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/8/query?where=OBJECTID+IN+%28254%2C1578%2C4216%29&outFields=%2A&returnGeometry=true&outSR=4326&f=geojson",
+  "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-water-context-typed.geojson",
+  "sha256": "20e6ff35cda4f544646056c6b8127296c178c04c1c6fb013f1a1a9b355b69255",
+  "frozen_geometry_receipt": "reports/fletcher/matching-benchmark/reference-receipts.json",
+  "rows": [
+    {
+      "OBJECTID": 254,
+      "properties": {
+        "OBJECTID": 254,
+        "FEAT_CODE": "WACORV40",
+        "FEAT_DESC": "Coast River Water polygon"
+      },
+      "geometry_matches_frozen_extract": true
+    },
+    {
+      "OBJECTID": 1578,
+      "properties": {
+        "OBJECTID": 1578,
+        "FEAT_CODE": "WACORV40",
+        "FEAT_DESC": "Coast River Water polygon"
+      },
+      "geometry_matches_frozen_extract": true
+    },
+    {
+      "OBJECTID": 4216,
+      "properties": {
+        "OBJECTID": 4216,
+        "FEAT_CODE": "WASW40",
+        "FEAT_DESC": "Swamp Area polygon"
+      },
+      "geometry_matches_frozen_extract": true
+    }
+  ],
+  "note": "Supplemental current attributes are only attached to frozen context where full returned geometry matches the original extract. They do not alter source features, the fit or the frozen reference geometry."
+}

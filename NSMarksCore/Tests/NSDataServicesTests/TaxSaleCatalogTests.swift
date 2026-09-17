@@ -105,12 +105,12 @@ struct TaxSaleCatalogTests {
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "05078472") == nil)
     }
 
-    @Test func victoriaCarriesItsFiveItemsAsAmountsOwing() throws {
+    @Test func victoriaCarriesItsFourAdvertisedItemsAsAmountsOwing() throws {
         let event = try #require(
             TaxSaleCatalog.bundled.event(id: "victoria-county-2026-09-14")
         )
 
-        #expect(event.listings.count == 5)
+        #expect(event.listings.count == 4)
         #expect(event.eventType == .sealedTender)
         #expect(event.publishedOn == "2026-08-13")
         // What the county owes itself, not a price. Labelling it a minimum bid

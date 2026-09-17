@@ -1,0 +1,15 @@
+{
+  "direct_jpeg_attempt": {
+    "remote_pid": 2148960,
+    "observed_elapsed": "03:04",
+    "observed_cpu_percent": 178,
+    "observed_rss_kb": 1409880,
+    "status": "Deliberately terminated while live; command exited143. Partial local JPEG was zero bytes and was not used for any observation.",
+    "reason": "Switch to the existing memory-intermediate workflow after the direct JPEG path remained active; no terminal state inferred from timeout."
+  },
+  "completed_method": "JP2 region materialized in GDAL MEM, then JPEG output; source origin/extent/display retained. No claim about the underlying performance cause.",
+  "scripts": [
+    "crop_mem.py",
+    "crop_linzee.py"
+  ]
+}

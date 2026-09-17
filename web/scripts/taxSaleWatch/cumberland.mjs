@@ -78,6 +78,37 @@ export function containsResultsTable(html) {
   return HEADING_PATTERN.test(html.replace(/<[^>]+>/gu, " "));
 }
 
+const NOTICE_HEADERS = [
+  "AAN",
+  "PID",
+  "District",
+  "Assessed Owner and Location/Description",
+  "Total Due",
+  "Redeemable",
+];
+
+/**
+ * Cumberland overwrites the same URL. After results are ingested, the live page
+ * can become the next sale's pre-auction notice. That table mixes assessed-owner
+ * names into the location cell and has no winning-bid column, so it is not a
+ * result dataset and must not be parsed as one.
+ */
+export function isUpcomingNotice(html) {
+  if (containsResultsTable(html)) {
+    return false;
+  }
+  const tables = html.match(/<table[\s\S]*?<\/table>/giu) ?? [];
+  if (tables.length !== 1) {
+    return false;
+  }
+  const headerCells = (tables[0].match(/<tr[\s\S]*?<\/tr>/giu) ?? [])
+    .map(cellsOf)
+    .find((cells) => cells.some((cell) => cell.toUpperCase() === "PID"));
+  return Boolean(
+    headerCells && JSON.stringify(headerCells) === JSON.stringify(NOTICE_HEADERS),
+  );
+}
+
 function redemptionLabel(raw) {
   const value = raw.trim().toUpperCase();
   if (value === "6 MONTH") return "Redemption expiry - 6 month";
@@ -171,4 +202,5 @@ export const CUMBERLAND_SOURCE = {
   parseResults,
   classifyOutcome,
   containsResultsTable,
+  isUpcomingNotice,
 };

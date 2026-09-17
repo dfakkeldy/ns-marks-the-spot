@@ -1,0 +1,89 @@
+{
+  "id": "VN24",
+  "role": "check",
+  "label": "Curtis Brook northern-bank entry into Clyburn Brook",
+  "pixel_xy": [
+    6633.75,
+    18409.75
+  ],
+  "lonlat": [
+    -60.506104663732174,
+    46.662926880909055
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      6500,
+      18290
+    ],
+    "extent": [
+      350,
+      350
+    ],
+    "display": [
+      1400,
+      1400
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    535,
+    479
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-curtis-junction.jpg",
+  "source_crop_sha256": "bdba1ff40eb6bfa83a8e72bd0f22a41d2cc534ec2bca7452752ba8cca5f4145a",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/reference-full/water-lines.geojson",
+  "reference_sha256": "93623a04337678ae4136d4fa067ef087d673f32baedaf4ea94ed9e1df68fdb7e",
+  "reference_feature_ids": [
+    170961,
+    170964,
+    266161
+  ],
+  "reference_vertex": {
+    "feature_id": 266161,
+    "vertex": 176
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 170961,
+      "vertex": 85,
+      "code": "WARV20"
+    },
+    {
+      "feature_id": 170964,
+      "vertex": 0,
+      "code": "WARV20"
+    },
+    {
+      "feature_id": 266161,
+      "vertex": 176,
+      "code": "WARV50"
+    }
+  ],
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "The source names Curtis Brook on the northern drainage that continues south to the Clyburn main stem; use its lower main-river entry, not its upstream fork. The South Branch joins Clyburn farther west, and Clyburn continues southeast/east toward Ingonish. Original named Curtis Brook266161 ends at the selected north-bank node170961/170964. The graticule crossing farther southeast is not the observation. Provincial name point identifies the stream but is not used as a coordinate.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-clyburn-valley.jpg",
+    "sha256": "9afad7c9bb93e798705ddccb3b9c506a7afcec3c6ff48a5245926318f11338cf",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        3500,
+        17300
+      ],
+      "extent": [
+        5500,
+        3000
+      ],
+      "display": [
+        1925,
+        1050
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "New reserved check against frozen TPS14 and diagnostic comparison for the prospective South Clyburn control trial; not fitted"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "R56",
+  "label": "Buchanan Lake northwestern lake/stream junction",
+  "role": "check",
+  "recorded_at": "2026-09-16T05:17:44.493639+00:00",
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "source_dimensions": [
+      35735,
+      30429
+    ],
+    "origin": [
+      8800,
+      14900
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-richmond-interior-validation-20260916/buchanan-native.jpg",
+  "source_crop_sha256": "5d6010ff0ac71192c6cb7fba381593d192d4a227d44a937e39b924496a07c353",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "source_display_pixel_xy": [
+    527,
+    543
+  ],
+  "pixel_xy": [
+    9327,
+    15443
+  ],
+  "lonlat": [
+    -61.10795839728032,
+    45.648694522043
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 196884,
+      "vertex": 0
+    },
+    {
+      "feature_id": 124547,
+      "vertex": 0
+    },
+    {
+      "feature_id": 124549,
+      "vertex": 31
+    }
+  ],
+  "uncertainty_ground_m": 180,
+  "point_definition": "Northwestern stream meets the upper-west lake shore, distinct from the separate western connection farther south.",
+  "identity_evidence": "The long east-west Buchanan basin, separate northwest and west water connections, northern/eastern tributaries and road along the north side distinguish the feature. The native crop resolves the upper-west shoreline turn and the northwest approach, with a short ink gap at their convergence. The lower west connection is a different node. Modern original WARV50 and WALK20 segments share the selected coordinate. The lake name identifies locality only; neither the namepoint nor a whole-basin centroid was used. McIntyre Lake and its earlier R31 junction are separate features to the west.",
+  "phase": "Untouched fresh physical validation after the affine14 freeze; excluded from fitting and model selection"
+}

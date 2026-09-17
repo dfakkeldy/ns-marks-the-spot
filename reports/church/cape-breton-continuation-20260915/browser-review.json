@@ -1,0 +1,52 @@
+{
+  "recorded_at": "2026-09-15T12:39:36.012401+00:00",
+  "source_checkout": "d885da0a37e203527f54e6967ce5c3a1bd1527e0",
+  "artifact_sha256": "261fbfed2bca12b678ce4f82831264ce0f19323bcb6e439a913b88c3f62eb70f",
+  "importer": "Actual local web app, embedded GeoTIFF file chooser",
+  "native_raster_size": [
+    6627,
+    5226
+  ],
+  "browser_notice": "Large file \u2014 displayed at reduced resolution.",
+  "saved_reload_verified": true,
+  "active_map": "cape-breton-affine3-review-20m",
+  "other_historical_imports_visible": false,
+  "sheet_opacity_percent": 70,
+  "exaggeration": 10,
+  "tilt_degrees": 50,
+  "direction_degrees": 0,
+  "low_ground_separate_scale": false,
+  "region": "Salmon River\u2013Mira River, Huntington and Grand Mira",
+  "requested_view": [
+    45.91275,
+    -60.30194,
+    13
+  ],
+  "observed_3d_centre": [
+    45.91271,
+    -60.3019,
+    13
+  ],
+  "error_logs": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/browser/salmon-mira-10x.png",
+      "sha256": "1a392671cecdcbe5037e0c02101caa935d1a766895e13eeb9d5211a27ce2aeb4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/browser/salmon-mira-2d.png",
+      "sha256": "2276d79f5ad29bf427319a9ac580685be28b3bf598f7b623d6d87a3c4d8839c5"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/browser/salmon-mira-terrain-only-10x.png",
+      "sha256": "c63c99e25981786a3d73d8b6a3d3855986490cecc90b1dab65756e8306323ac4"
+    }
+  ],
+  "findings": [
+    "Terrain exaggeration makes the ridges beside the Mira corridor clearer. Toggling the sheet exposes the modern river and surrounding valleys.",
+    "The engraved main river generally follows the same broad corridor, but individual bank shapes and adjoining water features remain displaced. This is visual diagnostic context, not a numerical accuracy assessment.",
+    "The source and modern Salmon mouth have different detailed shore forms. No point was measured from the oblique scene."
+  ],
+  "geographic_acceptance": false,
+  "deployment": false
+}

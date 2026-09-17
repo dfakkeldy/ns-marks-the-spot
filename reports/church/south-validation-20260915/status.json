@@ -1,0 +1,144 @@
+{
+  "panel": "inverness-south",
+  "selected_fit": "Historical tested affine4, unchanged; current provisional candidate is in ../south-distributed-refinement-20260915",
+  "state": "Affine4 first-validation phase closed at14; later distributed-control trials use these observations diagnostically",
+  "physical_affine": {
+    "count": 14,
+    "points": [
+      {
+        "label": "IS20",
+        "east_ground_m": -59.86656555890259,
+        "north_ground_m": 276.0076094338304,
+        "error_ground_m": 282.4255762801879
+      },
+      {
+        "label": "IS21",
+        "east_ground_m": -0.969591427009004,
+        "north_ground_m": -70.2047343611081,
+        "error_ground_m": 70.2114295129296
+      },
+      {
+        "label": "IS22",
+        "east_ground_m": 240.77056789907138,
+        "north_ground_m": -227.3432457835206,
+        "error_ground_m": 331.14259431523993
+      },
+      {
+        "label": "IS23",
+        "east_ground_m": 21.635701227765765,
+        "north_ground_m": -284.8693991379755,
+        "error_ground_m": 285.6898285428593
+      },
+      {
+        "label": "IS24",
+        "east_ground_m": 73.98843486282122,
+        "north_ground_m": -378.72663160749823,
+        "error_ground_m": 385.8861878614103
+      },
+      {
+        "label": "IS25",
+        "east_ground_m": 338.88993548405557,
+        "north_ground_m": 102.11041815051867,
+        "error_ground_m": 353.9391556005935
+      },
+      {
+        "label": "IS26",
+        "east_ground_m": 62.87961392987396,
+        "north_ground_m": -395.9807943882058,
+        "error_ground_m": 400.94218457563744
+      },
+      {
+        "label": "IS27",
+        "east_ground_m": -254.01635724710792,
+        "north_ground_m": -444.4199295249443,
+        "error_ground_m": 511.89196468400127
+      },
+      {
+        "label": "IS28",
+        "east_ground_m": 35.5902232311918,
+        "north_ground_m": -106.19389253174509,
+        "error_ground_m": 111.99913749975886
+      },
+      {
+        "label": "IS29",
+        "east_ground_m": 387.4037015650289,
+        "north_ground_m": 12.21321338070413,
+        "error_ground_m": 387.59616944362153
+      },
+      {
+        "label": "IS30",
+        "east_ground_m": -19.76533605992584,
+        "north_ground_m": -244.0491793033691,
+        "error_ground_m": 244.84826000649832
+      },
+      {
+        "label": "IS31",
+        "east_ground_m": 98.10150145530308,
+        "north_ground_m": -36.697478358247785,
+        "error_ground_m": 104.74067741636435
+      },
+      {
+        "label": "IS32",
+        "east_ground_m": 119.72198405072726,
+        "north_ground_m": 120.5642681528545,
+        "error_ground_m": 169.9090822183323
+      },
+      {
+        "label": "IS33",
+        "east_ground_m": -104.50265385181265,
+        "north_ground_m": -450.40804623023985,
+        "error_ground_m": 462.37237457596194
+      }
+    ],
+    "rms_ground_m": 321.7463761475491,
+    "median_ground_m": 308.4162114290496,
+    "p95_ground_m": 479.7042311137757,
+    "max_ground_m": 511.89196468400127,
+    "mean_east_ground_m": 67.13293996864863,
+    "mean_north_ground_m": -151.99984443635336,
+    "scatter_rms_ground_m": 275.5175969454045,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "no_tuning_after_checks": false,
+  "prior_diagnostics_not_pooled": [
+    "IS15",
+    "IS18",
+    "IS19"
+  ],
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "accepted_july_baseline_replaced": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_work": [
+    "Continue the separate distributed-control refinement and its new independent validation.",
+    "Retain the closed affine4 test and all first failures; do not call them fresh checks of the new TPS candidate."
+  ],
+  "inside_control_hull": [
+    "IS31"
+  ],
+  "outside_control_hull_count": 13,
+  "first_validation_check_count": 14,
+  "first_validation_check_ids": [
+    "IS20",
+    "IS21",
+    "IS22",
+    "IS23",
+    "IS24",
+    "IS25",
+    "IS26",
+    "IS27",
+    "IS28",
+    "IS29",
+    "IS30",
+    "IS31",
+    "IS32",
+    "IS33"
+  ],
+  "fresh_checks_after_model_selection": 0,
+  "current_validation_phase": "Historical first-validation results preserved; current use is diagnostic",
+  "first_phase_fit_unchanged": true,
+  "collection_closed": true
+}
