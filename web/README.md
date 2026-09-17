@@ -723,7 +723,7 @@ The layers a reader is most likely to ask about:
   do not cause the mosaic to be fetched or painted once per overlapping
   sheet. Alignment is approximate, with gaps at some joins; geographic
   acceptance findings are unchanged. Attribution remains David Rumsey Map
-  Collection / David Rumsey Map Center, Stanford University Libraries and
+  Collection, David Rumsey Map Center, Stanford University Libraries and
   [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The
   source receipt is `{base}/{revision}/source.json`. The control supports
   opacity, share links, print/evidence attribution, and retryable error
@@ -1600,5 +1600,6 @@ Fletcher is the `fletcher-full-sheets-20260913.1` 24-sheet mosaic, served throug
 the main `VITE_FLETCHER_TILE_BASE_URL` host. Alignment is approximate, with gaps
 at some joins; this preview does not change geographic acceptance. It has its
 own visibility and opacity control and is excluded from map exports and print.
-Sheet 11 is a provisional draft and is not in this tile package. See
+Sheet 11 is a provisional draft and is not in the
+`fletcher-full-sheets-20260909.3` preview package. See
 [package and local preview instructions](../reports/fletcher/full-sheets/README.md).

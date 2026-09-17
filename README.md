@@ -69,7 +69,7 @@ an empty `VITE_FLETCHER_TILE_BASE_URL` or `FLETCHER_TILE_BASE_URL` override
 disables hosting. Sheet footprints remain coverage metadata rather than
 per-sheet fetches. Alignment is approximate, with gaps at some joins;
 geographic acceptance findings are unchanged. Attribution remains David
-Rumsey Map Collection / David Rumsey Map Center, Stanford University
+Rumsey Map Collection, David Rumsey Map Center, Stanford University
 Libraries and [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
 Hosted delivery is recorded in
 [docs/FLETCHER_GEOREFERENCING.md](docs/FLETCHER_GEOREFERENCING.md).
