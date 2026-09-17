@@ -138,6 +138,26 @@ export function PokerApp() {
     catch (error) { setSaved(false); setOfflineNotice(error instanceof Error ? error.message : 'Could not save offline.'); }
     finally { setSaving(false); }
   };
+  const finishTrace = () => {
+    setState(s => ({ ...s, finished: true }));
+    // Tooltips do not auto-pan. Expose the final label after it has laid out,
+    // without moving the camera while the user is tracing or panning later.
+    requestAnimationFrame(() => {
+      const map = mapRef.current;
+      if (!map) return;
+      const container = map.getContainer();
+      const label = container.querySelector('.poker-distance:has(strong)')?.getBoundingClientRect();
+      const shell = container.closest('.poker-app');
+      const dock = shell?.querySelector('.poker-measurement')?.getBoundingClientRect();
+      if (!label || !shell || !dock) return;
+      const bounds = container.getBoundingClientRect();
+      const top = Math.max(bounds.top, ...['.poker-searchbar', '.leaflet-control-zoom', '.poker-basemap'].map(selector => shell.querySelector(selector)?.getBoundingClientRect().bottom ?? bounds.top)) + 8;
+      const bottom = dock.top - 8;
+      const dx = label.left < bounds.left + 8 ? label.left - bounds.left - 8 : Math.max(0, label.right - bounds.right + 8);
+      const dy = label.top < top ? label.top - top : Math.max(0, label.bottom - bottom);
+      if (dx || dy) map.panBy([dx, dy], { animate: false });
+    });
+  };
   const toggleAerial = () => {
     if (aerial && !aerialError) { setAerial(false); return; }
     let accepted = false;
@@ -171,7 +191,7 @@ export function PokerApp() {
     <section className="poker-measurement" aria-label="Driveway measurement">
       {state.points.length < 2 && <p className="poker-hint">Tap the house, then trace the driveway to your route.</p>}
       <div className="poker-readout sr-only" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
-      <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={() => setState(s => ({ ...s, finished: true }))}>Finish</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button><button aria-label="Clear trace" disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear</button></div>
+      <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={finishTrace}>Finish</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button><button aria-label="Clear trace" disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear</button></div>
     </section>
     <footer className="poker-footer">{!online && <span>Offline · Atlas</span>}<button onClick={() => setHelp(true)}>Sources</button></footer>
     {optionsOpen && <dialog className="poker-modal poker-settings" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setOptionsOpen(false)} aria-labelledby="poker-options-title">

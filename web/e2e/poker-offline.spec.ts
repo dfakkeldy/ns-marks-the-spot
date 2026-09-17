@@ -141,3 +141,43 @@ test('one tap retries aerial imagery after a source failure', async ({page}) => 
   await expect(page.getByRole('button',{name:'Use Atlas map'})).toBeVisible();
   await expect(page.locator('.poker-map-notice')).toHaveCount(0);
 });
+
+test('search results cover zoom controls with the phone keyboard open', async ({page}) => {
+  await page.setViewportSize({width:390,height:340});
+  await page.goto('/poker');
+  await page.locator('.leaflet-container').waitFor();
+  await page.getByRole('searchbox').fill(`${record.mailing.number} ${record.mailing.street}`);
+  const result = page.locator('.poker-results li button').first();
+  await expect(result).toBeVisible();
+  const zoom = (await page.locator('.leaflet-control-zoom').boundingBox())!;
+  const row = (await result.boundingBox())!;
+  const top = Math.max(zoom.y, row.y), bottom = Math.min(zoom.y + zoom.height, row.y + row.height);
+  expect(bottom).toBeGreaterThan(top);
+  const point = {x: Math.max(zoom.x,row.x) + 12, y:(top + bottom)/2};
+  expect(await page.evaluate(p => Boolean(document.elementFromPoint(p.x,p.y)?.closest('.poker-results')),point)).toBe(true);
+  await page.mouse.click(point.x,point.y);
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!).selectedId)).toBe(record.mailing.id);
+});
+
+test('Finish exposes the distance label for endpoints near the top and side', async ({page}) => {
+  await page.setViewportSize({width:390,height:640});
+  await page.goto('/poker');
+  const map = page.locator('.leaflet-container');
+  await map.waitFor();
+  await page.getByRole('searchbox').fill(`${record.mailing.number} ${record.mailing.street}`);
+  await page.locator('.poker-results li button').first().click();
+  await expect(page.locator('.poker-number').first()).toBeVisible();
+  for (const end of [{x:387,y:230},{x:195,y:62}]) {
+    await map.click({position:{x:190,y:300}});
+    await map.click({position:end});
+    await page.getByRole('button',{name:'Finish',exact:true}).click();
+    const label = page.locator('.poker-distance:has(strong)');
+    await expect(label).toBeInViewport({ratio:1});
+    await expect.poll(async () => {
+      const box = (await label.boundingBox())!;
+      const zoom = (await page.locator('.leaflet-control-zoom').boundingBox())!;
+      return box.x >= 7 && box.x + box.width <= 383 && box.y >= zoom.y + zoom.height + 7;
+    }).toBe(true);
+    await page.getByRole('button',{name:'Clear trace'}).click();
+  }
+});

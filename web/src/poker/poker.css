@@ -27,7 +27,7 @@ button:disabled { color: #30474680; cursor: default; }
 button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #b5533a; outline-offset: 2px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .poker-app { position: relative; height: 100dvh; overflow: hidden; }
-.poker-map { position: absolute; inset: 0; background: #f3efe3; }
+.poker-map { position: absolute; inset: 0; z-index: 0; background: #f3efe3; }
 .poker-map .leaflet-container { height: 100%; background: #f3efe3; }
 .poker-map .leaflet-top { top: calc(var(--poker-top) + 56px); }
 .poker-map .leaflet-control-zoom { margin: 0 0 0 8px; box-shadow: var(--poker-shadow); border: 1px solid var(--poker-border); }
