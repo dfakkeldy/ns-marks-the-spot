@@ -1,5 +1,5 @@
 import type { StyleSpecification } from 'maplibre-gl';
-import { fletcherSheets, fletcherTileUrl } from '../layers/fletcherLayer';
+import { fletcherTileRegions, FLETCHER_MAX_NATIVE_ZOOM, fletcherTileUrl } from '../layers/fletcherLayer';
 import { nativeLayerCatalog } from '../layers/layerCatalog';
 import { PROVINCE_ATTRIBUTION } from '../licensing/provinceLicense';
 import { RUMSEY_ATTRIBUTION, RUMSEY_LICENCE_URL } from '../licensing/rumseyLicense';
@@ -12,10 +12,10 @@ export type OverlayOptions = { parcels: boolean; provinceAccepted: boolean; hist
 export function buildReviewStyle(mode: ReviewMode, overlays: OverlayOptions, historicalHost: string | null): StyleSpecification {
   const style = mode === 'osm' ? buildOsmStyle() : buildAtlasStyle(mode);
   if (overlays.historical && historicalHost) {
-    for (const { sheet, bounds: [[south, west], [north, east]] } of fletcherSheets) {
-      const id = `fletcher-${sheet}`;
-      style.sources[id] = { type: 'raster', tiles: [fletcherTileUrl(sheet, historicalHost)!],
-        tileSize: 256, minzoom: 8, maxzoom: 16, bounds: [west, south, east, north],
+    for (const { id: region, bounds: [[south, west], [north, east]] } of fletcherTileRegions) {
+      const id = `fletcher-${region}`;
+      style.sources[id] = { type: 'raster', tiles: [fletcherTileUrl(historicalHost)!],
+        tileSize: 256, minzoom: 8, maxzoom: FLETCHER_MAX_NATIVE_ZOOM, bounds: [west, south, east, north],
         attribution: `${RUMSEY_ATTRIBUTION} · <a href="${RUMSEY_LICENCE_URL}">CC BY-NC-SA 3.0</a> · project-georeferenced Fletcher sheets` };
       style.layers.push({ id, type: 'raster', source: id, paint: { 'raster-opacity': overlays.opacity, 'raster-fade-duration': 0 } });
     }

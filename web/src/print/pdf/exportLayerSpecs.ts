@@ -5,7 +5,7 @@ import {
   PROVINCE_LAYER_Z_INDEXES,
 } from "../../components/mapPanes";
 import { arcGISExportUrlForBox } from "../../layers/arcGISExport";
-import { fletcherSheets, fletcherTileUrl } from "../../layers/fletcherLayer";
+import { fletcherTileRegions, FLETCHER_MAX_NATIVE_ZOOM, fletcherTileUrl } from "../../layers/fletcherLayer";
 import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
 import type { ContextLayerDescriptor } from "../../layers/contextLayerTypes";
 import type { ArcGISExportOptions } from "../../layers/layerCatalog";
@@ -86,18 +86,18 @@ function fletcherLayers(
 ): CompositorTileLayer[] {
   const { fletcher, bounds } = inputs;
   if (!fletcher.visible || !fletcher.tileBaseUrl) return [];
-  return fletcherSheets
+  return fletcherTileRegions
     .filter(({ bounds: [[south, west], [north, east]] }) =>
       boundsIntersect(bounds, { north, south, east, west }))
-    .map(({ sheet, bounds: [[south, west], [north, east]] }) => {
-      const template = fletcherTileUrl(sheet, fletcher.tileBaseUrl);
+    .map(({ id, bounds: [[south, west], [north, east]] }) => {
+      const template = fletcherTileUrl(fletcher.tileBaseUrl);
       const sheetBounds = { north, south, east, west };
       return {
         kind: "tile" as const,
-        id: `fletcher-${String(sheet).padStart(2, "0")}`,
-        name: `Fletcher sheet ${sheet}`,
+        id: `fletcher-${id}`,
+        name: "Fletcher historical mosaic",
         opacity: fletcher.opacity,
-        maxNativeZoom: fletcher.maxNativeZoom,
+        maxNativeZoom: Math.min(fletcher.maxNativeZoom, FLETCHER_MAX_NATIVE_ZOOM),
         url: (tile: TileCoords) => {
           if (!template || !tileIntersectsBounds(tile, sheetBounds)) return null;
           return template

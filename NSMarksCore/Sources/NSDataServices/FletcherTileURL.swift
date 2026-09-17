@@ -7,7 +7,7 @@ import MapCatalog
 ///
 /// The base URL is runtime configuration rather than catalog data, because the
 /// tiles are ours to host and the host is not settled. Everything else about
-/// the address — the revision segment, the sheet padding, the `{z}/{x}/{y}`
+/// the address — the revision segment and the `{z}/{x}/{y}`
 /// layout — is fixed and shared with the web, so a set of tiles built for one
 /// surface is readable by the other.
 public enum FletcherTileURL {
@@ -76,15 +76,14 @@ public enum FletcherTileURL {
         return url
     }
 
-    /// The `{z}/{x}/{y}` template for one sheet, or `nil` if unhosted.
+    /// The `{z}/{x}/{y}` template for the precomposited mosaic, or `nil` if unhosted.
     ///
     /// Left as a template string rather than a built URL because MapKit's
     /// `MKTileOverlay` takes one and substitutes the placeholders itself.
-    public static func tileTemplate(sheet: Int, baseURL: URL?) -> String? {
+    public static func tileTemplate(baseURL: URL?) -> String? {
         guard let baseURL else { return nil }
-        let padded = String(format: "%02d", sheet)
         return "\(baseURL.absoluteString)/\(FletcherSheets.tileRevision)"
-            + "/sheet-\(padded)/{z}/{x}/{y}.png"
+            + "/{z}/{x}/{y}.png"
     }
 
     /// The receipt describing how this tile build was produced.

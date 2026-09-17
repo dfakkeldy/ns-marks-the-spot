@@ -1,5 +1,33 @@
 # Hugh Fletcher direct-Rumsey georeferencing
 
+
+## Current hosted delivery
+
+The active revision is `fletcher-full-sheets-20260913.1` at
+`https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/{z}/{x}/{y}.png`.
+It is one precomposited 24-sheet XYZ PNG mosaic at zooms 8–15. Clients enlarge
+zoom 15 at closer display scales. Source-sheet bounds remain coverage metadata;
+they must not cause the same mosaic to be fetched or painted repeatedly.
+
+The [published manifest](https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/source.json)
+and `reports/fletcher/retile-20260913/` retain exact input provenance, pixel and
+coverage checks, and publication receipts. Activation is user-authorized for
+historical context; it does not change the recorded geographic acceptance,
+uneven accuracy, or gaps. Rumsey/Stanford attribution and CC BY-NC-SA 3.0 remain.
+
+Native saved-area planning stops at zoom 15. Existing areas requesting higher
+display zooms download the closest available level, preserving their records. The existing revision migration
+removes superseded cached/offline Fletcher pixels while preserving saved-area
+records. Blank coverage is delivered as transparent PNGs; a missing expected
+mosaic object is a retryable source failure, not a successful blank download.
+
+After the public website and native update have switched, retirement is limited
+to the superseded `fletcher-direct-rumsey-20260726.1/`,
+`fletcher-direct-rumsey-20260828.1/`, and `fletcher-direct-rumsey-20260831.1/`
+R2 prefixes. Source scans, control-point records and other map families are
+outside that deletion scope.
+
+
 This runbook keeps two independently reported result families.
 
 - **Engraved-grid** uses the map's own labelled graticule and retains the

@@ -166,6 +166,6 @@ struct FletcherSourceMigrationTests {
         await FletcherSourceMigration.run(tileCache: cache, tileStore: store, defaults: defaults)
         let stored = defaults.string(forKey: FletcherSourceMigration.storageKey)
         #expect(stored == FletcherSheets.tileRevision)
-        #expect(stored?.hasPrefix("fletcher-direct-rumsey-") == true)
+        #expect(stored?.hasPrefix("fletcher-full-sheets-") == true)
     }
 }

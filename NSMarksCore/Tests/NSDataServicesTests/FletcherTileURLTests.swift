@@ -136,51 +136,19 @@ struct FletcherTileURLTests {
 
     // MARK: - Templates
 
-    @Test("Builds the template the web builds")
+    @Test("Addresses the published mosaic rather than retired sheet pyramids")
     func matchesWebTemplate() throws {
         let base = try #require(try FletcherTileURL.normalizeBaseURL("https://tiles.test/f"))
-        #expect(
-            FletcherTileURL.tileTemplate(sheet: 1, baseURL: base)
-                == "https://tiles.test/f/\(FletcherSheets.tileRevision)"
-                    + "/sheet-01/{z}/{x}/{y}.png"
-        )
-        // Two digits, zero-padded — `padStart(2, "0")` on the web. Sheet 1 at
-        // `sheet-1` is a 404 against a pyramid built as `sheet-01`.
-        #expect(
-            FletcherTileURL.tileTemplate(sheet: 24, baseURL: base)?
-                .contains("/sheet-24/") == true
-        )
-        #expect(
-            FletcherTileURL.tileTemplate(sheet: 9, baseURL: base)?
-                .contains("/sheet-09/") == true
-        )
-    }
-
-    @Test("Builds a distinct, correctly padded template for every declared sheet")
-    func coversEverySheet() throws {
-        let base = try #require(try FletcherTileURL.normalizeBaseURL("https://tiles.test/f"))
-        let prefix = "https://tiles.test/f/\(FletcherSheets.tileRevision)/sheet-"
-        var seen = Set<String>()
-        for sheet in FletcherSheets.all {
-            let template = try #require(
-                FletcherTileURL.tileTemplate(sheet: sheet.sheet, baseURL: base)
-            )
-            // The whole string, not a suffix and a substring: asserting only
-            // the fixed parts would pass for an implementation that ignored
-            // its sheet argument and returned one constant template.
-            let padded = sheet.sheet < 10 ? "0\(sheet.sheet)" : "\(sheet.sheet)"
-            #expect(template == "\(prefix)\(padded)/{z}/{x}/{y}.png", "sheet \(sheet.sheet)")
-            #expect(seen.insert(template).inserted, "sheet \(sheet.sheet) repeats another sheet")
-            #expect(FletcherTileURL.tileTemplate(sheet: sheet.sheet, baseURL: nil) == nil)
-        }
-        #expect(seen.count == 24)
+        #expect(FletcherTileURL.tileTemplate(baseURL: base)
+            == "https://tiles.test/f/fletcher-full-sheets-20260913.1/{z}/{x}/{y}.png")
+        #expect(FletcherTileURL.tileTemplate(baseURL: nil) == nil)
     }
 
     @Test("Puts the receipt under the same revision prefix as the tiles")
     func receiptSharesThePrefix() throws {
         let base = try #require(try FletcherTileURL.normalizeBaseURL("https://tiles.test/f"))
         let receipt = try #require(FletcherTileURL.sourceReceiptURL(baseURL: base))
-        let template = try #require(FletcherTileURL.tileTemplate(sheet: 1, baseURL: base))
+        let template = try #require(FletcherTileURL.tileTemplate(baseURL: base))
         let prefix = "https://tiles.test/f/\(FletcherSheets.tileRevision)/"
         #expect(receipt.absoluteString == "\(prefix)source.json")
         #expect(template.hasPrefix(prefix), "the receipt must describe the build being loaded")

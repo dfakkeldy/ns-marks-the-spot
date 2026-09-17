@@ -134,12 +134,14 @@ describe("buildExportLayers", () => {
     ).toBe(false);
   });
 
-  it("includes only Fletcher sheets intersecting the bounds", () => {
+  it("composites the Fletcher mosaic once at sheet overlaps", () => {
     const layers = buildExportLayers(inputs());
     const fletcher = layers.filter((l) => l.id.startsWith("fletcher-"));
     // Bounds sit over Inverness sheets 11 and 13 (see fletcherSheets table);
     // sheet 1 (Cape North) must not appear.
-    expect(fletcher.length).toBeGreaterThan(0);
+    expect(fletcher).toHaveLength(1);
+    expect(fletcher[0].id).toBe("fletcher-mosaic");
+    expect(fletcher[0]).toMatchObject({ maxNativeZoom: 15 });
     expect(fletcher.some((l) => l.id === "fletcher-01")).toBe(false);
   });
 

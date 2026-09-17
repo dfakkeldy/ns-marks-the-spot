@@ -146,9 +146,8 @@ struct FletcherTilePlannerTests {
         )
 
         #expect(!FletcherTilePlanner.coversAnyGround(in: against))
-        #expect(FletcherTilePlanner.estimate(
-            bounds: against, zoomRange: 16...16, averageTileBytes: 12_000
-        ).tileCount == 0)
+        #expect(FletcherTilePlanner.coordinates(for: against, zoomRange: 16...16)
+            == FletcherTilePlanner.coordinates(for: against, zoomRange: 15...15))
         // Coarser tiles do reach back over the sheet, which is why the screen
         // says the tiles counted belong to sheets nearby rather than promising
         // there are none.
@@ -228,11 +227,18 @@ struct FletcherTilePlannerTests {
         // and short of the counting limit so the number is exact rather than
         // the early return. No upper bound beyond that: the saved-area cap
         // that used to sit between these two numbers was dropped once revision
-        // 20260831.1 put the whole survey under it (94,608 tiles at zoom 8-16),
+        // 20260913.1 carries the 24-sheet mosaic at zoom 8-15,
         // and a reader may now save all of it.
-        #expect(estimate.tileCount > 50_000)
+        #expect(estimate.tileCount > 20_000)
         #expect(estimate.tileCount < FletcherTilePlanner.countingLimit)
         #expect(estimate.estimatedBytes == estimate.tileCount * 12_000)
+    }
+
+    @Test func neverPlansUnpublishedOverzoomTiles() {
+        let native = FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 15...15)
+        #expect(!native.isEmpty)
+        #expect(FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 15...23) == native)
+        #expect(FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 16...23) == native)
     }
 
     @Test func normalizesInvertedBounds() {
