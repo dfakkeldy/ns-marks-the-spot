@@ -5,13 +5,13 @@ export const SESSION_KEY = 'ns-marks:poker:v1';
 export type PokerAddress = { mailing: MailingRecord; civic: CivicAddress | null };
 export type PokerData = { version: 1; bounds: [number, number, number, number]; addresses: PokerAddress[]; civic: CivicAddress[];
   roads: GeoJSON.FeatureCollection; buildings: GeoJSON.FeatureCollection; footprints: GeoJSON.FeatureCollection; water: GeoJSON.FeatureCollection };
-export type PokerState = { version: 1; query: string; postalCode: string; selectedId: string | null;
+export type PokerState = { version: 1; basemap: 'atlas' | 'aerial'; query: string; postalCode: string; selectedId: string | null;
   center: [number, number]; zoom: number; points: GeoPoint[]; finished: boolean };
-export const DEFAULT_STATE: PokerState = { version: 1, query: '', postalCode: '', selectedId: null, center: [45.98, -61.43], zoom: 11, points: [], finished: false };
+export const DEFAULT_STATE: PokerState = { version: 1, basemap: 'atlas', query: '', postalCode: '', selectedId: null, center: [45.98, -61.43], zoom: 11, points: [], finished: false };
 export function readSession(): PokerState {
   try {
     const value = JSON.parse(localStorage.getItem(SESSION_KEY) ?? 'null');
-    if (value?.version !== 1 || typeof value.query !== 'string' || value.query.length > 500 ||
+    if (value?.version !== 1 || !['atlas','aerial'].includes(value.basemap) || typeof value.query !== 'string' || value.query.length > 500 ||
       !['','B0E1P0','B0E2W0','B0E1X0'].includes(value.postalCode) ||
       !(value.selectedId === null || typeof value.selectedId === 'string') ||
       !Array.isArray(value.center) || value.center.length !== 2 || !validPoint({ lat: value.center[0], lng: value.center[1] }) ||

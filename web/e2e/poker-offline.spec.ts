@@ -69,3 +69,32 @@ for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844
     expect(errors).toEqual([]);
   });
 }
+
+test('aerial preference survives refresh, retains its licence gate, and is never saved offline', async ({page,context}) => {
+  let requests = 0;
+  await page.route('https://nsgiwa.novascotia.ca/**', route => {
+    requests++;
+    return route.fulfill({contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="256" height="256" fill="#ccd2bb"/></svg>'});
+  });
+  await page.goto('/poker');
+  await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+  await page.getByRole('button',{name:'Aerial (online)',exact:true}).click();
+  await expect(page.getByRole('dialog')).toContainText('Provincial aerial imagery');
+  expect(requests).toBe(0);
+  await page.getByRole('button',{name:'Accept and show aerial'}).click();
+  await expect.poll(() => requests).toBeGreaterThan(0);
+  await page.reload();
+  await expect(page.getByRole('button',{name:'Use Atlas map'})).toBeVisible();
+  await page.getByRole('button',{name:'Save offline',exact:true}).click();
+  await expect(page.locator('.poker-connection')).toContainText('Saved for offline use',{timeout:45000});
+  await page.waitForLoadState('networkidle');
+  expect(await page.evaluate(async () => {
+    const names = (await caches.keys()).filter(name=>name.startsWith('ns-poker-'));
+    const urls = (await Promise.all(names.map(async name => (await (await caches.open(name)).keys()).map(request=>request.url)))).flat();
+    return urls.some(url=>url.includes('nsgiwa.novascotia.ca'));
+  })).toBe(false);
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+  await expect(page.getByRole('button',{name:'Aerial (online)',exact:true})).toBeDisabled();
+});

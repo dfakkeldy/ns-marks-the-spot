@@ -7,6 +7,7 @@ import { pathDistanceMetres } from '../services/geodesy';
 import { mailingLabel, MAILING_ATTRIBUTION, MAILING_LICENCE_URL } from '../services/mailingAddresses';
 import { OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL, PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL, PROVINCE_LICENSE_ACCEPTANCE_KEY } from '../licensing/provinceLicense';
 import { deliveryStatus, readSession, searchAddresses, writeSession, type PokerAddress, type PokerData, type PokerState } from './model';
+import { waterStyle, roadStyle } from './cartography';
 import { offlineReady, saveOffline } from './offline';
 import 'leaflet/dist/leaflet.css';
 import './poker.css';
@@ -47,9 +48,9 @@ function MapContents({ data, state, setState, mapRef, aerial }: {
   }, [data.roads, map, view]);
   const selected = data.addresses.find(a => a.mailing.id === state.selectedId)?.civic;
   return <>
-    <GeoJSON data={data.water} interactive={false} style={{ color: palette.waterLine, weight: .5, fillColor: palette.water, fillOpacity: 1 }} />
-    <GeoJSON data={data.roads} style={{ color: palette.roadEdge, weight: 5 }} interactive={false} />
-    <GeoJSON data={data.roads} style={feature => ({ color: /Highway|Arterial/u.test(feature?.properties?.roadc_desc ?? '') ? palette.highway : palette.road, weight: 2.5, dashArray: /Track|Trail|Driveway/u.test(feature?.properties?.roadc_desc ?? '') ? '4 3' : undefined })} onEachFeature={(feature, layer) => {
+    <GeoJSON data={data.water} interactive={false} style={feature => waterStyle(feature?.properties?.feat_desc ?? '')} />
+    <GeoJSON data={data.roads} style={feature => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '', true)} interactive={false} />
+    <GeoJSON data={data.roads} style={feature => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '')} onEachFeature={(feature, layer) => {
       const name = feature.properties?.street;
       if (typeof name === 'string' && name) { const label = document.createElement('span'); label.textContent = name; layer.bindTooltip(label, { sticky: true }); }
     }} />
@@ -71,6 +72,7 @@ function MapContents({ data, state, setState, mapRef, aerial }: {
 export function PokerApp() {
   const [state, setState] = useState(readSession);
   const [data, setData] = useState<PokerData | null>(null);
+  const [packRevision, setPackRevision] = useState('');
   const [loadError, setLoadError] = useState('');
   const [retry, setRetry] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -79,7 +81,11 @@ export function PokerApp() {
   const [saving, setSaving] = useState(false);
   const [offlineNotice, setOfflineNotice] = useState('');
   const [storageFailed, setStorageFailed] = useState(false);
-  const [aerial, setAerial] = useState(false);
+  const [aerialPermitted, setAerialPermitted] = useState(() => {
+    try { return localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === 'accepted'; } catch { return false; }
+  });
+  const aerial = state.basemap === 'aerial' && aerialPermitted;
+  const setAerial = (enabled: boolean) => setState(s => ({ ...s, basemap: enabled ? 'aerial' : 'atlas' }));
   const [aerialError, setAerialError] = useState(false);
   const [licenceDialog, setLicenceDialog] = useState(false);
   const [help, setHelp] = useState(false);
@@ -106,7 +112,7 @@ export function PokerApp() {
       if (hash !== (compressed ? receipt.sha256 : receipt.decodedSha256)) throw Error('Saved address files do not match. Reconnect and save the offline copy again.');
       const value = JSON.parse(strFromU8(compressed ? gunzipSync(bytes) : bytes)) as PokerData;
       if (value.version !== 1 || value.addresses.length !== receipt.totalAddresses || !value.roads.features || !value.civic.length) throw Error('The address pack is incomplete. Reconnect and retry.');
-      if (!controller.signal.aborted) setData(value);
+      if (!controller.signal.aborted) { setData(value); setPackRevision(receipt.sha256); }
     })().catch(error => { if (!controller.signal.aborted) setLoadError(error instanceof Error ? error.message : 'Address download failed.'); });
     return () => controller.abort();
   }, [retry]);
@@ -130,7 +136,7 @@ export function PokerApp() {
     if (aerial) { setAerial(false); return; }
     let accepted = false;
     try { accepted = localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === 'accepted'; } catch { /* Still allow session-only acceptance. */ }
-    if (accepted) { setAerialError(false); setAerial(true); } else setLicenceDialog(true);
+    if (accepted) { setAerialPermitted(true); setAerialError(false); setAerial(true); } else setLicenceDialog(true);
   };
   return <main className="poker-app">
     <header className="poker-header"><div><h1>Poker</h1><p>Judique · Port Hood · Mabou</p></div>
@@ -153,7 +159,7 @@ export function PokerApp() {
     <section className="poker-map" aria-label="Driveway map">
       {loadError ? <div className="poker-load-error" role="alert">{loadError}<button onClick={() => setRetry(v => v + 1)}>Retry</button></div> : !data ? <p className="poker-loading" role="status">Loading local addresses and Atlas road map…</p> :
         <MapContainer center={state.center} zoom={state.zoom} minZoom={9} maxZoom={21} maxBounds={[[data.bounds[1], data.bounds[0]], [data.bounds[3], data.bounds[2]]]} maxBoundsViscosity={.8} preferCanvas doubleClickZoom={false} attributionControl={false}>
-          <MapContents data={data} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
+          <MapContents key={packRevision} data={data} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
         </MapContainer>}
       <button className="poker-basemap" onClick={toggleAerial} disabled={!online}>{aerial && online && !aerialError ? 'Use Atlas map' : 'Aerial (online)'}</button>
       {aerialError && <p className="poker-map-notice" role="status">Aerial imagery unavailable. Showing Atlas.</p>}
@@ -179,7 +185,7 @@ export function PokerApp() {
       <p>The Province of Nova Scotia makes no representations, expressed or implied, as to the accuracy, completeness and timeliness of the information, maps and other data, including PID numbers or property boundaries, which are displayed in this map that is presented in this application.</p>
       <p>The map is provided on the understanding that it is not guaranteed to be correct or complete or current, is subject to change, and conclusions drawn or decisions made, based on an interpretation of the data, are the responsibility of the user.</p>
       <p>By continuing to use this application, you agree to the terms of this disclaimer.</p><p><a href={PROVINCE_LICENSE_URL}>Read the service licence</a>. Online viewing only; imagery is not included in the offline pack.</p>
-      <button autoFocus onClick={() => { try { localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, 'accepted'); } catch { /* session only */ } setLicenceDialog(false); setAerialError(false); setAerial(true); }}>Accept and show aerial</button><button onClick={() => setLicenceDialog(false)}>Cancel</button>
+      <button autoFocus onClick={() => { try { localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, 'accepted'); } catch { /* session only */ } setLicenceDialog(false); setAerialPermitted(true); setAerialError(false); setAerial(true); }}>Accept and show aerial</button><button onClick={() => setLicenceDialog(false)}>Cancel</button>
     </dialog>}
   </main>;
 }
