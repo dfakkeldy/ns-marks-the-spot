@@ -1,5 +1,85 @@
-:root{font-family:system-ui,-apple-system,sans-serif;color:#304746;background:#f3efe3;font-synthesis:none;color-scheme:light}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,select{cursor:pointer}button{min-height:44px;padding:8px 13px;border:1px solid #c5cbbf;border-radius:9px;background:#fffdf6;color:#304746;font-weight:650}button:disabled{opacity:.5;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b5533a;outline-offset:2px}.poker-app{height:100dvh;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}.poker-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;gap:10px}.poker-header h1{font-family:Georgia,serif;margin:0;font-size:28px}.poker-header p{margin:2px 0 0;font-size:12px}.poker-header-actions{display:flex;gap:6px}.poker-searchbar{display:flex;gap:8px;padding:0 16px 8px;position:relative;z-index:1000}.poker-searchbar input{min-width:0;flex:1;height:46px;border:1px solid #a3b1a4;background:#fffdf6;border-radius:9px;padding:10px 12px}.poker-searchbar select{max-width:230px;border:1px solid #a3b1a4;background:#fffdf6;border-radius:9px;padding:8px}.poker-results{position:absolute;top:100%;left:16px;right:16px;max-height:45dvh;overflow:auto;background:#fffdf6;border:1px solid #a3b1a4;border-radius:10px;box-shadow:0 12px 25px #30474625}.poker-results-heading{padding:8px 12px;display:flex;align-items:center;gap:12px;justify-content:space-between;font-size:12px}.poker-results ul{margin:0;padding:0;list-style:none}.poker-results li button{display:block;width:100%;text-align:left;border:0;border-top:1px solid #e4e5da;border-radius:0;padding:12px}.poker-results small{display:block;margin-top:5px}.poker-connection{padding:0 16px 7px;font-size:12px}.poker-notice{font-size:12px;padding:7px 16px;background:#e3e7d3}.poker-map{position:relative;flex:1;min-height:140px;background:#f3efe3}.poker-map .leaflet-container{height:100%;background:#f3efe3}.poker-basemap{position:absolute;right:10px;top:10px;z-index:600;box-shadow:0 2px 8px #30474625}.poker-number{font:650 12px system-ui;border:0;background:#fffdf6df;color:#173a4a;padding:0 2px;box-shadow:none}.poker-number:before{display:none}.poker-measurement{padding:10px 16px 7px;border-top:1px solid #c5cbbf}.poker-selected{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.poker-readout{display:flex;align-items:center;gap:12px;margin:7px 0}.poker-readout strong{font-size:24px;font-variant-numeric:tabular-nums;white-space:nowrap}.poker-readout span{font-size:13px}.poker-measure-actions{display:flex;gap:8px;margin-bottom:6px}.poker-measure-actions button{flex:1}.poker-measure-actions button:first-child{background:#304746;color:#fff}.poker-measurement small{font-size:11px;line-height:1.3;display:block}.over-limit{background:#fff0d9}.over-limit .poker-readout{color:#873715}.poker-footer{display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;padding-bottom:env(safe-area-inset-bottom)}.poker-footer button{border:0;background:transparent;min-height:30px;padding:3px;font-size:11px;text-decoration:underline}.poker-loading,.poker-load-error{padding:20px}.poker-load-error button{display:block;margin-top:12px}.poker-map-notice{position:absolute;right:8px;top:55px;z-index:600;max-width:240px;padding:8px;background:#fffdf6;font-size:12px}.poker-modal-backdrop{position:fixed;inset:0;background:#173a4a66;z-index:2000;display:grid;place-items:center;padding:16px}.poker-modal{background:#fffdf6;border-radius:14px;padding:20px;max-width:570px;max-height:90dvh;overflow:auto;line-height:1.5}.poker-modal h2{margin-top:0}.poker-modal a{color:#285c68}.poker-modal button{margin-right:8px}.poker-modal p{font-size:14px}@media(max-width:560px){.poker-searchbar{flex-wrap:wrap;padding:0 10px 7px}.poker-searchbar input{flex-basis:100%}.poker-searchbar select{max-width:none;width:100%;height:36px;padding:4px 8px;font-size:13px}.poker-header{padding:8px 10px}.poker-header h1{font-size:24px}.poker-header-actions button{font-size:12px;padding:6px 9px}.poker-connection{padding-left:10px;font-size:11px}.poker-measurement{padding:8px 10px 4px}.poker-readout strong{font-size:22px}.poker-results{left:10px;right:10px}.poker-header p{font-size:11px}}@media(max-height:450px){.poker-header p,.poker-measurement small,.poker-selected,.poker-footer{display:none}.poker-header{padding:4px 10px}.poker-readout{margin:2px 0}.poker-measurement{padding:4px 10px}.poker-searchbar{padding-bottom:4px}.poker-connection{padding-bottom:3px}.poker-measure-actions{margin-bottom:0}}
-
-.poker-modal{border:1px solid #a3b1a4;color:#304746;width:calc(100% - 32px)}.poker-modal::backdrop{background:#173a4a66}
-
-.poker-road-label{border:0;background:#fffdf6ce;box-shadow:none;padding:1px 3px;font:600 11px system-ui;color:#566863}.poker-road-label:before{display:none}
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #304746;
+  background: #f3efe3;
+  font-synthesis: none;
+  color-scheme: light;
+  --poker-surface: #fffdf6d9;
+  --poker-border: #30474626;
+  --poker-shadow: 0 2px 10px #173a4a24;
+  --poker-top: calc(8px + env(safe-area-inset-top));
+  --poker-bottom: calc(8px + env(safe-area-inset-bottom));
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select { font: inherit; }
+button, select { cursor: pointer; }
+button {
+  min-height: 44px;
+  padding: 8px 13px;
+  border: 1px solid var(--poker-border);
+  border-radius: 10px;
+  background: var(--poker-surface);
+  color: #304746;
+  font-weight: 600;
+}
+button:disabled { color: #30474680; cursor: default; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #b5533a; outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.poker-app { position: relative; height: 100dvh; overflow: hidden; }
+.poker-map { position: absolute; inset: 0; z-index: 0; background: #f3efe3; }
+.poker-map .leaflet-container { height: 100%; background: #f3efe3; }
+.poker-map .leaflet-top { top: calc(var(--poker-top) + 56px); }
+.poker-map .leaflet-control-zoom { margin: 0 0 0 8px; box-shadow: var(--poker-shadow); border: 1px solid var(--poker-border); }
+.poker-map .leaflet-control-zoom a { width: 36px; height: 36px; line-height: 36px; background: var(--poker-surface); color: #304746; }
+.poker-map .leaflet-control-scale { margin: 0 0 var(--poker-bottom) 8px; }
+.poker-options, .poker-basemap, .poker-searchbar input, .poker-measure-actions button, .poker-footer, .poker-hint {
+  box-shadow: var(--poker-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.poker-options { position: absolute; top: var(--poker-top); right: 8px; z-index: 1100; width: 44px; padding: 10px; display: grid; place-items: center; }
+.poker-status-dot { position: absolute; right: 7px; bottom: 7px; width: 5px; height: 5px; border-radius: 50%; background: #507b60; }
+.poker-status-dot.is-offline { background: #a7732f; }
+.poker-searchbar { position: absolute; top: var(--poker-top); left: 8px; width: min(520px, calc(100% - 68px)); z-index: 1100; }
+.poker-searchbar input { width: 100%; height: 44px; border: 1px solid var(--poker-border); background: var(--poker-surface); border-radius: 10px; padding: 9px 12px; font-size: 16px; color: #304746; }
+.poker-results { position: absolute; top: calc(100% + 6px); left: 0; width: 100%; max-height: min(420px, calc(100dvh - var(--poker-top) - 120px)); overflow: auto; overscroll-behavior: contain; background: #fffdf6f5; border: 1px solid var(--poker-border); border-radius: 10px; box-shadow: var(--poker-shadow); }
+.poker-results-heading { padding: 6px 10px; display: flex; align-items: center; gap: 8px; justify-content: space-between; font-size: 12px; }
+.poker-results-heading button { padding: 5px 8px; font-size: 12px; }
+.poker-results ul { margin: 0; padding: 0; list-style: none; }
+.poker-results li button { display: block; width: 100%; text-align: left; border: 0; border-top: 1px solid #e4e5da; border-radius: 0; padding: 12px; background: transparent; }
+.poker-results small { display: block; margin-top: 5px; }
+.poker-basemap { position: absolute; right: 8px; top: calc(var(--poker-top) + 56px); z-index: 700; padding: 7px 11px; font-size: 13px; }
+.poker-number { font: 650 12px system-ui; border: 0; background: #fffdf6df; color: #173a4a; padding: 0 2px; box-shadow: none; }
+.poker-number:before, .poker-road-label:before { display: none; }
+.poker-road-label { border: 0; background: #fffdf6ce; box-shadow: none; padding: 1px 3px; font: 600 11px system-ui; color: #566863; }
+.poker-distance { padding: 5px 9px; border: 1px solid #30474640; border-radius: 8px; background: #fffdf6ed; box-shadow: var(--poker-shadow); color: #304746; text-align: center; }
+.poker-distance strong { display: block; font: 700 18px system-ui; font-variant-numeric: tabular-nums; }
+.poker-distance span { display: block; font: 600 11px system-ui; margin-top: 2px; }
+.poker-distance.over-limit { background: #fff0d9f5; color: #873715; }
+.poker-measurement { position: absolute; bottom: calc(var(--poker-bottom) + 38px); left: 50%; transform: translateX(-50%); z-index: 700; width: min(360px, calc(100% - 16px)); }
+.poker-measure-actions { display: flex; gap: 6px; }
+.poker-measure-actions button { flex: 1; padding: 8px; font-size: 14px; }
+.poker-hint { margin: 0 auto 8px; width: fit-content; max-width: 100%; padding: 4px 8px; border-radius: 6px; background: #fffdf6d9; font-size: 11px; text-align: center; }
+.poker-app:has(.poker-results) .poker-measurement { visibility: hidden; }
+.poker-footer { position: absolute; right: 8px; bottom: var(--poker-bottom); z-index: 700; display: flex; align-items: center; gap: 7px; background: var(--poker-surface); border-radius: 6px; padding: 0 6px; font-size: 10px; }
+.poker-footer button { border: 0; background: transparent; box-shadow: none; min-height: 28px; padding: 2px; font-size: 11px; font-weight: 500; }
+.poker-map-notice, .poker-storage-error { position: absolute; right: 8px; top: calc(var(--poker-top) + 108px); z-index: 800; max-width: min(300px, calc(100% - 64px)); padding: 7px 10px; background: #fffdf6f0; border-radius: 8px; font-size: 12px; box-shadow: var(--poker-shadow); }
+.poker-loading, .poker-load-error { position: absolute; z-index: 600; top: 35%; left: 50%; transform: translateX(-50%); width: min(360px, calc(100% - 32px)); padding: 16px; border-radius: 10px; background: #fffdf6f5; }
+.poker-load-error button { display: block; margin-top: 12px; }
+.poker-modal { border: 1px solid #a3b1a4; color: #304746; width: calc(100% - 32px); background: #fffdf6; border-radius: 14px; padding: 20px; max-width: 520px; max-height: 85dvh; overflow: auto; line-height: 1.5; }
+.poker-modal::backdrop { background: #173a4a50; }
+.poker-modal h2 { margin: 0; font-size: 22px; }
+.poker-modal a { color: #285c68; }
+.poker-modal p { font-size: 14px; }
+.poker-modal-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.poker-setting-label { display: block; margin-bottom: 5px; font-size: 13px; }
+.poker-settings select { width: 100%; min-height: 44px; border: 1px solid #a3b1a4; border-radius: 8px; background: #fffdf6; padding: 8px; color: #304746; }
+.poker-offline-settings { border-top: 1px solid #30474620; margin-top: 18px; padding-top: 18px; }
+.poker-connection, .poker-notice, .poker-settings-help { font-size: 12px !important; margin: 10px 0 0; }
+.poker-notice { color: #566863; }
+.poker-help-link { margin-top: 16px; }
+@media (orientation: landscape) and (max-height: 500px) {
+  .poker-measurement { left: auto; right: 8px; transform: none; width: min(360px, 48%); }
+  .poker-hint { font-size: 10px; }
+}

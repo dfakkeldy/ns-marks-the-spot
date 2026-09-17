@@ -1619,7 +1619,12 @@ the unrounded geodesic path length. Civic numbers stay available at street zoom.
 The research map's older Poker theme remains separate; old KinNoKi Poker links
 lead to the dedicated app, including browsers that cached the former redirect.
 
-Save offline downloads Poker's dependency closure and the approximately 4.5 MB
+The map fills the viewport, with one search field and small translucent overlay
+controls. Map options holds the postal filter and offline management; sources
+and detailed caveats remain available from the small Sources control. The
+running distance and finished 500-metre result sit on the last trace point.
+
+Save offline in Map options downloads Poker's dependency closure and the approximately 4.5 MB
 regional data pack. Its `/poker`-scoped service worker never caches aerial imagery,
 other remote services, or the general research map. It confirms every required
 file before reporting success and can repair missing cached files. The manifest
