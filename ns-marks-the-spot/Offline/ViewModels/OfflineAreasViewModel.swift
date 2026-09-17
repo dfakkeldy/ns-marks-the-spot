@@ -171,15 +171,24 @@ final class OfflineAreasViewModel {
         }
 
         let retryCoordinates = area.failedTileCoordinates ?? []
-        let targetCoordinates = requiresFailures && !retryCoordinates.isEmpty ? retryCoordinates : nil
-        let startingDownloadedCount = requiresFailures ? area.downloadedTileCount : 0
+        let plannedCoordinates = FletcherTilePlanner.coordinates(
+            for: area.bounds, zoomRange: area.minZoom...area.maxZoom
+        )
+        let plannedSet = Set(plannedCoordinates)
+        // A source update can retire zooms or change the footprint. Persisted
+        // failure coordinates must not bypass the current source's tile plan.
+        let canRetryCoordinates = requiresFailures && !retryCoordinates.isEmpty
+            && retryCoordinates.allSatisfy { plannedSet.contains($0) }
+        let targetCoordinates = canRetryCoordinates ? retryCoordinates : nil
+        let startingDownloadedCount = canRetryCoordinates ? area.downloadedTileCount : 0
 
         do {
             try await updateSavedArea(id: area.id) { savedArea in
                 savedArea.state = .downloading
-                if !requiresFailures {
+                if !canRetryCoordinates {
                     savedArea.downloadedTileCount = 0
                 }
+                savedArea.estimatedTileCount = plannedCoordinates.count
                 savedArea.failedTileCount = 0
                 savedArea.failedTileCoordinates = []
                 savedArea.updatedAt = .now

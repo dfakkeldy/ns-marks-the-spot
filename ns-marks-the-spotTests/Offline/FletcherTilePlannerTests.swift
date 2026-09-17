@@ -146,9 +146,8 @@ struct FletcherTilePlannerTests {
         )
 
         #expect(!FletcherTilePlanner.coversAnyGround(in: against))
-        #expect(FletcherTilePlanner.estimate(
-            bounds: against, zoomRange: 16...16, averageTileBytes: 12_000
-        ).tileCount == 0)
+        #expect(FletcherTilePlanner.coordinates(for: against, zoomRange: 16...16)
+            == FletcherTilePlanner.coordinates(for: against, zoomRange: 15...15))
         // Coarser tiles do reach back over the sheet, which is why the screen
         // says the tiles counted belong to sheets nearby rather than promising
         // there are none.
@@ -239,7 +238,7 @@ struct FletcherTilePlannerTests {
         let native = FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 15...15)
         #expect(!native.isEmpty)
         #expect(FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 15...23) == native)
-        #expect(FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 16...23).isEmpty)
+        #expect(FletcherTilePlanner.coordinates(for: Self.insideSheetOne, zoomRange: 16...23) == native)
     }
 
     @Test func normalizesInvertedBounds() {

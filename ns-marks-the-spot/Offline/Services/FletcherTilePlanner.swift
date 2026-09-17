@@ -23,10 +23,7 @@ nonisolated enum FletcherTilePlanner {
         guard let normalized = clippedToCoverage(bounds) else { return [] }
         var coordinates: Set<TileCoordinate> = []
 
-        let low = max(zoomRange.lowerBound, FletcherSheets.zoomRange.lowerBound)
-        let high = min(zoomRange.upperBound, FletcherSheets.zoomRange.upperBound)
-        guard low <= high else { return [] }
-        for zoom in low...high {
+        for zoom in renderedZooms(for: zoomRange) {
             let range = tileRange(for: normalized, zoom: zoom)
 
             for x in range.x {
@@ -88,10 +85,7 @@ nonisolated enum FletcherTilePlanner {
         guard let normalized = clippedToCoverage(bounds) else { return 0 }
         var count = 0
 
-        let low = max(zoomRange.lowerBound, FletcherSheets.zoomRange.lowerBound)
-        let high = min(zoomRange.upperBound, FletcherSheets.zoomRange.upperBound)
-        guard low <= high else { return 0 }
-        for zoom in low...high {
+        for zoom in renderedZooms(for: zoomRange) {
             let range = tileRange(for: normalized, zoom: zoom)
             for x in range.x {
                 for y in range.y where isCovered(x: x, y: y, z: zoom) {
@@ -123,6 +117,16 @@ nonisolated enum FletcherTilePlanner {
     /// told about, and an edge is not ground.
     static func coversAnyGround(in bounds: MapBounds) -> Bool {
         !FletcherSheets.sheets(overlapping: geographicBox(bounds)).isEmpty
+    }
+
+    /// Stored areas retain their requested display zooms across source updates.
+    /// Map each end to available imagery, just as the map overzooms that source.
+    /// In particular a legacy 16...16 area now downloads level 15, not nothing.
+    private static func renderedZooms(for requested: ClosedRange<Int>) -> ClosedRange<Int> {
+        let available = FletcherSheets.zoomRange
+        let first = min(max(requested.lowerBound, available.lowerBound), available.upperBound)
+        let last = min(max(requested.upperBound, available.lowerBound), available.upperBound)
+        return first...last
     }
 
     /// `bounds` narrowed to the ground the survey covers, or `nil` for none.

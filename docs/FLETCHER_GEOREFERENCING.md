@@ -15,7 +15,8 @@ coverage checks, and publication receipts. Activation is user-authorized for
 historical context; it does not change the recorded geographic acceptance,
 uneven accuracy, or gaps. Rumsey/Stanford attribution and CC BY-NC-SA 3.0 remain.
 
-Native saved-area planning stops at zoom 15. The existing revision migration
+Native saved-area planning stops at zoom 15. Existing areas requesting higher
+display zooms download the closest available level, preserving their records. The existing revision migration
 removes superseded cached/offline Fletcher pixels while preserving saved-area
 records. Blank coverage is delivered as transparent PNGs; a missing expected
 mosaic object is a retryable source failure, not a successful blank download.
