@@ -275,3 +275,34 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 1000
     expect(errors).toEqual([]);
   });
 }
+
+for (const viewport of [{ width: 390, height: 340 }, { width: 1440, height: 1000 }]) {
+  test(`civic number suggestions find 5447 before typing the last digit at ${viewport.width}`, async ({ page }, info) => {
+    await page.setViewportSize(viewport);
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    await page.goto('/poker');
+    await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+    const input = page.getByRole('searchbox', { name: 'Search civic address' });
+    await input.fill('544');
+    const civic = page.getByRole('button', { name: /5447 Highway 19, Judique, Inverness County/ });
+    await expect(civic).toBeEnabled();
+    await civic.scrollIntoViewIfNeeded();
+    await expect(civic).toBeInViewport({ ratio: 1 });
+    const count = await page.locator('.poker-results li button').count();
+    await page.screenshot({ path: info.outputPath('544-suggestions.png') });
+    await input.press('End');
+    await input.press('7');
+    await expect(input).toHaveValue('5447');
+    await expect(civic).toBeEnabled();
+    expect(await page.locator('.poker-results li button').count()).toBeLessThanOrEqual(count);
+    await input.fill('544 Highway 19');
+    await civic.click();
+    await expect(input).toHaveValue('5447 Highway 19, Judique, Inverness County');
+    await expect(page.locator('.poker-results')).toHaveCount(0);
+    const session = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
+    expect(session.selectedId).toBe('civic:32300049:5447 Highway 19, Judique, Inverness County');
+    expect(errors).toEqual([]);
+  });
+}
