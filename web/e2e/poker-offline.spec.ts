@@ -181,3 +181,54 @@ test('Finish exposes the distance label for endpoints near the top and side', as
     await page.getByRole('button',{name:'Clear trace'}).click();
   }
 });
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 1000 }]) {
+  test(`117 Gussieville civic-only search, selection and offline restore at ${viewport.width}`, async ({ page, context }, info) => {
+    await page.setViewportSize(viewport);
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    await page.goto('/poker');
+    await expect(page).toHaveTitle('Poker — address & driveway map');
+    await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+    const input = page.getByRole('searchbox', { name: 'Search civic address' });
+    await input.fill('117 gussieville');
+    const result = page.locator('.poker-results li button');
+    await expect(result).toHaveCount(1);
+    await expect(result).toContainText('117 Gussieville Rd, Judique North');
+    await expect(result).toContainText('Provincial civic address · postal code unverified');
+    await expect(result).toContainText('Approx. Location on Parcel');
+    await expect(result).toBeEnabled();
+    await page.getByRole('button', { name: 'Close results' }).click();
+    await openOptions(page);
+    await page.getByRole('combobox', { name: 'Postal area' }).selectOption('B0E1P0');
+    await input.fill('117 Gussieville Road');
+    await expect(result).toHaveCount(1);
+    await expect(page.locator('.poker-results')).toContainText('Also showing regional civic addresses with unverified postal codes.');
+    await expect(result).toBeInViewport({ ratio: 1 });
+    await page.screenshot({ path: info.outputPath('gussieville-search.png') });
+    await result.click();
+    const civic = pack.civic.find((a: { pntid: string }) => a.pntid === '400216889');
+    const selectedId = `civic:${civic.pntid}:${civic.label}`;
+    await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!).selectedId)).toBe(selectedId);
+    const session = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
+    expect(session.zoom).toBe(18);
+    expect(session.center[0]).toBeCloseTo(civic.coordinates[1], 4);
+    expect(session.center[1]).toBeCloseTo(civic.coordinates[0], 4);
+    await expect(page.locator('.poker-number').filter({ hasText: /^117$/ })).toBeVisible();
+    await openOptions(page);
+    await page.getByRole('button', { name: 'Save offline', exact: true }).click();
+    await expect(page.locator('.poker-connection')).toContainText('Saved for offline use', { timeout: 45000 });
+    await closeOptions(page);
+    await context.setOffline(true);
+    await page.reload();
+    await expect(input).toHaveValue(civic.label);
+    await expect(page.locator('.poker-number').filter({ hasText: /^117$/ })).toBeVisible();
+    await input.fill('117 Guss');
+    await expect(result).toHaveCount(1);
+    await result.click();
+    await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!).selectedId)).toBe(selectedId);
+    await expect(page.locator('vite-error-overlay')).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+}

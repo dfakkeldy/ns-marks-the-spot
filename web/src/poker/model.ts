@@ -1,8 +1,9 @@
 import type { CivicAddress } from '../services/civicAddresses';
-import { matchesMailingQuery, type MailingRecord } from '../services/mailingAddresses';
+import { mailingLabel, matchesMailingQuery, normalizeAddress, type MailingRecord } from '../services/mailingAddresses';
 import type { GeoPoint } from '../services/geodesy';
 export const SESSION_KEY = 'ns-marks:poker:v1';
 export type PokerAddress = { mailing: MailingRecord; civic: CivicAddress | null };
+export type SearchAddress = PokerAddress | { mailing: null; civic: CivicAddress };
 export type PokerData = { version: 1; bounds: [number, number, number, number]; addresses: PokerAddress[]; civic: CivicAddress[];
   roads: GeoJSON.FeatureCollection; buildings: GeoJSON.FeatureCollection; footprints: GeoJSON.FeatureCollection; water: GeoJSON.FeatureCollection };
 export type PokerState = { version: 1; basemap: 'atlas' | 'aerial'; query: string; postalCode: string; selectedId: string | null;
@@ -28,10 +29,35 @@ function validPoint(value: GeoPoint): boolean {
 export function writeSession(value: PokerState): boolean {
   try { localStorage.setItem(SESSION_KEY, JSON.stringify(value)); return true; } catch { return false; }
 }
-export function searchAddresses(addresses: PokerAddress[], query: string, postalCode: string) {
+// One provincial point may contain multiple units; preserve each address.
+function civicKey(civic: CivicAddress): string { return `${civic.pntid}:${civic.label}`; }
+/** Keep civic-only evidence separate: a provincial point does not establish a postal code. */
+export function searchableAddresses(data: PokerData): SearchAddress[] {
+  const represented = new Set(data.addresses.flatMap(a => a.civic ? [civicKey(a.civic)] : []));
+  return [...data.addresses, ...data.civic.filter(a => {
+    const key = civicKey(a);
+    if (represented.has(key)) return false;
+    represented.add(key);
+    return true;
+  }).map(civic => ({ mailing: null, civic }))];
+}
+export function addressId(address: SearchAddress): string {
+  return address.mailing ? address.mailing.id : `civic:${civicKey(address.civic)}`;
+}
+export function addressLabel(address: SearchAddress): string {
+  return address.mailing ? mailingLabel(address.mailing) : address.civic.label;
+}
+export function searchAddresses(addresses: SearchAddress[], query: string, postalCode: string) {
   const normalized = query.replace(/\b([a-z]\d[a-z])\s?(\d[a-z]\d)\b/giu, '$1 $2');
-  return addresses.filter(a => (!postalCode || a.mailing.postalCode === postalCode) &&
-    (!normalized.trim() || matchesMailingQuery(a.mailing, normalized, true)));
+  const terms = normalizeAddress(normalized).split(' ').filter(Boolean);
+  return addresses.filter(a => {
+    if (a.mailing) return (!postalCode || a.mailing.postalCode === postalCode) &&
+      (!normalized.trim() || matchesMailingQuery(a.mailing, normalized, true));
+    // Unknown postal codes stay discoverable, explicitly labelled in the UI.
+    const words = normalizeAddress(a.civic.label).split(' ');
+    return !normalized.trim() || (terms.length > 0 && terms.every((term, index) => words.includes(term) ||
+      (index === terms.length - 1 && /^[a-z]+$/u.test(term) && words.some(word => word.startsWith(term)))));
+  });
 }
 export function deliveryStatus(metres: number, finished: boolean, pointCount: number): string {
   if (pointCount < 2) return 'Trace the driveway from the house to your route.';
