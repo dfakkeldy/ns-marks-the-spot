@@ -917,7 +917,17 @@ one unique civic match remain visible but unplaceable. Search adds the pack’s
 remaining provincial civic addresses as separately identified civic-only entries,
 without constructing NAR records or assigning postal codes. Point ID plus civic
 label preserves units sharing a point. Postal filters retain civic-only entries
-with an explicit unknown-postal-code notice. Storage is local only.
+with an explicit unknown-postal-code notice. `searchAddresses` expands a leading
+civic-number prefix against each record’s own number and suffix, so an incomplete
+house number such as `544` also suggests longer matches such as `5447`; postal
+filters, unit syntax, exact numbered-road terms, source identities and the shared
+research-map matcher keep their existing rules. Storage is local only. A tap-only
+**Use my location** control below zoom reuses `services/browserLocation.ts` for
+one fresh reading, centres the map and draws a last-reading marker with its
+accuracy circle. The fix is not uploaded, is not restored as a live position
+after reload, and does not follow or change the selected address or trace.
+Permission, signal, timeout, unsupported-browser and outside-pack failures have
+distinct notices; selecting another address cancels an in-flight locate.
 `pokerOfflinePlugin.ts` emits a versioned service worker with only the entry's
 asset dependency closure, manifest, icons and regional data. The worker scope is
 `/poker`; KinNoKi must set `Service-Worker-Allowed: /poker` on its script and

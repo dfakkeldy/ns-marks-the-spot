@@ -1623,6 +1623,8 @@ The map fills the viewport, with one search field and small translucent overlay
 controls. Map options holds the postal filter and offline management; sources
 and detailed caveats remain available from the small Sources control. The
 running distance and finished 500-metre result sit on the last trace point.
+Typing a leading civic number such as `544` also suggests pack addresses whose
+house number starts with that prefix, including `5447`.
 **Use my location**, below zoom, requests a fresh browser position on tap and
 centres the saved map on it. A blue dot and accuracy circle mark the last reading;
 it does not continuously follow or change the selected address or trace. The
