@@ -232,3 +232,46 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 1000
     expect(errors).toEqual([]);
   });
 }
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 1000 }]) {
+  test(`Finish prepares the next search without clearing the completed trace at ${viewport.width}`, async ({ page }, info) => {
+    await page.setViewportSize(viewport);
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    await page.goto('/poker');
+    const map = page.locator('.poker-map .leaflet-container');
+    await expect(map).toBeVisible();
+    const input = page.getByRole('searchbox', { name: 'Search civic address' });
+    await input.fill(`${record.mailing.number} ${record.mailing.street}`);
+    await page.locator('.poker-results li button').first().click();
+    const bounds = (await map.boundingBox())!;
+    await map.click({ position: { x: bounds.width * .4, y: bounds.height * .4 } });
+    await map.click({ position: { x: bounds.width * .6, y: bounds.height * .6 } });
+    await page.getByRole('button', { name: 'Finish', exact: true }).click();
+    await expect(input).toBeFocused();
+    expect(await input.evaluate((element: HTMLInputElement) => [element.selectionStart, element.selectionEnd])).toEqual([0, (await input.inputValue()).length]);
+    await expect(page.locator('.poker-results')).toHaveCount(0);
+    await expect(page.locator('.poker-distance')).toBeVisible();
+    await expect(page.getByText('Tap the house, then trace the driveway to your route.', { exact: true })).toHaveCount(0);
+    await page.screenshot({ path: info.outputPath('finish-ready-for-search.png') });
+    // Model the reduced visible area while the phone keyboard is open.
+    if (viewport.width < 500) await page.setViewportSize({ width: viewport.width, height: 340 });
+    await expect(input).toBeInViewport({ ratio: 1 });
+    await page.keyboard.type('117 Gussieville');
+    await expect(input).toHaveValue('117 Gussieville');
+    const result = page.locator('.poker-results li button');
+    await expect(result).toHaveCount(1);
+    await expect(result).toBeInViewport({ ratio: 1 });
+    const finished = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
+    expect(finished.finished).toBe(true);
+    expect(finished.points).toHaveLength(2);
+    await result.click();
+    const next = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
+    expect(next.finished).toBe(false);
+    expect(next.points).toEqual([]);
+    await expect(input).not.toBeFocused();
+    await expect(page.getByText('Tap the house, then trace the driveway to your route.', { exact: true })).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+}
