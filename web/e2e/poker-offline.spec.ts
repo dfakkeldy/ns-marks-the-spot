@@ -167,7 +167,7 @@ test('Finish exposes the distance label for endpoints near the top and side', as
   await page.getByRole('searchbox').fill(`${record.mailing.number} ${record.mailing.street}`);
   await page.locator('.poker-results li button').first().click();
   await expect(page.locator('.poker-number').first()).toBeVisible();
-  for (const end of [{x:387,y:230},{x:195,y:62}]) {
+  for (const end of [{x:387,y:230},{x:195,y:62},{x:25,y:220}]) {
     await map.click({position:{x:190,y:300}});
     await map.click({position:end});
     await page.getByRole('button',{name:'Finish',exact:true}).click();
@@ -176,7 +176,8 @@ test('Finish exposes the distance label for endpoints near the top and side', as
     await expect.poll(async () => {
       const box = (await label.boundingBox())!;
       const zoom = (await page.locator('.leaflet-control-zoom').boundingBox())!;
-      return box.x >= 7 && box.x + box.width <= 383 && box.y >= zoom.y + zoom.height + 7;
+      const locate = (await page.getByRole('button', {name:'Use my location',exact:true}).boundingBox())!;
+      return box.x >= 7 && box.x + box.width <= 383 && box.y >= Math.max(zoom.y + zoom.height, locate.y + locate.height) + 7;
     }).toBe(true);
     await page.getByRole('button',{name:'Clear trace'}).click();
   }

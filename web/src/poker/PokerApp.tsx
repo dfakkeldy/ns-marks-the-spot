@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import L from 'leaflet';
-import { CircleMarker, GeoJSON, MapContainer, Polyline, ScaleControl, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet';
+import { Circle, CircleMarker, GeoJSON, MapContainer, Polyline, ScaleControl, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet';
 import { gunzipSync, strFromU8 } from 'fflate';
 import { atlasPalettes } from '../atlas/palette';
 import { pathDistanceMetres } from '../services/geodesy';
+import { browserLocationFailure, getBrowserLocation, type BrowserLocation } from '../services/browserLocation';
 import { MAILING_ATTRIBUTION, MAILING_LICENCE_URL } from '../services/mailingAddresses';
 import { OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL, PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL, PROVINCE_LICENSE_ACCEPTANCE_KEY } from '../licensing/provinceLicense';
 import { addressId, addressLabel, searchableAddresses, deliveryStatus, readSession, searchAddresses, writeSession, type SearchAddress, type PokerData, type PokerState } from './model';
@@ -14,8 +15,8 @@ import './poker.css';
 const palette = atlasPalettes.day;
 const AERIAL = 'https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer/tile/{z}/{y}/{x}';
 const tileEvents = { tileerror: () => window.dispatchEvent(new Event('poker-aerial-error')) };
-function MapContents({ data, state, setState, mapRef, aerial, addresses }: {
-  data: PokerData; addresses: SearchAddress[]; state: PokerState; setState: React.Dispatch<React.SetStateAction<PokerState>>; mapRef: React.RefObject<L.Map | null>; aerial: boolean;
+function MapContents({ data, state, setState, mapRef, aerial, addresses, location }: {
+  data: PokerData; addresses: SearchAddress[]; location: BrowserLocation | null; state: PokerState; setState: React.Dispatch<React.SetStateAction<PokerState>>; mapRef: React.RefObject<L.Map | null>; aerial: boolean;
 }) {
   const map = useMap();
   const [view, setView] = useState(0);
@@ -72,6 +73,12 @@ function MapContents({ data, state, setState, mapRef, aerial, addresses }: {
         {state.finished && <span>{metres > 500 ? 'Card parcel · over 500 m' : 'Within 500 m'}</span>}
       </Tooltip>}
     </CircleMarker>)}
+    {location && <>
+      <Circle center={[location.latitude, location.longitude]} radius={location.accuracy} interactive={false} pathOptions={{ color: '#176ab4', weight: 1, fillOpacity: .12 }} />
+      <CircleMarker center={[location.latitude, location.longitude]} radius={6} interactive={false} pathOptions={{ color: '#fff', weight: 2, fillColor: '#176ab4', fillOpacity: 1 }}>
+        <Tooltip permanent direction="top" className="poker-location-label">Last located here · ±{Math.ceil(location.accuracy)} m</Tooltip>
+      </CircleMarker>
+    </>}
     <ScaleControl position="bottomleft" imperial={false} />
   </>;
 }
@@ -96,8 +103,13 @@ export function PokerApp() {
   const [licenceDialog, setLicenceDialog] = useState(false);
   const [help, setHelp] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
+  const [location, setLocation] = useState<BrowserLocation | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [locationNotice, setLocationNotice] = useState('');
+  const locationRequest = useRef(0);
   const mapRef = useRef<L.Map | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => () => { locationRequest.current++; }, []);
   useEffect(() => { setStorageFailed(!writeSession(state)); }, [state]);
   useEffect(() => {
     const update = () => setOnline(navigator.onLine);
@@ -128,10 +140,45 @@ export function PokerApp() {
   const metres = pathDistanceMetres(state.points);
   const chooseAddress = (address: SearchAddress) => {
     if (!address.civic) return;
+    locationRequest.current++;
+    setLocating(false); setLocationNotice('');
     setState(s => ({ ...s, selectedId: addressId(address), query: addressLabel(address), points: [], finished: false }));
     setSearchOpen(false); inputRef.current?.blur();
     const [lng, lat] = address.civic.coordinates;
     mapRef.current?.setView([lat, lng], 18);
+  };
+  const locate = async () => {
+    if (!data || !mapRef.current || locating) return;
+    const request = ++locationRequest.current;
+    setLocating(true); setLocation(null); setLocationNotice('Finding your location…');
+    setSearchOpen(false); inputRef.current?.blur();
+    try {
+      const fix = await getBrowserLocation(navigator.geolocation, { maximumAgeMs: 0 });
+      if (request !== locationRequest.current) return;
+      const { latitude, longitude, accuracy } = fix;
+      if (![latitude, longitude, accuracy].every(Number.isFinite) || accuracy < 0 || Math.abs(latitude) > 90 || Math.abs(longitude) > 180) {
+        setLocationNotice('Your device returned an unusable location. Try again.');
+        return;
+      }
+      const [west, south, east, north] = data.bounds;
+      if (longitude < west || longitude > east || latitude < south || latitude > north) {
+        setLocationNotice('You’re outside Poker’s saved map area.');
+        return;
+      }
+      setLocation(fix); setLocationNotice('');
+      const map = mapRef.current;
+      map?.setView([latitude, longitude], Math.max(map.getZoom(), 17));
+    } catch (error) {
+      if (request !== locationRequest.current) return;
+      setLocationNotice({
+        denied: 'Location access is blocked. Allow location for Poker in your browser settings, then try again.',
+        unavailable: 'Your device could not find a location. Try again.',
+        timeout: 'Getting your location timed out. Tap the location button to try again.',
+        unsupported: 'Location is not available in this browser.',
+      }[browserLocationFailure(error)]);
+    } finally {
+      if (request === locationRequest.current) setLocating(false);
+    }
   };
   const save = async () => {
     setSaving(true); setOfflineNotice('Saving the app, addresses and Atlas road map…');
@@ -157,7 +204,7 @@ export function PokerApp() {
       const dock = shell?.querySelector('.poker-measurement')?.getBoundingClientRect();
       if (!label || !shell || !dock) return;
       const bounds = container.getBoundingClientRect();
-      const top = Math.max(bounds.top, ...['.poker-searchbar', '.leaflet-control-zoom', '.poker-basemap'].map(selector => shell.querySelector(selector)?.getBoundingClientRect().bottom ?? bounds.top)) + 8;
+      const top = Math.max(bounds.top, ...['.poker-searchbar', '.leaflet-control-zoom', '.poker-basemap', '.poker-locate'].map(selector => shell.querySelector(selector)?.getBoundingClientRect().bottom ?? bounds.top)) + 8;
       const bottom = dock.top - 8;
       const dx = label.left < bounds.left + 8 ? label.left - bounds.left - 8 : Math.max(0, label.right - bounds.right + 8);
       const dy = label.top < top ? label.top - top : Math.max(0, label.bottom - bottom);
@@ -190,9 +237,13 @@ export function PokerApp() {
     <section className="poker-map" aria-label="Driveway map">
       {loadError ? <div className="poker-load-error" role="alert">{loadError}<button onClick={() => setRetry(v => v + 1)}>Retry</button></div> : !data ? <p className="poker-loading" role="status">Loading local addresses and Atlas road map…</p> :
         <MapContainer center={state.center} zoom={state.zoom} minZoom={9} maxZoom={21} maxBounds={[[data.bounds[1], data.bounds[0]], [data.bounds[3], data.bounds[2]]]} maxBoundsViscosity={.8} preferCanvas doubleClickZoom={false} attributionControl={false}>
-          <MapContents key={packRevision} data={data} addresses={addresses} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
+          <MapContents key={packRevision} data={data} addresses={addresses} location={location} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
         </MapContainer>}
       <button className="poker-basemap" onClick={toggleAerial} disabled={!online} aria-label={aerial && online && !aerialError ? 'Use Atlas map' : 'Aerial (online)'}>{aerial && online && !aerialError ? 'Atlas' : 'Aerial'}</button>
+      <button className="poker-locate" aria-label="Use my location" title="Use my location" aria-busy={locating} disabled={!data || Boolean(loadError) || locating} onClick={() => void locate()}>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="12" r="7" /><circle cx="12" cy="12" r="2" /><path d="M12 2v3m0 14v3M2 12h3m14 0h3" /></svg>
+      </button>
+      {locationNotice && <p className="poker-location-notice" role="status">{locationNotice}</p>}
       {aerialError && <p className="poker-map-notice" role="status">Aerial imagery unavailable. Showing Atlas.</p>}
     </section>
     <section className="poker-measurement" aria-label="Driveway measurement">
@@ -221,6 +272,7 @@ export function PokerApp() {
       <p>Return to <strong>kinnokilabs.com/poker</strong>. This browser remembers your search, map position and current trace. Selecting a different address starts a new trace. Nothing is uploaded.</p>
       <p>Open <strong>Map options</strong> and tap <strong>Save offline</strong> while connected. Then use your browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. Each browser or installed copy saves its own session. Clearing website data removes downloads and the saved trace.</p>
       <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it.</p>
+      <p><strong>Use my location</strong> below zoom asks your browser for a fresh position. The blue dot and circle show the last reading and its reported accuracy. Tap again to update it; this does not follow you or change your trace. Location stays in this browser and can work offline if your device can get a position.</p>
       <p>{data?.addresses.length.toLocaleString()} postal records from June 2026; {data?.addresses.filter(a => !a.civic).length} lack a unique verified civic point and cannot be placed. Provincial civic addresses missing from that list are also searchable, with their postal codes marked unverified. Postal-area filters also show those regional civic addresses; they do not establish a delivery route. Missing records are not evidence that an address does not exist. This is address lookup, not resident or owner lookup.</p>
       <p>{OPEN_GOVERNMENT_ATTRIBUTION} <a href={OPEN_GOVERNMENT_LICENCE_URL}>Provincial licence</a>. Civic points, NSRN roads, NSTDB buildings and water are dated source features, not verified delivery routes or access permission. <a href={new URL('poker/source.json', document.baseURI).href}>Source dates and receipt</a>.</p>
       <p>{MAILING_ATTRIBUTION} <a href={MAILING_LICENCE_URL}>Statistics Canada licence</a>.</p>
