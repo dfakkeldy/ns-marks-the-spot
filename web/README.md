@@ -1637,7 +1637,12 @@ Aerial remains an online, licence-gated option.
 `public/poker/source.json` records exact source queries, dates, counts, hashes,
 licences and the conservative NAR-to-civic matching policy. All 1,575 NAR records
 in B0E 1P0, B0E 2W0 and B0E 1X0 remain searchable; 1,017 have a unique verified
-civic point. The remaining 558 are visibly unverified and cannot be placed.
+civic point. The remaining 558 postal records are visibly unverified and cannot be placed.
+Search also includes provincial civic addresses in the saved region that lack
+a verified postal-list match, including 117 Gussieville Rd. Those results retain
+their provincial location caveat and show “postal code unverified”; they remain
+visible under postal-area filters with an explicit notice, without assigning
+a postal code or delivery route. Units sharing a provincial point stay distinct.
 No resident names, ownership inference, invented postal boundaries or delivery
 routes are included. A missing/unmatched record is not evidence of absence.
 Regenerate with `python3 scripts/fetchPokerSources.py --cache <external-folder>`

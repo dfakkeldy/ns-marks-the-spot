@@ -913,7 +913,11 @@ nothing is uploaded.
 map's theme. It reuses civic parsing, conservative mailing-address matching,
 Atlas palette tokens, Leaflet and spherical path measurement. Its bounded
 open-data snapshot retains source IDs and provenance; postal records without
-one unique civic match remain visible but unplaceable. Storage is local only.
+one unique civic match remain visible but unplaceable. Search adds the pack’s
+remaining provincial civic addresses as separately identified civic-only entries,
+without constructing NAR records or assigning postal codes. Point ID plus civic
+label preserves units sharing a point. Postal filters retain civic-only entries
+with an explicit unknown-postal-code notice. Storage is local only.
 `pokerOfflinePlugin.ts` emits a versioned service worker with only the entry's
 asset dependency closure, manifest, icons and regional data. The worker scope is
 `/poker`; KinNoKi must set `Service-Worker-Allowed: /poker` on its script and

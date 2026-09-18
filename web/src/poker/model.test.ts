@@ -1,5 +1,7 @@
+import { readFileSync } from 'node:fs';
+import { gunzipSync } from 'node:zlib';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { DEFAULT_STATE, SESSION_KEY, deliveryStatus, readSession, searchAddresses, writeSession, type PokerAddress } from './model';
+import { DEFAULT_STATE, SESSION_KEY, searchableAddresses, addressId, addressLabel, deliveryStatus, readSession, searchAddresses, writeSession, type PokerAddress, type PokerData } from './model';
 const address = { civic: null, mailing: { id:'one', number:'117', suffix:'', unit:'', road:'EXAMPLE RD', street:'EXAMPLE RD', city:'JUDIQUE', postalCode:'B0E1P0', additional:'', coordinates:[-61.4,45.9] } } as PokerAddress;
 beforeEach(() => localStorage.clear());
 describe('Poker session', () => {
@@ -26,5 +28,45 @@ describe('offline address search and threshold', () => {
     expect(deliveryStatus(500.01,true,2)).toContain('card the parcel');
     expect(deliveryStatus(501,false,2)).toContain('Tracing');
     expect(deliveryStatus(0,true,0)).toContain('Trace the driveway');
+  });
+});
+
+// Real bundled evidence: the province includes 117, but the NAR subset does not.
+const pack: PokerData = JSON.parse(gunzipSync(readFileSync('public/poker/data.json.gz')).toString());
+describe('civic addresses missing from the postal list', () => {
+  it('finds 117 Gussieville without inventing a postal record or position', () => {
+    expect(searchAddresses(pack.addresses, '117 Gussieville', '')).toEqual([]);
+    const addresses = searchableAddresses(pack);
+    for (const query of ['117 gussieville', '117 Gussieville Road', '117 Guss', '117 Gussieville Judique North']) {
+      const matches = searchAddresses(addresses, query, '');
+      expect(matches).toHaveLength(1);
+      expect(matches[0].mailing).toBeNull();
+      expect(matches[0].civic).toEqual(pack.civic.find(a => a.pntid === '400216889'));
+      expect(addressId(matches[0])).toBe('civic:400216889:117 Gussieville Rd, Judique North, Inverness County');
+      expect(addressLabel(matches[0])).toBe('117 Gussieville Rd, Judique North, Inverness County');
+    }
+    expect(searchAddresses(addresses, '17 Gussieville', '')).toEqual([]);
+  });
+  it('keeps unknown postal codes discoverable under a postal filter without claiming a postal match', () => {
+    const addresses = searchableAddresses(pack);
+    expect(searchAddresses(addresses, '117 Gussieville', 'B0E1P0')).toHaveLength(1);
+    expect(searchAddresses(addresses, '117 Gussieville B0E1P0', '')).toEqual([]);
+    expect(searchAddresses(addresses, 'B0E1P0', '').every(a => a.mailing?.postalCode === 'B0E1P0')).toBe(true);
+  });
+  it('preserves separate units sharing a civic point', () => {
+    const civic = pack.civic.filter(a => a.pntid === '27600056');
+    const addresses = searchableAddresses({ ...pack, addresses: [], civic });
+    expect(addresses).toHaveLength(3);
+    expect(new Set(addresses.map(addressId)).size).toBe(3);
+    expect(searchAddresses(addresses, 'Unit 2 125 Mabou Harbour', '')).toHaveLength(1);
+  });
+  it('does not duplicate civic points already represented by a verified postal match', () => {
+    const addresses = searchableAddresses(pack);
+    const matches = searchAddresses(addresses, '118 Gussieville', '');
+    expect(matches).toHaveLength(1);
+    expect(matches[0].mailing?.postalCode).toBe('B0E1P0');
+    expect(addressId(matches[0])).toBe(matches[0].mailing?.id);
+    expect(addresses.filter(a => a.mailing)).toEqual(pack.addresses);
+    expect(new Set(addresses.map(addressId)).size).toBe(addresses.length);
   });
 });
