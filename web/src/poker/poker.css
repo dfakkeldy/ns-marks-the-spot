@@ -33,7 +33,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-map .leaflet-control-zoom { margin: 0 0 0 8px; box-shadow: var(--poker-shadow); border: 1px solid var(--poker-border); }
 .poker-map .leaflet-control-zoom a { width: 36px; height: 36px; line-height: 36px; background: var(--poker-surface); color: #304746; }
 .poker-map .leaflet-control-scale { margin: 0 0 var(--poker-bottom) 8px; }
-.poker-options, .poker-basemap, .poker-searchbar input, .poker-measure-actions button, .poker-footer, .poker-hint {
+.poker-options, .poker-basemap, .poker-searchbar input, .poker-measure-actions button, .poker-footer {
   box-shadow: var(--poker-shadow);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -59,8 +59,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-distance.over-limit { background: #fff0d9f5; color: #873715; }
 .poker-measurement { position: absolute; bottom: calc(var(--poker-bottom) + 38px); left: 50%; transform: translateX(-50%); z-index: 700; width: min(360px, calc(100% - 16px)); }
 .poker-measure-actions { display: flex; gap: 6px; }
-.poker-measure-actions button { flex: 1; padding: 8px; font-size: 14px; }
-.poker-hint { margin: 0 auto 8px; width: fit-content; max-width: 100%; padding: 4px 8px; border-radius: 6px; background: #fffdf6d9; font-size: 11px; text-align: center; }
+.poker-measure-actions button { flex: 1; padding: 8px; font-size: 14px; background: #fffdf680; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .poker-app:has(.poker-results) .poker-measurement { visibility: hidden; }
 .poker-footer { position: absolute; right: 8px; bottom: var(--poker-bottom); z-index: 700; display: flex; align-items: center; gap: 7px; background: var(--poker-surface); border-radius: 6px; padding: 0 6px; font-size: 10px; }
 .poker-footer button { border: 0; background: transparent; box-shadow: none; min-height: 28px; padding: 2px; font-size: 11px; font-weight: 500; }
@@ -81,5 +80,4 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-help-link { margin-top: 16px; }
 @media (orientation: landscape) and (max-height: 500px) {
   .poker-measurement { left: auto; right: 8px; transform: none; width: min(360px, 48%); }
-  .poker-hint { font-size: 10px; }
 }
