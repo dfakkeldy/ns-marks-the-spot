@@ -45,7 +45,7 @@ describe('civic addresses missing from the postal list', () => {
       expect(addressId(matches[0])).toBe('civic:400216889:117 Gussieville Rd, Judique North, Inverness County');
       expect(addressLabel(matches[0])).toBe('117 Gussieville Rd, Judique North, Inverness County');
     }
-    expect(searchAddresses(addresses, '17 Gussieville', '')).toEqual([]);
+    expect(searchAddresses(addresses, '17 Gussieville', '').some(a => a.civic?.pntid === '400216889')).toBe(false);
   });
   it('keeps unknown postal codes discoverable under a postal filter without claiming a postal match', () => {
     const addresses = searchableAddresses(pack);
@@ -68,5 +68,30 @@ describe('civic addresses missing from the postal list', () => {
     expect(addressId(matches[0])).toBe(matches[0].mailing?.id);
     expect(addresses.filter(a => a.mailing)).toEqual(pack.addresses);
     expect(new Set(addresses.map(addressId)).size).toBe(addresses.length);
+  });
+});
+
+describe('civic-number suggestions', () => {
+  it('finds postal and provincial 5447 records from 544 and narrows as typing continues', () => {
+    const addresses = searchableAddresses(pack);
+    const complete = searchAddresses(addresses, '5447', '');
+    expect(complete).toHaveLength(2);
+    for (const query of ['544', ' 544 ', '544 Highway 19']) {
+      const matches = searchAddresses(addresses, query, '');
+      expect(matches).toEqual(expect.arrayContaining(complete));
+      expect(matches.length).toBeGreaterThanOrEqual(complete.length);
+    }
+    expect(searchAddresses(addresses, '5447', '')).toEqual(complete);
+    expect(searchAddresses(addresses, '447 Highway 19', '')).not.toEqual(expect.arrayContaining(complete));
+    expect(searchAddresses(addresses, '544 Highway 1', '')).not.toEqual(expect.arrayContaining(complete));
+    expect(searchAddresses(addresses, '544 B0E1P0', '').every(a => a.mailing?.postalCode === 'B0E1P0')).toBe(true);
+    expect(searchAddresses(addresses, '544', 'B0E1X0').filter(a => a.mailing)).not.toEqual(expect.arrayContaining(complete.filter(a => a.mailing)));
+  });
+  it('supports civic suffixes while preserving unit queries and exact highway numbers', () => {
+    const suffixed: PokerAddress = { ...address, mailing: { ...address.mailing, number: '5447', suffix: 'A', unit: '2', road: '19 HWY', street: 'HIGHWAY 19' } };
+    for (const query of ['544', '544 Highway 19', '5447A', 'Unit 2 5447A Highway 19', '2-5447A']) {
+      expect(searchAddresses([suffixed], query, ''), query).toEqual([suffixed]);
+    }
+    for (const query of ['447', 'Highway 1', '544 Highway 1']) expect(searchAddresses([suffixed], query, '')).toEqual([]);
   });
 });

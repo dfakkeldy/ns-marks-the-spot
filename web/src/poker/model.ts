@@ -48,14 +48,20 @@ export function addressLabel(address: SearchAddress): string {
   return address.mailing ? mailingLabel(address.mailing) : address.civic.label;
 }
 export function searchAddresses(addresses: SearchAddress[], query: string, postalCode: string) {
-  const normalized = query.replace(/\b([a-z]\d[a-z])\s?(\d[a-z]\d)\b/giu, '$1 $2');
-  const terms = normalizeAddress(normalized).split(' ').filter(Boolean);
+  const normalized = query.trim().replace(/\b([a-z]\d[a-z])\s?(\d[a-z]\d)\b/giu, '$1 $2');
+  const numberPrefix = /^(\d+)(?=\s|$)/u.exec(normalized)?.[1];
   return addresses.filter(a => {
+    // Expand only a leading civic-number prefix using this record's own number.
+    // Highway numbers, postal codes and unit-number syntax keep their existing rules.
+    const number = a.mailing ? `${a.mailing.number}${a.mailing.suffix}` :
+      `${a.civic.properties.civicnum ?? ''}${a.civic.properties.civsuffix ?? ''}`;
+    const candidate = numberPrefix && number.startsWith(numberPrefix) ? number + normalized.slice(numberPrefix.length) : normalized;
     if (a.mailing) return (!postalCode || a.mailing.postalCode === postalCode) &&
-      (!normalized.trim() || matchesMailingQuery(a.mailing, normalized, true));
+      (!candidate || matchesMailingQuery(a.mailing, candidate, true));
     // Unknown postal codes stay discoverable, explicitly labelled in the UI.
+    const terms = normalizeAddress(candidate).split(' ').filter(Boolean);
     const words = normalizeAddress(a.civic.label).split(' ');
-    return !normalized.trim() || (terms.length > 0 && terms.every((term, index) => words.includes(term) ||
+    return !candidate || (terms.length > 0 && terms.every((term, index) => words.includes(term) ||
       (index === terms.length - 1 && /^[a-z]+$/u.test(term) && words.some(word => word.startsWith(term)))));
   });
 }

@@ -33,7 +33,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-map .leaflet-control-zoom { margin: 0 0 0 8px; box-shadow: var(--poker-shadow); border: 1px solid var(--poker-border); }
 .poker-map .leaflet-control-zoom a { width: 36px; height: 36px; line-height: 36px; background: var(--poker-surface); color: #304746; }
 .poker-map .leaflet-control-scale { margin: 0 0 var(--poker-bottom) 8px; }
-.poker-options, .poker-basemap, .poker-searchbar input, .poker-measure-actions button, .poker-footer {
+.poker-options, .poker-basemap, .poker-locate, .poker-searchbar input, .poker-measure-actions button, .poker-footer {
   box-shadow: var(--poker-shadow);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -50,6 +50,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-results li button { display: block; width: 100%; text-align: left; border: 0; border-top: 1px solid #e4e5da; border-radius: 0; padding: 12px; background: transparent; }
 .poker-results small { display: block; margin-top: 5px; }
 .poker-basemap { position: absolute; right: 8px; top: calc(var(--poker-top) + 56px); z-index: 700; padding: 7px 11px; font-size: 13px; }
+.poker-locate { position: absolute; left: 8px; top: calc(var(--poker-top) + 140px); z-index: 700; width: 44px; padding: 10px; display: grid; place-items: center; }
+.poker-location-notice { position: absolute; top: calc(var(--poker-top) + 140px); left: 60px; z-index: 700; max-width: min(280px, calc(100% - 68px)); margin: 0; padding: 8px 10px; border-radius: 8px; background: #fffdf6ed; color: #304746; font-size: 12px; box-shadow: var(--poker-shadow); }
+.poker-location-label { border: 1px solid #176ab440; background: #fffdf6ed; color: #17518a; font: 600 11px system-ui; padding: 3px 6px; }
 .poker-number { font: 650 12px system-ui; border: 0; background: #fffdf6df; color: #173a4a; padding: 0 2px; box-shadow: none; }
 .poker-number:before, .poker-road-label:before { display: none; }
 .poker-road-label { border: 0; background: #fffdf6ce; box-shadow: none; padding: 1px 3px; font: 600 11px system-ui; color: #566863; }

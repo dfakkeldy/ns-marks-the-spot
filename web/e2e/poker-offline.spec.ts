@@ -167,7 +167,7 @@ test('Finish exposes the distance label for endpoints near the top and side', as
   await page.getByRole('searchbox').fill(`${record.mailing.number} ${record.mailing.street}`);
   await page.locator('.poker-results li button').first().click();
   await expect(page.locator('.poker-number').first()).toBeVisible();
-  for (const end of [{x:387,y:230},{x:195,y:62}]) {
+  for (const end of [{x:387,y:230},{x:195,y:62},{x:25,y:220}]) {
     await map.click({position:{x:190,y:300}});
     await map.click({position:end});
     await page.getByRole('button',{name:'Finish',exact:true}).click();
@@ -176,7 +176,8 @@ test('Finish exposes the distance label for endpoints near the top and side', as
     await expect.poll(async () => {
       const box = (await label.boundingBox())!;
       const zoom = (await page.locator('.leaflet-control-zoom').boundingBox())!;
-      return box.x >= 7 && box.x + box.width <= 383 && box.y >= zoom.y + zoom.height + 7;
+      const locate = (await page.getByRole('button', {name:'Use my location',exact:true}).boundingBox())!;
+      return box.x >= 7 && box.x + box.width <= 383 && box.y >= Math.max(zoom.y + zoom.height, locate.y + locate.height) + 7;
     }).toBe(true);
     await page.getByRole('button',{name:'Clear trace'}).click();
   }
@@ -272,6 +273,37 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 1000
     expect(next.points).toEqual([]);
     await expect(input).not.toBeFocused();
     await expect(page.getByText('Tap the house, then trace the driveway to your route.', { exact: true })).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+}
+
+for (const viewport of [{ width: 390, height: 340 }, { width: 1440, height: 1000 }]) {
+  test(`civic number suggestions find 5447 before typing the last digit at ${viewport.width}`, async ({ page }, info) => {
+    await page.setViewportSize(viewport);
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    await page.goto('/poker');
+    await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+    const input = page.getByRole('searchbox', { name: 'Search civic address' });
+    await input.fill('544');
+    const civic = page.getByRole('button', { name: /5447 Highway 19, Judique, Inverness County/ });
+    await expect(civic).toBeEnabled();
+    await civic.scrollIntoViewIfNeeded();
+    await expect(civic).toBeInViewport({ ratio: 1 });
+    const count = await page.locator('.poker-results li button').count();
+    await page.screenshot({ path: info.outputPath('544-suggestions.png') });
+    await input.press('End');
+    await input.press('7');
+    await expect(input).toHaveValue('5447');
+    await expect(civic).toBeEnabled();
+    expect(await page.locator('.poker-results li button').count()).toBeLessThanOrEqual(count);
+    await input.fill('544 Highway 19');
+    await civic.click();
+    await expect(input).toHaveValue('5447 Highway 19, Judique, Inverness County');
+    await expect(page.locator('.poker-results')).toHaveCount(0);
+    const session = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
+    expect(session.selectedId).toBe('civic:32300049:5447 Highway 19, Judique, Inverness County');
     expect(errors).toEqual([]);
   });
 }

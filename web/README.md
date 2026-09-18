@@ -1623,6 +1623,12 @@ The map fills the viewport, with one search field and small translucent overlay
 controls. Map options holds the postal filter and offline management; sources
 and detailed caveats remain available from the small Sources control. The
 running distance and finished 500-metre result sit on the last trace point.
+**Use my location**, below zoom, requests a fresh browser position on tap and
+centres the saved map on it. A blue dot and accuracy circle mark the last reading;
+it does not continuously follow or change the selected address or trace. The
+position is not uploaded or restored as a current fix after reload. Location
+can work offline when the device can obtain a fix. Permission, signal, timeout
+and outside-pack coverage failures are reported separately.
 
 Save offline in Map options downloads Poker's dependency closure and the approximately 4.5 MB
 regional data pack. Its `/poker`-scoped service worker never caches aerial imagery,
