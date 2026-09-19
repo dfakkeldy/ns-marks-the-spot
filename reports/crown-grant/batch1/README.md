@@ -60,10 +60,16 @@ cannot establish an independent accuracy bound or whole-sheet acceptance.
 
 ## Progress
 
-- 002: acquisition complete; correspondence audit in progress. Native scan
-  5731 × 3919, embedded JPEG, nominal 150 dpi. Main map and separate inset.
-- 003, 004, 004a, 005: queued, not started.
-- Completed count: 0/5.
+| Order | Sheet | Assessment | Geographic acceptance | PR |
+|---|---|---|---|---|
+| 1 | 002 | Provisional main-map assessment; unsupported inset | Not accepted; fresh RMS 72.70 m, sparse coverage | [#520](https://github.com/dfakkeldy/ns-marks-the-spot/pull/520) |
+| 2 | 003 | Complete main-sheet assessment, 12 independent checks | Not accepted; RMS 52.52 m, median/P95 also fail | Preparing |
+| 3 | 004 | Queued, not started | Unassessed | — |
+| 4 | 004a | Queued, not started | Unassessed | — |
+| 5 | 005 | Queued, not started | Unassessed | — |
+
+Assessed: 2/5; geographically accepted: 0/5. Sheet 002's unsupported inset is
+not counted as completed geographic validation. No sixth sheet is authorized.
 
 ## Local review
 
@@ -78,5 +84,5 @@ python3 tools/crown-grant/serve_review.py --root .crown-grant-local/review --por
 
 Sheet 002 now has a private full-content provisional render and numerical/visual
 assessment. It is **not accepted**, and its inset remains unsupported. See its
-[record](sheet002/README.md). Assessed: 1/5; geographically accepted: 0/5.
+[record](sheet002/README.md). Assessed: 2/5; geographically accepted: 0/5.
 This does not count the unsupported inset as completed geographic validation.

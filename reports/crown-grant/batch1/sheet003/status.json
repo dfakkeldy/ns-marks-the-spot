@@ -1,0 +1,45 @@
+{
+  "sheet": "003",
+  "status": "provisional-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "acceptance": "NOT ACCEPTED",
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/003.pdf",
+    "pdf_sha256": "8f9a032bd224a654cc1fb0ed9ac81ee131a1092691d435a327494dbc094e7fb0",
+    "jpeg_sha256": "302378b9611224a945175e3d260f03bf6f1a1e5fc30aa613018046df97b76b55",
+    "dimensions": [
+      5324,
+      3606
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "checks": "checks-affine-01.json",
+  "scores": "scores-affine-01.json",
+  "components": "components.json",
+  "controls": 5,
+  "independent_checks": 12,
+  "diagnostic_checks": 0,
+  "limitations": [
+    "Fixed RMS/median/P95 gates failed; maximum gate passed",
+    "Historic shoreline generalization and water-level changes limit precise definitions",
+    "No present grant boundary or ownership accuracy is established",
+    "Complete-scan redistribution remains unclarified"
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 NOT ACCEPTED; RMS, median and P95 gates failed",
+    "statistics": "12 independent physical checks \u00b7 RMS 52.52 m \u00b7 median 47.93 m \u00b7 P95 81.09 m \u00b7 maximum 86.11 m. Five controls; no tuning after scoring.",
+    "coverage": "Complete main neatline retained, including offshore mapped content. No separate inset. Checks span northern lakes, coast, central interior and eastern/southern edges.",
+    "focusBounds": [
+      [
+        43.78,
+        -66.19
+      ],
+      [
+        44.01,
+        -65.99
+      ]
+    ]
+  }
+}
