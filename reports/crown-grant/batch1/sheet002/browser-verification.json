@@ -1,0 +1,31 @@
+{
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex in-app browser via cua_repl",
+  "date": "2026-09-19",
+  "page_title": "Crown Grant \u2014 private batch review",
+  "raster_images": [
+    {
+      "path": "/sheet002/main-3857.png",
+      "naturalWidth": 6131,
+      "naturalHeight": 5032
+    },
+    {
+      "path": "/sheet002/inset-3857.png",
+      "naturalWidth": 851,
+      "naturalHeight": 772
+    }
+  ],
+  "verified": [
+    "Actual rendered raster over OSM and NSTDB water inspected",
+    "Modern only changed opacity to 0; restore returned to 65",
+    "Opacity slider set 45; both rendered image styles became 0.45",
+    "Original scan displayed and returned to map",
+    "Visible attribution, original-warning text and provisional status",
+    "No browser error/warning logs at check"
+  ],
+  "limitations": [
+    "Whole-sheet overview is visual rendering evidence, not geographic acceptance",
+    "Inset placement visibly provisional; no independent checks",
+    "Mobile viewport not yet exercised"
+  ]
+}

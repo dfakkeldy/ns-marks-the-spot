@@ -2,6 +2,18 @@
 
 Research snapshot: **2026-07-24**. Prototype by GDAL 3.9 CLI workflow; findings are reproducible from the public PDFs.
 
+> **19 September 2026 correction:** This remains a historical research snapshot,
+> not current permission or geographic acceptance. The user reports a substantive
+> 18 September licensing response directing the requested use to the provincial
+> [Open Data Portal licence](https://support.novascotia.ca/services/open-data-portal-licence).
+> Complete-scan/base-map redistribution remains unclarified, so imagery stays
+> local. The former “no reply” statement below is stale. EPSG:2961/2962 are UTM
+> zones 20N/21N, not the MTM zones asserted below; the red-grid identification
+> and automated absolute-placement claims have not been established. Fitting
+> RMS is not independent geographic accuracy. See the
+> [new sequential batch record](../reports/crown-grant/batch1/README.md).
+
+
 > [!WARNING]
 > **LICENSING GATE — do not ship yet.** The 138 Crown Land Grant Index Sheets are
 > **Crown copyright of the Province of Nova Scotia (DNRR)**. They are **not** covered by
