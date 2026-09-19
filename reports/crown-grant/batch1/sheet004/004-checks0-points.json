@@ -1,0 +1,464 @@
+[
+  {
+    "id": "Q01",
+    "label": "Perry Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2920,
+      1158
+    ],
+    "lonlat": [
+      -66.09164422750762,
+      43.750695474026436
+    ],
+    "reference_objectid": 20895,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2911.314472916478,
+      1200.122317387606
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Jacco Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2711,
+      1145
+    ],
+    "lonlat": [
+      -66.10580766055156,
+      43.74917399696883
+    ],
+    "reference_objectid": 17538,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2704.3296159043093,
+      1135.5889195449417
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Crawleys Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2775,
+      1215
+    ],
+    "lonlat": [
+      -66.09877991258838,
+      43.747310374174624
+    ],
+    "reference_objectid": 16700,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2783.490048865089,
+      1216.840301723918
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Western Pearls Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2908,
+      1305
+    ],
+    "lonlat": [
+      -66.08930748788927,
+      43.74595724559808
+    ],
+    "reference_objectid": 19549,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2900.6182092839736,
+      1304.5622058487497
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Eastern Pearls Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2993,
+      1285
+    ],
+    "lonlat": [
+      -66.08409002728331,
+      43.74914410783834
+    ],
+    "reference_objectid": 17394,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3000.47784180881,
+      1278.948651059065
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Reef Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2738,
+      1700
+    ],
+    "lonlat": [
+      -66.08545199097038,
+      43.72623164094877
+    ],
+    "reference_objectid": 20368,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2775.9629848056356,
+      1700.7539139139699
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Ram Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3090,
+      2430
+    ],
+    "lonlat": [
+      -66.04570012941218,
+      43.70093781729934
+    ],
+    "reference_objectid": 20196,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3091.7333064485574,
+      2437.6566618067445
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Long Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3347,
+      2300
+    ],
+    "lonlat": [
+      -66.03403176159695,
+      43.71238200933231
+    ],
+    "reference_objectid": 27739,
+    "reference_feature_code": "WACORVIS10",
+    "guide_reference_pixel_xy": [
+      3353.880610476597,
+      2299.114166832529
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Channel Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3410,
+      2115
+    ],
+    "lonlat": [
+      -66.03626856764302,
+      43.72075962426796
+    ],
+    "reference_objectid": 27754,
+    "reference_feature_code": "WACORVIS10",
+    "guide_reference_pixel_xy": [
+      3398.517886182526,
+      2126.8784868801013
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Pinney Point southwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2905,
+      2320
+    ],
+    "lonlat": [
+      -66.06151068958793,
+      43.702090642182945
+    ],
+    "reference_objectid": 12290,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2886.07019163965,
+      2312.056141759851
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q11",
+    "label": "Gannet Rock northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1135,
+      2940
+    ],
+    "lonlat": [
+      -66.14297047569313,
+      43.68554792809026
+    ],
+    "reference_objectid": 21186,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1624.5182658520644,
+      2086.8699627586175
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q12",
+    "label": "Tucker Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4598,
+      2907
+    ],
+    "lonlat": [
+      -65.94322890789128,
+      43.712160829490344
+    ],
+    "reference_objectid": 22062,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4592.708651206456,
+      2899.036360029131
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q13",
+    "label": "Bar Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5050,
+      3333
+    ],
+    "lonlat": [
+      -65.90433202206894,
+      43.702825200115115
+    ],
+    "reference_objectid": 17338,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5040.905255488935,
+      3329.499366295873
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q14",
+    "label": "Western Bar Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3842,
+      3399
+    ],
+    "lonlat": [
+      -65.9738888370026,
+      43.67403654263377
+    ],
+    "reference_objectid": 22507,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3832.0462739028153,
+      3415.2043817696394
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q15",
+    "label": "Lobster Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3390,
+      3675
+    ],
+    "lonlat": [
+      -65.99362736920281,
+      43.654851296920356
+    ],
+    "reference_objectid": 19729,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3390.1409810741898,
+      3646.5063327961834
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q16",
+    "label": "Holmes Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2355,
+      3470
+    ],
+    "lonlat": [
+      -66.06042558165875,
+      43.63960177986755
+    ],
+    "reference_objectid": 17532,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2339.700297253323,
+      3494.161285946262
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q17",
+    "label": "Southern Spectacle Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2302,
+      3775
+    ],
+    "lonlat": [
+      -66.05547590089985,
+      43.625996821825126
+    ],
+    "reference_objectid": 20391,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2285.236373620399,
+      3782.551041662344
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q18",
+    "label": "Ellenwood Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2480,
+      3540
+    ],
+    "lonlat": [
+      -66.05055339266976,
+      43.640330475342516
+    ],
+    "reference_objectid": 18473,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2481.2635738355457,
+      3545.413524950156
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q19",
+    "label": "Allen Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2665,
+      3580
+    ],
+    "lonlat": [
+      -66.03754821334742,
+      43.64258493937923
+    ],
+    "reference_objectid": 17832,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2679.3765947434003,
+      3588.560065753758
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q20",
+    "label": "Haymaker Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2825,
+      3620
+    ],
+    "lonlat": [
+      -66.02786201018033,
+      43.64382262388026
+    ],
+    "reference_objectid": 18022,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2822.9686073768535,
+      3628.974824743229
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q21",
+    "label": "Tusket Island southern lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      3053,
+      3800
+    ],
+    "lonlat": [
+      -66.00858033144796,
+      43.640567817663644
+    ],
+    "reference_objectid": 16903,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3057.525189676555,
+      3816.9278434432345
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q22",
+    "label": "Mike Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4905,
+      2320
+    ],
+    "lonlat": [
+      -65.94179833103976,
+      43.743575444788554
+    ],
+    "reference_objectid": 18843,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4893.548833880515,
+      2317.357757589314
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

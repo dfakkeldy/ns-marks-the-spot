@@ -18,7 +18,7 @@ warps or applicable open PR located in nightly or the local artifact inventory.
 
 Purpose: historical grant-index research overlay, never parcel/title evidence.
 At 1:31,680, 1 mm on paper equals 31.68 ground metres. Project-specific gates:
-independent physical-check RMS ≤50 m, median ≤40 m, empirical linear P95 ≤80 m,
+independent physical-check RMS ≤50 m initially (updated to ≤100 m by user request), median ≤40 m, empirical linear P95 ≤80 m,
 maximum ≤100 m. These are research objectives, not an asserted map standard.
 Aim for 20–30 checks where identifiable; acceptance requires at least 12 well
 separated checks covering mapped northern/southern and coastal/interior regions,
@@ -58,17 +58,24 @@ Printed red-line datum, origin and grid identity remain unverified. Do not snap
 an external tie to an assumed lattice. The July 72 m value is fitting RMS and
 cannot establish an independent accuracy bound or whole-sheet acceptance.
 
+## Revised RMS criterion
+
+The user changed the RMS ceiling to **100 m** during the batch. Earlier 50 m
+assessments and all coordinates/scores remain preserved. The current machine
+record is `acceptance-criteria.json`; existing companion bounds remain unchanged
+unless separately changed. RMS alone does not resolve unsupported coverage.
+
 ## Progress
 
 | Order | Sheet | Assessment | Geographic acceptance | PR |
 |---|---|---|---|---|
 | 1 | 002 | Provisional main-map assessment; unsupported inset | Not accepted; fresh RMS 72.70 m, sparse coverage | [#520](https://github.com/dfakkeldy/ns-marks-the-spot/pull/520) |
-| 2 | 003 | Complete main-sheet assessment, 12 independent checks | Not accepted; RMS 52.52 m, median/P95 also fail | Preparing |
-| 3 | 004 | Queued, not started | Unassessed | — |
+| 2 | 003 | Complete main-sheet assessment, 12 independent checks | RMS passes 100 m; existing median/P95 bounds fail | [#521](https://github.com/dfakkeldy/ns-marks-the-spot/pull/521) |
+| 3 | 004 | 21 reference-audited island/coast checks; full raster | RMS passes 100 m; tails/unsupported rocks remain | Preparing |
 | 4 | 004a | Queued, not started | Unassessed | — |
 | 5 | 005 | Queued, not started | Unassessed | — |
 
-Assessed: 2/5; geographically accepted: 0/5. Sheet 002's unsupported inset is
+Assessed: 3/5; geographically accepted: 0/5. Sheet 002's unsupported inset is
 not counted as completed geographic validation. No sixth sheet is authorized.
 
 ## Local review
@@ -84,5 +91,5 @@ python3 tools/crown-grant/serve_review.py --root .crown-grant-local/review --por
 
 Sheet 002 now has a private full-content provisional render and numerical/visual
 assessment. It is **not accepted**, and its inset remains unsupported. See its
-[record](sheet002/README.md). Assessed: 2/5; geographically accepted: 0/5.
+[record](sheet002/README.md). Assessed: 3/5; geographically accepted: 0/5.
 This does not count the unsupported inset as completed geographic validation.

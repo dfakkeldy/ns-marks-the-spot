@@ -1,5 +1,9 @@
 # Sheet 003 — provisional, not accepted
 
+Current criteria are in `../acceptance-criteria.json`: the user raised the RMS
+ceiling to 100 m during the batch. The original assessments below are preserved;
+read `status.json` for the current acceptance state.
+
 The official Yarmouth County sheet is a 5324 × 3606 embedded JPEG at **140 dpi**,
 not one of the two resolutions assumed in July. It has no separate inset. Its
 entire inner neatline, including offshore mapped content, is retained.
