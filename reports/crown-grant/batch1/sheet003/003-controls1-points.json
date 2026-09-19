@@ -1,0 +1,107 @@
+[
+  {
+    "id": "C01",
+    "label": "Cape Forchu western cape tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2327,
+      3177
+    ],
+    "lonlat": [
+      -66.16466516749402,
+      43.79580281480155
+    ],
+    "reference_objectid": 18348,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2353.374095324776,
+      3299.095623457688
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Red Head western shore turn",
+    "role": "proposal",
+    "pixel_xy": [
+      3653,
+      370
+    ],
+    "lonlat": [
+      -66.16337604069481,
+      43.95693645044766
+    ],
+    "reference_objectid": 6503,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3652.81513199216,
+      400.46951635042205
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Brenton Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4848,
+      997
+    ],
+    "lonlat": [
+      -66.06691731691538,
+      43.953350249177184
+    ],
+    "reference_objectid": 125524,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4839.232711283839,
+      986.0875344435917
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Porcupine Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4473,
+      3229
+    ],
+    "lonlat": [
+      -66.0248853459977,
+      43.83995040664427
+    ],
+    "reference_objectid": 134044,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4469.152971391915,
+      3258.765244050999
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Cranberry Point outer corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3077,
+      1440
+    ],
+    "lonlat": [
+      -66.16814338817916,
+      43.894975058222705
+    ],
+    "reference_objectid": 3711,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3099.2605928528355,
+      1491.96127465053
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

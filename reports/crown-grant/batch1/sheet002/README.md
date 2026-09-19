@@ -58,7 +58,7 @@ actual alpha-masked raster to EPSG:3857 with exact transformation calculations
 and 8 projected-metre cells. Output resolution is not ground accuracy.
 `render-receipt.json` records original/fit/component hashes, bounds, dimensions,
 mask counts and output hashes. The native masks cover the complete selected
-neatline and inset boxes; independent output-edge alpha comparison is outstanding.
+neatline and inset boxes; independent output-edge alpha comparison passes for both components (no missing interior cells and no excess cells beyond one output-cell tolerance).
 
 The real Leaflet raster path was inspected in the local Codex browser. Both
 images loaded at their recorded dimensions; opacity and modern-only comparison
@@ -80,7 +80,7 @@ Use MacPorts Python 3.12 with GDAL, NumPy, Pillow and pyproj:
   .crown-grant-local/002-000.jpg \
   reports/crown-grant/batch1/sheet002/fit-affine-03.json \
   reports/crown-grant/batch1/sheet002/components.json \
-  .crown-grant-local/sheet002
+  .crown-grant-local/sheet002 --legacy-inclusive-mask
 ```
 
 The reference is contemporary NSTDB hydrography, not surveyed checkpoints.

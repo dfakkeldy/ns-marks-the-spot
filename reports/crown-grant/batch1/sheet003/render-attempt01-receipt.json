@@ -1,0 +1,33 @@
+{
+  "source_sha256": "302378b9611224a945175e3d260f03bf6f1a1e5fc30aa613018046df97b76b55",
+  "fit_sha256": "910c033c798c956890a953fe648007fbb11e537407ac8e017c810bca25f9297a",
+  "components_sha256": "b17b0880af5315f7a1e5981679c7ad85848c2ee09cafbb0838a6266ab86ffe12",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; independent RMS/median/P95 gates failed",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          43.73371052908508,
+          -66.39798433774274
+        ],
+        [
+          44.00255334116133,
+          -65.96837403626543
+        ]
+      ],
+      "dimensions": [
+        5978,
+        5189
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 16888990,
+      "source_mask_pixels": 17029909,
+      "affine_determinant": -33.00608083450387,
+      "png_sha256": "e9083d3b2efeba4a615ab1525770e75cbeaffa1d1e12ef74d2d22358f235eda7",
+      "tif_sha256": "08eea14a1d9f746e7c5d1941f4371b5ae2e650acea0a15d9a5f742b2bf7ad3ae"
+    }
+  ]
+}

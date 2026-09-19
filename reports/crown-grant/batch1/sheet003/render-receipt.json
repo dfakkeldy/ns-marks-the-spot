@@ -1,0 +1,34 @@
+{
+  "source_sha256": "302378b9611224a945175e3d260f03bf6f1a1e5fc30aa613018046df97b76b55",
+  "fit_sha256": "910c033c798c956890a953fe648007fbb11e537407ac8e017c810bca25f9297a",
+  "components_sha256": "b17b0880af5315f7a1e5981679c7ad85848c2ee09cafbb0838a6266ab86ffe12",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; independent RMS/median/P95 gates failed",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          43.73374082716993,
+          -66.39798433774274
+        ],
+        [
+          44.00253180961127,
+          -65.96844590148815
+        ]
+      ],
+      "dimensions": [
+        5977,
+        5188
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 16885665,
+      "source_mask_pixels": 17026550,
+      "affine_determinant": -33.00608083450387,
+      "png_sha256": "2f2d33f19b419ed02fefd11911a621064bb95a95fce4a0caee1c6433c7e1b5b8",
+      "tif_sha256": "a617f693249f39b4faeee40ffa3ccca867839c00b2dee947c83678f28654d557"
+    }
+  ],
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons"
+}
