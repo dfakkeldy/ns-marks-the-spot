@@ -1,0 +1,241 @@
+{
+  "status": "Six replayed diagnostic checks after Q11 and corrected Q02 promoted; no fresh validation",
+  "points": [
+    {
+      "id": "Q03",
+      "label": "Coastal step south of bulb",
+      "role": "check",
+      "pixel_xy": [
+        4467,
+        1000
+      ],
+      "lonlat": [
+        -66.21418280331469,
+        44.0986292975051
+      ],
+      "reference_objectid": 22037,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4459.841295114253,
+        1001.9401707102079
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19"
+    },
+    {
+      "id": "Q05",
+      "label": "Headland north of Salmon River",
+      "role": "check",
+      "pixel_xy": [
+        4599,
+        1968
+      ],
+      "lonlat": [
+        -66.17824402691201,
+        44.058418554180015
+      ],
+      "reference_objectid": 5358,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4668.236866180378,
+        2031.5069060077658
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19"
+    },
+    {
+      "id": "Q06",
+      "label": "Salmon River south bank mouth",
+      "role": "check",
+      "pixel_xy": [
+        4671,
+        2153
+      ],
+      "lonlat": [
+        -66.16887355095943,
+        44.05223884160444
+      ],
+      "reference_objectid": 12348,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4762.717380607792,
+        2223.547224077978
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19"
+    },
+    {
+      "id": "Q07",
+      "label": "Salmon River southern bend",
+      "role": "check",
+      "pixel_xy": [
+        4940,
+        2198
+      ],
+      "lonlat": [
+        -66.15089061957572,
+        44.05503288997137
+      ],
+      "reference_objectid": 182858,
+      "reference_feature_code": "WARV20",
+      "guide_reference_pixel_xy": [
+        5080.212215380219,
+        2331.859380075708
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19"
+    },
+    {
+      "id": "Q09",
+      "label": "Beaver Lake northern bay",
+      "role": "check",
+      "pixel_xy": [
+        4592,
+        3234
+      ],
+      "lonlat": [
+        -66.14450026829935,
+        44.00299626125637
+      ],
+      "reference_objectid": 125736,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4700.736109294172,
+        3312.1625983590493
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19"
+    },
+    {
+      "id": "Q10",
+      "label": "Churchill Lake southern corner",
+      "role": "check",
+      "pixel_xy": [
+        4468,
+        3644
+      ],
+      "lonlat": [
+        -66.14083125523004,
+        43.9838956207434
+      ],
+      "reference_objectid": 140486,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4582.985647013469,
+        3683.6505213796627
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "Q01",
+      "label": "North coast shoulder",
+      "role": "rejected-check",
+      "pixel_xy": [
+        5000,
+        384
+      ],
+      "lonlat": [
+        -66.19397104857819,
+        44.14526531835334
+      ],
+      "reference_objectid": 314003,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5220.859918124217,
+        351.52798275765963
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "reason": "No precisely shared coast feature; initial source point was on land."
+    },
+    {
+      "id": "Q04",
+      "label": "Cape St Mary northwestern notch",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4373,
+        1240
+      ],
+      "lonlat": [
+        -66.21265831434316,
+        44.086060056435734
+      ],
+      "reference_objectid": 10305,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4367.593627030787,
+        1238.4439429633785
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "reason": "Generalized multiple headlands; no unique small notch identification."
+    },
+    {
+      "id": "Q08",
+      "label": "Bartlett Brook coast entry",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4510,
+        2770
+      ],
+      "lonlat": [
+        -66.16080050851885,
+        44.02049175795011
+      ],
+      "reference_objectid": 12588,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4598.72834616882,
+        2858.2243760454003
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "reason": "Proposed point is an unbroken coast, not a demonstrated brook entry."
+    },
+    {
+      "id": "Q12",
+      "label": "Beaver Lake southern tip",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4560,
+        3411
+      ],
+      "lonlat": [
+        -66.14110606445529,
+        43.995691937670486
+      ],
+      "reference_objectid": 125737,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4688.016657703789,
+        3471.7187570976093
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "reason": "Southern inlet/marsh geometry changed or generalized; correlated with Q09. Retained unscored."
+    }
+  ]
+}

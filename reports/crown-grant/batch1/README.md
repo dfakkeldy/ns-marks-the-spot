@@ -1,0 +1,82 @@
+# Crown Grant batch 1 — 19 September 2026
+
+Requested limit: FIVE sheets, sequential processing, then pause. No sixth sheet,
+background continuation, public imagery, or production activation is authorized.
+
+## Frozen queue
+
+002 → 003 → 004 → 004a → 005. Ascending official identifier, preserving the
+insert; the official index's first four footprints form a contiguous run and 005
+starts the next column. No stronger geographic alternative warrants departing
+from the requested default. The live index contains 138 links, with absent
+numbers 001, 012 and 134. Inventory saved in `official-index.json`.
+
+Existing work: July feasibility PRs #141 and #145; no existing sheet controls,
+warps or applicable open PR located in nightly or the local artifact inventory.
+
+## Acceptance criteria, fixed before scoring
+
+Purpose: historical grant-index research overlay, never parcel/title evidence.
+At 1:31,680, 1 mm on paper equals 31.68 ground metres. Project-specific gates:
+independent physical-check RMS ≤50 m, median ≤40 m, empirical linear P95 ≤80 m,
+maximum ≤100 m. These are research objectives, not an asserted map standard.
+Aim for 20–30 checks where identifiable; acceptance requires at least 12 well
+separated checks covering mapped northern/southern and coastal/interior regions,
+edges and every separately positioned component. If a small component cannot
+supply that coverage, assess it separately and retain a provisional status.
+Report actual count, coverage, uncertainty, signed bias, and individual errors.
+Use WGS84 geodesic ground distances; projected fitting residuals are diagnostic.
+Physical checks remain excluded from fitting. Any checks used for repair/model
+selection become diagnostics; preserve their earlier outcomes.
+
+Prefer affine fitting. Use a curved model only with evidence of distortion and
+adequate distributed controls. Inspect exact native crosshairs, complete mapped
+coverage, orientation/distortion and the actual browser-rendered raster.
+Numerical success does not override failed coverage or visual checks.
+
+## Licensing and source review
+
+The July report's no-reply statement is stale. The user reports a substantive
+18 September licensing response directing this use to the provincial Open Data
+Portal licence. Complete scans/base mapping and downstream distribution uses
+remain unclarified. An unsent draft supplies no additional permission. No email
+is sent by this task. Imagery remains in ignored `.crown-grant-local/`; public
+records contain controls, measurements, code and provenance only.
+
+Source: https://novascotia.ca/natr/land/grantmap.asp
+Licence guidance: https://support.novascotia.ca/services/open-data-portal-licence
+Preserve the original sheet warning and Province attribution. Any georeferencing
+is a project modification; historical grants do not establish present ownership.
+
+## July claims under audit
+
+PROJ's installed EPSG database identifies 2961 as NAD83(CSRS) / UTM zone 20N and
+2962 as NAD83(CSRS) / UTM zone 21N, contradicting the report's MTM identification.
+The province's mapping-products description says 1:10,000 sheets cover about
+four miles across, so a 10 km spacing alone cannot prove a 1:10,000 mapsheet grid.
+Printed red-line datum, origin and grid identity remain unverified. Do not snap
+an external tie to an assumed lattice. The July 72 m value is fitting RMS and
+cannot establish an independent accuracy bound or whole-sheet acceptance.
+
+## Progress
+
+- 002: acquisition complete; correspondence audit in progress. Native scan
+  5731 × 3919, embedded JPEG, nominal 150 dpi. Main map and separate inset.
+- 003, 004, 004a, 005: queued, not started.
+- Completed count: 0/5.
+
+## Local review
+
+Review URL: http://127.0.0.1:8842/ (loopback only). Port 8765 was already occupied.
+Private imagery root: `.crown-grant-local/` in this task worktree. Prepare with:
+
+```sh
+python3 tools/crown-grant/prepare_review.py --private-root .crown-grant-local \
+  --leaflet /Users/dfakkeldy/Developer/ns-marks-the-spot/web/node_modules/leaflet/dist
+python3 tools/crown-grant/serve_review.py --root .crown-grant-local/review --port 8842
+```
+
+Sheet 002 now has a private full-content provisional render and numerical/visual
+assessment. It is **not accepted**, and its inset remains unsupported. See its
+[record](sheet002/README.md). Assessed: 1/5; geographically accepted: 0/5.
+This does not count the unsupported inset as completed geographic validation.

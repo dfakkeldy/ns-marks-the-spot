@@ -1,0 +1,225 @@
+{
+  "count": 7,
+  "rms_ground_m": 428.36942082811447,
+  "median_ground_m": 83.00301634905097,
+  "p95_ground_m": 820.0115812715542,
+  "max_ground_m": 1115.0467832907534,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -96.58105307771646,
+  "mean_north_ground_m": -107.74271668657194,
+  "points": [
+    {
+      "id": "Q02",
+      "label": "Northern coastal notch",
+      "role": "check",
+      "pixel_xy": [
+        5117,
+        230
+      ],
+      "lonlat": [
+        -66.18998642926617,
+        44.152362079417436
+      ],
+      "reference_objectid": 2827,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5351.335344513878,
+        260.4992299125297
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "predicted_lonlat": [
+        -66.1959436866293,
+        44.143289971050216
+      ],
+      "error_ground_m": 1115.0467832907534,
+      "east_ground_m": -476.6575002268357,
+      "north_ground_m": -1008.0312278915571
+    },
+    {
+      "id": "Q03",
+      "label": "Coastal step south of bulb",
+      "role": "check",
+      "pixel_xy": [
+        4467,
+        1000
+      ],
+      "lonlat": [
+        -66.21418280331469,
+        44.0986292975051
+      ],
+      "reference_objectid": 22037,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4459.841295114253,
+        1001.9401707102079
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "predicted_lonlat": [
+        -66.21427271354781,
+        44.09859349378463
+      ],
+      "error_ground_m": 8.225465165810691,
+      "east_ground_m": -7.199405034339207,
+      "north_ground_m": -3.9782966638369723
+    },
+    {
+      "id": "Q05",
+      "label": "Headland north of Salmon River",
+      "role": "check",
+      "pixel_xy": [
+        4599,
+        1968
+      ],
+      "lonlat": [
+        -66.17824402691201,
+        44.058418554180015
+      ],
+      "reference_objectid": 5358,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4668.236866180378,
+        2031.5069060077658
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "predicted_lonlat": [
+        -66.17920160144283,
+        44.05905385041227
+      ],
+      "error_ground_m": 104.25958378439715,
+      "east_ground_m": -76.72718838068892,
+      "north_ground_m": 70.59036318145704
+    },
+    {
+      "id": "Q06",
+      "label": "Salmon River south bank mouth",
+      "role": "check",
+      "pixel_xy": [
+        4671,
+        2153
+      ],
+      "lonlat": [
+        -66.16887355095943,
+        44.05223884160444
+      ],
+      "reference_objectid": 12348,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4762.717380607792,
+        2223.547224077978
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "predicted_lonlat": [
+        -66.16964180867356,
+        44.05231554900977
+      ],
+      "error_ground_m": 62.15208458797227,
+      "east_ground_m": -61.564856990236315,
+      "north_ground_m": 8.52349707586097
+    },
+    {
+      "id": "Q07",
+      "label": "Salmon River southern bend",
+      "role": "check",
+      "pixel_xy": [
+        4940,
+        2198
+      ],
+      "lonlat": [
+        -66.15089061957572,
+        44.05503288997137
+      ],
+      "reference_objectid": 182858,
+      "reference_feature_code": "WARV20",
+      "guide_reference_pixel_xy": [
+        5080.212215380219,
+        2331.859380075708
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "predicted_lonlat": [
+        -66.15192416089442,
+        44.055082507471575
+      ],
+      "error_ground_m": 83.00301634905097,
+      "east_ground_m": -82.81968369226018,
+      "north_ground_m": 5.513684444615388
+    },
+    {
+      "id": "Q09",
+      "label": "Beaver Lake northern bay",
+      "role": "check",
+      "pixel_xy": [
+        4592,
+        3234
+      ],
+      "lonlat": [
+        -66.14450026829935,
+        44.00299626125637
+      ],
+      "reference_objectid": 125736,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4700.736109294172,
+        3312.1625983590493
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "predicted_lonlat": [
+        -66.1443932052991,
+        44.00417808955615
+      ],
+      "error_ground_m": 131.59610989342465,
+      "east_ground_m": 8.58651305244714,
+      "north_ground_m": 131.31568045242142
+    },
+    {
+      "id": "Q10",
+      "label": "Churchill Lake southern corner",
+      "role": "check",
+      "pixel_xy": [
+        4468,
+        3644
+      ],
+      "lonlat": [
+        -66.14083125523004,
+        43.9838956207434
+      ],
+      "reference_objectid": 140486,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4582.985647013469,
+        3683.6505213796627
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Paired native crosshair and modern topology inspected before scoring",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "predicted_lonlat": [
+        -66.14057804054902,
+        43.984272423224745
+      ],
+      "error_ground_m": 46.53556068642242,
+      "east_ground_m": 20.31474972789778,
+      "north_ground_m": 41.867282595035725
+    }
+  ],
+  "fit_sha256": "7689a39123952e2ac5c9ba753cf0a5ae01568d2af19241a3c3a47ac1eaccc326",
+  "checks_sha256": "31214e5d67ce2529602775d155841bd4160df218f6d2bcfed8d447f7fc359a88",
+  "status": "Replayed diagnostics after Q11 promoted to C06; no fresh validation. Q02 northern identity remains questionable; retained to prevent hiding the original failure."
+}

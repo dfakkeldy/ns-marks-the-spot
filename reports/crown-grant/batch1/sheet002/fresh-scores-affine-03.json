@@ -1,0 +1,131 @@
+{
+  "count": 4,
+  "rms_ground_m": 72.70230231766323,
+  "median_ground_m": 73.6631886590589,
+  "p95_ground_m": 96.69847067776085,
+  "max_ground_m": 99.76261351884153,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 55.36236317057466,
+  "mean_north_ground_m": 23.746733798689128,
+  "points": [
+    {
+      "id": "V01",
+      "label": "Du Ruisseau Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5410,
+        2565
+      ],
+      "lonlat": [
+        -66.11313450163176,
+        44.048338944889906
+      ],
+      "reference_objectid": 128197,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5392.441565932531,
+        2559.9172385106795
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Source crosshair corrected where needed from native line geometry before scoring; frozen affine-03 unchanged.",
+      "predicted_lonlat": [
+        -66.11189844925815,
+        44.04844543400778
+      ],
+      "error_ground_m": 99.76261351884153,
+      "east_ground_m": 99.05835189871155,
+      "north_ground_m": 11.833088152328438
+    },
+    {
+      "id": "V02",
+      "label": "Lower Doucette southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        5205,
+        2361
+      ],
+      "lonlat": [
+        -66.13129316844375,
+        44.05339167332669
+      ],
+      "reference_objectid": 128107,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5190.912869834283,
+        2357.3780732250307
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Source crosshair corrected where needed from native line geometry before scoring; frozen affine-03 unchanged.",
+      "predicted_lonlat": [
+        -66.13031399628942,
+        44.05349711473207
+      ],
+      "error_ground_m": 79.33499457830371,
+      "east_ground_m": 78.46506972777286,
+      "north_ground_m": 11.71640718630169
+    },
+    {
+      "id": "V03",
+      "label": "Killam Lake western reentrant",
+      "role": "check",
+      "pixel_xy": [
+        5405,
+        3623
+      ],
+      "lonlat": [
+        -66.08359186520727,
+        44.001795814424085
+      ],
+      "reference_objectid": 133258,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5394.16720207606,
+        3629.8624592943816
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Source crosshair corrected where needed from native line geometry before scoring; frozen affine-03 unchanged.",
+      "predicted_lonlat": [
+        -66.08310465944808,
+        44.00229657868009
+      ],
+      "error_ground_m": 67.99138273981409,
+      "east_ground_m": 39.075411855068644,
+      "north_ground_m": 55.641174639188286
+    },
+    {
+      "id": "V05",
+      "label": "Coast bend north of Salmon River headland",
+      "role": "check",
+      "pixel_xy": [
+        4640,
+        1830
+      ],
+      "lonlat": [
+        -66.18028301501995,
+        44.06590262423491
+      ],
+      "reference_objectid": 12585,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4637.97126821836,
+        1832.3954707377125
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Source crosshair corrected where needed from native line geometry before scoring; frozen affine-03 unchanged.",
+      "predicted_lonlat": [
+        -66.18022247095307,
+        44.06604478751064
+      ],
+      "error_ground_m": 16.524239814118232,
+      "east_ground_m": 4.850619200745601,
+      "north_ground_m": 15.796265216938094
+    }
+  ],
+  "fit_sha256": "26d25ed420612a5eaff8de4276db754606296896c6b439079d178393b7cfd1e4",
+  "checks_sha256": "215372669b7772d1fab0856a49b85bafb7bae229d1ff94a83940667f24eac4fa",
+  "status": "Four independent physical features selected after affine-03 freeze; no tuning after scoring; limited main-map coverage only, no inset support"
+}

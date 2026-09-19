@@ -1,0 +1,29 @@
+"""Prepare the local review without copying any imagery into tracked directories."""
+import argparse
+import json
+import shutil
+from pathlib import Path
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--private-root',type=Path,required=True);p.add_argument('--leaflet',type=Path,required=True);a=p.parse_args()
+    private=a.private_root.resolve();review=private/'review';review.mkdir(exist_ok=True)
+    here=Path(__file__).resolve().parent;shutil.copy2(here/'review.html',review/'index.html')
+    shutil.copytree(a.leaflet,review/'vendor',dirs_exist_ok=True)
+    reports=here.parents[1]/'reports/crown-grant/batch1'
+    sheets=[]
+    for sheet in ['002','003','004','004a','005']:
+        entry=dict(id=sheet,status='Queued — not started',components=[])
+        record=reports/f'sheet{sheet}'/'status.json'
+        if record.exists():
+            status=json.loads(record.read_text());entry.update(status['review'])
+            folder=private/f'sheet{sheet}';receipt=json.loads((folder/'render-receipt.json').read_text())
+            link=review/f'sheet{sheet}'
+            if not link.exists():link.symlink_to(folder,target_is_directory=True)
+            for name,target in [('source.jpg',private/f'{sheet}-000.jpg'),('source.pdf',private/f'{sheet}.pdf'),('reference.geojson',private/f'{sheet}-water-tight.geojson')]:
+                link=folder/name
+                if not link.exists():link.symlink_to(target)
+            shutil.copy2(record,folder/'status.json')
+            entry.update(source=f'/sheet{sheet}/source.jpg',pdf=f'/sheet{sheet}/source.pdf',reference=f'/sheet{sheet}/reference.geojson',report=f'/sheet{sheet}/status.json',components=[dict(c,url=f'/sheet{sheet}/'+c['png']) for c in receipt['components']])
+        sheets.append(entry)
+    (review/'manifest.json').write_text(json.dumps(dict(sheets=sheets),indent=2)+'\n')
+    print(review)

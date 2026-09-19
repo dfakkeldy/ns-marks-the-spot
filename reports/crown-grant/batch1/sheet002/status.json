@@ -1,0 +1,48 @@
+{
+  "sheet": "002",
+  "status": "provisional-failed",
+  "complete": false,
+  "acceptance": "NOT ACCEPTED",
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/002.pdf",
+    "pdf_sha256": "6e8b79d551728967b4c175f18a3b0adeae459aceadbba05ae6d46bdd0f1f0640",
+    "jpeg_sha256": "89d0bdc5b09121e9e8809409fb4c672083be281a6a854828b9624f69d572ac37",
+    "dimensions": [
+      5731,
+      3919
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-03.json",
+  "checks": "checks-affine-03.json",
+  "scores": "scores-affine-03.json",
+  "components": "components.json",
+  "controls": 6,
+  "diagnostic_checks": 6,
+  "fresh_checks": 4,
+  "limitations": [
+    "Fixed numerical gates failed",
+    "Fewer than 12 distributed independent checks",
+    "Eastern edge and small inland waters lack checks",
+    "Initial northern correspondence was wrong; original and corrected results retained",
+    "No public imagery permission established; no production activation",
+    "No independent inset checks; seam placement is unsupported, so whole-sheet completion is not claimed"
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 NOT ACCEPTED; failed accuracy and coverage gates",
+    "statistics": "4 fresh main-map checks: 73 m RMS, median 74 m, P95 97 m, maximum 100 m. Also 6 reused diagnostics: 78 m RMS. All fixed gates and coverage requirements must pass for acceptance.",
+    "coverage": "Entire main map and inset imagery retained. Inset placement is an unsupported seam estimate. Eastern interior and edges are insufficiently checked.",
+    "focusBounds": [
+      [
+        43.975,
+        -66.235
+      ],
+      [
+        44.185,
+        -66.055
+      ]
+    ]
+  },
+  "fresh_scores": "fresh-scores-affine-03.json",
+  "workflow_status": "provisional assessment; full-sheet acceptance incomplete"
+}
