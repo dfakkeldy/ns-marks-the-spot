@@ -1,0 +1,111 @@
+{
+  "acquired_utc": "2026-09-20T15:42:16.311076+00:00",
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/005.pdf",
+  "reference_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "query": {
+    "geometry": [
+      -66.5,
+      44.15,
+      -65.75,
+      44.7
+    ],
+    "geometryType": "esriGeometryEnvelope",
+    "inSR": 4326,
+    "outSR": 4326,
+    "outFields": "*",
+    "where": "FEAT_CODE LIKE 'WACO%'",
+    "orderByFields": "OBJECTID",
+    "resultRecordCount": 2000,
+    "resultOffset": 0
+  },
+  "reference_count": 672,
+  "truncated": false,
+  "roads": {
+    "count": 3331,
+    "pages": [
+      2000,
+      1331
+    ],
+    "truncated": false,
+    "use": "Road corroboration attempted; no road check accepted"
+  },
+  "localities": "Geoname coordinates used only to narrow searches, never as precise control/check coordinates",
+  "axis_order": "longitude,latitude; EPSG:32620 easting,northing fit; WGS84 geodesic scoring",
+  "files": [
+    {
+      "name": "005.pdf",
+      "bytes": 3061858,
+      "sha256": "506f56cea7661eb42bbf7057991ededeb1ce2eb8c5c9984937d511063043ecc9"
+    },
+    {
+      "name": "005-000.jpg",
+      "bytes": 3020722,
+      "sha256": "d0444b73a17a459f812c6668154d3fcaf6cc5d784fa4ce2771bacd469a769c56"
+    },
+    {
+      "name": "005-water-page0.geojson",
+      "bytes": 2054765,
+      "sha256": "913f9a8639556a7087f6f110656527e7e2af003695f2d13599468831eb5b43a5"
+    },
+    {
+      "name": "005-water-tight.geojson",
+      "bytes": 2054765,
+      "sha256": "913f9a8639556a7087f6f110656527e7e2af003695f2d13599468831eb5b43a5"
+    },
+    {
+      "name": "005-roads.geojson",
+      "bytes": 3361710,
+      "sha256": "029723ae7fa940b7c90258fc83aed44b763f981ba827cf55d7aaf47410c34df8"
+    },
+    {
+      "name": "005-roads-page1.geojson",
+      "bytes": 2458153,
+      "sha256": "ce083dc75628bfb9046b5b066dcd8fc575fa6f31942901edfac90405dd8bf679"
+    },
+    {
+      "name": "005-roads-combined.geojson",
+      "bytes": 6009962,
+      "sha256": "0722b609cf309e5a01a14ddeacb3acdfc7ae233c36549bb8e1088a6eb8a51e3f"
+    },
+    {
+      "name": "005-main-frozen-guide.npy",
+      "bytes": 176,
+      "sha256": "7e6fa3fe578a339d7e8d9d3982b18055b8b8c1907f74384623b2855dd6172037"
+    },
+    {
+      "name": "005-inset-frozen-guide.npy",
+      "bytes": 176,
+      "sha256": "397d10cad4cd14b595ab9ebd68b2598b68849ea410a6ba6851cfa159bb3ff45c"
+    },
+    {
+      "name": "005-northpoint-name.json",
+      "bytes": 3849,
+      "sha256": "ab0d2a93453ec8a997e181164c8c10d319a7f1f6db205ff886df5fa2a524a0d5"
+    },
+    {
+      "name": "005-trout-name.json",
+      "bytes": 3823,
+      "sha256": "c12bf3992bb74f6415e17984e6b95c0f6d86ae1e867f8a1568026262a9e6795a"
+    },
+    {
+      "name": "005-boar-name.json",
+      "bytes": 1169,
+      "sha256": "242150b133482282537893a31b8e16be22dcdd9685f1e084d1b37a9f35b48a30"
+    },
+    {
+      "name": "005-weymouth-name.json",
+      "bytes": 3863,
+      "sha256": "982575e97fab00aad0335ca162666f086d2738c235480fb3caaaf61683861fe4"
+    },
+    {
+      "name": "005-sandy-name.json",
+      "bytes": 9157,
+      "sha256": "850ac98ca6ce6b5737fe60c672a34093cacaf3e23842c6694e15fc8b6b6c3847"
+    },
+    {
+      "name": "005-tiverton-name.json",
+      "bytes": 3806,
+      "sha256": "c57b69f2c26b9068334babe0a4f12ed96ae638c8395253693cb4eaf461d4ccea"
+    }
+  ]
+}

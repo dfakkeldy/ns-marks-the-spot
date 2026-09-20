@@ -1,0 +1,296 @@
+[
+  {
+    "id": "MQ01",
+    "label": "Tiddville northern cove inner bend",
+    "role": "proposal",
+    "pixel_xy": [
+      2467,
+      2160
+    ],
+    "lonlat": [
+      -66.17507029562903,
+      44.43259697595088
+    ],
+    "reference_objectid": 11970,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2475.2700227926252,
+      2165.1034722091863
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ02",
+    "label": "Tiddville southern shore headland",
+    "role": "proposal",
+    "pixel_xy": [
+      2790,
+      2510
+    ],
+    "lonlat": [
+      -66.14453015640113,
+      44.424346520520984
+    ],
+    "reference_objectid": 5062,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2803.9758988757385,
+      2511.61310543702
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ03",
+    "label": "Long Island Landing coast recess",
+    "role": "proposal",
+    "pixel_xy": [
+      1220,
+      2735
+    ],
+    "lonlat": [
+      -66.23549408797237,
+      44.3861361892936
+    ],
+    "reference_objectid": 19366,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1236.6550210446003,
+      2687.543148729601
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ04",
+    "label": "Long Island southeast coastal step near Central Grove",
+    "role": "proposal",
+    "pixel_xy": [
+      900,
+      3380
+    ],
+    "lonlat": [
+      -66.23504996518602,
+      44.35070015748749
+    ],
+    "reference_objectid": 19547,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      910.2517979787663,
+      3372.284627992427
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ05",
+    "label": "Tiverton passage shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1650,
+      2730
+    ],
+    "lonlat": [
+      -66.20964217141582,
+      44.39269097977134
+    ],
+    "reference_objectid": 19509,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1641.841765348683,
+      2720.6117541006533
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ06",
+    "label": "Mink Cove eastern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      3738,
+      2040
+    ],
+    "lonlat": [
+      -66.10168155069445,
+      44.46302654452497
+    ],
+    "reference_objectid": 5470,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3735.255699457135,
+      2029.7335071926937
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ07",
+    "label": "East Sandy Cove inner head",
+    "role": "proposal",
+    "pixel_xy": [
+      4185,
+      1605
+    ],
+    "lonlat": [
+      -66.08878936638709,
+      44.48996334444855
+    ],
+    "reference_objectid": 4969,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4158.312256171252,
+      1589.9726635640254
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ08",
+    "label": "East Sandy Cove southeastern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      4300,
+      1800
+    ],
+    "lonlat": [
+      -66.0742464505553,
+      44.48449545932629
+    ],
+    "reference_objectid": 5187,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4300.413785398239,
+      1784.3722537830472
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ09",
+    "label": "Little River Cove eastern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      3250,
+      2225
+    ],
+    "lonlat": [
+      -66.12726432118762,
+      44.44434933829256
+    ],
+    "reference_objectid": 5028,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3220.6210165290977,
+      2232.466512493673
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ10",
+    "label": "Weymouth estuary outer eastern bank headland",
+    "role": "proposal",
+    "pixel_xy": [
+      4810,
+      2850
+    ],
+    "lonlat": [
+      -66.01485830320958,
+      44.44711164770246
+    ],
+    "reference_objectid": 9463,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4740.828122116276,
+      2868.0734151734505
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ11",
+    "label": "Weymouth western bank sharp bend",
+    "role": "proposal",
+    "pixel_xy": [
+      4800,
+      3180
+    ],
+    "lonlat": [
+      -66.00273980932877,
+      44.43412268814408
+    ],
+    "reference_objectid": 27097,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4780.871899063233,
+      3192.474856343004
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ12",
+    "label": "Belliveau Cove eastern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      3810,
+      3570
+    ],
+    "lonlat": [
+      -66.05248027999939,
+      44.39966144123762
+    ],
+    "reference_objectid": 6000,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3797.55558548891,
+      3551.8254222286632
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ13",
+    "label": "Centreville northern coastal step",
+    "role": "proposal",
+    "pixel_xy": [
+      4945,
+      1000
+    ],
+    "lonlat": [
+      -66.06075277261735,
+      44.53055294982868
+    ],
+    "reference_objectid": 4455,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4909.834717716731,
+      979.8283165632747
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ14",
+    "label": "Centreville southeastern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      5120,
+      1375
+    ],
+    "lonlat": [
+      -66.03310799932775,
+      44.517032135622415
+    ],
+    "reference_objectid": 4989,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5150.6796785224,
+      1409.3712964634178
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "MA01",
+    "label": "Boar Head northeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1678,
+      2440
+    ],
+    "lonlat": [
+      -66.21535119740184,
+      44.40464770236256
+    ],
+    "reference_objectid": 19316,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1560.4477714907262,
+      2380.71958592569
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA02",
+    "label": "East Ferry peninsula southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1588,
+      3087
+    ],
+    "lonlat": [
+      -66.20245186476583,
+      44.375419890448484
+    ],
+    "reference_objectid": 4803,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1507.4655222983565,
+      3000.064390336862
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA03",
+    "label": "Sandy Cove western lip",
+    "role": "proposal",
+    "pixel_xy": [
+      3973,
+      1338
+    ],
+    "lonlat": [
+      -66.10558578007463,
+      44.49863865525664
+    ],
+    "reference_objectid": 2201,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3892.599611377169,
+      1306.5928636167664
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA04",
+    "label": "Trout Cove western lip",
+    "role": "proposal",
+    "pixel_xy": [
+      5465,
+      734
+    ],
+    "lonlat": [
+      -66.0362158912771,
+      44.551010237829054
+    ],
+    "reference_objectid": 4452,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5307.456056583731,
+      755.9428336935816
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA05",
+    "label": "New Edinburgh estuary headland",
+    "role": "proposal",
+    "pixel_xy": [
+      4542,
+      2948
+    ],
+    "lonlat": [
+      -66.02227991490592,
+      44.43925031522789
+    ],
+    "reference_objectid": 27124,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4603.118411857926,
+      2910.3370670522563
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA06",
+    "label": "Major Point northern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      3320,
+      3648
+    ],
+    "lonlat": [
+      -66.08086504547973,
+      44.38690575244883
+    ],
+    "reference_objectid": 6841,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3341.1687506416347,
+      3525.348475953797
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

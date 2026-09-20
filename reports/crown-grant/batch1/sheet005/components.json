@@ -1,0 +1,100 @@
+{
+  "source_frame": "Original 5762 x 3894 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      142,
+      130
+    ],
+    [
+      5604,
+      130
+    ],
+    [
+      5604,
+      3754
+    ],
+    [
+      142,
+      3754
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "PROVISIONAL; RMS 123.46 m exceeds 100 m; sparse coastal validation",
+      "ring_pixel_xy": [
+        [
+          2678,
+          130
+        ],
+        [
+          5604,
+          130
+        ],
+        [
+          5604,
+          3754
+        ],
+        [
+          142,
+          3754
+        ],
+        [
+          142,
+          2020
+        ],
+        [
+          1026,
+          2020
+        ],
+        [
+          2678,
+          1148
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json"
+    },
+    {
+      "id": "brier-long-inset",
+      "status": "PROVISIONAL; independent Brier/Peters Island checks only; Long Island unvalidated",
+      "ring_pixel_xy": [
+        [
+          142,
+          130
+        ],
+        [
+          2678,
+          130
+        ],
+        [
+          2678,
+          1148
+        ],
+        [
+          1026,
+          2020
+        ],
+        [
+          142,
+          2020
+        ]
+      ],
+      "matrix": [
+        [
+          4.847179818285233,
+          1.9403302483666074
+        ],
+        [
+          1.9238209945496942,
+          -5.039769846359796
+        ],
+        [
+          225309.57811127388,
+          4910880.360134912
+        ]
+      ],
+      "fit_file": "fit-inset-affine-01.json",
+      "fit_sha256": "20a66e2e30a40e6d000d6725f01a40b82e773b010502d5b82828780549b54ce7"
+    }
+  ]
+}
