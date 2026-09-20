@@ -1,0 +1,14 @@
+{
+  "count": 0,
+  "rms_ground_m": null,
+  "median_ground_m": null,
+  "p95_ground_m": null,
+  "max_ground_m": null,
+  "mean_east_ground_m": null,
+  "mean_north_ground_m": null,
+  "reason": "No accepted independent checks; accuracy is unvalidated",
+  "points": [],
+  "fit_sha256": "fd73f28a4b29f168d058ed7593b27bb9b34e84e2e422a6785f822fa5b7cf2492",
+  "checks_sha256": "5d04eb29599dedb434bf0d28e8d4f1c2140f4b0be03806ced12efa3e1c61bda5",
+  "status": "UNVALIDATED: no sufficiently identifiable excluded point matches; no accuracy score claimed"
+}

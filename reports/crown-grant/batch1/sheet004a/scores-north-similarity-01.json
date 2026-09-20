@@ -1,0 +1,190 @@
+{
+  "count": 6,
+  "rms_ground_m": 167.55925995231257,
+  "median_ground_m": 120.9549537181739,
+  "p95_ground_m": 256.73710347727933,
+  "max_ground_m": 268.55595254459354,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -8.064494783643005,
+  "mean_north_ground_m": 15.391401288739997,
+  "points": [
+    {
+      "id": "NQ01",
+      "label": "Flat Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1899,
+        2688
+      ],
+      "lonlat": [
+        -66.00030783721527,
+        43.511576815052436
+      ],
+      "reference_objectid": 18238,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1934.2299033987802,
+        2619.5046100126347
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -66.00065356039624,
+        43.50917276068513
+      ],
+      "error_ground_m": 268.55595254459354,
+      "east_ground_m": -27.956709224816727,
+      "north_ground_m": -267.0968402217687
+    },
+    {
+      "id": "NQ03",
+      "label": "Round Island northwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        2080,
+        2756
+      ],
+      "lonlat": [
+        -65.9896965472137,
+        43.508190989268414
+      ],
+      "reference_objectid": 19951,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2049.375815014122,
+        2753.0391628900543
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.9879037891049,
+        43.509695706648586
+      ],
+      "error_ground_m": 221.28055627533664,
+      "east_ground_m": 144.96911747437304,
+      "north_ground_m": 167.17966253173216
+    },
+    {
+      "id": "NQ04",
+      "label": "Round Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2100,
+        2835
+      ],
+      "lonlat": [
+        -65.98339610384033,
+        43.50597694223668
+      ],
+      "reference_objectid": 19951,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2115.929930294573,
+        2836.1517697939416
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "correction": "Initial nearest candidate was a separate 21 m perimeter rock (OBJECTID 21198); corrected to the verified Round Island shoreline OBJECTID 19951 before scoring.",
+      "predicted_lonlat": [
+        -65.98458895728616,
+        43.50660952575225
+      ],
+      "error_ground_m": 119.3516577912431,
+      "east_ground_m": -96.46350008742449,
+      "north_ground_m": 70.28236883032226
+    },
+    {
+      "id": "NQ05",
+      "label": "Mud Island southeastern corner",
+      "role": "check",
+      "pixel_xy": [
+        1907,
+        3408
+      ],
+      "lonlat": [
+        -65.97991479713623,
+        43.477344335214454
+      ],
+      "reference_objectid": 19935,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1907.1328031515586,
+        3397.683149371296
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.98097571685956,
+        43.47766404010809
+      ],
+      "error_ground_m": 92.89454392247218,
+      "east_ground_m": -85.83528678139255,
+      "north_ground_m": 35.52041432360002
+    },
+    {
+      "id": "NQ07",
+      "label": "Noddy Island northwestern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        1740,
+        3580
+      ],
+      "lonlat": [
+        -65.98782752127737,
+        43.46635845529038
+      ],
+      "reference_objectid": 20736,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1700.1273794850567,
+        3552.2408633851446
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.9864778488658,
+        43.466858959958884
+      ],
+      "error_ground_m": 122.5582496451047,
+      "east_ground_m": 109.2167077760635,
+      "north_ground_m": 55.60787083345087
+    },
+    {
+      "id": "NQ08",
+      "label": "Mud Island northeastern corner",
+      "role": "check",
+      "pixel_xy": [
+        2055,
+        3054
+      ],
+      "lonlat": [
+        -65.98032838072953,
+        43.495827072245405
+      ],
+      "reference_objectid": 312437,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2067.0569181157043,
+        3047.272741750814
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.98146976493975,
+        43.49610478269149
+      ],
+      "error_ground_m": 97.33709610312823,
+      "east_ground_m": -92.31729785866078,
+      "north_ground_m": 30.854931435103346
+    }
+  ],
+  "fit_sha256": "39fc67faed309e0d1a7a483de1ccbf006ccb595a18ed377301f74ea68b833a96",
+  "checks_sha256": "6b1a6b74a41947603266ec10a887f1b13e50110599d69a8fd927071c7f43a2e3",
+  "status": "Six excluded physical checks on frozen Northern Seal similarity fit; paired points on four islands are spatially correlated and do not constitute whole-sheet certification"
+}

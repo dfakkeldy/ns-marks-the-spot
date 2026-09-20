@@ -1,0 +1,306 @@
+{
+  "count": 10,
+  "rms_ground_m": 101.95600982886253,
+  "median_ground_m": 77.3611298690249,
+  "p95_ground_m": 168.14209251196408,
+  "max_ground_m": 187.0723193971134,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 56.628930567290595,
+  "mean_north_ground_m": -46.450450134888946,
+  "points": [
+    {
+      "id": "MQ01",
+      "label": "Pease Island southern tip at sheet join",
+      "role": "check",
+      "pixel_xy": [
+        1058,
+        266
+      ],
+      "lonlat": [
+        -66.02636699279552,
+        43.62837807543749
+      ],
+      "reference_objectid": 20668,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1065.933838656405,
+        264.63692577334587
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -66.02680971755677,
+        43.6281597593685
+      ],
+      "error_ground_m": 43.18567128974147,
+      "east_ground_m": -35.730282692527545,
+      "north_ground_m": -24.25590862980951
+    },
+    {
+      "id": "MQ02",
+      "label": "Little Half Bald Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        969,
+        377
+      ],
+      "lonlat": [
+        -66.02964670408413,
+        43.621844629620654
+      ],
+      "reference_objectid": 19306,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        965.3758834562032,
+        368.1789202587679
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -66.0291892925876,
+        43.62153205258403
+      ],
+      "error_ground_m": 50.68672430025142,
+      "east_ground_m": 36.91963757244077,
+      "north_ground_m": -34.728725600132776
+    },
+    {
+      "id": "MQ03",
+      "label": "Little Bald Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1007,
+        490
+      ],
+      "lonlat": [
+        -66.02425146255942,
+        43.61771274913187
+      ],
+      "reference_objectid": 19916,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1004.346729352721,
+        480.6828885751311
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -66.02383938225164,
+        43.617359060530475
+      ],
+      "error_ground_m": 51.4843598777875,
+      "east_ground_m": 33.26306391555649,
+      "north_ground_m": -39.29641066274551
+    },
+    {
+      "id": "MQ04",
+      "label": "Inner Bald Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        960,
+        653
+      ],
+      "lonlat": [
+        -66.0229814666453,
+        43.60961082624629
+      ],
+      "reference_objectid": 17825,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        952.9409038629383,
+        642.6829096659785
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -66.02227620457106,
+        43.609301645970085
+      ],
+      "error_ground_m": 66.49613750646039,
+      "east_ground_m": 56.936255478784,
+      "north_ground_m": -34.351115197802926
+    },
+    {
+      "id": "MQ05",
+      "label": "Gull Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2874,
+        389
+      ],
+      "lonlat": [
+        -65.91560881335705,
+        43.65999380579508
+      ],
+      "reference_objectid": 18039,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2854.904130501498,
+        359.4636017184239
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -65.91365688756353,
+        43.659084543847804
+      ],
+      "error_ground_m": 187.0723193971134,
+      "east_ground_m": 157.4501819819904,
+      "north_ground_m": -101.02223952404599
+    },
+    {
+      "id": "MQ06",
+      "label": "Whitehead Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3548,
+        637
+      ],
+      "lonlat": [
+        -65.86668061739977,
+        43.662533337237505
+      ],
+      "reference_objectid": 22079,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3548.251712188474,
+        617.8574324349174
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -65.86618039826088,
+        43.66169178165793
+      ],
+      "error_ground_m": 101.835546271738,
+      "east_ground_m": 40.34794081560782,
+      "north_ground_m": -93.50145537051014
+    },
+    {
+      "id": "MQ07",
+      "label": "St John Island northeastern tip",
+      "role": "check",
+      "pixel_xy": [
+        3601,
+        3157
+      ],
+      "lonlat": [
+        -65.79629402904887,
+        43.55236711710973
+      ],
+      "reference_objectid": 17834,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3584.6769665175816,
+        3154.819974164595
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -65.79524876990378,
+        43.55259653752927
+      ],
+      "error_ground_m": 88.2261222315894,
+      "east_ground_m": 84.46366904208288,
+      "north_ground_m": 25.489944212823247
+    },
+    {
+      "id": "MQ08",
+      "label": "Goodwins Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3530,
+        4198
+      ],
+      "lonlat": [
+        -65.7716723939105,
+        43.50580780377163
+      ],
+      "reference_objectid": 21411,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3530.6909756910172,
+        4195.111718290602
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -65.77163677932715,
+        43.50566776944885
+      ],
+      "error_ground_m": 15.822513552756993,
+      "east_ground_m": 2.880119754676236,
+      "north_ground_m": -15.558176156796222
+    },
+    {
+      "id": "MQ09",
+      "label": "Mutton group small western island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3654,
+        4127
+      ],
+      "lonlat": [
+        -65.76782016675828,
+        43.5114292266463
+      ],
+      "reference_objectid": 18090,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3631.1848655292997,
+        4112.243627146352
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "predicted_lonlat": [
+        -65.76604637466987,
+        43.511237472830466
+      ],
+      "error_ground_m": 145.00514854122613,
+      "east_ground_m": 143.43180314361967,
+      "north_ground_m": -21.302839022838953
+    },
+    {
+      "id": "MQ11",
+      "label": "Bon Portage Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        3510,
+        4736
+      ],
+      "lonlat": [
+        -65.75901323012899,
+        43.48287769140908
+      ],
+      "reference_objectid": 21065,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3511.671907769807,
+        4710.831153160194
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 50,
+      "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+      "limitation": "Northern spit differs from generalized historic headland; discrepancy includes possible shoreline change.",
+      "predicted_lonlat": [
+        -65.75844059329702,
+        43.481743800235094
+      ],
+      "error_ground_m": 134.22567828176435,
+      "east_ground_m": 46.32691666067523,
+      "north_ground_m": -125.9775753970307
+    }
+  ],
+  "fit_sha256": "5ebc995fba7db6666ed2a16ed2bb5b61ae94f62b8c49c0dc6c62c19f1478fec6",
+  "checks_sha256": "5cca5814f510892c17e3efdce199eeae3efe165238c0dcd4050dba6b4e3d5c92",
+  "status": "10 independent physical checks on frozen main-affine-01; no subsequent tuning; sparse compared with the batch coverage objective"
+}

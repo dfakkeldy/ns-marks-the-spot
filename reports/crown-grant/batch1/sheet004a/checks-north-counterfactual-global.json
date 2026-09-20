@@ -1,0 +1,186 @@
+{
+  "status": "Counterfactual baseline: main-map affine applied to the same six Northern Seal checks without displacement correction. Never published; identical physical observations to the separate-component check set.",
+  "points": [
+    {
+      "id": "NQ01",
+      "label": "Flat Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1899,
+        2688
+      ],
+      "lonlat": [
+        -66.00030783721527,
+        43.511576815052436
+      ],
+      "reference_objectid": 18238,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1934.2299033987802,
+        2619.5046100126347
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit"
+    },
+    {
+      "id": "NQ03",
+      "label": "Round Island northwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        2080,
+        2756
+      ],
+      "lonlat": [
+        -65.9896965472137,
+        43.508190989268414
+      ],
+      "reference_objectid": 19951,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2049.375815014122,
+        2753.0391628900543
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit"
+    },
+    {
+      "id": "NQ04",
+      "label": "Round Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2100,
+        2835
+      ],
+      "lonlat": [
+        -65.98339610384033,
+        43.50597694223668
+      ],
+      "reference_objectid": 19951,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2115.929930294573,
+        2836.1517697939416
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "correction": "Initial nearest candidate was a separate 21 m perimeter rock (OBJECTID 21198); corrected to the verified Round Island shoreline OBJECTID 19951 before scoring."
+    },
+    {
+      "id": "NQ05",
+      "label": "Mud Island southeastern corner",
+      "role": "check",
+      "pixel_xy": [
+        1907,
+        3408
+      ],
+      "lonlat": [
+        -65.97991479713623,
+        43.477344335214454
+      ],
+      "reference_objectid": 19935,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1907.1328031515586,
+        3397.683149371296
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit"
+    },
+    {
+      "id": "NQ07",
+      "label": "Noddy Island northwestern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        1740,
+        3580
+      ],
+      "lonlat": [
+        -65.98782752127737,
+        43.46635845529038
+      ],
+      "reference_objectid": 20736,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1700.1273794850567,
+        3552.2408633851446
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit"
+    },
+    {
+      "id": "NQ08",
+      "label": "Mud Island northeastern corner",
+      "role": "check",
+      "pixel_xy": [
+        2055,
+        3054
+      ],
+      "lonlat": [
+        -65.98032838072953,
+        43.495827072245405
+      ],
+      "reference_objectid": 312437,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2067.0569181157043,
+        3047.272741750814
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "NQ02",
+      "label": "Flat Island northern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        1830,
+        2680
+      ],
+      "lonlat": [
+        -66.0069094976721,
+        43.50761406115971
+      ],
+      "reference_objectid": 18237,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1808.1890719447983,
+        2650.576168377069
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "reason": "Smooth northern shoulder has no unique shared physical point."
+    },
+    {
+      "id": "NQ06",
+      "label": "Mud Island eastern waist",
+      "role": "check",
+      "pixel_xy": [
+        1880,
+        3338
+      ],
+      "lonlat": [
+        -65.9847723380074,
+        43.48035081538176
+      ],
+      "reference_objectid": 18631,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1867.4285524067818,
+        3309.148523630807
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "reason": "Historical angular waist and smooth modern shore lack a precise shared corner."
+    }
+  ]
+}

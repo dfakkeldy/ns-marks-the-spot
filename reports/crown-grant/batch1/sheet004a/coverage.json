@@ -1,0 +1,31 @@
+{
+  "edge_tolerance_output_cells": 1,
+  "method": "Independent dense source polygons projected to EPSG:3857 and GDAL-rasterized; compared to actual alpha",
+  "components": [
+    {
+      "component": "main",
+      "missing_interior_cells": 0,
+      "excess_cells_outside_tolerance": 0,
+      "expected_cells": 13719225,
+      "actual_alpha_cells": 13719220,
+      "passed": true
+    },
+    {
+      "component": "northern-seal",
+      "missing_interior_cells": 0,
+      "excess_cells_outside_tolerance": 0,
+      "expected_cells": 924942,
+      "actual_alpha_cells": 924942,
+      "passed": true
+    },
+    {
+      "component": "southern-seal",
+      "missing_interior_cells": 0,
+      "excess_cells_outside_tolerance": 0,
+      "expected_cells": 2143542,
+      "actual_alpha_cells": 2143542,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

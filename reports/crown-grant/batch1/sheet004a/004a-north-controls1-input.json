@@ -1,0 +1,54 @@
+[
+  [
+    "NA01",
+    "Flat Island western tip",
+    [
+      1755,
+      2737
+    ],
+    [
+      1756,
+      2690
+    ],
+    "WACO"
+  ],
+  [
+    "NA02",
+    "Round Island eastern tip",
+    [
+      2160,
+      2795
+    ],
+    [
+      2160,
+      2794
+    ],
+    "WACO"
+  ],
+  [
+    "NA03",
+    "Mud Island southwestern tip",
+    [
+      1726,
+      3412
+    ],
+    [
+      1724,
+      3387
+    ],
+    "WACO"
+  ],
+  [
+    "NA04",
+    "Noddy Island southern tip",
+    [
+      1725,
+      3640
+    ],
+    [
+      1705,
+      3611
+    ],
+    "WACO"
+  ]
+]

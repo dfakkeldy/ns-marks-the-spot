@@ -4,6 +4,11 @@ from pathlib import Path
 from pyproj import Transformer
 spec=importlib.util.spec_from_file_location('score',Path(__file__).with_name('score.py'));module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 class ScoreTests(unittest.TestCase):
+    def test_no_checks_is_unvalidated_not_zero_error(self):
+        result=module.score({},[])
+        self.assertEqual(result['count'],0)
+        self.assertIsNone(result['rms_ground_m'])
+        self.assertIsNone(result['max_ground_m'])
     def test_geodesic_ground_error_not_mercator_distance(self):
         to_xy=Transformer.from_crs(4326,3857,always_xy=True);x,y=to_xy.transform(-66,44)
         fit={'crs':'EPSG:3857','matrix':[[1,0],[0,-1],[x,y]],'points':[]}

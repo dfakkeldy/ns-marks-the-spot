@@ -7,6 +7,12 @@ import numpy as np
 from pyproj import Transformer, Geod
 
 def score(fit, checks):
+    if not checks:
+        return dict(count=0, rms_ground_m=None, median_ground_m=None,
+                    p95_ground_m=None, max_ground_m=None,
+                    mean_east_ground_m=None, mean_north_ground_m=None,
+                    reason='No accepted independent checks; accuracy is unvalidated',
+                    points=[])
     matrix = np.asarray(fit['matrix'])
     controls = fit['points']
     assert not {tuple(p['pixel_xy']) for p in controls} & {tuple(p['pixel_xy']) for p in checks}

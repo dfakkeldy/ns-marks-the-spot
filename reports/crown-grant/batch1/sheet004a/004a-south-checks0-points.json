@@ -1,0 +1,128 @@
+[
+  {
+    "id": "SQ01",
+    "label": "Northern island northwest headland",
+    "role": "proposal",
+    "pixel_xy": [
+      850,
+      4130
+    ],
+    "lonlat": [
+      -66.02228514720241,
+      43.42357052062167
+    ],
+    "reference_objectid": 20488,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      843.5946447581518,
+      4129.951899368083
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ02",
+    "label": "Northern island eastern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      1080,
+      4200
+    ],
+    "lonlat": [
+      -66.00985444291224,
+      43.42429393346151
+    ],
+    "reference_objectid": 20483,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1020.749997599225,
+      4198.319710635929
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ03",
+    "label": "Northern island southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1040,
+      4390
+    ],
+    "lonlat": [
+      -66.00684039351178,
+      43.414819438297386
+    ],
+    "reference_objectid": 20445,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      977.1959597944515,
+      4396.398029430769
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ04",
+    "label": "Southern island northern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      800,
+      4440
+    ],
+    "lonlat": [
+      -66.01788623275611,
+      43.41012718638741
+    ],
+    "reference_objectid": 20446,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      783.4382500225911,
+      4411.805246379459
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ05",
+    "label": "Southern island southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      840,
+      4770
+    ],
+    "lonlat": [
+      -66.00543899699741,
+      43.39563691356572
+    ],
+    "reference_objectid": 20486,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      824.4826733327936,
+      4766.447115310817
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ06",
+    "label": "Southern island western upper bend",
+    "role": "proposal",
+    "pixel_xy": [
+      710,
+      4600
+    ],
+    "lonlat": [
+      -66.01996316220624,
+      43.399837757353
+    ],
+    "reference_objectid": 20525,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      662.6447494162712,
+      4591.626622296637
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

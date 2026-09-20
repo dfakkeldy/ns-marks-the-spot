@@ -1,0 +1,190 @@
+{
+  "count": 6,
+  "rms_ground_m": 8015.73708336091,
+  "median_ground_m": 7957.841449454434,
+  "p95_ground_m": 8194.50181226369,
+  "max_ground_m": 8209.139311678715,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 7271.298887609314,
+  "mean_north_ground_m": 3369.0847781992184,
+  "points": [
+    {
+      "id": "NQ01",
+      "label": "Flat Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1899,
+        2688
+      ],
+      "lonlat": [
+        -66.00030783721527,
+        43.511576815052436
+      ],
+      "reference_objectid": 18238,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1934.2299033987802,
+        2619.5046100126347
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.91069262083877,
+        43.53918452137725
+      ],
+      "error_ground_m": 7867.314111504728,
+      "east_ground_m": 7243.091048010722,
+      "north_ground_m": 3071.199016558251
+    },
+    {
+      "id": "NQ03",
+      "label": "Round Island northwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        2080,
+        2756
+      ],
+      "lonlat": [
+        -65.9896965472137,
+        43.508190989268414
+      ],
+      "reference_objectid": 19951,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2049.375815014122,
+        2753.0391628900543
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.89793104350501,
+        43.53982438757803
+      ],
+      "error_ground_m": 8209.139311678715,
+      "east_ground_m": 7416.808197026596,
+      "north_ground_m": 3518.653777663836
+    },
+    {
+      "id": "NQ04",
+      "label": "Round Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2100,
+        2835
+      ],
+      "lonlat": [
+        -65.98339610384033,
+        43.50597694223668
+      ],
+      "reference_objectid": 19951,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2115.929930294573,
+        2836.1517697939416
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "correction": "Initial nearest candidate was a separate 21 m perimeter rock (OBJECTID 21198); corrected to the verified Round Island shoreline OBJECTID 19951 before scoring.",
+      "predicted_lonlat": [
+        -65.8945987796902,
+        43.53677139178382
+      ],
+      "error_ground_m": 7952.678997249392,
+      "east_ground_m": 7177.27175851426,
+      "north_ground_m": 3425.1822342358973
+    },
+    {
+      "id": "NQ05",
+      "label": "Mud Island southeastern corner",
+      "role": "check",
+      "pixel_xy": [
+        1907,
+        3408
+      ],
+      "lonlat": [
+        -65.97991479713623,
+        43.477344335214454
+      ],
+      "reference_objectid": 19935,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1907.1328031515586,
+        3397.683149371296
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.89085261393993,
+        43.50788422702579
+      ],
+      "error_ground_m": 7963.003901659477,
+      "east_ground_m": 7202.115170967144,
+      "north_ground_m": 3396.905680464056
+    },
+    {
+      "id": "NQ07",
+      "label": "Noddy Island northwestern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        1740,
+        3580
+      ],
+      "lonlat": [
+        -65.98782752127737,
+        43.46635845529038
+      ],
+      "reference_objectid": 20736,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1700.1273794850567,
+        3552.2408633851446
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.89631276743839,
+        43.49703782076769
+      ],
+      "error_ground_m": 8150.589314018619,
+      "east_ground_m": 7401.770004654568,
+      "north_ground_m": 3412.6099929512047
+    },
+    {
+      "id": "NQ08",
+      "label": "Mud Island northeastern corner",
+      "role": "check",
+      "pixel_xy": [
+        2055,
+        3054
+      ],
+      "lonlat": [
+        -65.98032838072953,
+        43.495827072245405
+      ],
+      "reference_objectid": 312437,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2067.0569181157043,
+        3047.272741750814
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Contextual island identity and native crosshair reviewed before first score; excluded from frozen north similarity fit",
+      "predicted_lonlat": [
+        -65.89142932586033,
+        43.52630445664237
+      ],
+      "error_ground_m": 7946.131501104365,
+      "east_ground_m": 7186.737146482592,
+      "north_ground_m": 3389.957967322067
+    }
+  ],
+  "fit_sha256": "5ebc995fba7db6666ed2a16ed2bb5b61ae94f62b8c49c0dc6c62c19f1478fec6",
+  "checks_sha256": "99905df8e70234d0fc4bda98bc6f06b36b74bcd2001d05194feda7ad58faec06",
+  "status": "Counterfactual baseline: main-map affine applied to the same six Northern Seal checks without displacement correction. Never published; identical physical observations to the separate-component check set."
+}
