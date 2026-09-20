@@ -73,7 +73,7 @@ unless separately changed. RMS alone does not resolve unsupported coverage.
 | 2 | 003 | Complete main-sheet assessment, 12 independent checks | RMS passes 100 m; existing median/P95 bounds fail | [#521](https://github.com/dfakkeldy/ns-marks-the-spot/pull/521) |
 | 3 | 004 | 21 reference-audited island/coast checks; full raster | RMS passes 100 m; tails/unsupported rocks remain | [#522](https://github.com/dfakkeldy/ns-marks-the-spot/pull/522), merged |
 | 4 | 004a | Three cartographic components, full-source coverage | Main RMS 101.96 m; Northern 167.56 m; Southern unvalidated | [#523](https://github.com/dfakkeldy/ns-marks-the-spot/pull/523), merged |
-| 5 | 005 | Separate main and Brier/Long Island inset assessed | Main RMS 123.46 m; inset 35.36 m with incomplete coverage | Final batch PR |
+| 5 | 005 | Separate main and Brier/Long Island inset assessed | Main RMS 123.46 m; inset 35.36 m with incomplete coverage | [#524](https://github.com/dfakkeldy/ns-marks-the-spot/pull/524) |
 
 Assessed: 5/5; geographically accepted: 0/5. Sheet 002's unsupported inset is
 not counted as completed geographic validation. No sixth sheet is authorized.
