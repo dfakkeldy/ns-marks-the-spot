@@ -21,7 +21,7 @@
   "diagnostic_checks": 6,
   "fresh_checks": 4,
   "limitations": [
-    "Fixed numerical gates failed",
+    "Original 50 m RMS gate failed; revised 100 m RMS gate passes. Existing companion bounds/coverage remain unmet.",
     "Fewer than 12 distributed independent checks",
     "Eastern edge and small inland waters lack checks",
     "Initial northern correspondence was wrong; original and corrected results retained",
@@ -29,7 +29,7 @@
     "No independent inset checks; seam placement is unsupported, so whole-sheet completion is not claimed"
   ],
   "review": {
-    "status": "PROVISIONAL \u2014 NOT ACCEPTED; failed accuracy and coverage gates",
+    "status": "PROVISIONAL \u2014 NOT ACCEPTED; RMS passes 100 m, inset/coverage unsupported",
     "statistics": "4 fresh main-map checks: 73 m RMS, median 74 m, P95 97 m, maximum 100 m. Also 6 reused diagnostics: 78 m RMS. All fixed gates and coverage requirements must pass for acceptance.",
     "coverage": "Entire main map and inset imagery retained. Inset placement is an unsupported seam estimate. Eastern interior and edges are insufficiently checked.",
     "focusBounds": [
@@ -44,5 +44,8 @@
     ]
   },
   "fresh_scores": "fresh-scores-affine-03.json",
-  "workflow_status": "provisional assessment; full-sheet acceptance incomplete"
+  "workflow_status": "provisional assessment; full-sheet acceptance incomplete",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "rms_gate_passed": true
 }

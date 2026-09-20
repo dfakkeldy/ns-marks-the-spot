@@ -22,13 +22,13 @@
   "independent_checks": 12,
   "diagnostic_checks": 0,
   "limitations": [
-    "Fixed RMS/median/P95 gates failed; maximum gate passed",
+    "Revised 100 m RMS and maximum gates pass; existing median/P95 hard bounds fail.",
     "Historic shoreline generalization and water-level changes limit precise definitions",
     "No present grant boundary or ownership accuracy is established",
     "Complete-scan redistribution remains unclarified"
   ],
   "review": {
-    "status": "PROVISIONAL \u2014 NOT ACCEPTED; RMS, median and P95 gates failed",
+    "status": "PROVISIONAL \u2014 RMS passes 100 m; existing median/P95 gates fail",
     "statistics": "12 independent physical checks \u00b7 RMS 52.52 m \u00b7 median 47.93 m \u00b7 P95 81.09 m \u00b7 maximum 86.11 m. Five controls; no tuning after scoring.",
     "coverage": "Complete main neatline retained, including offshore mapped content. No separate inset. Checks span northern lakes, coast, central interior and eastern/southern edges.",
     "focusBounds": [
@@ -41,5 +41,8 @@
         -65.99
       ]
     ]
-  }
+  },
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "rms_gate_passed": true
 }

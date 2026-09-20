@@ -1,0 +1,23 @@
+[
+  {
+    "id": "Q14",
+    "label": "Western Bar Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3831,
+      3415
+    ],
+    "lonlat": [
+      -65.97394654001494,
+      43.673873878324684
+    ],
+    "reference_objectid": 22507,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3829.799606370798,
+      3417.885678228573
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

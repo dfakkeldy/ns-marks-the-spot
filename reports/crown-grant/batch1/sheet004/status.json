@@ -1,0 +1,48 @@
+{
+  "sheet": "004",
+  "status": "provisional-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "acceptance": "NOT ACCEPTED",
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/004.pdf",
+    "pdf_sha256": "2fff4e5c57e79ec1d79ec6df11992fb1544179435cd124ce962dbcaf2d12d307",
+    "jpeg_sha256": "03557b41aec30a19e324ccb9069013aaa7b7bfecef5ab67eb8408010ff82ad17",
+    "dimensions": [
+      5564,
+      3989
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "checks": "checks-affine-01-audited.json",
+  "scores": "scores-affine-01-audited.json",
+  "components": "components.json",
+  "controls": 8,
+  "independent_checks": 21,
+  "reference_audit": "Q14 modern marker corrected after first scoring; original score and coordinates retained; no fitting change",
+  "limitations": [
+    "Revised 100 m RMS gate passes; existing median/P95/maximum bounds fail.",
+    "Gannet Rock lacks a precise modern shoreline reference; unscored and unsupported",
+    "Not every small island, rock or marsh arm has an independent check",
+    "Historical low/high water boundaries and shoreline generalization are material limitations"
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 RMS passes 100 m; tail errors and island coverage limited",
+    "statistics": "21 physical checks \u00b7 RMS 92.79 m \u00b7 median 66.05 m \u00b7 P95 167.70 m \u00b7 maximum 229.13 m. One modern marker corrected after scoring; original RMS 93.66 m retained. Eight controls; fit unchanged.",
+    "coverage": "Complete mapped neatline and all scanned islands retained. Gannet Rock is unsupported; other untested small islands/rocks are not certified. Peas Island continues beyond the printed sheet boundary.",
+    "focusBounds": [
+      [
+        43.59,
+        -66.19
+      ],
+      [
+        43.85,
+        -65.87
+      ]
+    ]
+  },
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "rms_gate_passed": true
+}

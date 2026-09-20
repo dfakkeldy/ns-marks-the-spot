@@ -1,0 +1,170 @@
+[
+  {
+    "id": "C01",
+    "label": "Green Island offshore northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1668,
+      2005
+    ],
+    "lonlat": [
+      -66.14408087011662,
+      43.69081584303909
+    ],
+    "reference_objectid": 18546,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1725.7634018889512,
+      1957.169467475498
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Clamney Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3155,
+      974
+    ],
+    "lonlat": [
+      -66.0853611558932,
+      43.76388780835249
+    ],
+    "reference_objectid": 27460,
+    "reference_feature_code": "WACORVIS10",
+    "guide_reference_pixel_xy": [
+      3165.7916551737,
+      956.7717154988786
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Chebogue Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2407,
+      1320
+    ],
+    "lonlat": [
+      -66.1199696426215,
+      43.73421244763933
+    ],
+    "reference_objectid": 12251,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2433.3490917132003,
+      1295.7748633528827
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Comeaus Hill mainland southern point",
+    "role": "proposal",
+    "pixel_xy": [
+      3390,
+      3000
+    ],
+    "lonlat": [
+      -66.0139227961839,
+      43.68179940352526
+    ],
+    "reference_objectid": 12732,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3437.4555663495557,
+      2941.4702352466993
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Big Fish Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4425,
+      2995
+    ],
+    "lonlat": [
+      -65.94948165100517,
+      43.70332382757535
+    ],
+    "reference_objectid": 17106,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4509.771850455902,
+      2940.7444978632266
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Jones Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5280,
+      3700
+    ],
+    "lonlat": [
+      -65.8794593538649,
+      43.68995071643967
+    ],
+    "reference_objectid": 17883,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5357.977718816488,
+      3628.1184364748187
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Arnold Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4780,
+      708
+    ],
+    "lonlat": [
+      -65.98413971338971,
+      43.8071018455674
+    ],
+    "reference_objectid": 116338,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4929.376182208187,
+      779.6319670438534
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Murder Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2680,
+      2940
+    ],
+    "lonlat": [
+      -66.05495017251621,
+      43.67090620648804
+    ],
+    "reference_objectid": 18700,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2778.8839912839467,
+      2888.7838759187143
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,5 +1,9 @@
 # Sheet 002 — provisional, not accepted
 
+Current criteria are in `../acceptance-criteria.json`: the user raised the RMS
+ceiling to 100 m during the batch. The original assessments below are preserved;
+read `status.json` for the current acceptance state.
+
 Official Digby and Yarmouth Counties scan: 5731 × 3919 pixels, embedded JPEG,
 150 dpi, last-updated stamp March 2009. All imagery is private in the ignored
 `.crown-grant-local/` directory. Public records contain no scan/screenshot pixels.

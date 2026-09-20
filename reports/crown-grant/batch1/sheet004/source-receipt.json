@@ -1,0 +1,100 @@
+{
+  "acquired_utc": "2026-09-19",
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/004.pdf",
+  "reference_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "query": {
+    "geometry": [
+      -66.4,
+      43.52,
+      -65.85,
+      43.86
+    ],
+    "geometryType": "esriGeometryEnvelope",
+    "inSR": 4326,
+    "outSR": 4326,
+    "outFields": "*",
+    "where": "1=1",
+    "orderByFields": "OBJECTID",
+    "resultRecordCount": 2000,
+    "resultOffsets": [
+      0,
+      2000,
+      4000
+    ]
+  },
+  "reference_count": 4566,
+  "truncated": false,
+  "axis_order": "longitude,latitude; fit EPSG:32620 easting,northing; WGS84 geodesic scoring",
+  "gannet_reference_search": {
+    "geoname_lonlat": [
+      -66.148767,
+      43.63854
+    ],
+    "use": "locality corroboration only, not scored",
+    "focused_bbox": [
+      -66.17,
+      43.62,
+      -66.13,
+      43.66
+    ],
+    "point_layer": 1,
+    "dry_line_layer": 3,
+    "returned_features": [
+      0,
+      0
+    ]
+  },
+  "local_private_root": "/Users/dfakkeldy/.codex/worktrees/749c/ns-marks-the-spot/.crown-grant-local",
+  "files": [
+    {
+      "name": "004.pdf",
+      "bytes": 2917985,
+      "sha256": "2fff4e5c57e79ec1d79ec6df11992fb1544179435cd124ce962dbcaf2d12d307"
+    },
+    {
+      "name": "004-000.jpg",
+      "bytes": 2877357,
+      "sha256": "03557b41aec30a19e324ccb9069013aaa7b7bfecef5ab67eb8408010ff82ad17"
+    },
+    {
+      "name": "004-water-page0.geojson",
+      "bytes": 5716488,
+      "sha256": "3b0d0c07b3d1bb1b41e6b6cc85209fca9f62fc8fd48a2eae4d19e3c0d9c2f761"
+    },
+    {
+      "name": "004-water-page1.geojson",
+      "bytes": 3327230,
+      "sha256": "6f115f6ecaa5766404350556efc6a8a2a5d0beec221144c84a4480f42a0a3377"
+    },
+    {
+      "name": "004-water-page2.geojson",
+      "bytes": 1476002,
+      "sha256": "9aa7cebee1e00e231631df0151d9a70b4d5fe7c1d2f62311c2ec0e58c775b74e"
+    },
+    {
+      "name": "004-water-tight.geojson",
+      "bytes": 10663271,
+      "sha256": "b14ce05944c70fd32d6aad9eee935302ad90e3ebc6c32da4c67edfb6dc0a327c"
+    },
+    {
+      "name": "004-gannet-name.json",
+      "bytes": 9184,
+      "sha256": "fbaad08974c969f5812babadf889b90ef4a645155e9806a6473cf6d2cd664f82"
+    },
+    {
+      "name": "004-gannet-points.geojson",
+      "bytes": 42,
+      "sha256": "ed778c73ea51338d6576fb5992b189f2b94d9f3d5e199f46c1af520d6b0b3e6c"
+    },
+    {
+      "name": "004-gannet-dry-lines.geojson",
+      "bytes": 42,
+      "sha256": "ed778c73ea51338d6576fb5992b189f2b94d9f3d5e199f46c1af520d6b0b3e6c"
+    },
+    {
+      "name": "004-seam-search-guide.npy",
+      "bytes": 176,
+      "sha256": "fd72fb534a398f44a0f9d915b10c4b44343467ccf01746fcaf92ed93caa0432c"
+    }
+  ]
+}
