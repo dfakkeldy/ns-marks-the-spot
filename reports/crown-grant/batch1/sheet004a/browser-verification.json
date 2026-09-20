@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-09-20T15:40:22.547603+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex in-app browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet004a/main-3857.png",
+      "complete": true,
+      "naturalWidth": 5090,
+      "naturalHeight": 5976
+    },
+    {
+      "path": "/sheet004a/northern-seal-3857.png",
+      "complete": true,
+      "naturalWidth": 1210,
+      "naturalHeight": 1351
+    },
+    {
+      "path": "/sheet004a/southern-seal-3857.png",
+      "complete": true,
+      "naturalWidth": 1968,
+      "naturalHeight": 1979
+    }
+  ],
+  "verified": [
+    "Three actual raster components rendered at separate true locations",
+    "Full-sheet overview inspected against NSTDB/OSM",
+    "Opacity 35 percent applied to all three images",
+    "Modern-only/restore toggle verified",
+    "Distinct provisional/unvalidated statuses visible",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Rendering does not establish Southern Seal geographic accuracy",
+    "No public deployment or production activation"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "0383f61be07cb70dc5cba2a57f17fbc21fc3347f17122bc30d7af512fd9b171a",
+  "fit_sha256": "5ebc995fba7db6666ed2a16ed2bb5b61ae94f62b8c49c0dc6c62c19f1478fec6",
+  "components_sha256": "191fb0ab7c98413a31dd897d761474aa0039bf425cf04cd8f55f7318e094646f",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; 10 independent checks, RMS 101.96 m fails 100 m",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          43.37671105993727,
+          -66.08486496287955
+        ],
+        [
+          43.688066864133575,
+          -65.71907097918609
+        ]
+      ],
+      "dimensions": [
+        5090,
+        5976
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 13719220,
+      "source_mask_pixels": 16169116,
+      "affine_determinant": -28.532964393746482,
+      "png_sha256": "9f3092aa0097bb0806ae1e51daaac225f5a0c23b4f867e5fbb039e651b4e9094",
+      "tif_sha256": "a0ecf0bc3f6c6be4e2ed3a4e15a6d7741d3727155f9093f462964b8166d0fc6c"
+    },
+    {
+      "id": "northern-seal",
+      "status": "provisional; 6 independent checks, RMS 167.56 m fails 100 m",
+      "png": "northern-seal-3857.png",
+      "tif": "northern-seal-3857.tif",
+      "bounds": [
+        [
+          43.45365876910353,
+          -66.03501516491005
+        ],
+        [
+          43.52409826462188,
+          -65.94805824540728
+        ]
+      ],
+      "dimensions": [
+        1210,
+        1351
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 924942,
+      "source_mask_pixels": 1092000,
+      "affine_determinant": -28.541333232277037,
+      "png_sha256": "87a4184d89127fcbf5dfb008307db2af4fdbbcf1bbd8a20ceb7354dcde231cb1",
+      "tif_sha256": "0c0127a7ca113aa5fa31dc6db44074b2a666c02c1b8fc6b5a54cc4ac8310632f"
+    },
+    {
+      "id": "southern-seal",
+      "status": "UNVALIDATED control-only similarity; no independent accuracy score",
+      "png": "southern-seal-3857.png",
+      "tif": "southern-seal-3857.tif",
+      "bounds": [
+        [
+          43.35287850679694,
+          -66.06156611763376
+        ],
+        [
+          43.45620509799218,
+          -65.92013535930197
+        ]
+      ],
+      "dimensions": [
+        1968,
+        1979
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 2143542,
+      "source_mask_pixels": 2418000,
+      "affine_determinant": -29.954561657296196,
+      "png_sha256": "70f3597ff0778c4caa1224c7135b69af62055ebfaa3eca138ede6c4091540f53",
+      "tif_sha256": "f546cc3282d2537f0d40fdad86defc9e58d8c872213ac8f78b1dd8ae0793a7e6"
+    }
+  ]
+}

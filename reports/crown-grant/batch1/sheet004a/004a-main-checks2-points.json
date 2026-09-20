@@ -1,0 +1,44 @@
+[
+  {
+    "id": "MQ07",
+    "label": "St John Island northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3601,
+      3157
+    ],
+    "lonlat": [
+      -65.79629402904887,
+      43.55236711710973
+    ],
+    "reference_objectid": 17834,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3584.6769665175816,
+      3154.819974164595
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ08",
+    "label": "Goodwins Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3530,
+      4198
+    ],
+    "lonlat": [
+      -65.7716723939105,
+      43.50580780377163
+    ],
+    "reference_objectid": 21411,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3530.6909756910172,
+      4195.111718290602
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "NA01",
+    "label": "Flat Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1755,
+      2737
+    ],
+    "lonlat": [
+      -66.00873345982374,
+      43.50488925765184
+    ],
+    "reference_objectid": 18239,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1758.7491304081632,
+      2689.8155661751516
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "NA02",
+    "label": "Round Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2160,
+      2795
+    ],
+    "lonlat": [
+      -65.98196940222131,
+      43.508804420193314
+    ],
+    "reference_objectid": 19951,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2160.829393365013,
+      2792.352023787098
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "NA03",
+    "label": "Mud Island southwestern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1726,
+      3412
+    ],
+    "lonlat": [
+      -65.99109296900548,
+      43.474012579176076
+    ],
+    "reference_objectid": 20146,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1723.9152213067864,
+      3386.7577553499723
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "NA04",
+    "label": "Noddy Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1725,
+      3640
+    ],
+    "lonlat": [
+      -65.98586590709577,
+      43.463953543229465
+    ],
+    "reference_objectid": 20736,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1705.4949795479188,
+      3610.397545185522
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

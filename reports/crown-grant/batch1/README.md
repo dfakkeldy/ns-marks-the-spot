@@ -71,11 +71,11 @@ unless separately changed. RMS alone does not resolve unsupported coverage.
 |---|---|---|---|---|
 | 1 | 002 | Provisional main-map assessment; unsupported inset | Not accepted; fresh RMS 72.70 m, sparse coverage | [#520](https://github.com/dfakkeldy/ns-marks-the-spot/pull/520) |
 | 2 | 003 | Complete main-sheet assessment, 12 independent checks | RMS passes 100 m; existing median/P95 bounds fail | [#521](https://github.com/dfakkeldy/ns-marks-the-spot/pull/521) |
-| 3 | 004 | 21 reference-audited island/coast checks; full raster | RMS passes 100 m; tails/unsupported rocks remain | Preparing |
-| 4 | 004a | Queued, not started | Unassessed | — |
+| 3 | 004 | 21 reference-audited island/coast checks; full raster | RMS passes 100 m; tails/unsupported rocks remain | [#522](https://github.com/dfakkeldy/ns-marks-the-spot/pull/522), merged |
+| 4 | 004a | Three cartographic components, full-source coverage | Main RMS 101.96 m; Northern 167.56 m; Southern unvalidated | Preparing |
 | 5 | 005 | Queued, not started | Unassessed | — |
 
-Assessed: 3/5; geographically accepted: 0/5. Sheet 002's unsupported inset is
+Assessed: 4/5; geographically accepted: 0/5. Sheet 002's unsupported inset is
 not counted as completed geographic validation. No sixth sheet is authorized.
 
 ## Local review
@@ -86,10 +86,15 @@ Private imagery root: `.crown-grant-local/` in this task worktree. Prepare with:
 ```sh
 python3 tools/crown-grant/prepare_review.py --private-root .crown-grant-local \
   --leaflet /Users/dfakkeldy/Developer/ns-marks-the-spot/web/node_modules/leaflet/dist
-python3 tools/crown-grant/serve_review.py --root .crown-grant-local/review --port 8842
+python3 tools/crown-grant/serve_review.py --root .crown-grant-local/review --port 8842 --detach
 ```
 
 Sheet 002 now has a private full-content provisional render and numerical/visual
 assessment. It is **not accepted**, and its inset remains unsupported. See its
-[record](sheet002/README.md). Assessed: 3/5; geographically accepted: 0/5.
+[record](sheet002/README.md). Assessed: 4/5; geographically accepted: 0/5.
 This does not count the unsupported inset as completed geographic validation.
+
+The review server supports a detached process, with readiness verified by its own
+PID receipt and HTTP manifest response. Logs and the active PID are kept privately
+beside the review directory. Detached-mode startup and an independent subsequent
+HTTP request were tested before the persistent server replaced the initial session.

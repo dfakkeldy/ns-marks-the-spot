@@ -1,0 +1,119 @@
+{
+  "acquired_utc": "2026-09-19",
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/004a.pdf",
+  "reference_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "query": {
+    "geometry": [
+      -66.2,
+      43.3,
+      -65.65,
+      43.78
+    ],
+    "geometryType": "esriGeometryEnvelope",
+    "inSR": 4326,
+    "outSR": 4326,
+    "outFields": "*",
+    "where": "1=1",
+    "orderByFields": "OBJECTID",
+    "resultRecordCount": 2000,
+    "resultOffsets": [
+      0,
+      2000,
+      4000
+    ]
+  },
+  "reference_count": 4788,
+  "truncated": false,
+  "active_reference": "NSTDB only; all final controls/checks refer to its OBJECTIDs",
+  "diagnostic_reference": {
+    "source": "OpenStreetMap public map API",
+    "url": "https://api.openstreetmap.org/api/0.6/map?bbox=-65.99,43.39,-65.83,43.57",
+    "ways": 15,
+    "use": "Discovery/locality corroboration only. Not used in final fits or scored checks. Raw user metadata stays private.",
+    "licence": "OpenStreetMap contributors, ODbL; several coastline source tags identify NRCan-CanVec-7.0",
+    "prior_overpass_attempts": "Both POST and GET returned HTTP 406; retained query text"
+  },
+  "apparent_reference_gap": "Resolved as intentional cartographic displacement; NSTDB contains the islands at their actual positions",
+  "discovery_guides": [
+    "A geodesic due-west five-mile guide was rejected after physical comparison",
+    "A paper-frame horizontal displacement narrowed correspondence search; final controls independently fit each component"
+  ],
+  "axis_order": "longitude,latitude; EPSG:32620 easting,northing fit; WGS84 geodesic scoring",
+  "files": [
+    {
+      "name": "004a.pdf",
+      "bytes": 2186092,
+      "sha256": "f5e0cf1ecd5f152c60dd4449b9f4bb30a1dd1d0479bf77dcc012c053ce97c2e7"
+    },
+    {
+      "name": "004a-000.jpg",
+      "bytes": 2165259,
+      "sha256": "0383f61be07cb70dc5cba2a57f17fbc21fc3347f17122bc30d7af512fd9b171a"
+    },
+    {
+      "name": "004a-water-page0.geojson",
+      "bytes": 5293401,
+      "sha256": "efb3c06688916a6f00c9fdef3683526663b0af33c2ee533b85e10ed3091985a4"
+    },
+    {
+      "name": "004a-water-page1.geojson",
+      "bytes": 3853885,
+      "sha256": "bd8a9f7ebf4ae98cdad22805a18c9627cc519cb27d7de5244abc9f9cedecbcb5"
+    },
+    {
+      "name": "004a-water-page2.geojson",
+      "bytes": 2461200,
+      "sha256": "6b9be3d2530b117d505ce9c04c4bd17276ae37d2d5ad89c91b450a15c907427d"
+    },
+    {
+      "name": "004a-water-tight.geojson",
+      "bytes": 11767308,
+      "sha256": "4085c46dcee8a8a20e91c08d8772770de2521bc449033854c2f9151cd0e87d03"
+    },
+    {
+      "name": "004a-nstdb-water.geojson",
+      "bytes": 11767308,
+      "sha256": "4085c46dcee8a8a20e91c08d8772770de2521bc449033854c2f9151cd0e87d03"
+    },
+    {
+      "name": "004a-osm-offshore.osm",
+      "bytes": 497400,
+      "sha256": "ec866e2ff0d5f6153d0811630661bb54ca0f771ae574ac0c196744cb47fee3e4"
+    },
+    {
+      "name": "004a-osm-coastlines.geojson",
+      "bytes": 12202,
+      "sha256": "0cbdb71d591b7da99b07fda6e07c1bf1efff8f8fcdb6ed37c6518462ed90e9ee"
+    },
+    {
+      "name": "004a-overpass-query.txt",
+      "bytes": 87,
+      "sha256": "465b6334576e9695adee80345094ea9e9750e16f632f229a8e38258464a356c4"
+    },
+    {
+      "name": "004a-main-search-guide.npy",
+      "bytes": 176,
+      "sha256": "c039a8aa7c350b891d5ab970b96cf939b444e03d3c9a2e5165bc0901095ffd07"
+    },
+    {
+      "name": "004a-shifted-search-guide.npy",
+      "bytes": 176,
+      "sha256": "7bc32211dc51f1762a6ac849089059d33f1390de8e26d82920013d90efaed8fc"
+    },
+    {
+      "name": "004a-paper-offset-search-guide.npy",
+      "bytes": 176,
+      "sha256": "449cbdcd00dd9501b9a55d1a32734d21f76274ec4e2411325f94c03ab6c57131"
+    },
+    {
+      "name": "004a-elbow-name.json",
+      "bytes": 6508,
+      "sha256": "ce1c4be4c6437b584f038afa029a1efefa44be8e4f02426b45f9c0d66c2135c0"
+    },
+    {
+      "name": "004a-purdy-name.json",
+      "bytes": 6522,
+      "sha256": "44fac3727dd6a8ad36992d9a6f4af3ee1e6de2addfcfb171c14b795883b13bd6"
+    }
+  ]
+}

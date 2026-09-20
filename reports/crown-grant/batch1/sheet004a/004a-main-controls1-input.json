@@ -1,0 +1,67 @@
+[
+  [
+    "MA01",
+    "Half Bald Island southern tip",
+    [
+      849,
+      402
+    ],
+    [
+      803,
+      386
+    ],
+    "WACO"
+  ],
+  [
+    "MA02",
+    "Pumpkin Island southern tip",
+    [
+      3664,
+      389
+    ],
+    [
+      3640,
+      426
+    ],
+    "WACO"
+  ],
+  [
+    "MA03",
+    "St John Island southern tip",
+    [
+      3427,
+      3353
+    ],
+    [
+      3325,
+      3394
+    ],
+    "WACO"
+  ],
+  [
+    "MA04",
+    "Bon Portage Island southern tip",
+    [
+      3495,
+      5322
+    ],
+    [
+      3364,
+      5350
+    ],
+    "WACO"
+  ],
+  [
+    "MA05",
+    "Bald Tusket Island southern tip",
+    [
+      848,
+      861
+    ],
+    [
+      794,
+      840
+    ],
+    "WACO"
+  ]
+]

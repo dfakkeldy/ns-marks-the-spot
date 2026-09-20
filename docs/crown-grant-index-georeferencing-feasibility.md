@@ -12,6 +12,11 @@ Research snapshot: **2026-07-24**. Prototype by GDAL 3.9 CLI workflow; findings 
 > and automated absolute-placement claims have not been established. Fitting
 > RMS is not independent geographic accuracy. See the
 > [new sequential batch record](../reports/crown-grant/batch1/README.md).
+> Sheet 004a adds a direct counterexample to whole-sheet automation: two unboxed
+> island groups are deliberately plotted five miles east of their actual positions.
+> Physical checks require separate component transforms; a single grid/affine
+> placement misses the Northern Seal group by about 8 km.
+
 
 
 > [!WARNING]
