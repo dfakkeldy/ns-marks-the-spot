@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5955 x 4093 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 106.79 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          30,
+          85
+        ],
+        [
+          5880,
+          85
+        ],
+        [
+          5880,
+          3970
+        ],
+        [
+          30,
+          3970
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame, including West Bay islands and the small eastern frame fragment. No displaced inset identified; the same affine applies to all islands and mainland."
+    }
+  ]
+}

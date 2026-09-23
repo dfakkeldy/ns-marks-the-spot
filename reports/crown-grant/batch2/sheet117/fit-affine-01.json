@@ -1,0 +1,199 @@
+{
+  "sheet": "117",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.568403321877285,
+      1.8924351442558351
+    ],
+    [
+      1.9195683126209842,
+      -4.696288710681155
+    ],
+    [
+      640235.4083450694,
+      5078944.410860505
+    ]
+  ],
+  "source_sha256": "e7fe29685eac6908d19b6c231c896f4c8022bd1af59364563849101e3f23ecbc",
+  "source_dimensions": [
+    5955,
+    4093
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Grammo Point eastern apex",
+      "role": "control",
+      "pixel_xy": [
+        3948,
+        693
+      ],
+      "lonlat": [
+        -60.94226760919317,
+        45.88292005705323
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 13867,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3960.402795398142,
+        679.8731730111176
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Malagawatch Point outer eastern bend",
+      "role": "control",
+      "pixel_xy": [
+        4285,
+        1136
+      ],
+      "lonlat": [
+        -60.91335576680373,
+        45.86984237644467
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 13892,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4278.302360791422,
+        1109.1585477369372
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Cameron Island northwestern tip",
+      "role": "control",
+      "pixel_xy": [
+        2201,
+        1625
+      ],
+      "lonlat": [
+        -61.02633400848433,
+        45.81662935457316
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 24159,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2209.9226251151995,
+        1594.7850704129087
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Crammond northern island northern apex",
+      "role": "control",
+      "pixel_xy": [
+        1002,
+        2363
+      ],
+      "lonlat": [
+        -61.08056959454008,
+        45.7651415177844
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23466,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1010.0150238461792,
+        2364.5397342551732
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Tailor Island southern apex",
+      "role": "control",
+      "pixel_xy": [
+        1560,
+        2081
+      ],
+      "lonlat": [
+        -61.05119146317811,
+        45.78610381227262
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23742,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1605.1243931384524,
+        2091.377487189253
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "McLeod Point northern apex",
+      "role": "control",
+      "pixel_xy": [
+        2720,
+        2952
+      ],
+      "lonlat": [
+        -60.964093713602864,
+        45.76819728028973
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 13623,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2734.089063631429,
+        2940.666525640874
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "McInnis Point northern apex",
+      "role": "control",
+      "pixel_xy": [
+        1140,
+        3396
+      ],
+      "lonlat": [
+        -61.04653820253854,
+        45.722333304964636
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 13631,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1166.6954446821474,
+        3439.3721179859713
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    92.75903859404866,
+    43.2788485139199,
+    121.12838649085874,
+    96.10816984457182,
+    123.79522500521,
+    84.77535415630604,
+    113.06023790509836
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}
