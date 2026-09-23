@@ -1,0 +1,105 @@
+{
+  "count": 3,
+  "rms_ground_m": 62.13182173666326,
+  "median_ground_m": 49.89810044443461,
+  "p95_ground_m": 88.37136394768343,
+  "max_ground_m": 92.64617100359997,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 33.7778915813531,
+  "mean_north_ground_m": -5.68832837490973,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Marie Joseph Lake southern apex",
+      "role": "check",
+      "pixel_xy": [
+        3100,
+        2714
+      ],
+      "lonlat": [
+        -60.34649993873429,
+        45.684619955242766
+      ],
+      "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+      "reference_objectid": 165719,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        3078.4053819376277,
+        2718.2900360000785
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.34533942257742,
+        45.684802124844786
+      ],
+      "error_ground_m": 92.64617100359997,
+      "east_ground_m": 90.40649623323647,
+      "north_ground_m": 20.24792434937687
+    },
+    {
+      "id": "IQ02",
+      "label": "Wingham Point western tip",
+      "role": "check",
+      "pixel_xy": [
+        3917,
+        2549
+      ],
+      "lonlat": [
+        -60.29781635912829,
+        45.70629843247533
+      ],
+      "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+      "reference_objectid": 7512,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3907.8055309357587,
+        2545.1786524367053
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.29738664330067,
+        45.705965408219164
+      ],
+      "error_ground_m": 49.89810044443461,
+      "east_ground_m": 33.46308519839628,
+      "north_ground_m": -37.01408322473701
+    },
+    {
+      "id": "IQ03",
+      "label": "Fourchu central cape southern apex",
+      "role": "check",
+      "pixel_xy": [
+        4464,
+        2720
+      ],
+      "lonlat": [
+        -60.25819226108148,
+        45.70758414541575
+      ],
+      "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+      "reference_objectid": 12377,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4461.9583796036895,
+        2723.5459860991687
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.25848166400975,
+        45.707581456447635
+      ],
+      "error_ground_m": 22.53788781936607,
+      "east_ground_m": -22.535906687573444,
+      "north_ground_m": -0.2988262493690543
+    }
+  ],
+  "fit_sha256": "e98b7ad965a69eaac29aedafe432f5322ed44a2af4a2620e45ea51fb227a1194",
+  "checks_sha256": "f6e1ad9ab7ca60cab9958bcb6bcee487910c1876fdd771eac26046152c3b6b30",
+  "status": "Reserved excluded physical checks; narrow coastal distribution with sparse counts"
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "MC01",
+    "label": "Rouge Point western cape",
+    "role": "proposal",
+    "pixel_xy": [
+      430,
+      490
+    ],
+    "lonlat": [
+      -60.74641419966738,
+      45.57332170217587
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 9490,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      453.5023263448966,
+      478.8902337049367
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC02",
+    "label": "Michaud Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1229,
+      927
+    ],
+    "lonlat": [
+      -60.68572826722654,
+      45.566461682806306
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 8448,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1236.4596761842258,
+      929.6257072130684
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC03",
+    "label": "Trelawney Point western hook tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2717,
+      564
+    ],
+    "lonlat": [
+      -60.59843056683649,
+      45.609406375871096
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 2336,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2757.480669101351,
+      546.7147891926579
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC04",
+    "label": "Kempt Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3923,
+      636
+    ],
+    "lonlat": [
+      -60.51945084276287,
+      45.62689012434433
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 5496,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3973.492191116442,
+      615.600466610631
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC05",
+    "label": "St Esprit Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4300,
+      830
+    ],
+    "lonlat": [
+      -60.489436671245045,
+      45.62220921630319
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 22545,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4351.376280391647,
+      862.5037805170286
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

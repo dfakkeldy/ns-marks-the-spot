@@ -1,0 +1,68 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Marie Joseph Lake southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3100,
+      2714
+    ],
+    "lonlat": [
+      -60.34541741080779,
+      45.68455986543942
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 12437,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3092.841806327924,
+      2725.0381814534776
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Wingham Point western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3917,
+      2549
+    ],
+    "lonlat": [
+      -60.29781635912829,
+      45.70629843247533
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 7512,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3907.8055309357587,
+      2545.1786524367053
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Fourchu central cape southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4464,
+      2720
+    ],
+    "lonlat": [
+      -60.25819226108148,
+      45.70758414541575
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 12377,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4461.9583796036895,
+      2723.5459860991687
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

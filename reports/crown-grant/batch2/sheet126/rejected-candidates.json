@@ -1,0 +1,20 @@
+{
+  "timing": "Before first score",
+  "rejections": [
+    {
+      "id": "MQ07",
+      "reason": "Eastern bay has multiple small bends and no secure unique matching corner"
+    },
+    {
+      "id": "IQ04",
+      "reason": "Proposed coastal corner is a smooth shore segment; insufficient precise common definition"
+    },
+    {
+      "id": "IQ05",
+      "reason": "Western Fourchu corner becomes an extended modern flat shore; precise corner correspondence uncertain"
+    }
+  ],
+  "corrections": [
+    "Marie Joseph tidal lake boundary required any water-code candidate audit; shoreline-only filter selected the ocean side of the barrier. Final candidate inspected on the lake side."
+  ]
+}
