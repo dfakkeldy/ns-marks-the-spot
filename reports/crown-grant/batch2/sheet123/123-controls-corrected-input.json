@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Cow Point western cape",
+    [
+      377,
+      1084
+    ],
+    [
+      360,
+      1135
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Birch Point eastern cape corner",
+    [
+      1258,
+      1738
+    ],
+    [
+      1222,
+      1783
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Murphy Point northern tip",
+    [
+      1715,
+      1713
+    ],
+    [
+      1683,
+      1761
+    ],
+    "WACO"
+  ],
+  [
+    "C04",
+    "Upper Kempt Head northern small cape",
+    [
+      4082,
+      1680
+    ],
+    [
+      4040,
+      1730
+    ],
+    "WACO"
+  ],
+  [
+    "C05",
+    "Point Clear eastern corner",
+    [
+      4841,
+      2135
+    ],
+    [
+      4782,
+      2182
+    ],
+    "WACO"
+  ],
+  [
+    "C06",
+    "McNeils Point northern apex",
+    [
+      4498,
+      2925
+    ],
+    [
+      4438,
+      2969
+    ],
+    "WACO"
+  ],
+  [
+    "C07",
+    "Big Beach small cape northern apex",
+    [
+      2835,
+      3238
+    ],
+    [
+      2799,
+      3293
+    ],
+    "WACO"
+  ],
+  [
+    "C08",
+    "Red Point southwestern corner",
+    [
+      3151,
+      1425
+    ],
+    [
+      3115,
+      1484
+    ],
+    "WACO"
+  ]
+]
