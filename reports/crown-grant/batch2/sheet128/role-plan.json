@@ -1,0 +1,23 @@
+{
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08"
+  ],
+  "timing": "All roles and native crosshair corrections fixed before fitting/scoring",
+  "limitations": "Western river valleys are unsupported; regional lake cohorts are correlated."
+}

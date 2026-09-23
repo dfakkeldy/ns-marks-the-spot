@@ -1,0 +1,255 @@
+{
+  "count": 8,
+  "rms_ground_m": 81.92281797944271,
+  "median_ground_m": 81.23746699102145,
+  "p95_ground_m": 115.00492777402096,
+  "max_ground_m": 117.36258746693686,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -21.167323046813806,
+  "mean_north_ground_m": 28.66308978660488,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Northwestern plateau triangular lake eastern corner",
+      "role": "independent-check",
+      "pixel_xy": [
+        2370,
+        1238
+      ],
+      "lonlat": [
+        -60.68959875522307,
+        46.671688018119774
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 128753,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2409.5104209523415,
+        1199.8064969911939
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.69068577163328,
+        46.67147337308786
+      ],
+      "error_ground_m": 86.53406895671337,
+      "east_ground_m": -83.17950619601888,
+      "north_ground_m": -23.860319343874735
+    },
+    {
+      "id": "Q02",
+      "label": "Sunday Lake eastern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        4015,
+        323
+      ],
+      "lonlat": [
+        -60.61257756925454,
+        46.73562195907827
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 139423,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4014.1883860862,
+        291.43764789402485
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.612418745772544,
+        46.736424636580956
+      ],
+      "error_ground_m": 90.05209589038816,
+      "east_ground_m": 12.138753422268415,
+      "north_ground_m": 89.23021147349719
+    },
+    {
+      "id": "Q03",
+      "label": "Lake of Islands southwestern corner",
+      "role": "independent-check",
+      "pixel_xy": [
+        5310,
+        739
+      ],
+      "lonlat": [
+        -60.52319727205458,
+        46.73870451941366
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 137248,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5320.419607349206,
+        701.3031214894727
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.523329826803824,
+        46.73975632306374
+      ],
+      "error_ground_m": 117.36258746693686,
+      "east_ground_m": -10.130430916594804,
+      "north_ground_m": 116.92455390711783
+    },
+    {
+      "id": "Q04",
+      "label": "Dundas northern long satellite northeastern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        4977,
+        1128
+      ],
+      "lonlat": [
+        -60.533319934199234,
+        46.718102386969775
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 128134,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5014.843707319058,
+        1072.6501916262787
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.534311377453726,
+        46.718060932867864
+      ],
+      "error_ground_m": 75.94086502532953,
+      "east_ground_m": -75.80094541931079,
+      "north_ground_m": -4.6077819321212266
+    },
+    {
+      "id": "Q05",
+      "label": "Dundas southern droplet southern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        4758,
+        1340
+      ],
+      "lonlat": [
+        -60.541660971791345,
+        46.70585609398193
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 128131,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4799.791361932526,
+        1281.0492367467377
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.542582195383005,
+        46.70563416284788
+      ],
+      "error_ground_m": 74.64330508791824,
+      "east_ground_m": -70.44845814095599,
+      "north_ground_m": -24.670584508884502
+    },
+    {
+      "id": "Q06",
+      "label": "Dundas southern hooked lake southern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        4683,
+        1804
+      ],
+      "lonlat": [
+        -60.53575336200907,
+        46.68506917243747
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 122047,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4722.807791871601,
+        1741.0213818571065
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.536006485105425,
+        46.68492817403817
+      ],
+      "error_ground_m": 24.91294757821363,
+      "east_ground_m": -19.364407429386574,
+      "north_ground_m": -15.674012949577985
+    },
+    {
+      "id": "Q07",
+      "label": "Southern chain broad middle pond eastern end",
+      "role": "independent-check",
+      "pixel_xy": [
+        3402,
+        3650
+      ],
+      "lonlat": [
+        -60.56976832660945,
+        46.58666844542479
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 38547,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3467.514074569801,
+        3589.697251570178
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.56973862712857,
+        46.586765585582576
+      ],
+      "error_ground_m": 11.035660028141791,
+      "east_ground_m": 2.2761800274993664,
+      "north_ground_m": 10.798370096414526
+    },
+    {
+      "id": "Q08",
+      "label": "Southern large lobed lake southern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        3747,
+        3945
+      ],
+      "lonlat": [
+        -60.54263241053638,
+        46.57918173483539
+      ],
+      "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+      "reference_objectid": 47017,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3799.5960590827162,
+        3888.1911166398786
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Whole-outline and native crosshair audited before first fit and score; excluded from fit.",
+      "predicted_lonlat": [
+        -60.54165171680108,
+        46.579911870577746
+      ],
+      "error_ground_m": 110.62641691574859,
+      "east_ground_m": 75.17023027798881,
+      "north_ground_m": 81.16428155026792
+    }
+  ],
+  "fit_sha256": "2945110108861cb6c7cea3268f6ef097ffb809405c30ace8e2de938e6d286ce7",
+  "checks_sha256": "3c33adbf64d840ca72e16a0b4a6c54347a1b80686c0b9ae0021297a799f12d72",
+  "status": "Frozen before first scoring; no check used for fitting"
+}
