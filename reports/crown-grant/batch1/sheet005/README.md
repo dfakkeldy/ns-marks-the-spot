@@ -1,7 +1,9 @@
 # Sheet 005 — Digby County
 
-**Fifth and final sheet of the requested batch. Provisional, not geographically
-accepted.** The main map and boxed Brier/Long Island inset use separate frozen
+**Fifth and final sheet of the original batch. Accepted for qualified research
+overlay use on 22 September 2026.** Long Island and parts of the main map lack
+independent validation; see the [batch review decision](../review-decision-20260922.md).
+The original provisional assessment follows. The main map and boxed Brier/Long Island inset use separate frozen
 affine fits in the original 5762 × 3894, 150 ppi JPEG coordinate frame. The official
 PDF is https://novascotia.ca/natr/land/indexmaps/005.pdf; the scan says March 2009.
 Imagery, references, native paired crosshair images and rendered rasters remain

@@ -1,5 +1,11 @@
 # Sheet 004a — three map components, provisional
 
+Accepted for approximate historical research overlay use on 22 September 2026.
+The Southern Seal placement remains unvalidated, and each displaced group keeps
+its separate fit. See the
+[batch review decision](../review-decision-20260922.md). The assessment below
+preserves the original threshold results.
+
 This is the fourth sheet in the five-sheet batch. Official Yarmouth and
 Shelburne Counties scan: 3912 × 5727 pixels, embedded JPEG, 150 dpi. No imagery
 is committed or enabled in production.

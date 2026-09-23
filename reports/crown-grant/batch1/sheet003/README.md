@@ -1,4 +1,9 @@
-# Sheet 003 — provisional, not accepted
+# Sheet 003 — original assessment and qualified acceptance
+
+Accepted for historical research overlay use on 22 September 2026. The frozen
+fit and its scores are unchanged; see the
+[batch review decision](../review-decision-20260922.md). The assessment below
+retains the original numeric-gate result.
 
 Current criteria are in `../acceptance-criteria.json`: the user raised the RMS
 ceiling to 100 m during the batch. The original assessments below are preserved;

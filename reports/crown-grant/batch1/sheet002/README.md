@@ -1,4 +1,9 @@
-# Sheet 002 — provisional, not accepted
+# Sheet 002 — original assessment and qualified acceptance
+
+Accepted for approximate historical research overlay use on 22 September 2026.
+The inset placement and parts of the main map remain unvalidated. See the
+[batch review decision](../review-decision-20260922.md). The assessment below
+records the earlier failed whole-sheet gates; it remains part of the audit trail.
 
 Current criteria are in `../acceptance-criteria.json`: the user raised the RMS
 ceiling to 100 m during the batch. The original assessments below are preserved;
@@ -11,8 +16,9 @@ Official Digby and Yarmouth Counties scan: 5731 × 3919 pixels, embedded JPEG,
 The main map's frozen affine-03 fit has six controls. Four subsequently selected
 physical checks measure **72.70 ground-metre RMS**, median 73.66, empirical P95
 96.70, maximum 99.76. Signed warped-minus-reference bias is +55.36 m east and
-+23.75 m north. It fails the fixed RMS/median/P95 gates and geographic coverage
-requirement. The four checks are insufficient for whole-sheet certification.
++23.75 m north. It passes the revised 100 m RMS gate but fails the original
+median/P95 goals and geographic coverage requirement. The four checks are
+insufficient for whole-sheet accuracy certification.
 Six reused diagnostic checks separately measure 78.20 m RMS; do not pool them
 with the fresh set or describe them as blind validation.
 

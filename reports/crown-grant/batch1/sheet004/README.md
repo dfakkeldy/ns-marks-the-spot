@@ -1,5 +1,10 @@
 # Sheet 004 — full-content provisional assessment
 
+Accepted for approximate historical research overlay use on 22 September 2026,
+with the island and rock limitations below. The fit and scores are unchanged;
+see the [batch review decision](../review-decision-20260922.md). This section
+preserves the earlier provisional assessment.
+
 Official Yarmouth County sheet, 5564 × 3989 pixels, embedded JPEG, 150 dpi,
 March 2009 update stamp. All source imagery, georeferenced rasters and paired
 crosshair figures stay private in `.crown-grant-local/`.
