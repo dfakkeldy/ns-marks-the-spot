@@ -66,5 +66,6 @@
       ]
     }
   ],
-  "routing_note": "First two columns contain eight sheets. Continuing the same pattern eastward to reach the requested twenty is the stated working assumption, pending optional user steering."
+  "routing_note": "First two columns contain eight sheets. Continuing the same pattern eastward to reach the requested twenty is the stated working assumption, pending optional user steering.",
+  "source_index_image_sha256": "845424aa6c30a74f97a0ee1c0660c89933bac1b412677a894309ed9ee610cdf5"
 }

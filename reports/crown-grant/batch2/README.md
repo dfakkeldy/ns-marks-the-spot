@@ -25,4 +25,8 @@ No public layer or production deployment is part of this batch.
 RMS 53.84 m. Full-content alpha and actual browser checks pass. Median and
 regional coverage retain provisional status. See `sheet110/README.md`.
 
-Assessed: 1/20. Next: 109 northward. Remaining sheets are queued.
+109: assessed and privately rendered; six controls, eight independent checks,
+RMS 141.19 m. Full-content and browser checks pass; geographic status remains
+provisional because the RMS and companion bounds fail.
+
+Assessed: 2/20. Next: 108 northward. Remaining sheets are queued.

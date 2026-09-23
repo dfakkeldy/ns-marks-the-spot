@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-09-23T01:53:26.610937+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet109/main-3857.png",
+      "complete": true,
+      "width": 6144,
+      "height": 5199
+    }
+  ],
+  "verified": [
+    "Actual full raster inspected against NSTDB/OSM",
+    "40 percent historical opacity, modern-only and restore verified",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Standalone Leaflet raster delivery path, not native app importer/TPS",
+    "Numerical RMS failure remains explicit"
+  ]
+}
