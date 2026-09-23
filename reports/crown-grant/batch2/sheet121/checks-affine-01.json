@@ -1,0 +1,166 @@
+{
+  "status": "Seven excluded physical checks; stream/pond cohorts are spatially correlated",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Stewart Brook eastern confluence",
+      "role": "check",
+      "pixel_xy": [
+        2631,
+        366
+      ],
+      "lonlat": [
+        -60.93988732743888,
+        46.45818027198214
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 188945,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        2646.86885204626,
+        399.36437960213516
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual branch order, lake shape or river bend audited before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q02",
+      "label": "Rory Brook southern tributary downstream of northern fork",
+      "role": "check",
+      "pixel_xy": [
+        3322,
+        1895
+      ],
+      "lonlat": [
+        -60.85828399420523,
+        46.40067291240926
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 274907,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3312.725276437297,
+        1929.0169318414992
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual branch order, lake shape or river bend audited before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q03",
+      "label": "Southern Middle River upstream northern tributary",
+      "role": "check",
+      "pixel_xy": [
+        2966,
+        3240
+      ],
+      "lonlat": [
+        -60.846403462653555,
+        46.3359435793498
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 188218,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        2983.4172271635616,
+        3241.5260209785774
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual branch order, lake shape or river bend audited before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q05",
+      "label": "Southeastern small pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5428,
+        3555
+      ],
+      "lonlat": [
+        -60.68000476450187,
+        46.36231449615096
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 134528,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5433.909108200576,
+        3580.950205905363
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual branch order, lake shape or river bend audited before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q06",
+      "label": "Southeastern large pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5297,
+        3548
+      ],
+      "lonlat": [
+        -60.6873243106284,
+        46.36128652583806
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 134618,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5327.115114284272,
+        3563.5803299818654
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "review": "Native paired crosshair and contextual branch order, lake shape or river bend audited before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q07",
+      "label": "Kinross Margaree River southern outer-bank apex",
+      "role": "check",
+      "pixel_xy": [
+        2867,
+        540
+      ],
+      "lonlat": [
+        -60.920881465459466,
+        46.45432444077878
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 159198,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        2874.051142812008,
+        571.2682406930253
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "review": "Native paired crosshair and contextual branch order, lake shape or river bend audited before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q08",
+      "label": "Frizzleton Margaree River northern bank bend",
+      "role": "check",
+      "pixel_xy": [
+        1521,
+        1846
+      ],
+      "lonlat": [
+        -60.97462851170881,
+        46.37264991825002
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 159068,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        1528.3068888177513,
+        1874.1461079081055
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "review": "Native paired crosshair and contextual branch order, lake shape or river bend audited before first scoring; excluded from fit."
+    }
+  ]
+}

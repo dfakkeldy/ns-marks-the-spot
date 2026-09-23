@@ -1,0 +1,175 @@
+{
+  "sheet": "121",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.909726806162506,
+      2.01411657582552
+    ],
+    [
+      2.0402180539500967,
+      -4.923618395326708
+    ],
+    [
+      644494.0121230456,
+      5143507.973518854
+    ]
+  ],
+  "source_sha256": "09f85b2598215b38b44a3e38939ab77ee6d44f666cf05dc352f232180e48c27a",
+  "source_dimensions": [
+    5621,
+    3874
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Stewart Brook western confluence",
+      "role": "control",
+      "pixel_xy": [
+        2558,
+        355
+      ],
+      "lonlat": [
+        -60.94545049236289,
+        46.4576314903589
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 188646,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        2567.6491731340066,
+        381.4602411808446
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Rory Brook eastern confluence with northeast branch",
+      "role": "control",
+      "pixel_xy": [
+        2874,
+        1714
+      ],
+      "lonlat": [
+        -60.89100961490755,
+        46.40131917900237
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 266813,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        2875.496757983754,
+        1748.9881978872
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Southern Middle River headwater confluence",
+      "role": "control",
+      "pixel_xy": [
+        2757,
+        3383
+      ],
+      "lonlat": [
+        -60.857373737494996,
+        46.32534423181206
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 187070,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        2754.775529295439,
+        3390.2920261848485
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Southern North Branch western tributary confluence",
+      "role": "control",
+      "pixel_xy": [
+        3692,
+        2956
+      ],
+      "lonlat": [
+        -60.80780760819882,
+        46.35999968175613
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 187683,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3687.4100059047923,
+        2973.767884855042
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Southeastern large lake narrow eastern shore bend",
+      "role": "control",
+      "pixel_xy": [
+        5346,
+        3475
+      ],
+      "lonlat": [
+        -60.68809117814194,
+        46.36480128377594
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 134531,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5343.19888813264,
+        3491.6520195284393
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Southeastern upper compact pond western corner",
+      "role": "control",
+      "pixel_xy": [
+        5300,
+        2767
+      ],
+      "lonlat": [
+        -60.708557859852405,
+        46.395603440195245
+      ],
+      "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+      "reference_objectid": 127763,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5298.309795835463,
+        2791.3320988541236
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    34.94456616623295,
+    60.060443678305916,
+    23.213334559656683,
+    13.417277240333595,
+    12.579448014998897,
+    4.4072230109787345
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}
