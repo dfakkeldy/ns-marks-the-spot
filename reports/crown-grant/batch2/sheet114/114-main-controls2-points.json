@@ -1,0 +1,46 @@
+[
+  {
+    "id": "MC02",
+    "label": "Inverness pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1373,
+      3091
+    ],
+    "lonlat": [
+      -61.312310525141726,
+      46.225936011153856
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 5589,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1354.8709472602932,
+      3114.3332800263306
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC05",
+    "label": "Deepdale upper eastern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      1635,
+      3530
+    ],
+    "lonlat": [
+      -61.28559398396979,
+      46.21221274307538
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 261358,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      1628.9095073895878,
+      3545.8413878564024
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

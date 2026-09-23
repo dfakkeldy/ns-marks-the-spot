@@ -1,0 +1,68 @@
+[
+  {
+    "id": "IC01",
+    "label": "Sight Point western coastal shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      1093,
+      584
+    ],
+    "lonlat": [
+      -61.42566809489688,
+      46.18429076237355
+    ],
+    "guide_file": ".crown-grant-local/114-inset-locality-guide.npy",
+    "reference_objectid": 11065,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1122.686123570078,
+      556.8317542939913
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Cape Mabou coastal bend",
+    "role": "proposal",
+    "pixel_xy": [
+      542,
+      980
+    ],
+    "lonlat": [
+      -61.45049108442882,
+      46.15127522238827
+    ],
+    "guide_file": ".crown-grant-local/114-inset-locality-guide.npy",
+    "reference_objectid": 12776,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      492.52998651063535,
+      950.7131693771807
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC03",
+    "label": "Northeastern inset coastal notch",
+    "role": "proposal",
+    "pixel_xy": [
+      1394,
+      479
+    ],
+    "lonlat": [
+      -61.412999159190065,
+      46.192397519164416
+    ],
+    "guide_file": ".crown-grant-local/114-inset-locality-guide.npy",
+    "reference_objectid": 9717,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1355.934319000924,
+      506.1512819196796
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

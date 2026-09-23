@@ -1,0 +1,93 @@
+[
+  [
+    "MQ03",
+    "Inverness pond western lobe northern tip",
+    [
+      1304,
+      3033
+    ],
+    [
+      1321,
+      3040
+    ],
+    "WA"
+  ],
+  [
+    "MQ04",
+    "Inverness coastal inlet northern lip",
+    [
+      1205,
+      2963
+    ],
+    [
+      1201,
+      2962
+    ],
+    "WACO"
+  ],
+  [
+    "MQ05",
+    "Southern Broad Cove Marsh headland",
+    [
+      2505,
+      2131
+    ],
+    [
+      2473,
+      2136
+    ],
+    "WACO"
+  ],
+  [
+    "MQ06",
+    "Dunvegan cove southern lip",
+    [
+      2702,
+      2002
+    ],
+    [
+      2652,
+      2020
+    ],
+    "WACO"
+  ],
+  [
+    "MQ07",
+    "St Rose coastal inlet",
+    [
+      4337,
+      1067
+    ],
+    [
+      4321,
+      1090
+    ],
+    "WA"
+  ],
+  [
+    "MQ08",
+    "Chimney Corner bay southern corner",
+    [
+      4846,
+      478
+    ],
+    [
+      4828,
+      486
+    ],
+    "WACO"
+  ],
+  [
+    "MQ09",
+    "Coastal shoulder south of Chimney Corner",
+    [
+      4511,
+      745
+    ],
+    [
+      4509,
+      784
+    ],
+    "WACO"
+  ]
+]
