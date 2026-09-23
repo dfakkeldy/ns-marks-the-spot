@@ -1,0 +1,45 @@
+{
+  "sheet": "122",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full raster and comparison controls browser-verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/122.pdf",
+    "pdf_sha256": "70938ef37231c0244d025b8a35758233f38a9c913ffc2acc0dba4817d89bdb78",
+    "jpeg_sha256": "ee068a531cbb70fbb25177eddcc7599ac325d8b95fcb61cf61bfab889746e4fd",
+    "dimensions": [
+      5977,
+      4143
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 8,
+      "rms_ground_m": 52.02231072552444,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks give RMS 52.02 m and maximum 76.20 m, but median 52.35 m exceeds the retained companion bound; limited check count prevents full acceptance",
+    "Controls and checks are concentrated in identifiable river bends/forks and pond groups; far western/southwestern and eastern fringe coverage remains insufficient",
+    "The adjacent North Baddeck fork pair, two Upper Middle bends and pond groups are spatially correlated; no broad confidence guarantee is implied",
+    "Historical bank evolution and overprinted road/bridge linework limit precise placement; three insecure candidates were excluded before scoring"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 52.02 m, median 52.35 m, P95 73.94 m, maximum 76.20 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped frame retains the Middle River and Baddeck valleys, mountain interiors, upland ponds and the St Anns eastern fringe. No separate inset identified."
+  }
+}

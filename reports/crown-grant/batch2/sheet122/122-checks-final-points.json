@@ -1,0 +1,178 @@
+[
+  {
+    "id": "Q01",
+    "label": "Gillis Brook upper McLeod Brook confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      1590,
+      2551
+    ],
+    "lonlat": [
+      -60.873613152074775,
+      46.185988644581656
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 298850,
+    "reference_feature_code": "WARV55",
+    "guide_reference_pixel_xy": [
+      1593.3755080185365,
+      2529.919745310908
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Northeast Baddeck branch northern bank bend",
+    "role": "proposal",
+    "pixel_xy": [
+      3434,
+      3158
+    ],
+    "lonlat": [
+      -60.747771434018674,
+      46.1901522550564
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 156303,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      3448.6707547545084,
+      3126.32687441702
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Central upper round pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3577,
+      1009
+    ],
+    "lonlat": [
+      -60.789350584132194,
+      46.283089020974046
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 56294,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3582.151441270311,
+      973.3267903118394
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Northeastern angular lake northern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5030,
+      582
+    ],
+    "lonlat": [
+      -60.71096553729777,
+      46.32404200695006
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 136089,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5038.981066910375,
+      547.1502486147219
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Beaton Brook lower pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4086,
+      1694
+    ],
+    "lonlat": [
+      -60.74262625151058,
+      46.26190714128271
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 56210,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4090.350501592853,
+      1665.462433245033
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Beaton Brook upper pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4117,
+      1579
+    ],
+    "lonlat": [
+      -60.74354931538631,
+      46.26742810979135
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 56213,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4120.6339682593825,
+      1545.926689970307
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Upper Middle River eastern large loop northern bank crest",
+    "role": "proposal",
+    "pixel_xy": [
+      1784,
+      930
+    ],
+    "lonlat": [
+      -60.89907002605889,
+      46.257175204498466
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 159908,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      1790.4247485897504,
+      915.6968718831195
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "North Baddeck western of two adjacent confluences",
+    "role": "proposal",
+    "pixel_xy": [
+      3138,
+      1792
+    ],
+    "lonlat": [
+      -60.797949925385694,
+      46.242808090065836
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 177147,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3138.8783376695355,
+      1762.2784745661775
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
