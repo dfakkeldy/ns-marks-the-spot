@@ -1,0 +1,54 @@
+[
+  [
+    "MC01",
+    "Sea Wolf Island northeastern tip",
+    [
+      3364,
+      530
+    ],
+    [
+      3344,
+      507
+    ],
+    "WACO"
+  ],
+  [
+    "MC02",
+    "Inverness pond southern tip",
+    [
+      1363,
+      3092
+    ],
+    [
+      1340,
+      3113
+    ],
+    "WA"
+  ],
+  [
+    "MC03",
+    "Marsh Point northern tip",
+    [
+      2875,
+      1758
+    ],
+    [
+      2781,
+      1770
+    ],
+    "WACO"
+  ],
+  [
+    "MC04",
+    "Chimney Corner coastal shoulder",
+    [
+      4798,
+      421
+    ],
+    [
+      4733,
+      453
+    ],
+    "WACO"
+  ]
+]

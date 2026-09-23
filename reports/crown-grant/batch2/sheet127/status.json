@@ -1,0 +1,44 @@
+{
+  "sheet": "127",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; private browser overlay verified; geographic limitations retained",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/127.pdf",
+    "pdf_sha256": "7d8490b06575c0097b43b6741a9e28f3667413f256b837a4da3e84a6b05ca5eb",
+    "jpeg_sha256": "523c73432e10a14f8d6d16b88924c766eaf8913bc91765bcbe98931bc6b5e5b1",
+    "dimensions": [
+      6088,
+      4110
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 9,
+      "rms_ground_m": 48.502285501227725,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Nine checks give RMS 48.50 m, P95 71.21 m and maximum 73.64 m; median 42.95 m exceeds the retained 40 m companion bound and the distributed check count remains limited",
+    "Checks span coast and multiple lake groups, but river interiors between them and far western/southwestern margins remain insufficiently validated",
+    "The Fishing Cove pair, plateau pond endpoints and neighbouring lake clusters are spatially correlated; regional placement is not a survey confidence guarantee"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 48.50 m, median 42.95 m, P95 71.21 m, maximum 73.64 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped rectangle includes Pleasant Bay and Fishing Cove coast, Red River and Aspy headwaters, the northern plateau pond and all southern/eastern lake groups. No separate inset identified."
+  }
+}

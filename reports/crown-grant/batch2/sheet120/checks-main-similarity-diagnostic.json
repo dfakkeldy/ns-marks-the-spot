@@ -1,0 +1,143 @@
+{
+  "status": "Diagnostic reuse of the original six excluded checks for a constrained similarity comparator; not fresh validation",
+  "points": [
+    {
+      "id": "MQ02",
+      "label": "Grand Etang upper lake southeastern hook",
+      "role": "check",
+      "pixel_xy": [
+        2363,
+        1647
+      ],
+      "lonlat": [
+        -61.018762915199595,
+        46.555966914482816
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 126294,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2309.2722550937324,
+        1656.3312777942047
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting"
+    },
+    {
+      "id": "MQ03",
+      "label": "Grand Etang narrow lake southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        2059,
+        1768
+      ],
+      "lonlat": [
+        -61.03508564256821,
+        46.54590424001836
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 134448,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2013.4008495520102,
+        1768.7446399503388
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting"
+    },
+    {
+      "id": "MQ04",
+      "label": "St Joseph narrow cape northern apex",
+      "role": "check",
+      "pixel_xy": [
+        1420,
+        1933
+      ],
+      "lonlat": [
+        -61.072753178586595,
+        46.52800308182206
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 5154,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1370.51679365983,
+        1924.2109058641363
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting"
+    },
+    {
+      "id": "MQ05",
+      "label": "Pembroke western satellite pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2149,
+        3022
+      ],
+      "lonlat": [
+        -61.005101716186665,
+        46.494882671664165
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 134550,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2033.7238489814335,
+        2916.768803526531
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting"
+    },
+    {
+      "id": "MQ07",
+      "label": "Park round pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4817,
+        1828
+      ],
+      "lonlat": [
+        -60.85367620820673,
+        46.590313026322185
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 140151,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4793.23278815113,
+        1830.1030884033535
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting"
+    },
+    {
+      "id": "MQ08",
+      "label": "Park hooked lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4753,
+        1958
+      ],
+      "lonlat": [
+        -60.854845495010466,
+        46.58311266106272
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 140148,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4723.540527906618,
+        1964.5837914708536
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting"
+    }
+  ]
+}

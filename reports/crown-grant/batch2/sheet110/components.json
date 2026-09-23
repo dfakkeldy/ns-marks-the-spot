@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5683 x 3880 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 53.84 m passes 100 m; sparse checks and northern/interior limitations remain",
+      "ring_pixel_xy": [
+        [
+          75,
+          110
+        ],
+        [
+          5580,
+          110
+        ],
+        [
+          5580,
+          3780
+        ],
+        [
+          75,
+          3780
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Small margin outside printed neatline preserves the entire mapped frame; no inset or extension identified"
+    }
+  ]
+}

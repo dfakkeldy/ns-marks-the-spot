@@ -1,0 +1,143 @@
+{
+  "status": "Reserved excluded physical checks; narrow coastal distribution with sparse counts",
+  "points": [
+    {
+      "id": "MQ01",
+      "label": "Point Gabion southern apex",
+      "role": "check",
+      "pixel_xy": [
+        552,
+        592
+      ],
+      "lonlat": [
+        -60.7353855831906,
+        45.57132356795279
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 2736,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        590.1273087399313,
+        575.4937606919557
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted."
+    },
+    {
+      "id": "MQ02",
+      "label": "Northern Basque Island north tip",
+      "role": "check",
+      "pixel_xy": [
+        1808,
+        839
+      ],
+      "lonlat": [
+        -60.64979637140444,
+        45.580740733621646
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 17356,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1837.2912487467402,
+        838.5243535134941
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted."
+    },
+    {
+      "id": "MQ03",
+      "label": "Eastern Basque Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1904,
+        880
+      ],
+      "lonlat": [
+        -60.64235776662493,
+        45.58031643647555
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 18502,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1936.4062795444624,
+        885.55834403052
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted."
+    },
+    {
+      "id": "MQ04",
+      "label": "Southwestern Basque Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1775,
+        930
+      ],
+      "lonlat": [
+        -60.650482412082845,
+        45.57600404350834
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 17357,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1792.4685550390277,
+        927.3351204076316
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted."
+    },
+    {
+      "id": "MQ05",
+      "label": "Red Head southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2271,
+        544
+      ],
+      "lonlat": [
+        -60.62720422333251,
+        45.60223893366877
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 9451,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2308.453172867943,
+        536.8504721262725
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted."
+    },
+    {
+      "id": "MQ06",
+      "label": "St Esprit Island western tip",
+      "role": "check",
+      "pixel_xy": [
+        4235,
+        885
+      ],
+      "lonlat": [
+        -60.49345962763591,
+        45.61978575719141
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 22545,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4278.041779075225,
+        888.9707950477023
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted."
+    }
+  ]
+}

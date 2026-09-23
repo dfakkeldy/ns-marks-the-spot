@@ -28,8 +28,8 @@
     "Complete-scan redistribution remains unclarified"
   ],
   "review": {
-    "status": "ACCEPTED FOR RESEARCH — qualified; see review-decision-20260922.md and component limitations",
-    "statistics": "12 independent physical checks · RMS 52.52 m · median 47.93 m · P95 81.09 m · maximum 86.11 m. Five controls; no tuning after scoring.",
+    "status": "ACCEPTED FOR RESEARCH \u2014 user accepted; component limitations retained",
+    "statistics": "12 independent physical checks \u00b7 RMS 52.52 m \u00b7 median 47.93 m \u00b7 P95 81.09 m \u00b7 maximum 86.11 m. Five controls; no tuning after scoring.",
     "coverage": "Complete main neatline retained, including offshore mapped content. No separate inset. Checks span northern lakes, coast, central interior and eastern/southern edges.",
     "focusBounds": [
       [
@@ -47,5 +47,8 @@
   "rms_gate_passed": true,
   "accepted_for_research": true,
   "acceptance_scope": "Existing georeference accepted for approximate historical research display; original whole-sheet numeric and coverage gates are not all demonstrated.",
-  "acceptance_review": "../review-decision-20260922.md"
+  "acceptance_review": "../review-decision-20260922.md",
+  "user_accepted": true,
+  "user_acceptance": "../user-acceptance.json",
+  "previous_assessment_status": "provisional-failed"
 }

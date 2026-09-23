@@ -1,0 +1,24 @@
+[
+  {
+    "id": "C07",
+    "label": "Alpine Ridge stream western tributary confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      4365,
+      3448
+    ],
+    "lonlat": [
+      -61.385851208021755,
+      46.00386839823742
+    ],
+    "guide_file": ".crown-grant-local/108-physical-guide.npy",
+    "reference_objectid": 195726,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      4354.344754848338,
+      3453.797267977032
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

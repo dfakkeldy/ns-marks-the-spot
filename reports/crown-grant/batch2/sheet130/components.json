@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5725 x 3849 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 110.16 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          120,
+          105
+        ],
+        [
+          5635,
+          105
+        ],
+        [
+          5635,
+          3705
+        ],
+        [
+          120,
+          3705
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped rectangle includes North River and St. Anns Harbour, Otter Island, Cape Dauphin, the Bird Islands, Boularderie, Point Aconi and Little Bras dOr. The Bird Islands wildlife management box is an area boundary, not a displaced inset; all islands stay in the main frame."
+    }
+  ]
+}

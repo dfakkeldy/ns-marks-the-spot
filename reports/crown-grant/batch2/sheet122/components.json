@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5977 x 4143 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 52.02 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          65,
+          110
+        ],
+        [
+          5900,
+          110
+        ],
+        [
+          5900,
+          4020
+        ],
+        [
+          65,
+          4020
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains the Middle River and Baddeck valleys, mountain interiors, upland ponds and the St Anns eastern fringe. No separate inset identified."
+    }
+  ]
+}

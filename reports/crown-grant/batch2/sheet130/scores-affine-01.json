@@ -1,0 +1,255 @@
+{
+  "count": 8,
+  "rms_ground_m": 110.15749385625024,
+  "median_ground_m": 109.80136247798958,
+  "p95_ground_m": 156.66938098376062,
+  "max_ground_m": 165.00177716788696,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -72.33999023892876,
+  "mean_north_ground_m": -10.862041484641264,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Ciboux Island southwestern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        4185,
+        1170
+      ],
+      "lonlat": [
+        -60.382672287433664,
+        46.37676496485511
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 16599,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4097.176681382582,
+        1232.1563326688483
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.384321386082085,
+        46.37581596304182
+      ],
+      "error_ground_m": 165.00177716788696,
+      "east_ground_m": -126.87699605059812,
+      "north_ground_m": -105.48845596432592
+    },
+    {
+      "id": "Q02",
+      "label": "Hertford Island northeastern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        4065,
+        1250
+      ],
+      "lonlat": [
+        -60.38919997335265,
+        46.370604240099
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 17952,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3962.5863083280856,
+        1318.3334624471609
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.39018289441652,
+        46.37014585480336
+      ],
+      "error_ground_m": 91.19349693260534,
+      "east_ground_m": -75.63099939943766,
+      "north_ground_m": -50.95297648459176
+    },
+    {
+      "id": "Q03",
+      "label": "Fader Point northern coastal bend",
+      "role": "independent-check",
+      "pixel_xy": [
+        2000,
+        1809
+      ],
+      "lonlat": [
+        -60.51080908549252,
+        46.30859647333901
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 10906,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1854.9077571873786,
+        1897.9411118270364
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.510699198195994,
+        46.30959315581838
+      ],
+      "error_ground_m": 111.11148814841833,
+      "east_ground_m": 8.464632597354116,
+      "north_ground_m": 110.78859505178282
+    },
+    {
+      "id": "Q04",
+      "label": "Munroe Beach northern coastal shoulder",
+      "role": "independent-check",
+      "pixel_xy": [
+        2744,
+        1506
+      ],
+      "lonlat": [
+        -60.468671915005906,
+        46.336641017244105
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 10938,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2635.5079234516015,
+        1570.3672228584765
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.469773081713775,
+        46.33603203191088
+      ],
+      "error_ground_m": 108.49123680756082,
+      "east_ground_m": -84.78216284847208,
+      "north_ground_m": -67.69293409780228
+    },
+    {
+      "id": "Q05",
+      "label": "Table Head northeastern corner",
+      "role": "independent-check",
+      "pixel_xy": [
+        4259,
+        2272
+      ],
+      "lonlat": [
+        -60.351445855099975,
+        46.32628026210187
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 2420,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4133.597041463712,
+        2371.216683230945
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.35286810447318,
+        46.32708193404311
+      ],
+      "error_ground_m": 141.19493092752603,
+      "east_ground_m": -109.52115411367694,
+      "north_ground_m": 89.11299187681374
+    },
+    {
+      "id": "Q06",
+      "label": "Plant Point northern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        5163,
+        2879
+      ],
+      "lonlat": [
+        -60.27894365016166,
+        46.31501795610205
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 21257,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5024.14440847357,
+        2959.726307545672
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.27951941108757,
+        46.31488083266904
+      ],
+      "error_ground_m": 46.89295797089776,
+      "east_ground_m": -44.34666723444934,
+      "north_ground_m": -15.24213280539835
+    },
+    {
+      "id": "Q07",
+      "label": "Otter Island eastern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        1123,
+        3573
+      ],
+      "lonlat": [
+        -60.5242803750019,
+        46.21469709666265
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 18364,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        956.6219545676722,
+        3649.122627229546
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.52473034780148,
+        46.21463508186553
+      ],
+      "error_ground_m": 35.39899098322658,
+      "east_ground_m": -34.72135539858881,
+      "north_ground_m": -6.893188080666631
+    },
+    {
+      "id": "Q08",
+      "label": "Black Rock Point northern apex",
+      "role": "independent-check",
+      "pixel_xy": [
+        3547,
+        2488
+      ],
+      "lonlat": [
+        -60.392424134664125,
+        46.305541357830805
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 2404,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3424.48774748313,
+        2564.104963778518
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+      "predicted_lonlat": [
+        -60.393868975406264,
+        46.30517674612953
+      ],
+      "error_ground_m": 118.45416589571776,
+      "east_ground_m": -111.30521946356123,
+      "north_ground_m": -40.52823137294171
+    }
+  ],
+  "fit_sha256": "97db7444028c6ac6e2a6db9f5bfbfd8b703297762656419ea625fc917c69a149",
+  "checks_sha256": "65f44238a35c854a2f4f0f0d8c32e7fdaa1b64bcb977f791be44d7f81833ef3e",
+  "status": "Frozen before first scoring; no checks fitted"
+}

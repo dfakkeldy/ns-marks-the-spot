@@ -13,6 +13,11 @@ records the original 19 September assessment and pause.
 Requested limit: FIVE sheets, sequential processing, then pause. No sixth sheet,
 background continuation, public imagery, or production activation is authorized.
 
+The user also accepted these delivered artifacts in this task and authorized a
+separate twenty-sheet Cape Breton batch. See [batch 2](../batch2/README.md).
+`user-acceptance.json` pins the original approved raster/fit hashes to the batch 1
+merge on nightly. The five-sheet limit and pause below describe batch 1 only.
+
 ## Frozen queue
 
 002 → 003 → 004 → 004a → 005. Ascending official identifier, preserving the

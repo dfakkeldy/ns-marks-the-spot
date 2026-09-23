@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Bishops Lake northern tip",
+    [
+      388,
+      1708
+    ],
+    [
+      445,
+      1709
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Heifer Lake southwestern tip",
+    [
+      4637,
+      1094
+    ],
+    [
+      4636,
+      1089
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "MacDonald Lake eastern southern hook",
+    [
+      5041,
+      1981
+    ],
+    [
+      5065,
+      1985
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Stirling McDonald Lake southern end",
+    [
+      3686,
+      2530
+    ],
+    [
+      3723,
+      2533
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Island Lake western bay tip",
+    [
+      4175,
+      1357
+    ],
+    [
+      4209,
+      1360
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Grand Lake Uist southeastern pointed bay",
+    [
+      3150,
+      785
+    ],
+    [
+      3179,
+      781
+    ],
+    "WALK"
+  ],
+  [
+    "C09",
+    "Southern Framboise pond northern tip",
+    [
+      5370,
+      3362
+    ],
+    [
+      5200,
+      3350
+    ],
+    "WALK"
+  ]
+]

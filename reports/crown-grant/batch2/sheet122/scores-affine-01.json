@@ -1,0 +1,257 @@
+{
+  "count": 8,
+  "rms_ground_m": 52.02231072552444,
+  "median_ground_m": 52.34607554518588,
+  "p95_ground_m": 73.93978924541213,
+  "max_ground_m": 76.20395826814158,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 13.031647245699613,
+  "mean_north_ground_m": -28.102694457117757,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Gillis Brook upper McLeod Brook confluence",
+      "role": "check",
+      "pixel_xy": [
+        1590,
+        2551
+      ],
+      "lonlat": [
+        -60.873613152074775,
+        46.185988644581656
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 298850,
+      "reference_feature_code": "WARV55",
+      "guide_reference_pixel_xy": [
+        1593.3755080185365,
+        2529.919745310908
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.87267325902552,
+        46.18577926665111
+      ],
+      "error_ground_m": 76.20395826814158,
+      "east_ground_m": 72.56316151813077,
+      "north_ground_m": -23.27296384705502
+    },
+    {
+      "id": "Q03",
+      "label": "Northeast Baddeck branch northern bank bend",
+      "role": "check",
+      "pixel_xy": [
+        3434,
+        3158
+      ],
+      "lonlat": [
+        -60.747771434018674,
+        46.1901522550564
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 156303,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        3448.6707547545084,
+        3126.32687441702
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "definition": "Northern outer bank, not channel centreline; paired bend or fork context inspected",
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.74737041801536,
+        46.18959009721004
+      ],
+      "error_ground_m": 69.73490391748601,
+      "east_ground_m": 30.957754439456618,
+      "north_ground_m": -62.486592677528115
+    },
+    {
+      "id": "Q04",
+      "label": "Central upper round pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3577,
+        1009
+      ],
+      "lonlat": [
+        -60.789350584132194,
+        46.283089020974046
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 56294,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3582.151441270311,
+        973.3267903118394
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.78929726475963,
+        46.28264381982928
+      ],
+      "error_ground_m": 49.657465891214386,
+      "east_ground_m": 4.109213424885842,
+      "north_ground_m": -49.48715271427381
+    },
+    {
+      "id": "Q05",
+      "label": "Northeastern angular lake northern corner",
+      "role": "check",
+      "pixel_xy": [
+        5030,
+        582
+      ],
+      "lonlat": [
+        -60.71096553729777,
+        46.32404200695006
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 136089,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5038.981066910375,
+        547.1502486147219
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.711658879585926,
+        46.323833904467115
+      ],
+      "error_ground_m": 58.189760589513725,
+      "east_ground_m": -53.39439295100338,
+      "north_ground_m": -23.131948444927094
+    },
+    {
+      "id": "Q06",
+      "label": "Beaton Brook lower pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4086,
+        1694
+      ],
+      "lonlat": [
+        -60.74262625151058,
+        46.26190714128271
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 56210,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4090.350501592853,
+        1665.462433245033
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.74247916538037,
+        46.26182409271429
+      ],
+      "error_ground_m": 14.622309270274416,
+      "east_ground_m": 11.339916062789259,
+      "north_ground_m": -9.231372166934193
+    },
+    {
+      "id": "Q07",
+      "label": "Beaton Brook upper pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4117,
+        1579
+      ],
+      "lonlat": [
+        -60.74354931538631,
+        46.26742810979135
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 56213,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4120.6339682593825,
+        1545.926689970307
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.74331349643839,
+        46.26717610417947
+      ],
+      "error_ground_m": 33.39397609116738,
+      "east_ground_m": 18.179191004953612,
+      "north_ground_m": -28.012044794746284
+    },
+    {
+      "id": "Q08",
+      "label": "Upper Middle River eastern large loop northern bank crest",
+      "role": "check",
+      "pixel_xy": [
+        1788,
+        930
+      ],
+      "lonlat": [
+        -60.8986555448503,
+        46.257405846229275
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 159908,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        1798.2489854041487,
+        913.1677644709125
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "definition": "Northern outer bank, not channel centreline; paired bend or fork context inspected",
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.89901412984282,
+        46.25738299657248
+      ],
+      "error_ground_m": 27.76451200588707,
+      "east_ground_m": -27.648099968287916,
+      "north_ground_m": -2.5398218576516354
+    },
+    {
+      "id": "Q09",
+      "label": "North Baddeck western of two adjacent confluences",
+      "role": "check",
+      "pixel_xy": [
+        3138,
+        1792
+      ],
+      "lonlat": [
+        -60.797949925385694,
+        46.242808090065836
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 177147,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3138.8783376695355,
+        1762.2784745661775
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs, lake shapes and stream-branch order inspected before first scoring; excluded from controls.",
+      "predicted_lonlat": [
+        -60.79732565314758,
+        46.24256824845195
+      ],
+      "error_ground_m": 55.03468519915738,
+      "east_ground_m": 48.146434434672095,
+      "north_ground_m": -26.659659153825906
+    }
+  ],
+  "fit_sha256": "4b73304989866976a956fd0f083f5795aac4cf9d49f1120aa90bc79f79eacdfb",
+  "checks_sha256": "36681e249f8f6dc3ad64a819809eabe2171f93198de0679bdb763ed3edfa85f6",
+  "status": "Eight excluded physical checks; correlated river/pond subsets and unsupported margins"
+}

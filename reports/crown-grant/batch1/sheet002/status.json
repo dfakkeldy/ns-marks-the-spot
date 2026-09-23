@@ -29,7 +29,7 @@
     "No independent inset checks; seam placement is unsupported, so whole-sheet completion is not claimed"
   ],
   "review": {
-    "status": "ACCEPTED FOR RESEARCH — qualified; see review-decision-20260922.md and component limitations",
+    "status": "ACCEPTED FOR RESEARCH \u2014 user accepted; component limitations retained",
     "statistics": "4 fresh main-map checks: 72.70 m RMS, median 73.66 m, P95 96.70 m, maximum 99.76 m. Six reused diagnostics: 78.20 m RMS. Original gates and coverage not all met.",
     "coverage": "Entire main map and inset imagery retained. Inset placement is an unsupported seam estimate. Eastern interior and edges are insufficiently checked.",
     "focusBounds": [
@@ -51,5 +51,8 @@
   "accepted_for_research": true,
   "geographic_accepted": false,
   "acceptance_scope": "Existing georeference accepted for approximate historical research display; original whole-sheet numeric and coverage gates are not all demonstrated.",
-  "acceptance_review": "../review-decision-20260922.md"
+  "acceptance_review": "../review-decision-20260922.md",
+  "user_accepted": true,
+  "user_acceptance": "../user-acceptance.json",
+  "previous_assessment_status": "provisional-failed"
 }

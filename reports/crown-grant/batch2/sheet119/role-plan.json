@@ -1,0 +1,15 @@
+{
+  "controls": [
+    "C01",
+    "C02",
+    "C03"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05"
+  ],
+  "timing": "Roles, geographic identities and corrected placements fixed before fit/scoring; no reference centroid or grid tie used"
+}

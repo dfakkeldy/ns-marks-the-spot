@@ -1,0 +1,134 @@
+[
+  {
+    "id": "C01",
+    "label": "Stewart Brook western confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      2535,
+      353
+    ],
+    "lonlat": [
+      -60.94545049236289,
+      46.4576314903589
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 188646,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      2567.6491731340066,
+      381.4602411808446
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Rory Brook and Glen Brook confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      2860,
+      1720
+    ],
+    "lonlat": [
+      -60.89100961490755,
+      46.40131917900237
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 266813,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      2875.496757983754,
+      1748.9881978872
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Southern Middle River headwater confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      2765,
+      3381
+    ],
+    "lonlat": [
+      -60.857373737494996,
+      46.32534423181206
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 187070,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      2754.775529295439,
+      3390.2920261848485
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Southern North Branch western tributary confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      3706,
+      2948
+    ],
+    "lonlat": [
+      -60.80780760819882,
+      46.35999968175613
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 187683,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3687.4100059047923,
+      2973.767884855042
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Southeastern large pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5325,
+      3480
+    ],
+    "lonlat": [
+      -60.68809117814194,
+      46.36480128377594
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 134531,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5343.19888813264,
+      3491.6520195284393
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Southeastern upper compact pond western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5293,
+      2769
+    ],
+    "lonlat": [
+      -60.70853096073195,
+      46.3955881858276
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 127763,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5298.558634972374,
+      2791.764269868494
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

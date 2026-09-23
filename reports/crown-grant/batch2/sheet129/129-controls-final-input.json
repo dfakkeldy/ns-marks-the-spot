@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Northwestern forked lake northern tip",
+    [
+      2248,
+      201
+    ],
+    [
+      2300,
+      182
+    ],
+    "WALK"
+  ],
+  [
+    "C02",
+    "Big Lake northwestern point",
+    [
+      1012,
+      2744
+    ],
+    [
+      1086,
+      2708
+    ],
+    "WALK"
+  ],
+  [
+    "C03",
+    "Southwestern island lake northern tip",
+    [
+      1828,
+      2798
+    ],
+    [
+      1901,
+      2758
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Southern triangular lake northern tip",
+    [
+      2687,
+      2730
+    ],
+    [
+      2760,
+      2692
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Eastern Rocky Brook pond western end",
+    [
+      3642,
+      1628
+    ],
+    [
+      3700,
+      1596
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Wreck Point southern coastal shoulder",
+    [
+      4792,
+      1824
+    ],
+    [
+      4820,
+      1796
+    ],
+    "WACO"
+  ],
+  [
+    "C07",
+    "Little River Point coastal shoulder",
+    [
+      3577,
+      3347
+    ],
+    [
+      3625,
+      3326
+    ],
+    "WACO"
+  ]
+]

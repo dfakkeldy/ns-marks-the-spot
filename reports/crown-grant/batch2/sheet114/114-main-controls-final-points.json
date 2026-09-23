@@ -1,0 +1,112 @@
+[
+  {
+    "id": "MC01",
+    "label": "Sea Wolf Island northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3364,
+      530
+    ],
+    "lonlat": [
+      -61.25416535762778,
+      46.36790451570642
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 19023,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3337.494107509323,
+      508.81026514910627
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC03",
+    "label": "Marsh Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2875,
+      1758
+    ],
+    "lonlat": [
+      -61.2579915410091,
+      46.30568274478465
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 7059,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2780.6317461581784,
+      1771.1251273287926
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC04",
+    "label": "Chimney Corner coastal shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      4798,
+      421
+    ],
+    "lonlat": [
+      -61.17101773988469,
+      46.39287970427296
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 3927,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4733.532944295963,
+      452.95139510463923
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC02",
+    "label": "Inverness pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1373,
+      3091
+    ],
+    "lonlat": [
+      -61.312310525141726,
+      46.225936011153856
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 5589,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1354.8709472602932,
+      3114.3332800263306
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC05",
+    "label": "Deepdale upper eastern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      1635,
+      3530
+    ],
+    "lonlat": [
+      -61.28559398396979,
+      46.21221274307538
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 261358,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      1628.9095073895878,
+      3545.8413878564024
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

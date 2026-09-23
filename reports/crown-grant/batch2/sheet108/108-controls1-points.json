@@ -1,0 +1,46 @@
+[
+  {
+    "id": "C05",
+    "label": "Cape Susan northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1862,
+      3582
+    ],
+    "lonlat": [
+      -61.532791085071956,
+      45.95728755518714
+    ],
+    "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+    "reference_objectid": 10472,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1888.4344422866125,
+      3578.1373622209067
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Mabou Harbour southern peninsula northwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4407,
+      1874
+    ],
+    "lonlat": [
+      -61.42041768796672,
+      46.069831143165466
+    ],
+    "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+    "reference_objectid": 24821,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4435.448576757393,
+      1898.1214310949435
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

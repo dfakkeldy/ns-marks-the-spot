@@ -1,0 +1,36 @@
+{
+  "Henry Island": {
+    "count": 2,
+    "rms_ground_m": 63.96535336870955,
+    "max_ground_m": 66.92497400636583,
+    "point_ids": [
+      "Q01",
+      "Q02"
+    ]
+  },
+  "Port Hood Island": {
+    "count": 3,
+    "rms_ground_m": 18.18380606660369,
+    "max_ground_m": 26.34971092271473,
+    "point_ids": [
+      "Q03",
+      "Q04",
+      "Q05"
+    ]
+  },
+  "Mainland": {
+    "count": 8,
+    "rms_ground_m": 57.34645636810397,
+    "max_ground_m": 79.57260797803093,
+    "point_ids": [
+      "Q06",
+      "Q07",
+      "Q08",
+      "Q09",
+      "Q10",
+      "Q12",
+      "Q13",
+      "Q14"
+    ]
+  }
+}

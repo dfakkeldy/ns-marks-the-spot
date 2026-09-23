@@ -1,0 +1,14 @@
+[
+  {
+    "packet": "controls3 C07",
+    "reason": "Mull River/Glencoe junction proposal obscured by lettering and survey linework; correspondence not secure, excluded from fit"
+  },
+  {
+    "packet": "checks2 Q04",
+    "reason": "Nearest three-way node was the eastern tributary; corrected to the separate western tributary node by incoming-branch topology before any score"
+  },
+  {
+    "packet": "checks0/checks1 Q05",
+    "reason": "Initial modern marker was along the channel, not the third western tributary junction; traced the western branch to its actual lower confluence before any score"
+  }
+]

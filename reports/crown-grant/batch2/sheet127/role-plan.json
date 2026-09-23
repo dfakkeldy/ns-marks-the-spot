@@ -1,0 +1,24 @@
+{
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q09"
+  ],
+  "timing": "All roles and corrected correspondences fixed before fitting/scoring",
+  "audit": "Initial C06 and Q09 proposals snapped to nearby small water features; complete-outline review identified the correct large-lake shores before fitting, with all original proposals retained."
+}

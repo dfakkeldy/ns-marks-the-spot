@@ -1,0 +1,45 @@
+{
+  "sheet": "121",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full raster and comparison controls browser-verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/121.pdf",
+    "pdf_sha256": "4c92420cb74494e93cbfe3298b5ed6936fb0c21f8cf4b6a47c307467577d77e2",
+    "jpeg_sha256": "09f85b2598215b38b44a3e38939ab77ee6d44f666cf05dc352f232180e48c27a",
+    "dimensions": [
+      5621,
+      3874
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 7,
+      "rms_ground_m": 97.03821293828396,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven checks give RMS 97.04 m, narrowly below 100 m; median 69.37 m, P95 166.50 m and maximum 184.03 m exceed companion bounds",
+    "Six controls and seven checks do not establish full-sheet geographic acceptance; western margins and the northern/eastern highlands remain sparsely validated",
+    "Nearby Stewart forks, southern pond endpoints and common stream networks are spatially correlated",
+    "Historic river-bank evolution and faint stream/parcel overprint contribute uncertainty; high-error checks are retained"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 97.04 m, median 69.37 m, P95 166.50 m, maximum 184.03 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Full mapped rectangle retains the Margaree valley, upland stream networks and southeastern lakes, including the original western river fringe and all interior land. No displaced inset identified."
+  }
+}

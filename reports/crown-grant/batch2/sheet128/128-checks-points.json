@@ -1,0 +1,178 @@
+[
+  {
+    "id": "Q01",
+    "label": "Northwestern plateau triangular lake eastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2378,
+      1240
+    ],
+    "lonlat": [
+      -60.68979420414322,
+      46.67173426512663
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 128754,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2407.066810872813,
+      1197.8126485153334
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Sunday Lake eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4015,
+      323
+    ],
+    "lonlat": [
+      -60.61257756925454,
+      46.73562195907827
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 139423,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4014.1883860862,
+      291.43764789402485
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Lake of Islands southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5291,
+      737
+    ],
+    "lonlat": [
+      -60.52360602175363,
+      46.73889143828725
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 137248,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5316.008875873056,
+      695.2862180356169
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Dundas northern long satellite northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4977,
+      1128
+    ],
+    "lonlat": [
+      -60.533319934199234,
+      46.718102386969775
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 128134,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5014.843707319058,
+      1072.6501916262787
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Dundas southern droplet southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4771,
+      1343
+    ],
+    "lonlat": [
+      -60.54117139959833,
+      46.70610423877008
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 128131,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4808.7512789244065,
+      1278.5242851852672
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Dundas southern hooked lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4683,
+      1804
+    ],
+    "lonlat": [
+      -60.53575336200907,
+      46.68506917243747
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 122047,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4722.807791871601,
+      1741.0213818571065
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Southern chain broad middle pond eastern end",
+    "role": "proposal",
+    "pixel_xy": [
+      3402,
+      3650
+    ],
+    "lonlat": [
+      -60.56976832660945,
+      46.58666844542479
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 38547,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3467.514074569801,
+      3589.697251570178
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Southern large lobed lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3747,
+      3945
+    ],
+    "lonlat": [
+      -60.54263241053638,
+      46.57918173483539
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 47017,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3799.5960590827162,
+      3888.1911166398786
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

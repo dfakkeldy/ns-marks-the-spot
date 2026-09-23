@@ -1,0 +1,71 @@
+{
+  "requested_count": 20,
+  "source": "https://novascotia.ca/natr/land/grantmap.asp",
+  "route": "Official index columns: start Port Hawkesbury 110 northward, then snake eastward across adjacent columns",
+  "sheets": [
+    "110",
+    "109",
+    "108",
+    "114",
+    "115",
+    "116",
+    "117",
+    "118",
+    "126",
+    "125",
+    "124",
+    "123",
+    "122",
+    "121",
+    "120",
+    "119",
+    "127",
+    "128",
+    "129",
+    "130"
+  ],
+  "legs": [
+    {
+      "direction": "north",
+      "sheets": [
+        "110",
+        "109",
+        "108"
+      ]
+    },
+    {
+      "direction": "south",
+      "sheets": [
+        "114",
+        "115",
+        "116",
+        "117",
+        "118"
+      ]
+    },
+    {
+      "direction": "north",
+      "sheets": [
+        "126",
+        "125",
+        "124",
+        "123",
+        "122",
+        "121",
+        "120",
+        "119"
+      ]
+    },
+    {
+      "direction": "south",
+      "sheets": [
+        "127",
+        "128",
+        "129",
+        "130"
+      ]
+    }
+  ],
+  "routing_note": "First two columns contain eight sheets. Continuing the same pattern eastward to reach the requested twenty is the stated working assumption, pending optional user steering.",
+  "source_index_image_sha256": "845424aa6c30a74f97a0ee1c0660c89933bac1b412677a894309ed9ee610cdf5"
+}

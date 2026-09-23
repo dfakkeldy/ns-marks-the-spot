@@ -1,0 +1,17 @@
+{
+  "timing": "Before any fit or check score",
+  "rejections": [
+    {
+      "id": "C02",
+      "reason": "Fergusons Lake locality label did not secure an actual source lake boundary at the proposed pixel"
+    },
+    {
+      "id": "C03",
+      "reason": "Northeastern Grand Lake outlet corner mixes road crossing and shore definition; replaced by separately audited southern bay apex C08 before fitting"
+    },
+    {
+      "id": "C09",
+      "reason": "Southern Framboise pond identity/outline correspondence unresolved; not adopted"
+    }
+  ]
+}

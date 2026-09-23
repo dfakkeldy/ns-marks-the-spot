@@ -1,0 +1,68 @@
+[
+  {
+    "id": "C01",
+    "label": "Enrage Cape northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2941,
+      3400
+    ],
+    "lonlat": [
+      -61.02634125002933,
+      46.65035614537742
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 3806,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2929.4345821785973,
+      3372.4117756196065
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Eastern Caveau cape northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3440,
+      3475
+    ],
+    "lonlat": [
+      -60.991459854178494,
+      46.65583894342258
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 10022,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3441.3822685566847,
+      3447.0502708170097
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Jumping Brook shoreline mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      5083,
+      2168
+    ],
+    "lonlat": [
+      -60.917651572641695,
+      46.74326383255486
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 275666,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      5073.779509867774,
+      2109.7776847876376
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

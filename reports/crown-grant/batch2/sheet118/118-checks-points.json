@@ -1,0 +1,178 @@
+[
+  {
+    "id": "Q01",
+    "label": "Gregory Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4805,
+      1373
+    ],
+    "lonlat": [
+      -60.78815261837087,
+      45.706322307950416
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 16571,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4819.413800778915,
+      1297.237639438943
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Ambrose Island eastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5235,
+      1360
+    ],
+    "lonlat": [
+      -60.76356166276744,
+      45.71393636923044
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 23536,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5242.110675534757,
+      1276.114240737632
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Cape George southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4615,
+      856
+    ],
+    "lonlat": [
+      -60.81301791713546,
+      45.72501057323465
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 4170,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4601.259431311104,
+      778.553387737833
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Tillard Point southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2736,
+      2078
+    ],
+    "lonlat": [
+      -60.895322182620745,
+      45.64471705751312
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 313808,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2750.5666792338598,
+      1968.8615947487997
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Cordeau Point southern bend",
+    "role": "proposal",
+    "pixel_xy": [
+      1310,
+      2198
+    ],
+    "lonlat": [
+      -60.97674493147441,
+      45.61591909681302
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 5624,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1320.6210290893796,
+      2108.7208831736352
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Cascaret Island northeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1353,
+      2315
+    ],
+    "lonlat": [
+      -60.97277355070738,
+      45.61148224507484
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 16828,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1343.7996748102014,
+      2221.3553731617285
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "St Peters Island northeastern cape",
+    "role": "proposal",
+    "pixel_xy": [
+      3688,
+      3395
+    ],
+    "lonlat": [
+      -60.80674457956861,
+      45.602704576085216
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 22481,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3723.643321859301,
+      3315.410928952857
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Goulet Beach northern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      1910,
+      3026
+    ],
+    "lonlat": [
+      -60.9239768190964,
+      45.59227165706483
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 21731,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1910.5405214402126,
+      2883.44654502545
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

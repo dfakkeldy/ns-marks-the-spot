@@ -1,0 +1,200 @@
+[
+  {
+    "id": "Q01",
+    "label": "McDonald Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2084,
+      2276
+    ],
+    "lonlat": [
+      -61.09661304618338,
+      45.94512685749113
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 20139,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2086.006408447749,
+      2234.9959184784675
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "McDonald Island northwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2058,
+      2199
+    ],
+    "lonlat": [
+      -61.09972532052827,
+      45.947995385351945
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 20139,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2065.2348780861357,
+      2163.7192382836947
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "MacIvor Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2300,
+      2304
+    ],
+    "lonlat": [
+      -61.080284757533214,
+      45.947332490024074
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 19516,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2324.469214595796,
+      2278.2337716125185
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Island south of Whycocomagh southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1856,
+      2130
+    ],
+    "lonlat": [
+      -61.11478060269837,
+      45.947714689004535
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 17734,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1858.537665743148,
+      2090.2110007546144
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Cranberry Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3339,
+      3612
+    ],
+    "lonlat": [
+      -60.98310584408636,
+      45.906695584872764
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 23467,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3341.7778104692115,
+      3565.455980472616
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Cranberry Island western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3278,
+      3571
+    ],
+    "lonlat": [
+      -60.98751963589004,
+      45.90718251227281
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 23467,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3285.3570581803797,
+      3533.06299132586
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "McIvor Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5207,
+      1326
+    ],
+    "lonlat": [
+      -60.91866329962597,
+      46.041000099148256
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 10500,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5220.775202331482,
+      1325.4438977362588
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "McIvor Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5193,
+      1541
+    ],
+    "lonlat": [
+      -60.91431160097801,
+      46.0310444923774
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 10334,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5205.616072803328,
+      1539.0473382254131
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Washabuck River western tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      4607,
+      2589
+    ],
+    "lonlat": [
+      -60.929424114392596,
+      45.97203373553119
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 282272,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      4559.989317112486,
+      2592.360499735223
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,104 @@
+{
+  "sheet": "126",
+  "version": "inset-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.886013601378972,
+      2.04406906618212
+    ],
+    [
+      2.04406906618212,
+      -4.886013601378972
+    ],
+    [
+      686024.6513803944,
+      5069379.561923792
+    ]
+  ],
+  "source_sha256": "c9fc8d96e97c272a6c7136f10b5cf52b311e5f8b754035851271cca972ed44ab",
+  "source_dimensions": [
+    5735,
+    3886
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IC01",
+      "label": "Inset southwestern cape southern tip",
+      "role": "control",
+      "pixel_xy": [
+        2099,
+        3071
+      ],
+      "lonlat": [
+        -60.39999621798206,
+        45.6519176416335
+      ],
+      "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+      "reference_objectid": 5269,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2100.8033889572835,
+        3081.245453279
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC02",
+      "label": "Red Cape coastal corner",
+      "role": "control",
+      "pixel_xy": [
+        3335,
+        2566
+      ],
+      "lonlat": [
+        -60.334489014108144,
+        45.695503291859566
+      ],
+      "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+      "reference_objectid": 5120,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3323.9870847014245,
+        2567.504322784138
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC03",
+      "label": "Fourchu Head southeastern corner",
+      "role": "control",
+      "pixel_xy": [
+        4944,
+        2684
+      ],
+      "lonlat": [
+        -60.22860820024987,
+        45.71717792969103
+      ],
+      "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+      "reference_objectid": 5250,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4939.3685345984995,
+        2687.7705986729125
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    23.924517507655626,
+    42.578067588558234,
+    19.7999482629671
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: narrow coastal control distribution; constrained similarity avoids unsupported affine shear. Main and displaced inset solved independently."
+}

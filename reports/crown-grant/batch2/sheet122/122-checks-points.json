@@ -1,0 +1,156 @@
+[
+  {
+    "id": "Q01",
+    "label": "Gillis Brook upper McLeod Brook confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      1600,
+      2550
+    ],
+    "lonlat": [
+      -60.873613152074775,
+      46.185988644581656
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 298850,
+    "reference_feature_code": "WARV55",
+    "guide_reference_pixel_xy": [
+      1593.3755080185365,
+      2529.919745310908
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Upper Middle eastern tributary confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      1715,
+      1068
+    ],
+    "lonlat": [
+      -60.89735534767142,
+      46.24909120675993
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 278230,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      1750.9931297762087,
+      1092.6053285835078
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Northeast Baddeck branch northern bank bend",
+    "role": "proposal",
+    "pixel_xy": [
+      3427,
+      3158
+    ],
+    "lonlat": [
+      -60.74832797300811,
+      46.18948838831966
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 164862,
+    "reference_feature_code": "WARV20",
+    "guide_reference_pixel_xy": [
+      3435.360855928797,
+      3137.0865941523807
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Central upper round pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3577,
+      1009
+    ],
+    "lonlat": [
+      -60.789350584132194,
+      46.283089020974046
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 56294,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3582.151441270311,
+      973.3267903118394
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Northeastern angular lake eastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5043,
+      601
+    ],
+    "lonlat": [
+      -60.71064008715343,
+      46.32324887433617
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 136088,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5037.423145927372,
+      565.3640482021729
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Beaton Brook lower pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4086,
+      1694
+    ],
+    "lonlat": [
+      -60.74262625151058,
+      46.26190714128271
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 56210,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4090.350501592853,
+      1665.462433245033
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Beaton Brook upper pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4114,
+      1585
+    ],
+    "lonlat": [
+      -60.74354931538631,
+      46.26742810979135
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 56213,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4120.6339682593825,
+      1545.926689970307
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

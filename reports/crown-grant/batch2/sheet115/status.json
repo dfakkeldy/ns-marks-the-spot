@@ -1,0 +1,44 @@
+{
+  "sheet": "115",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "RMS PASSES; COVERAGE PROVISIONAL",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/115.pdf",
+    "pdf_sha256": "6f0a6e63d0659104b75b60476842fa5f9395da60fab3c6d70f4281981457f851",
+    "jpeg_sha256": "869f519ef2c7f04cc84c9ddc08d33a54e3caaff1dddff521b242eae1d3a94952",
+    "dimensions": [
+      5590,
+      3839
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 61.66023701275235,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks do not reach the retained twelve-check broad-acceptance count",
+    "Median 48.74 m, P95 99.79 m and maximum 117.27 m exceed the unchanged companion bounds despite RMS passing 100 m",
+    "Lake-shore checks and checks within the same brook systems are spatially correlated; far corners and intervening headwaters remain unvalidated"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 61.66 m, median 48.74 m, P95 99.79 m, maximum 117.27 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped frame retained, including Lake Ainslie and eastern inland brooks. No separate inset identified. Shoreline and inland junction checks are reported by region."
+  }
+}

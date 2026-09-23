@@ -1,0 +1,175 @@
+{
+  "sheet": "109",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.5899733744695395,
+      1.9262401951692125
+    ],
+    [
+      1.9231347761869075,
+      -4.621705575972779
+    ],
+    [
+      605731.2150984328,
+      5085475.554074009
+    ]
+  ],
+  "source_sha256": "54afaa27eb70d0aa42a359a6081acf44a3eb26cb6151e23f5afc56fd9909eff6",
+  "source_dimensions": [
+    6018,
+    4113
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Maryville coastal pond southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1838,
+        598
+      ],
+      "lonlat": [
+        -61.51293720818011,
+        45.92031895382066
+      ],
+      "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+      "reference_objectid": 141683,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1855.6735805153148,
+        624.6420048379805
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "McKay Point southern hooked tip",
+      "role": "control",
+      "pixel_xy": [
+        1734,
+        904
+      ],
+      "lonlat": [
+        -61.510619391855734,
+        45.90557615278688
+      ],
+      "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+      "reference_objectid": 10437,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1767.1454296990996,
+        941.5274269978981
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Central stream west-tributary junction",
+      "role": "control",
+      "pixel_xy": [
+        3935,
+        1800
+      ],
+      "lonlat": [
+        -61.36022123672536,
+        45.90419685254796
+      ],
+      "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+      "reference_objectid": 223358,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3930.535775627126,
+        1824.4196388617856
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Southwest Mabou River eastern tributary at McLeod Settlement",
+      "role": "control",
+      "pixel_xy": [
+        4145,
+        1578
+      ],
+      "lonlat": [
+        -61.35280116679805,
+        45.91719858168521
+      ],
+      "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+      "reference_objectid": 269441,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        4144.958984258701,
+        1598.4279761711368
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "River Denys tributary confluence southeast of Melford",
+      "role": "control",
+      "pixel_xy": [
+        5280,
+        3362
+      ],
+      "lonlat": [
+        -61.24143459861529,
+        45.86114227387636
+      ],
+      "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+      "reference_objectid": 266454,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        5296.06964572391,
+        3384.554187143105
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Long Point inland southern tributary confluence",
+      "role": "control",
+      "pixel_xy": [
+        1729,
+        3075
+      ],
+      "lonlat": [
+        -61.461381246249545,
+        45.81451194928342
+      ],
+      "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+      "reference_objectid": 254121,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        1726.3598336261348,
+        3098.0048317699693
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    18.388597021675825,
+    93.10704702840604,
+    69.07738777976982,
+    55.361570497669355,
+    79.05527214777541,
+    45.230936145084335
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

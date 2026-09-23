@@ -1,0 +1,41 @@
+[
+  [
+    "F01",
+    "Bishops Lake southern apex",
+    [
+      411,
+      1832
+    ],
+    [
+      464,
+      1832
+    ],
+    "WALK"
+  ],
+  [
+    "F02",
+    "Heifer Lake eastern corner",
+    [
+      4740,
+      1005
+    ],
+    [
+      4748,
+      1010
+    ],
+    "WALK"
+  ],
+  [
+    "F03",
+    "MacDonald Lake western bend",
+    [
+      4940,
+      1946
+    ],
+    [
+      4960,
+      1958
+    ],
+    "WALK"
+  ]
+]

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5577 x 3823 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 128.15 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          45,
+          105
+        ],
+        [
+          5530,
+          105
+        ],
+        [
+          5530,
+          3715
+        ],
+        [
+          45,
+          3715
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original frame, including its broad mapped Gulf area, southeastern coastal strip, Cheticamp Island fragment, Jumping Brook and Shag Roost edge. No separate inset or displaced island component identified."
+    }
+  ]
+}

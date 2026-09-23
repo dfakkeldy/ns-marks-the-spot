@@ -1,0 +1,80 @@
+{
+  "sheet": "120",
+  "version": "inset-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.9776048098281,
+      1.8933714092079568
+    ],
+    [
+      1.8933714092079568,
+      -4.9776048098281
+    ],
+    [
+      639972.8450647736,
+      5145335.703174741
+    ]
+  ],
+  "source_sha256": "254ac6b8237bc3615d7ee797562257cd0d3a7731f6719733569da4a37c0a711c",
+  "source_dimensions": [
+    5618,
+    3842
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IC01",
+      "label": "Gray Point northern tip",
+      "role": "control",
+      "pixel_xy": [
+        653,
+        350
+      ],
+      "lonlat": [
+        -61.12680747450545,
+        46.441698606693926
+      ],
+      "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+      "reference_objectid": 6081,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        670.6956115499488,
+        332.7033707369119
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC02",
+      "label": "Whale Cove cape northern tip",
+      "role": "control",
+      "pixel_xy": [
+        351,
+        586
+      ],
+      "lonlat": [
+        -61.141087353968345,
+        46.42621325471071
+      ],
+      "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+      "reference_objectid": 7376,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        360.8053423842066,
+        560.6572213572217
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    5.974737482818692e-07,
+    1.1431415553045874e-07
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: printed displaced component, narrow control distribution; constrained similarity avoids unsupported affine shear"
+}

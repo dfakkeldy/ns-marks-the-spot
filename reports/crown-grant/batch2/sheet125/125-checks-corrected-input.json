@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Loch Lomond northern island northern tip",
+    [
+      2250,
+      1287
+    ],
+    [
+      2295,
+      1285
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "Loch Lomond southern island southern tip",
+    [
+      2220,
+      1420
+    ],
+    [
+      2274,
+      1424
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Lake Uist central island southern tip",
+    [
+      2677,
+      1010
+    ],
+    [
+      2717,
+      1001
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "McLeod Lake south of Island Lake southern apex",
+    [
+      4333,
+      1588
+    ],
+    [
+      4388,
+      1605
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Duck Lake southern tip",
+    [
+      4726,
+      1364
+    ],
+    [
+      4743,
+      1371
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Colins Lake southern tip",
+    [
+      1062,
+      2390
+    ],
+    [
+      1118,
+      2400
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Lake west of Barren Hill southern tip",
+    [
+      1423,
+      2767
+    ],
+    [
+      1477,
+      2780
+    ],
+    "WALK"
+  ],
+  [
+    "Q08",
+    "Island Lake island northern tip",
+    [
+      4344,
+      1328
+    ],
+    [
+      4374,
+      1325
+    ],
+    "WALK"
+  ],
+  [
+    "Q09",
+    "Cranberry Lake northern apex",
+    [
+      4473,
+      818
+    ],
+    [
+      4478,
+      827
+    ],
+    "WALK"
+  ]
+]

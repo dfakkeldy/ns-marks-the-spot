@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "254ac6b8237bc3615d7ee797562257cd0d3a7731f6719733569da4a37c0a711c",
+  "fit_sha256": "16b9064adaf058f38fe81514bd6c8561cec2955626f4a2ec806850c39e4f9301",
+  "components_sha256": "61d97eb8c9d32dff3e07169a726361c1873e89c3d531f5d94015beef3b5925fd",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 248.95 m exceeds 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          46.424679305718215,
+          -61.204028047479746
+        ],
+        [
+          46.6806783901362,
+          -60.762272523361126
+        ]
+      ],
+      "dimensions": [
+        6147,
+        5180
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 18016758,
+      "source_mask_pixels": 19531875,
+      "affine_determinant": -27.92320051063925,
+      "png_sha256": "f790e8de0582d9f464759f07ece53d5d7de556de0677271c7b9093fa94f324bb",
+      "tif_sha256": "4d451d44f9a40fc3f048a22a1ba03ccb7aa7f051fcb21614d2235d17efedb115"
+    },
+    {
+      "id": "gray-point-inset",
+      "status": "RMS 74.66 m passes 100 m; limitations retained",
+      "png": "gray-point-inset-3857.png",
+      "tif": "gray-point-inset-3857.tif",
+      "bounds": [
+        [
+          46.41320989758223,
+          -61.17154797587295
+        ],
+        [
+          46.454715033003055,
+          -61.10916896254369
+        ]
+      ],
+      "dimensions": [
+        868,
+        838
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 446690,
+      "source_mask_pixels": 478800,
+      "affine_determinant": -28.36140493602996,
+      "png_sha256": "c951977cae2c6ae6be138fd891d3e2c89c576c90bbcfc81e805ecfb9b2062eda",
+      "tif_sha256": "55da6d75f89d0b57ff59cd5405926a01cf7a6497be2fd8140be5f869189810fa"
+    }
+  ]
+}

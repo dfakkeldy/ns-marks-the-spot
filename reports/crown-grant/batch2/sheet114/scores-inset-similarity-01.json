@@ -1,0 +1,135 @@
+{
+  "count": 4,
+  "rms_ground_m": 93.43295834790348,
+  "median_ground_m": 95.16584310796983,
+  "p95_ground_m": 121.39828085210202,
+  "max_ground_m": 124.6144771116456,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 3.60541506887252,
+  "mean_north_ground_m": -70.21625171142418,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Cape Mabou northeastern coastal prominence",
+      "role": "check",
+      "pixel_xy": [
+        710,
+        878
+      ],
+      "lonlat": [
+        -61.44266981024922,
+        46.16470435051239
+      ],
+      "guide_file": ".crown-grant-local/114-inset-frozen-guide.npy",
+      "reference_objectid": 12745,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        722.479239307344,
+        857.0014028722653
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Independent coast geometry and final native crosshair audited before first score; frozen inset similarity unchanged",
+      "predicted_lonlat": [
+        -61.44288134320456,
+        46.163592934903505
+      ],
+      "error_ground_m": 124.6144771116456,
+      "east_ground_m": -16.337682111238003,
+      "north_ground_m": -123.53885238677336
+    },
+    {
+      "id": "IQ02",
+      "label": "McKinnon Brook coastal prominence",
+      "role": "check",
+      "pixel_xy": [
+        843,
+        829
+      ],
+      "lonlat": [
+        -61.43625587148279,
+        46.1689836752917
+      ],
+      "guide_file": ".crown-grant-local/114-inset-frozen-guide.npy",
+      "reference_objectid": 12744,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        848.4458207771531,
+        809.5230146077229
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Independent coast geometry and final native crosshair audited before first score; frozen inset similarity unchanged",
+      "predicted_lonlat": [
+        -61.43608003424803,
+        46.16806355506981
+      ],
+      "error_ground_m": 103.17316871468846,
+      "east_ground_m": 13.57963412939095,
+      "north_ground_m": -102.2755898518383
+    },
+    {
+      "id": "IQ03",
+      "label": "Coastal step southwest of Sight Point",
+      "role": "check",
+      "pixel_xy": [
+        976,
+        732
+      ],
+      "lonlat": [
+        -61.4306005632221,
+        46.17534130443274
+      ],
+      "guide_file": ".crown-grant-local/114-inset-frozen-guide.npy",
+      "reference_objectid": 12742,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        981.6700418257387,
+        715.8834909774596
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Independent coast geometry and final native crosshair audited before first score; frozen inset similarity unchanged",
+      "predicted_lonlat": [
+        -61.43052580867923,
+        46.17455890723215
+      ],
+      "error_ground_m": 87.15851750125123,
+      "east_ground_m": 5.772496653543302,
+      "north_ground_m": -86.96715158840577
+    },
+    {
+      "id": "IQ04",
+      "label": "Eastern inset northern coastal prominence",
+      "role": "check",
+      "pixel_xy": [
+        1436,
+        440
+      ],
+      "lonlat": [
+        -61.410322618646624,
+        46.19489963300826
+      ],
+      "guide_file": ".crown-grant-local/114-inset-frozen-guide.npy",
+      "reference_objectid": 13086,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1431.4831014683004,
+        444.8722820664989
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Independent coast geometry and final native crosshair audited before first score; frozen inset similarity unchanged",
+      "predicted_lonlat": [
+        -61.4101748385881,
+        46.195186768444984
+      ],
+      "error_ground_m": 33.89384901586038,
+      "east_ground_m": 11.407211603793831,
+      "north_ground_m": 31.91658698132072
+    }
+  ],
+  "fit_sha256": "db589ce181d4fd5e87590f824445fab12f72f2b799f57d88b3a05a8bc898be5c",
+  "checks_sha256": "cd523030cfda7cb6715be8b5d22d88223b49bd906d1db7465e5f8bf1aa1a3660",
+  "status": "Four independent coastal checks on two-control constrained similarity; interior unsupported"
+}

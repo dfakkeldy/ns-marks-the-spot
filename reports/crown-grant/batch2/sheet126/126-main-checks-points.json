@@ -1,0 +1,156 @@
+[
+  {
+    "id": "MQ01",
+    "label": "Point Gabion southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      588,
+      593
+    ],
+    "lonlat": [
+      -60.73385972483021,
+      45.572201104970574
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 2736,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      617.6766661137808,
+      566.3599219010212
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ02",
+    "label": "Northern Basque Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1808,
+      839
+    ],
+    "lonlat": [
+      -60.64979637140444,
+      45.580740733621646
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 17356,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1837.2912487467402,
+      838.5243535134941
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ03",
+    "label": "Eastern Basque Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1915,
+      886
+    ],
+    "lonlat": [
+      -60.64240790277827,
+      45.580343575108
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 18502,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1935.9195750704966,
+      884.7678024369525
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ04",
+    "label": "Southwestern Basque Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1775,
+      930
+    ],
+    "lonlat": [
+      -60.650482412082845,
+      45.57600404350834
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 17357,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1792.4685550390277,
+      927.3351204076316
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ05",
+    "label": "Red Head southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2273,
+      548
+    ],
+    "lonlat": [
+      -60.62767692070518,
+      45.60234146799153
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 9450,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2302.7206862621824,
+      532.3899261319311
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ06",
+    "label": "St Esprit Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4227,
+      883
+    ],
+    "lonlat": [
+      -60.49300258021079,
+      45.62046204849877
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 22545,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4289.3538005328155,
+      878.1372328158468
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ07",
+    "label": "Eastern coast bay southern pointed bend",
+    "role": "proposal",
+    "pixel_xy": [
+      5325,
+      801
+    ],
+    "lonlat": [
+      -60.42640819884585,
+      45.64228903735735
+    ],
+    "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+    "reference_objectid": 12494,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5367.174196326698,
+      796.5438423533924
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "Island Point southeastern outer barrier bend",
+    "role": "proposal",
+    "pixel_xy": [
+      2208,
+      1029
+    ],
+    "lonlat": [
+      -60.5177234542524,
+      46.34789246626155
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 10932,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2061.9229487446137,
+      1100.5621044816216
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Mary Rocks northern cape apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3124,
+      1433
+    ],
+    "lonlat": [
+      -60.44620886583349,
+      46.345912293627194
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 10904,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3008.196986466297,
+      1505.6647525022272
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Cape Dauphin eastern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3510,
+      1670
+    ],
+    "lonlat": [
+      -60.415674063955635,
+      46.342408951323286
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 10905,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3392.1372332337196,
+      1729.937319988967
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Ciboux Island northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4476,
+      995
+    ],
+    "lonlat": [
+      -60.368884423115254,
+      46.389327720539384
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 16599,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4377.985739588854,
+      1058.8124166468624
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Table Head northwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4110,
+      2243
+    ],
+    "lonlat": [
+      -60.36150263284893,
+      46.32479771826496
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 11748,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3986.9997866344056,
+      2348.606143798679
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Point Aconi northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5152,
+      2384
+    ],
+    "lonlat": [
+      -60.29220834373536,
+      46.33697133209105
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 1818,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5011.9446097324835,
+      2465.9797558897408
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Otter Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1061,
+      3610
+    ],
+    "lonlat": [
+      -60.527436530081246,
+      46.21219219632477
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 18364,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      894.9697775848326,
+      3681.433508709655
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Alder Point northeastern coastal corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5244,
+      3018
+    ],
+    "lonlat": [
+      -60.27179146534379,
+      46.31013100767511
+    ],
+    "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+    "reference_objectid": 11073,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5083.43312315474,
+      3091.042598674656
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

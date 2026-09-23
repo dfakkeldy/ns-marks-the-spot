@@ -1,0 +1,156 @@
+[
+  {
+    "id": "Q01",
+    "label": "Cow Point southern hook",
+    "role": "proposal",
+    "pixel_xy": [
+      550,
+      1135
+    ],
+    "lonlat": [
+      -60.88019069484384,
+      46.06492883178955
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10210,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      517.6591552726459,
+      1194.4563270192593
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Birch Point southern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1235,
+      1792
+    ],
+    "lonlat": [
+      -60.82332252796288,
+      46.048672079939735
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10507,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1206.6749246135587,
+      1840.6067123353714
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Bone Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2549,
+      1557
+    ],
+    "lonlat": [
+      -60.7515507665101,
+      46.07851014306729
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 17212,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2475.162944536656,
+      1612.7496988083003
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Gillie Point eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1714,
+      2590
+    ],
+    "lonlat": [
+      -60.77578633991383,
+      46.023627854974315
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 6583,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1692.58408712229,
+      2617.6174678212265
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Kempt Head western rounded apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3711,
+      2108
+    ],
+    "lonlat": [
+      -60.66631248836532,
+      46.07494210943172
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 4679,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3673.3839955023723,
+      2148.4409719384275
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Black Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3485,
+      3180
+    ],
+    "lonlat": [
+      -60.65551551222952,
+      46.02498048812004
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 13541,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3435.2306133437087,
+      3241.9849134025862
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Christmas Island western shore tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1563,
+      3752
+    ],
+    "lonlat": [
+      -60.75833052713298,
+      45.972580595976936
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 6584,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1540.4311365702306,
+      3769.5305495519424
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

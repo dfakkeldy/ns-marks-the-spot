@@ -1,0 +1,64 @@
+{
+  "sheet": "126",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; both full-content component rasters browser-verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/126.pdf",
+    "pdf_sha256": "a76038b37f3ce1c0cc73caece1ae6c114cfb363d0a15e7847b49efeedf816cba",
+    "jpeg_sha256": "c9fc8d96e97c272a6c7136f10b5cf52b311e5f8b754035851271cca972ed44ab",
+    "dimensions": [
+      5735,
+      3886
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-main-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 6,
+      "rms_ground_m": 99.94387565080184,
+      "rms_gate_passed": true,
+      "fit": "fit-main-similarity-01.json",
+      "checks": "checks-main-similarity-01.json",
+      "scores": "scores-main-similarity-01.json"
+    },
+    {
+      "component": "sheet134-inset",
+      "controls": 3,
+      "independent_checks": 3,
+      "rms_ground_m": 62.13182173666326,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main RMS 99.94 m is only marginally below 100 m; median 87.09 m, P95 150.69 m and maximum 162.20 m exceed companion bounds",
+    "Inset RMS 62.13 m uses only three coastal checks; median 49.90 m and P95 88.37 m exceed companion bounds",
+    "Both models have narrow coastal control distributions and insufficient check counts; the eastern main-map end, interior fragments and offshore rocks are not individually certified"
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 6 checks, RMS 99.94 m; sheet134-inset: 3 checks, RMS 62.13 m. Gate: 100 m. No pooled score.",
+    "coverage": "Complete main frame and separately displaced lower-right inset, explicitly printed as replacing sheet 134. Main includes Basque and St Esprit islands; inset includes its offshore rocks and complete coastal strip. The two original-frame masks partition all content.",
+    "focusBounds": [
+      [
+        45.4243146480956,
+        -60.7716489368264
+      ],
+      [
+        45.74018421898575,
+        -60.15886675801892
+      ]
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "C08",
+    "label": "Rhodena irregular pond northern finger tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1973,
+      744
+    ],
+    "lonlat": [
+      -61.40393800997494,
+      45.755360977846806
+    ],
+    "guide_file": ".crown-grant-local/110-physical-search-guide.npy",
+    "reference_objectid": 124541,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1949.4870728199603,
+      738.4726100314874
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

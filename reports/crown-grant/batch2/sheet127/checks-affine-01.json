@@ -1,0 +1,212 @@
+{
+  "status": "Nine reserved excluded physical checks across coast and plateau lake groups",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Fishing Cove northwestern cape apex",
+      "role": "check",
+      "pixel_xy": [
+        672,
+        1439
+      ],
+      "lonlat": [
+        -60.88065128533379,
+        46.797429963408
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 4947,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        544.3789991248632,
+        1399.8035549941706
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q02",
+      "label": "Western ridge upper horizontal pond eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        2145,
+        1958
+      ],
+      "lonlat": [
+        -60.777781547402036,
+        46.799368574637406
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 139716,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2016.3293615021976,
+        1923.6680082916282
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q03",
+      "label": "Western ridge hooked pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1984,
+        2085
+      ],
+      "lonlat": [
+        -60.7843389641285,
+        46.79101342949245
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 139711,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1856.8764226037893,
+        2060.0839141933247
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q04",
+      "label": "Western ridge lower long pond southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        2156,
+        2471
+      ],
+      "lonlat": [
+        -60.76565770316679,
+        46.77731748339907
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 135192,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2012.3977527631214,
+        2444.7759107840247
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q05",
+      "label": "Southeastern lake-chain eastern oval eastern end",
+      "role": "check",
+      "pixel_xy": [
+        5600,
+        2919
+      ],
+      "lonlat": [
+        -60.54382704761907,
+        46.812268460289566
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 124811,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5433.629483827099,
+        2932.5632138074143
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q06",
+      "label": "Southeastern broad hooked lake southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        5142,
+        3316
+      ],
+      "lonlat": [
+        -60.56255723300158,
+        46.78811187605503
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 143179,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4976.996070383524,
+        3329.591579953325
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q07",
+      "label": "South-central narrow lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4326,
+        3374
+      ],
+      "lonlat": [
+        -60.61176841367293,
+        46.77375176330543
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 129963,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4165.422689566447,
+        3358.3369770054705
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q08",
+      "label": "Northeastern plateau pond western end",
+      "role": "check",
+      "pixel_xy": [
+        5463,
+        681
+      ],
+      "lonlat": [
+        -60.60405594146745,
+        46.905462155018945
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 32462,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5318.263256617996,
+        681.5789545611478
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    },
+    {
+      "id": "Q09",
+      "label": "Southern large island lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        3978,
+        3766
+      ],
+      "lonlat": [
+        -60.62354726031545,
+        46.751540370756175
+      ],
+      "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+      "reference_objectid": 129745,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3822.2955655760597,
+        3752.615405558725
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair plus complete lake/shore outline and neighbouring features inspected before first scoring; excluded from fit."
+    }
+  ]
+}

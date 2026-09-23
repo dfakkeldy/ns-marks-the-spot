@@ -1,0 +1,14 @@
+{
+  "timing": "Before first fit/scoring",
+  "rejections": [
+    {
+      "id": "Q04",
+      "reason": "Southern North Branch proposed fork could not be securely matched to the faint source branch order"
+    }
+  ],
+  "corrections": [
+    "Rory Brook Q02 matched to the southern tributary downstream of the northern fork, not the initially proposed upstream southeastern branch",
+    "Southern Middle River Q03 matched to the northern incoming tributary rather than the adjacent southern one",
+    "The southeast large-lake C05 is an eastern shore bend of the southern lobe; the lake extends north beyond the parcel overprint. It is not the whole-lake northern tip."
+  ]
+}

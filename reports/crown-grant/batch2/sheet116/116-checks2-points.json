@@ -1,0 +1,24 @@
+[
+  {
+    "id": "Q10",
+    "label": "North St Patricks Channel peninsula recurved eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4959,
+      1136
+    ],
+    "lonlat": [
+      -60.93930679267612,
+      46.04511581732865
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 10151,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4971.178250473691,
+      1139.1367177326465
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

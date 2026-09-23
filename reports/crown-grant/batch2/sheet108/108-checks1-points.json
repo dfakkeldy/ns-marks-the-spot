@@ -1,0 +1,156 @@
+[
+  {
+    "id": "Q08",
+    "label": "Cape Linzee northwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2269,
+      1732
+    ],
+    "lonlat": [
+      -61.55260749951432,
+      46.04126060950569
+    ],
+    "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+    "reference_objectid": 2333,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2261.979603757325,
+      1736.5443270357791
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Colindale western cove inner corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2461,
+      1649
+    ],
+    "lonlat": [
+      -61.54266441832295,
+      46.04835433679082
+    ],
+    "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+    "reference_objectid": 12849,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2463.2500228281715,
+      1646.3407751509221
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Isthmus Point coastal pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2273,
+      1998
+    ],
+    "lonlat": [
+      -61.54598384607833,
+      46.030520060678604
+    ],
+    "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+    "reference_objectid": 13411,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2270.130461871391,
+      1994.9871270597214
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q11",
+    "label": "Harbour View pond southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2094,
+      3744
+    ],
+    "lonlat": [
+      -61.5154253279077,
+      45.9542730798359
+    ],
+    "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+    "reference_objectid": 13579,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2091.0878395634354,
+      3737.2752292081714
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q12",
+    "label": "Harbour View western inner bight",
+    "role": "proposal",
+    "pixel_xy": [
+      2138,
+      3605
+    ],
+    "lonlat": [
+      -61.516110340190544,
+      45.960805546766814
+    ],
+    "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+    "reference_objectid": 13577,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2134.3252028036513,
+      3598.866240018746
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q13",
+    "label": "Hughes Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4502,
+      1719
+    ],
+    "lonlat": [
+      -61.41842831330116,
+      46.078134351826726
+    ],
+    "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+    "reference_objectid": 25483,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4498.342240446189,
+      1729.4344905744074
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q14",
+    "label": "Murphy Point recurved tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4267,
+      1855
+    ],
+    "lonlat": [
+      -61.42975546809639,
+      46.068419697013525
+    ],
+    "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+    "reference_objectid": 25203,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4256.045577650133,
+      1866.2496825719718
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

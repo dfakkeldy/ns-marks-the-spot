@@ -1,0 +1,44 @@
+{
+  "sheet": "123",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full raster and comparison controls browser-verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/123.pdf",
+    "pdf_sha256": "ec209f1a45246ab7e92fa192b266b24879291304ee73422fa40be83d1ae79875",
+    "jpeg_sha256": "459114706cc62271a7924a00fe25a0e9dc631dd12c0be533ad739d281d8c8e0c",
+    "dimensions": [
+      6003,
+      4081
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 56.622492396638314,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks give RMS 56.62 m, but P95 106.49 m and maximum 140.04 m exceed companion bounds; sparse count prevents full geographic acceptance",
+    "Checks are coastal/island features; northern and peninsula interiors and distant eastern edge lack distributed independent validation",
+    "Several checks share headlands with other controls and are spatially correlated; small islands and barrier-shore changes support limited claims"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 56.62 m, median 27.86 m, P95 106.49 m, maximum 140.04 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped rectangle includes Baddeck and St Patricks Channel shores, Washabuck, Kempt Head, the southern shore and all mapped islands. Kidston and Bone islands remain in the same geographic frame; no displaced inset identified."
+  }
+}

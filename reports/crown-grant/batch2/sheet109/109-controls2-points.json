@@ -1,0 +1,134 @@
+[
+  {
+    "id": "C01",
+    "label": "Maryville coastal pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1838,
+      598
+    ],
+    "lonlat": [
+      -61.51293720818011,
+      45.92031895382066
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 141683,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1855.6735805153148,
+      624.6420048379805
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "McKay Point southern hooked tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1734,
+      904
+    ],
+    "lonlat": [
+      -61.510619391855734,
+      45.90557615278688
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 10437,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1767.1454296990996,
+      941.5274269978981
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Central stream west-tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3935,
+      1800
+    ],
+    "lonlat": [
+      -61.36022123672536,
+      45.90419685254796
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 223358,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3930.535775627126,
+      1824.4196388617856
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Southwest Mabou River eastern tributary at McLeod Settlement",
+    "role": "proposal",
+    "pixel_xy": [
+      4145,
+      1578
+    ],
+    "lonlat": [
+      -61.35280116679805,
+      45.91719858168521
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 269441,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      4144.958984258701,
+      1598.4279761711368
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "River Denys tributary confluence southeast of Melford",
+    "role": "proposal",
+    "pixel_xy": [
+      5280,
+      3362
+    ],
+    "lonlat": [
+      -61.24143459861529,
+      45.86114227387636
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 266454,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      5296.06964572391,
+      3384.554187143105
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Long Point inland tributary confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      1729,
+      3075
+    ],
+    "lonlat": [
+      -61.46327320953789,
+      45.81391006539443
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 254121,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      1693.9869939095224,
+      3099.6294786739163
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

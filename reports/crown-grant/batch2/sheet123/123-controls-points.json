@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C01",
+    "label": "Cow Point western cape",
+    "role": "proposal",
+    "pixel_xy": [
+      376,
+      1072
+    ],
+    "lonlat": [
+      -60.89085567304008,
+      46.064851703129655
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 7896,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      363.71042042807676,
+      1137.9227616002318
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Birch Point eastern cape corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1240,
+      1758
+    ],
+    "lonlat": [
+      -60.82309215697701,
+      46.049534438259045
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10507,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1216.8189649386914,
+      1824.008360105101
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Murphy Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1719,
+      1716
+    ],
+    "lonlat": [
+      -60.79637652495305,
+      46.05913519686722
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10368,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1677.151726893033,
+      1770.5281529272906
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Upper Kempt Head northern small cape",
+    "role": "proposal",
+    "pixel_xy": [
+      4066,
+      1673
+    ],
+    "lonlat": [
+      -60.65410064071631,
+      46.097445216967806
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 4774,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4026.370390935219,
+      1748.250052697258
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Point Clear eastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4839,
+      2125
+    ],
+    "lonlat": [
+      -60.59798074139798,
+      46.09116762713887
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 3655,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4784.493406526337,
+      2181.4306672121165
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "McNeils Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4493,
+      2926
+    ],
+    "lonlat": [
+      -60.600400864016265,
+      46.05226335761589
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10898,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4443.780298936123,
+      2974.6489770581247
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Big Beach small cape northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2838,
+      3241
+    ],
+    "lonlat": [
+      -60.69250617950665,
+      46.01274948521237
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 6495,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2805.9744091574103,
+      3294.976790494984
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

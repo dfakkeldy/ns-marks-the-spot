@@ -1,0 +1,46 @@
+[
+  {
+    "id": "IC01",
+    "label": "Sight Point western coastal shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      1107,
+      567
+    ],
+    "lonlat": [
+      -61.42686007264082,
+      46.1838868665005
+    ],
+    "guide_file": ".crown-grant-local/114-inset-locality-guide.npy",
+    "reference_objectid": 11065,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1104.3620281018084,
+      555.4228234932525
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC03",
+    "label": "Northeastern inset coastal notch left-bank corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1369,
+      477
+    ],
+    "lonlat": [
+      -61.4132837442558,
+      46.192415870689835
+    ],
+    "guide_file": ".crown-grant-local/114-inset-locality-guide.npy",
+    "reference_objectid": 9717,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1352.718407467124,
+      503.8406551469816
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
