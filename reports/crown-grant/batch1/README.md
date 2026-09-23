@@ -1,5 +1,15 @@
 # Crown Grant batch 1 — 19 September 2026
 
+**Review update, 22 September 2026:** The user delegated final judgment and
+explicitly allowed accepting a sheet above the RMS target when a defensible
+improvement is unavailable. All five existing georeferences are now
+**accepted for qualified historical research overlay use**. This does not mean
+that every original accuracy/coverage gate passed. See
+[`review-decision-20260922.md`](review-decision-20260922.md) for component-level
+limits, model comparisons, and the exact scope of acceptance. No source imagery
+or transform was changed or published by this review. The batch narrative below
+records the original 19 September assessment and pause.
+
 Requested limit: FIVE sheets, sequential processing, then pause. No sixth sheet,
 background continuation, public imagery, or production activation is authorized.
 
@@ -67,16 +77,17 @@ unless separately changed. RMS alone does not resolve unsupported coverage.
 
 ## Progress
 
-| Order | Sheet | Assessment | Geographic acceptance | PR |
+| Order | Sheet | Original assessment | 22 September decision | PR |
 |---|---|---|---|---|
-| 1 | 002 | Provisional main-map assessment; unsupported inset | Not accepted; fresh RMS 72.70 m, sparse coverage | [#520](https://github.com/dfakkeldy/ns-marks-the-spot/pull/520) |
-| 2 | 003 | Complete main-sheet assessment, 12 independent checks | RMS passes 100 m; existing median/P95 bounds fail | [#521](https://github.com/dfakkeldy/ns-marks-the-spot/pull/521) |
-| 3 | 004 | 21 reference-audited island/coast checks; full raster | RMS passes 100 m; tails/unsupported rocks remain | [#522](https://github.com/dfakkeldy/ns-marks-the-spot/pull/522), merged |
-| 4 | 004a | Three cartographic components, full-source coverage | Main RMS 101.96 m; Northern 167.56 m; Southern unvalidated | [#523](https://github.com/dfakkeldy/ns-marks-the-spot/pull/523), merged |
-| 5 | 005 | Separate main and Brier/Long Island inset assessed | Main RMS 123.46 m; inset 35.36 m with incomplete coverage | [#524](https://github.com/dfakkeldy/ns-marks-the-spot/pull/524) |
+| 1 | 002 | Provisional main-map assessment; unsupported inset | Accepted for research; inset placement unvalidated | [#520](https://github.com/dfakkeldy/ns-marks-the-spot/pull/520) |
+| 2 | 003 | Complete main-sheet assessment, 12 independent checks | Accepted for research; median/P95 above goals | [#521](https://github.com/dfakkeldy/ns-marks-the-spot/pull/521) |
+| 3 | 004 | 21 reference-audited island/coast checks; full raster | Accepted for research; tail errors/rocks limited | [#522](https://github.com/dfakkeldy/ns-marks-the-spot/pull/522), merged |
+| 4 | 004a | Three cartographic components, full-source coverage | Accepted for research; Southern Seal unvalidated | [#523](https://github.com/dfakkeldy/ns-marks-the-spot/pull/523), merged |
+| 5 | 005 | Separate main and Brier/Long Island inset assessed | Accepted for research; Long Island unvalidated | [#524](https://github.com/dfakkeldy/ns-marks-the-spot/pull/524) |
 
-Assessed: 5/5; geographically accepted: 0/5. Sheet 002's unsupported inset is
-not counted as completed geographic validation. No sixth sheet is authorized.
+Assessed: 5/5; accepted for qualified research use: 5/5; demonstrated to pass
+every original whole-sheet numeric and coverage gate: 0/5. Sheet 002's inset
+remains unvalidated. No sixth sheet is included in this review.
 
 ## Local review
 
@@ -89,17 +100,18 @@ python3 tools/crown-grant/prepare_review.py --private-root .crown-grant-local \
 python3 tools/crown-grant/serve_review.py --root .crown-grant-local/review --port 8842 --detach
 ```
 
-Sheet 002 now has a private full-content provisional render and numerical/visual
-assessment. It is **not accepted**, and its inset remains unsupported. See its
-[record](sheet002/README.md). Assessed: 5/5; geographically accepted: 0/5.
-This does not count the unsupported inset as completed geographic validation.
+At the original handoff, sheet 002 had a private full-content provisional render
+and numerical/visual assessment. It was **not accepted at that time**, and its
+inset remained unsupported. See its [record](sheet002/README.md). The 22 September
+decision above accepts the existing fit for qualified research use while keeping
+the inset unvalidated.
 
 The review server supports a detached process, with readiness verified by its own
 PID receipt and HTTP manifest response. Logs and the active PID are kept privately
 beside the review directory. Detached-mode startup and an independent subsequent
 HTTP request were tested before the persistent server replaced the initial session.
 
-## Batch handoff
+## Original batch handoff (19 September)
 
 **PAUSED after exactly five sheets: 002, 003, 004, 004a, 005.** All have local
 full-content rasters and assessment records; none is accepted for whole-sheet

@@ -1,9 +1,9 @@
 {
   "sheet": "003",
-  "status": "provisional-failed",
+  "status": "accepted-qualified",
   "assessment_complete": true,
   "geographic_accepted": false,
-  "acceptance": "NOT ACCEPTED",
+  "acceptance": "ACCEPTED FOR RESEARCH OVERLAY WITH QUALIFICATIONS",
   "source": {
     "url": "https://novascotia.ca/natr/land/indexmaps/003.pdf",
     "pdf_sha256": "8f9a032bd224a654cc1fb0ed9ac81ee131a1092691d435a327494dbc094e7fb0",
@@ -28,8 +28,8 @@
     "Complete-scan redistribution remains unclarified"
   ],
   "review": {
-    "status": "PROVISIONAL \u2014 RMS passes 100 m; existing median/P95 gates fail",
-    "statistics": "12 independent physical checks \u00b7 RMS 52.52 m \u00b7 median 47.93 m \u00b7 P95 81.09 m \u00b7 maximum 86.11 m. Five controls; no tuning after scoring.",
+    "status": "ACCEPTED FOR RESEARCH — qualified; see review-decision-20260922.md and component limitations",
+    "statistics": "12 independent physical checks · RMS 52.52 m · median 47.93 m · P95 81.09 m · maximum 86.11 m. Five controls; no tuning after scoring.",
     "coverage": "Complete main neatline retained, including offshore mapped content. No separate inset. Checks span northern lakes, coast, central interior and eastern/southern edges.",
     "focusBounds": [
       [
@@ -44,5 +44,8 @@
   },
   "criteria_version": 2,
   "rms_gate_m": 100,
-  "rms_gate_passed": true
+  "rms_gate_passed": true,
+  "accepted_for_research": true,
+  "acceptance_scope": "Existing georeference accepted for approximate historical research display; original whole-sheet numeric and coverage gates are not all demonstrated.",
+  "acceptance_review": "../review-decision-20260922.md"
 }

@@ -1,8 +1,8 @@
 {
   "sheet": "002",
-  "status": "provisional-failed",
+  "status": "accepted-qualified",
   "complete": false,
-  "acceptance": "NOT ACCEPTED",
+  "acceptance": "ACCEPTED FOR RESEARCH OVERLAY WITH QUALIFICATIONS",
   "source": {
     "url": "https://novascotia.ca/natr/land/indexmaps/002.pdf",
     "pdf_sha256": "6e8b79d551728967b4c175f18a3b0adeae459aceadbba05ae6d46bdd0f1f0640",
@@ -29,8 +29,8 @@
     "No independent inset checks; seam placement is unsupported, so whole-sheet completion is not claimed"
   ],
   "review": {
-    "status": "PROVISIONAL \u2014 NOT ACCEPTED; RMS passes 100 m, inset/coverage unsupported",
-    "statistics": "4 fresh main-map checks: 73 m RMS, median 74 m, P95 97 m, maximum 100 m. Also 6 reused diagnostics: 78 m RMS. All fixed gates and coverage requirements must pass for acceptance.",
+    "status": "ACCEPTED FOR RESEARCH — qualified; see review-decision-20260922.md and component limitations",
+    "statistics": "4 fresh main-map checks: 72.70 m RMS, median 73.66 m, P95 96.70 m, maximum 99.76 m. Six reused diagnostics: 78.20 m RMS. Original gates and coverage not all met.",
     "coverage": "Entire main map and inset imagery retained. Inset placement is an unsupported seam estimate. Eastern interior and edges are insufficiently checked.",
     "focusBounds": [
       [
@@ -44,8 +44,12 @@
     ]
   },
   "fresh_scores": "fresh-scores-affine-03.json",
-  "workflow_status": "provisional assessment; full-sheet acceptance incomplete",
+  "workflow_status": "qualified research acceptance; full-sheet accuracy validation incomplete",
   "criteria_version": 2,
   "rms_gate_m": 100,
-  "rms_gate_passed": true
+  "rms_gate_passed": true,
+  "accepted_for_research": true,
+  "geographic_accepted": false,
+  "acceptance_scope": "Existing georeference accepted for approximate historical research display; original whole-sheet numeric and coverage gates are not all demonstrated.",
+  "acceptance_review": "../review-decision-20260922.md"
 }
