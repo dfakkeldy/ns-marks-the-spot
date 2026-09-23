@@ -1,0 +1,67 @@
+[
+  [
+    "IA01",
+    "Brier Island North Point northeastern tip",
+    [
+      1324,
+      862
+    ],
+    [
+      1273,
+      846
+    ],
+    "WACO"
+  ],
+  [
+    "IA02",
+    "Lighthouse Cove western headland (not lighthouse symbol)",
+    [
+      303,
+      1237
+    ],
+    [
+      235,
+      1244
+    ],
+    "WACO"
+  ],
+  [
+    "IA03",
+    "Brier Island South Point",
+    [
+      1033,
+      1477
+    ],
+    [
+      942,
+      1488
+    ],
+    "WACO"
+  ],
+  [
+    "IA04",
+    "Long Island Dartmouth Point",
+    [
+      1218,
+      1644
+    ],
+    [
+      1105,
+      1652
+    ],
+    "WACO"
+  ],
+  [
+    "IA05",
+    "Long Island north-coast stepped headland",
+    [
+      1873,
+      778
+    ],
+    [
+      1782,
+      781
+    ],
+    "WACO"
+  ]
+]

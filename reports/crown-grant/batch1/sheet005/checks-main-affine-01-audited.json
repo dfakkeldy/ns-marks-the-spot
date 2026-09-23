@@ -1,0 +1,345 @@
+{
+  "status": "Source-audited independent coastal checks; MQ10 placement corrected after first score, no fit change. Original 184.29 m RMS result retained separately.",
+  "points": [
+    {
+      "id": "MQ01",
+      "label": "Tiddville northern cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        2479,
+        2161
+      ],
+      "lonlat": [
+        -66.17436943289276,
+        44.43267049131143
+      ],
+      "reference_objectid": 11970,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2485.2728694846155,
+        2167.996359572746
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ02",
+      "label": "Tiddville southern shore headland",
+      "role": "check",
+      "pixel_xy": [
+        2820,
+        2512
+      ],
+      "lonlat": [
+        -66.1430786881584,
+        44.42454765621905
+      ],
+      "reference_objectid": 3967,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2825.1540214469424,
+        2516.6558621685253
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ06",
+      "label": "Mink Cove eastern lip",
+      "role": "check",
+      "pixel_xy": [
+        3741,
+        2046
+      ],
+      "lonlat": [
+        -66.10142484860896,
+        44.46283186557184
+      ],
+      "reference_objectid": 5470,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3736.8469808017253,
+        2035.0567073875573
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ07",
+      "label": "East Sandy Cove inner head",
+      "role": "check",
+      "pixel_xy": [
+        4140,
+        1600
+      ],
+      "lonlat": [
+        -66.08839215742672,
+        44.49015774668318
+      ],
+      "reference_objectid": 4969,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4165.405211774283,
+        1588.6621071142145
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ08",
+      "label": "East Sandy Cove southeastern lip",
+      "role": "check",
+      "pixel_xy": [
+        4300,
+        1800
+      ],
+      "lonlat": [
+        -66.0742464505553,
+        44.48449545932629
+      ],
+      "reference_objectid": 5187,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4300.413785398239,
+        1784.3722537830472
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ09",
+      "label": "Little River Cove eastern lip",
+      "role": "check",
+      "pixel_xy": [
+        3250,
+        2240
+      ],
+      "lonlat": [
+        -66.12560207154603,
+        44.44466135756879
+      ],
+      "reference_objectid": 5028,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3245.632167156553,
+        2236.66031556495
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ10",
+      "label": "Weymouth outer east-bank western corner",
+      "role": "check",
+      "pixel_xy": [
+        4783,
+        2892
+      ],
+      "lonlat": [
+        -66.01485830320958,
+        44.44711164770246
+      ],
+      "guide_file": ".crown-grant-local/005-main-frozen-guide.npy",
+      "reference_objectid": 9463,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4740.828122116276,
+        2868.0734151734505
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Post-score source-placement audit: original point was on the northern sloping face, not the shared western corner. Corrected from native outline; fit unchanged, original score retained."
+    }
+  ],
+  "rejected": [
+    {
+      "id": "MQ03",
+      "label": "Long Island Landing coast recess",
+      "role": "rejected-check",
+      "pixel_xy": [
+        1220,
+        2735
+      ],
+      "lonlat": [
+        -66.23549408797237,
+        44.3861361892936
+      ],
+      "reference_objectid": 19366,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1236.6550210446003,
+        2687.543148729601
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "No sufficiently unique shared shoreline point or unresolved modern/historical harbor geometry; omitted before scoring"
+    },
+    {
+      "id": "MQ04",
+      "label": "Long Island southeast coastal step near Central Grove",
+      "role": "rejected-check",
+      "pixel_xy": [
+        900,
+        3380
+      ],
+      "lonlat": [
+        -66.23504996518602,
+        44.35070015748749
+      ],
+      "reference_objectid": 19547,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        910.2517979787663,
+        3372.284627992427
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "No sufficiently unique shared shoreline point or unresolved modern/historical harbor geometry; omitted before scoring"
+    },
+    {
+      "id": "MQ05",
+      "label": "Tiverton passage shore corner",
+      "role": "rejected-check",
+      "pixel_xy": [
+        1650,
+        2730
+      ],
+      "lonlat": [
+        -66.20964217141582,
+        44.39269097977134
+      ],
+      "reference_objectid": 19509,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1641.841765348683,
+        2720.6117541006533
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "No sufficiently unique shared shoreline point or unresolved modern/historical harbor geometry; omitted before scoring"
+    },
+    {
+      "id": "MQ11",
+      "label": "Weymouth western bank sharp bend",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4800,
+        3180
+      ],
+      "lonlat": [
+        -66.00273980932877,
+        44.43412268814408
+      ],
+      "reference_objectid": 27097,
+      "reference_feature_code": "WACORV20",
+      "guide_reference_pixel_xy": [
+        4780.871899063233,
+        3192.474856343004
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "No sufficiently unique shared shoreline point or unresolved modern/historical harbor geometry; omitted before scoring"
+    },
+    {
+      "id": "MQ12",
+      "label": "Belliveau Cove eastern shoulder",
+      "role": "rejected-check",
+      "pixel_xy": [
+        3810,
+        3570
+      ],
+      "lonlat": [
+        -66.05248027999939,
+        44.39966144123762
+      ],
+      "reference_objectid": 6000,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3797.55558548891,
+        3551.8254222286632
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "No sufficiently unique shared shoreline point or unresolved modern/historical harbor geometry; omitted before scoring"
+    },
+    {
+      "id": "MQ13",
+      "label": "Centreville northern coastal step",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4945,
+        1000
+      ],
+      "lonlat": [
+        -66.06075277261735,
+        44.53055294982868
+      ],
+      "reference_objectid": 4455,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4909.834717716731,
+        979.8283165632747
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "No sufficiently unique shared shoreline point or unresolved modern/historical harbor geometry; omitted before scoring"
+    },
+    {
+      "id": "MQ14",
+      "label": "Centreville southeastern headland",
+      "role": "rejected-check",
+      "pixel_xy": [
+        5120,
+        1375
+      ],
+      "lonlat": [
+        -66.03310799932775,
+        44.517032135622415
+      ],
+      "reference_objectid": 4989,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5150.6796785224,
+        1409.3712964634178
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "No sufficiently unique shared shoreline point or unresolved modern/historical harbor geometry; omitted before scoring"
+    },
+    {
+      "id": "MR01",
+      "label": "Sandy Cove cross-peninsula road T-junction",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4143,
+        1574
+      ],
+      "lonlat": [
+        -66.08918178503131,
+        44.49106557971353
+      ],
+      "reference_objectid": 585,
+      "reference_feature_code": "RRRDLOY1",
+      "guide_reference_pixel_xy": [
+        4163.400813882821,
+        1566.3397564908955
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB roads layer 8",
+      "reason": "Modern junction is clear, but the thin historic line could not be securely separated from parcel annotation at the proposed source point; road candidate retained unscored"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "id": "IA01",
+    "label": "Brier Island North Point northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1324,
+      862
+    ],
+    "lonlat": [
+      -66.34115254978744,
+      44.28700985321712
+    ],
+    "reference_objectid": 17128,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1271.4613528134068,
+      845.3347330644028
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IA02",
+    "label": "Lighthouse Cove western headland (not lighthouse symbol)",
+    "role": "proposal",
+    "pixel_xy": [
+      303,
+      1237
+    ],
+    "lonlat": [
+      -66.39261485156946,
+      44.24967328230454
+    ],
+    "reference_objectid": 16991,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      235.10851999459555,
+      1244.6191066298634
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IA03",
+    "label": "Brier Island South Point",
+    "role": "proposal",
+    "pixel_xy": [
+      1033,
+      1477
+    ],
+    "lonlat": [
+      -66.342154795026,
+      44.25332399017041
+    ],
+    "reference_objectid": 17130,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      941.438907725038,
+      1487.119841984706
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IA04",
+    "label": "Long Island Dartmouth Point",
+    "role": "proposal",
+    "pixel_xy": [
+      1218,
+      1644
+    ],
+    "lonlat": [
+      -66.32718272950234,
+      44.24946094804078
+    ],
+    "reference_objectid": 19320,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1104.5543523382512,
+      1654.1360371058108
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IA05",
+    "label": "Long Island north-coast stepped headland",
+    "role": "proposal",
+    "pixel_xy": [
+      1873,
+      778
+    ],
+    "lonlat": [
+      -66.31125829299806,
+      44.30009700455027
+    ],
+    "reference_objectid": 19318,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1792.3622514344752,
+      778.5022637174698
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

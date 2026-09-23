@@ -1,0 +1,80 @@
+[
+  [
+    "MA01",
+    "Boar Head northeastern corner",
+    [
+      1678,
+      2440
+    ],
+    [
+      1570,
+      2380
+    ],
+    "WACO"
+  ],
+  [
+    "MA02",
+    "East Ferry peninsula southern tip",
+    [
+      1588,
+      3087
+    ],
+    [
+      1509,
+      3001
+    ],
+    "WACO"
+  ],
+  [
+    "MA03",
+    "Sandy Cove western lip",
+    [
+      3973,
+      1338
+    ],
+    [
+      3891,
+      1308
+    ],
+    "WACO"
+  ],
+  [
+    "MA04",
+    "Trout Cove western lip",
+    [
+      5465,
+      734
+    ],
+    [
+      5307,
+      754
+    ],
+    "WACO"
+  ],
+  [
+    "MA05",
+    "New Edinburgh estuary headland",
+    [
+      4542,
+      2948
+    ],
+    [
+      4602,
+      2911
+    ],
+    "WACO"
+  ],
+  [
+    "MA06",
+    "Major Point northern headland",
+    [
+      3320,
+      3648
+    ],
+    [
+      3341,
+      3525
+    ],
+    "WACO"
+  ]
+]

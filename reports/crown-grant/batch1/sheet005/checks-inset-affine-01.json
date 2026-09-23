@@ -1,0 +1,336 @@
+{
+  "status": "Seven independent Brier/Peters Island checks, finalized before scoring; no accepted Long Island check",
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Seal Cove inner bend on northern Brier shore",
+      "role": "check",
+      "pixel_xy": [
+        1210,
+        886
+      ],
+      "lonlat": [
+        -66.34769245694342,
+        44.2829803288572
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17059,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1209.0436281700968,
+        887.124645695556
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged"
+    },
+    {
+      "id": "IQ03",
+      "label": "Pero Jack Cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        773,
+        1078
+      ],
+      "lonlat": [
+        -66.36840958354858,
+        44.26622703275927
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17055,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        777.0152064593858,
+        1076.6019659572048
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged"
+    },
+    {
+      "id": "IQ04",
+      "label": "Cow Cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        612,
+        1145
+      ],
+      "lonlat": [
+        -66.37676451084442,
+        44.25996989273438
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 16988,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        606.9426025834982,
+        1143.5897436891682
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged"
+    },
+    {
+      "id": "IQ05",
+      "label": "Lighthouse Cove eastern headland",
+      "role": "check",
+      "pixel_xy": [
+        366,
+        1231
+      ],
+      "lonlat": [
+        -66.38915416564556,
+        44.25145872946403
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17050,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        361.1577104254975,
+        1228.4539641201263
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged"
+    },
+    {
+      "id": "IQ06",
+      "label": "Brier western cape",
+      "role": "check",
+      "pixel_xy": [
+        160,
+        1465
+      ],
+      "lonlat": [
+        -66.39485985050183,
+        44.23652289460141
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17092,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        155.29883616429288,
+        1474.6488970669452
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged"
+    },
+    {
+      "id": "IQ08",
+      "label": "Hog Yard Cove southern headland",
+      "role": "check",
+      "pixel_xy": [
+        463,
+        1715
+      ],
+      "lonlat": [
+        -66.36996672762116,
+        44.23200052793309
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17169,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        467.4498123789672,
+        1710.7660249287728
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged"
+    },
+    {
+      "id": "IQ11",
+      "label": "Peters Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1138,
+        1392
+      ],
+      "lonlat": [
+        -66.33815340614953,
+        44.25875271023692
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 20898,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1139.6899024567683,
+        1400.566895455122
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "IQ02",
+      "label": "Gooseberry Cove eastern lip",
+      "role": "rejected-check",
+      "pixel_xy": [
+        1080,
+        905
+      ],
+      "lonlat": [
+        -66.35631967336383,
+        44.280059395360624
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17025,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1063.2265769833466,
+        889.7769026969327
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Historic parcel/coast overprint and double shoulder do not yield an unambiguous modern counterpart"
+    },
+    {
+      "id": "IQ07",
+      "label": "Pond Cove northern headland",
+      "role": "rejected-check",
+      "pixel_xy": [
+        380,
+        1480
+      ],
+      "lonlat": [
+        -66.38129353879263,
+        44.24039965590517
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17170,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        378.7187964655459,
+        1484.1000245010946
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Modern marker lies on lagoon connection, unlike the proposed historical northern headland"
+    },
+    {
+      "id": "IQ09",
+      "label": "New Road Cove inner bend",
+      "role": "rejected-check",
+      "pixel_xy": [
+        730,
+        1599
+      ],
+      "lonlat": [
+        -66.35667025621335,
+        44.24227112056784
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17195,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        740.80519264756,
+        1598.280672540539
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Shallow generalized bend lacks unique shared definition"
+    },
+    {
+      "id": "IQ10",
+      "label": "Olives Cove inner bend",
+      "role": "rejected-check",
+      "pixel_xy": [
+        878,
+        1544
+      ],
+      "lonlat": [
+        -66.3487823710195,
+        44.24865353411134
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17126,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        905.375501461036,
+        1526.079111174331
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Proposed source marker is off shore; modern outline lacks identifiable corresponding cove"
+    },
+    {
+      "id": "IQ12",
+      "label": "Dartmouth Cove eastern lip at Freeport",
+      "role": "rejected-check",
+      "pixel_xy": [
+        1545,
+        1250
+      ],
+      "lonlat": [
+        -66.31787587986858,
+        44.27409862955671
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 19474,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1553.6792862780276,
+        1234.7609357463662
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Proposed marker is on road/shore face, not a uniquely defined cove lip"
+    },
+    {
+      "id": "IQ13",
+      "label": "Plumb Cove western shoulder",
+      "role": "rejected-check",
+      "pixel_xy": [
+        1520,
+        1510
+      ],
+      "lonlat": [
+        -66.31176239047966,
+        44.264736983492334
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 19547,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1561.0919777021045,
+        1447.8625459666364
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Proposed point is off shore; long smooth shoreline cannot constrain exact correspondence"
+    },
+    {
+      "id": "IQ14",
+      "label": "Long Island northeastern coastal step",
+      "role": "rejected-check",
+      "pixel_xy": [
+        2430,
+        480
+      ],
+      "lonlat": [
+        -66.28712571984438,
+        44.325831124150056
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 19321,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2419.916132629558,
+        447.678476475412
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Proposed source point is inland; modern small steps are not distinguishable on the generalized historic shore"
+    }
+  ]
+}

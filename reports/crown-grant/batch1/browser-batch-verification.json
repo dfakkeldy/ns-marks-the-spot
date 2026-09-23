@@ -1,0 +1,99 @@
+{
+  "verified_at_utc": "2026-09-20T16:58:46.287446+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheets": [
+    {
+      "id": "002",
+      "raster_count": 2,
+      "all_images_complete": true,
+      "dimensions": [
+        [
+          6131,
+          5032
+        ],
+        [
+          851,
+          772
+        ]
+      ]
+    },
+    {
+      "id": "003",
+      "raster_count": 1,
+      "all_images_complete": true,
+      "dimensions": [
+        [
+          5977,
+          5188
+        ]
+      ]
+    },
+    {
+      "id": "004",
+      "raster_count": 1,
+      "all_images_complete": true,
+      "dimensions": [
+        [
+          5982,
+          5266
+        ]
+      ]
+    },
+    {
+      "id": "004a",
+      "raster_count": 3,
+      "all_images_complete": true,
+      "dimensions": [
+        [
+          5090,
+          5976
+        ],
+        [
+          1210,
+          1351
+        ],
+        [
+          1968,
+          1979
+        ]
+      ]
+    },
+    {
+      "id": "005",
+      "raster_count": 2,
+      "all_images_complete": true,
+      "dimensions": [
+        [
+          6177,
+          5083
+        ],
+        [
+          2805,
+          2585
+        ]
+      ]
+    }
+  ],
+  "browser_errors": [],
+  "responsive": {
+    "requested_viewport": [
+      390,
+      844
+    ],
+    "effective_observed_viewports": [
+      [
+        780,
+        1688
+      ],
+      [
+        480,
+        844
+      ]
+    ],
+    "content_width": 450,
+    "result": "Single-column narrow layout inspected with accessible sheet selector, comparison buttons and map; browser minimum/scaling prevented exact 390 CSS-pixel evidence",
+    "override_reset": true
+  },
+  "batch_paused": true,
+  "next_sheet_authorized": false
+}
