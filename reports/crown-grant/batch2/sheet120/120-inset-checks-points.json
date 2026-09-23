@@ -1,0 +1,68 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Gray Point eastern small hook tip",
+    "role": "proposal",
+    "pixel_xy": [
+      748,
+      404
+    ],
+    "lonlat": [
+      -61.12042790882684,
+      46.441027696282
+    ],
+    "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+    "reference_objectid": 11211,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      751.7720908424235,
+      378.64730113372207
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Gray Point western rocky shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      632,
+      388
+    ],
+    "lonlat": [
+      -61.12862312067101,
+      46.439652805894575
+    ],
+    "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+    "reference_objectid": 11239,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      630.7182347082999,
+      363.1888370336965
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Whale Cove inner bend",
+    "role": "proposal",
+    "pixel_xy": [
+      377,
+      641
+    ],
+    "lonlat": [
+      -61.13871910724049,
+      46.42432524353925
+    ],
+    "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+    "reference_objectid": 11974,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      378.51781911129365,
+      609.6405043031555
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

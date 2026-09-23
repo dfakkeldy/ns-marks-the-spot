@@ -1,0 +1,80 @@
+[
+  [
+    "MQ02",
+    "Grand Etang upper lake southeastern hook",
+    [
+      2363,
+      1647
+    ],
+    [
+      2309,
+      1654
+    ],
+    "WALK"
+  ],
+  [
+    "MQ03",
+    "Grand Etang narrow lake southwestern tip",
+    [
+      2059,
+      1768
+    ],
+    [
+      2010,
+      1771
+    ],
+    "WALK"
+  ],
+  [
+    "MQ04",
+    "St Joseph narrow cape northern apex",
+    [
+      1420,
+      1933
+    ],
+    [
+      1370,
+      1926
+    ],
+    "WACO"
+  ],
+  [
+    "MQ05",
+    "Pembroke western satellite pond northern tip",
+    [
+      2149,
+      3022
+    ],
+    [
+      2034,
+      2917
+    ],
+    "WALK"
+  ],
+  [
+    "MQ07",
+    "Park round pond northern tip",
+    [
+      4817,
+      1828
+    ],
+    [
+      4795,
+      1830
+    ],
+    "WALK"
+  ],
+  [
+    "MQ08",
+    "Park hooked lake southern tip",
+    [
+      4753,
+      1958
+    ],
+    [
+      4725,
+      1967
+    ],
+    "WALK"
+  ]
+]

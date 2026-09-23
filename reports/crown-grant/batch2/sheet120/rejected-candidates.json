@@ -1,0 +1,18 @@
+{
+  "timing": "Before first fitting/scoring",
+  "rejections": [
+    {
+      "id": "MQ01",
+      "reason": "Cheticamp Island cape shoulder lacks a secure precise common definition; parcel/shore overprint"
+    },
+    {
+      "id": "MQ06",
+      "reason": "Generalized multiple southern bays of Pembroke lake do not secure one common precise corner"
+    }
+  ],
+  "corrections": [
+    "MC03 changed to the clear northern pond apex because the southern hook/circle was ambiguous",
+    "LeBlanc MC05 discovery initially snapped east of the correct lake; complete lake/island outline review corrected it before fitting",
+    "Gray Point geoname centroid was used solely to initialize a separate inset search guide; both inset controls are physical shore vertices"
+  ]
+}

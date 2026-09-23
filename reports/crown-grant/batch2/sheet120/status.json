@@ -1,0 +1,65 @@
+{
+  "sheet": "120",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; both full-content component rasters browser-verified; main fails 100 m RMS",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/120.pdf",
+    "pdf_sha256": "4a44457dd3f2c3f6bb1f02a1a7049ce6760076be5c90cef2205c57c55be1d0c9",
+    "jpeg_sha256": "254ac6b8237bc3615d7ee797562257cd0d3a7731f6719733569da4a37c0a711c",
+    "dimensions": [
+      5618,
+      3842
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 6,
+      "rms_ground_m": 248.9544224830488,
+      "rms_gate_passed": false,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "gray-point-inset",
+      "controls": 2,
+      "independent_checks": 3,
+      "rms_ground_m": 74.66302313804242,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main affine first result RMS 248.95 m, median 169.26 m, P95 433.99 m and maximum 511.83 m exceed the 100 m RMS ceiling and companion bounds; main geography is not accepted",
+    "The Pembroke/Delaney group has a substantial local mismatch; its control and independent satellite-pond check are retained, not discarded as outliers",
+    "Inset RMS 74.66 m uses only three nearby coastal checks and two controls; median 73.70 m exceeds the companion bound and the exact two-point control fit is not an accuracy result",
+    "Six main checks and three inset checks give sparse coverage; eastern/southern interiors, barrier shores and offshore fragments remain provisional"
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 6 checks, RMS 248.95 m; gray-point-inset: 3 checks, RMS 74.66 m. Gate: 100 m. No pooled score.",
+    "coverage": "Complete main frame and full boxed northwestern Gray Point\u2013Whale Cove inset. The displaced coastal inset has its own transform. Main includes inland park lakes, Pembroke/Delaney lake group, Cheticamp Island fragment and the southwestern Margaree fringe.",
+    "focusBounds": [
+      [
+        46.41320989758223,
+        -61.204028047479746
+      ],
+      [
+        46.6806783901362,
+        -60.762272523361126
+      ]
+    ]
+  }
+}

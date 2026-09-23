@@ -1,0 +1,156 @@
+[
+  {
+    "id": "MC01",
+    "label": "Cheticamp La Pointe southern cape",
+    "role": "proposal",
+    "pixel_xy": [
+      2195,
+      600
+    ],
+    "lonlat": [
+      -61.05530556598389,
+      46.60138235564164
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 3808,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2158.9863939929637,
+      584.0883011650294
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC02",
+    "label": "Grand Etang upper lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2363,
+      1499
+    ],
+    "lonlat": [
+      -61.02209789549193,
+      46.56385262554575
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 126291,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2323.6903592910967,
+      1485.5706318939338
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC03",
+    "label": "St Joseph pond northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1567,
+      2105
+    ],
+    "lonlat": [
+      -61.05804963422176,
+      46.52253114758158
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 119223,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1527.5569638307788,
+      2106.325590192573
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC04",
+    "label": "Pembroke lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2316,
+      2812
+    ],
+    "lonlat": [
+      -61.00105235022372,
+      46.50602124030477
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 133537,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2172.208985775651,
+      2720.454891098896
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC05",
+    "label": "LeBlanc lake northeastern neck tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4848,
+      1357
+    ],
+    "lonlat": [
+      -60.863242503558645,
+      46.61304029088474
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 133175,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4834.477465861652,
+      1338.1178823044756
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC06",
+    "label": "Park long lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4830,
+      1745
+    ],
+    "lonlat": [
+      -60.85434273354182,
+      46.59462561595176
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 140153,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4816.540625072434,
+      1742.5952304177918
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC07",
+    "label": "Belle Cote coastal notch",
+    "role": "proposal",
+    "pixel_xy": [
+      515,
+      3144
+    ],
+    "lonlat": [
+      -61.096858440325704,
+      46.45867984896857
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 11439,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      522.131225281104,
+      3150.7177305654623
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
