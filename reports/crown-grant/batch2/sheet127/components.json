@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6088 x 4110 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 48.50 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          155,
+          125
+        ],
+        [
+          6010,
+          125
+        ],
+        [
+          6010,
+          4005
+        ],
+        [
+          155,
+          4005
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped rectangle includes Pleasant Bay and Fishing Cove coast, Red River and Aspy headwaters, the northern plateau pond and all southern/eastern lake groups. No separate inset identified."
+    }
+  ]
+}
