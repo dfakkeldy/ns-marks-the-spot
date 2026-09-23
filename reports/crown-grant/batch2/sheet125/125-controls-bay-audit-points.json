@@ -1,0 +1,134 @@
+[
+  {
+    "id": "C01",
+    "label": "Bishops Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      388,
+      1708
+    ],
+    "lonlat": [
+      -60.70213674632279,
+      45.70884231357359
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 125691,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      445.4768552388414,
+      1707.066281557898
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Heifer Lake southwestern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4637,
+      1094
+    ],
+    "lonlat": [
+      -60.449710644355385,
+      45.80655176552448
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 138404,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4637.83193013171,
+      1087.518671533675
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "MacDonald Lake eastern southern hook",
+    "role": "proposal",
+    "pixel_xy": [
+      5041,
+      1981
+    ],
+    "lonlat": [
+      -60.40096771714992,
+      45.773412121209674
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 136190,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5065.804352257284,
+      1989.1903282139683
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Stirling McDonald Lake southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      3686,
+      2530
+    ],
+    "lonlat": [
+      -60.47364531468361,
+      45.726858972555135
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 134233,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3723.8613609470194,
+      2531.9352178761037
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Island Lake western bay tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4175,
+      1357
+    ],
+    "lonlat": [
+      -60.47063975837797,
+      45.78717119826364
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 124394,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4207.77397476125,
+      1361.3048259982606
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Grand Lake Uist southern bay apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3117,
+      799
+    ],
+    "lonlat": [
+      -60.55131451192309,
+      45.795104321133756
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 139236,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3156.4022558738943,
+      790.705422357074
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

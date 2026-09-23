@@ -1,0 +1,23 @@
+{
+  "prior_fit": "fit-affine-01.json",
+  "prior_rms_ground_m": 85.28026159249362,
+  "reason": "The rounded southern bay has a flat low arc; initial C08 paired the western shoulder in modern reference with an approximately central source apex. A native-definition review moved to the central low arc in both outlines. Original result retained.",
+  "old_source": [
+    3104,
+    797
+  ],
+  "old_reference_guide": [
+    3126,
+    792
+  ],
+  "new_source": [
+    3117,
+    799
+  ],
+  "new_reference_guide": [
+    3156,
+    791
+  ],
+  "active_fit": "fit-affine-02.json",
+  "validation": "Original nine checks conservatively classified diagnostic after correction; fresh checks selected after affine-02 freeze"
+}

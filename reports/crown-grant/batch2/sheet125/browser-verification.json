@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-09-23T05:05:41.404179+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet125/main-3857.png",
+      "complete": true,
+      "width": 6119,
+      "height": 5084
+    }
+  ],
+  "verified": [
+    "Complete inland-lake and Framboise frame inspected against NSTDB/OSM",
+    "40 percent opacity, modern-only and restore worked",
+    "Sidebar displays original, diagnostic and fresh check results separately",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Standalone Leaflet raster review; sparse fresh checks and marginal geographic support remain"
+  ]
+}

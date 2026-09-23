@@ -1,0 +1,285 @@
+{
+  "count": 9,
+  "rms_ground_m": 76.76892539951793,
+  "median_ground_m": 39.51725052924408,
+  "p95_ground_m": 144.0054202452923,
+  "max_ground_m": 168.45821158753708,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -27.738993713258555,
+  "mean_north_ground_m": 24.907422761423668,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Loch Lomond northern island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2250,
+        1287
+      ],
+      "lonlat": [
+        -60.59446516681908,
+        45.75867701767867
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 154092,
+      "reference_feature_code": "WALKIS10",
+      "guide_reference_pixel_xy": [
+        2294.7450503192376,
+        1284.4214290287346
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.594702507186774,
+        45.75866401038637
+      ],
+      "error_ground_m": 18.521442972407627,
+      "east_ground_m": -18.46493523433361,
+      "north_ground_m": -1.4456889610193324
+    },
+    {
+      "id": "Q02",
+      "label": "Loch Lomond southern island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2220,
+        1420
+      ],
+      "lonlat": [
+        -60.59246183903024,
+        45.75212840196947
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 154091,
+      "reference_feature_code": "WALKIS10",
+      "guide_reference_pixel_xy": [
+        2274.06238490087,
+        1423.4551870407304
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.59333380602504,
+        45.75221061678951
+      ],
+      "error_ground_m": 68.45897024391486,
+      "east_ground_m": -67.84631794792779,
+      "north_ground_m": 9.138257370303817
+    },
+    {
+      "id": "Q03",
+      "label": "Lake Uist central island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2677,
+        1010
+      ],
+      "lonlat": [
+        -60.574230018557955,
+        45.778254314522826
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 153876,
+      "reference_feature_code": "WALKIS10",
+      "guide_reference_pixel_xy": [
+        2717.261430341867,
+        1003.9362410590984
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.57451532705008,
+        45.778126282624534
+      ],
+      "error_ground_m": 26.360168944326457,
+      "east_ground_m": -22.189107762700395,
+      "north_ground_m": -14.230319865298254
+    },
+    {
+      "id": "Q04",
+      "label": "McLeod Lake south of Island Lake southern apex",
+      "role": "check",
+      "pixel_xy": [
+        4333,
+        1588
+      ],
+      "lonlat": [
+        -60.45349945608286,
+        45.77939417378133
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 136861,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4386.581188528624,
+        1602.2141645303927
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.45565842203205,
+        45.77951703320352
+      ],
+      "error_ground_m": 168.45821158753708,
+      "east_ground_m": -167.9036497939138,
+      "north_ground_m": 13.657724450074781
+    },
+    {
+      "id": "Q05",
+      "label": "Duck Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4726,
+        1364
+      ],
+      "lonlat": [
+        -60.43625269911446,
+        45.79567338365467
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 127933,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4743.234112901264,
+        1370.4784105524886
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.43627238398587,
+        45.79601889917822
+      ],
+      "error_ground_m": 38.433611803759284,
+      "east_ground_m": -1.5304486985305523,
+      "north_ground_m": 38.403128037481935
+    },
+    {
+      "id": "Q06",
+      "label": "Colins Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1062,
+        2390
+      ],
+      "lonlat": [
+        -60.64281542201587,
+        45.68928467859614
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 132798,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1117.6177182010724,
+        2398.3289991287747
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.64263053143961,
+        45.68961250534421
+      ],
+      "error_ground_m": 39.179485691939966,
+      "east_ground_m": 14.402105839175032,
+      "north_ground_m": 36.436402765395606
+    },
+    {
+      "id": "Q07",
+      "label": "Lake west of Barren Hill southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1423,
+        2767
+      ],
+      "lonlat": [
+        -60.61078581845971,
+        45.678237398630564
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 137125,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1477.2707523718127,
+        2780.989589450415
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.61060437580562,
+        45.67870020783344
+      ],
+      "error_ground_m": 53.3460504983911,
+      "east_ground_m": 14.136277028859643,
+      "north_ground_m": 51.438961649125744
+    },
+    {
+      "id": "Q08",
+      "label": "Island Lake island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4344,
+        1328
+      ],
+      "lonlat": [
+        -60.46082503277836,
+        45.79143762154331
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 146216,
+      "reference_feature_code": "WALKIS10",
+      "guide_reference_pixel_xy": [
+        4374.1041387776495,
+        1327.767893531709
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.46131812848679,
+        45.79135148933191
+      ],
+      "error_ground_m": 39.51725052924408,
+      "east_ground_m": -38.34013789420383,
+      "north_ground_m": -9.573239558502495
+    },
+    {
+      "id": "Q09",
+      "label": "Cranberry Lake northern apex",
+      "role": "check",
+      "pixel_xy": [
+        4473,
+        818
+      ],
+      "lonlat": [
+        -60.4661187436275,
+        45.81542918387825
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 128831,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4477.265621204802,
+        828.7771781171905
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and whole lake/island geometry inspected before scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.465628706816624,
+        45.81633195958102
+      ],
+      "error_ground_m": 107.32623323192516,
+      "east_ground_m": 38.08527104424825,
+      "north_ground_m": 100.3415789652512
+    }
+  ],
+  "fit_sha256": "843cc8da945b0322e9ad532c527ff61dd9b3714032a43dfc7dee4a19af91a891",
+  "checks_sha256": "95b0a4b1f280fdf03c11e62a1658d8cc082337082305bd7f2278220de3bca32a",
+  "status": "Diagnostic reuse of nine original excluded checks after C08 native bay-apex definition correction; not fresh validation"
+}

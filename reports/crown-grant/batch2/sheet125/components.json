@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5768 x 3839 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 53.33 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          165,
+          100
+        ],
+        [
+          5710,
+          100
+        ],
+        [
+          5710,
+          3750
+        ],
+        [
+          165,
+          3750
+        ]
+      ],
+      "fit_file": "fit-affine-02.json",
+      "coverage_note": "Complete original mapped rectangle, including all inland lakes, their islands and the southern Framboise drainage. No displaced inset identified."
+    }
+  ]
+}
