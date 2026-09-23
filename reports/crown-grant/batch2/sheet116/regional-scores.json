@@ -1,0 +1,45 @@
+{
+  "McDonald Island": {
+    "count": 2,
+    "rms_ground_m": 25.78241481566543,
+    "max_ground_m": 25.957518737063108,
+    "point_ids": [
+      "Q01",
+      "Q02"
+    ]
+  },
+  "MacIvor Island": {
+    "count": 1,
+    "rms_ground_m": 118.42978018398433,
+    "max_ground_m": 118.42978018398433,
+    "point_ids": [
+      "Q03"
+    ]
+  },
+  "Island south of Whycocomagh": {
+    "count": 1,
+    "rms_ground_m": 29.2230359203367,
+    "max_ground_m": 29.2230359203367,
+    "point_ids": [
+      "Q04"
+    ]
+  },
+  "Cranberry Island": {
+    "count": 2,
+    "rms_ground_m": 38.43540098336324,
+    "max_ground_m": 39.9931373055897,
+    "point_ids": [
+      "Q05",
+      "Q06"
+    ]
+  },
+  "Mainland/channel": {
+    "count": 2,
+    "rms_ground_m": 47.37807859777676,
+    "max_ground_m": 54.818193771604406,
+    "point_ids": [
+      "Q07",
+      "Q10"
+    ]
+  }
+}

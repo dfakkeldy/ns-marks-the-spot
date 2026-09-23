@@ -1,0 +1,45 @@
+{
+  "sheet": "116",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "RMS PASSES; COVERAGE PROVISIONAL",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/116.pdf",
+    "pdf_sha256": "75ae9f86a38fd53f4341f988a5a05e7709d085deb4fe11dd372f46343dd5c539",
+    "jpeg_sha256": "45a2a40beccc31572a475819b7638753f34d19b92cf15a1684f83588dfcafe18",
+    "dimensions": [
+      5597,
+      3849
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 54.374843966466116,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks are concentrated on islands and coastal headlands; northern/eastern interiors remain insufficiently validated",
+    "P95 96.17 m and maximum 118.43 m exceed the retained companion bounds despite RMS passing 100 m",
+    "Some islands have only one or two checks; tiny rocks and portions of Lewis/Round Island cut by the original frame are not certified",
+    "A Churchview junction and a Washabuck candidate were not adopted because their correspondence could not be secured"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 54.37 m, median 37.67 m, P95 96.17 m, maximum 118.43 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame retains Whycocomagh Bay, St Patricks Channel, River Denys Basin and all printed islands. No separate inset or deliberate island displacement identified. Island checks are reported separately by region."
+  }
+}

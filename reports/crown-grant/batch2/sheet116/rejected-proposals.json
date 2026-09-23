@@ -1,0 +1,10 @@
+[
+  {
+    "packet": "controls1 C09",
+    "reason": "Small Churchview source/reference junction correspondence could not be secured from branch topology; not adopted"
+  },
+  {
+    "packet": "checks0 Q08-Q09",
+    "reason": "Ambiguous feature definitions rejected before scoring; canonical check record lists reasons"
+  }
+]
