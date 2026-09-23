@@ -1,9 +1,9 @@
 {
   "sheet": "004",
-  "status": "user-accepted",
+  "status": "accepted-qualified",
   "assessment_complete": true,
   "geographic_accepted": false,
-  "acceptance": "USER ACCEPTED 2026-09-22",
+  "acceptance": "ACCEPTED FOR RESEARCH OVERLAY WITH QUALIFICATIONS",
   "source": {
     "url": "https://novascotia.ca/natr/land/indexmaps/004.pdf",
     "pdf_sha256": "2fff4e5c57e79ec1d79ec6df11992fb1544179435cd124ce962dbcaf2d12d307",
@@ -28,7 +28,7 @@
     "Historical low/high water boundaries and shoreline generalization are material limitations"
   ],
   "review": {
-    "status": "ACCEPTED BY USER \u2014 recorded accuracy limitations retained",
+    "status": "ACCEPTED FOR RESEARCH \u2014 user accepted; component limitations retained",
     "statistics": "21 physical checks \u00b7 RMS 92.79 m \u00b7 median 66.05 m \u00b7 P95 167.70 m \u00b7 maximum 229.13 m. One modern marker corrected after scoring; original RMS 93.66 m retained. Eight controls; fit unchanged.",
     "coverage": "Complete mapped neatline and all scanned islands retained. Gannet Rock is unsupported; other untested small islands/rocks are not certified. Peas Island continues beyond the printed sheet boundary.",
     "focusBounds": [
@@ -45,6 +45,9 @@
   "criteria_version": 2,
   "rms_gate_m": 100,
   "rms_gate_passed": true,
+  "accepted_for_research": true,
+  "acceptance_scope": "Existing georeference accepted for approximate historical research display; original whole-sheet numeric and coverage gates are not all demonstrated.",
+  "acceptance_review": "../review-decision-20260922.md",
   "user_accepted": true,
   "user_acceptance": "../user-acceptance.json",
   "previous_assessment_status": "provisional-failed"
