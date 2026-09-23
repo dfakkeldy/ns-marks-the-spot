@@ -1,0 +1,24 @@
+{
+  "Lake shore": {
+    "count": 4,
+    "rms_ground_m": 72.56713267517783,
+    "max_ground_m": 117.26545278247431,
+    "point_ids": [
+      "Q01",
+      "Q02",
+      "Q03",
+      "Q04"
+    ]
+  },
+  "Inland junctions": {
+    "count": 4,
+    "rms_ground_m": 48.35267223474549,
+    "max_ground_m": 67.32133980948795,
+    "point_ids": [
+      "Q05",
+      "Q06",
+      "Q07",
+      "Q08"
+    ]
+  }
+}

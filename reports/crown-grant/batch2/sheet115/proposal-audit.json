@@ -1,0 +1,8 @@
+{
+  "phase": "All corrections before fitting and first check scoring",
+  "findings": [
+    "Q07 uses the western Pearson Branch junction (265467/281287/281288), not the nearby upstream junction (222484/281286/281287)",
+    "Stream controls/checks placed on actual network junction vertices after visual incoming-arm identification; node degree alone did not select identity",
+    "Loch Ban side-bay apex definition refined from initial along-shore proposals; original packets retained"
+  ]
+}

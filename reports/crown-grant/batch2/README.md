@@ -27,7 +27,7 @@ No public layer or production deployment is part of this batch.
 | 2 | 109 | Assessed, provisional | main: 141.19 m (8 checks) | [record](sheet109/README.md) |
 | 3 | 108 | Assessed, provisional | main: 52.24 m (13 checks) | [record](sheet108/README.md) |
 | 4 | 114 | Assessed, provisional | main: 168.85 m (6 checks); cape-mabou-inset: 93.43 m (4 checks) | [record](sheet114/README.md) |
-| 5 | 115 | Queued | — | — |
+| 5 | 115 | Assessed, provisional | main: 61.66 m (8 checks) | [record](sheet115/README.md) |
 | 6 | 116 | Queued | — | — |
 | 7 | 117 | Queued | — | — |
 | 8 | 118 | Queued | — | — |
@@ -44,4 +44,4 @@ No public layer or production deployment is part of this batch.
 | 19 | 129 | Queued | — | — |
 | 20 | 130 | Queued | — | — |
 
-Assessed: **4/20**. Next: **115**. No sheet beyond this queue is authorized.
+Assessed: **5/20**. Next: **116**. No sheet beyond this queue is authorized.

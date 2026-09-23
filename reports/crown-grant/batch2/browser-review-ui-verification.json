@@ -1,0 +1,23 @@
+{
+  "verified_at_utc": "2026-09-23T03:08:14.483906+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "change": "Compact dropdown labels with full status retained in sidebar; ordered five accepted and twenty new sheet entries",
+  "effective_css_viewport": [
+    480,
+    844
+  ],
+  "client_width": 450,
+  "document_scroll_width": 450,
+  "select_width": 257,
+  "horizontal_overflow": false,
+  "verified": [
+    "Single-column responsive layout visibly inspected",
+    "Accepted sheet002 status retained with measurements",
+    "Queued sheet130 has zero historical images and original-scan button disabled",
+    "No browser warning/error logs"
+  ],
+  "viewport_override_reset": true,
+  "limitations": [
+    "Browser minimum/scaling produced480CSSpx; exact390CSSpx not claimed"
+  ]
+}

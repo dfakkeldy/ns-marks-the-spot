@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Ainslie Point southern tip",
+    [
+      2139,
+      1213
+    ],
+    [
+      2130,
+      1210
+    ],
+    "WALK"
+  ],
+  [
+    "C02",
+    "Mason Point eastern shoulder",
+    [
+      1769,
+      1100
+    ],
+    [
+      1769,
+      1100
+    ],
+    "WALK"
+  ],
+  [
+    "C03",
+    "McIsaac Point northern tip",
+    [
+      2009,
+      2157
+    ],
+    [
+      2003,
+      2154
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Long Point northwestern corner",
+    [
+      2504,
+      2745
+    ],
+    [
+      2496,
+      2747
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Glenmore northwestern lake-shore shoulder",
+    [
+      2788,
+      1559
+    ],
+    [
+      2780,
+      1562
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "East-shore headland south of Trout River",
+    [
+      2797,
+      2002
+    ],
+    [
+      2793,
+      2004
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Pearson Branch and Johnstone River confluence",
+    [
+      3756,
+      2945
+    ],
+    [
+      3761,
+      2959
+    ],
+    "WARV"
+  ],
+  [
+    "C08",
+    "Mount Pleasant Brook upper northern confluence",
+    [
+      4926,
+      982
+    ],
+    [
+      4918,
+      960
+    ],
+    "WARV"
+  ]
+]
