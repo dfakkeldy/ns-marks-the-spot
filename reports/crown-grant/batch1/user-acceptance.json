@@ -11,5 +11,93 @@
   "accepted_by": "user",
   "artifact_basis": "Existing batch 1 frozen fits, components, render receipts and review shown on 127.0.0.1:8842",
   "measurements_preserved": true,
-  "meaning": "User acceptance of delivered research overlays. Recorded check errors, unsupported areas and technical gate outcomes remain unchanged."
+  "meaning": "User acceptance of delivered research overlays. Recorded check errors, unsupported areas and technical gate outcomes remain unchanged.",
+  "accepted_repository_revision": "57765b8d5edc54798491ef524463b98330601633",
+  "artifacts": [
+    {
+      "sheet": "002",
+      "source_sha256": "89d0bdc5b09121e9e8809409fb4c672083be281a6a854828b9624f69d572ac37",
+      "fit_sha256": "26d25ed420612a5eaff8de4276db754606296896c6b439079d178393b7cfd1e4",
+      "components_sha256": "504eba5555d59c89702e671c581b9e8af05486d87d7ccc2348c25dfb679c2b87",
+      "rasters": [
+        {
+          "id": "main",
+          "png_sha256": "30d4039631d0d2f1dd2fb8319acc385b23c66539796640eeb5e7210343374a71",
+          "tif_sha256": "fe24d1c7ff9e08e45aaf2c52dbc2287a69d589aab4e23ecf077f8aa26a8f9703"
+        },
+        {
+          "id": "inset",
+          "png_sha256": "4073fd41a716643d2c2d29ddc553ce29e7407a50b78c4c5424f60c46679fce28",
+          "tif_sha256": "3952d1f41649abc84116f134c0ec092dc84a86a96c9193172eb9d68b843d97c6"
+        }
+      ]
+    },
+    {
+      "sheet": "003",
+      "source_sha256": "302378b9611224a945175e3d260f03bf6f1a1e5fc30aa613018046df97b76b55",
+      "fit_sha256": "910c033c798c956890a953fe648007fbb11e537407ac8e017c810bca25f9297a",
+      "components_sha256": "b17b0880af5315f7a1e5981679c7ad85848c2ee09cafbb0838a6266ab86ffe12",
+      "rasters": [
+        {
+          "id": "main",
+          "png_sha256": "2f2d33f19b419ed02fefd11911a621064bb95a95fce4a0caee1c6433c7e1b5b8",
+          "tif_sha256": "a617f693249f39b4faeee40ffa3ccca867839c00b2dee947c83678f28654d557"
+        }
+      ]
+    },
+    {
+      "sheet": "004",
+      "source_sha256": "03557b41aec30a19e324ccb9069013aaa7b7bfecef5ab67eb8408010ff82ad17",
+      "fit_sha256": "3162dcf7caf1f87778713c10fbc5e30a5810d856ed7a3b06cc968c43dd910fbd",
+      "components_sha256": "a1716d455b06c31dd83adb54527fd8e91f2228d5aebc0591bf0013187f574085",
+      "rasters": [
+        {
+          "id": "main",
+          "png_sha256": "b9efb688a48e66a6faed7ebdc1658ec3d2fcdb41d55bad72de92d5e283277a65",
+          "tif_sha256": "036038a2c3caf35a30a286bc410d202380199eadef28fc1b3439e8f4366ef29b"
+        }
+      ]
+    },
+    {
+      "sheet": "004a",
+      "source_sha256": "0383f61be07cb70dc5cba2a57f17fbc21fc3347f17122bc30d7af512fd9b171a",
+      "fit_sha256": "5ebc995fba7db6666ed2a16ed2bb5b61ae94f62b8c49c0dc6c62c19f1478fec6",
+      "components_sha256": "191fb0ab7c98413a31dd897d761474aa0039bf425cf04cd8f55f7318e094646f",
+      "rasters": [
+        {
+          "id": "main",
+          "png_sha256": "9f3092aa0097bb0806ae1e51daaac225f5a0c23b4f867e5fbb039e651b4e9094",
+          "tif_sha256": "a0ecf0bc3f6c6be4e2ed3a4e15a6d7741d3727155f9093f462964b8166d0fc6c"
+        },
+        {
+          "id": "northern-seal",
+          "png_sha256": "87a4184d89127fcbf5dfb008307db2af4fdbbcf1bbd8a20ceb7354dcde231cb1",
+          "tif_sha256": "0c0127a7ca113aa5fa31dc6db44074b2a666c02c1b8fc6b5a54cc4ac8310632f"
+        },
+        {
+          "id": "southern-seal",
+          "png_sha256": "70f3597ff0778c4caa1224c7135b69af62055ebfaa3eca138ede6c4091540f53",
+          "tif_sha256": "f546cc3282d2537f0d40fdad86defc9e58d8c872213ac8f78b1dd8ae0793a7e6"
+        }
+      ]
+    },
+    {
+      "sheet": "005",
+      "source_sha256": "d0444b73a17a459f812c6668154d3fcaf6cc5d784fa4ce2771bacd469a769c56",
+      "fit_sha256": "ff33da67fdf9fe7fc58ce6fdcd1d7c84505b9326ac4df9939911f165edad34fb",
+      "components_sha256": "6f042bfeb7d01541a0cc24cdf64a9c802272bd4ea0fff7baf79e8f328b0fd9a9",
+      "rasters": [
+        {
+          "id": "main",
+          "png_sha256": "2dcc129552c22e434444bda2bb09c4a03a8e563a812b49be36daa921179ea4c7",
+          "tif_sha256": "486b0cb71b24ad444ef6b0f064bb2f2db7e58f515c28d9bf2bdeb7cc59a48a3e"
+        },
+        {
+          "id": "brier-long-inset",
+          "png_sha256": "0a009caed61119dee617fddd838e5a5305e2d2baaff641336343b6c959c6d09d",
+          "tif_sha256": "1ffc9822f159f3ff2e4e0d0fa6295b091b890881aa211e0a9c9135306b01ee96"
+        }
+      ]
+    }
+  ]
 }

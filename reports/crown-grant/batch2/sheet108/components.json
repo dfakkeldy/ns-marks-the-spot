@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6065 x 4103 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 52.24 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          85,
+          100
+        ],
+        [
+          5940,
+          100
+        ],
+        [
+          5940,
+          3990
+        ],
+        [
+          85,
+          3990
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame includes Port Hood Island and Henry Island at their printed geographic placements. One affine covers all three land areas; no separately displaced inset is present. Regional island check results are recorded separately."
+    }
+  ]
+}

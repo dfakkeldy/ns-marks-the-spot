@@ -21,12 +21,27 @@ No public layer or production deployment is part of this batch.
 
 ## Progress
 
-110: assessed and privately rendered; seven controls, eight independent checks,
-RMS 53.84 m. Full-content alpha and actual browser checks pass. Median and
-regional coverage retain provisional status. See `sheet110/README.md`.
+| Order | Sheet | Status | Independent ground RMS | Evidence |
+|---|---|---|---|---|
+| 1 | 110 | Assessed, provisional | main: 53.84 m (8 checks) | [record](sheet110/README.md) |
+| 2 | 109 | Assessed, provisional | main: 141.19 m (8 checks) | [record](sheet109/README.md) |
+| 3 | 108 | Assessed, provisional | main: 52.24 m (13 checks) | [record](sheet108/README.md) |
+| 4 | 114 | Queued | — | — |
+| 5 | 115 | Queued | — | — |
+| 6 | 116 | Queued | — | — |
+| 7 | 117 | Queued | — | — |
+| 8 | 118 | Queued | — | — |
+| 9 | 126 | Queued | — | — |
+| 10 | 125 | Queued | — | — |
+| 11 | 124 | Queued | — | — |
+| 12 | 123 | Queued | — | — |
+| 13 | 122 | Queued | — | — |
+| 14 | 121 | Queued | — | — |
+| 15 | 120 | Queued | — | — |
+| 16 | 119 | Queued | — | — |
+| 17 | 127 | Queued | — | — |
+| 18 | 128 | Queued | — | — |
+| 19 | 129 | Queued | — | — |
+| 20 | 130 | Queued | — | — |
 
-109: assessed and privately rendered; six controls, eight independent checks,
-RMS 141.19 m. Full-content and browser checks pass; geographic status remains
-provisional because the RMS and companion bounds fail.
-
-Assessed: 2/20. Next: 108 northward. Remaining sheets are queued.
+Assessed: **3/20**. Next: **114**. No sheet beyond this queue is authorized.
