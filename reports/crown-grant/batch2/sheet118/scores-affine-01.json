@@ -1,0 +1,255 @@
+{
+  "count": 8,
+  "rms_ground_m": 104.53576946596525,
+  "median_ground_m": 43.46117227557592,
+  "p95_ground_m": 205.37926525842363,
+  "max_ground_m": 229.41178669621345,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 23.820099144085905,
+  "mean_north_ground_m": 14.373208194273502,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Gregory Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4813,
+        1378
+      ],
+      "lonlat": [
+        -60.78812672437857,
+        45.7062948215036
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 16571,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4819.577523337735,
+        1297.941990156658
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.78838773035374,
+        45.70648837957476
+      ],
+      "error_ground_m": 29.595987518269652,
+      "east_ground_m": -20.32502221314674,
+      "north_ground_m": 21.51315758359671
+    },
+    {
+      "id": "Q02",
+      "label": "Ambrose Island eastern corner",
+      "role": "check",
+      "pixel_xy": [
+        5235,
+        1360
+      ],
+      "lonlat": [
+        -60.76356166276744,
+        45.71393636923044
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 23536,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5242.110675534757,
+        1276.114240737632
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.763631310003454,
+        45.71398299578953
+      ],
+      "error_ground_m": 7.500923038216556,
+      "east_ground_m": -5.422835388730811,
+      "north_ground_m": 5.182345296482728
+    },
+    {
+      "id": "Q03",
+      "label": "Cape George southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4630,
+        860
+      ],
+      "lonlat": [
+        -60.8115764757475,
+        45.725272366346594
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 4170,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4624.567579415685,
+        781.0992615880677
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.811201129290744,
+        45.72529113427065
+      ],
+      "error_ground_m": 29.29349803404804,
+      "east_ground_m": 29.219127874714484,
+      "north_ground_m": 2.0860472937734094
+    },
+    {
+      "id": "Q04",
+      "label": "Tillard Point southern apex",
+      "role": "check",
+      "pixel_xy": [
+        2731,
+        2079
+      ],
+      "lonlat": [
+        -60.89647655956206,
+        45.64371484710814
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 313808,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2725.5742101729265,
+        1983.0026276579592
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.89633625051262,
+        45.643765493520796
+      ],
+      "error_ground_m": 12.301778286994375,
+      "east_ground_m": 10.938340410889639,
+      "north_ground_m": 5.629072577064979
+    },
+    {
+      "id": "Q05",
+      "label": "Cordeau Point southern bend",
+      "role": "check",
+      "pixel_xy": [
+        1290,
+        2230
+      ],
+      "lonlat": [
+        -60.97890580687944,
+        45.61382320927614
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 3354,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1272.0404416708625,
+        2139.6313313991996
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.978615810656954,
+        45.61429714521366
+      ],
+      "error_ground_m": 57.32635703288218,
+      "east_ground_m": 22.619638955124532,
+      "north_ground_m": 52.67507137348076
+    },
+    {
+      "id": "Q06",
+      "label": "Cascaret Island northern pointed apex",
+      "role": "check",
+      "pixel_xy": [
+        1285,
+        2284
+      ],
+      "lonlat": [
+        -60.978432452142606,
+        45.6118376554869
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 16828,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1263.1834826517152,
+        2182.83539996983
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.97766769619964,
+        45.61195352556912
+      ],
+      "error_ground_m": 61.0276102851613,
+      "east_ground_m": 59.65327304322008,
+      "north_ground_m": 12.878518251280205
+    },
+    {
+      "id": "Q07",
+      "label": "St Peters Island northeastern cape",
+      "role": "check",
+      "pixel_xy": [
+        3716,
+        3378
+      ],
+      "lonlat": [
+        -60.806406792541694,
+        45.604033851006896
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 22481,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3739.172802386107,
+        3290.069329955615
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.80785347829148,
+        45.605063733536184
+      ],
+      "error_ground_m": 160.74743973109975,
+      "east_ground_m": -112.85967362263729,
+      "north_ground_m": 114.46586150418533
+    },
+    {
+      "id": "Q08",
+      "label": "Goulet Beach northern headland",
+      "role": "check",
+      "pixel_xy": [
+        1938,
+        3028
+      ],
+      "lonlat": [
+        -60.924334558993735,
+        45.59215205496538
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 21731,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1904.3095281104906,
+        2883.9188859260175
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.92168514943498,
+        45.59125728410261
+      ],
+      "error_ground_m": 229.41178669621345,
+      "east_ground_m": 206.73794409325333,
+      "north_ground_m": -99.44440832567611
+    }
+  ],
+  "fit_sha256": "45be59e285bb47e99ff2b2dee8987f965867e7208b6f59d9d35a10f75450494c",
+  "checks_sha256": "07658e874465b62edc9a485206322096fd33275a0525a862bbc2119bbef0fe50",
+  "status": "Eight reserved independent coastal/island checks; northern and eastern interior unsupported"
+}
