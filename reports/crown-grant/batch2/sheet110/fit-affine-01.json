@@ -1,0 +1,199 @@
+{
+  "sheet": "110",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.905031375710785,
+      2.0491686477499877
+    ],
+    [
+      2.078273863877927,
+      -4.929845657152129
+    ],
+    [
+      612934.9033962212,
+      5067758.358137561
+    ]
+  ],
+  "source_sha256": "8cf432bfefff1a90cbca146e2332311960193a0f99a2fa78db9ad5f9ac2ea327",
+  "source_dimensions": [
+    5683,
+    3880
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Long Pond southern tip",
+      "role": "control",
+      "pixel_xy": [
+        958,
+        2597
+      ],
+      "lonlat": [
+        -61.421073559126874,
+        45.6543688064888
+      ],
+      "guide_file": ".crown-grant-local/110-locality-guide.npy",
+      "reference_objectid": 12964,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1088.2928284101072,
+        2554.552087544813
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Dunmore coastal pond southern tip",
+      "role": "control",
+      "pixel_xy": [
+        950,
+        1688
+      ],
+      "lonlat": [
+        -61.44391858818815,
+        45.69553846137611
+      ],
+      "guide_file": ".crown-grant-local/110-locality-guide.npy",
+      "reference_objectid": 13693,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        954.1722407288034,
+        1646.9047433944652
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "River Inhabitants west-facing loop apex near Askilton",
+      "role": "control",
+      "pixel_xy": [
+        3275,
+        2190
+      ],
+      "lonlat": [
+        -61.2843619764405,
+        45.71380592766877
+      ],
+      "guide_file": ".crown-grant-local/110-locality-guide.npy",
+      "reference_objectid": 310977,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        3238.3427935604122,
+        2249.560436710948
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Sugar Camp kidney-shaped pond northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2720,
+        2319
+      ],
+      "lonlat": [
+        -61.316101272881355,
+        45.69917610646818
+      ],
+      "guide_file": ".crown-grant-local/110-locality-guide.npy",
+      "reference_objectid": 136645,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2735.83010547288,
+        2336.3890250298427
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Lake north of Beaver Lakes northwestern lobe apex",
+      "role": "control",
+      "pixel_xy": [
+        5320,
+        1409
+      ],
+      "lonlat": [
+        -61.17352528197679,
+        45.78429662603156
+      ],
+      "guide_file": ".crown-grant-local/110-locality-guide.npy",
+      "reference_objectid": 125923,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5076.003889094689,
+        1579.8762386870803
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Ballam Head northwestern shoulder",
+      "role": "control",
+      "pixel_xy": [
+        5395,
+        3192
+      ],
+      "lonlat": [
+        -61.12397356226268,
+        45.70558109282113
+      ],
+      "guide_file": ".crown-grant-local/110-physical-search-guide.npy",
+      "reference_objectid": 13595,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5407.694484432635,
+        3211.7170817122096
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Rhodena irregular pond northern finger tip",
+      "role": "control",
+      "pixel_xy": [
+        1973,
+        744
+      ],
+      "lonlat": [
+        -61.40393800997494,
+        45.755360977846806
+      ],
+      "guide_file": ".crown-grant-local/110-physical-search-guide.npy",
+      "reference_objectid": 124541,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1949.4870728199603,
+        738.4726100314874
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    60.96873930146886,
+    49.20972063876676,
+    23.297710258447996,
+    103.92653152106664,
+    20.61043523426806,
+    29.698781417045353,
+    40.119485821800154
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

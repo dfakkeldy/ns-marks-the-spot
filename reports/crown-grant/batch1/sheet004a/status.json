@@ -1,9 +1,9 @@
 {
   "sheet": "004a",
-  "status": "provisional-failed",
+  "status": "user-accepted",
   "assessment_complete": true,
   "geographic_accepted": false,
-  "acceptance": "NOT ACCEPTED",
+  "acceptance": "USER ACCEPTED 2026-09-22",
   "criteria_version": 2,
   "rms_gate_m": 100,
   "source": {
@@ -58,7 +58,7 @@
     "Original source notes explicitly displace two groups five miles east; a global transformation is invalid"
   ],
   "review": {
-    "status": "PROVISIONAL \u2014 two RMS failures; Southern Seal unvalidated",
+    "status": "ACCEPTED BY USER \u2014 recorded accuracy limitations retained",
     "statistics": "Main: 10 checks, RMS 101.96 m. Northern Seal: 6 checks, RMS 167.56 m. Southern Seal: no accepted independent checks; no RMS claimed. Current gate: 100 m.",
     "coverage": "All mapped source content retained in three components. Northern and Southern Seal groups are repositioned from their printed five-mile-east placements. No pooled accuracy claim.",
     "focusBounds": [
@@ -71,5 +71,8 @@
         -65.7
       ]
     ]
-  }
+  },
+  "user_accepted": true,
+  "user_acceptance": "../user-acceptance.json",
+  "previous_assessment_status": "provisional-failed"
 }

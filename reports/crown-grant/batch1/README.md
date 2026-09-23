@@ -1,5 +1,10 @@
 # Crown Grant batch 1 — 19 September 2026
 
+**Accepted by the user on 22 September 2026.** The frozen results and technical
+gate outcomes below remain unchanged. See `user-acceptance.json`. A separate
+20-sheet Cape Breton batch is now authorized; the original five-sheet limit
+remains the historical scope of this first batch.
+
 Requested limit: FIVE sheets, sequential processing, then pause. No sixth sheet,
 background continuation, public imagery, or production activation is authorized.
 

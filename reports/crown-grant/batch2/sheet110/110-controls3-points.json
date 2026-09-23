@@ -1,0 +1,46 @@
+[
+  {
+    "id": "C07",
+    "label": "Ballam Head northwestern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      5395,
+      3192
+    ],
+    "lonlat": [
+      -61.12397356226268,
+      45.70558109282113
+    ],
+    "guide_file": ".crown-grant-local/110-physical-search-guide.npy",
+    "reference_objectid": 13595,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5407.694484432635,
+      3211.7170817122096
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Rhodena irregular pond northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1990,
+      762
+    ],
+    "lonlat": [
+      -61.404187381140716,
+      45.754908120446736
+    ],
+    "guide_file": ".crown-grant-local/110-physical-search-guide.npy",
+    "reference_objectid": 124540,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1942.6624403923634,
+      745.9277597835753
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

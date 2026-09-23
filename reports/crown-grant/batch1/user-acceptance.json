@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-22",
+  "statement": "These came out great, they are accepted.",
+  "scope": [
+    "002",
+    "003",
+    "004",
+    "004a",
+    "005"
+  ],
+  "accepted_by": "user",
+  "artifact_basis": "Existing batch 1 frozen fits, components, render receipts and review shown on 127.0.0.1:8842",
+  "measurements_preserved": true,
+  "meaning": "User acceptance of delivered research overlays. Recorded check errors, unsupported areas and technical gate outcomes remain unchanged."
+}

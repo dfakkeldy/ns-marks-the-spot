@@ -1,9 +1,9 @@
 {
   "sheet": "005",
-  "status": "provisional-failed",
+  "status": "user-accepted",
   "assessment_complete": true,
   "geographic_accepted": false,
-  "acceptance": "NOT ACCEPTED",
+  "acceptance": "USER ACCEPTED 2026-09-22",
   "criteria_version": 2,
   "rms_gate_m": 100,
   "source": {
@@ -47,7 +47,7 @@
     "No pooled accuracy across independently positioned components"
   ],
   "review": {
-    "status": "PROVISIONAL \u2014 main RMS failure; inset coverage incomplete",
+    "status": "ACCEPTED BY USER \u2014 recorded accuracy limitations retained",
     "statistics": "Main: 7 source-audited checks, RMS 123.46 m (initial 184.29 m retained). Inset: 7 Brier/Peters Island checks, RMS 35.36 m; Long Island unvalidated. Gate: 100 m.",
     "coverage": "Complete main map and boxed Brier/Long Island inset retained as separately fitted components. No pooled accuracy claim.",
     "focusBounds": [
@@ -60,5 +60,8 @@
         -65.93
       ]
     ]
-  }
+  },
+  "user_accepted": true,
+  "user_acceptance": "../user-acceptance.json",
+  "previous_assessment_status": "provisional-failed"
 }

@@ -9,9 +9,14 @@ if __name__=='__main__':
     private=a.private_root.resolve();review=private/'review';review.mkdir(exist_ok=True)
     here=Path(__file__).resolve().parent;shutil.copy2(here/'review.html',review/'index.html')
     shutil.copytree(a.leaflet,review/'vendor',dirs_exist_ok=True)
-    reports=here.parents[1]/'reports/crown-grant/batch1'
+    report_root=here.parents[1]/'reports/crown-grant'
+    queues=sorted(report_root.glob('batch*/queue.json'))
+    records=[(q.parent,s) for q in queues for s in json.loads(q.read_text())['sheets']]
+    if not records:
+        records=[(report_root/'batch1',s) for s in ['002','003','004','004a','005']]
+    assert len({s for _,s in records})==len(records), 'Duplicate sheet in batch queues'
     sheets=[]
-    for sheet in ['002','003','004','004a','005']:
+    for reports,sheet in records:
         entry=dict(id=sheet,status='Queued — not started',components=[])
         record=reports/f'sheet{sheet}'/'status.json'
         if record.exists():
