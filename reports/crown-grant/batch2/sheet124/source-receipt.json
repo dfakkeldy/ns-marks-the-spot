@@ -1,0 +1,97 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/124.pdf",
+  "source_dimensions": [
+    5957,
+    4117
+  ],
+  "ppi": 160,
+  "reference": {
+    "retrieved_at_utc": "2026-09-23T04:58:24.831467+00:00",
+    "bbox": [
+      -60.90002593444368,
+      45.72727556425289,
+      -60.369534871569634,
+      46.072351246567486
+    ],
+    "reference_count": 6163,
+    "truncated": false,
+    "pages": [
+      {
+        "file": "124-water-page0.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.90002593444368%2C45.72727556425289%2C-60.369534871569634%2C46.072351246567486&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=0",
+        "count": 2000,
+        "sha256": "8926487606fa67ea886c2d1e4e7cecad4c893f05c93638c652f06274e606f280"
+      },
+      {
+        "file": "124-water-page1.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.90002593444368%2C45.72727556425289%2C-60.369534871569634%2C46.072351246567486&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=2000",
+        "count": 2000,
+        "sha256": "dc3c8d8611078b286ace295de66f6977579920e932dd3f02d16365645ef2ea77"
+      },
+      {
+        "file": "124-water-page2.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.90002593444368%2C45.72727556425289%2C-60.369534871569634%2C46.072351246567486&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=4000",
+        "count": 2000,
+        "sha256": "a83968cbb6e11a942423a67cc34bd5c3850e84ec391a97032748bb2ce91e006a"
+      },
+      {
+        "file": "124-water-page3.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.90002593444368%2C45.72727556425289%2C-60.369534871569634%2C46.072351246567486&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=6000",
+        "count": 163,
+        "sha256": "21025f13eff005afb51d6259ae6df824e41ecb56ad2bad0170c0d911b4e1ef31"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "124.pdf",
+      "bytes": 3466874,
+      "sha256": "e8f9f4b52fb38c1a4bbd5fec425b2bb88e78db118cf292b3cd6f4bb2d7055428"
+    },
+    {
+      "name": "124-000.jpg",
+      "bytes": 3465705,
+      "sha256": "3dbff986e3e7f357893528a5540cb91f295596fd25d604a944aff87b3f79bd39"
+    },
+    {
+      "name": "124-water-tight.geojson",
+      "bytes": 18709467,
+      "sha256": "37d63222b5c55ed5bf8a3bc699214b889edb5aa1dc371608bf5566007e7e6794"
+    },
+    {
+      "name": "124-reference-receipt.json",
+      "bytes": 2311,
+      "sha256": "c72385527ec2948c5d864595455bf7a28efee729b6c3cec42fe4913262baf17e"
+    },
+    {
+      "name": "124-water-page0.geojson",
+      "bytes": 3924550,
+      "sha256": "8926487606fa67ea886c2d1e4e7cecad4c893f05c93638c652f06274e606f280"
+    },
+    {
+      "name": "124-water-page1.geojson",
+      "bytes": 6337665,
+      "sha256": "dc3c8d8611078b286ace295de66f6977579920e932dd3f02d16365645ef2ea77"
+    },
+    {
+      "name": "124-water-page2.geojson",
+      "bytes": 7610942,
+      "sha256": "a83968cbb6e11a942423a67cc34bd5c3850e84ec391a97032748bb2ce91e006a"
+    },
+    {
+      "name": "124-water-page3.geojson",
+      "bytes": 459776,
+      "sha256": "21025f13eff005afb51d6259ae6df824e41ecb56ad2bad0170c0d911b4e1ef31"
+    },
+    {
+      "name": "124-adjacent-guide.npy",
+      "bytes": 176,
+      "sha256": "4c86a2f31fb0932c1c479f90cead16794987433c303e15b94f6b590a58aef6ea"
+    },
+    {
+      "name": "124-physical-search-guide.npy",
+      "bytes": 176,
+      "sha256": "cd397c72e12af69a34fa8dc68fdaf27fccde2f2f5063e5af9227c317894f87df"
+    }
+  ]
+}
