@@ -1,0 +1,223 @@
+{
+  "sheet": "130",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.935119283864723,
+      2.0550432104341656
+    ],
+    [
+      2.02793804714487,
+      -4.978542041225803
+    ],
+    [
+      678133.0014448551,
+      5136354.101825933
+    ]
+  ],
+  "source_sha256": "d422a9fd9a8f9c0bf4e799a6738a8609801a2e989ece426809fcab7b3bfcd2cd",
+  "source_dimensions": [
+    5725,
+    3849
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Island Point southeastern outer barrier bend",
+      "role": "control",
+      "pixel_xy": [
+        2208,
+        1029
+      ],
+      "lonlat": [
+        -60.5177234542524,
+        46.34789246626155
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 10932,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2061.9229487446137,
+        1100.5621044816216
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Mary Rocks northern cape apex",
+      "role": "control",
+      "pixel_xy": [
+        3124,
+        1433
+      ],
+      "lonlat": [
+        -60.44620886583349,
+        46.345912293627194
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 10904,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3008.196986466297,
+        1505.6647525022272
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Cape Dauphin eastern apex",
+      "role": "control",
+      "pixel_xy": [
+        3517,
+        1670
+      ],
+      "lonlat": [
+        -60.415076154472125,
+        46.34246652948971
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 4601,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3400.616621093184,
+        1731.8798868674785
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Ciboux Island northeastern tip",
+      "role": "control",
+      "pixel_xy": [
+        4476,
+        995
+      ],
+      "lonlat": [
+        -60.368884423115254,
+        46.389327720539384
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 16599,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4377.985739588854,
+        1058.8124166468624
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Table Head northwestern corner",
+      "role": "control",
+      "pixel_xy": [
+        4124,
+        2254
+      ],
+      "lonlat": [
+        -60.36193718359338,
+        46.32451434306051
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 11747,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3978.9992292239913,
+        2351.8841492726933
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Point Aconi northeastern tip",
+      "role": "control",
+      "pixel_xy": [
+        5152,
+        2384
+      ],
+      "lonlat": [
+        -60.29220834373536,
+        46.33697133209105
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 1818,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5011.9446097324835,
+        2465.9797558897408
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Otter Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1061,
+        3610
+      ],
+      "lonlat": [
+        -60.527436530081246,
+        46.21219219632477
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 18364,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        894.9697775848326,
+        3681.433508709655
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Alder Point northeastern coastal corner",
+      "role": "control",
+      "pixel_xy": [
+        5244,
+        3018
+      ],
+      "lonlat": [
+        -60.27179146534379,
+        46.31013100767511
+      ],
+      "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+      "reference_objectid": 11073,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5083.43312315474,
+        3091.042598674656
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    139.23513273442154,
+    52.06976304962773,
+    87.8270495516545,
+    90.71030431106355,
+    121.59744569181856,
+    21.01949046934998,
+    45.56322805721667,
+    70.8846939393564
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

@@ -42,6 +42,14 @@ No public layer or production deployment is part of this batch.
 | 17 | 127 | Assessed, provisional | main: 48.50 m (9 checks) | [record](sheet127/README.md) |
 | 18 | 128 | Assessed, provisional | main: 81.92 m (8 checks) | [record](sheet128/README.md) |
 | 19 | 129 | Assessed, provisional | main: 63.33 m (8 checks); smokey-inset: 90.80 m (3 checks) | [record](sheet129/README.md) |
-| 20 | 130 | Queued | — | — |
+| 20 | 130 | Assessed, provisional | main: 110.16 m (8 checks) | [record](sheet130/README.md) |
 
-Assessed: **19/20**. Next: **130**. No sheet beyond this queue is authorized.
+Assessed: **20/20**. **Paused after the requested twenty additional sheets.** No sheet beyond this queue is authorized.
+
+## Completed assessment
+
+All twenty sheets and four displaced insets have full-content private renders and browser verification. Thirteen main maps meet the 100 m RMS ceiling; seven exceed it (109, 114, 117, 118, 120, 119 and 130). All four separately measured insets meet the RMS ceiling, with sparse checks and companion-bound limitations retained. Every new sheet remains provisional.
+
+Sheet 125 preserves its original score, a post-audit diagnostic reuse score, and three fresh checks separately. Sheet 120 retains its failed affine and a failed simpler-model diagnostic; neither was replaced to manufacture a pass.
+
+`verification.json` records 27 exact score replays, source/fit/component/raster hash checks, full-content coverage results and byte preservation of accepted batch 1 fits, scores, masks and render receipts against its target-history revision. Four existing scorer and native-pixel-mask regressions passed. Browser receipts cover the private Leaflet rasters; native import and production publication are outside this batch.

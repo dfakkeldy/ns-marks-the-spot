@@ -1,0 +1,26 @@
+{
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08"
+  ],
+  "timing": "Final endpoint corrections and roles fixed before first fit/scoring",
+  "model": "Single affine for full mapped rectangle; Bird Islands wildlife management boundary is not an inset",
+  "audit": "Table Head and Cape Dauphin corners corrected in original frame; Fader Point shoulder aligned to the corresponding major bend; Ciboux check moved off adjacent detached rock onto the main island endpoint before fit/scoring",
+  "limitations": "Coast and island cohorts are correlated; river and parcel interiors not independently validated; generalized shore definitions carry 12 px working source uncertainty"
+}

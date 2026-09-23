@@ -19,5 +19,24 @@
   "viewport_override_reset": true,
   "limitations": [
     "Browser minimum/scaling produced480CSSpx; exact390CSSpx not claimed"
-  ]
+  ],
+  "final_batch_verification": {
+    "verified_at_utc": "2026-09-23T07:13:20.794580+00:00",
+    "effective_css_viewport": [
+      480,
+      844
+    ],
+    "client_width": 450,
+    "document_scroll_width": 450,
+    "select_width": 306,
+    "horizontal_overflow": false,
+    "selector_entries": 25,
+    "verified": [
+      "Accepted-for-research sheet002 and completed sheet130 render with full status and metrics",
+      "All three images for those two sheets loaded with positive native dimensions",
+      "Original-scan button enabled for completed sheet130",
+      "Viewport override reset; review left at Port Hawkesbury sheet110"
+    ],
+    "console_warning_error_count": 0
+  }
 }

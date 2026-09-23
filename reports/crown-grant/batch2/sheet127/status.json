@@ -4,7 +4,7 @@
   "assessment_complete": true,
   "geographic_accepted": false,
   "user_accepted": false,
-  "acceptance": "PROVISIONAL; browser verification pending",
+  "acceptance": "PROVISIONAL; private browser overlay verified; geographic limitations retained",
   "criteria_version": 2,
   "rms_gate_m": 100,
   "source": {
