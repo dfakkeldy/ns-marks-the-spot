@@ -1,0 +1,46 @@
+[
+  {
+    "id": "IC01",
+    "label": "Smokey inset southern stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      4792,
+      3474
+    ],
+    "lonlat": [
+      -60.3780325257912,
+      46.58756420924039
+    ],
+    "guide_file": ".crown-grant-local/129-inset-refined-guide.npy",
+    "reference_objectid": 11298,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4784.285355982021,
+      3470.5701832802733
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Smokey inset northern coastal ledge",
+    "role": "proposal",
+    "pixel_xy": [
+      5354,
+      3035
+    ],
+    "lonlat": [
+      -60.35190784809748,
+      46.61751880513828
+    ],
+    "guide_file": ".crown-grant-local/129-inset-refined-guide.npy",
+    "reference_objectid": 10614,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5354.209350065677,
+      3020.124227000866
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20
+  }
+]

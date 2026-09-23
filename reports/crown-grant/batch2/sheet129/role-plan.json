@@ -1,0 +1,33 @@
+{
+  "main_controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07"
+  ],
+  "main_checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08"
+  ],
+  "inset_controls": [
+    "IC01",
+    "IC02"
+  ],
+  "inset_checks": [
+    "IQ01",
+    "IQ02",
+    "IQ03"
+  ],
+  "timing": "Each component controls and excluded checks identified and corrected before its first fit/score",
+  "model": "Main affine; boxed displaced coastal inset constrained similarity with two controls",
+  "limitations": "Northern flowage outlines differ substantially and were not used as precise shoreline ties. Coastal ledges and rounded shoulders have greater definition uncertainty."
+}

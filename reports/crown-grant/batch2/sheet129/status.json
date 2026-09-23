@@ -1,0 +1,65 @@
+{
+  "sheet": "129",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; both private browser components verified; geographic limitations retained",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/129.pdf",
+    "pdf_sha256": "840a25e5fa792ac99302520c8d1d52f4a0540bcb59fbb0bc2c8e17dadf46711a",
+    "jpeg_sha256": "37a9f69b0144d3e770cdd768cb81ad5ab4350910875634e645347b9bdc309e9c",
+    "dimensions": [
+      5705,
+      3877
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 63.3320364953275,
+      "rms_gate_passed": true,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "smokey-inset",
+      "controls": 2,
+      "independent_checks": 3,
+      "rms_ground_m": 90.7960687107869,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main checks are regional lake cohorts; eight checks remain below the distributed target and companion median/P95/maximum bounds fail",
+    "Northern Gisborne, Wreck Cove and French Lake outlines differ markedly from present flowages; those areas and far western river valleys lack direct independent validation",
+    "Inset uses two physical coastal controls and three excluded checks along one narrow coast; near-zero control residual is not proof of accuracy",
+    "Coastal notches, stream mouths and shoulders are generalized; working source uncertainty is larger than for sharp lake corners"
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 8 checks, RMS 63.33 m; smokey-inset: 3 checks, RMS 90.80 m. Gate: 100 m. No pooled score.",
+    "coverage": "Complete original mapped rectangle is partitioned into the main highlands/North Shore map and the separately boxed Smokey Cape coastal inset at lower right. All interior lakes, coast and inset land remain.",
+    "focusBounds": [
+      [
+        46.35687878074716,
+        -60.759187436715465
+      ],
+      [
+        46.63065170091964,
+        -60.316280487881805
+      ]
+    ]
+  }
+}
