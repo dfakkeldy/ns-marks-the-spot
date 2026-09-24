@@ -1,0 +1,36 @@
+{
+  "sheet": "132",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "control_ids": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "check_ids": [
+    "Q02",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q09",
+    "Q10"
+  ],
+  "rejected_before_fit": {
+    "Q01": "Gillies eastern outlet insufficiently defined: first modern proposal followed the outlet toward the downstream confluence; omit ambiguous lake/stream transition",
+    "Q03": "Nearest broad-code proposal was WARV50 river bend, not the McNeil lake shoreline; original lake-only candidate landed south of intended feature. Identity unresolved; reject both"
+  },
+  "notes": [
+    "Initial and revised source and reference placements retained; all corrections before fitting",
+    "Mira Q09 is a narrow-neck peninsula, not a separate island; Q10 reference corrected from adjacent islet to long island tip",
+    "No geoname or printed-grid coordinates used as controls",
+    "Working uncertainty 12 native pixels; lake shape generalization and correlated checks limit interpretation"
+  ]
+}

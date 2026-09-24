@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Sutherland Point hooked north-shore tip",
+    [
+      1105,
+      350
+    ],
+    [
+      1118,
+      309
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Long Island southwest tip",
+    [
+      2185,
+      1600
+    ],
+    [
+      2141,
+      1559
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Groves Point south tip",
+    [
+      3450,
+      780
+    ],
+    [
+      3650,
+      741
+    ],
+    "WACO"
+  ],
+  [
+    "C04",
+    "Small lake northeast of George River northwest corner",
+    [
+      4438,
+      1122
+    ],
+    [
+      4535,
+      1100
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Point Edward northeast corner",
+    [
+      4915,
+      2100
+    ],
+    [
+      4912,
+      2045
+    ],
+    "WACO"
+  ],
+  [
+    "C06",
+    "Cowan Lake north tip near southeast edge",
+    [
+      5598,
+      3400
+    ],
+    [
+      5555,
+      3342
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "McLeod Lake west end",
+    [
+      2307,
+      2450
+    ],
+    [
+      2350,
+      2400
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Southwest marginal pond west end",
+    [
+      152,
+      3550
+    ],
+    [
+      282,
+      3510
+    ],
+    "WALK"
+  ]
+]

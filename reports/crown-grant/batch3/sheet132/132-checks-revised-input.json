@@ -1,0 +1,132 @@
+[
+  [
+    "Q01",
+    "Gillies Lake eastern outlet",
+    [
+      3173,
+      404
+    ],
+    [
+      3203,
+      373
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "Serpent Lake north tip",
+    [
+      4703,
+      1210
+    ],
+    [
+      4673,
+      1203
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "McNeil Lake north tip",
+    [
+      4315,
+      1614
+    ],
+    [
+      4220,
+      1610
+    ],
+    "WA"
+  ],
+  [
+    "Q04",
+    "Ducker Lake east end",
+    [
+      5180,
+      1730
+    ],
+    [
+      5180,
+      1730
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Mill Lake south tip",
+    [
+      5168,
+      1858
+    ],
+    [
+      5170,
+      1852
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Barren Lake west end",
+    [
+      871,
+      2593
+    ],
+    [
+      810,
+      2558
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Western McDonald Lake north tip",
+    [
+      1220,
+      2225
+    ],
+    [
+      1160,
+      2183
+    ],
+    "WALK"
+  ],
+  [
+    "Q08",
+    "White Lily northeast pond north tip",
+    [
+      1897,
+      2841
+    ],
+    [
+      1830,
+      2793
+    ],
+    "WALK"
+  ],
+  [
+    "Q09",
+    "Mira round peninsula south tip",
+    [
+      4515,
+      2578
+    ],
+    [
+      4480,
+      2558
+    ],
+    "WA"
+  ],
+  [
+    "Q10",
+    "Mira long eastern island east tip",
+    [
+      5227,
+      2458
+    ],
+    [
+      5228,
+      2453
+    ],
+    "WA"
+  ]
+]

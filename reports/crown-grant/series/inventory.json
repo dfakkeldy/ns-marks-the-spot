@@ -1,0 +1,3500 @@
+{
+  "verified_at_utc": "2026-09-24T11:52:42.660403+00:00",
+  "source": "https://novascotia.ca/natr/land/grantmap.asp",
+  "index_image": "https://novascotia.ca/natr/land/images/index.jpg",
+  "page_sha256": "aad05a61551165f1958feded18c3d71f04a40fcb40dc5dd0546e14064ea8a523",
+  "index_sha256": "845424aa6c30a74f97a0ee1c0660c89933bac1b412677a894309ed9ee610cdf5",
+  "linked_pdf_count": 138,
+  "assessed_sheet_count": 27,
+  "remaining_sheet_count": 111,
+  "unlinked_numeric_ids": [
+    {
+      "sheet": "001",
+      "state": "not-listed",
+      "note": "No PDF link in official index; not treated as an unavailable linked source"
+    },
+    {
+      "sheet": "012",
+      "state": "not-listed",
+      "note": "No PDF link in official index; not treated as an unavailable linked source"
+    },
+    {
+      "sheet": "134",
+      "state": "replacement-assessed",
+      "status_record": "reports/crown-grant/batch2/sheet126/status.json",
+      "component": "sheet134-inset",
+      "note": "Replaced by separately fitted inset on sheet126"
+    }
+  ],
+  "sheets": [
+    {
+      "sheet": "002",
+      "url": "https://novascotia.ca/natr/land/indexmaps/002.pdf",
+      "label": "Index Sheet 2",
+      "index_polygon": [
+        46,
+        490,
+        71,
+        475,
+        80,
+        499,
+        53,
+        513
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2598171,
+        "sha256": "6e8b79d551728967b4c175f18a3b0adeae459aceadbba05ae6d46bdd0f1f0640"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch1/sheet002/status.json",
+      "assessment_complete": null,
+      "source_status": "accepted-qualified",
+      "source_complete": false,
+      "note": "Previously accepted with qualifications; original whole-sheet completion false and unsupported inset preserved. No claim that those limitations have been resolved."
+    },
+    {
+      "sheet": "003",
+      "url": "https://novascotia.ca/natr/land/indexmaps/003.pdf",
+      "label": "Index Sheet 3",
+      "index_polygon": [
+        53,
+        514,
+        79,
+        500,
+        86,
+        522,
+        59,
+        535,
+        53,
+        514
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2279843,
+        "sha256": "8f9a032bd224a654cc1fb0ed9ac81ee131a1092691d435a327494dbc094e7fb0"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch1/sheet003/status.json",
+      "assessment_complete": true,
+      "source_status": "accepted-qualified"
+    },
+    {
+      "sheet": "004",
+      "url": "https://novascotia.ca/natr/land/indexmaps/004.pdf",
+      "label": "Index Sheet 4",
+      "index_polygon": [
+        61,
+        537,
+        86,
+        523,
+        94,
+        546,
+        69,
+        560,
+        61,
+        537
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2917985,
+        "sha256": "2fff4e5c57e79ec1d79ec6df11992fb1544179435cd124ce962dbcaf2d12d307"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch1/sheet004/status.json",
+      "assessment_complete": true,
+      "source_status": "accepted-qualified"
+    },
+    {
+      "sheet": "004a",
+      "url": "https://novascotia.ca/natr/land/indexmaps/004a.pdf",
+      "label": "Index Sheet 4a",
+      "index_polygon": [
+        71,
+        559,
+        94,
+        547,
+        106,
+        580,
+        82,
+        592,
+        73,
+        559
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2186092,
+        "sha256": "f5e0cf1ecd5f152c60dd4449b9f4bb30a1dd1d0479bf77dcc012c053ce97c2e7"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch1/sheet004a/status.json",
+      "assessment_complete": true,
+      "source_status": "accepted-qualified"
+    },
+    {
+      "sheet": "005",
+      "url": "https://novascotia.ca/natr/land/indexmaps/005.pdf",
+      "label": "Index Sheet 5",
+      "index_polygon": [
+        58,
+        429,
+        83,
+        415,
+        91,
+        437,
+        65,
+        450,
+        58,
+        429
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3061858,
+        "sha256": "506f56cea7661eb42bbf7057991ededeb1ce2eb8c5c9984937d511063043ecc9"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch1/sheet005/status.json",
+      "assessment_complete": true,
+      "source_status": "accepted-qualified"
+    },
+    {
+      "sheet": "006",
+      "url": "https://novascotia.ca/natr/land/indexmaps/006.pdf",
+      "label": "Index Sheet 6",
+      "index_polygon": [
+        65,
+        452,
+        92,
+        438,
+        98,
+        460,
+        72,
+        474,
+        65,
+        452
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3724441"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "007",
+      "url": "https://novascotia.ca/natr/land/indexmaps/007.pdf",
+      "label": "Index Sheet 7",
+      "index_polygon": [
+        73,
+        476,
+        98,
+        462,
+        106,
+        484,
+        81,
+        498,
+        73,
+        476
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4375867"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "008",
+      "url": "https://novascotia.ca/natr/land/indexmaps/008.pdf",
+      "label": "Index Sheet 8",
+      "index_polygon": [
+        81,
+        499,
+        107,
+        486,
+        114,
+        507,
+        87,
+        521,
+        81,
+        499
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3462067"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "009",
+      "url": "https://novascotia.ca/natr/land/indexmaps/009.pdf",
+      "label": "Index Sheet 9",
+      "index_polygon": [
+        88,
+        522,
+        114,
+        508,
+        122,
+        530,
+        95,
+        545,
+        88,
+        522
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3746164"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "010",
+      "url": "https://novascotia.ca/natr/land/indexmaps/010.pdf",
+      "label": "Index Sheet 10",
+      "index_polygon": [
+        96,
+        546,
+        122,
+        532,
+        130,
+        553,
+        103,
+        567,
+        96,
+        546
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3704226"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "011",
+      "url": "https://novascotia.ca/natr/land/indexmaps/011.pdf",
+      "label": "Index Sheet 11",
+      "index_polygon": [
+        103,
+        569,
+        130,
+        555,
+        137,
+        576,
+        110,
+        590,
+        103,
+        569
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3065187"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "013",
+      "url": "https://novascotia.ca/natr/land/indexmaps/013.pdf",
+      "label": "Index Sheet 13",
+      "index_polygon": [
+        85,
+        414,
+        110,
+        401,
+        118,
+        422,
+        92,
+        436,
+        85,
+        414
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4264634"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "014",
+      "url": "https://novascotia.ca/natr/land/indexmaps/014.pdf",
+      "label": "Index Sheet 14",
+      "index_polygon": [
+        92,
+        438,
+        118,
+        424,
+        125,
+        446,
+        99,
+        459,
+        92,
+        438
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4458210"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "015",
+      "url": "https://novascotia.ca/natr/land/indexmaps/015.pdf",
+      "label": "Index Sheet 15",
+      "index_polygon": [
+        100,
+        461,
+        125,
+        447,
+        132,
+        469,
+        107,
+        483,
+        100,
+        461
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3123268"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "016",
+      "url": "https://novascotia.ca/natr/land/indexmaps/016.pdf",
+      "label": "Index Sheet 16",
+      "index_polygon": [
+        108,
+        485,
+        134,
+        471,
+        141,
+        492,
+        115,
+        506,
+        108,
+        485
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3312757"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "017",
+      "url": "https://novascotia.ca/natr/land/indexmaps/017.pdf",
+      "label": "Index Sheet 17",
+      "index_polygon": [
+        115,
+        508,
+        141,
+        494,
+        148,
+        516,
+        122,
+        530,
+        115,
+        508
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4268468"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "018",
+      "url": "https://novascotia.ca/natr/land/indexmaps/018.pdf",
+      "label": "Index Sheet 18",
+      "index_polygon": [
+        123,
+        532,
+        149,
+        518,
+        155,
+        539,
+        130,
+        553,
+        123,
+        532
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3914550"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "019",
+      "url": "https://novascotia.ca/natr/land/indexmaps/019.pdf",
+      "label": "Index Sheet 19",
+      "index_polygon": [
+        130,
+        554,
+        156,
+        540,
+        163,
+        563,
+        138,
+        576,
+        130,
+        554
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2797300"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "020",
+      "url": "https://novascotia.ca/natr/land/indexmaps/020.pdf",
+      "label": "Index Sheet 20",
+      "index_polygon": [
+        103,
+        377,
+        130,
+        362,
+        136,
+        384,
+        110,
+        398,
+        103,
+        377
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2559041"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "021",
+      "url": "https://novascotia.ca/natr/land/indexmaps/021.pdf",
+      "label": "Index Sheet 21",
+      "index_polygon": [
+        111,
+        400,
+        137,
+        386,
+        144,
+        408,
+        119,
+        422,
+        111,
+        400
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4032049"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "022",
+      "url": "https://novascotia.ca/natr/land/indexmaps/022.pdf",
+      "label": "Index Sheet 22",
+      "index_polygon": [
+        119,
+        423,
+        145,
+        409,
+        152,
+        432,
+        126,
+        445,
+        119,
+        423
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5258819"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "023",
+      "url": "https://novascotia.ca/natr/land/indexmaps/023.pdf",
+      "label": "Index Sheet 23",
+      "index_polygon": [
+        127,
+        446,
+        152,
+        432,
+        159,
+        455,
+        134,
+        469,
+        127,
+        446
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4508321"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "024",
+      "url": "https://novascotia.ca/natr/land/indexmaps/024.pdf",
+      "label": "Index Sheet 24",
+      "index_polygon": [
+        134,
+        470,
+        160,
+        456,
+        167,
+        478,
+        142,
+        492,
+        134,
+        470
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4794863"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "025",
+      "url": "https://novascotia.ca/natr/land/indexmaps/025.pdf",
+      "label": "Index Sheet 25",
+      "index_polygon": [
+        142,
+        493,
+        167,
+        480,
+        175,
+        502,
+        150,
+        516,
+        142,
+        493
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4106707"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "026",
+      "url": "https://novascotia.ca/natr/land/indexmaps/026.pdf",
+      "label": "Index Sheet 26",
+      "index_polygon": [
+        150,
+        517,
+        175,
+        504,
+        182,
+        525,
+        157,
+        539,
+        150,
+        517
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3941071"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "027",
+      "url": "https://novascotia.ca/natr/land/indexmaps/027.pdf",
+      "label": "Index Sheet 27",
+      "index_polygon": [
+        157,
+        540,
+        183,
+        527,
+        190,
+        548,
+        165,
+        562,
+        157,
+        540
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2875223"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "028",
+      "url": "https://novascotia.ca/natr/land/indexmaps/028.pdf",
+      "label": "Index Sheet 28",
+      "index_polygon": [
+        130,
+        362,
+        157,
+        348,
+        164,
+        370,
+        138,
+        384,
+        130,
+        362
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3288654"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "029",
+      "url": "https://novascotia.ca/natr/land/indexmaps/029.pdf",
+      "label": "Index Sheet 29",
+      "index_polygon": [
+        138,
+        385,
+        164,
+        372,
+        171,
+        393,
+        146,
+        408,
+        138,
+        385
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4173072"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "030",
+      "url": "https://novascotia.ca/natr/land/indexmaps/030.pdf",
+      "label": "Index Sheet 30",
+      "index_polygon": [
+        155,
+        403,
+        172,
+        395,
+        179,
+        416,
+        153,
+        431,
+        146,
+        408
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4064888"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "031",
+      "url": "https://novascotia.ca/natr/land/indexmaps/031.pdf",
+      "label": "Index Sheet 31",
+      "index_polygon": [
+        153,
+        432,
+        179,
+        418,
+        187,
+        440,
+        161,
+        454,
+        153,
+        432
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4979813"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "032",
+      "url": "https://novascotia.ca/natr/land/indexmaps/032.pdf",
+      "label": "Index Sheet 32",
+      "index_polygon": [
+        161,
+        456,
+        187,
+        442,
+        195,
+        463,
+        168,
+        478,
+        161,
+        456
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4426278"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "033",
+      "url": "https://novascotia.ca/natr/land/indexmaps/033.pdf",
+      "label": "Index Sheet 33",
+      "index_polygon": [
+        168,
+        479,
+        195,
+        465,
+        202,
+        486,
+        176,
+        501,
+        168,
+        479
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3127761"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "034",
+      "url": "https://novascotia.ca/natr/land/indexmaps/034.pdf",
+      "label": "Index Sheet 34",
+      "index_polygon": [
+        176,
+        503,
+        203,
+        488,
+        211,
+        510,
+        183,
+        524,
+        176,
+        503
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2291791"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "035",
+      "url": "https://novascotia.ca/natr/land/indexmaps/035.pdf",
+      "label": "Index Sheet 35",
+      "index_polygon": [
+        157,
+        348,
+        182,
+        334,
+        190,
+        356,
+        165,
+        369,
+        157,
+        348
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3369861"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "036",
+      "url": "https://novascotia.ca/natr/land/indexmaps/036.pdf",
+      "label": "Index Sheet 36",
+      "index_polygon": [
+        165,
+        371,
+        190,
+        357,
+        197,
+        379,
+        173,
+        392,
+        165,
+        371
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4550785"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "037",
+      "url": "https://novascotia.ca/natr/land/indexmaps/037.pdf",
+      "label": "Index Sheet 37",
+      "index_polygon": [
+        173,
+        394,
+        198,
+        381,
+        205,
+        402,
+        180,
+        416,
+        173,
+        394
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3958777"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "038",
+      "url": "https://novascotia.ca/natr/land/indexmaps/038.pdf",
+      "label": "Index Sheet 38",
+      "index_polygon": [
+        180,
+        418,
+        205,
+        404,
+        213,
+        426,
+        188,
+        439,
+        180,
+        418
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4317877"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "039",
+      "url": "https://novascotia.ca/natr/land/indexmaps/039.pdf",
+      "label": "Index Sheet 39",
+      "index_polygon": [
+        189,
+        441,
+        213,
+        427,
+        221,
+        449,
+        196,
+        462,
+        189,
+        441
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2825352"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "040",
+      "url": "https://novascotia.ca/natr/land/indexmaps/040.pdf",
+      "label": "Index Sheet 40",
+      "index_polygon": [
+        196,
+        464,
+        221,
+        450,
+        228,
+        473,
+        203,
+        486,
+        196,
+        464
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3320077"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "041",
+      "url": "https://novascotia.ca/natr/land/indexmaps/041.pdf",
+      "label": "Index Sheet 41",
+      "index_polygon": [
+        168,
+        287,
+        194,
+        272,
+        201,
+        294,
+        176,
+        308,
+        168,
+        287
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3630246"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "042",
+      "url": "https://novascotia.ca/natr/land/indexmaps/042.pdf",
+      "label": "Index Sheet 42",
+      "index_polygon": [
+        176,
+        310,
+        202,
+        295,
+        209,
+        318,
+        184,
+        331,
+        176,
+        310
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2557058"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "043",
+      "url": "https://novascotia.ca/natr/land/indexmaps/043.pdf",
+      "label": "Index Sheet 43",
+      "index_polygon": [
+        184,
+        333,
+        210,
+        319,
+        217,
+        341,
+        190,
+        355,
+        184,
+        333
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2834065"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "044",
+      "url": "https://novascotia.ca/natr/land/indexmaps/044.pdf",
+      "label": "Index Sheet 44",
+      "index_polygon": [
+        191,
+        357,
+        217,
+        342,
+        225,
+        365,
+        199,
+        378,
+        191,
+        357
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3430498"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "045",
+      "url": "https://novascotia.ca/natr/land/indexmaps/045.pdf",
+      "label": "Index Sheet 45",
+      "index_polygon": [
+        199,
+        380,
+        225,
+        366,
+        232,
+        388,
+        206,
+        402,
+        199,
+        380
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3985833"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "046",
+      "url": "https://novascotia.ca/natr/land/indexmaps/046.pdf",
+      "label": "Index Sheet 46",
+      "index_polygon": [
+        206,
+        403,
+        232,
+        389,
+        240,
+        411,
+        214,
+        426,
+        206,
+        403
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4332992"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "047",
+      "url": "https://novascotia.ca/natr/land/indexmaps/047.pdf",
+      "label": "Index Sheet 47",
+      "index_polygon": [
+        214,
+        427,
+        240,
+        413,
+        248,
+        435,
+        222,
+        449,
+        215,
+        427
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3475773"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "048",
+      "url": "https://novascotia.ca/natr/land/indexmaps/048.pdf",
+      "label": "Index Sheet 48",
+      "index_polygon": [
+        222,
+        450,
+        248,
+        436,
+        256,
+        458,
+        228,
+        473,
+        222,
+        450
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2240856"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "049",
+      "url": "https://novascotia.ca/natr/land/indexmaps/049.pdf",
+      "label": "Index Sheet 49",
+      "index_polygon": [
+        188,
+        248,
+        214,
+        234,
+        221,
+        256,
+        195,
+        270,
+        188,
+        248
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2397543"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "050",
+      "url": "https://novascotia.ca/natr/land/indexmaps/050.pdf",
+      "label": "Index Sheet 50",
+      "index_polygon": [
+        196,
+        271,
+        221,
+        258,
+        228,
+        280,
+        203,
+        294,
+        196,
+        271
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3735564"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "051",
+      "url": "https://novascotia.ca/natr/land/indexmaps/051.pdf",
+      "label": "Index Sheet 51",
+      "index_polygon": [
+        203,
+        295,
+        228,
+        281,
+        236,
+        303,
+        211,
+        317,
+        203,
+        295
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3052365"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "052",
+      "url": "https://novascotia.ca/natr/land/indexmaps/052.pdf",
+      "label": "Index Sheet 52",
+      "index_polygon": [
+        211,
+        318,
+        237,
+        304,
+        244,
+        326,
+        217,
+        341,
+        211,
+        318
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2385107"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "053",
+      "url": "https://novascotia.ca/natr/land/indexmaps/053.pdf",
+      "label": "Index Sheet 53",
+      "index_polygon": [
+        217,
+        342,
+        244,
+        328,
+        252,
+        350,
+        225,
+        364,
+        217,
+        343
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2695809"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "054",
+      "url": "https://novascotia.ca/natr/land/indexmaps/054.pdf",
+      "label": "Index Sheet 54",
+      "index_polygon": [
+        227,
+        364,
+        252,
+        351,
+        260,
+        373,
+        233,
+        389,
+        227,
+        366
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3698765"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "055",
+      "url": "https://novascotia.ca/natr/land/indexmaps/055.pdf",
+      "label": "Index Sheet 55",
+      "index_polygon": [
+        233,
+        389,
+        260,
+        374,
+        267,
+        396,
+        240,
+        411,
+        233,
+        389
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5283535"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "056",
+      "url": "https://novascotia.ca/natr/land/indexmaps/056.pdf",
+      "label": "Index Sheet 56",
+      "index_polygon": [
+        241,
+        412,
+        267,
+        398,
+        275,
+        420,
+        249,
+        434,
+        241,
+        412
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4254532"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "057",
+      "url": "https://novascotia.ca/natr/land/indexmaps/057.pdf",
+      "label": "Index Sheet 57",
+      "index_polygon": [
+        257,
+        431,
+        283,
+        417,
+        290,
+        439,
+        264,
+        453,
+        257,
+        431
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4074247"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "058",
+      "url": "https://novascotia.ca/natr/land/indexmaps/058.pdf",
+      "label": "Index Sheet 58",
+      "index_polygon": [
+        222,
+        202,
+        248,
+        188,
+        255,
+        210,
+        228,
+        224,
+        222,
+        202
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "1700378"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "059",
+      "url": "https://novascotia.ca/natr/land/indexmaps/059.pdf",
+      "label": "Index Sheet 59",
+      "index_polygon": [
+        215,
+        234,
+        240,
+        219,
+        248,
+        241,
+        222,
+        256,
+        215,
+        234
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3366162"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "060",
+      "url": "https://novascotia.ca/natr/land/indexmaps/060.pdf",
+      "label": "Index Sheet 60",
+      "index_polygon": [
+        223,
+        257,
+        249,
+        243,
+        256,
+        264,
+        229,
+        279,
+        223,
+        257
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4136431"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "061",
+      "url": "https://novascotia.ca/natr/land/indexmaps/061.pdf",
+      "label": "Index Sheet 61",
+      "index_polygon": [
+        230,
+        281,
+        256,
+        266,
+        263,
+        288,
+        238,
+        302,
+        230,
+        281
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4496780"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "062",
+      "url": "https://novascotia.ca/natr/land/indexmaps/062.pdf",
+      "label": "Index Sheet 62",
+      "index_polygon": [
+        238,
+        304,
+        264,
+        290,
+        272,
+        312,
+        244,
+        326,
+        238,
+        304
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2989951"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "063",
+      "url": "https://novascotia.ca/natr/land/indexmaps/063.pdf",
+      "label": "Index Sheet 63",
+      "index_polygon": [
+        245,
+        327,
+        272,
+        313,
+        279,
+        336,
+        252,
+        349,
+        245,
+        327
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4719214"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "064",
+      "url": "https://novascotia.ca/natr/land/indexmaps/064.pdf",
+      "label": "Index Sheet 64",
+      "index_polygon": [
+        253,
+        350,
+        279,
+        337,
+        287,
+        358,
+        261,
+        372,
+        253,
+        351
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3407750"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "065",
+      "url": "https://novascotia.ca/natr/land/indexmaps/065.pdf",
+      "label": "Index Sheet 65",
+      "index_polygon": [
+        261,
+        374,
+        287,
+        360,
+        294,
+        382,
+        268,
+        396,
+        261,
+        374
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4691995"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "066",
+      "url": "https://novascotia.ca/natr/land/indexmaps/066.pdf",
+      "label": "Index Sheet 66",
+      "index_polygon": [
+        268,
+        397,
+        295,
+        384,
+        302,
+        405,
+        276,
+        420,
+        268,
+        397
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5766615"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "067",
+      "url": "https://novascotia.ca/natr/land/indexmaps/067.pdf",
+      "label": "Index Sheet 67",
+      "index_polygon": [
+        284,
+        416,
+        302,
+        407,
+        310,
+        429,
+        292,
+        438,
+        284,
+        416
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3246598"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "068",
+      "url": "https://novascotia.ca/natr/land/indexmaps/068.pdf",
+      "label": "Index Sheet 68",
+      "index_polygon": [
+        241,
+        219,
+        268,
+        205,
+        275,
+        227,
+        250,
+        241,
+        241,
+        219
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3524803"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "069",
+      "url": "https://novascotia.ca/natr/land/indexmaps/069.pdf",
+      "label": "Index Sheet 69",
+      "index_polygon": [
+        250,
+        242,
+        276,
+        228,
+        283,
+        250,
+        256,
+        264,
+        250,
+        242
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4206028"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "070",
+      "url": "https://novascotia.ca/natr/land/indexmaps/070.pdf",
+      "label": "Index Sheet 70",
+      "index_polygon": [
+        257,
+        265,
+        283,
+        252,
+        291,
+        274,
+        264,
+        288,
+        257,
+        265
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4181550"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "071",
+      "url": "https://novascotia.ca/natr/land/indexmaps/071.pdf",
+      "label": "Index Sheet 71",
+      "index_polygon": [
+        264,
+        289,
+        291,
+        275,
+        299,
+        297,
+        272,
+        311,
+        264,
+        289
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3885510"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "072",
+      "url": "https://novascotia.ca/natr/land/indexmaps/072.pdf",
+      "label": "Index Sheet 72",
+      "index_polygon": [
+        272,
+        312,
+        300,
+        298,
+        306,
+        320,
+        280,
+        334,
+        272,
+        312
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2842533"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "073",
+      "url": "https://novascotia.ca/natr/land/indexmaps/073.pdf",
+      "label": "Index Sheet 73",
+      "index_polygon": [
+        280,
+        336,
+        307,
+        321,
+        314,
+        344,
+        287,
+        358,
+        280,
+        336
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4173131"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "074",
+      "url": "https://novascotia.ca/natr/land/indexmaps/074.pdf",
+      "label": "Index Sheet 74",
+      "index_polygon": [
+        288,
+        360,
+        314,
+        345,
+        321,
+        367,
+        296,
+        381,
+        288,
+        360
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4322537"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "075",
+      "url": "https://novascotia.ca/natr/land/indexmaps/075.pdf",
+      "label": "Index Sheet 75",
+      "index_polygon": [
+        296,
+        383,
+        322,
+        369,
+        329,
+        390,
+        303,
+        404,
+        296,
+        383
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4073509"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "076",
+      "url": "https://novascotia.ca/natr/land/indexmaps/076.pdf",
+      "label": "Index Sheet 76",
+      "index_polygon": [
+        303,
+        406,
+        330,
+        391,
+        337,
+        414,
+        311,
+        428,
+        303,
+        406
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3274494"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "077",
+      "url": "https://novascotia.ca/natr/land/indexmaps/077.pdf",
+      "label": "Index Sheet 77",
+      "index_polygon": [
+        277,
+        228,
+        303,
+        214,
+        310,
+        235,
+        284,
+        249,
+        277,
+        228
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3190283"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "078",
+      "url": "https://novascotia.ca/natr/land/indexmaps/078.pdf",
+      "label": "Index Sheet 78",
+      "index_polygon": [
+        284,
+        252,
+        310,
+        237,
+        318,
+        259,
+        292,
+        273,
+        284,
+        252
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4232817"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "079",
+      "url": "https://novascotia.ca/natr/land/indexmaps/079.pdf",
+      "label": "Index Sheet 79",
+      "index_polygon": [
+        292,
+        275,
+        318,
+        260,
+        326,
+        282,
+        300,
+        296,
+        292,
+        275
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5049713"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "080",
+      "url": "https://novascotia.ca/natr/land/indexmaps/080.pdf",
+      "label": "Index Sheet 80",
+      "index_polygon": [
+        300,
+        298,
+        326,
+        284,
+        333,
+        306,
+        307,
+        320,
+        300,
+        298
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4201864"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "081",
+      "url": "https://novascotia.ca/natr/land/indexmaps/081.pdf",
+      "label": "Index Sheet 81",
+      "index_polygon": [
+        307,
+        322,
+        334,
+        307,
+        341,
+        329,
+        315,
+        342,
+        307,
+        322
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4389132"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "082",
+      "url": "https://novascotia.ca/natr/land/indexmaps/082.pdf",
+      "label": "Index Sheet 82",
+      "index_polygon": [
+        315,
+        345,
+        341,
+        330,
+        348,
+        353,
+        323,
+        366,
+        315,
+        345
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4766587"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "083",
+      "url": "https://novascotia.ca/natr/land/indexmaps/083.pdf",
+      "label": "Index Sheet 83",
+      "index_polygon": [
+        323,
+        368,
+        348,
+        354,
+        356,
+        376,
+        331,
+        390,
+        323,
+        368
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4612730"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "084",
+      "url": "https://novascotia.ca/natr/land/indexmaps/084.pdf",
+      "label": "Index Sheet 84",
+      "index_polygon": [
+        331,
+        391,
+        357,
+        377,
+        364,
+        400,
+        338,
+        414,
+        331,
+        391
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3987515"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "085",
+      "url": "https://novascotia.ca/natr/land/indexmaps/085.pdf",
+      "label": "Index Sheet 85",
+      "index_polygon": [
+        311,
+        236,
+        337,
+        222,
+        344,
+        245,
+        319,
+        258,
+        311,
+        236
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3054076"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "086",
+      "url": "https://novascotia.ca/natr/land/indexmaps/086.pdf",
+      "label": "Index Sheet 86",
+      "index_polygon": [
+        319,
+        259,
+        345,
+        246,
+        352,
+        268,
+        326,
+        282,
+        319,
+        259
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4930997"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "087",
+      "url": "https://novascotia.ca/natr/land/indexmaps/087.pdf",
+      "label": "Index Sheet 87",
+      "index_polygon": [
+        327,
+        283,
+        353,
+        270,
+        359,
+        291,
+        335,
+        306,
+        327,
+        284
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4825250"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "088",
+      "url": "https://novascotia.ca/natr/land/indexmaps/088.pdf",
+      "label": "Index Sheet 88",
+      "index_polygon": [
+        335,
+        306,
+        359,
+        293,
+        367,
+        314,
+        342,
+        329,
+        335,
+        306
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4712864"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "089",
+      "url": "https://novascotia.ca/natr/land/indexmaps/089.pdf",
+      "label": "Index Sheet 89",
+      "index_polygon": [
+        343,
+        330,
+        368,
+        316,
+        375,
+        338,
+        349,
+        352,
+        343,
+        330
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4720042"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "090",
+      "url": "https://novascotia.ca/natr/land/indexmaps/090.pdf",
+      "label": "Index Sheet 90",
+      "index_polygon": [
+        350,
+        354,
+        375,
+        339,
+        382,
+        361,
+        358,
+        375,
+        350,
+        354
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4881538"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "091",
+      "url": "https://novascotia.ca/natr/land/indexmaps/091.pdf",
+      "label": "Index Sheet 91",
+      "index_polygon": [
+        358,
+        377,
+        382,
+        363,
+        391,
+        385,
+        365,
+        399,
+        358,
+        377
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3697012"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "092",
+      "url": "https://novascotia.ca/natr/land/indexmaps/092.pdf",
+      "label": "Index Sheet 92",
+      "index_polygon": [
+        346,
+        246,
+        371,
+        232,
+        379,
+        253,
+        354,
+        268,
+        346,
+        246
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2869715"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "093",
+      "url": "https://novascotia.ca/natr/land/indexmaps/093.pdf",
+      "label": "Index Sheet 93",
+      "index_polygon": [
+        354,
+        269,
+        379,
+        255,
+        386,
+        276,
+        360,
+        292
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4573595"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "094",
+      "url": "https://novascotia.ca/natr/land/indexmaps/094.pdf",
+      "label": "Index Sheet 94",
+      "index_polygon": [
+        361,
+        292,
+        386,
+        278,
+        394,
+        300,
+        369,
+        314,
+        361,
+        292
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5109675"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "095",
+      "url": "https://novascotia.ca/natr/land/indexmaps/095.pdf",
+      "label": "Index Sheet 95",
+      "index_polygon": [
+        370,
+        315,
+        394,
+        301,
+        402,
+        324,
+        376,
+        337,
+        370,
+        315
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4711988"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "096",
+      "url": "https://novascotia.ca/natr/land/indexmaps/096.pdf",
+      "label": "Index Sheet 96",
+      "index_polygon": [
+        376,
+        339,
+        402,
+        325,
+        409,
+        347,
+        383,
+        360,
+        376,
+        339
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4743409"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "097",
+      "url": "https://novascotia.ca/natr/land/indexmaps/097.pdf",
+      "label": "Index Sheet 97",
+      "index_polygon": [
+        384,
+        362,
+        410,
+        348,
+        418,
+        371,
+        392,
+        384,
+        384,
+        362
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3684690"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "098",
+      "url": "https://novascotia.ca/natr/land/indexmaps/098.pdf",
+      "label": "Index Sheet 98",
+      "index_polygon": [
+        381,
+        254,
+        406,
+        240,
+        413,
+        263,
+        387,
+        276,
+        381,
+        254
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4758564"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "099",
+      "url": "https://novascotia.ca/natr/land/indexmaps/099.pdf",
+      "label": "Index Sheet 99",
+      "index_polygon": [
+        388,
+        277,
+        414,
+        264,
+        420,
+        286,
+        394,
+        300,
+        388,
+        277
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5348348"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "100",
+      "url": "https://novascotia.ca/natr/land/indexmaps/100.pdf",
+      "label": "Index Sheet 100",
+      "index_polygon": [
+        395,
+        301,
+        421,
+        288,
+        429,
+        309,
+        402,
+        323,
+        395,
+        301
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5332824"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "101",
+      "url": "https://novascotia.ca/natr/land/indexmaps/101.pdf",
+      "label": "Index Sheet 101",
+      "index_polygon": [
+        403,
+        324,
+        429,
+        311,
+        435,
+        332,
+        410,
+        346,
+        403,
+        324
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4828978"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "102",
+      "url": "https://novascotia.ca/natr/land/indexmaps/102.pdf",
+      "label": "Index Sheet 102",
+      "index_polygon": [
+        410,
+        348,
+        436,
+        334,
+        443,
+        356,
+        419,
+        370,
+        410,
+        348
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3328333"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "103",
+      "url": "https://novascotia.ca/natr/land/indexmaps/103.pdf",
+      "label": "Index Sheet 103",
+      "index_polygon": [
+        402,
+        228,
+        420,
+        218,
+        431,
+        252,
+        414,
+        262,
+        402,
+        228
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3325965"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "104",
+      "url": "https://novascotia.ca/natr/land/indexmaps/104.pdf",
+      "label": "Index Sheet 104",
+      "index_polygon": [
+        414,
+        264,
+        440,
+        250,
+        447,
+        271,
+        422,
+        285,
+        414,
+        264
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3817157"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "105",
+      "url": "https://novascotia.ca/natr/land/indexmaps/105.pdf",
+      "label": "Index Sheet 105",
+      "index_polygon": [
+        422,
+        287,
+        447,
+        273,
+        455,
+        295,
+        430,
+        309,
+        422,
+        287
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "5166757"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "106",
+      "url": "https://novascotia.ca/natr/land/indexmaps/106.pdf",
+      "label": "Index Sheet 106",
+      "index_polygon": [
+        430,
+        310,
+        455,
+        296,
+        463,
+        318,
+        437,
+        331,
+        430,
+        310
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4291609"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "107",
+      "url": "https://novascotia.ca/natr/land/indexmaps/107.pdf",
+      "label": "Index Sheet 107",
+      "index_polygon": [
+        438,
+        333,
+        463,
+        319,
+        470,
+        342,
+        445,
+        356,
+        438,
+        333
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "3127531"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "108",
+      "url": "https://novascotia.ca/natr/land/indexmaps/108.pdf",
+      "label": "Index Sheet 108",
+      "index_polygon": [
+        426,
+        202,
+        452,
+        188,
+        458,
+        210,
+        433,
+        224,
+        426,
+        202
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 4055916,
+        "sha256": "f0011d9ed8b85b3b70b789048d5a63d86a79ae6dcb844ea6929c18b440e101f9"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet108/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "109",
+      "url": "https://novascotia.ca/natr/land/indexmaps/109.pdf",
+      "label": "Index Sheet 109",
+      "index_polygon": [
+        434,
+        226,
+        459,
+        211,
+        466,
+        234,
+        441,
+        247,
+        434,
+        226
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 4434553,
+        "sha256": "5992e662d56edba908fc34adbe5d698cacaa777d2688914ee463113dff59f613"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet109/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-failed"
+    },
+    {
+      "sheet": "110",
+      "url": "https://novascotia.ca/natr/land/indexmaps/110.pdf",
+      "label": "Index Sheet 110",
+      "index_polygon": [
+        442,
+        249,
+        467,
+        235,
+        473,
+        257,
+        448,
+        270,
+        442,
+        249
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 4006302,
+        "sha256": "d830307ebac8c5804a37cc460c2410e3c25dbbe0f3723644d5668f85056d3e9a"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet110/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "111",
+      "url": "https://novascotia.ca/natr/land/indexmaps/111.pdf",
+      "label": "Index Sheet 111",
+      "index_polygon": [
+        449,
+        272,
+        474,
+        258,
+        481,
+        281,
+        456,
+        294,
+        449,
+        272
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "4539452"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "112",
+      "url": "https://novascotia.ca/natr/land/indexmaps/112.pdf",
+      "label": "Index Sheet 112",
+      "index_polygon": [
+        457,
+        296,
+        481,
+        282,
+        489,
+        304,
+        464,
+        318,
+        457,
+        296
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2968695"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "113",
+      "url": "https://novascotia.ca/natr/land/indexmaps/113.pdf",
+      "label": "Index Sheet 113",
+      "index_polygon": [
+        464,
+        319,
+        490,
+        305,
+        497,
+        328,
+        472,
+        342,
+        464,
+        319
+      ],
+      "availability": {
+        "state": "available",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "content_length": "2882136"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "114",
+      "url": "https://novascotia.ca/natr/land/indexmaps/114.pdf",
+      "label": "Index Sheet 114",
+      "index_polygon": [
+        445,
+        164,
+        470,
+        150,
+        478,
+        172,
+        452,
+        186,
+        445,
+        164
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3411908,
+        "sha256": "b7404f2a2c542ef2ec7f6091fb1d6e67132b70aba965d525c8716fe08253a4ce"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet114/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-components"
+    },
+    {
+      "sheet": "115",
+      "url": "https://novascotia.ca/natr/land/indexmaps/115.pdf",
+      "label": "Index Sheet 115",
+      "index_polygon": [
+        452,
+        187,
+        479,
+        174,
+        485,
+        196,
+        459,
+        210,
+        452,
+        187
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3460783,
+        "sha256": "6f0a6e63d0659104b75b60476842fa5f9395da60fab3c6d70f4281981457f851"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet115/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "116",
+      "url": "https://novascotia.ca/natr/land/indexmaps/116.pdf",
+      "label": "Index Sheet 116",
+      "index_polygon": [
+        460,
+        211,
+        486,
+        198,
+        493,
+        219,
+        467,
+        233,
+        460,
+        211
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3853267,
+        "sha256": "75ae9f86a38fd53f4341f988a5a05e7709d085deb4fe11dd372f46343dd5c539"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet116/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "117",
+      "url": "https://novascotia.ca/natr/land/indexmaps/117.pdf",
+      "label": "Index Sheet 117",
+      "index_polygon": [
+        468,
+        234,
+        493,
+        221,
+        501,
+        242,
+        475,
+        257,
+        468,
+        234
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3136732,
+        "sha256": "7226017f31d805258483e53c922e687f1b5dc3b1c63b21d4e6dd45cf783e9cef"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet117/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-failed"
+    },
+    {
+      "sheet": "118",
+      "url": "https://novascotia.ca/natr/land/indexmaps/118.pdf",
+      "label": "Index Sheet 118",
+      "index_polygon": [
+        475,
+        258,
+        501,
+        244,
+        509,
+        265,
+        483,
+        280,
+        475,
+        258
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 4370499,
+        "sha256": "77fb88841bf08abc459b8e4d448057f1bfec72f78914d650e103ca6fba5a7647"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet118/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-failed"
+    },
+    {
+      "sheet": "119",
+      "url": "https://novascotia.ca/natr/land/indexmaps/119.pdf",
+      "label": "Index Sheet 119",
+      "index_polygon": [
+        457,
+        102,
+        481,
+        89,
+        490,
+        111,
+        464,
+        125,
+        457,
+        102
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 1960959,
+        "sha256": "57f093b4d124ea92b1c05d39b425c5dd1aff80c6b1fd02d10e6fa2729c2c24a6"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet119/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-failed"
+    },
+    {
+      "sheet": "120",
+      "url": "https://novascotia.ca/natr/land/indexmaps/120.pdf",
+      "label": "Index Sheet 120",
+      "index_polygon": [
+        464,
+        126,
+        490,
+        113,
+        497,
+        134,
+        472,
+        148,
+        464,
+        126
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2777682,
+        "sha256": "4a44457dd3f2c3f6bb1f02a1a7049ce6760076be5c90cef2205c57c55be1d0c9"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet120/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-components"
+    },
+    {
+      "sheet": "121",
+      "url": "https://novascotia.ca/natr/land/indexmaps/121.pdf",
+      "label": "Index Sheet 121",
+      "index_polygon": [
+        472,
+        150,
+        497,
+        136,
+        505,
+        157,
+        479,
+        172,
+        472,
+        150
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3035785,
+        "sha256": "4c92420cb74494e93cbfe3298b5ed6936fb0c21f8cf4b6a47c307467577d77e2"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet121/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "122",
+      "url": "https://novascotia.ca/natr/land/indexmaps/122.pdf",
+      "label": "Index Sheet 122",
+      "index_polygon": [
+        479,
+        173,
+        505,
+        159,
+        513,
+        181,
+        487,
+        195,
+        479,
+        173
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 4028887,
+        "sha256": "70938ef37231c0244d025b8a35758233f38a9c913ffc2acc0dba4817d89bdb78"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet122/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "123",
+      "url": "https://novascotia.ca/natr/land/indexmaps/123.pdf",
+      "label": "Index Sheet 123",
+      "index_polygon": [
+        487,
+        197,
+        513,
+        183,
+        520,
+        204,
+        495,
+        218,
+        487,
+        197
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3893487,
+        "sha256": "ec209f1a45246ab7e92fa192b266b24879291304ee73422fa40be83d1ae79875"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet123/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "124",
+      "url": "https://novascotia.ca/natr/land/indexmaps/124.pdf",
+      "label": "Index Sheet 124",
+      "index_polygon": [
+        495,
+        220,
+        521,
+        206,
+        528,
+        228,
+        502,
+        242,
+        495,
+        220
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3466874,
+        "sha256": "e8f9f4b52fb38c1a4bbd5fec425b2bb88e78db118cf292b3cd6f4bb2d7055428"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet124/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "125",
+      "url": "https://novascotia.ca/natr/land/indexmaps/125.pdf",
+      "label": "Index Sheet 125",
+      "index_polygon": [
+        503,
+        243,
+        528,
+        229,
+        536,
+        252,
+        510,
+        265,
+        503,
+        243
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3889311,
+        "sha256": "a491bef70b0a18e7baacf16e10daf6c57513cd25d3baa5da663964080dd46856"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet125/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "126",
+      "url": "https://novascotia.ca/natr/land/indexmaps/126.pdf",
+      "label": "Index Sheet 126",
+      "index_polygon": [
+        503,
+        270,
+        528,
+        257,
+        536,
+        279,
+        511,
+        293,
+        503,
+        270
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2242845,
+        "sha256": "a76038b37f3ce1c0cc73caece1ae6c114cfb363d0a15e7847b49efeedf816cba"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet126/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-components"
+    },
+    {
+      "sheet": "127",
+      "url": "https://novascotia.ca/natr/land/indexmaps/127.pdf",
+      "label": "Index Sheet 127",
+      "index_polygon": [
+        483,
+        89,
+        509,
+        74,
+        516,
+        96,
+        490,
+        110,
+        483,
+        89
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2598975,
+        "sha256": "7d8490b06575c0097b43b6741a9e28f3667413f256b837a4da3e84a6b05ca5eb"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet127/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "128",
+      "url": "https://novascotia.ca/natr/land/indexmaps/128.pdf",
+      "label": "Index Sheet 128",
+      "index_polygon": [
+        490,
+        112,
+        517,
+        98,
+        523,
+        120,
+        498,
+        134,
+        490,
+        112
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2761741,
+        "sha256": "fb0017ff678d253ce326c36f6c6a42616f1d2993a6636420126175767bc03db7"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet128/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "129",
+      "url": "https://novascotia.ca/natr/land/indexmaps/129.pdf",
+      "label": "Index Sheet 129",
+      "index_polygon": [
+        498,
+        135,
+        524,
+        121,
+        531,
+        144,
+        505,
+        157,
+        498,
+        135
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2505210,
+        "sha256": "840a25e5fa792ac99302520c8d1d52f4a0540bcb59fbb0bc2c8e17dadf46711a"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet129/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-components"
+    },
+    {
+      "sheet": "130",
+      "url": "https://novascotia.ca/natr/land/indexmaps/130.pdf",
+      "label": "Index Sheet 130",
+      "index_polygon": [
+        506,
+        159,
+        532,
+        144,
+        539,
+        167,
+        513,
+        180,
+        506,
+        159
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3196394,
+        "sha256": "f35d9b86c8eafdbf478c2f6dec650b043b1f889fef6b48cd62da573cca34a247"
+      },
+      "assessment_state": "assessed",
+      "status_record": "reports/crown-grant/batch2/sheet130/status.json",
+      "assessment_complete": true,
+      "source_status": "provisional-rms-failed"
+    },
+    {
+      "sheet": "131",
+      "url": "https://novascotia.ca/natr/land/indexmaps/131.pdf",
+      "label": "Index Sheet 131",
+      "index_polygon": [
+        514,
+        182,
+        539,
+        168,
+        547,
+        191,
+        521,
+        204,
+        514,
+        182
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3791472,
+        "sha256": "4ecfd97298a6e8547a702c3c7788c5d3fcb826229499bf905afce3c3526b6ed3"
+      },
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch3/sheet131/status.json",
+      "source_status": "provisional-rms-failed"
+    },
+    {
+      "sheet": "132",
+      "url": "https://novascotia.ca/natr/land/indexmaps/132.pdf",
+      "label": "Index Sheet 132",
+      "index_polygon": [
+        522,
+        205,
+        547,
+        192,
+        554,
+        214,
+        528,
+        227,
+        522,
+        205
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3789018,
+        "sha256": "36d2ebe2fc275978968b64be567b6220b179380c918c335cd936e0497b5e6ce6"
+      },
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch3/sheet132/status.json",
+      "source_status": "provisional-rms-pass"
+    },
+    {
+      "sheet": "133",
+      "url": "https://novascotia.ca/natr/land/indexmaps/133.pdf",
+      "label": "Index Sheet 133",
+      "index_polygon": [
+        528,
+        228,
+        555,
+        215,
+        562,
+        237,
+        536,
+        251,
+        528,
+        228
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3157900,
+        "sha256": "5f6c0a0f442da9e23ddb51ee4dae3bf8afbc2bd08135e8efa044f787c3ddcf3e"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "135",
+      "url": "https://novascotia.ca/natr/land/indexmaps/135.pdf",
+      "label": "Index Sheet 135",
+      "index_polygon": [
+        493,
+        55,
+        520,
+        41,
+        527,
+        63,
+        501,
+        78,
+        493,
+        55
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2190972,
+        "sha256": "87902da25448535704405c27af980950d539a36655642a53fcf694eea8a84fba"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "136",
+      "url": "https://novascotia.ca/natr/land/indexmaps/136.pdf",
+      "label": "Index Sheet 136",
+      "index_polygon": [
+        510,
+        74,
+        536,
+        60,
+        543,
+        82,
+        517,
+        96,
+        510,
+        74
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2446410,
+        "sha256": "51393eead0c38acc1d3240bafd772ceb41f53436fc01e3ba4663077fe55d2b9f"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "137",
+      "url": "https://novascotia.ca/natr/land/indexmaps/137.pdf",
+      "label": "Index Sheet 137",
+      "index_polygon": [
+        517,
+        97,
+        544,
+        84,
+        550,
+        105,
+        525,
+        120,
+        517,
+        97
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2292821,
+        "sha256": "0730caf8e510fa83f734dd34a85545e060bb80bdaae2f24a1fbdb364e96080b3"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "138",
+      "url": "https://novascotia.ca/natr/land/indexmaps/138.pdf",
+      "label": "Index Sheet 138",
+      "index_polygon": [
+        540,
+        168,
+        566,
+        154,
+        574,
+        175,
+        548,
+        190,
+        540,
+        168
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2727876,
+        "sha256": "2e9ab24726881ff3dd7c60d4073cd5e23ccc8febff086f3f55664941193efd81"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "139",
+      "url": "https://novascotia.ca/natr/land/indexmaps/139.pdf",
+      "label": "Index Sheet 139",
+      "index_polygon": [
+        548,
+        191,
+        574,
+        177,
+        581,
+        198,
+        556,
+        213,
+        548,
+        191
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 3295172,
+        "sha256": "6e5b8fcd87c717db499e0e16180d40c36fc2d58f93b8106d13d098d3ced6a6f1"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    },
+    {
+      "sheet": "140",
+      "url": "https://novascotia.ca/natr/land/indexmaps/140.pdf",
+      "label": "Index Sheet 140",
+      "index_polygon": [
+        556,
+        214,
+        582,
+        200,
+        588,
+        222,
+        563,
+        236,
+        556,
+        214
+      ],
+      "availability": {
+        "state": "available-cached",
+        "bytes": 2906341,
+        "sha256": "3acbce8ffb0b3e764c503adfcf81ee19747108f9f90b1bfc1f451ddbbe619d97"
+      },
+      "assessment_state": "queued",
+      "assessment_complete": false
+    }
+  ],
+  "progress_updated_at_utc": "2026-09-24T12:08:10.840530+00:00"
+}

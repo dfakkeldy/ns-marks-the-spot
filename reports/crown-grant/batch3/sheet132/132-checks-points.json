@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Q01",
+    "label": "Gillies Lake east end at Sydney Forks",
+    "role": "proposal",
+    "pixel_xy": [
+      3157,
+      409
+    ],
+    "lonlat": [
+      -60.2934413772199,
+      46.068851240290286
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 40801,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3156.6030310312053,
+      389.5159072179813
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Serpent Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4725,
+      1215
+    ],
+    "lonlat": [
+      -60.177097662392555,
+      46.057569116402405
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 126309,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4677.220104271895,
+      1204.958119414514
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "McNeil Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4305,
+      1615
+    ],
+    "lonlat": [
+      -60.19442832456751,
+      46.02960539791498
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136867,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4229.941035437572,
+      1658.041838238365
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Ducker Lake east end",
+    "role": "proposal",
+    "pixel_xy": [
+      5176,
+      1741
+    ],
+    "lonlat": [
+      -60.132595325422805,
+      46.04254090296285
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 127930,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5179.712485625292,
+      1723.9905392683577
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Mill Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5150,
+      1855
+    ],
+    "lonlat": [
+      -60.130417239478945,
+      46.03655835400931
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136290,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5165.342946243763,
+      1851.0949839079985
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Darren Lake west end",
+    "role": "proposal",
+    "pixel_xy": [
+      873,
+      2587
+    ],
+    "lonlat": [
+      -60.388983553840454,
+      45.93196672116014
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 129758,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      814.1069999707979,
+      2547.4453262833413
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Western McDonald Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1223,
+      2226
+    ],
+    "lonlat": [
+      -60.37594923439709,
+      45.953550564487436
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136948,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1155.8226454920368,
+      2196.9819789564935
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "White Lily northeast pond north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1884,
+      2834
+    ],
+    "lonlat": [
+      -60.31720278944926,
+      45.93776010709581
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 135997,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1849.190520041273,
+      2805.878031400498
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Mira round western island west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4500,
+      2550
+    ],
+    "lonlat": [
+      -60.15681187937444,
+      45.99329510024993
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 22825,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4479.287377784087,
+      2554.4966433859663
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Mira long eastern island east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5220,
+      2460
+    ],
+    "lonlat": [
+      -60.11026093903284,
+      46.010851702597165
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 27414,
+    "reference_feature_code": "WACORVIS10",
+    "guide_reference_pixel_xy": [
+      5252.825006337953,
+      2452.50536424201
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
