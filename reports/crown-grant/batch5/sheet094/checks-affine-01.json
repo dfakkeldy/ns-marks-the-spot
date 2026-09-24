@@ -1,0 +1,173 @@
+{
+  "status": "Six excluded lake and island checks reserved and audited before first affine fit and score; shared lake systems imply spatial correlation",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Lake north of Kerrowgare east lobe extremity",
+      "role": "check",
+      "pixel_xy": [
+        1868,
+        1650
+      ],
+      "lonlat": [
+        -62.43100031808934,
+        45.426903538601955
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 135083,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135083,
+      "nearest_unfiltered_distance_guide_px": 2.3052041980059292,
+      "selected_distance_guide_px": 2.3052041980059292,
+      "guide_reference_pixel_xy": [
+        1866.7253339578747,
+        1554.6260203330312
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q02",
+      "label": "Round Lake west of Murray Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        1303,
+        2908
+      ],
+      "lonlat": [
+        -62.433632912673914,
+        45.36405329860117
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 139726,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139726,
+      "nearest_unfiltered_distance_guide_px": 1.2295544902275952,
+      "selected_distance_guide_px": 1.2295544902275952,
+      "guide_reference_pixel_xy": [
+        1304.0081523496192,
+        2823.7704725364456
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q05",
+      "label": "Eden Lake smaller island south tip",
+      "role": "check",
+      "pixel_xy": [
+        3591,
+        2718
+      ],
+      "lonlat": [
+        -62.30283213027334,
+        45.411336545916484
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 143835,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 143835,
+      "nearest_unfiltered_distance_guide_px": 0.49738922137371866,
+      "selected_distance_guide_px": 0.49738922137371866,
+      "guide_reference_pixel_xy": [
+        3607.3141931716236,
+        2621.6144112444017
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q06",
+      "label": "White Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        3757,
+        3598
+      ],
+      "lonlat": [
+        -62.272235974517365,
+        45.37772112378242
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 140957,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140957,
+      "nearest_unfiltered_distance_guide_px": 2.5021422571052887,
+      "selected_distance_guide_px": 2.5021422571052887,
+      "guide_reference_pixel_xy": [
+        3774.964308013383,
+        3487.549906417611
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q07",
+      "label": "Round Lake south of Siloam southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3930,
+        3724
+      ],
+      "lonlat": [
+        -62.25914956864874,
+        45.374893380910365
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 142992,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142992,
+      "nearest_unfiltered_distance_guide_px": 11.709449098702967,
+      "selected_distance_guide_px": 11.709449098702967,
+      "guide_reference_pixel_xy": [
+        3942.690690305899,
+        3621.6625393321738
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q08",
+      "label": "Eden Lake eastern peninsula north tip",
+      "role": "check",
+      "pixel_xy": [
+        3609,
+        2865
+      ],
+      "lonlat": [
+        -62.29797227008484,
+        45.4055396528392
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 127886,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127886,
+      "nearest_unfiltered_distance_guide_px": 0.5222588324589471,
+      "selected_distance_guide_px": 0.5222588324589471,
+      "guide_reference_pixel_xy": [
+        3630.1034232389065,
+        2768.511915932293
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit."
+    }
+  ]
+}

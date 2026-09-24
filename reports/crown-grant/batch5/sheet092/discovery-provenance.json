@@ -1,0 +1,18 @@
+{
+  "stage": "before any point adoption or fit",
+  "initial_guide": "092-adjacent-guide.npy: rejected west-only shift; official index places 092 one row north of that assumption",
+  "corrected_guide": "092-index-guide.npy from sheet098 frozen similarity with source offset[-5800,-3860]",
+  "index": "series-official-index-20260924.jpg",
+  "external_discovery": [
+    {
+      "url": "https://geonames.nrcan.gc.ca/search-place-names/unique?id=CBDPP&wbdisable=true",
+      "name": "Pictou Island",
+      "label_lonlat": [
+        -62.554184,
+        45.816528
+      ],
+      "usage": "Locality sanity check only; label never a fitting point"
+    }
+  ],
+  "initial_reference_archive": "092-initial-west-only-reference"
+}

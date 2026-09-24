@@ -1,0 +1,24 @@
+{
+  "timing": "All decisions before first fit or score",
+  "rejected": [
+    {
+      "id": "Q03",
+      "reason": "Northern narrow-lake transition into stream is gradual in modern data; exact historical boundary uncertain"
+    },
+    {
+      "id": "Q04",
+      "reason": "Northern lake/stream junction lacks a stable common endpoint"
+    }
+  ],
+  "corrections": [
+    "C05 southern tip rather than adjoining shore",
+    "Q01 eastern lobe extremity",
+    "Q07 clear southern tip instead of east stream transition",
+    "Q08 independently reserved Eden peninsula north tip"
+  ],
+  "limitations": [
+    "No accepted observations in northernmost third",
+    "Checks concentrate in western and southern lake systems; northeastern control has no local independent check",
+    "Historical Sutherland Lake outline not forced into modern stream geometry"
+  ]
+}

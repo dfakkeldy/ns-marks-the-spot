@@ -1,0 +1,225 @@
+{
+  "count": 6,
+  "rms_ground_m": 41.14115849257734,
+  "median_ground_m": 39.095917448419684,
+  "p95_ground_m": 51.122761076781764,
+  "max_ground_m": 53.673956949479134,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -20.029569715095416,
+  "mean_north_ground_m": -0.679169555801263,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Lake north of Kerrowgare east lobe extremity",
+      "role": "check",
+      "pixel_xy": [
+        1868,
+        1650
+      ],
+      "lonlat": [
+        -62.43100031808934,
+        45.426903538601955
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 135083,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135083,
+      "nearest_unfiltered_distance_guide_px": 2.3052041980059292,
+      "selected_distance_guide_px": 2.3052041980059292,
+      "guide_reference_pixel_xy": [
+        1866.7253339578747,
+        1554.6260203330312
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.43130834503627,
+        45.42661417504574
+      ],
+      "error_ground_m": 40.19151117927576,
+      "east_ground_m": -24.10604480850651,
+      "north_ground_m": -32.159853459929266
+    },
+    {
+      "id": "Q02",
+      "label": "Round Lake west of Murray Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        1303,
+        2908
+      ],
+      "lonlat": [
+        -62.433632912673914,
+        45.36405329860117
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 139726,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139726,
+      "nearest_unfiltered_distance_guide_px": 1.2295544902275952,
+      "selected_distance_guide_px": 1.2295544902275952,
+      "guide_reference_pixel_xy": [
+        1304.0081523496192,
+        2823.7704725364456
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.43415890601329,
+        45.364177765483085
+      ],
+      "error_ground_m": 43.469173458689646,
+      "east_ground_m": -41.20934776863411,
+      "north_ground_m": 13.833246100081464
+    },
+    {
+      "id": "Q05",
+      "label": "Eden Lake smaller island south tip",
+      "role": "check",
+      "pixel_xy": [
+        3591,
+        2718
+      ],
+      "lonlat": [
+        -62.30283213027334,
+        45.411336545916484
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 143835,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 143835,
+      "nearest_unfiltered_distance_guide_px": 0.49738922137371866,
+      "selected_distance_guide_px": 0.49738922137371866,
+      "guide_reference_pixel_xy": [
+        3607.3141931716236,
+        2621.6144112444017
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.303277791019305,
+        45.41147209525157
+      ],
+      "error_ground_m": 38.00032371756361,
+      "east_ground_m": -34.886524981280104,
+      "north_ground_m": 15.065024970777403
+    },
+    {
+      "id": "Q06",
+      "label": "White Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        3757,
+        3598
+      ],
+      "lonlat": [
+        -62.272235974517365,
+        45.37772112378242
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 140957,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140957,
+      "nearest_unfiltered_distance_guide_px": 2.5021422571052887,
+      "selected_distance_guide_px": 2.5021422571052887,
+      "guide_reference_pixel_xy": [
+        3774.964308013383,
+        3487.549906417611
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.27213049030802,
+        45.377423657625634
+      ],
+      "error_ground_m": 34.0769443918857,
+      "east_ground_m": 8.26231170407254,
+      "north_ground_m": -33.0601322500745
+    },
+    {
+      "id": "Q07",
+      "label": "Round Lake south of Siloam southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3930,
+        3724
+      ],
+      "lonlat": [
+        -62.25914956864874,
+        45.374893380910365
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 142992,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142992,
+      "nearest_unfiltered_distance_guide_px": 11.709449098702967,
+      "selected_distance_guide_px": 11.709449098702967,
+      "guide_reference_pixel_xy": [
+        3942.690690305899,
+        3621.6625393321738
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.25883395375213,
+        45.375105026782585
+      ],
+      "error_ground_m": 34.12457361302672,
+      "east_ground_m": 24.72232802876547,
+      "north_ground_m": 23.522181470029444
+    },
+    {
+      "id": "Q08",
+      "label": "Eden Lake eastern peninsula north tip",
+      "role": "check",
+      "pixel_xy": [
+        3609,
+        2865
+      ],
+      "lonlat": [
+        -62.29797227008484,
+        45.4055396528392
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 127886,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127886,
+      "nearest_unfiltered_distance_guide_px": 0.5222588324589471,
+      "selected_distance_guide_px": 0.5222588324589471,
+      "guide_reference_pixel_xy": [
+        3630.1034232389065,
+        2768.511915932293
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Physical point corrections completed before fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.29864874381931,
+        45.4056181512779
+      ],
+      "error_ground_m": 53.673956949479134,
+      "east_ground_m": -52.960140464989806,
+      "north_ground_m": 8.724515834307878
+    }
+  ],
+  "fit_sha256": "c38b129c13b8334fd350543b2e8035271403ab59653460a882d37802bc12eee6",
+  "checks_sha256": "af6ae85d04ddf8dd87ba4eff449775c11af466bdcb173ef004c9298ce7f595cd",
+  "status": "Six excluded lake and island checks reserved and audited before first affine fit and score; shared lake systems imply spatial correlation"
+}

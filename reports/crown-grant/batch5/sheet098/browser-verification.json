@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T17:29:23.688018+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "098",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6101,
+        5164
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6045,
+        4125
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Full original frame retained; broad unsampled interior remains visible under constrained similarity."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6045 x 4125 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 59.80 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          105,
+          120
+        ],
+        [
+          5915,
+          120
+        ],
+        [
+          5915,
+          4020
+        ],
+        [
+          105,
+          4020
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains the Northumberland Strait shore from Ponds and Lismore through Knoydart, Moydart Point and Arisaig, the inland districts including Eigg Mountain and Maryvale, all western and southern parcel/river regions, Harbour Centre, Lanark and the northern Antigonish Harbour islands. No displaced inset identified."
+    }
+  ]
+}

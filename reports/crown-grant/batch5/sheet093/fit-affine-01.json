@@ -1,0 +1,234 @@
+{
+  "sheet": "093",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.595584775599413,
+      1.906732567856543
+    ],
+    [
+      1.9140567557553052,
+      -4.657349140303584
+    ],
+    [
+      525511.5822578867,
+      5052331.378445656
+    ]
+  ],
+  "source_sha256": "94c92c3f94e4e6162e2ead4310502aa26d7bd4577d081e63a034d9c285d02915",
+  "source_dimensions": [
+    6051,
+    4132
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Coal Point northwest coastal corner",
+      "role": "control",
+      "pixel_xy": [
+        3727,
+        463
+      ],
+      "lonlat": [
+        -62.44124558194594,
+        45.667571576343036
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 2512,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 2512,
+      "nearest_unfiltered_distance_guide_px": 1.2468771608908435,
+      "selected_distance_guide_px": 1.2468771608908435,
+      "guide_reference_pixel_xy": [
+        3662.095621394925,
+        418.4047551652184
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Kings Head east extremity",
+      "role": "control",
+      "pixel_xy": [
+        3064,
+        588
+      ],
+      "lonlat": [
+        -62.477560041583565,
+        45.65100715813926
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 5691,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 5691,
+      "nearest_unfiltered_distance_guide_px": 0.5993540819473934,
+      "selected_distance_guide_px": 0.5993540819473934,
+      "guide_reference_pixel_xy": [
+        3005.4063777579577,
+        549.9173081062036
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Pig Island northern lobe",
+      "role": "control",
+      "pixel_xy": [
+        4392,
+        715
+      ],
+      "lonlat": [
+        -62.39542833975953,
+        45.66842650583239
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 18757,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18757,
+      "nearest_unfiltered_distance_guide_px": 1.7033018074956896,
+      "selected_distance_guide_px": 1.7033018074956896,
+      "guide_reference_pixel_xy": [
+        4325.748853814264,
+        665.8442014581524
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Hardwood Point northeast corner",
+      "role": "control",
+      "pixel_xy": [
+        3718,
+        1065
+      ],
+      "lonlat": [
+        -62.427228014704774,
+        45.64250935852707
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 6307,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 6307,
+      "nearest_unfiltered_distance_guide_px": 2.213774372348889,
+      "selected_distance_guide_px": 2.213774372348889,
+      "guide_reference_pixel_xy": [
+        3656.9872566655977,
+        1016.9685395373963
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "French River northern branch junction",
+      "role": "control",
+      "pixel_xy": [
+        3120,
+        2447
+      ],
+      "lonlat": [
+        -62.42938846137458,
+        45.573753634053624
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 282189,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 282189,
+      "nearest_unfiltered_distance_guide_px": 1.2645664019272917,
+      "selected_distance_guide_px": 1.2645664019272917,
+      "guide_reference_pixel_xy": [
+        3060.8691033584764,
+        2423.918579085963
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Pond south of East River west of Telford, south tip",
+      "role": "control",
+      "pixel_xy": [
+        2108,
+        2045
+      ],
+      "lonlat": [
+        -62.49846947788557,
+        45.57415162217872
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 70066,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 70066,
+      "nearest_unfiltered_distance_guide_px": 1.0297328607886496,
+      "selected_distance_guide_px": 1.0297328607886496,
+      "guide_reference_pixel_xy": [
+        2072.6897015784634,
+        2014.7646316088503
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Smashem Head south tip",
+      "role": "control",
+      "pixel_xy": [
+        3887,
+        962
+      ],
+      "lonlat": [
+        -62.419992543549675,
+        45.64954217060718
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 2615,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 2615,
+      "nearest_unfiltered_distance_guide_px": 2.001045885512061,
+      "selected_distance_guide_px": 2.001045885512061,
+      "guide_reference_pixel_xy": [
+        3818.5160318297567,
+        913.6576054582838
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    16.190881503663412,
+    31.057553676870434,
+    30.131502940221726,
+    28.074047147060178,
+    37.047796326178045,
+    35.42804726064075,
+    24.784022422613806
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}
