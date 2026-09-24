@@ -1,0 +1,24 @@
+{
+  "sheet": "140",
+  "component": "mainadieu-inset",
+  "stage": "Before first inset fit or score",
+  "model": "similarity",
+  "controls": [
+    "IC01",
+    "IC02"
+  ],
+  "checks": [
+    "IQ01",
+    "IQ03",
+    "IQ04"
+  ],
+  "rms_ceiling_ground_m": 100,
+  "rejected_before_fit": {
+    "IQ02": "Initial southern lake outlet proposal selected sea coast south of bridge, not the lake shore; modified outlet boundary not secure"
+  },
+  "limitations": [
+    "Two physical controls solve similarity exactly; fitting residual is not accuracy evidence",
+    "Three checks cluster on eastern coast/lake; western half of inset and urban/parcel geometry unvalidated",
+    "No parcel corners, printed grids or geoname centroids used"
+  ]
+}

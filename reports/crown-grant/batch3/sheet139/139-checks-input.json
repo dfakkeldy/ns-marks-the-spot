@@ -1,0 +1,132 @@
+[
+  [
+    "Q01",
+    "Sandy Lake west tip",
+    [
+      370,
+      732
+    ],
+    [
+      332,
+      716
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "McPherson Lake east tip",
+    [
+      1132,
+      820
+    ],
+    [
+      1085,
+      799
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Central McDonald Lake south tip",
+    [
+      1080,
+      1455
+    ],
+    [
+      1100,
+      1400
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Small satellite lake southwest of Sand Lake west tip",
+    [
+      3000,
+      1110
+    ],
+    [
+      2940,
+      1090
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Northern Head east tip",
+    [
+      4985,
+      741
+    ],
+    [
+      4995,
+      738
+    ],
+    "WACO"
+  ],
+  [
+    "Q06",
+    "Flint larger island east tip",
+    [
+      5630,
+      937
+    ],
+    [
+      5630,
+      880
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q07",
+    "Coastal McDonald Pond south tip",
+    [
+      1825,
+      3150
+    ],
+    [
+      1840,
+      3110
+    ],
+    "WALK"
+  ],
+  [
+    "Q08",
+    "Catalone Lagoon southwest cape",
+    [
+      1450,
+      3655
+    ],
+    [
+      1480,
+      3630
+    ],
+    "WA"
+  ],
+  [
+    "Q09",
+    "MacRae Point northern extension shoulder",
+    [
+      4220,
+      144
+    ],
+    [
+      4160,
+      139
+    ],
+    "WACO"
+  ],
+  [
+    "Q10",
+    "Mira central large island northern tip",
+    [
+      740,
+      2370
+    ],
+    [
+      820,
+      2350
+    ],
+    "WA"
+  ]
+]

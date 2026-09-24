@@ -1,0 +1,68 @@
+[
+  {
+    "id": "C02",
+    "label": "Mira long island northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1605,
+      958
+    ],
+    "lonlat": [
+      -60.294754162851504,
+      45.85593248206026
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 305416,
+    "reference_feature_code": "WARVIS10",
+    "guide_reference_pixel_xy": [
+      1612.9635016512475,
+      948.4840022654971
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Mira eastern peninsula north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1634,
+      1042
+    ],
+    "lonlat": [
+      -60.29056907528865,
+      45.852351708409174
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 159003,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      1644.1800820555654,
+      1039.7071717246436
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Winging Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3520,
+      3294
+    ],
+    "lonlat": [
+      -60.1163341797074,
+      45.78237525133974
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 11467,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3523.5750181390904,
+      3295.2892219906207
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-09-24T12:46:16.364816+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "139",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6235,
+        5293
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5746,
+        3951
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual browser view retains the Port Caledonia northern extension and Flint Island eastern extension",
+    "Full mapped imagery and numerical checks remain separate from unsupported southern and parcel-interior geography"
+  ]
+}

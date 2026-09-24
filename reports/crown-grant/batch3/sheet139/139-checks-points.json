@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Q01",
+    "label": "Sandy Lake west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      370,
+      732
+    ],
+    "lonlat": [
+      -60.11226775658218,
+      46.100448306913414
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 136237,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      329.7997735334211,
+      716.5025960677303
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "McPherson Lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1132,
+      820
+    ],
+    "lonlat": [
+      -60.062343968443514,
+      46.109314269574654
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 136382,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1081.8500059202197,
+      795.8746747943806
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Central McDonald Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1080,
+      1455
+    ],
+    "lonlat": [
+      -60.04674008574156,
+      46.08234014448078
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 136294,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1105.352499665285,
+      1397.9811636789236
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Small satellite lake southwest of Sand Lake west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3000,
+      1110
+    ],
+    "lonlat": [
+      -59.93524510314778,
+      46.12670174290253
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 140565,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2959.517420908378,
+      1096.344781934633
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Northern Head east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4985,
+      741
+    ],
+    "lonlat": [
+      -59.813720429803894,
+      46.17548582824418
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 11517,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4981.680239329697,
+      755.665337585262
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Flint larger island east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5630,
+      937
+    ],
+    "lonlat": [
+      -59.76924130969926,
+      46.18053925657487
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 18280,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5631.167354832636,
+      878.9233658456942
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Coastal McDonald Pond south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1825,
+      3150
+    ],
+    "lonlat": [
+      -59.96014649301979,
+      46.015337074464796
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 136753,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1826.1307512956555,
+      3134.2715700818226
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Catalone Lagoon southwest cape",
+    "role": "proposal",
+    "pixel_xy": [
+      1450,
+      3655
+    ],
+    "lonlat": [
+      -59.97052342006201,
+      45.98704027114952
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 13423,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1481.8795292953146,
+      3631.6089936409844
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "MacRae Point northern extension shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      4220,
+      144
+    ],
+    "lonlat": [
+      -59.88192611582862,
+      46.19133553109569
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 11330,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4152.629937437654,
+      107.43286005919799
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Mira central large island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      740,
+      2370
+    ],
+    "lonlat": [
+      -60.04262744425755,
+      46.03468940111538
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 25471,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      823.2807047902024,
+      2343.6572573587764
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

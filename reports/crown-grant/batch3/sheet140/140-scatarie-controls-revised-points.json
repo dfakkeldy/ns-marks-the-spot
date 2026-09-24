@@ -1,0 +1,90 @@
+[
+  {
+    "id": "SC01",
+    "label": "Scatarie northwest shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3168,
+      2777
+    ],
+    "lonlat": [
+      -59.82188905475038,
+      46.00716962475801
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 8753,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2813.875529017765,
+      2599.337081650854
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SC02",
+    "label": "Scatarie eastern harbour cape east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5070,
+      2810
+    ],
+    "lonlat": [
+      -59.821887253393314,
+      46.00722357947044
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 8753,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2814.2837552461424,
+      2598.2967673977837
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SC03",
+    "label": "Tin Cove north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4050,
+      3095
+    ],
+    "lonlat": [
+      -59.80336700894387,
+      45.96722437556057
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 3286,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2783.0681910347776,
+      3468.856019579107
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SC04",
+    "label": "Scatarie eastern peninsula shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      4460,
+      3168
+    ],
+    "lonlat": [
+      -59.78997066640697,
+      45.954715318769836
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 12931,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2877.3737850313773,
+      3779.15308817965
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

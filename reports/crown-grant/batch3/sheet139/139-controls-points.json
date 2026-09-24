@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "Northwestern Ling-labelled round lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      711,
+      788
+    ],
+    "lonlat": [
+      -60.08921186431996,
+      46.10426881647636
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 132861,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      675.1676579493796,
+      758.5386992320418
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Cochran Lake northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1920,
+      1322
+    ],
+    "lonlat": [
+      -59.998023978025884,
+      46.100281836939004
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 129123,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1905.4674777282635,
+      1294.5532279807376
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "John Allen pond north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2340,
+      1075
+    ],
+    "lonlat": [
+      -59.97837891951241,
+      46.11905212046547
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 137703,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2309.8812155536143,
+      1028.686313180835
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Sand Lake south tip near Birch Grove",
+    "role": "proposal",
+    "pixel_xy": [
+      3380,
+      1078
+    ],
+    "lonlat": [
+      -59.91199035959863,
+      46.136179404914884
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 142817,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3347.633855613414,
+      1028.6708435675828
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Cape Perce southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4980,
+      905
+    ],
+    "lonlat": [
+      -59.8116454375481,
+      46.17175745836106
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 8227,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4984.0204145703465,
+      838.4687326910207
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Cape Morien east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4890,
+      1796
+    ],
+    "lonlat": [
+      -59.79771309536509,
+      46.12883860436216
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 20348,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4873.747814425558,
+      1742.0891403122805
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "False Bay Head south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2995,
+      2752
+    ],
+    "lonlat": [
+      -59.89815469553284,
+      46.05308181915812
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 8411,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2950.686717659526,
+      2712.1712887936737
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Catalone northern lagoon island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1600,
+      3325
+    ],
+    "lonlat": [
+      -59.96910960806161,
+      46.00507091224091
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 13699,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1629.3486110538943,
+      3288.5891560551245
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

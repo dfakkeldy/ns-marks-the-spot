@@ -1,0 +1,82 @@
+{
+  "sheet": "140",
+  "version": "mainadieu-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      2.7723569948377915,
+      -0.09173587353785886
+    ],
+    [
+      -0.09173587353785886,
+      -2.7723569948377915
+    ],
+    [
+      738525.5586833524,
+      5109120.154505802
+    ]
+  ],
+  "source_sha256": "672929ba391b2d4e3fbf600af661ce9f82603169ebd181ca259aca19d64bcec3",
+  "source_dimensions": [
+    5766,
+    3937
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IC01",
+      "label": "Main-a-Dieu inset northern coastal apex",
+      "role": "control",
+      "pixel_xy": [
+        2265,
+        2971
+      ],
+      "lonlat": [
+        -59.841020690079255,
+        46.015978599966736
+      ],
+      "guide_file": ".crown-grant-local/140-mainadieu-discovery-guide.npy",
+      "reference_objectid": 8622,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2248.0408205061976,
+        2950.5780757584143
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Enlarged inset coast and lake outlines matched in broad context; original pixel crosshair inspected before inset fitting.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC02",
+      "label": "Main-a-Dieu inset lake west tip",
+      "role": "control",
+      "pixel_xy": [
+        2512,
+        3277
+      ],
+      "lonlat": [
+        -59.83299748792009,
+        46.007916636725234
+      ],
+      "guide_file": ".crown-grant-local/140-mainadieu-discovery-guide.npy",
+      "reference_objectid": 138174,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2463.857070585218,
+        3238.823506973684
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Enlarged inset coast and lake outlines matched in broad context; original pixel crosshair inspected before inset fitting.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    9.587338576743635e-07,
+    1.2273980249994787e-06
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: printed displaced component, narrow control distribution; constrained similarity avoids unsupported affine shear"
+}

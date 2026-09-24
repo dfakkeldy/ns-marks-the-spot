@@ -1,0 +1,181 @@
+{
+  "sheet": "140",
+  "version": "main-affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.871421864265061,
+      2.023722077473759
+    ],
+    [
+      1.997502867487224,
+      -4.982112916681905
+    ],
+    [
+      727268.6004882153,
+      5094428.551893081
+    ]
+  ],
+  "source_sha256": "672929ba391b2d4e3fbf600af661ce9f82603169ebd181ca259aca19d64bcec3",
+  "source_dimensions": [
+    5766,
+    3937
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "MC02",
+      "label": "Grand Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        1412,
+        868
+      ],
+      "lonlat": [
+        -59.956861519766576,
+        45.94911927643028
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 126388,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1406.0357278544107,
+        851.0743730603717
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MC03",
+      "label": "Mitchell Lake north end",
+      "role": "control",
+      "pixel_xy": [
+        2519,
+        297
+      ],
+      "lonlat": [
+        -59.89912249744864,
+        45.99449330833751
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 136682,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2518.6589596400154,
+        259.07196786243003
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MC04",
+      "label": "Louisbourg White Point south tip",
+      "role": "control",
+      "pixel_xy": [
+        382,
+        2129
+      ],
+      "lonlat": [
+        -59.99237144748322,
+        45.87532420876051
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 12357,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        392.99857388070086,
+        2106.272790844203
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MC05",
+      "label": "Lorrembec Head southeast corner",
+      "role": "control",
+      "pixel_xy": [
+        1737,
+        1638
+      ],
+      "lonlat": [
+        -59.917746606588665,
+        45.92029515265967
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 5229,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1734.9735711000976,
+        1607.9351880374597
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MC06",
+      "label": "Cape Breton east tip",
+      "role": "control",
+      "pixel_xy": [
+        3768,
+        1693
+      ],
+      "lonlat": [
+        -59.78738404620092,
+        45.951014304542966
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 12931,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3736.4617375559174,
+        1664.0754089702386
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MC08",
+      "label": "Scatarie northwest head",
+      "role": "control",
+      "pixel_xy": [
+        4017,
+        581
+      ],
+      "lonlat": [
+        -59.7963662860826,
+        46.0052979116342
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 22550,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3999.257439232315,
+        563.3123395614093
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    70.85229725436152,
+    65.26928058214999,
+    24.832973463519412,
+    29.271523875786794,
+    30.799259974337968,
+    53.067696802862706
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5671 x 3964 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 62.06 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          20,
+          150
+        ],
+        [
+          5570,
+          150
+        ],
+        [
+          5570,
+          3810
+        ],
+        [
+          20,
+          3810
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame from Neil Harbour and the northern park lakes through Warren Lake, Ingonish, Middle Head and the Smoky Cape edge, with Ingonish Island, small offshore rocks and the full Atlantic Ocean area retained. No displaced inset identified."
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "MC02",
+    "label": "Grand Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1412,
+      868
+    ],
+    "lonlat": [
+      -59.956861519766576,
+      45.94911927643028
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 126388,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1406.0357278544107,
+      851.0743730603717
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC03",
+    "label": "Mitchell Lake north end",
+    "role": "proposal",
+    "pixel_xy": [
+      2519,
+      297
+    ],
+    "lonlat": [
+      -59.89912249744864,
+      45.99449330833751
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 136682,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2518.6589596400154,
+      259.07196786243003
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC04",
+    "label": "Louisbourg White Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      382,
+      2129
+    ],
+    "lonlat": [
+      -59.99237144748322,
+      45.87532420876051
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 12357,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      392.99857388070086,
+      2106.272790844203
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC05",
+    "label": "Lorrembec Head southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1737,
+      1638
+    ],
+    "lonlat": [
+      -59.917746606588665,
+      45.92029515265967
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 5229,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1734.9735711000976,
+      1607.9351880374597
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC06",
+    "label": "Cape Breton east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3768,
+      1693
+    ],
+    "lonlat": [
+      -59.78738404620092,
+      45.951014304542966
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 12931,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3736.4617375559174,
+      1664.0754089702386
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC08",
+    "label": "Scatarie northwest head",
+    "role": "proposal",
+    "pixel_xy": [
+      4017,
+      581
+    ],
+    "lonlat": [
+      -59.7963662860826,
+      46.0052979116342
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 22550,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3999.257439232315,
+      563.3123395614093
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

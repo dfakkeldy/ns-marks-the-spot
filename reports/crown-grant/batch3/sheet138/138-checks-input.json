@@ -1,0 +1,132 @@
+[
+  [
+    "Q01",
+    "Swivel Point south tip",
+    [
+      275,
+      947
+    ],
+    [
+      215,
+      925
+    ],
+    "WACO"
+  ],
+  [
+    "Q02",
+    "Petrie coastal point north shoulder",
+    [
+      860,
+      1226
+    ],
+    [
+      820,
+      1204
+    ],
+    "WACO"
+  ],
+  [
+    "Q03",
+    "Waterford Lake south tip",
+    [
+      1245,
+      1665
+    ],
+    [
+      1230,
+      1635
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Brown Lake north tip",
+    [
+      322,
+      2398
+    ],
+    [
+      289,
+      2361
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Rees Lake south tip",
+    [
+      600,
+      2605
+    ],
+    [
+      567,
+      2575
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Howies Lake north tip",
+    [
+      791,
+      2478
+    ],
+    [
+      755,
+      2470
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "David Head eastern shoulder",
+    [
+      2390,
+      1814
+    ],
+    [
+      2380,
+      1795
+    ],
+    "WACO"
+  ],
+  [
+    "Q08",
+    "Lingan Little Head south tip",
+    [
+      2418,
+      2220
+    ],
+    [
+      2320,
+      2190
+    ],
+    "WACO"
+  ],
+  [
+    "Q09",
+    "Brian Point east tip",
+    [
+      2777,
+      2545
+    ],
+    [
+      2727,
+      2540
+    ],
+    "WACO"
+  ],
+  [
+    "Q10",
+    "Table Head east tip",
+    [
+      3460,
+      2890
+    ],
+    [
+      3400,
+      2860
+    ],
+    "WACO"
+  ]
+]

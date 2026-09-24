@@ -1,0 +1,86 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "672929ba391b2d4e3fbf600af661ce9f82603169ebd181ca259aca19d64bcec3",
+  "fit_sha256": "e9fb118235028d6c1cc10d7cb520f30d5f825c5eef8c640445fb56313592728e",
+  "components_sha256": "712c05d2e2c6a48ddffcaab1df1b9e5a60bc343557e2cc0b1601d30567ded679",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 70.07 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          45.79531145529935,
+          -60.05641986242906
+        ],
+        [
+          46.05231181652274,
+          -59.6191918473424
+        ]
+      ],
+      "dimensions": [
+        6084,
+        5141
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 14110434,
+      "source_mask_pixels": 15440600,
+      "affine_determinant": -28.312364445312642,
+      "png_sha256": "174427907845cc1a54b3246c7906fe958866f97009c40c8892b53fa7ef0ae216",
+      "tif_sha256": "8bf397ff78cb58da407768fae79fcf22aab5466160d21d7ffbe8c11ceafabb0f"
+    },
+    {
+      "id": "scatarie-inset",
+      "status": "RMS 61.52 m passes 100 m; limitations retained",
+      "png": "scatarie-inset-3857.png",
+      "tif": "scatarie-inset-3857.tif",
+      "bounds": [
+        [
+          45.96437476711745,
+          -59.81415755174015
+        ],
+        [
+          46.05975444713781,
+          -59.62809849009333
+        ]
+      ],
+      "dimensions": [
+        2589,
+        1911
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 2765732,
+      "source_mask_pixels": 3112200,
+      "affine_determinant": -27.46086109148763,
+      "png_sha256": "93020c28befdce06c03f0b428f888dd51f0222b919b756c1d9ae95e6f8bcd54c",
+      "tif_sha256": "93aed6274090f6059fef867148ae04bb603f9e6eadd5e842312adc272d4fc2a7"
+    },
+    {
+      "id": "mainadieu-inset",
+      "status": "RMS 52.93 m passes 100 m; limitations retained",
+      "png": "mainadieu-inset-3857.png",
+      "tif": "mainadieu-inset-3857.tif",
+      "bounds": [
+        [
+          45.99734117194082,
+          -59.87782842102838
+        ],
+        [
+          46.024742757498004,
+          -59.81580873381277
+        ]
+      ],
+      "dimensions": [
+        863,
+        549
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 406331,
+      "source_mask_pixels": 1631700,
+      "affine_determinant": -7.694378777319787,
+      "png_sha256": "d25732f83f30b6e7e58a4018b10c751dcd3a9eefeaf569be20f4bbc904741a99",
+      "tif_sha256": "b803623f586be6f8d81ecf0095fe7b141e8e249ebe44a19038e4e0e7a831bf0e"
+    }
+  ]
+}

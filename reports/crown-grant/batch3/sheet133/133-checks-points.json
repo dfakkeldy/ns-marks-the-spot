@@ -1,0 +1,244 @@
+[
+  {
+    "id": "Q01",
+    "label": "McDougall Lake east end",
+    "role": "proposal",
+    "pixel_xy": [
+      1245,
+      699
+    ],
+    "lonlat": [
+      -60.32554491800281,
+      45.861355363716804
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 136194,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1231.1275006982614,
+      684.8247291953303
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Mira eastern peninsula north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1634,
+      1042
+    ],
+    "lonlat": [
+      -60.29067701760577,
+      45.718127614193165
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 26280,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      665.8380861883052,
+      3653.8248895379947
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Canoe Lake south end",
+    "role": "proposal",
+    "pixel_xy": [
+      2690,
+      1065
+    ],
+    "lonlat": [
+      -60.222136020220994,
+      45.86895481194032
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 124589,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2701.487906168564,
+      1066.8041826817207
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Northeast Morrison Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5100,
+      510
+    ],
+    "lonlat": [
+      -60.08114421964122,
+      45.93239217497926
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 138251,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5090.326408224064,
+      549.3790464613121
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Spectacle western lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4710,
+      1235
+    ],
+    "lonlat": [
+      -60.08987769842229,
+      45.89762433750411
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 52103,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4719.548868222919,
+      1182.954966885387
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Green Island east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4453,
+      2858
+    ],
+    "lonlat": [
+      -60.065794842764525,
+      45.817318521616784
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 18501,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4469.232588238723,
+      2871.7144997874275
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Winging Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3514,
+      3280
+    ],
+    "lonlat": [
+      -60.11629678074849,
+      45.78246179628091
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 11467,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3524.7141668145778,
+      3293.792839324102
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Rams Island east tip in Belfry Lake",
+    "role": "proposal",
+    "pixel_xy": [
+      2624,
+      2730
+    ],
+    "lonlat": [
+      -60.187009823417405,
+      45.79234401109321
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 147148,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      2626.7040010151686,
+      2739.612154949107
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Gabarus Lake small central island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2404,
+      2225
+    ],
+    "lonlat": [
+      -60.213267615000284,
+      45.81165500872497
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 143922,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      2406.9609522473766,
+      2228.8328018723987
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Deep Cove northern recess",
+    "role": "proposal",
+    "pixel_xy": [
+      4030,
+      1220
+    ],
+    "lonlat": [
+      -60.12985365110878,
+      45.8846626474773
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 4620,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4078.549509996781,
+      1231.9997084983625
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q11",
+    "label": "Western McIntyres Lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1760,
+      2440
+    ],
+    "lonlat": [
+      -60.24855053459442,
+      45.79093728487166
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 135984,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1773.0063291185652,
+      2451.7220895501086
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

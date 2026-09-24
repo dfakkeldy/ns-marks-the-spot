@@ -1,0 +1,93 @@
+[
+  [
+    "MQ02",
+    "Battery island west tip",
+    [
+      908,
+      1800
+    ],
+    [
+      910,
+      1776
+    ],
+    "WACOIS"
+  ],
+  [
+    "MQ03",
+    "Isle Verte south tip",
+    [
+      956,
+      1937
+    ],
+    [
+      954,
+      1915
+    ],
+    "WACOIS"
+  ],
+  [
+    "MQ07",
+    "Aux Cannes island east tip",
+    [
+      3779,
+      1457
+    ],
+    [
+      3760,
+      1420
+    ],
+    "WACOIS"
+  ],
+  [
+    "MQ08",
+    "Scatarie Eastern Harbour southeast cape",
+    [
+      5511,
+      723
+    ],
+    [
+      5465,
+      700
+    ],
+    "WACO"
+  ],
+  [
+    "MQ10",
+    "Main-a-Dieu Moue Head east tip",
+    [
+      3680,
+      417
+    ],
+    [
+      3664,
+      399
+    ],
+    "WACO"
+  ],
+  [
+    "MQ11",
+    "Grand Lake north tip",
+    [
+      1583,
+      488
+    ],
+    [
+      1573,
+      447
+    ],
+    "WALK"
+  ],
+  [
+    "MQ12",
+    "Stewart Lake main island north tip",
+    [
+      373,
+      759
+    ],
+    [
+      400,
+      716
+    ],
+    "WALKIS"
+  ]
+]

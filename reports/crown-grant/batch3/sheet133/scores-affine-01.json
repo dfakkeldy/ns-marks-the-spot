@@ -1,0 +1,294 @@
+{
+  "count": 9,
+  "rms_ground_m": 46.38303834990685,
+  "median_ground_m": 45.822618211636,
+  "p95_ground_m": 65.72421797749126,
+  "max_ground_m": 72.82828328281231,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 30.349014891086345,
+  "mean_north_ground_m": 2.689707382360538,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "McDougall Lake east end",
+      "role": "check",
+      "pixel_xy": [
+        1246,
+        695
+      ],
+      "lonlat": [
+        -60.32399018719842,
+        45.86183378703992
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 136194,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1255.8844244685606,
+        683.4892937939148
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.32355627375323,
+        45.86151734491291
+      ],
+      "error_ground_m": 48.70830669972601,
+      "east_ground_m": 33.69612217924896,
+      "north_ground_m": -35.1720129028138
+    },
+    {
+      "id": "Q02",
+      "label": "Mira eastern peninsula north tip",
+      "role": "check",
+      "pixel_xy": [
+        1634,
+        1042
+      ],
+      "lonlat": [
+        -60.29056907528865,
+        45.852351708409174
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 159003,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        1644.1800820555654,
+        1039.7071717246436
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.2903163729368,
+        45.85236306247662
+      ],
+      "error_ground_m": 19.66768726086061,
+      "east_ground_m": 19.627155501445262,
+      "north_ground_m": 1.262017873528636
+    },
+    {
+      "id": "Q03",
+      "label": "Canoe Lake south end",
+      "role": "check",
+      "pixel_xy": [
+        2690,
+        1065
+      ],
+      "lonlat": [
+        -60.222136020220994,
+        45.86895481194032
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 124589,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2701.487906168564,
+        1066.8041826817207
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.22189432786748,
+        45.869118532700014
+      ],
+      "error_ground_m": 26.140428326637952,
+      "east_ground_m": 18.766381375124507,
+      "north_ground_m": 18.197387812086546
+    },
+    {
+      "id": "Q06",
+      "label": "Green Island east tip",
+      "role": "check",
+      "pixel_xy": [
+        4453,
+        2858
+      ],
+      "lonlat": [
+        -60.065794842764525,
+        45.817318521616784
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 18501,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4469.232588238723,
+        2871.7144997874275
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.06587765930426,
+        45.81751525934559
+      ],
+      "error_ground_m": 22.79451392680331,
+      "east_ground_m": -6.436299249131009,
+      "north_ground_m": 21.866959485371204
+    },
+    {
+      "id": "Q07",
+      "label": "Winging Point south tip",
+      "role": "check",
+      "pixel_xy": [
+        3520,
+        3294
+      ],
+      "lonlat": [
+        -60.1163341797074,
+        45.78237525133974
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 11467,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3523.5750181390904,
+        3295.2892219906207
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.115467161688066,
+        45.78212757433108
+      ],
+      "error_ground_m": 72.82828328281231,
+      "east_ground_m": 67.42519320521822,
+      "north_ground_m": -27.528206755263838
+    },
+    {
+      "id": "Q08",
+      "label": "Rams Island east tip in Belfry Lake",
+      "role": "check",
+      "pixel_xy": [
+        2624,
+        2730
+      ],
+      "lonlat": [
+        -60.187009823417405,
+        45.79234401109321
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 147148,
+      "reference_feature_code": "WALKIS10",
+      "guide_reference_pixel_xy": [
+        2626.7040010151686,
+        2739.612154949107
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.186422846091205,
+        45.7926212597025
+      ],
+      "error_ground_m": 55.06812001950973,
+      "east_ground_m": 45.63876788406685,
+      "north_ground_m": 30.815591970744226
+    },
+    {
+      "id": "Q09",
+      "label": "Gabarus Lake small central island north tip",
+      "role": "check",
+      "pixel_xy": [
+        2404,
+        2225
+      ],
+      "lonlat": [
+        -60.213267615000284,
+        45.81165500872497
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 143922,
+      "reference_feature_code": "WALKIS10",
+      "guide_reference_pixel_xy": [
+        2406.9609522473766,
+        2228.8328018723987
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.21258856721877,
+        45.811785846105245
+      ],
+      "error_ground_m": 54.74617384848485,
+      "east_ground_m": 52.779347540315676,
+      "north_ground_m": 14.542490304865245
+    },
+    {
+      "id": "Q10",
+      "label": "Deep Cove northern recess",
+      "role": "check",
+      "pixel_xy": [
+        4042,
+        1220
+      ],
+      "lonlat": [
+        -60.13149080003694,
+        45.88446233267329
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 4621,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4054.6876960553927,
+        1227.5564874201082
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.13124585011579,
+        45.884822816714546
+      ],
+      "error_ground_m": 44.35013774378701,
+      "east_ground_m": 19.013960770206843,
+      "north_ground_m": 40.06749322982305
+    },
+    {
+      "id": "Q11",
+      "label": "Western McIntyres Lake east tip",
+      "role": "check",
+      "pixel_xy": [
+        1763,
+        2455
+      ],
+      "lonlat": [
+        -60.24855053459442,
+        45.79093728487166
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 135984,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1773.0063291185652,
+        2451.7220895501086
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Reserved before fit; independently excluded; final native crosshair audited before first score.",
+      "predicted_lonlat": [
+        -60.24825948580798,
+        45.790578801843
+      ],
+      "error_ground_m": 45.822618211636,
+      "east_ground_m": 22.63050481328179,
+      "north_ground_m": -39.844354577096425
+    }
+  ],
+  "fit_sha256": "7054891015a3fd5c7b589019976710419a07fd6922f423d88cfdb683ea6330f2",
+  "checks_sha256": "85a56a3e4fb0d9f303761c7638231c3a0bf2d9ca74fb10b16279b508c376f068",
+  "status": "Independent physical checks reserved before first frozen affine and score"
+}

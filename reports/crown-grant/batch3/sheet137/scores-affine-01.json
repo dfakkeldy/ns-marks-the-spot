@@ -1,0 +1,263 @@
+{
+  "count": 8,
+  "rms_ground_m": 62.06008442169424,
+  "median_ground_m": 66.01464828730012,
+  "p95_ground_m": 76.87392637949522,
+  "max_ground_m": 76.92027966944278,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -7.159080779484526,
+  "mean_north_ground_m": 1.7478007660930253,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Small northern lake west of Neil Harbour east end",
+      "role": "check",
+      "pixel_xy": [
+        2280,
+        623
+      ],
+      "lonlat": [
+        -60.33619252973951,
+        46.79035287803362
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 137149,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2307.9751397601212,
+        661.2988226203015
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.33713036297613,
+        46.79043152215354
+      ],
+      "error_ground_m": 72.13804351208685,
+      "east_ground_m": -71.60626089503697,
+      "north_ground_m": 8.74303850978796
+    },
+    {
+      "id": "Q02",
+      "label": "Lake south of Ann Brook west end",
+      "role": "check",
+      "pixel_xy": [
+        475,
+        1338
+      ],
+      "lonlat": [
+        -60.43776501781498,
+        46.72871625040413
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 128547,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        483.67173302249284,
+        1342.3110694341594
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.438347092842754,
+        46.728151816969515
+      ],
+      "error_ground_m": 76.92027966944278,
+      "east_ground_m": -44.49433823010397,
+      "north_ground_m": -62.74538461026755
+    },
+    {
+      "id": "Q03",
+      "label": "Triangular lake north of Warren Lake southeast corner",
+      "role": "check",
+      "pixel_xy": [
+        953,
+        1419
+      ],
+      "lonlat": [
+        -60.40429359290367,
+        46.73280058710246
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 142712,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        961.7203608386917,
+        1433.0656251470791
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.40485643593149,
+        46.73262080280232
+      ],
+      "error_ground_m": 47.436333758910465,
+      "east_ground_m": -43.020673366110074,
+      "north_ground_m": -19.985680464102693
+    },
+    {
+      "id": "Q04",
+      "label": "Western narrow lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        360,
+        1795
+      ],
+      "lonlat": [
+        -60.4344326745699,
+        46.70605920849224
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 131867,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        355.7288796202047,
+        1798.7649058690295
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.43457054334627,
+        46.70586973098089
+      ],
+      "error_ground_m": 23.5546118722695,
+      "east_ground_m": -10.543152128035006,
+      "north_ground_m": -21.063278084343143
+    },
+    {
+      "id": "Q05",
+      "label": "Warren Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1060,
+        1965
+      ],
+      "lonlat": [
+        -60.38514075163911,
+        46.709782064114016
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 141416,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1042.599308601697,
+        1976.8973602292826
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.384270330227004,
+        46.71012249669819
+      ],
+      "error_ground_m": 76.56485685453805,
+      "east_ground_m": 66.55796102824277,
+      "north_ground_m": 37.84461822926502
+    },
+    {
+      "id": "Q06",
+      "label": "Archibald Point east tip",
+      "role": "check",
+      "pixel_xy": [
+        1545,
+        2334
+      ],
+      "lonlat": [
+        -60.34352355701119,
+        46.701218014035575
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 2530,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1533.7454108390957,
+        2354.1624209809816
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.343197344150276,
+        46.7018712952069
+      ],
+      "error_ground_m": 76.78784169816402,
+      "east_ground_m": 24.948112593330368,
+      "north_ground_m": 72.62206490243035
+    },
+    {
+      "id": "Q07",
+      "label": "Jackson Point southeast shoreline corner",
+      "role": "check",
+      "pixel_xy": [
+        1312,
+        2510
+      ],
+      "lonlat": [
+        -60.3549480849215,
+        46.6902183634354
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 2821,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1297.5351203005994,
+        2509.7113361970987
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.354181316296994,
+        46.69010940261604
+      ],
+      "error_ground_m": 59.89125306251338,
+      "east_ground_m": 58.6536772694111,
+      "north_ground_m": -12.112321667367757
+    },
+    {
+      "id": "Q10",
+      "label": "Ingonish Island north tip",
+      "role": "check",
+      "pixel_xy": [
+        1417,
+        2616
+      ],
+      "lonlat": [
+        -60.34415265067367,
+        46.687063326947495
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 17782,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1417.9151663226658,
+        2625.6853041122667
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Reserved and excluded before first fit; final physical correspondence inspected before scoring.",
+      "predicted_lonlat": [
+        -60.34464635748112,
+        46.687159393661325
+      ],
+      "error_ground_m": 39.2487993330914,
+      "east_ground_m": -37.76797250757442,
+      "north_ground_m": 10.67934931334201
+    }
+  ],
+  "fit_sha256": "3274b9c0ea6ab5561fbd4dc8f90ede3f73f5e9a92396d8b125ec14ba1d52cd23",
+  "checks_sha256": "1b341521220bd8c5fe3e6264030d44416c05b848676b9d23bebeeb563148a0b4",
+  "status": "Independent physical checks selected and audited before first frozen affine score"
+}

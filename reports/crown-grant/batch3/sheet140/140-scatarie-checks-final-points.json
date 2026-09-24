@@ -1,0 +1,117 @@
+[
+  {
+    "id": "SQ01",
+    "label": "Scatarie north-coast eastern bump",
+    "role": "proposal",
+    "pixel_xy": [
+      4540,
+      2648
+    ],
+    "lonlat": [
+      -59.712392434447466,
+      46.033194851958854
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 20329,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4494.417102317035,
+      2639.425941930851
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full island topology, native inset crosshair and exact modern shoreline segment audited before first inset fit; island code excludes mainland-only filter errors."
+  },
+  {
+    "id": "SQ02",
+    "label": "Savage Cove southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3920,
+      2838
+    ],
+    "lonlat": [
+      -59.74621084974317,
+      46.01444558358638
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 20290,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3899.4783922361094,
+      2835.71721728635
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full island topology, native inset crosshair and exact modern shoreline segment audited before first inset fit; island code excludes mainland-only filter errors."
+  },
+  {
+    "id": "SQ04",
+    "label": "Eastern Harbour southern bay cape",
+    "role": "proposal",
+    "pixel_xy": [
+      4647,
+      2917
+    ],
+    "lonlat": [
+      -59.69957671325881,
+      46.02324011027132
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 18457,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4599.028649918502,
+      2896.9510809018975
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full island topology, native inset crosshair and exact modern shoreline segment audited before first inset fit; island code excludes mainland-only filter errors."
+  },
+  {
+    "id": "SQ05",
+    "label": "Hay Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4837,
+      3030
+    ],
+    "lonlat": [
+      -59.68403879700482,
+      46.02087898839532
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 17524,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4794.655717134825,
+      3020.2343345585978
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full island topology, native inset crosshair and exact modern shoreline segment audited before first inset fit; island code excludes mainland-only filter errors."
+  },
+  {
+    "id": "SQ06",
+    "label": "Ragged Rock Cove southwest peninsula",
+    "role": "proposal",
+    "pixel_xy": [
+      3950,
+      3278
+    ],
+    "lonlat": [
+      -59.73423796175503,
+      45.995455790077706
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 21925,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3928.467608160863,
+      3264.8955512106186
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full island topology, native inset crosshair and exact modern shoreline segment audited before first inset fit; island code excludes mainland-only filter errors."
+  }
+]
