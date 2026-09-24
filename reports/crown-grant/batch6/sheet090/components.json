@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6021 x 4106 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 105.24 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          80,
+          100
+        ],
+        [
+          5905,
+          100
+        ],
+        [
+          5905,
+          3985
+        ],
+        [
+          80,
+          3985
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Killag Mines, Fraser and Mulgrave lakes, the Liscomb Game Sanctuary region, Lochaber, Malay Falls, Lewiston and Salmon River Big lakes, the West and East River Sheet Harbour corridors and all northern/southern lake and parcel regions. No displaced inset identified."
+    }
+  ]
+}

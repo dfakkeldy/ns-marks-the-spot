@@ -1,0 +1,210 @@
+[
+  {
+    "id": "Q01",
+    "label": "Lake east of Mushaboom Harbour south shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1420,
+      938
+    ],
+    "lonlat": [
+      -62.533079044651174,
+      44.86849356106033
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 125475,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125475,
+    "nearest_unfiltered_distance_guide_px": 0.7975599224436454,
+    "selected_distance_guide_px": 0.7975599224436454,
+    "guide_reference_pixel_xy": [
+      1584.4492608581786,
+      922.3410109931137
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "First Lake north of Hartling north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4650,
+      322
+    ],
+    "lonlat": [
+      -62.36066267958788,
+      44.94825311175532
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 134543,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134543,
+    "nearest_unfiltered_distance_guide_px": 1.4714603518243,
+    "selected_distance_guide_px": 1.4714603518243,
+    "guide_reference_pixel_xy": [
+      4728.0238939251285,
+      310.0568049948197
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Western Beaver Island southwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3757,
+      2994
+    ],
+    "lonlat": [
+      -62.34942907669192,
+      44.82139230357877
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 23430,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23430,
+    "nearest_unfiltered_distance_guide_px": 5.3159628061024335,
+    "selected_distance_guide_px": 5.3159628061024335,
+    "guide_reference_pixel_xy": [
+      3834.791628218023,
+      2955.4760335491737
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Horse Island east shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3762,
+      2642
+    ],
+    "lonlat": [
+      -62.35782983831647,
+      44.83704245216801
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 17576,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17576,
+    "nearest_unfiltered_distance_guide_px": 0.9413456606412774,
+    "selected_distance_guide_px": 0.9413456606412774,
+    "guide_reference_pixel_xy": [
+      3843.9327070349245,
+      2588.1272369435756
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Guilford Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1278,
+      2245
+    ],
+    "lonlat": [
+      -62.509964400753,
+      44.811698300474255
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 18577,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18577,
+    "nearest_unfiltered_distance_guide_px": 2.1093420363968405,
+    "selected_distance_guide_px": 2.1093420363968405,
+    "guide_reference_pixel_xy": [
+      1442.384987141355,
+      2212.073911456042
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Mink or Logwood Island north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      2859,
+      1998
+    ],
+    "lonlat": [
+      -62.42648491292723,
+      44.84802503277926
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 19931,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19931,
+    "nearest_unfiltered_distance_guide_px": 1.2479694922232791,
+    "selected_distance_guide_px": 1.2479694922232791,
+    "guide_reference_pixel_xy": [
+      2947.0125184360077,
+      1963.2704561217688
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Round Island east shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3177,
+      2102
+    ],
+    "lonlat": [
+      -62.40409423114047,
+      44.84813274699246
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 19989,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19989,
+    "nearest_unfiltered_distance_guide_px": 4.035292167159987,
+    "selected_distance_guide_px": 4.035292167159987,
+    "guide_reference_pixel_xy": [
+      3270.1718538752175,
+      2092.1216024647
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "High Island east shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4720,
+      1792
+    ],
+    "lonlat": [
+      -62.320028603571124,
+      44.88913867013083
+    ],
+    "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+    "reference_objectid": 17981,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17981,
+    "nearest_unfiltered_distance_guide_px": 2.5074693566368498,
+    "selected_distance_guide_px": 2.5074693566368498,
+    "guide_reference_pixel_xy": [
+      4821.046150566079,
+      1749.2788092433475
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

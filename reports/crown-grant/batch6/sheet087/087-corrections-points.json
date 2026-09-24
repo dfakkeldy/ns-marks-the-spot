@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C02",
+    "label": "Round Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1040,
+      3680
+    ],
+    "lonlat": [
+      -62.86357151534534,
+      45.390297097983485
+    ],
+    "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+    "reference_objectid": 142991,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142991,
+    "nearest_unfiltered_distance_guide_px": 1.4700977817735912,
+    "selected_distance_guide_px": 1.4700977817735912,
+    "guide_reference_pixel_xy": [
+      1009.1000419572229,
+      3696.0247589116916
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Mill Pond near Concord Mills south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2060,
+      2965
+    ],
+    "lonlat": [
+      -62.82071398413791,
+      45.43641440075891
+    ],
+    "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+    "reference_objectid": 132845,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132845,
+    "nearest_unfiltered_distance_guide_px": 0.4280426374974208,
+    "selected_distance_guide_px": 0.4280426374974208,
+    "guide_reference_pixel_xy": [
+      2024.3094597916352,
+      2999.2957281469135
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

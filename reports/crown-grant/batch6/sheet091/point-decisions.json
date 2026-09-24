@@ -1,0 +1,9 @@
+{
+  "timing": "All decisions before first fit and score",
+  "correction": "Q04 Horse Island moved from adjoining northeast shore to east extremity using native shape evidence",
+  "limitations": [
+    "Several separate observations share the same lake or island and are spatially correlated",
+    "Northern lakes extend inland evidence but harbour heads, barrier shores and numerous small ledges remain unvalidated",
+    "All mapped islands and southern ocean retained in one original frame"
+  ]
+}

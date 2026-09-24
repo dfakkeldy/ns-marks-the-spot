@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Black Lake east lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      3690,
+      1090
+    ],
+    "lonlat": [
+      -62.677553994177906,
+      45.38321476327093
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 124437,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124437,
+    "nearest_unfiltered_distance_guide_px": 3.1239952897647605,
+    "selected_distance_guide_px": 3.1239952897647605,
+    "guide_reference_pixel_xy": [
+      3728.089105308987,
+      1042.5344090202125
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Sucker northern lake southwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3490,
+      1547
+    ],
+    "lonlat": [
+      -62.679198320282545,
+      45.361006787407916
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 129664,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129664,
+    "nearest_unfiltered_distance_guide_px": 21.90422181509433,
+    "selected_distance_guide_px": 21.90422181509433,
+    "guide_reference_pixel_xy": [
+      3511.824437640258,
+      1493.132152305101
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Hattie Lake south lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      2040,
+      2855
+    ],
+    "lonlat": [
+      -62.733724011417756,
+      45.282052347360214
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 137973,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137973,
+    "nearest_unfiltered_distance_guide_px": 0.5875767953068801,
+    "selected_distance_guide_px": 0.5875767953068801,
+    "guide_reference_pixel_xy": [
+      2031.4871403847937,
+      2814.7132570742397
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Dean Lake north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1492,
+      2994
+    ],
+    "lonlat": [
+      -62.76095937386681,
+      45.26685236384382
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 127705,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127705,
+    "nearest_unfiltered_distance_guide_px": 0.6537816312954589,
+    "selected_distance_guide_px": 0.6537816312954589,
+    "guide_reference_pixel_xy": [
+      1501.6785924026044,
+      2972.430677966564
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Battery Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1327,
+      3850
+    ],
+    "lonlat": [
+      -62.74969362501194,
+      45.22908209242257
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 129677,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129677,
+    "nearest_unfiltered_distance_guide_px": 1.4705299646927732,
+    "selected_distance_guide_px": 1.4705299646927732,
+    "guide_reference_pixel_xy": [
+      1338.6041304129758,
+      3819.5373916634126
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Battery Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1327,
+      3940
+    ],
+    "lonlat": [
+      -62.746772507322504,
+      45.22537960938946
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 129677,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129677,
+    "nearest_unfiltered_distance_guide_px": 1.3319097884893503,
+    "selected_distance_guide_px": 1.3319097884893503,
+    "guide_reference_pixel_xy": [
+      1349.198951613973,
+      3913.0640982886543
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Cox Lake northeast lobe north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1500,
+      3423
+    ],
+    "lonlat": [
+      -62.75057379596426,
+      45.25006662743952
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 128326,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128326,
+    "nearest_unfiltered_distance_guide_px": 0.2125996030031892,
+    "selected_distance_guide_px": 0.2125996030031892,
+    "guide_reference_pixel_xy": [
+      1507.8007829488488,
+      3379.9257628278574
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

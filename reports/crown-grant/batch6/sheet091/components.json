@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5991 x 4172 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 96.68 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          40,
+          110
+        ],
+        [
+          5895,
+          110
+        ],
+        [
+          5895,
+          4055
+        ],
+        [
+          40,
+          4055
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Mushaboom and Spry harbours, Taylors Head, Sheet Harbour Passage, Port Dufferin and Hartling, Moosehead and the Bay of Islands, the nearshore archipelagos, Horse, Pumpkin, Brother and Beaver islands, Bird Islands, and the full southern Atlantic Ocean frame. No displaced inset identified."
+    }
+  ]
+}

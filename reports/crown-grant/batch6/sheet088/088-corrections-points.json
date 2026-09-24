@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C03",
+    "label": "Sucker northern lake northeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3548,
+      1518
+    ],
+    "lonlat": [
+      -62.676082234634514,
+      45.36335184736464
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 129665,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129665,
+    "nearest_unfiltered_distance_guide_px": 0.7550080061402201,
+    "selected_distance_guide_px": 0.7550080061402201,
+    "guide_reference_pixel_xy": [
+      3577.6033231073525,
+      1462.4539144384908
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Cox Lake island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1408,
+      3538
+    ],
+    "lonlat": [
+      -62.752939416286665,
+      45.24349884675988
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 146270,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 146270,
+    "nearest_unfiltered_distance_guide_px": 1.2984095158746884,
+    "selected_distance_guide_px": 1.2984095158746884,
+    "guide_reference_pixel_xy": [
+      1416.2344784938032,
+      3502.277061904082
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "College Lake island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      690,
+      3470
+    ],
+    "lonlat": [
+      -62.79639744914175,
+      45.23379900038432
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 144227,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144227,
+    "nearest_unfiltered_distance_guide_px": 2.277966150727517,
+    "selected_distance_guide_px": 2.277966150727517,
+    "guide_reference_pixel_xy": [
+      696.7333824918023,
+      3452.156682615634
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Black Lake east lobe extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      3684,
+      1082
+    ],
+    "lonlat": [
+      -62.6775252249605,
+      45.38310756631653
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 124437,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124437,
+    "nearest_unfiltered_distance_guide_px": 1.01123267168021,
+    "selected_distance_guide_px": 1.01123267168021,
+    "guide_reference_pixel_xy": [
+      3727.58074651059,
+      1044.9202271610266
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

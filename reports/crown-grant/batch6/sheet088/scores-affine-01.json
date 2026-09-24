@@ -1,0 +1,190 @@
+{
+  "count": 5,
+  "rms_ground_m": 75.41467996366467,
+  "median_ground_m": 55.230897523835914,
+  "p95_ground_m": 116.0358047278865,
+  "max_ground_m": 126.87728795125246,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -11.47068076849866,
+  "mean_north_ground_m": 3.0178742076603653,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Black Lake east lobe extremity",
+      "role": "check",
+      "pixel_xy": [
+        3684,
+        1082
+      ],
+      "lonlat": [
+        -62.6775252249605,
+        45.38310756631653
+      ],
+      "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+      "reference_objectid": 124437,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124437,
+      "nearest_unfiltered_distance_guide_px": 1.01123267168021,
+      "selected_distance_guide_px": 1.01123267168021,
+      "guide_reference_pixel_xy": [
+        3727.58074651059,
+        1044.9202271610266
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines and paired native crosshairs inspected before first fit and scoring; lake/island feature types verified.",
+      "review": "All physical decisions precede fitting; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.67781890449042,
+        45.38351797490065
+      ],
+      "error_ground_m": 51.08363039610219,
+      "east_ground_m": -23.00070473736311,
+      "north_ground_m": 45.612551737764214
+    },
+    {
+      "id": "Q02",
+      "label": "Sucker northern lake southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        3490,
+        1547
+      ],
+      "lonlat": [
+        -62.679198320282545,
+        45.361006787407916
+      ],
+      "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+      "reference_objectid": 129664,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129664,
+      "nearest_unfiltered_distance_guide_px": 21.90422181509433,
+      "selected_distance_guide_px": 21.90422181509433,
+      "guide_reference_pixel_xy": [
+        3511.824437640258,
+        1493.132152305101
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines and paired native crosshairs inspected before first fit and scoring; lake/island feature types verified.",
+      "review": "All physical decisions precede fitting; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.678271047244955,
+        45.36099227807126
+      ],
+      "error_ground_m": 72.66987183442271,
+      "east_ground_m": 72.65198759501638,
+      "north_ground_m": -1.6121324154700198
+    },
+    {
+      "id": "Q04",
+      "label": "Dean Lake north shore",
+      "role": "check",
+      "pixel_xy": [
+        1492,
+        2994
+      ],
+      "lonlat": [
+        -62.76095937386681,
+        45.26685236384382
+      ],
+      "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+      "reference_objectid": 127705,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127705,
+      "nearest_unfiltered_distance_guide_px": 0.6537816312954589,
+      "selected_distance_guide_px": 0.6537816312954589,
+      "guide_reference_pixel_xy": [
+        1501.6785924026044,
+        2972.430677966564
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines and paired native crosshairs inspected before first fit and scoring; lake/island feature types verified.",
+      "review": "All physical decisions precede fitting; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.76089285991974,
+        45.26718551426609
+      ],
+      "error_ground_m": 37.39149587913449,
+      "east_ground_m": 5.219982929574727,
+      "north_ground_m": 37.02533919215704
+    },
+    {
+      "id": "Q06",
+      "label": "Battery Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1327,
+        3940
+      ],
+      "lonlat": [
+        -62.746772507322504,
+        45.22537960938946
+      ],
+      "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+      "reference_objectid": 129677,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129677,
+      "nearest_unfiltered_distance_guide_px": 1.3319097884893503,
+      "selected_distance_guide_px": 1.3319097884893503,
+      "guide_reference_pixel_xy": [
+        1349.198951613973,
+        3913.0640982886543
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines and paired native crosshairs inspected before first fit and scoring; lake/island feature types verified.",
+      "review": "All physical decisions precede fitting; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.7483801293602,
+        45.22526696038293
+      ],
+      "error_ground_m": 126.87728795125246,
+      "east_ground_m": -126.25823852624774,
+      "north_ground_m": -12.518122946918316
+    },
+    {
+      "id": "Q07",
+      "label": "Cox Lake northeast lobe north tip",
+      "role": "check",
+      "pixel_xy": [
+        1500,
+        3423
+      ],
+      "lonlat": [
+        -62.75057379596426,
+        45.25006662743952
+      ],
+      "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+      "reference_objectid": 128326,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128326,
+      "nearest_unfiltered_distance_guide_px": 0.2125996030031892,
+      "selected_distance_guide_px": 0.2125996030031892,
+      "guide_reference_pixel_xy": [
+        1507.8007829488488,
+        3379.9257628278574
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines and paired native crosshairs inspected before first fit and scoring; lake/island feature types verified.",
+      "review": "All physical decisions precede fitting; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.75039503297595,
+        45.249585973439046
+      ],
+      "error_ground_m": 55.230897523835914,
+      "east_ground_m": 14.03356889652644,
+      "north_ground_m": -53.4182645292311
+    }
+  ],
+  "fit_sha256": "80374364d5140164e6c185da36fb4c06cf3bb21e3fbc09aa6cb119d7a2f6f71a",
+  "checks_sha256": "d49cd7d47612622efeaae8ec5deb03ee4b324b6d7a8b114adcba15ad9cf8c25a",
+  "status": "Five excluded lake checks reserved and audited before first affine fit and score; sparse coverage and shared lake systems limit inference"
+}
