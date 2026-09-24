@@ -1,0 +1,225 @@
+{
+  "count": 6,
+  "rms_ground_m": 49.56441473412552,
+  "median_ground_m": 48.83795725533941,
+  "p95_ground_m": 61.524504268894624,
+  "max_ground_m": 65.30657441460666,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -19.954563580029426,
+  "mean_north_ground_m": -8.204303663001802,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Indian Lake south lobe",
+      "role": "check",
+      "pixel_xy": [
+        145,
+        1279
+      ],
+      "lonlat": [
+        -62.198676001395086,
+        45.51114011199299
+      ],
+      "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+      "reference_objectid": 137547,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137547,
+      "nearest_unfiltered_distance_guide_px": 0.8735273595773706,
+      "selected_distance_guide_px": 0.8735273595773706,
+      "guide_reference_pixel_xy": [
+        132.84328068624018,
+        1229.2278765721712
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+      "review": "All image-based corrections completed before fitting; check observations excluded from every fit.",
+      "predicted_lonlat": [
+        -62.19917751766132,
+        45.51086542362855
+      ],
+      "error_ground_m": 49.67786050332598,
+      "east_ground_m": -39.19000033500996,
+      "north_ground_m": -30.529226946154974
+    },
+    {
+      "id": "Q03",
+      "label": "Southern Beaver Meadow pond, southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        1537,
+        915
+      ],
+      "lonlat": [
+        -62.12576874428057,
+        45.54921912534907
+      ],
+      "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+      "reference_objectid": 124869,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124869,
+      "nearest_unfiltered_distance_guide_px": 1.4620328529694604,
+      "selected_distance_guide_px": 1.4620328529694604,
+      "guide_reference_pixel_xy": [
+        1506.7184857489774,
+        868.4346741057234
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+      "review": "All image-based corrections completed before fitting; check observations excluded from every fit.",
+      "predicted_lonlat": [
+        -62.12518364942222,
+        45.54940576351345
+      ],
+      "error_ground_m": 50.17829383175853,
+      "east_ground_m": 45.68986964473846,
+      "north_ground_m": 20.743601030513084
+    },
+    {
+      "id": "Q04",
+      "label": "Eastern small pond south of Ireland, north tip",
+      "role": "check",
+      "pixel_xy": [
+        1501,
+        3548
+      ],
+      "lonlat": [
+        -62.064068460334155,
+        45.43841862126605
+      ],
+      "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+      "reference_objectid": 134847,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134847,
+      "nearest_unfiltered_distance_guide_px": 1.2830603640568603,
+      "selected_distance_guide_px": 1.2830603640568603,
+      "guide_reference_pixel_xy": [
+        1482.7010174586321,
+        3522.925375218736
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+      "review": "All image-based corrections completed before fitting; check observations excluded from every fit.",
+      "predicted_lonlat": [
+        -62.06461273329945,
+        45.43821939579458
+      ],
+      "error_ground_m": 47.99805400735284,
+      "east_ground_m": -42.5858188696032,
+      "north_ground_m": -22.141843186557622
+    },
+    {
+      "id": "Q05",
+      "label": "Boyd Lake southern end",
+      "role": "check",
+      "pixel_xy": [
+        3648,
+        2622
+      ],
+      "lonlat": [
+        -61.95894683109807,
+        45.512417421893105
+      ],
+      "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+      "reference_objectid": 124538,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124538,
+      "nearest_unfiltered_distance_guide_px": 2.538480376574417,
+      "selected_distance_guide_px": 2.538480376574417,
+      "guide_reference_pixel_xy": [
+        3622.2411273525213,
+        2604.192153854179
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+      "review": "All image-based corrections completed before fitting; check observations excluded from every fit.",
+      "predicted_lonlat": [
+        -61.95909875172018,
+        45.512831583550536
+      ],
+      "error_ground_m": 47.53679864522745,
+      "east_ground_m": -11.871124287217071,
+      "north_ground_m": 46.03068143743196
+    },
+    {
+      "id": "Q06",
+      "label": "Larger eastern oval Antigonish Harbour island, south end",
+      "role": "check",
+      "pixel_xy": [
+        5364,
+        249
+      ],
+      "lonlat": [
+        -61.91265046703421,
+        45.641423787331256
+      ],
+      "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+      "reference_objectid": 20141,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20141,
+      "nearest_unfiltered_distance_guide_px": 1.2162715037190908,
+      "selected_distance_guide_px": 1.2162715037190908,
+      "guide_reference_pixel_xy": [
+        5359.182503120392,
+        200.71539019513875
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+      "review": "All image-based corrections completed before fitting; check observations excluded from every fit.",
+      "predicted_lonlat": [
+        -61.91328478714765,
+        45.641040018884986
+      ],
+      "error_ground_m": 65.30657441460666,
+      "east_ground_m": -49.45330178560294,
+      "north_ground_m": -42.65348290905021
+    },
+    {
+      "id": "Q07",
+      "label": "Western elongated Antigonish Harbour island, south tip",
+      "role": "check",
+      "pixel_xy": [
+        5244,
+        227
+      ],
+      "lonlat": [
+        -61.920671559018906,
+        45.64016141722439
+      ],
+      "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+      "reference_objectid": 21596,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 21596,
+      "nearest_unfiltered_distance_guide_px": 0.5681879691254349,
+      "selected_distance_guide_px": 0.5681879691254349,
+      "guide_reference_pixel_xy": [
+        5232.534614463861,
+        180.32596605806611
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+      "review": "All image-based corrections completed before fitting; check observations excluded from every fit.",
+      "predicted_lonlat": [
+        -61.920957805984614,
+        45.63997539244502
+      ],
+      "error_ground_m": 30.422478134826022,
+      "east_ground_m": -22.317005847481827,
+      "north_ground_m": -20.67555140419305
+    }
+  ],
+  "fit_sha256": "0c1be581260977dadaccbb0ac5d7d817ab71d36c1ffe4b7c571f1f304cdb0d6d",
+  "checks_sha256": "b4e24138925e3a07a3f84243f6831c6a0e59c2e53fedf881ac7c6a0718cfc24e",
+  "status": "Six independent check observations reserved and audited before first affine fit and score; repeated lake/island endpoints are spatially correlated"
+}

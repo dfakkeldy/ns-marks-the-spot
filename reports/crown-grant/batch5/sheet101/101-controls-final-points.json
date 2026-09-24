@@ -1,0 +1,226 @@
+[
+  {
+    "id": "C01",
+    "label": "Cargill Lake south tip",
+    "role": "control",
+    "pixel_xy": [
+      870,
+      498
+    ],
+    "lonlat": [
+      -61.9891528916772,
+      45.23280246659842
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 124789,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124789,
+    "nearest_unfiltered_distance_guide_px": 0.3006915486275122,
+    "selected_distance_guide_px": 0.3006915486275122,
+    "guide_reference_pixel_xy": [
+      919.7021497820388,
+      519.0412389994599
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  },
+  {
+    "id": "C02",
+    "label": "Costley Lake north lobe",
+    "role": "control",
+    "pixel_xy": [
+      5516,
+      371
+    ],
+    "lonlat": [
+      -61.718577195644976,
+      45.314953136674546
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 128642,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128642,
+    "nearest_unfiltered_distance_guide_px": 0.56566378205857,
+    "selected_distance_guide_px": 0.56566378205857,
+    "guide_reference_pixel_xy": [
+      5545.407630862959,
+      386.3921894872328
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  },
+  {
+    "id": "C03",
+    "label": "Monument Lake north end",
+    "role": "control",
+    "pixel_xy": [
+      1530,
+      1446
+    ],
+    "lonlat": [
+      -61.9286842395332,
+      45.20412304845972
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 135584,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135584,
+    "nearest_unfiltered_distance_guide_px": 0.26324011299686756,
+    "selected_distance_guide_px": 0.26324011299686756,
+    "guide_reference_pixel_xy": [
+      1559.2008583033457,
+      1460.1701508127153
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  },
+  {
+    "id": "C04",
+    "label": "Leonard Lake east bulge",
+    "role": "control",
+    "pixel_xy": [
+      1897,
+      2577
+    ],
+    "lonlat": [
+      -61.880079817051,
+      45.16338517890665
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 132650,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132650,
+    "nearest_unfiltered_distance_guide_px": 0.8611021240493024,
+    "selected_distance_guide_px": 0.8611021240493024,
+    "guide_reference_pixel_xy": [
+      1925.8575761991087,
+      2580.922154442873
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  },
+  {
+    "id": "C05",
+    "label": "Stewart Lake southeast corner",
+    "role": "control",
+    "pixel_xy": [
+      4931,
+      1870
+    ],
+    "lonlat": [
+      -61.718391318329886,
+      45.2431334520041
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 139802,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV55",
+    "nearest_unfiltered_objectid": 291659,
+    "nearest_unfiltered_distance_guide_px": 1.6452131858887356,
+    "selected_distance_guide_px": 3.47282990405707,
+    "guide_reference_pixel_xy": [
+      4949.232877783303,
+      1868.901528608636
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  },
+  {
+    "id": "C06",
+    "label": "Robinson Lake south tip",
+    "role": "control",
+    "pixel_xy": [
+      2183,
+      3537
+    ],
+    "lonlat": [
+      -61.84080288150994,
+      45.12774706421788
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 143250,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143250,
+    "nearest_unfiltered_distance_guide_px": 1.5738052583720694,
+    "selected_distance_guide_px": 1.5738052583720694,
+    "guide_reference_pixel_xy": [
+      2200.259943687881,
+      3542.6110508842394
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  },
+  {
+    "id": "C07",
+    "label": "Mitchell Lake larger eastern island south tip",
+    "role": "control",
+    "pixel_xy": [
+      1034,
+      3657
+    ],
+    "lonlat": [
+      -61.90578209658312,
+      45.10356136461121
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 151907,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 151907,
+    "nearest_unfiltered_distance_guide_px": 1.1165201600551697,
+    "selected_distance_guide_px": 1.1165201600551697,
+    "guide_reference_pixel_xy": [
+      1049.4220626120805,
+      3664.9663267347496
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  },
+  {
+    "id": "C08",
+    "label": "Ragged Point south tip",
+    "role": "control",
+    "pixel_xy": [
+      5056,
+      3942
+    ],
+    "lonlat": [
+      -61.66206606895695,
+      45.15870931295713
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 3418,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3418,
+    "nearest_unfiltered_distance_guide_px": 0.7314951247488864,
+    "selected_distance_guide_px": 0.7314951247488864,
+    "guide_reference_pixel_xy": [
+      5067.302205723885,
+      3934.219472699333
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+    "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting."
+  }
+]

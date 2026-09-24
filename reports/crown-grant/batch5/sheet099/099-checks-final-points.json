@@ -1,0 +1,170 @@
+[
+  {
+    "id": "Q01",
+    "label": "Indian Lake south lobe",
+    "role": "check",
+    "pixel_xy": [
+      145,
+      1279
+    ],
+    "lonlat": [
+      -62.198676001395086,
+      45.51114011199299
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 137547,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137547,
+    "nearest_unfiltered_distance_guide_px": 0.8735273595773706,
+    "selected_distance_guide_px": 0.8735273595773706,
+    "guide_reference_pixel_xy": [
+      132.84328068624018,
+      1229.2278765721712
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "Q03",
+    "label": "Southern Beaver Meadow pond, southeast tip",
+    "role": "check",
+    "pixel_xy": [
+      1537,
+      915
+    ],
+    "lonlat": [
+      -62.12576874428057,
+      45.54921912534907
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 124869,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124869,
+    "nearest_unfiltered_distance_guide_px": 1.4620328529694604,
+    "selected_distance_guide_px": 1.4620328529694604,
+    "guide_reference_pixel_xy": [
+      1506.7184857489774,
+      868.4346741057234
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "Q04",
+    "label": "Eastern small pond south of Ireland, north tip",
+    "role": "check",
+    "pixel_xy": [
+      1501,
+      3548
+    ],
+    "lonlat": [
+      -62.064068460334155,
+      45.43841862126605
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 134847,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134847,
+    "nearest_unfiltered_distance_guide_px": 1.2830603640568603,
+    "selected_distance_guide_px": 1.2830603640568603,
+    "guide_reference_pixel_xy": [
+      1482.7010174586321,
+      3522.925375218736
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "Q05",
+    "label": "Boyd Lake southern end",
+    "role": "check",
+    "pixel_xy": [
+      3648,
+      2622
+    ],
+    "lonlat": [
+      -61.95894683109807,
+      45.512417421893105
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 124538,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124538,
+    "nearest_unfiltered_distance_guide_px": 2.538480376574417,
+    "selected_distance_guide_px": 2.538480376574417,
+    "guide_reference_pixel_xy": [
+      3622.2411273525213,
+      2604.192153854179
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "Q06",
+    "label": "Larger eastern oval Antigonish Harbour island, south end",
+    "role": "check",
+    "pixel_xy": [
+      5364,
+      249
+    ],
+    "lonlat": [
+      -61.91265046703421,
+      45.641423787331256
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 20141,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20141,
+    "nearest_unfiltered_distance_guide_px": 1.2162715037190908,
+    "selected_distance_guide_px": 1.2162715037190908,
+    "guide_reference_pixel_xy": [
+      5359.182503120392,
+      200.71539019513875
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "Q07",
+    "label": "Western elongated Antigonish Harbour island, south tip",
+    "role": "check",
+    "pixel_xy": [
+      5244,
+      227
+    ],
+    "lonlat": [
+      -61.920671559018906,
+      45.64016141722439
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 21596,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 21596,
+    "nearest_unfiltered_distance_guide_px": 0.5681879691254349,
+    "selected_distance_guide_px": 0.5681879691254349,
+    "guide_reference_pixel_xy": [
+      5232.534614463861,
+      180.32596605806611
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  }
+]

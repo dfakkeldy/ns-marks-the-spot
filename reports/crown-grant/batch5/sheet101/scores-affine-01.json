@@ -1,0 +1,260 @@
+{
+  "count": 7,
+  "rms_ground_m": 43.247499712452594,
+  "median_ground_m": 45.03931863157855,
+  "p95_ground_m": 66.56458273235876,
+  "max_ground_m": 72.78988310422497,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 9.84178886879217,
+  "mean_north_ground_m": -2.472321706276811,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Elongated pond east of Cargill Lake, south tip",
+      "role": "check",
+      "pixel_xy": [
+        1324,
+        687
+      ],
+      "lonlat": [
+        -61.95857417979,
+        45.2327941532274
+      ],
+      "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+      "reference_objectid": 139055,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139055,
+      "nearest_unfiltered_distance_guide_px": 0.9337818882453855,
+      "selected_distance_guide_px": 0.9337818882453855,
+      "guide_reference_pixel_xy": [
+        1364.7033358057379,
+        696.3857790632173
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+      "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.95833347906595,
+        45.232371950963646
+      ],
+      "error_ground_m": 50.586000036524965,
+      "east_ground_m": 18.901621655184815,
+      "north_ground_m": -46.92197884253767
+    },
+    {
+      "id": "Q02",
+      "label": "Costley Lake southwest outlet",
+      "role": "check",
+      "pixel_xy": [
+        5533,
+        673
+      ],
+      "lonlat": [
+        -61.71110857096037,
+        45.30235075699651
+      ],
+      "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+      "reference_objectid": 128645,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128645,
+      "nearest_unfiltered_distance_guide_px": 1.21873913435137,
+      "selected_distance_guide_px": 1.21873913435137,
+      "guide_reference_pixel_xy": [
+        5549.041684044001,
+        689.2180260744644
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+      "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.71054867303924,
+        45.302873097314894
+      ],
+      "error_ground_m": 72.78988310422497,
+      "east_ground_m": 43.91298037324152,
+      "north_ground_m": 58.05184955766733
+    },
+    {
+      "id": "Q03",
+      "label": "Monument Lake south end",
+      "role": "check",
+      "pixel_xy": [
+        1561,
+        1563
+      ],
+      "lonlat": [
+        -61.92380297393509,
+        45.19990220277341
+      ],
+      "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+      "reference_objectid": 135584,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135584,
+      "nearest_unfiltered_distance_guide_px": 1.953974190545392,
+      "selected_distance_guide_px": 1.953974190545392,
+      "guide_reference_pixel_xy": [
+        1594.8828329896205,
+        1575.396892702207
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+      "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.92377198653249,
+        45.19981792463355
+      ],
+      "error_ground_m": 9.677589772279994,
+      "east_ground_m": 2.434751481248263,
+      "north_ground_m": -9.366308185464417
+    },
+    {
+      "id": "Q05",
+      "label": "Stewart Lake northwest corner",
+      "role": "check",
+      "pixel_xy": [
+        4847,
+        1643
+      ],
+      "lonlat": [
+        -61.72810426575534,
+        45.251078797944984
+      ],
+      "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+      "reference_objectid": 139903,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139903,
+      "nearest_unfiltered_distance_guide_px": 1.54029394671202,
+      "selected_distance_guide_px": 1.54029394671202,
+      "guide_reference_pixel_xy": [
+        4873.976666059578,
+        1649.1910620682174
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+      "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.728328540702115,
+        45.25105503203022
+      ],
+      "error_ground_m": 17.80299195871478,
+      "east_ground_m": -17.605975445319064,
+      "north_ground_m": -2.6412404852427476
+    },
+    {
+      "id": "Q06",
+      "label": "Robinson Lake northeast nub",
+      "role": "check",
+      "pixel_xy": [
+        2237,
+        3386
+      ],
+      "lonlat": [
+        -61.841228791715466,
+        45.13516070640229
+      ],
+      "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+      "reference_objectid": 143251,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143251,
+      "nearest_unfiltered_distance_guide_px": 0.3425036806937138,
+      "selected_distance_guide_px": 0.3425036806937138,
+      "guide_reference_pixel_xy": [
+        2256.10059612256,
+        3387.327397604473
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+      "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.841224367123836,
+        45.13507639054051
+      ],
+      "error_ground_m": 9.376855689591773,
+      "east_ground_m": 0.3480443745102938,
+      "north_ground_m": -9.370394214588911
+    },
+    {
+      "id": "Q07",
+      "label": "Small pond south of Cains Lake, north edge",
+      "role": "check",
+      "pixel_xy": [
+        3219,
+        3306
+      ],
+      "lonlat": [
+        -61.78509384103944,
+        45.155084966709886
+      ],
+      "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+      "reference_objectid": 134913,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134913,
+      "nearest_unfiltered_distance_guide_px": 1.3323247452515177,
+      "selected_distance_guide_px": 1.3323247452515177,
+      "guide_reference_pixel_xy": [
+        3241.7062735318905,
+        3300.7004562382353
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+      "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.78532888831218,
+        45.15471539535641
+      ],
+      "error_ground_m": 45.03931863157855,
+      "east_ground_m": -18.482789851720337,
+      "north_ground_m": -41.07221326023231
+    },
+    {
+      "id": "Q08",
+      "label": "Archibald Big Lake west upper lobe extremity",
+      "role": "check",
+      "pixel_xy": [
+        4025,
+        338
+      ],
+      "lonlat": [
+        -61.80787127740657,
+        45.29154871978391
+      ],
+      "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+      "reference_objectid": 129804,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129804,
+      "nearest_unfiltered_distance_guide_px": 0.867754136228285,
+      "selected_distance_guide_px": 0.867754136228285,
+      "guide_reference_pixel_xy": [
+        4050.484793397365,
+        355.71970313519705
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and harbour topology traced, then native source crosshair compared with modern outline before first fitting or scoring.",
+      "review": "All coordinate corrections preceded fitting; independent checks excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.807369223400165,
+        45.29185477235458
+      ],
+      "error_ground_m": 52.03888186467097,
+      "east_ground_m": 39.38388949439971,
+      "north_ground_m": 34.01403348646105
+    }
+  ],
+  "fit_sha256": "2bcc52d1367b8b18d9ce15766bd391cdbc5e514e2a72d97e51a7a6aac349c9f5",
+  "checks_sha256": "c6ff991f47688b6a5a5743a0d3a6592a294dac62ab84288c330210a836a0bffa",
+  "status": "Seven independent checks reserved and audited before first affine fit and score; same-lake endpoint observations are spatially correlated"
+}

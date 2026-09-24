@@ -1,0 +1,45 @@
+{
+  "sheet": "100",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric pass with regional limitations; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/100.pdf",
+    "pdf_sha256": "42fc151178e2c5f22d8b665add3792f1be65a913c56031421dc5a8b670914d76",
+    "jpeg_sha256": "b7b91e29ace22e51693ef0f7b0c7e9a3ce8fdc45a9ece49e042e759f05aee2a8",
+    "dimensions": [
+      6018,
+      4108
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 39.1892378543928,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 39.19 m, median 37.55 m, P95 56.59 m and maximum 63.24 m. Numerical bounds pass; validation remains regional.",
+    "Copper Lake has a control and separate shoreline check, and Mahers/Sheas Lake has a shoreline control and island check. These observations are spatially correlated.",
+    "The northernmost band, Lochaber and South River Lake's long shores, western river corridor, northeastern interior and many connected lake systems are incompletely validated. All their source content remains present.",
+    "Original shore generalization and transitions between lake outlines and adjoining river banks limit precision; each adopted point uses 12 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 39.19 m, median 37.55 m, P95 56.59 m, maximum 63.24 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Lochaber and South River Lake, Copper Lake, Goshen and Argyle, Eight Island Lake, Giants Lake, the western St Marys River corridor, Melrose, Country Harbour Lake, Salmon River Lake, Mahers/Sheas Lake and every mapped lake, island and parcel region. No displaced inset identified."
+  }
+}

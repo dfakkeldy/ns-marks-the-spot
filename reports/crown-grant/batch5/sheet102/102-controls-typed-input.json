@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Wedge Island north tip",
+    [
+      714,
+      1918
+    ],
+    [
+      715,
+      1871
+    ],
+    "WACOIS"
+  ],
+  [
+    "C02",
+    "Walter Island north tip",
+    [
+      1900,
+      1113
+    ],
+    [
+      1900,
+      1098
+    ],
+    "WACOIS"
+  ],
+  [
+    "C03",
+    "Gillen Lake south tip",
+    [
+      1322,
+      1210
+    ],
+    [
+      1321,
+      1155
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Holland Harbour Island southwest corner",
+    [
+      2866,
+      1123
+    ],
+    [
+      2878,
+      1080
+    ],
+    "WACOIS"
+  ],
+  [
+    "C05",
+    "Bickerton Island south end",
+    [
+      3817,
+      1322
+    ],
+    [
+      3820,
+      1296
+    ],
+    "WACOIS"
+  ],
+  [
+    "C06",
+    "Country Harbour Head southeast corner",
+    [
+      4969,
+      906
+    ],
+    [
+      4969,
+      910
+    ],
+    "WACO20"
+  ],
+  [
+    "C07",
+    "Saladin Point on Harbour Island, south end",
+    [
+      5730,
+      1078
+    ],
+    [
+      5717,
+      1072
+    ],
+    "WACOIS"
+  ],
+  [
+    "C08",
+    "Small lake northwest of Harpellville, south tip",
+    [
+      2687,
+      340
+    ],
+    [
+      2680,
+      303
+    ],
+    "WALK"
+  ]
+]

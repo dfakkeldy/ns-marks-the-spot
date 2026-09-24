@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C02",
+    "label": "Small pond east of South River Lake, south end",
+    "role": "proposal",
+    "pixel_xy": [
+      3119,
+      1148
+    ],
+    "lonlat": [
+      -61.932018030527466,
+      45.403613131147225
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 136537,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136537,
+    "nearest_unfiltered_distance_guide_px": 5.656794493968685,
+    "selected_distance_guide_px": 5.656794493968685,
+    "guide_reference_pixel_xy": [
+      3124.9562478361768,
+      1172.956804851885
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Grassy Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1998,
+      3638
+    ],
+    "lonlat": [
+      -61.939396571302105,
+      45.28088747313474
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 137829,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137829,
+    "nearest_unfiltered_distance_guide_px": 1.2685281019421846,
+    "selected_distance_guide_px": 1.2685281019421846,
+    "guide_reference_pixel_xy": [
+      2002.4482411085046,
+      3669.1422458890593
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
