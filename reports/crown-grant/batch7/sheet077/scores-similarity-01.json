@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 164.7098820520001,
+  "median_ground_m": 146.2041768873656,
+  "p95_ground_m": 251.61569887203254,
+  "max_ground_m": 265.41820101071295,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -85.0118609997693,
+  "mean_north_ground_m": 61.46547743276675,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Fox Harbour island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2687,
+        2605
+      ],
+      "lonlat": [
+        -63.421878279375875,
+        45.84438184576077
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 18415,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18415,
+      "nearest_unfiltered_distance_guide_px": 1.2278823497460716,
+      "selected_distance_guide_px": 1.2278823497460716,
+      "guide_reference_pixel_xy": [
+        2711.6226745092426,
+        2654.1684693144634
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "predicted_lonlat": [
+        -63.42436373155396,
+        45.84470614307624
+      ],
+      "error_ground_m": 196.4056903173109,
+      "east_ground_m": -193.06923663041192,
+      "north_ground_m": 36.04809365236172
+    },
+    {
+      "id": "Q02",
+      "label": "Oak Island southwest shore",
+      "role": "check",
+      "pixel_xy": [
+        2961,
+        2886
+      ],
+      "lonlat": [
+        -63.40231859352432,
+        45.837332876948956
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 20951,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20951,
+      "nearest_unfiltered_distance_guide_px": 1.8352333276130106,
+      "selected_distance_guide_px": 1.8352333276130106,
+      "guide_reference_pixel_xy": [
+        2929.2569558374234,
+        2915.5743504279526
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "predicted_lonlat": [
+        -63.401561813700646,
+        45.837072927732386
+      ],
+      "error_ground_m": 65.5101027030257,
+      "east_ground_m": 58.79448644473569,
+      "north_ground_m": -28.892592819973192
+    },
+    {
+      "id": "Q03",
+      "label": "Palmer Point southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        2378,
+        3076
+      ],
+      "lonlat": [
+        -63.432813584071276,
+        45.819770025605536
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 8163,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8163,
+      "nearest_unfiltered_distance_guide_px": 0.019956323096811335,
+      "selected_distance_guide_px": 0.019956323096811335,
+      "guide_reference_pixel_xy": [
+        2332.0178117714822,
+        3088.0089997571195
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "predicted_lonlat": [
+        -63.432603020709976,
+        45.82000630711697
+      ],
+      "error_ground_m": 30.94308833428262,
+      "east_ground_m": 16.363740588759033,
+      "north_ground_m": 26.262191637542696
+    },
+    {
+      "id": "Q04",
+      "label": "Canfield Point northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2349,
+        3150
+      ],
+      "lonlat": [
+        -63.43127829716902,
+        45.81557970280134
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 3859,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3859,
+      "nearest_unfiltered_distance_guide_px": 0.48259953781539183,
+      "selected_distance_guide_px": 0.48259953781539183,
+      "guide_reference_pixel_xy": [
+        2316.244571723044,
+        3182.416037241346
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "predicted_lonlat": [
+        -63.432715187494296,
+        45.81642869305414
+      ],
+      "error_ground_m": 146.2041768873656,
+      "east_ground_m": -111.67377945599527,
+      "north_ground_m": 94.36433818623335
+    },
+    {
+      "id": "Q05",
+      "label": "Lazy Bay northern promontory northwest tip",
+      "role": "check",
+      "pixel_xy": [
+        2186,
+        3184
+      ],
+      "lonlat": [
+        -63.439299133900896,
+        45.81084844093438
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 3859,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3859,
+      "nearest_unfiltered_distance_guide_px": 0.1057849077470291,
+      "selected_distance_guide_px": 0.1057849077470291,
+      "guide_reference_pixel_xy": [
+        2158.1056534542004,
+        3229.994727967889
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "predicted_lonlat": [
+        -63.441814097671276,
+        45.812463790413226
+      ],
+      "error_ground_m": 265.41820101071295,
+      "east_ground_m": -195.474515945934,
+      "north_ground_m": 179.54535650766917
+    }
+  ],
+  "fit_sha256": "3fe584fde739016c0161e374f5711c7ae97530a034b6e196a3ae54d90e5a839e",
+  "checks_sha256": "31132ab6f76185332ad9a3824fdd44344adaf3b08a1a04e5c2e64855764159a7",
+  "status": "Five excluded checks reserved before first similarity fit; all clustered around Wallace and Fox harbours"
+}

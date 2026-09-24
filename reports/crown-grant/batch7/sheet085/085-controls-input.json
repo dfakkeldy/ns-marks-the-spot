@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Amet Island northern tip",
+    [
+      337,
+      433
+    ],
+    [
+      447,
+      175
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Cape John northern tip",
+    [
+      780,
+      1353
+    ],
+    [
+      860,
+      1121
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Horn Point northeast corner",
+    [
+      2105,
+      2085
+    ],
+    [
+      2190,
+      1910
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "McQuarry Point eastern tip",
+    [
+      4488,
+      3690
+    ],
+    [
+      4580,
+      3617
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Marshville northern headland",
+    [
+      658,
+      2287
+    ],
+    [
+      726,
+      2075
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "River John eastern spit southwest tip",
+    [
+      1183,
+      2644
+    ],
+    [
+      1274,
+      2470
+    ],
+    "WACORV20"
+  ]
+]

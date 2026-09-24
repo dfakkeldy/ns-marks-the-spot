@@ -1,0 +1,14 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Six controls span offshore Amet, Cape John, western bay and southeastern coastline, providing non-collinear support. No inland validation is inferred.",
+  "corrections": [
+    "Sandies Point source corner refined before fit; initial proposal preserved"
+  ],
+  "limitations": [
+    "Amet north/south endpoint pair strongly correlated",
+    "Southern inland parcel and river region unvalidated",
+    "Generalized coastal headlands and river spit subject to change"
+  ],
+  "discovery": "Initial guide borrowed from086; Amet modern island was in original extract but above initial plot y=200. Wider western extract acquired and original reference archived before discovering this. Both data versions retained; guide unchanged."
+}

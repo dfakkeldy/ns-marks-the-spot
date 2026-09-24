@@ -1,0 +1,140 @@
+{
+  "status": "Five excluded physical checks reserved before first affine fit; four share lake/island/peninsula systems with controls",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Mattatall Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        430,
+        1710
+      ],
+      "lonlat": [
+        -63.4813272217578,
+        45.68110489674511
+      ],
+      "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+      "reference_objectid": 136139,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136139,
+      "nearest_unfiltered_distance_guide_px": 0.4471559805062183,
+      "selected_distance_guide_px": 0.4471559805062183,
+      "guide_reference_pixel_xy": [
+        379.716346197587,
+        1740.3456717970548
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and headland shape and original paired crosshairs inspected before first fit or score."
+    },
+    {
+      "id": "Q02",
+      "label": "Saddle Island southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        5051,
+        434
+      ],
+      "lonlat": [
+        -63.241970670148696,
+        45.81481786530312
+      ],
+      "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+      "reference_objectid": 20131,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20131,
+      "nearest_unfiltered_distance_guide_px": 1.1272665509726296,
+      "selected_distance_guide_px": 1.1272665509726296,
+      "guide_reference_pixel_xy": [
+        5034.152033755265,
+        469.88303284998983
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and headland shape and original paired crosshairs inspected before first fit or score."
+    },
+    {
+      "id": "Q03",
+      "label": "Waugh Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3218,
+        1084
+      ],
+      "lonlat": [
+        -63.334408854998344,
+        45.75560447029755
+      ],
+      "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+      "reference_objectid": 11987,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 11987,
+      "nearest_unfiltered_distance_guide_px": 0.9506927669969876,
+      "selected_distance_guide_px": 0.9506927669969876,
+      "guide_reference_pixel_xy": [
+        3169.8141763475724,
+        1116.4908498877194
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and headland shape and original paired crosshairs inspected before first fit or score."
+    },
+    {
+      "id": "Q04",
+      "label": "Brule Point eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        5569,
+        1847
+      ],
+      "lonlat": [
+        -63.17646425719118,
+        45.76530899958552
+      ],
+      "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+      "reference_objectid": 13283,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 13283,
+      "nearest_unfiltered_distance_guide_px": 1.6807033601825074,
+      "selected_distance_guide_px": 1.6807033601825074,
+      "guide_reference_pixel_xy": [
+        5533.6336404644535,
+        1870.6050536519615
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and headland shape and original paired crosshairs inspected before first fit or score."
+    },
+    {
+      "id": "Q06",
+      "label": "Islet west of Waugh Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3060,
+        971
+      ],
+      "lonlat": [
+        -63.34583245546333,
+        45.757804202995914
+      ],
+      "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+      "reference_objectid": 18786,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18786,
+      "nearest_unfiltered_distance_guide_px": 2.6558313428376787,
+      "selected_distance_guide_px": 2.6558313428376787,
+      "guide_reference_pixel_xy": [
+        3025.0425536769326,
+        1002.794949585339
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and headland shape and original paired crosshairs inspected before first fit or score."
+    }
+  ]
+}

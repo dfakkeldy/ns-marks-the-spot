@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6095 x 4162 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 96.76 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          125,
+          120
+        ],
+        [
+          5960,
+          120
+        ],
+        [
+          5960,
+          4030
+        ],
+        [
+          125,
+          4030
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains Pictou Harbour, Lochbroom and its islet, Smith and Brown points, Indian Cross Point and Ballast Island, Caribou Harbour and its barrier coast, Waterside, Scotsburn, Durham, Plainfield, Meadowville, Loganville, River John, Millsville, Brookland and all western inland parcel/river regions. No displaced inset identified."
+    }
+  ]
+}

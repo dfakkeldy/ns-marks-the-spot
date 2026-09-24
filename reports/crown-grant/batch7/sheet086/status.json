@@ -1,0 +1,45 @@
+{
+  "sheet": "086",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with major geographic coverage limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/086.pdf",
+    "pdf_sha256": "2c004b94b880dc1e7b45ca8f13b156f529663bab0428f405c97ba2845e5934d7",
+    "jpeg_sha256": "03302717a240b2ed7edd7bd7d8b34a77605f84c44ba134822ab92c8a798e0221",
+    "dimensions": [
+      6095,
+      4162
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 4,
+      "independent_checks": 4,
+      "rms_ground_m": 96.76371120366866,
+      "rms_gate_passed": true,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Four excluded checks give RMS 96.76 m, within the 100 m ceiling, but P95 151.55 m exceeds the 150 m companion bound. Median is 68.78 m and maximum 164.18 m. The first result remains qualified.",
+    "Every adopted control/check lies in the southeastern harbour cluster. The western interior, northern half and northeastern Caribou coast have no accepted independent validation. This fit does not establish whole-sheet geographic accuracy.",
+    "Two checks are opposite endpoints of the tiny Lochbroom and Ballast islets used for controls. They are strongly spatially correlated; four observations are not four independent regional samples.",
+    "Generalized shore/headland observations use 18 px working source uncertainty. The modern causeway, changed barriers, marshes and engineered shores remain visible but unvalidated."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "4 independent checks: RMS 96.76 m, median 68.78 m, P95 151.55 m, maximum 164.18 m. 4 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Pictou Harbour, Lochbroom and its islet, Smith and Brown points, Indian Cross Point and Ballast Island, Caribou Harbour and its barrier coast, Waterside, Scotsburn, Durham, Plainfield, Meadowville, Loganville, River John, Millsville, Brookland and all western inland parcel/river regions. No displaced inset identified."
+  }
+}

@@ -1,0 +1,164 @@
+[
+  {
+    "id": "C01",
+    "label": "Amet Island northern tip",
+    "role": "control",
+    "pixel_xy": [
+      337,
+      433
+    ],
+    "lonlat": [
+      -63.17756809324665,
+      45.83549435374783
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 14193,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 14193,
+    "nearest_unfiltered_distance_guide_px": 0.8747008234138275,
+    "selected_distance_guide_px": 0.8747008234138275,
+    "guide_reference_pixel_xy": [
+      446.1545965372352,
+      175.22448722820263
+    ],
+    "source_uncertainty_px": 8,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window."
+  },
+  {
+    "id": "C02",
+    "label": "Cape John northern tip",
+    "role": "control",
+    "pixel_xy": [
+      780,
+      1353
+    ],
+    "lonlat": [
+      -63.12923567897967,
+      45.80494516822932
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 5568,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5568,
+    "nearest_unfiltered_distance_guide_px": 0.3618633492665298,
+    "selected_distance_guide_px": 0.3618633492665298,
+    "guide_reference_pixel_xy": [
+      859.7793139200658,
+      1121.2867799464148
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window."
+  },
+  {
+    "id": "C03",
+    "label": "Horn Point northeast corner",
+    "role": "control",
+    "pixel_xy": [
+      2105,
+      2085
+    ],
+    "lonlat": [
+      -63.0323273349859,
+      45.797192611837225
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 5645,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5645,
+    "nearest_unfiltered_distance_guide_px": 2.158818671911547,
+    "selected_distance_guide_px": 2.158818671911547,
+    "guide_reference_pixel_xy": [
+      2188.762016698427,
+      1911.768585707061
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window."
+  },
+  {
+    "id": "C04",
+    "label": "McQuarry Point eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      4488,
+      3690
+    ],
+    "lonlat": [
+      -62.85077340208986,
+      45.771656508799275
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 5123,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5123,
+    "nearest_unfiltered_distance_guide_px": 0.4914267530537806,
+    "selected_distance_guide_px": 0.4914267530537806,
+    "guide_reference_pixel_xy": [
+      4579.922844424262,
+      3616.514667875832
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window."
+  },
+  {
+    "id": "C05",
+    "label": "Marshville northern headland",
+    "role": "control",
+    "pixel_xy": [
+      658,
+      2287
+    ],
+    "lonlat": [
+      -63.11217070518903,
+      45.76412686747539
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 1891,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1891,
+    "nearest_unfiltered_distance_guide_px": 1.117745905749957,
+    "selected_distance_guide_px": 1.117745905749957,
+    "guide_reference_pixel_xy": [
+      726.5650622295216,
+      2075.9643964882707
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window."
+  },
+  {
+    "id": "C06",
+    "label": "River John eastern spit southwest tip",
+    "role": "control",
+    "pixel_xy": [
+      1183,
+      2644
+    ],
+    "lonlat": [
+      -63.07059825986758,
+      45.758106681619246
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 26105,
+    "reference_feature_code": "WACORV20",
+    "nearest_unfiltered_feature_code": "WACORV20",
+    "nearest_unfiltered_objectid": 26105,
+    "nearest_unfiltered_distance_guide_px": 2.2441607338192386,
+    "selected_distance_guide_px": 2.2441607338192386,
+    "guide_reference_pixel_xy": [
+      1272.0064679867355,
+      2471.0305763005745
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window."
+  }
+]

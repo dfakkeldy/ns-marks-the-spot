@@ -1,0 +1,41 @@
+[
+  [
+    "C01",
+    "Mattatall Lake north shore apex",
+    [
+      711,
+      1405
+    ],
+    [
+      695,
+      1432
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Saddle Island northern shore apex",
+    [
+      4850,
+      333
+    ],
+    [
+      4827,
+      359
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q05",
+    "Chambers Point north shore apex",
+    [
+      4090,
+      1558
+    ],
+    [
+      4067,
+      1585
+    ],
+    "WACO20"
+  ]
+]

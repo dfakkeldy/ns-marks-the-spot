@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Mattatall Lake north shore apex",
+    [
+      690,
+      1405
+    ],
+    [
+      695,
+      1432
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Saddle Island northwest tip",
+    [
+      4829,
+      340
+    ],
+    [
+      4814,
+      359
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Malagash Point eastern tip",
+    [
+      5078,
+      754
+    ],
+    [
+      5046,
+      788
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Waugh Island southwest tip",
+    [
+      3000,
+      1090
+    ],
+    [
+      2953,
+      1123
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Chambers Point eastern tip",
+    [
+      4349,
+      1636
+    ],
+    [
+      4305,
+      1663
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "Peninsula Point northern tip",
+    [
+      5129,
+      1598
+    ],
+    [
+      5100,
+      1660
+    ],
+    "WACO20"
+  ],
+  [
+    "C07",
+    "Islet west of Waugh Island northern tip",
+    [
+      3054,
+      928
+    ],
+    [
+      3022,
+      960
+    ],
+    "WACOIS10"
+  ]
+]

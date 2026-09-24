@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Mattatall Lake north shore apex",
+    "role": "proposal",
+    "pixel_xy": [
+      711,
+      1405
+    ],
+    "lonlat": [
+      -63.47099095494208,
+      45.69939628272446
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 136030,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136030,
+    "nearest_unfiltered_distance_guide_px": 0.9117369371047835,
+    "selected_distance_guide_px": 0.9117369371047835,
+    "guide_reference_pixel_xy": [
+      694.1689008738031,
+      1431.6251153711928
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Saddle Island northern shore apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4850,
+      333
+    ],
+    "lonlat": [
+      -63.25702434889714,
+      45.815840370409354
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 20131,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20131,
+    "nearest_unfiltered_distance_guide_px": 0.6491975957785807,
+    "selected_distance_guide_px": 0.6491975957785807,
+    "guide_reference_pixel_xy": [
+      4826.567083279311,
+      358.51622253947426
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Chambers Point north shore apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4090,
+      1558
+    ],
+    "lonlat": [
+      -63.26971288302966,
+      45.75169444008802
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 11951,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11951,
+    "nearest_unfiltered_distance_guide_px": 1.2713786570602585,
+    "selected_distance_guide_px": 1.2713786570602585,
+    "guide_reference_pixel_xy": [
+      4067.0136123856064,
+      1586.2713057824876
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

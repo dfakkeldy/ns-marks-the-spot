@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C01",
+    "label": "Lochbroom Islet north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5057,
+      2820
+    ],
+    "lonlat": [
+      -62.74487711530382,
+      45.65661263347104
+    ],
+    "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+    "reference_objectid": 27650,
+    "reference_feature_code": "WACORVIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27650,
+    "nearest_unfiltered_distance_guide_px": 0.6715389515806721,
+    "selected_distance_guide_px": 0.6715389515806721,
+    "guide_reference_pixel_xy": [
+      5012.394853589183,
+      2748.7088601968717
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Ballast Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5762,
+      3516
+    ],
+    "lonlat": [
+      -62.68561133150548,
+      45.64099235943169
+    ],
+    "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+    "reference_objectid": 27558,
+    "reference_feature_code": "WACORVIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27558,
+    "nearest_unfiltered_distance_guide_px": 3.2417007105899835,
+    "selected_distance_guide_px": 3.2417007105899835,
+    "guide_reference_pixel_xy": [
+      5744.467384187854,
+      3420.207830344327
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

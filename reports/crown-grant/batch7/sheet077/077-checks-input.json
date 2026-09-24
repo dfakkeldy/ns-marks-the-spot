@@ -1,0 +1,67 @@
+[
+  [
+    "Q01",
+    "Fox Harbour island southern tip",
+    [
+      2687,
+      2605
+    ],
+    [
+      2712,
+      2653
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q02",
+    "Oak Island southwest shore",
+    [
+      2961,
+      2886
+    ],
+    [
+      2931,
+      2915
+    ],
+    "WACO20"
+  ],
+  [
+    "Q03",
+    "Palmer Point southwest tip",
+    [
+      2378,
+      3076
+    ],
+    [
+      2332,
+      3088
+    ],
+    "WACO20"
+  ],
+  [
+    "Q04",
+    "Canfield Point northern tip",
+    [
+      2349,
+      3150
+    ],
+    [
+      2316,
+      3182
+    ],
+    "WACO20"
+  ],
+  [
+    "Q05",
+    "Lazy Bay northern promontory northwest tip",
+    [
+      2186,
+      3184
+    ],
+    [
+      2158,
+      3230
+    ],
+    "WACO20"
+  ]
+]

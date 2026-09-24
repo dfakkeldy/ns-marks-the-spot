@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6070 x 4120 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 96.78 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          60,
+          110
+        ],
+        [
+          5940,
+          110
+        ],
+        [
+          5940,
+          4010
+        ],
+        [
+          60,
+          4010
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full original mapped frame retains Tatamagouche Harbour, Malagash, Saddle and Purdy islands, Waugh Island and nearby islets, Sandville and Chambers Point, Brule and Peninsula points, Dewar/Stevens/Wallace Lake, Mattatall Lake, all southern inland parcels and river corridors. No displaced inset identified."
+    }
+  ]
+}

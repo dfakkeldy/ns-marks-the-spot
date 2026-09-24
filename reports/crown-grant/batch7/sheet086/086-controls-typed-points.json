@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C01",
+    "label": "Lochbroom Islet north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5058,
+      2824
+    ],
+    "lonlat": [
+      -62.744698448206506,
+      45.65666893995029
+    ],
+    "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+    "reference_objectid": 27650,
+    "reference_feature_code": "WACORVIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27650,
+    "nearest_unfiltered_distance_guide_px": 0.6213269992047405,
+    "selected_distance_guide_px": 0.6213269992047405,
+    "guide_reference_pixel_xy": [
+      5015.465506601729,
+      2748.5884774080478
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Smith Point north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5617,
+      2571
+    ],
+    "lonlat": [
+      -62.718661071443414,
+      45.67606137807446
+    ],
+    "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+    "reference_objectid": 9588,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9588,
+    "nearest_unfiltered_distance_guide_px": 0.4566507263380631,
+    "selected_distance_guide_px": 0.4566507263380631,
+    "guide_reference_pixel_xy": [
+      5556.415587390307,
+      2498.810746183968
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Indian Cross Point western shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5764,
+      3406
+    ],
+    "lonlat": [
+      -62.68883773655909,
+      45.645538553224625
+    ],
+    "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+    "reference_objectid": 24419,
+    "reference_feature_code": "WACORV20",
+    "nearest_unfiltered_feature_code": "WACORV20",
+    "nearest_unfiltered_objectid": 24419,
+    "nearest_unfiltered_distance_guide_px": 0.45507416480299717,
+    "selected_distance_guide_px": 0.45507416480299717,
+    "guide_reference_pixel_xy": [
+      5735.452927134989,
+      3306.955846791039
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Ballast Island north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5769,
+      3517
+    ],
+    "lonlat": [
+      -62.68545331792545,
+      45.64079570542094
+    ],
+    "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+    "reference_objectid": 27558,
+    "reference_feature_code": "WACORVIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27558,
+    "nearest_unfiltered_distance_guide_px": 0.899900760074062,
+    "selected_distance_guide_px": 0.899900760074062,
+    "guide_reference_pixel_xy": [
+      5745.126116398897,
+      3425.2148227867438
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

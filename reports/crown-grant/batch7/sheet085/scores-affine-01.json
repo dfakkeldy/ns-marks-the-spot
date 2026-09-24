@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 55.62686911885509,
+  "median_ground_m": 54.01259510566125,
+  "p95_ground_m": 73.85483161858349,
+  "max_ground_m": 74.72595158425662,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 21.232036151872453,
+  "mean_north_ground_m": -3.4410007607062916,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Amet Island southern edge",
+      "role": "check",
+      "pixel_xy": [
+        341,
+        447
+      ],
+      "lonlat": [
+        -63.17718129921644,
+        45.834940160387944
+      ],
+      "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+      "reference_objectid": 14193,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 14193,
+      "nearest_unfiltered_distance_guide_px": 2.43432581167504,
+      "selected_distance_guide_px": 2.43432581167504,
+      "guide_reference_pixel_xy": [
+        446.573453886318,
+        189.19446366128977
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window.",
+      "predicted_lonlat": [
+        -63.17765751681659,
+        45.834944872353596
+      ],
+      "error_ground_m": 37.002628535794464,
+      "east_ground_m": -36.998920444961776,
+      "north_ground_m": 0.5238362963560736
+    },
+    {
+      "id": "Q02",
+      "label": "Reef Point southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        775,
+        1506
+      ],
+      "lonlat": [
+        -63.12562450704351,
+        45.798131880360756
+      ],
+      "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+      "reference_objectid": 1896,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 1896,
+      "nearest_unfiltered_distance_guide_px": 0.6091505728650787,
+      "selected_distance_guide_px": 0.6091505728650787,
+      "guide_reference_pixel_xy": [
+        848.5416242569918,
+        1285.5988066567807
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window.",
+      "predicted_lonlat": [
+        -63.12484100749725,
+        45.798464285110995
+      ],
+      "error_ground_m": 71.24147172156412,
+      "east_ground_m": 60.912433031161804,
+      "north_ground_m": 36.94621489785725
+    },
+    {
+      "id": "Q03",
+      "label": "Sandies Point west corner",
+      "role": "check",
+      "pixel_xy": [
+        935,
+        1752
+      ],
+      "lonlat": [
+        -63.109350064125664,
+        45.790990066405485
+      ],
+      "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+      "reference_objectid": 1892,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 1892,
+      "nearest_unfiltered_distance_guide_px": 1.3289332558799194,
+      "selected_distance_guide_px": 1.3289332558799194,
+      "guide_reference_pixel_xy": [
+        1017.3378863520338,
+        1539.152245249832
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window.",
+      "predicted_lonlat": [
+        -63.10911164272105,
+        45.79100890650245
+      ],
+      "error_ground_m": 18.65621414000343,
+      "east_ground_m": 18.538318986825303,
+      "north_ground_m": 2.094052334679454
+    },
+    {
+      "id": "Q04",
+      "label": "Headland west of Horn Point northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1820,
+        1990
+      ],
+      "lonlat": [
+        -63.051581423806546,
+        45.79630338686109
+      ],
+      "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+      "reference_objectid": 5012,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 5012,
+      "nearest_unfiltered_distance_guide_px": 0.08085539151290355,
+      "selected_distance_guide_px": 0.08085539151290355,
+      "guide_reference_pixel_xy": [
+        1902.0518752938951,
+        1805.0620205467567
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window.",
+      "predicted_lonlat": [
+        -63.05107421093551,
+        45.79639375404152
+      ],
+      "error_ground_m": 40.69331265729975,
+      "east_ground_m": 39.43424660453912,
+      "north_ground_m": 10.044196819912807
+    },
+    {
+      "id": "Q05",
+      "label": "Toney River western headland tip",
+      "role": "check",
+      "pixel_xy": [
+        3805,
+        3275
+      ],
+      "lonlat": [
+        -62.90122438383663,
+        45.777670626079875
+      ],
+      "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+      "reference_objectid": 7385,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7385,
+      "nearest_unfiltered_distance_guide_px": 0.33526363276549564,
+      "selected_distance_guide_px": 0.33526363276549564,
+      "guide_reference_pixel_xy": [
+        3904.9377661455655,
+        3165.670563130756
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window.",
+      "predicted_lonlat": [
+        -62.90159259128149,
+        45.77712235512811
+      ],
+      "error_ground_m": 67.33187755402275,
+      "east_ground_m": -28.636866815047,
+      "north_ground_m": -60.9385887100052
+    },
+    {
+      "id": "Q06",
+      "label": "Long Point northern corner",
+      "role": "check",
+      "pixel_xy": [
+        861,
+        2338
+      ],
+      "lonlat": [
+        -63.09929292347236,
+        45.76546792021996
+      ],
+      "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+      "reference_objectid": 5562,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 5562,
+      "nearest_unfiltered_distance_guide_px": 0.3382914315043815,
+      "selected_distance_guide_px": 0.3382914315043815,
+      "guide_reference_pixel_xy": [
+        925.3199414846604,
+        2132.10990240681
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastline and paired native crosshairs inspected before first fit; Amet Island confirmed in original extract just above initial plotting window.",
+      "predicted_lonlat": [
+        -63.09833980661908,
+        45.765384101671295
+      ],
+      "error_ground_m": 74.72595158425662,
+      "east_ground_m": 74.14300554871726,
+      "north_ground_m": -9.315716203038138
+    }
+  ],
+  "fit_sha256": "d8e249f75bb9957911e69bb5d3d25bd9d91820030ef55de18cba4c2c49bf4605",
+  "checks_sha256": "8af62fdbe58f575161ed410cb80a21171f98a8902e01b49d14b4ab189d5c0070",
+  "status": "Six physical checks excluded before first affine fit; Amet opposite endpoint is correlated with its control"
+}

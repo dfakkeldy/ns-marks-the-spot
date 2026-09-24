@@ -1,0 +1,158 @@
+[
+  {
+    "id": "Q01",
+    "label": "Amet Island southern edge",
+    "role": "proposal",
+    "pixel_xy": [
+      341,
+      447
+    ],
+    "lonlat": [
+      -63.17718129921644,
+      45.834940160387944
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 14193,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 14193,
+    "nearest_unfiltered_distance_guide_px": 2.43432581167504,
+    "selected_distance_guide_px": 2.43432581167504,
+    "guide_reference_pixel_xy": [
+      446.573453886318,
+      189.19446366128977
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Reef Point southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      775,
+      1506
+    ],
+    "lonlat": [
+      -63.12562450704351,
+      45.798131880360756
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 1896,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1896,
+    "nearest_unfiltered_distance_guide_px": 0.6091505728650787,
+    "selected_distance_guide_px": 0.6091505728650787,
+    "guide_reference_pixel_xy": [
+      848.5416242569918,
+      1285.5988066567807
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Sandies Point west corner",
+    "role": "proposal",
+    "pixel_xy": [
+      933,
+      1744
+    ],
+    "lonlat": [
+      -63.109350064125664,
+      45.790990066405485
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 1892,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1892,
+    "nearest_unfiltered_distance_guide_px": 1.3289332558799194,
+    "selected_distance_guide_px": 1.3289332558799194,
+    "guide_reference_pixel_xy": [
+      1017.3378863520338,
+      1539.152245249832
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Headland west of Horn Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1820,
+      1990
+    ],
+    "lonlat": [
+      -63.051581423806546,
+      45.79630338686109
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 5012,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5012,
+    "nearest_unfiltered_distance_guide_px": 0.08085539151290355,
+    "selected_distance_guide_px": 0.08085539151290355,
+    "guide_reference_pixel_xy": [
+      1902.0518752938951,
+      1805.0620205467567
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Toney River western headland tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3805,
+      3275
+    ],
+    "lonlat": [
+      -62.90122438383663,
+      45.777670626079875
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 7385,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 7385,
+    "nearest_unfiltered_distance_guide_px": 0.33526363276549564,
+    "selected_distance_guide_px": 0.33526363276549564,
+    "guide_reference_pixel_xy": [
+      3904.9377661455655,
+      3165.670563130756
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Long Point northern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      861,
+      2338
+    ],
+    "lonlat": [
+      -63.09929292347236,
+      45.76546792021996
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 5562,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5562,
+    "nearest_unfiltered_distance_guide_px": 0.3382914315043815,
+    "selected_distance_guide_px": 0.3382914315043815,
+    "guide_reference_pixel_xy": [
+      925.3199414846604,
+      2132.10990240681
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
