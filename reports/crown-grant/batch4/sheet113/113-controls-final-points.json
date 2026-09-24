@@ -1,0 +1,194 @@
+[
+  {
+    "id": "C01",
+    "label": "Goat or Burying Island north tip",
+    "role": "control",
+    "pixel_xy": [
+      530,
+      786
+    ],
+    "lonlat": [
+      -61.22425968829865,
+      45.244512522787545
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 16911,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      579.9953609874938,
+      741.4882317094598
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  },
+  {
+    "id": "C02",
+    "label": "White Head Island southwest corner",
+    "role": "control",
+    "pixel_xy": [
+      1383,
+      2183
+    ],
+    "lonlat": [
+      -61.136510107044245,
+      45.195753888909096
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 21260,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1410.9329587740358,
+      2154.114865073934
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  },
+  {
+    "id": "C03",
+    "label": "Northeast Arm Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      2590,
+      215
+    ],
+    "lonlat": [
+      -61.10846951252381,
+      45.30535762853449
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 125658,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2636.740528329392,
+      183.38104579143692
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  },
+  {
+    "id": "C04",
+    "label": "Seven Islands Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      4030,
+      760
+    ],
+    "lonlat": [
+      -61.00405828656072,
+      45.30507793315499
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 142176,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4067.9060467818636,
+      744.5141324109863
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  },
+  {
+    "id": "C05",
+    "label": "Brass Point on St Andrews Island north cape",
+    "role": "control",
+    "pixel_xy": [
+      4690,
+      829
+    ],
+    "lonlat": [
+      -60.960592693838514,
+      45.31247593835027
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 21939,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4721.262630661833,
+      832.0701853791252
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  },
+  {
+    "id": "C06",
+    "label": "White Head island off Dover Island south tip",
+    "role": "control",
+    "pixel_xy": [
+      3875,
+      1892
+    ],
+    "lonlat": [
+      -60.98793926493476,
+      45.24988924133309
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 22160,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3867.7453330293647,
+      1898.594267285196
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  },
+  {
+    "id": "C07",
+    "label": "Rounded central interior pond north tip",
+    "role": "control",
+    "pixel_xy": [
+      2860,
+      1138
+    ],
+    "lonlat": [
+      -61.0689909870379,
+      45.26805968487294
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 138740,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2893.005879864737,
+      1115.50574978441
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  },
+  {
+    "id": "C08",
+    "label": "Narrow northern lake west of Northeast Arm north tip",
+    "role": "control",
+    "pixel_xy": [
+      1780,
+      210
+    ],
+    "lonlat": [
+      -61.15897507577939,
+      45.29125598699288
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 128367,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1835.4283187476103,
+      186.68259805301204
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+    "review": "Final correspondence inspected before fitting; all check locations excluded from fit."
+  }
+]

@@ -1,0 +1,294 @@
+{
+  "count": 9,
+  "rms_ground_m": 65.42356201055506,
+  "median_ground_m": 60.162706083887706,
+  "p95_ground_m": 100.67283640013365,
+  "max_ground_m": 114.61079366062374,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -21.530269479195375,
+  "mean_north_ground_m": -34.40398326348643,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Tanner Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        181,
+        1069
+      ],
+      "lonlat": [
+        -61.23969408952443,
+        45.226164152603246
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 21874,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        226.8431507346686,
+        1013.5518329174956
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -61.23921759393814,
+        45.2257913400617
+      ],
+      "error_ground_m": 55.83109650278966,
+      "east_ground_m": 37.42231623882039,
+      "north_ground_m": -41.43285633438192
+    },
+    {
+      "id": "Q02",
+      "label": "Goat or Burying Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        504,
+        897
+      ],
+      "lonlat": [
+        -61.223381300985906,
+        45.23933645527898
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 16911,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        552.2309190654778,
+        846.2797428488266
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -61.22302610184379,
+        45.23905782317554
+      ],
+      "error_ground_m": 41.67411436391609,
+      "east_ground_m": 27.889623457442802,
+      "north_ground_m": -30.966121995154857
+    },
+    {
+      "id": "Q03",
+      "label": "White Head Island north tip",
+      "role": "check",
+      "pixel_xy": [
+        1398,
+        2003
+      ],
+      "lonlat": [
+        -61.14010900042996,
+        45.20439563258862
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 21259,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1427.776160224108,
+        1967.7022664690157
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -61.14036917468082,
+        45.20388649194767
+      ],
+      "error_ground_m": 60.162706083887706,
+      "east_ground_m": -20.441032237030242,
+      "north_ground_m": -56.58370263972613
+    },
+    {
+      "id": "Q04",
+      "label": "Millstone Island southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        1808,
+        2255
+      ],
+      "lonlat": [
+        -61.107792144338376,
+        45.20020364176888
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 18933,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1839.8907862794003,
+        2221.501747834147
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -61.108578984337136,
+        45.199335278217816
+      ],
+      "error_ground_m": 114.61079366062374,
+      "east_ground_m": -61.82435082257268,
+      "north_ground_m": -96.50587375328782
+    },
+    {
+      "id": "Q05",
+      "label": "Whale Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        2239,
+        2058
+      ],
+      "lonlat": [
+        -61.085902726767706,
+        45.21546018186583
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 21258,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2257.7507975522312,
+        2043.1727641490288
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -61.08616785162844,
+        45.2155343913931
+      ],
+      "error_ground_m": 22.39934239100865,
+      "east_ground_m": -20.825734243014974,
+      "north_ground_m": 8.247383390442725
+    },
+    {
+      "id": "Q06",
+      "label": "Canso Rock northwest corner",
+      "role": "check",
+      "pixel_xy": [
+        4905,
+        1039
+      ],
+      "lonlat": [
+        -60.94180503205308,
+        45.30623110703364
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 16335,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4931.653518477688,
+        1052.650399591541
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -60.94251800954024,
+        45.306556885342104
+      ],
+      "error_ground_m": 66.61417697446873,
+      "east_ground_m": -55.91544017584441,
+      "north_ground_m": 36.20652046147772
+    },
+    {
+      "id": "Q07",
+      "label": "Southern Cranberry Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        5246,
+        783
+      ],
+      "lonlat": [
+        -60.926585665662735,
+        45.32452218373166
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 16658,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5280.130727339943,
+        779.1101058496861
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -60.92709409968132,
+        45.323900510700604
+      ],
+      "error_ground_m": 79.76590050939853,
+      "east_ground_m": -39.861905627918524,
+      "north_ground_m": -69.09144204448322
+    },
+    {
+      "id": "Q08",
+      "label": "Publicover Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        4185,
+        870
+      ],
+      "lonlat": [
+        -60.99179066357489,
+        45.3022343728142
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 133882,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4214.641436249076,
+        864.7380908940686
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -60.991919599184584,
+        45.302189606517274
+      ],
+      "error_ground_m": 11.270187229659616,
+      "east_ground_m": -10.11258430750664,
+      "north_ground_m": -4.97521444916228
+    },
+    {
+      "id": "Q09",
+      "label": "Crooked central interior lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        2510,
+        1145
+      ],
+      "lonlat": [
+        -61.09023925492089,
+        45.26207279182527
+      ],
+      "guide_file": ".crown-grant-local/113-topology-guide.npy",
+      "reference_objectid": 61948,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2555.2945770644583,
+        1118.0966191962361
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island and lake topology traced; native paired crosshair corrected and inspected before first fit and score.",
+      "review": "Final correspondence inspected before fitting; all check locations excluded from fit.",
+      "predicted_lonlat": [
+        -61.09087761746521,
+        45.261582093028515
+      ],
+      "error_ground_m": 74.05645620716172,
+      "east_ground_m": -50.103317595134094,
+      "north_ground_m": -54.53454200710213
+    }
+  ],
+  "fit_sha256": "f5cf9b0ff032c4b5a846a608a75876f76b3743b4b989b7e57ebe674dc8c1e7f4",
+  "checks_sha256": "30a5891550aca014cf6695b24ca33ccef95a2660f9e548b1223226a8ab25a656",
+  "status": "Independent physical checks selected and audited before first frozen affine score"
+}

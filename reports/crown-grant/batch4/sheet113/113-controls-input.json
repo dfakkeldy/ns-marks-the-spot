@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Goat or Burying Island north tip",
+    [
+      530,
+      786
+    ],
+    [
+      580,
+      741
+    ],
+    "WACOIS"
+  ],
+  [
+    "C02",
+    "White Head Island southwest corner",
+    [
+      1383,
+      2183
+    ],
+    [
+      1412,
+      2152
+    ],
+    "WACOIS"
+  ],
+  [
+    "C03",
+    "Northeast Arm Lake north tip",
+    [
+      2590,
+      215
+    ],
+    [
+      2637,
+      185
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Seven Islands Lake north tip",
+    [
+      4005,
+      754
+    ],
+    [
+      4055,
+      753
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Grass Point on St Andrews Island north cape",
+    [
+      4680,
+      824
+    ],
+    [
+      4720,
+      832
+    ],
+    "WACOIS"
+  ],
+  [
+    "C06",
+    "White Head at south end of Dover Island",
+    [
+      3865,
+      1895
+    ],
+    [
+      3899,
+      1895
+    ],
+    "WACOIS"
+  ],
+  [
+    "C07",
+    "Rounded central interior pond north tip",
+    [
+      2860,
+      1138
+    ],
+    [
+      2890,
+      1112
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Narrow northern lake west of Northeast Arm north tip",
+    [
+      1780,
+      210
+    ],
+    [
+      1820,
+      185
+    ],
+    "WALK"
+  ]
+]

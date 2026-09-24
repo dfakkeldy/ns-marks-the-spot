@@ -1,0 +1,65 @@
+{
+  "sheet": "112",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; main RMS failed, inset RMS passed with companion/coverage limitations; full rasters and browser verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/112.pdf",
+    "pdf_sha256": "5310f67c9f6542eefbfe36376b13758a60d2a891d1180bf09d8ca84b782d9d7e",
+    "jpeg_sha256": "65402aac6c72e0f91a81fe08f2bbf9153cc5aaaf3e1171b792db776fc29c5622",
+    "dimensions": [
+      6029,
+      4090
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 105.23991735118904,
+      "rms_gate_passed": false,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "petit-inset",
+      "controls": 4,
+      "independent_checks": 5,
+      "rms_ground_m": 90.8721166160513,
+      "rms_gate_passed": true,
+      "fit": "fit-petit-similarity-01.json",
+      "checks": "checks-petit-similarity-01.json",
+      "scores": "scores-petit-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main: eight controls and nine excluded checks give RMS 105.24 m, exceeding the 100 m ceiling. Median 83.37 m and P95 183.81 m also exceed suggested 75/150 m bounds; maximum 206.32 m. The failed first result is retained without tuning.",
+    "Petit-de-Grat inset: four controls and five checks give RMS 90.87 m, median 54.74 m, P95 154.43 m and maximum 175.14 m. RMS passes, while P95 exceeds the suggested 150 m companion bound.",
+    "Northwestern mainland fragment has one control and one check; Jerseymans, Fox and Green Island endpoint samples are correlated. Broad parcel interiors, engineered harbour details, many minor islands and urban areas remain insufficiently validated.",
+    "Working source uncertainty is 12 px, raised to 18 px for selected generalized/harbour shores. Main and inset counts are not pooled."
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 9 checks, RMS 105.24 m; petit-inset: 5 checks, RMS 90.87 m. Gate: 100 m. No pooled score.",
+    "coverage": "Entire mapped original frame retains the northern Porper/Grady coast fragment, Arichat and Cape au Guet corner, Queensport-to-Canso mainland, all offshore islands and the whole Chedabucto Bay. The displaced Petit-de-Grat inset, including its mainland fragment and Green Island, is fitted separately; its original-frame mask exactly fills the main-map hole.",
+    "focusBounds": [
+      [
+        45.265085229278995,
+        -61.35959622208296
+      ],
+      [
+        45.54873784529252,
+        -60.873818969982146
+      ]
+    ]
+  }
+}

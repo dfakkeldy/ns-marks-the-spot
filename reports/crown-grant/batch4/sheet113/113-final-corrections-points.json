@@ -1,0 +1,46 @@
+[
+  {
+    "id": "Q06",
+    "label": "Canso Rock northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4905,
+      1039
+    ],
+    "lonlat": [
+      -60.94180503205308,
+      45.30623110703364
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 16335,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4931.653518477688,
+      1052.650399591541
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Southern Cranberry Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5246,
+      783
+    ],
+    "lonlat": [
+      -60.926585665662735,
+      45.32452218373166
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 16658,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5280.130727339943,
+      779.1101058496861
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

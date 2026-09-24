@@ -1,0 +1,26 @@
+{
+  "sheet": "112",
+  "component": "petit",
+  "stage": "Before first fit or score",
+  "model": "similarity",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "IC01",
+    "IC02",
+    "IC03",
+    "IC04"
+  ],
+  "checks": [
+    "IQ01",
+    "IQ02",
+    "IQ03",
+    "IQ04",
+    "IQ05"
+  ],
+  "notes": [
+    "Full original content retained; all initial and revised proposals remain available.",
+    "Four controls span the inset western fragment, Petit de Grat southern/eastern shores and Green Island; similarity avoids unconstrained shear. Five excluded coastal checks; Green Island endpoints are correlated.",
+    "Working source uncertainty12px, increased18px for generalized rounded Jerseymans shore, Grady corner, Fox east point and Birch Point harbour shore.",
+    "Guide values are discovery only; no check result informed placement or model selection."
+  ]
+}
