@@ -1,0 +1,37 @@
+{
+  "sheet": "137",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q10"
+  ],
+  "rejected_before_fit": {
+    "C08": "Smoky Cape cliff hatching obscures precise shoreline definition",
+    "Q08": "North Ingonish Bay initial notch/mouth definition not secure",
+    "Q09": "Freshwater Lake initial proposal landed on adjacent road/bridge area; exact lake corner unresolved"
+  },
+  "notes": [
+    "Jackson Point corrected by comparing adjoining shore faces: use southeast physical corner, not the more southerly westward tip",
+    "Triangular pond southeast corner and all original source crosshairs corrected before fitting",
+    "Warren Lake control and check share one lake; Ingonish Island control/check share one island, so point samples are correlated",
+    "Existing128 fit and explicit160/150 scan-density conversion supplied discovery guidance only",
+    "Source working uncertainty12px, increased18px for Middle Head and cliff-hatched Archibald/Jackson checks"
+  ]
+}

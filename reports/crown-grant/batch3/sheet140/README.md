@@ -12,6 +12,8 @@ Original source: https://novascotia.ca/natr/land/indexmaps/140.pdf, 5766 × 3937
 
 Complete source rectangle partitioned into the main Louisbourg–Cape Breton coast and partial Scatarie map, the separately boxed full Scatarie Island inset, and the pasted enlarged Main-a-Dieu inset. Native main-mask holes exactly equal the two separately fitted inset masks. Every mapped island, offshore rock and repeated geographic region is retained; geographic overlap between the main Scatarie fragment and the complete inset is intentional.
 
+The four Scatarie controls span western and eastern coasts and two southern inlets. The constrained similarity limits free parameters with four observations.
+
 All three models were chosen and their final physical correspondences audited before their respective first scores. Main uses affine; both displaced insets use constrained similarity. Each first score and fit remains unchanged; no valid failed check was removed after scoring.
 
 Original and revised proposal packets retain rejected matches, code-filter mistakes and coordinate corrections. Source-type filtering alone did not establish identity: mainland-only coastline filters sent Scatarie proposals to distant shores, and a broad island search initially selected a neighboring Brown islet. Native topology review resolved those errors before fitting.

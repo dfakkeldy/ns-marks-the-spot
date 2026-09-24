@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "Cranberry Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      307,
+      700
+    ],
+    "lonlat": [
+      -60.20742581310198,
+      46.26242062647259
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 3712,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      266.82106365863,
+      701.5745343164308
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Low Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1454,
+      1027
+    ],
+    "lonlat": [
+      -60.126425046406986,
+      46.26763975908702
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 12911,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1409.5542087359936,
+      1012.4692072392209
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Petrie Lake northeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      880,
+      1460
+    ],
+    "lonlat": [
+      -60.152688237179134,
+      46.23883628560237
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 134750,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      839.1154541907017,
+      1436.426537283929
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Kilkenny Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      755,
+      2180
+    ],
+    "lonlat": [
+      -60.14153339343664,
+      46.204802376353626
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 133149,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      740.4108631724375,
+      2151.7617160744267
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Lingan North Head east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2624,
+      2010
+    ],
+    "lonlat": [
+      -60.027713498485,
+      46.242756892453066
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 7861,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2573.0830087987124,
+      1994.7221549556125
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "McPherson Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3480,
+      3368
+    ],
+    "lonlat": [
+      -59.93957704299453,
+      46.1959614182081
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 11432,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3433.6003844956867,
+      3346.914502483676
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "New Aberdeen pond north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3220,
+      3015
+    ],
+    "lonlat": [
+      -59.96593426261841,
+      46.20740483688662
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 35739,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3157.3041233558906,
+      2991.9994637456257
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Inglis Lake eastern spur tip",
+    "role": "proposal",
+    "pixel_xy": [
+      452,
+      2862
+    ],
+    "lonlat": [
+      -60.147125262782126,
+      46.16861793948417
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 137225,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      397.3157666195184,
+      2823.5230248178123
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

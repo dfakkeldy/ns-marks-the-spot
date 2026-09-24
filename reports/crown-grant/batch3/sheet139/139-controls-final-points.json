@@ -1,0 +1,186 @@
+[
+  {
+    "id": "C01",
+    "label": "Northwestern Ling-labelled round lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      715,
+      801
+    ],
+    "lonlat": [
+      -60.088589227897145,
+      46.1038560185309
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 132861,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      680.8195824681316,
+      769.6861632415093
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  },
+  {
+    "id": "C02",
+    "label": "Cochran Lake north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1972,
+      1317
+    ],
+    "lonlat": [
+      -59.995901232647775,
+      46.10169053057299
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 129123,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1944.7758843402844,
+      1277.8609708802542
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  },
+  {
+    "id": "C03",
+    "label": "Round pond labelled John Allen McDonald north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2325,
+      1070
+    ],
+    "lonlat": [
+      -59.9795864233795,
+      46.11888784895027
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 137703,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2292.048398391169,
+      1025.8183200155618
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  },
+  {
+    "id": "C04",
+    "label": "Sand Lake south tip near Birch Grove",
+    "role": "proposal",
+    "pixel_xy": [
+      3380,
+      1078
+    ],
+    "lonlat": [
+      -59.91199035959863,
+      46.136179404914884
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 142817,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3347.633855613414,
+      1028.6708435675828
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  },
+  {
+    "id": "C05",
+    "label": "Cape Perce southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5007,
+      894
+    ],
+    "lonlat": [
+      -59.8116454375481,
+      46.17175745836106
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 8227,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4984.0204145703465,
+      838.4687326910207
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  },
+  {
+    "id": "C06",
+    "label": "Cape Morien east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4877,
+      1789
+    ],
+    "lonlat": [
+      -59.79770096374211,
+      46.128802261414954
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 20348,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4873.65917162539,
+      1742.8560060320888
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  },
+  {
+    "id": "C07",
+    "label": "False Bay Head southeast shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      2991,
+      2745
+    ],
+    "lonlat": [
+      -59.895978533689785,
+      46.05400143208753
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 8411,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2987.2785321900737,
+      2705.208512626239
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  },
+  {
+    "id": "C08",
+    "label": "Northern Catalone pond north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1654,
+      3321
+    ],
+    "lonlat": [
+      -59.967929013740545,
+      46.00575693853129
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 13699,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1650.5448268699693,
+      3281.2015775896143
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery."
+  }
+]

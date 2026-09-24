@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "South Point below Neil Harbour northeast corner",
+    [
+      2498,
+      852
+    ],
+    [
+      2487,
+      879
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Black Point southeast tip",
+    [
+      2300,
+      1165
+    ],
+    [
+      2285,
+      1195
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Mary Lake northern tip",
+    [
+      330,
+      933
+    ],
+    [
+      285,
+      958
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Central park oval lake west end",
+    [
+      1091,
+      1465
+    ],
+    [
+      1110,
+      1480
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Warren Lake northwest end",
+    [
+      825,
+      1751
+    ],
+    [
+      824,
+      1770
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Ingonish Island south tip",
+    [
+      1485,
+      2740
+    ],
+    [
+      1480,
+      2755
+    ],
+    "WACOIS"
+  ],
+  [
+    "C07",
+    "Middle Head east tip",
+    [
+      1110,
+      3225
+    ],
+    [
+      1110,
+      3223
+    ],
+    "WACO"
+  ],
+  [
+    "C08",
+    "Smoky Cape southeast tip",
+    [
+      937,
+      3730
+    ],
+    [
+      875,
+      3740
+    ],
+    "WACO"
+  ]
+]

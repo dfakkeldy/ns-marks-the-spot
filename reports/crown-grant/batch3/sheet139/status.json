@@ -1,0 +1,45 @@
+{
+  "sheet": "139",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; private browser overlay and mapped margin extensions verified; numerical bounds pass with regional qualifications",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/139.pdf",
+    "pdf_sha256": "6e5b8fcd87c717db499e0e16180d40c36fc2d58f93b8106d13d098d3ced6a6f1",
+    "jpeg_sha256": "aa69f06aaedec0a3c5b74f154622ac55fd352f7736fda0c1f57e5f7f97fc95d1",
+    "dimensions": [
+      5746,
+      3951
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 63.74258836776726,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight independent checks give RMS 63.74 m, median 57.59 m, P95 93.29 m and maximum 98.34 m. The 100 m RMS ceiling and suggested numerical companion bounds pass.",
+    "Checks cover northwestern lakes, the Mira peninsula, northern coastal headlands and Flint Island. Southern Catalone controls lack a nearby independent check; the far southern edge and parcel interiors remain unsupported.",
+    "One Flint Island endpoint check provides limited island support, not independent validation of every island edge or smaller adjacent rock.",
+    "Generalized cape shoulders and rounded lakes carry 12 px working source uncertainty. Shoreline change, spatial correlation and the northward residual bias remain relevant."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 63.74 m, median 57.59 m, P95 93.29 m, maximum 98.34 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped sheet including Port Caledonia above the printed northern neatline, Flint Island beyond the eastern neatline, Morien and Mira bays, the Mira park peninsula and Catalone waters. The content mask has explicit northern and eastern extensions. No displaced inset; all mapped land, islands and ocean remain in the original geographic frame."
+  }
+}

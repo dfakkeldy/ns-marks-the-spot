@@ -1,0 +1,61 @@
+{
+  "source_frame": "Original 5746 x 3951 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 63.74 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          120,
+          160
+        ],
+        [
+          3380,
+          160
+        ],
+        [
+          3380,
+          25
+        ],
+        [
+          4310,
+          25
+        ],
+        [
+          4310,
+          160
+        ],
+        [
+          5610,
+          160
+        ],
+        [
+          5610,
+          870
+        ],
+        [
+          5690,
+          870
+        ],
+        [
+          5690,
+          1020
+        ],
+        [
+          5610,
+          1020
+        ],
+        [
+          5610,
+          3790
+        ],
+        [
+          120,
+          3790
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped sheet including Port Caledonia above the printed northern neatline, Flint Island beyond the eastern neatline, Morien and Mira bays, the Mira park peninsula and Catalone waters. The content mask has explicit northern and eastern extensions. No displaced inset; all mapped land, islands and ocean remain in the original geographic frame."
+    }
+  ]
+}

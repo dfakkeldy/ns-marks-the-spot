@@ -1,0 +1,36 @@
+{
+  "sheet": "139",
+  "stage": "Before first fit and score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q09",
+    "Q10"
+  ],
+  "rejected_before_fit": {
+    "Q07": "McDonald coastal pond original proposal missed shore and the lagoon/barrier boundary was not securely paired",
+    "Q08": "Catalone southwest shore versus tiny modern inlet/islet definition unresolved"
+  },
+  "notes": [
+    "C08 is an inland pond, not an island; native image and reference feature type resolved identity before fitting",
+    "Q10 is the Mira park peninsula, not a separate island; broad tracing resolved its connection and northern tip",
+    "Native crosshairs corrected capes, lake ends and Flint Island endpoint before fitting",
+    "Northern Port Caledonia and Flint Island extend outside printed frame and remain in same geographic component"
+  ]
+}

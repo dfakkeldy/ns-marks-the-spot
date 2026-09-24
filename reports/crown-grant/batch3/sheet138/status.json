@@ -1,0 +1,45 @@
+{
+  "sheet": "138",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; private browser overlay verified; RMS passes with median, shared-point and regional qualifications",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/138.pdf",
+    "pdf_sha256": "2e9ab24726881ff3dd7c60d4073cd5e23ccc8febff086f3f55664941193efd81",
+    "jpeg_sha256": "9a2c3be1d410eebff4f5b3f0cee9e43acb9e50414485d1ddb80948fb35a548a4",
+    "dimensions": [
+      5790,
+      3939
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 88.1845057886657,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Nine independent checks give RMS 88.18 m, median 75.66 m, P95 144.03 m and maximum 149.74 m. RMS passes 100 m; the suggested 75 m median companion bound is not met.",
+    "MacRae Point predictions on sheets 138 and 139 differ by 143.15 ground metres. This is one shared excluded physical point, not a whole-seam or footprint-gap measurement; neither fit was adjusted to force agreement.",
+    "Checks sample western lake cohorts and coastal headlands; urban/industrial, parcel-interior and most eastern offshore regions remain unvalidated. Grand Lake and other unresolved historical geometry were not forced into the fit.",
+    "Rounded cape and lake endpoints carry 12 px working source uncertainty; changed or ambiguous harbour edges and spatial correlation limit interpretation."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 88.18 m, median 75.66 m, P95 144.03 m, maximum 149.74 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped rectangle and its large Atlantic Ocean area, including the northwest Cranberry/Swivel Point coast fragment across Sydney Harbour, New Victoria and Low Point, New Waterford and western lakes, Lingan Basin, Glace Bay and the southern Whelan/MacRae coast strip. No displaced inset identified."
+  }
+}

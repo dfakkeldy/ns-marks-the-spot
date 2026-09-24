@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Q01",
+    "label": "Swivel Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      275,
+      947
+    ],
+    "lonlat": [
+      -60.20523912092929,
+      46.251413876660685
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 12096,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      215.32942086423282,
+      925.6426873866003
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Petrie coastal point north shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      860,
+      1226
+    ],
+    "lonlat": [
+      -60.15872358341348,
+      46.247626068917455
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 12127,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      821.6189784769085,
+      1235.6473558433354
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Waterford Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1245,
+      1665
+    ],
+    "lonlat": [
+      -60.12280633588547,
+      46.236441320716835
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 141528,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1229.0885646019597,
+      1634.658646167023
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Brown Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      322,
+      2398
+    ],
+    "lonlat": [
+      -60.16537709618902,
+      46.18777238855005
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 125618,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      289.3603888772777,
+      2359.946323864977
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Rees Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      600,
+      2605
+    ],
+    "lonlat": [
+      -60.14219588382077,
+      46.1826408344498
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 137180,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      568.0089321332052,
+      2577.253878287971
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Howies Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      791,
+      2478
+    ],
+    "lonlat": [
+      -60.13286319410855,
+      46.1906765944283
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 137404,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      754.6597200523247,
+      2469.2291090772487
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "David Head eastern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      2390,
+      1814
+    ],
+    "lonlat": [
+      -60.04507998014857,
+      46.24904335840142
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 11406,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2382.2688096206984,
+      1785.0380784322042
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Lingan Little Head south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2418,
+      2220
+    ],
+    "lonlat": [
+      -60.039267815103756,
+      46.2300566667251
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 6233,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2322.107528076973,
+      2182.106991248089
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Brian Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2777,
+      2545
+    ],
+    "lonlat": [
+      -60.00428973675364,
+      46.22048978720662
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 12181,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2729.40454255481,
+      2544.5110018944833
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Table Head east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3460,
+      2890
+    ],
+    "lonlat": [
+      -59.953656477731336,
+      46.217332474524845
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 11749,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3397.7508691378753,
+      2861.771097202436
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

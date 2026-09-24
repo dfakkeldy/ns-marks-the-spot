@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "South Point below Neil Harbour northeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2498,
+      852
+    ],
+    "lonlat": [
+      -60.31841166062552,
+      46.78357936615293
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 11472,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2493.9245453188196,
+      882.697185142315
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Black Point southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2300,
+      1165
+    ],
+    "lonlat": [
+      -60.32349211657,
+      46.765482646290586
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 11471,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2288.876986418618,
+      1208.273504188517
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Mary Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      330,
+      933
+    ],
+    "lonlat": [
+      -60.45881782053626,
+      46.74296274489677
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 124653,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      311.0748331594514,
+      958.9567593378015
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Central park oval lake west end",
+    "role": "proposal",
+    "pixel_xy": [
+      1091,
+      1465
+    ],
+    "lonlat": [
+      -60.39361904571132,
+      46.73397526081101
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 124658,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1113.2080974614946,
+      1464.4445909974165
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Warren Lake northwest end",
+    "role": "proposal",
+    "pixel_xy": [
+      825,
+      1751
+    ],
+    "lonlat": [
+      -60.40532294411814,
+      46.71429527683556
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 141416,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      807.2638553571887,
+      1786.8779774792492
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Ingonish Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1485,
+      2740
+    ],
+    "lonlat": [
+      -60.33697901796876,
+      46.68262786620498
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 17819,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1480.1757714102278,
+      2748.138521758956
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Middle Head east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1110,
+      3225
+    ],
+    "lonlat": [
+      -60.3492882537174,
+      46.65513227827696
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 22540,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1106.8773510510218,
+      3219.334570789244
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Smoky Cape southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      937,
+      3730
+    ],
+    "lonlat": [
+      -60.35100257179932,
+      46.627853806184774
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 10616,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      876.8656530110165,
+      3740.021847185679
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

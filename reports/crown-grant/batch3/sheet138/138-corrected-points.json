@@ -1,0 +1,24 @@
+[
+  {
+    "id": "C08",
+    "label": "Inglis Lake eastern spur tip",
+    "role": "proposal",
+    "pixel_xy": [
+      440,
+      2861
+    ],
+    "lonlat": [
+      -60.147125262782126,
+      46.16861793948417
+    ],
+    "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+    "reference_objectid": 137225,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      397.3157666195184,
+      2823.5230248178123
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
