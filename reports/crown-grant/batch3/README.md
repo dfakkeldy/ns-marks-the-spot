@@ -6,8 +6,8 @@ Continuation authorized 24 September 2026 for the complete official series. This
 |---|---:|---:|---|
 | 131 | 158.17 | 8 | complete |
 | 132 | 84.17 | 8 | complete |
-| 133 | — | — | queued |
-| 140 | — | — | queued |
+| 133 | 46.38 | 9 | complete |
+| 140 | 70.07 | 7 | complete |
 | 139 | — | — | queued |
 | 138 | — | — | queued |
 | 137 | — | — | queued |

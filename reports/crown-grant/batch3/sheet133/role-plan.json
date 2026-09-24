@@ -1,0 +1,38 @@
+{
+  "sheet": "133",
+  "stage": "Before first fit or scoring",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "control_ids": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C09"
+  ],
+  "check_ids": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q09",
+    "Q10",
+    "Q11"
+  ],
+  "rejected_before_fit": {
+    "C08": "Middle Lake arbitrary shoreline bend lacks precise physical definition",
+    "Q04": "Morrison complex southwestern finger and outlet definition not secured",
+    "Q05": "Spectacle Lake initial native placement missed intended feature; no secure adopted match"
+  },
+  "notes": [
+    "Mira long island and eastern peninsula reference filters initially selected remote unrelated features; actual local WARVIS/WARV physical geometry recovered and audited before fitting",
+    "Guyon west tip, Goose Lake end, Wilkinson south tip and Winging outer coast corrected from native detail",
+    "Green Island and Rams/Gabarus lake islands remain in original main frame",
+    "Working uncertainty 12 native pixels; generalized historical shorelines and sparse checks limit assessment"
+  ]
+}

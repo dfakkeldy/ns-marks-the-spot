@@ -1,0 +1,134 @@
+[
+  {
+    "id": "SQ01",
+    "label": "Scatarie northernmost cape",
+    "role": "proposal",
+    "pixel_xy": [
+      4526,
+      2651
+    ],
+    "lonlat": [
+      -59.711594468583414,
+      46.03307466210868
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 20329,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4504.467463095556,
+      2645.7380960128503
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ02",
+    "label": "Savage Cove southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3920,
+      2838
+    ],
+    "lonlat": [
+      -59.74621084974317,
+      46.01444558358638
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 20290,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3899.4783922361094,
+      2835.71721728635
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ03",
+    "label": "Hatchet Rock Cove southern shore tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3450,
+      2985
+    ],
+    "lonlat": [
+      -59.77306572209991,
+      45.99973806286858
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 21052,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3428.1618906119256,
+      2987.838806916261
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ04",
+    "label": "Eastern Harbour southern bay cape",
+    "role": "proposal",
+    "pixel_xy": [
+      4630,
+      2907
+    ],
+    "lonlat": [
+      -59.69868535424979,
+      46.02364907867367
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 18457,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4614.104594456672,
+      2893.4296530905413
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ05",
+    "label": "Hay Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4840,
+      3031
+    ],
+    "lonlat": [
+      -59.6840368603228,
+      46.02093293717127
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 17524,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4795.063943363144,
+      3019.194020305644
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ06",
+    "label": "Ragged Rock Cove southwest peninsula",
+    "role": "proposal",
+    "pixel_xy": [
+      3950,
+      3272
+    ],
+    "lonlat": [
+      -59.735580132661774,
+      45.99544917169267
+    ],
+    "guide_file": ".crown-grant-local/140-scatarie-discovery-guide.npy",
+    "reference_objectid": 21925,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3910.074011424498,
+      3258.3310051384615
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

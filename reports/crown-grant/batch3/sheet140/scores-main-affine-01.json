@@ -1,0 +1,232 @@
+{
+  "count": 7,
+  "rms_ground_m": 70.07260740068206,
+  "median_ground_m": 55.66268434816226,
+  "p95_ground_m": 108.3108996046246,
+  "max_ground_m": 114.40992642898978,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 21.887606394759036,
+  "mean_north_ground_m": -20.002973129286936,
+  "points": [
+    {
+      "id": "MQ02",
+      "label": "Battery island west tip",
+      "role": "check",
+      "pixel_xy": [
+        908,
+        1800
+      ],
+      "lonlat": [
+        -59.967081053985964,
+        45.89886847434472
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 17361,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        907.2792098846403,
+        1776.2040793619817
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Independent main-frame checks reserved and audited before first fit and score.",
+      "predicted_lonlat": [
+        -59.966852351250836,
+        45.89898290394718
+      ],
+      "error_ground_m": 21.83504862554346,
+      "east_ground_m": 17.748280427140283,
+      "north_ground_m": 12.718800665134923
+    },
+    {
+      "id": "MQ03",
+      "label": "Isle Verte south tip",
+      "role": "check",
+      "pixel_xy": [
+        956,
+        1937
+      ],
+      "lonlat": [
+        -59.960580084661224,
+        45.89348137862562
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 18472,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        957.7029529865249,
+        1913.6269764645258
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Independent main-frame checks reserved and audited before first fit and score.",
+      "predicted_lonlat": [
+        -59.96060685418918,
+        45.89354758505873
+      ],
+      "error_ground_m": 7.646463593216448,
+      "east_ground_m": -2.077629039255207,
+      "north_ground_m": 7.358794946023981
+    },
+    {
+      "id": "MQ07",
+      "label": "Aux Cannes island east tip",
+      "role": "check",
+      "pixel_xy": [
+        3779,
+        1457
+      ],
+      "lonlat": [
+        -59.79190902953229,
+        45.96259966299838
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 16962,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3756.8707679465297,
+        1416.1037232134258
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Independent main-frame checks reserved and audited before first fit and score.",
+      "predicted_lonlat": [
+        -59.79175651538247,
+        45.961874038485824
+      ],
+      "error_ground_m": 81.51544225110099,
+      "east_ground_m": 11.822360981879429,
+      "north_ground_m": -80.65357466477674
+    },
+    {
+      "id": "MQ08",
+      "label": "Scatarie Eastern Harbour southeast cape",
+      "role": "check",
+      "pixel_xy": [
+        5511,
+        723
+      ],
+      "lonlat": [
+        -59.698792824003455,
+        46.02351537367546
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 18457,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5461.689403616649,
+        695.4966360488907
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Independent main-frame checks reserved and audited before first fit and score.",
+      "predicted_lonlat": [
+        -59.69810798299028,
+        46.023667633301216
+      ],
+      "error_ground_m": 55.66268434816226,
+      "east_ground_m": 53.02742082506298,
+      "north_ground_m": 16.924156389162324
+    },
+    {
+      "id": "MQ10",
+      "label": "Main-a-Dieu Moue Head east tip",
+      "role": "check",
+      "pixel_xy": [
+        3680,
+        417
+      ],
+      "lonlat": [
+        -59.82188828686475,
+        46.00719270846032
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 8753,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3664.0501441885135,
+        398.89198505156673
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Independent main-frame checks reserved and audited before first fit and score.",
+      "predicted_lonlat": [
+        -59.82217687953461,
+        46.007558442765735
+      ],
+      "error_ground_m": 46.39187050726228,
+      "east_ground_m": -22.352296114884506,
+      "north_ground_m": 40.65194346590469
+    },
+    {
+      "id": "MQ11",
+      "label": "Grand Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        1583,
+        488
+      ],
+      "lonlat": [
+        -59.955735687767486,
+        45.97017213461012
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 126301,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1571.8035493294592,
+        447.58335326006636
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Independent main-frame checks reserved and audited before first fit and score.",
+      "predicted_lonlat": [
+        -59.95437069803059,
+        45.96978025160539
+      ],
+      "error_ground_m": 114.40992642898978,
+      "east_ground_m": 105.79415682357251,
+      "north_ground_m": -43.55717676200101
+    },
+    {
+      "id": "MQ12",
+      "label": "Stewart Lake main island north tip",
+      "role": "check",
+      "pixel_xy": [
+        373,
+        759
+      ],
+      "lonlat": [
+        -60.025061823615914,
+        45.93829569121203
+      ],
+      "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+      "reference_objectid": 149876,
+      "reference_feature_code": "WALKIS10",
+      "guide_reference_pixel_xy": [
+        396.7119775072788,
+        717.9907939156983
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline/lake topology and original-frame paired crosshair inspected before fitting; final points from image evidence.",
+      "review": "Independent main-frame checks reserved and audited before first fit and score.",
+      "predicted_lonlat": [
+        -60.02520043064585,
+        45.93745481242513
+      ],
+      "error_ground_m": 94.0798370144392,
+      "east_ground_m": -10.74904914020227,
+      "north_ground_m": -93.4637559444567
+    }
+  ],
+  "fit_sha256": "e9fb118235028d6c1cc10d7cb520f30d5f825c5eef8c640445fb56313592728e",
+  "checks_sha256": "f0b5cd7d6ff6194366cc321fb9fb3a74cfee00dd017e05414df179763d708c97",
+  "status": "Independent physical main-frame checks; no post-score tuning"
+}

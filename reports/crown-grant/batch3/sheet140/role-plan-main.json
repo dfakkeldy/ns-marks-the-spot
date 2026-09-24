@@ -1,0 +1,38 @@
+{
+  "sheet": "140",
+  "component": "main",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "MC02",
+    "MC03",
+    "MC04",
+    "MC05",
+    "MC06",
+    "MC08"
+  ],
+  "checks": [
+    "MQ02",
+    "MQ03",
+    "MQ07",
+    "MQ08",
+    "MQ10",
+    "MQ11",
+    "MQ12"
+  ],
+  "rejected_before_fit": {
+    "MC01": "Stewart shore finger definition unresolved; separate central island selected as a check instead",
+    "MC07": "Point Howe fragmented modern shore/islets do not establish precise shared southern tip",
+    "MQ01": "Back Harbour original apex and changed present shore cannot be paired precisely",
+    "MQ04": "Little Lorraine highlighted text and harbour geometry obscure precise original north end",
+    "MQ05": "Initial Baleine candidate missed actual coast and selected offshore rock",
+    "MQ06": "Portnova historic merged outline differs from present separate rocks",
+    "MQ09": "Ragged Cove initial point lies inland of a broad generalized shore; no precise apex adopted"
+  },
+  "notes": [
+    "All rejections and pixel/reference repairs predate fitting",
+    "Displaced Scatarie and Main-a-Dieu insets retain independent roles and models; no pooled accuracy result",
+    "Grand north/south checks and controls are spatially correlated on one lake; limited independence explicitly retained"
+  ]
+}

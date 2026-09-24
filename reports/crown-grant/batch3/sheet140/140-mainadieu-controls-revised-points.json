@@ -1,0 +1,46 @@
+[
+  {
+    "id": "IC01",
+    "label": "Main-a-Dieu inset northern coastal apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2265,
+      2971
+    ],
+    "lonlat": [
+      -59.841020690079255,
+      46.015978599966736
+    ],
+    "guide_file": ".crown-grant-local/140-mainadieu-discovery-guide.npy",
+    "reference_objectid": 8622,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2248.0408205061976,
+      2950.5780757584143
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Main-a-Dieu inset lake west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2512,
+      3277
+    ],
+    "lonlat": [
+      -59.83299748792009,
+      46.007916636725234
+    ],
+    "guide_file": ".crown-grant-local/140-mainadieu-discovery-guide.npy",
+    "reference_objectid": 138174,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2463.857070585218,
+      3238.823506973684
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,80 @@
+[
+  [
+    "MC02",
+    "Grand Lake south tip",
+    [
+      1412,
+      868
+    ],
+    [
+      1404,
+      850
+    ],
+    "WALK"
+  ],
+  [
+    "MC03",
+    "Mitchell Lake north end",
+    [
+      2519,
+      297
+    ],
+    [
+      2518,
+      260
+    ],
+    "WALK"
+  ],
+  [
+    "MC04",
+    "Louisbourg White Point south tip",
+    [
+      382,
+      2129
+    ],
+    [
+      395,
+      2108
+    ],
+    "WACO"
+  ],
+  [
+    "MC05",
+    "Lorrembec Head southeast corner",
+    [
+      1737,
+      1638
+    ],
+    [
+      1735,
+      1608
+    ],
+    "WACO"
+  ],
+  [
+    "MC06",
+    "Cape Breton east tip",
+    [
+      3768,
+      1693
+    ],
+    [
+      3740,
+      1663
+    ],
+    "WACO"
+  ],
+  [
+    "MC08",
+    "Scatarie northwest head",
+    [
+      4017,
+      581
+    ],
+    [
+      3992,
+      566
+    ],
+    "WACO"
+  ]
+]

@@ -1,14 +1,14 @@
 {
-  "updated_at_utc": "2026-09-24T12:08:10.840530+00:00",
+  "updated_at_utc": "2026-09-24T12:32:44.092644+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
     "131",
-    "132"
+    "132",
+    "133",
+    "140"
   ],
   "remaining_sheets": [
-    "133",
-    "140",
     "139",
     "138",
     "137",
@@ -119,6 +119,21 @@
     "007",
     "006"
   ],
-  "publication_status": "Current continuation not yet published",
-  "geographic_acceptance": "Per-sheet measured results and limitations remain authoritative; assessment is not an automatic geographic pass"
+  "publication_status": "First checkpoint merged; subsequent assessments continue on codex/crown-grant-east",
+  "geographic_acceptance": "Per-sheet measured results and limitations remain authoritative; assessment is not an automatic geographic pass",
+  "delivered_checkpoints": [
+    {
+      "pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/528",
+      "sheets": [
+        "131",
+        "132"
+      ],
+      "merge_commit": "e2540f967544bb95657c665ce41d033a33716dd2",
+      "merged_at_utc": "2026-09-24T12:33:50Z",
+      "verified_head": "7c88292b1256dc7802b3bf2bec02c16214f34a58",
+      "ci_run": 35997342320,
+      "required_checks": "passed",
+      "method": "verified-head squash; auto-merge unavailable"
+    }
+  ]
 }

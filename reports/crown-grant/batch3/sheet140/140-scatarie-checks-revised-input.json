@@ -1,0 +1,67 @@
+[
+  [
+    "SQ01",
+    "Scatarie northernmost cape",
+    [
+      4540,
+      2648
+    ],
+    [
+      4495,
+      2640
+    ],
+    "WACO20"
+  ],
+  [
+    "SQ02",
+    "Savage Cove southern apex",
+    [
+      3920,
+      2838
+    ],
+    [
+      3900,
+      2838
+    ],
+    "WACO20"
+  ],
+  [
+    "SQ04",
+    "Eastern Harbour southern bay cape",
+    [
+      4647,
+      2917
+    ],
+    [
+      4584,
+      2901
+    ],
+    "WACO20"
+  ],
+  [
+    "SQ05",
+    "Hay Island south tip",
+    [
+      4837,
+      3030
+    ],
+    [
+      4797,
+      3021
+    ],
+    "WACOIS"
+  ],
+  [
+    "SQ06",
+    "Ragged Rock Cove southwest peninsula",
+    [
+      3950,
+      3278
+    ],
+    [
+      3930,
+      3268
+    ],
+    "WACO20"
+  ]
+]

@@ -1,0 +1,54 @@
+[
+  [
+    "SC01",
+    "Scatarie northwest shore corner",
+    [
+      3168,
+      2777
+    ],
+    [
+      3145,
+      2757
+    ],
+    "WACO20"
+  ],
+  [
+    "SC02",
+    "Scatarie eastern harbour cape east tip",
+    [
+      5070,
+      2810
+    ],
+    [
+      5013,
+      2803
+    ],
+    "WACO20"
+  ],
+  [
+    "SC03",
+    "Tin Cove north apex",
+    [
+      4050,
+      3095
+    ],
+    [
+      4009,
+      3082
+    ],
+    "WACO20"
+  ],
+  [
+    "SC04",
+    "Scatarie eastern peninsula shoulder",
+    [
+      4460,
+      3168
+    ],
+    [
+      4425,
+      3155
+    ],
+    "WACO20"
+  ]
+]
