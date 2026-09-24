@@ -1,12 +1,12 @@
 {
-  "verified_at_utc": "2026-09-24T13:33:17.302865+00:00",
-  "sheets": 7,
+  "verified_at_utc": "2026-09-24T14:07:40.850575+00:00",
+  "sheets": 9,
   "planned_batch_sheets": 9,
-  "batch_assessment_complete": false,
-  "score_replays": 9,
+  "batch_assessment_complete": true,
+  "score_replays": 12,
   "regressions": "4 existing scorer/pixel-frame tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 6,
+  "main_rms_pass_count": 8,
   "main_rms_fail_sheets": [
     "131"
   ],
@@ -190,6 +190,52 @@
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "136",
+      "components": [
+        {
+          "component": "main",
+          "controls": 6,
+          "independent_checks": 8,
+          "rms_ground_m": 62.0424756404173,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "135",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 6,
+          "rms_ground_m": 92.12473518787186,
+          "rms_gate_passed": true,
+          "fit": "fit-main-affine-01.json",
+          "checks": "checks-main-affine-01.json",
+          "scores": "scores-main-affine-01.json"
+        },
+        {
+          "component": "stpaul-inset",
+          "controls": 4,
+          "independent_checks": 4,
+          "rms_ground_m": 94.09306927755449,
+          "rms_gate_passed": true,
+          "fit": "fit-stpaul-similarity-01.json",
+          "checks": "checks-stpaul-similarity-01.json",
+          "scores": "scores-stpaul-similarity-01.json"
         }
       ],
       "coverage_passed": true,

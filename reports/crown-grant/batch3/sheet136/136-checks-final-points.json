@@ -1,0 +1,194 @@
+[
+  {
+    "id": "Q01",
+    "label": "Sheep Island south tip",
+    "role": "check",
+    "pixel_xy": [
+      1311,
+      1174
+    ],
+    "lonlat": [
+      -60.48243423003374,
+      46.91126425729226
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 20918,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1308.722861754417,
+      1117.1439361404628
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "Q02",
+    "label": "Western chain small northern pond south tip",
+    "role": "check",
+    "pixel_xy": [
+      470,
+      2738
+    ],
+    "lonlat": [
+      -60.50000027944916,
+      46.826109885275926
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126263,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      443.79041200625943,
+      2701.9189589776797
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "Q03",
+    "label": "Western chain central rounded pond south tip",
+    "role": "check",
+    "pixel_xy": [
+      478,
+      2834
+    ],
+    "lonlat": [
+      -60.495962082040066,
+      46.8216180636936
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126183,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      463.95985390170245,
+      2810.5526136526605
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "Q04",
+    "label": "Western horizontal pond east tip",
+    "role": "check",
+    "pixel_xy": [
+      635,
+      2800
+    ],
+    "lonlat": [
+      -60.4869201925597,
+      46.82573957587017
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126265,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      614.4264078154229,
+      2775.17282981507
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "Q05",
+    "label": "Small pond southeast of Ellen Brook kidney lake east tip",
+    "role": "check",
+    "pixel_xy": [
+      650,
+      2590
+    ],
+    "lonlat": [
+      -60.490149078063695,
+      46.83532211731558
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 310669,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      642.7741034839419,
+      2570.5915693852585
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "Q06",
+    "label": "Island north of White Point south tip",
+    "role": "check",
+    "pixel_xy": [
+      2876,
+      2318
+    ],
+    "lonlat": [
+      -60.35099651388674,
+      46.885804841075654
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 22162,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2860.8370337979286,
+      2277.932575816987
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "Q07",
+    "label": "East coastal cape below White Point",
+    "role": "check",
+    "pixel_xy": [
+      3025,
+      2600
+    ],
+    "lonlat": [
+      -60.33525607157165,
+      46.87464791532894
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 2207,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2987.0091803870164,
+      2576.243486698135
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "Q08",
+    "label": "Small stream mouth south of Cape Egmont",
+    "role": "check",
+    "pixel_xy": [
+      3150,
+      3410
+    ],
+    "lonlat": [
+      -60.30584411767474,
+      46.84066297209217
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 11511,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3126.087265136186,
+      3392.0331896218704
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  }
+]

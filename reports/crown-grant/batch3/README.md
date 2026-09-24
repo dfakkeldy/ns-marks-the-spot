@@ -11,8 +11,8 @@ Continuation authorized 24 September 2026 for the complete official series. This
 | 139 | 63.74 | 8 | complete |
 | 138 | 88.18 | 9 | complete |
 | 137 | 62.06 | 8 | complete |
-| 136 | — | — | queued |
-| 135 | — | — | queued |
+| 136 | 62.04 | 8 | complete |
+| 135 | 92.12 | 6 | complete |
 
 The independent ground RMS ceiling is 100 m. Per-sheet reports preserve companion metrics, bias, coverage and failures. Assessment completion includes source-frame audit, full mapped raster/alpha coverage and actual private browser review; it does not imply geographic acceptance.
 

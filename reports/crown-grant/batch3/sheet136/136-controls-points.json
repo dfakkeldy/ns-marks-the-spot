@@ -1,0 +1,134 @@
+[
+  {
+    "id": "C01",
+    "label": "Sheep Island north tip in North Pond",
+    "role": "proposal",
+    "pixel_xy": [
+      1265,
+      1094
+    ],
+    "lonlat": [
+      -60.48754626416847,
+      46.91380198654034
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 20918,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1259.9015640180442,
+      1041.541041742661
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "White Point northern mainland tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2868,
+      2336
+    ],
+    "lonlat": [
+      -60.350740089645214,
+      46.88401782522506
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 11629,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2851.02794966707,
+      2314.3588936653687
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Cape Egmont eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3261,
+      3300
+    ],
+    "lonlat": [
+      -60.30222603670866,
+      46.84769641254781
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 7591,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3225.9826701193815,
+      3271.820383343729
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Largest western interior lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      589,
+      2940
+    ],
+    "lonlat": [
+      -60.486552898280436,
+      46.81882702316908
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126181,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      567.9753600018448,
+      2912.858931982657
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Northwestern elongated lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      359,
+      2557
+    ],
+    "lonlat": [
+      -60.51055502158914,
+      46.83201879785234
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 124561,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      347.79191832547076,
+      2532.560651628766
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Kidney-shaped lake on Ellen Brook north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      545,
+      2490
+    ],
+    "lonlat": [
+      -60.49997702530948,
+      46.83839558734082
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 139547,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      535.3488700016751,
+      2460.6341092835646
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Cape St Lawrence northern tip",
+    [
+      2740,
+      1680
+    ],
+    [
+      2697,
+      1667
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Cape North northern mainland corner",
+    [
+      5125,
+      2710
+    ],
+    [
+      5090,
+      2690
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Largest southwestern lake north tip",
+    [
+      2830,
+      3230
+    ],
+    [
+      2800,
+      3208
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Western interior northern pond north tip",
+    [
+      1355,
+      3290
+    ],
+    [
+      1320,
+      3274
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Lowland Cove narrow coastal notch",
+    [
+      2104,
+      2075
+    ],
+    [
+      2067,
+      2063
+    ],
+    "WACO"
+  ],
+  [
+    "C06",
+    "Pollett Cove river mouth",
+    [
+      527,
+      3719
+    ],
+    [
+      512,
+      3698
+    ],
+    "WACO"
+  ],
+  [
+    "C07",
+    "Round pond west of Brook south tip",
+    [
+      2500,
+      2040
+    ],
+    [
+      2477,
+      2008
+    ],
+    "WALK"
+  ]
+]

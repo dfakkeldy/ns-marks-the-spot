@@ -1,0 +1,67 @@
+[
+  [
+    "SQ01",
+    "Atlantic Cove north inner bend",
+    [
+      4988,
+      870
+    ],
+    [
+      5024,
+      911
+    ],
+    "WACOIS"
+  ],
+  [
+    "SQ02",
+    "Trinity Cove inner eastern tip",
+    [
+      4805,
+      780
+    ],
+    [
+      4839,
+      803
+    ],
+    "WACOIS"
+  ],
+  [
+    "SQ03",
+    "St Paul western central north cape",
+    [
+      4901,
+      595
+    ],
+    [
+      4916,
+      632
+    ],
+    "WACOIS"
+  ],
+  [
+    "SQ04",
+    "St Paul west coast southwestern corner",
+    [
+      4640,
+      900
+    ],
+    [
+      4709,
+      940
+    ],
+    "WACOIS"
+  ],
+  [
+    "SQ05",
+    "Northeastern neck west inner corner",
+    [
+      5170,
+      549
+    ],
+    [
+      5168,
+      588
+    ],
+    "WACOIS"
+  ]
+]

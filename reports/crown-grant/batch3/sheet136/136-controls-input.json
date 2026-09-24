@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Sheep Island north tip in North Pond",
+    [
+      1265,
+      1094
+    ],
+    [
+      1258,
+      1035
+    ],
+    "WACOIS"
+  ],
+  [
+    "C02",
+    "White Point northern mainland tip",
+    [
+      2868,
+      2336
+    ],
+    [
+      2850,
+      2313
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Cape Egmont eastern tip",
+    [
+      3261,
+      3300
+    ],
+    [
+      3226,
+      3274
+    ],
+    "WACO"
+  ],
+  [
+    "C04",
+    "Largest western interior lake east tip",
+    [
+      589,
+      2940
+    ],
+    [
+      570,
+      2910
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Northwestern elongated lake east tip",
+    [
+      359,
+      2557
+    ],
+    [
+      358,
+      2522
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Kidney-shaped lake on Ellen Brook north tip",
+    [
+      545,
+      2490
+    ],
+    [
+      550,
+      2448
+    ],
+    "WALK"
+  ]
+]

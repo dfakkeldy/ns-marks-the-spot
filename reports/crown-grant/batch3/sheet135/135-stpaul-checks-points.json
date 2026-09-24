@@ -1,0 +1,112 @@
+[
+  {
+    "id": "SQ01",
+    "label": "Atlantic Cove north inner bend",
+    "role": "proposal",
+    "pixel_xy": [
+      4988,
+      870
+    ],
+    "lonlat": [
+      -60.14669908329686,
+      47.19635485885795
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 16733,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5023.932373482559,
+      910.9692153068027
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ02",
+    "label": "Trinity Cove inner eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4805,
+      780
+    ],
+    "lonlat": [
+      -60.1634344163087,
+      47.19738810526526
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 22017,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4810.799616442993,
+      807.8022377766902
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ03",
+    "label": "St Paul western central north cape",
+    "role": "proposal",
+    "pixel_xy": [
+      4901,
+      595
+    ],
+    "lonlat": [
+      -60.16073690540792,
+      47.207008964269775
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 17109,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4917.000719622243,
+      631.7607108546654
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ04",
+    "label": "St Paul west coast southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4640,
+      900
+    ],
+    "lonlat": [
+      -60.16717548795872,
+      47.189767457178995
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 22584,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4705.507585690648,
+      939.2944210085552
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SQ05",
+    "label": "Northeastern neck west inner corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5170,
+      549
+    ],
+    "lonlat": [
+      -60.145176039494466,
+      47.21314106185758
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 20920,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5167.1826156075695,
+      588.0269051212817
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
