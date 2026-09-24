@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6044 x 4133 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 164.71 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          120
+        ],
+        [
+          5940,
+          120
+        ],
+        [
+          5940,
+          4020
+        ],
+        [
+          90,
+          4020
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains the northern Gulf Shore coastline, Cape Cliff, Wallace Bay and Harbour, Fox Harbour, Smith and McKenzie points, Fox Harbour island and Oak Island, Docherty, Palmer, Canfield and Horton points, Lazy Bay, all inland parcels and the entire original ocean frame. No displaced inset identified."
+    }
+  ]
+}

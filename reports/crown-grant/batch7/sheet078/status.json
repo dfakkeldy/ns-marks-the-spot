@@ -1,0 +1,45 @@
+{
+  "sheet": "078",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with median exception and geographic evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/078.pdf",
+    "pdf_sha256": "786ee2f9b9f3256dd74fe84587b66e8c6f59e62f902ea16973383429ed64c891",
+    "jpeg_sha256": "622ef1d29e9d760d8787cba0fc533ba4fd40a811554f57004590b0e52071b156",
+    "dimensions": [
+      6070,
+      4120
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 5,
+      "rms_ground_m": 96.78355069832212,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Five excluded checks give RMS 96.78 m, within 100 m, but median 87.49 m exceeds the 75 m companion bound. P95 is 134.47 m and maximum 139.77 m. The first result remains qualified.",
+    "All observations lie in the northern half. Southern inland parcels and river corridors have no accepted independent checks.",
+    "Four checks share Mattatall, Saddle, Waugh and west-Waugh islet systems with controls; these are spatially correlated rather than separate regional samples.",
+    "Mattatall observations use 12 px working source uncertainty; generalized coast/islands use 18 px. Evolving spits, marshes and modern connections remain unvalidated."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 96.78 m, median 87.49 m, P95 134.47 m, maximum 139.77 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Full original mapped frame retains Tatamagouche Harbour, Malagash, Saddle and Purdy islands, Waugh Island and nearby islets, Sandville and Chambers Point, Brule and Peninsula points, Dewar/Stevens/Wallace Lake, Mattatall Lake, all southern inland parcels and river corridors. No displaced inset identified."
+  }
+}

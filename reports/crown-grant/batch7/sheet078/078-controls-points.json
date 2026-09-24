@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Mattatall Lake north shore apex",
+    "role": "proposal",
+    "pixel_xy": [
+      690,
+      1405
+    ],
+    "lonlat": [
+      -63.47099095494208,
+      45.69939628272446
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 136030,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136030,
+    "nearest_unfiltered_distance_guide_px": 0.9117369371047835,
+    "selected_distance_guide_px": 0.9117369371047835,
+    "guide_reference_pixel_xy": [
+      694.1689008738031,
+      1431.6251153711928
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Saddle Island northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4829,
+      340
+    ],
+    "lonlat": [
+      -63.2577658895541,
+      45.81559566473568
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 20131,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20131,
+    "nearest_unfiltered_distance_guide_px": 0.3118366068345538,
+    "selected_distance_guide_px": 0.3118366068345538,
+    "guide_reference_pixel_xy": [
+      4813.689498666907,
+      359.0288269233424
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Malagash Point eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5078,
+      754
+    ],
+    "lonlat": [
+      -63.23309186161904,
+      45.801726094032226
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 6842,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 6842,
+    "nearest_unfiltered_distance_guide_px": 2.190023518888231,
+    "selected_distance_guide_px": 2.190023518888231,
+    "guide_reference_pixel_xy": [
+      5044.408461804967,
+      789.504396618926
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Waugh Island southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3000,
+      1090
+    ],
+    "lonlat": [
+      -63.346875215238924,
+      45.75153421600825
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 11987,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11987,
+    "nearest_unfiltered_distance_guide_px": 1.0495704971400919,
+    "selected_distance_guide_px": 1.0495704971400919,
+    "guide_reference_pixel_xy": [
+      2953.510048188502,
+      1123.9173053329578
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Chambers Point eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4349,
+      1636
+    ],
+    "lonlat": [
+      -63.253686210466135,
+      45.75280572905242
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 11986,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11986,
+    "nearest_unfiltered_distance_guide_px": 4.096156082719196,
+    "selected_distance_guide_px": 4.096156082719196,
+    "guide_reference_pixel_xy": [
+      4308.036456587841,
+      1660.2507408190286
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Peninsula Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5129,
+      1598
+    ],
+    "lonlat": [
+      -63.207314323466505,
+      45.76656606364453
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 1899,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1899,
+    "nearest_unfiltered_distance_guide_px": 0.45086960056524267,
+    "selected_distance_guide_px": 0.45086960056524267,
+    "guide_reference_pixel_xy": [
+      5100.136070883484,
+      1659.5701533862157
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Islet west of Waugh Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3054,
+      928
+    ],
+    "lonlat": [
+      -63.34724567650395,
+      45.759681069307696
+    ],
+    "guide_file": ".crown-grant-local/078-adjacent-guide.npy",
+    "reference_objectid": 18786,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18786,
+    "nearest_unfiltered_distance_guide_px": 3.90447392377648,
+    "selected_distance_guide_px": 3.90447392377648,
+    "guide_reference_pixel_xy": [
+      3021.5974320753594,
+      956.1163347611437
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Mattatall Lake southern shore",
+    [
+      430,
+      1710
+    ],
+    [
+      380,
+      1740
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Saddle Island southeast tip",
+    [
+      5051,
+      434
+    ],
+    [
+      5034,
+      471
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q03",
+    "Waugh Island southern shore",
+    [
+      3218,
+      1084
+    ],
+    [
+      3169,
+      1116
+    ],
+    "WACO20"
+  ],
+  [
+    "Q04",
+    "Brule Point eastern tip",
+    [
+      5569,
+      1847
+    ],
+    [
+      5532,
+      1871
+    ],
+    "WACO20"
+  ],
+  [
+    "Q05",
+    "Chambers Point north shore apex",
+    [
+      4073,
+      1560
+    ],
+    [
+      4050,
+      1585
+    ],
+    "WACO20"
+  ],
+  [
+    "Q06",
+    "Islet west of Waugh Island southern tip",
+    [
+      3060,
+      971
+    ],
+    [
+      3027,
+      1001
+    ],
+    "WACOIS10"
+  ]
+]

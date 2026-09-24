@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C04",
+    "label": "Ballast Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5769,
+      3517
+    ],
+    "lonlat": [
+      -62.68561133150548,
+      45.64099235943169
+    ],
+    "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+    "reference_objectid": 27558,
+    "reference_feature_code": "WACORVIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27558,
+    "nearest_unfiltered_distance_guide_px": 3.2417007105899835,
+    "selected_distance_guide_px": 3.2417007105899835,
+    "guide_reference_pixel_xy": [
+      5744.467384187854,
+      3420.207830344327
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

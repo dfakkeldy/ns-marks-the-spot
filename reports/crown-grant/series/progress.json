@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-24T19:54:51.263357+00:00",
+  "updated_at_utc": "2026-09-24T20:52:38.799248+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -35,13 +35,13 @@
     "090",
     "089",
     "088",
-    "087"
-  ],
-  "remaining_sheets": [
+    "087",
     "086",
     "085",
     "077",
-    "078",
+    "078"
+  ],
+  "remaining_sheets": [
     "079",
     "080",
     "081",
@@ -256,6 +256,25 @@
       "merged_at_utc": "2026-09-24T19:17:42Z",
       "ci_run": 36044047996,
       "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 537,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/537",
+      "sheets": [
+        "091",
+        "090",
+        "089",
+        "088",
+        "087"
+      ],
+      "head": "bf23371aecc85468a1f9e86091de54689a0a6ec6",
+      "merge": "ee86876d0cb8873d85ad0e18436b5c1154cf8a15",
+      "merged_at_utc": "2026-09-24T20:46:34Z",
+      "ci_run": 36051482862,
+      "ci_attempt": 2,
+      "status": "merged after all required CI passed on unchanged retry",
+      "initial_failure": "Existing launch-performance XCTest returned zero metrics in iteration3; no app/test changes in this report-only PR. Initial failure and diagnostic evidence preserved privately.",
       "auto_merge": "unavailable; repository setting disabled"
     }
   ],
