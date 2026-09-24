@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Trout Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1455,
+      673
+    ],
+    "lonlat": [
+      -63.161565845106566,
+      45.26241636852834
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 139959,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139959,
+    "nearest_unfiltered_distance_guide_px": 6.05253847771428,
+    "selected_distance_guide_px": 6.05253847771428,
+    "guide_reference_pixel_xy": [
+      1475.3196114690509,
+      724.5733307317132
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Barren Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1840,
+      715
+    ],
+    "lonlat": [
+      -63.13808465093196,
+      45.266044173823865
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 129761,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129761,
+    "nearest_unfiltered_distance_guide_px": 1.4971684605406999,
+    "selected_distance_guide_px": 1.4971684605406999,
+    "guide_reference_pixel_xy": [
+      1846.5714090518304,
+      788.565488515771
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Twin Lakes western lobe northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3770,
+      398
+    ],
+    "lonlat": [
+      -63.03308808540677,
+      45.3132113349141
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 138833,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138833,
+    "nearest_unfiltered_distance_guide_px": 4.0522674837885555,
+    "selected_distance_guide_px": 4.0522674837885555,
+    "guide_reference_pixel_xy": [
+      3764.2879064438166,
+      436.655398997711
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Flat Iron Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3614,
+      582
+    ],
+    "lonlat": [
+      -63.03706553984117,
+      45.30286925968958
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 127512,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127512,
+    "nearest_unfiltered_distance_guide_px": 6.711391298795176,
+    "selected_distance_guide_px": 6.711391298795176,
+    "guide_reference_pixel_xy": [
+      3620.419657966413,
+      626.0414547252003
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "North West Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      280,
+      2923
+    ],
+    "lonlat": [
+      -63.174584031906264,
+      45.14809306310663
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 134493,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134493,
+    "nearest_unfiltered_distance_guide_px": 1.9104484033134164,
+    "selected_distance_guide_px": 1.9104484033134164,
+    "guide_reference_pixel_xy": [
+      330.180870076525,
+      2997.901867271168
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Gleason Lakes eastern lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4144,
+      3465
+    ],
+    "lonlat": [
+      -62.93551745246972,
+      45.19097337643471
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 125988,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125988,
+    "nearest_unfiltered_distance_guide_px": 0.044749725426392065,
+    "selected_distance_guide_px": 0.044749725426392065,
+    "guide_reference_pixel_xy": [
+      4166.027219140611,
+      3525.0355198016623
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Eastville southern pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5826,
+      2045
+    ],
+    "lonlat": [
+      -62.870793563681794,
+      45.279004105420796
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 142973,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142973,
+    "nearest_unfiltered_distance_guide_px": 0.4573952815336478,
+    "selected_distance_guide_px": 0.4573952815336478,
+    "guide_reference_pixel_xy": [
+      5837.577292462054,
+      2092.1747248721076
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Halfway Brook pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2734,
+      1529
+    ],
+    "lonlat": [
+      -63.06597569173283,
+      45.24815415786791
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 83835,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 83835,
+    "nearest_unfiltered_distance_guide_px": 1.6496037863069961,
+    "selected_distance_guide_px": 1.6496037863069961,
+    "guide_reference_pixel_xy": [
+      2744.641400021501,
+      1581.480197820696
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

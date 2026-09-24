@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Eight controls span northwestern/northeastern lakes, western southwest, southern Gleason lakes and eastern ponds with two-dimensional coverage.",
+  "corrections": [
+    "Barren south, Flat Iron north, Twin eastern north and Halfway pond south refined before any fit"
+  ],
+  "not_adopted": [
+    "Long Lake northern lake-stream transition and generalized Smithfield lake transitions not used",
+    "Central Stewiacke river meanders and banks are not assumed stable"
+  ],
+  "limitations": [
+    "Six checks share lake systems with controls; Gleason northwest lake and Eastville northern pond add separate local water bodies but remain clustered",
+    "Broad central river corridor and far southeastern/southernmost parcels remain unvalidated",
+    "Natural lake/pond observations use12px working source uncertainty"
+  ]
+}

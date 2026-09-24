@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 38.50239460983922,
+  "median_ground_m": 38.83062029635598,
+  "p95_ground_m": 56.06812378730886,
+  "max_ground_m": 59.63790411208428,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -13.582194004348123,
+  "mean_north_ground_m": 15.31703373075476,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Kemptown pond east shore corner",
+      "role": "check",
+      "pixel_xy": [
+        4400,
+        847
+      ],
+      "lonlat": [
+        -63.078658161570544,
+        45.46873209249687
+      ],
+      "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+      "reference_objectid": 138305,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138305,
+      "nearest_unfiltered_distance_guide_px": 1.530300309352045,
+      "selected_distance_guide_px": 1.530300309352045,
+      "guide_reference_pixel_xy": [
+        4455.494085645769,
+        799.6690511823399
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score.",
+      "predicted_lonlat": [
+        -63.07871912447147,
+        45.46885827100496
+      ],
+      "error_ground_m": 14.811790833279494,
+      "east_ground_m": -4.767368247617281,
+      "north_ground_m": 14.023599669144616
+    },
+    {
+      "id": "Q02",
+      "label": "Northeast oval pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5058,
+        570
+      ],
+      "lonlat": [
+        -63.04654202676465,
+        45.49104499991826
+      ],
+      "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+      "reference_objectid": 126795,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126795,
+      "nearest_unfiltered_distance_guide_px": 1.8367408783552561,
+      "selected_distance_guide_px": 1.8367408783552561,
+      "guide_reference_pixel_xy": [
+        5111.831118916278,
+        534.8564013625728
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score.",
+      "predicted_lonlat": [
+        -63.04632371356636,
+        45.491559156597795
+      ],
+      "error_ground_m": 59.63790411208428,
+      "east_ground_m": 17.065486212336236,
+      "north_ground_m": 57.14410544595759
+    },
+    {
+      "id": "Q03",
+      "label": "Eastern three-pond cluster middle pond south tip",
+      "role": "check",
+      "pixel_xy": [
+        5345,
+        1388
+      ],
+      "lonlat": [
+        -63.00937264873557,
+        45.461881547543975
+      ],
+      "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+      "reference_objectid": 139279,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139279,
+      "nearest_unfiltered_distance_guide_px": 1.273346589631264,
+      "selected_distance_guide_px": 1.273346589631264,
+      "guide_reference_pixel_xy": [
+        5399.464743623568,
+        1359.1553839832777
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score.",
+      "predicted_lonlat": [
+        -63.00963217585409,
+        45.46224652402949
+      ],
+      "error_ground_m": 45.35878281298263,
+      "east_ground_m": -20.297688751619734,
+      "north_ground_m": 40.563814041799596
+    },
+    {
+      "id": "Q04",
+      "label": "Eastern three-pond cluster east pond north tip",
+      "role": "check",
+      "pixel_xy": [
+        5343,
+        1340
+      ],
+      "lonlat": [
+        -63.010832935414925,
+        45.46418470696814
+      ],
+      "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+      "reference_objectid": 139281,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139281,
+      "nearest_unfiltered_distance_guide_px": 1.0417645672269311,
+      "selected_distance_guide_px": 1.0417645672269311,
+      "guide_reference_pixel_xy": [
+        5398.079118325084,
+        1302.9612441556528
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score.",
+      "predicted_lonlat": [
+        -63.01090324747555,
+        45.46421764179539
+      ],
+      "error_ground_m": 6.605820086793511,
+      "east_ground_m": -5.498934358600598,
+      "north_ground_m": 3.6604070728385456
+    },
+    {
+      "id": "Q05",
+      "label": "Duck Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4817,
+        3260
+      ],
+      "lonlat": [
+        -62.995692153902105,
+        45.375360697494926
+      ],
+      "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+      "reference_objectid": 128215,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128215,
+      "nearest_unfiltered_distance_guide_px": 2.281670275867271,
+      "selected_distance_guide_px": 2.281670275867271,
+      "guide_reference_pixel_xy": [
+        4855.762007024954,
+        3221.730775773176
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score.",
+      "predicted_lonlat": [
+        -62.996052689864854,
+        45.375133685321096
+      ],
+      "error_ground_m": 37.86952532557642,
+      "east_ground_m": -28.241011216543306,
+      "north_ground_m": -25.22986789207484
+    },
+    {
+      "id": "Q06",
+      "label": "Island Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5078,
+        3135
+      ],
+      "lonlat": [
+        -62.983068794245185,
+        45.38474634016086
+      ],
+      "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+      "reference_objectid": 137239,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137239,
+      "nearest_unfiltered_distance_guide_px": 0.2653943176558652,
+      "selected_distance_guide_px": 0.2653943176558652,
+      "guide_reference_pixel_xy": [
+        5119.239213404537,
+        3104.885060490109
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score.",
+      "predicted_lonlat": [
+        -62.98357639124071,
+        45.38476199635764
+      ],
+      "error_ground_m": 39.791715267135544,
+      "east_ground_m": -39.75364766404405,
+      "north_ground_m": 1.7401440468630316
+    }
+  ],
+  "fit_sha256": "644f32cf7c9bf6b37c6742d1793278891139aa2f33dad7a021461027d40a9ce2",
+  "checks_sha256": "cd9113c20a6e3a589e8c0e5e13ab1765d3c3d8cd6bf239e4219ca6de1c6d7f3a",
+  "status": "Six excluded physical checks reserved before first similarity fit; all share lakes/ponds with controls in eastern third"
+}

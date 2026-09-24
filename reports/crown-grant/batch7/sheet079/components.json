@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6089 x 4156 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 52.83 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          115
+        ],
+        [
+          5980,
+          115
+        ],
+        [
+          5980,
+          4020
+        ],
+        [
+          90,
+          4020
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains New Annan, Cavanagh Mills, Earltown, Nuttby, Delaney, McCallum and McKenzie settlements, Upper Kemptown, Rocky, Long, Cook, Frog, Whippy and Farn lakes, all river corridors and inland parcels. No displaced inset identified."
+    }
+  ]
+}

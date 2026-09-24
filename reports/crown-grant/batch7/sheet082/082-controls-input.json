@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Northern Pratt Lake southern tip",
+    [
+      3294,
+      1946
+    ],
+    [
+      3294,
+      1891
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Southern Pratt Lake northern tip",
+    [
+      3365,
+      2026
+    ],
+    [
+      3378,
+      1974
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Sand Lake northern shore apex",
+    [
+      4865,
+      1847
+    ],
+    [
+      4885,
+      1784
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Three-lobed pond south of Martin Lakes northern tip",
+    [
+      5033,
+      618
+    ],
+    [
+      5031,
+      552
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Lindsay Lake northern tip",
+    [
+      1726,
+      2438
+    ],
+    [
+      1697,
+      2358
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Square Lake southwest lobe southern tip",
+    [
+      1115,
+      3270
+    ],
+    [
+      1084,
+      3169
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Eastern Rocky Lake northern tip",
+    [
+      4278,
+      3262
+    ],
+    [
+      4260,
+      3201
+    ],
+    "WALK20"
+  ]
+]
