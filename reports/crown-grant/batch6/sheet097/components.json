@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6036 x 4122 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 107.92 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          95,
+          95
+        ],
+        [
+          5925,
+          95
+        ],
+        [
+          5925,
+          4005
+        ],
+        [
+          95,
+          4005
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Moose River and Necum Teuch, Ecum Secum, Marie Joseph Harbour, Liscomb Harbour and mainland headlands, Amelia and Liscomb islands, Sheep, Rocky, Hog, Barren, Goose and neighbouring islands, Halibut and White islands, all offshore ledges and the complete southern Atlantic Ocean frame. No displaced inset identified."
+    }
+  ]
+}

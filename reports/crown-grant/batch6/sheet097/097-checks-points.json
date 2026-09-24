@@ -1,0 +1,210 @@
+[
+  {
+    "id": "Q01",
+    "label": "Sheep Island northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      434,
+      1372
+    ],
+    "lonlat": [
+      -62.24220001862683,
+      44.92972697406599
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 20302,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20302,
+    "nearest_unfiltered_distance_guide_px": 3.9413503792681683,
+    "selected_distance_guide_px": 3.9413503792681683,
+    "guide_reference_pixel_xy": [
+      385.1071953633218,
+      1321.9398923800327
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Rocky Island north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1865,
+      1470
+    ],
+    "lonlat": [
+      -62.15527506474209,
+      44.94933741082174
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 20477,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20477,
+    "nearest_unfiltered_distance_guide_px": 2.7511379599566204,
+    "selected_distance_guide_px": 2.7511379599566204,
+    "guide_reference_pixel_xy": [
+      1831.4471964450204,
+      1435.0256481289398
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Barren Island east projection",
+    "role": "proposal",
+    "pixel_xy": [
+      3754,
+      2398
+    ],
+    "lonlat": [
+      -62.02086558154965,
+      44.94286738143579
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 17378,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17378,
+    "nearest_unfiltered_distance_guide_px": 1.2658886444219208,
+    "selected_distance_guide_px": 1.2658886444219208,
+    "guide_reference_pixel_xy": [
+      3759.3627792803454,
+      2357.0938115991885
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Hog Island southeast shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3101,
+      1940
+    ],
+    "lonlat": [
+      -62.07100191775036,
+      44.950725485487986
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 19113,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19113,
+    "nearest_unfiltered_distance_guide_px": 0.8023266244701541,
+    "selected_distance_guide_px": 0.8023266244701541,
+    "guide_reference_pixel_xy": [
+      3085.6534620914026,
+      1902.4655269137584
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Liscomb Island Crook Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5410,
+      2055
+    ],
+    "lonlat": [
+      -61.92806476146736,
+      44.987004246473916
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 19875,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19875,
+    "nearest_unfiltered_distance_guide_px": 2.860345528897816,
+    "selected_distance_guide_px": 2.860345528897816,
+    "guide_reference_pixel_xy": [
+      5497.13970295171,
+      1999.9833464649273
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Smaller White Island northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1508,
+      2862
+    ],
+    "lonlat": [
+      -62.142800468340496,
+      44.885306469246316
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 22118,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22118,
+    "nearest_unfiltered_distance_guide_px": 0.5570503792875188,
+    "selected_distance_guide_px": 0.5570503792875188,
+    "guide_reference_pixel_xy": [
+      1477.4628228417714,
+      2813.852535340702
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Southern Halibut Island east shore",
+    "role": "proposal",
+    "pixel_xy": [
+      825,
+      2440
+    ],
+    "lonlat": [
+      -62.193039624675095,
+      44.891276332802455
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 17146,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17146,
+    "nearest_unfiltered_distance_guide_px": 1.0602312593465009,
+    "selected_distance_guide_px": 1.0602312593465009,
+    "guide_reference_pixel_xy": [
+      786.3220384966116,
+      2395.8151432531886
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Lost Lake east shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4642,
+      546
+    ],
+    "lonlat": [
+      -62.0135052103248,
+      45.03613075026832
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 133361,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133361,
+    "nearest_unfiltered_distance_guide_px": 0.4569755542923144,
+    "selected_distance_guide_px": 0.4569755542923144,
+    "guide_reference_pixel_xy": [
+      4648.3077522531385,
+      497.66219057457056
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
