@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { matchMailingAddress, normalizeAddress, matchesMailingQuery, type MailingRecord } from "./mailingAddresses";
+import { mailingShard, matchMailingAddress, normalizeAddress, matchesMailingQuery, roadKeyVariants, roadMatchKey, type MailingRecord } from "./mailingAddresses";
 import type { CivicAddress } from "./civicAddresses";
 
 // Synthetic identities and locations; no household-specific regression fixture.
@@ -24,6 +24,17 @@ describe("mailing address evidence", () => {
     for (const change of [{ number: "118" }, { suffix: "A" }, { unit: "2" }, { road: "Other Rd" }, { coordinates: [-61.5,45.8] as [number,number] }]) {
       expect(matchMailingAddress(civic, [{ ...record, ...change }]).status).toBe("unmatched");
     }
+  });
+  it("matches a numbered highway written either way round and nothing else", () => {
+    const highway: CivicAddress = { ...civic, properties: { ...civic.properties, strname: "Highway 19", strsuffix: null } };
+    expect(matchMailingAddress(highway, [{ ...record, road: "19 HWY", street: "HIGHWAY 19" }]).status).toBe("matched");
+    expect(matchMailingAddress(highway, [{ ...record, road: "Highway 19", street: "HIGHWAY 19" }]).status).toBe("matched");
+    expect(matchMailingAddress(highway, [{ ...record, road: "19 Highway Rd" }]).status).toBe("unmatched");
+    expect(matchMailingAddress(highway, [{ ...record, road: "Old 19 HWY" }]).status).toBe("unmatched");
+    expect(roadMatchKey("19 HWY")).toBe(roadMatchKey("Highway 19"));
+    expect(roadMatchKey("Route 19")).toBe("hwy 19");
+    expect(roadKeyVariants("Highway 19").sort()).toEqual(["19 hwy", "hwy 19"]);
+    expect(roadKeyVariants("Example Road")).toEqual(["example rd"]);
   });
   it("keeps multiple source addresses ambiguous even if their mailing labels agree", () => {
     expect(matchMailingAddress(civic, [record, { ...record, id: "other-id" }]).status).toBe("ambiguous");
@@ -70,6 +81,20 @@ describe("free postal search integration", () => {
     expect(result.addresses).toHaveLength(1);
     expect(result.addresses[0]).toMatchObject({ pntid:civic.pntid, coordinates:civic.coordinates, label:"117 Example Rd, Long Point, Inverness County", mailing:{status:"matched",record} });
     expect(fetchMock.mock.calls.filter(([url]) => url.includes("within_box") || url.includes("within_box%28"))).toHaveLength(1);
+  });
+  it("reads the register's own highway shard for a provincial Highway road", async () => {
+    const highway: CivicAddress = { ...civic, properties: { ...civic.properties, strname: "Highway 19", strsuffix: null } };
+    const row = { ...record, road: "19 HWY", street: "HIGHWAY 19" };
+    // Only the register's "19 hwy" shard holds the row; the "hwy 19" shard is a different, empty file.
+    const fetchMock = vi.fn(async (url: string) => {
+      if (url.includes("mailing-addresses")) return compressed({ version: 1, streets: url.includes(`/${mailingShard("19 hwy")}.json.gz`) ? { "19 hwy": [row] } : {} });
+      return collection([]);
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const { enrichCivicAddresses: enrich } = await import("./mailingAddresses");
+    const [result] = await enrich([highway]);
+    expect(result.mailing).toEqual({ status: "matched", record: row });
+    expect(fetchMock.mock.calls.map(([url]) => url)).toContain(`${import.meta.env.BASE_URL}mailing-addresses/${mailingShard("19 hwy")}.json.gz`);
   });
   it("accepts JSON already decompressed by the host's Content-Encoding", async () => {
     const fetchMock = mockSources();

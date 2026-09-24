@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { DEFAULT_STATE, SESSION_KEY, searchableAddresses, addressId, addressLabel, deliveryStatus, readSession, searchAddresses, writeSession, type PokerAddress, type PokerData } from './model';
+import { DEFAULT_STATE, SESSION_KEY, searchableAddresses, addressId, addressLabel, civicLabelPoints, deliveryStatus, placement, postalOnlyAddresses, readSession, searchAddresses, writeSession, type PokerAddress, type PokerData } from './model';
 const address = { civic: null, mailing: { id:'one', number:'117', suffix:'', unit:'', road:'EXAMPLE RD', street:'EXAMPLE RD', city:'JUDIQUE', postalCode:'B0E1P0', additional:'', coordinates:[-61.4,45.9] } } as PokerAddress;
 beforeEach(() => localStorage.clear());
 describe('Poker session', () => {
@@ -59,6 +59,10 @@ describe('civic addresses missing from the postal list', () => {
     expect(addresses).toHaveLength(3);
     expect(new Set(addresses.map(addressId)).size).toBe(3);
     expect(searchAddresses(addresses, 'Unit 2 125 Mabou Harbour', '')).toHaveLength(1);
+    // The map draws the shared number once; search keeps every unit.
+    expect(civicLabelPoints(civic)).toHaveLength(1);
+    expect(civicLabelPoints(civic)[0].properties.civicnum).toBe('125');
+    expect(civicLabelPoints(pack.civic).length).toBeLessThan(pack.civic.length);
   });
   it('does not duplicate civic points already represented by a verified postal match', () => {
     const addresses = searchableAddresses(pack);
@@ -71,11 +75,36 @@ describe('civic addresses missing from the postal list', () => {
   });
 });
 
+describe('postal records without a civic point', () => {
+  it('opens a postal-only record at its own NAR building coordinate, never at a civic point', () => {
+    const wills = pack.addresses.filter(a => a.mailing.road === 'Wills LANE');
+    const forty = wills.find(a => a.mailing.number === '40');
+    expect(forty?.civic).toBeNull();
+    expect(placement(forty!)).toEqual({ coordinates: forty!.mailing.coordinates, source: 'postal' });
+    const verified = wills.find(a => a.mailing.number === '25');
+    expect(placement(verified!)).toEqual({ coordinates: verified!.civic!.coordinates, source: 'civic' });
+    expect(placement({ mailing: null, civic: verified!.civic! })).toEqual({ coordinates: verified!.civic!.coordinates, source: 'civic' });
+    expect(searchAddresses(searchableAddresses(pack), '40 Wills', '')).toEqual([forty]);
+  });
+  it('labels only postal numbers that have no provincial civic point on their road', () => {
+    const postal = postalOnlyAddresses(pack);
+    expect(postal.every(a => !a.civic)).toBe(true);
+    expect(postal.map(a => `${a.mailing.number} ${a.mailing.road}`)).toContain('40 Wills LANE');
+    // Apartment units share one provincial point for 30 Reynolds St; the civic label already marks it.
+    expect(postal.some(a => a.mailing.number === '30' && a.mailing.road === 'Reynolds ST')).toBe(false);
+    // A province point more than 50 m away keeps the civic label and stays selectable at the postal point.
+    expect(postal.some(a => a.mailing.number === '1286' && a.mailing.road === 'Mabou RD')).toBe(false);
+    expect(postal.length).toBeLessThan(40);
+  });
+});
+
 describe('civic-number suggestions', () => {
-  it('finds postal and provincial 5447 records from 544 and narrows as typing continues', () => {
+  it('joins the postal and provincial 5447 Highway 19 records, finds them from 544 and narrows as typing continues', () => {
     const addresses = searchableAddresses(pack);
     const complete = searchAddresses(addresses, '5447', '');
-    expect(complete).toHaveLength(2);
+    expect(complete).toHaveLength(1);
+    expect(complete[0].mailing?.road).toBe('19 HWY');
+    expect(complete[0].civic?.pntid).toBe('32300049');
     for (const query of ['544', ' 544 ', '544 Highway 19']) {
       const matches = searchAddresses(addresses, query, '');
       expect(matches).toEqual(expect.arrayContaining(complete));

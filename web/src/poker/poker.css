@@ -54,6 +54,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-location-notice { position: absolute; top: calc(var(--poker-top) + 140px); left: 60px; z-index: 700; max-width: min(280px, calc(100% - 68px)); margin: 0; padding: 8px 10px; border-radius: 8px; background: #fffdf6ed; color: #304746; font-size: 12px; box-shadow: var(--poker-shadow); }
 .poker-location-label { border: 1px solid #176ab440; background: #fffdf6ed; color: #17518a; font: 600 11px system-ui; padding: 3px 6px; }
 .poker-number { font: 650 12px system-ui; border: 0; background: #fffdf6df; color: #173a4a; padding: 0 2px; box-shadow: none; }
+.poker-number.is-postal { color: #17518a; font-style: italic; text-decoration: underline dotted #17518a99; text-underline-offset: 2px; }
 .poker-number:before, .poker-road-label:before { display: none; }
 .poker-road-label { border: 0; background: #fffdf6ce; box-shadow: none; padding: 1px 3px; font: 600 11px system-ui; color: #566863; }
 .poker-distance { padding: 5px 9px; border: 1px solid #30474640; border-radius: 8px; background: #fffdf6ed; box-shadow: var(--poker-shadow); color: #304746; text-align: center; }

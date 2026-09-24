@@ -6,17 +6,17 @@
     "B0E1X0"
   ],
   "totalAddresses": 1575,
-  "mappedAddresses": 1017,
-  "unverifiedAddresses": 558,
+  "mappedAddresses": 1507,
+  "unverifiedAddresses": 68,
   "bounds": [
     -61.57,
     45.77,
     -61.24,
     46.19
   ],
-  "bytes": 4525076,
-  "sha256": "6456ef5c5f1b80c8788c0414fc489f7e2dec62da3348d3cfa2d0f1edd8a75873",
-  "decodedSha256": "3ec283ef84bbdf0b1dfd9f71f8f26de976432b8caaa6129d163b384ae3bf36b1",
+  "bytes": 4540717,
+  "sha256": "8776c288678ab076f3ea42124c396694f1a99b4928ac70736075590d50b32ea3",
+  "decodedSha256": "25b6a5814c75dac15fcf4981b99bd128572d8bbdae9301b02d9fefa9fef231b7",
   "sources": [
     {
       "dataset": "tntn-er5g",
@@ -27,9 +27,9 @@
         "https://data.novascotia.ca/resource/tntn-er5g.geojson?%24select=the_geom%2Cpntid%2Ccivicnum%2Ccivsuffix%2Cunit_num%2Cadd_loc%2Cstrprefix%2Cstrname%2Cstrsuffix%2Cstrdir%2Ccomm%2Cmun%2Ccounty&%24where=intersects%28the_geom%2C+%27POLYGON%28%28-61.57+45.77%2C-61.24+45.77%2C-61.24+46.19%2C-61.57+46.19%2C-61.57+45.77%29%29%27%29&%24order=pntid&%24limit=1000&%24offset=2000"
       ],
       "count": 2696,
-      "sha256": "97a9547d7fd05dc992c813f50244360b6d65c20e67e19b3077bb6db44f42e110",
+      "sha256": "54eb3086aea6ec34e4c251b9bc20eae376a5b1ef2a46d44144f727d827c68aa2",
       "dataUpdatedAt": 1788606512,
-      "fetchedAt": "2026-09-17T19:53:14Z",
+      "fetchedAt": "2026-09-24T11:49:38Z",
       "bounds": [
         -61.57,
         45.77,
@@ -50,7 +50,7 @@
       "count": 4666,
       "sha256": "2e06daf7dcaa6adb4a25d59e22dae0af6e3726145fc74d785684fc60053d4f5f",
       "dataUpdatedAt": 1788606995,
-      "fetchedAt": "2026-09-17T20:02:07Z",
+      "fetchedAt": "2026-09-24T11:49:41Z",
       "bounds": [
         -61.57,
         45.77,
@@ -70,7 +70,7 @@
       "count": 3894,
       "sha256": "27a491aa1731b281273c9cb8fe781d5cbb176f169b2a56054f102ace798d7672",
       "dataUpdatedAt": 1777978875,
-      "fetchedAt": "2026-09-17T20:02:04Z",
+      "fetchedAt": "2026-09-24T11:49:38Z",
       "bounds": [
         -61.57,
         45.77,
@@ -87,7 +87,7 @@
       "count": 116,
       "sha256": "6e212ad09581c68195a54129b0274091115effe9a38457e14f7bf64379e5b6f2",
       "dataUpdatedAt": 1777992168,
-      "fetchedAt": "2026-09-17T20:01:58Z",
+      "fetchedAt": "2026-09-24T11:49:39Z",
       "bounds": [
         -61.57,
         45.77,
@@ -104,7 +104,7 @@
       "count": 877,
       "sha256": "34d0a3a8b564023e8e6b184d031382ad1e923feaa2cfd1d4919b4d832bf50421",
       "dataUpdatedAt": 1777979466,
-      "fetchedAt": "2026-09-17T20:02:07Z",
+      "fetchedAt": "2026-09-24T11:49:43Z",
       "bounds": [
         -61.57,
         45.77,
@@ -264,8 +264,8 @@
       "7f.json.gz": "3686497e12bd790b6bdacafb760a409ad21455831cc1f455f2b6cbe35f463a61"
     }
   },
-  "matching": "Exact normalized road, civic number, suffix and unit; building-to-civic distance at most 50 m. Exactly one NAR record per civic point and one civic point per NAR record. Unverified addresses remain listed but cannot be placed.",
-  "limitations": "Postal records are June 2026 NAR building-address records, not residents or a complete delivery list. Civic points are not guaranteed house locations. Roads, buildings and water are dated topographic features, not delivery routes or access permission. No aerial imagery is bundled.",
+  "matching": "Exact normalized road (a numbered highway matches whether written \"19 HWY\" or \"Highway 19\"), civic number, suffix and unit; building-to-civic distance at most 50 m. Exactly one NAR record per civic point and one civic point per NAR record. Unverified addresses remain listed and are shown only at their own NAR building coordinate, marked as postal points.",
+  "limitations": "Postal records are June 2026 NAR building-address records, not residents or a complete delivery list. Civic points and NAR building coordinates are not guaranteed house locations. Roads, buildings and water are dated topographic features, not delivery routes or access permission. No aerial imagery is bundled.",
   "attribution": "Contains information licensed under the Open Government Licence – Nova Scotia.",
   "licence": "https://support.novascotia.ca/services/open-data-portal-licence"
 }

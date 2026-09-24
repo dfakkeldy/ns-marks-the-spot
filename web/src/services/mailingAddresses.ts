@@ -33,6 +33,23 @@ export function normalizeAddress(value: string): string {
     .replace(/[.'’]/gu, "").replace(/[^a-z0-9]+/gu, " ").trim()
     .split(/\s+/u).map(word => aliases[word] ?? word).join(" ");
 }
+// The National Address Register writes numbered highways as "19 HWY" where the
+// province writes "Highway 19". Both sides compare on one road key so the exact
+// road rule still holds; nothing else about the road name is relaxed. Shard keys
+// keep the register's own spelling, so lookups ask for both spellings.
+const numberedHighway = /^(?:(\d+[a-z]?) hwy|hwy (\d+[a-z]?))$/u;
+export function roadMatchKey(value: string): string {
+  const key = normalizeAddress(value);
+  const highway = numberedHighway.exec(key);
+  return highway ? `hwy ${highway[1] ?? highway[2]}` : key;
+}
+export function roadKeyVariants(value: string): string[] {
+  const key = normalizeAddress(value);
+  const highway = numberedHighway.exec(key);
+  if (!highway) return [key];
+  const number = highway[1] ?? highway[2];
+  return [...new Set([key, `${number} hwy`, `hwy ${number}`])];
+}
 export function mailingShard(key: string): string {
   let hash = 2166136261;
   for (const char of key) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
@@ -48,10 +65,10 @@ function component(value: unknown): string { return String(value ?? "").trim().t
 function unit(value: unknown): string { return component(value).replace(/^UNIT\s+/u, ""); }
 export function matchMailingAddress(address: CivicAddress, records: MailingRecord[]): MailingMatch {
   const p = address.properties;
-  const key = normalizeAddress(formatCivicRoadName(p) ?? "");
+  const key = roadMatchKey(formatCivicRoadName(p) ?? "");
   const matches = new Map(records.filter(row =>
     component(row.number) === component(p.civicnum) && component(row.suffix) === component(p.civsuffix) &&
-    unit(row.unit) === unit(p.unit_num) && normalizeAddress(row.road) === key &&
+    unit(row.unit) === unit(p.unit_num) && roadMatchKey(row.road) === key &&
     distance(address.coordinates, row.coordinates) <= MAX_DISTANCE_METRES,
   ).map(row => [row.id, row]));
   return matches.size === 1 ? { status: "matched", record: [...matches.values()][0] } :
@@ -107,8 +124,9 @@ async function asset(name: string, signal?: AbortSignal): Promise<Index | Shard>
   return data;
 }
 async function recordsForRoads(keys: string[], signal?: AbortSignal): Promise<MailingRecord[]> {
-  const shards = await Promise.all([...new Set(keys.map(mailingShard))].map(name => asset(name, signal) as Promise<Shard>));
-  return keys.flatMap(key => shards.find(s => Object.hasOwn(s.streets, key))?.streets[key] ?? []);
+  const wanted = [...new Set(keys.flatMap(roadKeyVariants))];
+  const shards = await Promise.all([...new Set(wanted.map(mailingShard))].map(name => asset(name, signal) as Promise<Shard>));
+  return wanted.flatMap(key => shards.find(s => Object.hasOwn(s.streets, key))?.streets[key] ?? []);
 }
 export async function enrichCivicAddresses(addresses: CivicAddress[], signal?: AbortSignal): Promise<MailingCivicAddress[]> {
   if (!addresses.length) return [];

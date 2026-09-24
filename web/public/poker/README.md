@@ -9,5 +9,6 @@ This does not constitute an endorsement by Statistics Canada of this product.
 
 `source.json` preserves the source identities, exact queries, dates, hashes,
 counts, matching policy and limitations. The pack contains no resident names,
-inferred delivery routes or aerial imagery. Unverified postal records remain
-unplaceable. Regeneration instructions are in `web/README.md`.
+inferred delivery routes or aerial imagery. Unverified postal records are shown
+only at their own NAR building coordinate, marked as postal points.
+Regeneration instructions are in `web/README.md`.

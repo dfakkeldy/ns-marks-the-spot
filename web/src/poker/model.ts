@@ -1,5 +1,5 @@
-import type { CivicAddress } from '../services/civicAddresses';
-import { mailingLabel, matchesMailingQuery, normalizeAddress, type MailingRecord } from '../services/mailingAddresses';
+import { formatCivicRoadName, type CivicAddress } from '../services/civicAddresses';
+import { mailingLabel, matchesMailingQuery, normalizeAddress, roadMatchKey, type MailingRecord } from '../services/mailingAddresses';
 import type { GeoPoint } from '../services/geodesy';
 export const SESSION_KEY = 'ns-marks:poker:v1';
 export type PokerAddress = { mailing: MailingRecord; civic: CivicAddress | null };
@@ -40,6 +40,29 @@ export function searchableAddresses(data: PokerData): SearchAddress[] {
     represented.add(key);
     return true;
   }).map(civic => ({ mailing: null, civic }))];
+}
+/** A postal record without a unique civic match is shown only at its own NAR building coordinate, never at a civic point. */
+export function placement(address: SearchAddress): { coordinates: [number, number]; source: 'civic' | 'postal' } {
+  if (!address.mailing) return { coordinates: address.civic.coordinates, source: 'civic' };
+  return address.civic ? { coordinates: address.civic.coordinates, source: 'civic' } : { coordinates: address.mailing.coordinates, source: 'postal' };
+}
+function numberKey(number: unknown, suffix: unknown, road: string): string {
+  return `${String(number ?? '').trim()}${String(suffix ?? '').trim()}`.toUpperCase() + '|' + roadMatchKey(road);
+}
+/** Postal records whose civic number has no provincial civic point on that road, so the map can only label the NAR building coordinate. */
+export function postalOnlyAddresses(data: PokerData): PokerAddress[] {
+  const civic = new Set(data.civic.map(a => numberKey(a.properties.civicnum, a.properties.civsuffix, formatCivicRoadName(a.properties) ?? '')));
+  return data.addresses.filter(a => !a.civic && !civic.has(numberKey(a.mailing.number, a.mailing.suffix, a.mailing.road)));
+}
+/** One map label per civic number and point: apartment units share a provincial point and would otherwise stack identical labels. */
+export function civicLabelPoints(civic: CivicAddress[]): CivicAddress[] {
+  const seen = new Set<string>();
+  return civic.filter(a => {
+    const key = `${String(a.properties.civicnum ?? '')}${String(a.properties.civsuffix ?? '')}@${a.coordinates[0]},${a.coordinates[1]}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 export function addressId(address: SearchAddress): string {
   return address.mailing ? address.mailing.id : `civic:${civicKey(address.civic)}`;
