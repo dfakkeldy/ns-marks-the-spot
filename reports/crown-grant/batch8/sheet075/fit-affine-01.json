@@ -1,0 +1,199 @@
+{
+  "sheet": "075",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      5.279198675630778,
+      2.195308437750832
+    ],
+    [
+      2.2177854593115263,
+      -5.311895040402896
+    ],
+    [
+      467204.3602739751,
+      4965718.184394546
+    ]
+  ],
+  "source_sha256": "7506b480a09039ea82e71bbd5b8b0e5b6215a61e00c7177eacc39ccb9dfcee56",
+  "source_dimensions": [
+    5322,
+    3640
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Griswold Lake northern finger",
+      "role": "control",
+      "pixel_xy": [
+        822,
+        594
+      ],
+      "lonlat": [
+        -63.343339025090785,
+        44.83206540109669
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 136978,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136978,
+      "nearest_unfiltered_distance_guide_px": 1.5735854658404556,
+      "selected_distance_guide_px": 1.5735854658404556,
+      "guide_reference_pixel_xy": [
+        899.8116773832007,
+        622.3480916303815
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Pond west of Elbow Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        929,
+        938
+      ],
+      "lonlat": [
+        -63.3259610150948,
+        44.817813622879804
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 85229,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 85229,
+      "nearest_unfiltered_distance_guide_px": 0.7138717158495654,
+      "selected_distance_guide_px": 0.7138717158495654,
+      "guide_reference_pixel_xy": [
+        1007.4336852203123,
+        966.5653732670471
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Duck Lake north of Island Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4611,
+        739
+      ],
+      "lonlat": [
+        -63.08643034852756,
+        44.90061215663155
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 82108,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 82108,
+      "nearest_unfiltered_distance_guide_px": 0.6910519481238414,
+      "selected_distance_guide_px": 0.6910519481238414,
+      "guide_reference_pixel_xy": [
+        4693.316281656618,
+        771.1004092721269
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Duck Pond east of Catamaran Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3677,
+        1422
+      ],
+      "lonlat": [
+        -63.129840221954,
+        44.84978196764961
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 140352,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140352,
+      "nearest_unfiltered_distance_guide_px": 0.46959532026954187,
+      "selected_distance_guide_px": 0.46959532026954187,
+      "guide_reference_pixel_xy": [
+        3744.464843147027,
+        1441.0666379282484
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Western Arm Jeddore main island western tip",
+      "role": "control",
+      "pixel_xy": [
+        3932,
+        3311
+      ],
+      "lonlat": [
+        -63.058880538642754,
+        44.76398900380948
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 22456,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22456,
+      "nearest_unfiltered_distance_guide_px": 2.6317887348361464,
+      "selected_distance_guide_px": 2.6317887348361464,
+      "guide_reference_pixel_xy": [
+        3972.010596604843,
+        3333.5612722852966
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Porter Lake eastern islet northern tip",
+      "role": "control",
+      "pixel_xy": [
+        595,
+        3006
+      ],
+      "lonlat": [
+        -63.29065310188813,
+        44.71270808224861
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 22952,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22952,
+      "nearest_unfiltered_distance_guide_px": 0.6046028058680597,
+      "selected_distance_guide_px": 0.6046028058680597,
+      "guide_reference_pixel_xy": [
+        626.0718642252032,
+        3011.6003166547744
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    14.87143188126189,
+    40.57737088233203,
+    9.66960346663984,
+    45.702678396408324,
+    44.64009618246328,
+    40.15299015975361
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

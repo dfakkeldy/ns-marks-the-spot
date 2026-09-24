@@ -1,12 +1,12 @@
 {
-  "verified_at_utc": "2026-09-24T22:41:31.714919+00:00",
-  "sheets": 3,
+  "verified_at_utc": "2026-09-24T23:13:15.160417+00:00",
+  "sheets": 7,
   "planned_batch_sheets": 8,
   "batch_assessment_complete": false,
-  "score_replays": 3,
+  "score_replays": 7,
   "regressions": "4 existing scorer/pixel-frame tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 2,
+  "main_rms_pass_count": 6,
   "main_rms_fail_sheets": [
     "076"
   ],
@@ -95,6 +95,78 @@
           "independent_checks": 7,
           "rms_ground_m": 131.8263871369466,
           "rms_gate_passed": false,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "075",
+      "components": [
+        {
+          "component": "main",
+          "controls": 6,
+          "independent_checks": 6,
+          "rms_ground_m": 43.62663046339071,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "074",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 6,
+          "rms_ground_m": 61.26836122984472,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "073",
+      "components": [
+        {
+          "component": "main",
+          "controls": 5,
+          "independent_checks": 6,
+          "rms_ground_m": 46.73223917251022,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "072",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 6,
+          "rms_ground_m": 31.644835337363066,
+          "rms_gate_passed": true,
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"

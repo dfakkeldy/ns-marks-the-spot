@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-24T22:41:30.626964+00:00",
+  "updated_at_utc": "2026-09-24T23:13:13.884696+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -46,13 +46,13 @@
     "082",
     "083",
     "084",
-    "076"
-  ],
-  "remaining_sheets": [
+    "076",
     "075",
     "074",
     "073",
-    "072",
+    "072"
+  ],
+  "remaining_sheets": [
     "071",
     "070",
     "069",
@@ -119,7 +119,7 @@
     "007",
     "006"
   ],
-  "publication_status": "Sheets 095/096/097 merged in PR536. Sheets 091/090/089/088/087 complete on codex/crown-grant-sheet-harbour; next ready checkpoint prepared. Continue all remaining official sheets.",
+  "publication_status": "Sheets 083/084/076 merged in PR541 after required CI passed. Further batch8 assessments are being prepared on codex/crown-grant-maitland. Continue every remaining official sheet.",
   "delivered_checkpoints": [
     {
       "pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/528",
@@ -306,6 +306,21 @@
       "merge": "3eaf749af534bdf09e08ceeb199390e3138595fd",
       "merged_at_utc": "2026-09-24T22:04:22Z",
       "ci_run": 36062909685,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 541,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/541",
+      "sheets": [
+        "083",
+        "084",
+        "076"
+      ],
+      "head": "5cda7b7a818b6c432eef09d99ae8bcfcfc2db893",
+      "merge": "a9331b6e5401acdae6ca2d25213bd3b09c3530b3",
+      "merged_at_utc": "2026-09-24T23:07:07Z",
+      "ci_run": 36068912863,
       "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled"
     }

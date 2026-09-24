@@ -1,0 +1,171 @@
+{
+  "sheet": "073",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.895088324494594,
+      2.0271476813828215
+    ],
+    [
+      2.0303029353781032,
+      -4.938786887122926
+    ],
+    [
+      452611.3692408283,
+      5001419.83026785
+    ]
+  ],
+  "source_sha256": "605a04955a78839bff317555c278248a02a65d32952c56dbd4db6bcedbb66a7f",
+  "source_dimensions": [
+    5697,
+    3899
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Two-lobed pond west of McPhee Corner northern shore",
+      "role": "control",
+      "pixel_xy": [
+        177,
+        1386
+      ],
+      "lonlat": [
+        -63.555210744813394,
+        45.10657441854095
+      ],
+      "guide_file": ".crown-grant-local/073-adjacent-guide.npy",
+      "reference_objectid": 124850,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124850,
+      "nearest_unfiltered_distance_guide_px": 0.554561467925043,
+      "selected_distance_guide_px": 0.554561467925043,
+      "guide_reference_pixel_xy": [
+        177.46604050789028,
+        1385.8502479299204
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Round pond west of Brentwood northern shore",
+      "role": "control",
+      "pixel_xy": [
+        3603,
+        621
+      ],
+      "lonlat": [
+        -63.362518471440985,
+        45.20405909150727
+      ],
+      "guide_file": ".crown-grant-local/073-adjacent-guide.npy",
+      "reference_objectid": 83243,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 83243,
+      "nearest_unfiltered_distance_guide_px": 0.2964234661423453,
+      "selected_distance_guide_px": 0.2964234661423453,
+      "guide_reference_pixel_xy": [
+        3623.1587782522547,
+        637.7496875195066
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "North-central pond east of oval pond northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2565,
+        210
+      ],
+      "lonlat": [
+        -63.43838714738078,
+        45.202647170800155
+      ],
+      "guide_file": ".crown-grant-local/073-adjacent-guide.npy",
+      "reference_objectid": 127832,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127832,
+      "nearest_unfiltered_distance_guide_px": 0.7042660305336839,
+      "selected_distance_guide_px": 0.7042660305336839,
+      "guide_reference_pixel_xy": [
+        2566.252327435068,
+        230.6575116023887
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Pond northwest of Shubenacadie northeast tip",
+      "role": "control",
+      "pixel_xy": [
+        2098,
+        2299
+      ],
+      "lonlat": [
+        -63.413018528202144,
+        45.10159338067358
+      ],
+      "guide_file": ".crown-grant-local/073-adjacent-guide.npy",
+      "reference_objectid": 142475,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142475,
+      "nearest_unfiltered_distance_guide_px": 0.2529521449423596,
+      "selected_distance_guide_px": 0.2529521449423596,
+      "guide_reference_pixel_xy": [
+        2099.1747833249974,
+        2297.1828539770795
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Pond west of Wittenberg eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        4486,
+        3132
+      ],
+      "lonlat": [
+        -63.24221674149839,
+        45.10856010355764
+      ],
+      "guide_file": ".crown-grant-local/073-adjacent-guide.npy",
+      "reference_objectid": 137468,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137468,
+      "nearest_unfiltered_distance_guide_px": 1.2772606079836328,
+      "selected_distance_guide_px": 1.2772606079836328,
+      "guide_reference_pixel_xy": [
+        4513.97241012915,
+        3141.171861604904
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    30.89314185653537,
+    33.403560186130456,
+    35.257331995314324,
+    43.53639984811414,
+    17.372344434198073
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

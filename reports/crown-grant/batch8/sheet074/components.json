@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5712 x 3869 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 61.27 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          75,
+          105
+        ],
+        [
+          5610,
+          105
+        ],
+        [
+          5610,
+          3750
+        ],
+        [
+          75,
+          3750
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Lantz Siding, Dutch Settlement, Carrolls Corner, Gays River, Cooks Brook, Lake Egmont, Middle Musquodoboit, Devon, Wyses Corner, Elderbank, Murchyville, Meaghers Grant and Lower Meaghers Grant, all southern lake systems, islands, rivers and inland parcels. No displaced inset identified."
+    }
+  ]
+}

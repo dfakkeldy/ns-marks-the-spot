@@ -1,0 +1,16 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Five distinct pond controls provide non-collinear western, north-central, northeastern, central and southeastern support, though regional density is sparse.",
+  "corrections": [],
+  "not_adopted": [
+    "Historical Halls Lake configuration substantially differs from current smaller connected waters",
+    "Pond near eastern road/river crossing and oval pond near northern edge have changed configurations",
+    "Tidal Shubenacadie and Stewiacke river bends and parcel lines not used as stable point substitutes"
+  ],
+  "limitations": [
+    "Five checks reuse control ponds; sixth is a separate small pond beside western control pond",
+    "Far northeast, southwestern and southern edge regions and river corridors remain unvalidated",
+    "Only five distinct ponds control the entire mapped frame;18px working uncertainty for thick generalized shorelines"
+  ]
+}
