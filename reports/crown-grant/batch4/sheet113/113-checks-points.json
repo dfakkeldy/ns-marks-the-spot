@@ -1,0 +1,200 @@
+[
+  {
+    "id": "Q01",
+    "label": "Tanner Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      181,
+      1069
+    ],
+    "lonlat": [
+      -61.23969408952443,
+      45.226164152603246
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 21874,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      226.8431507346686,
+      1013.5518329174956
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Goat or Burying Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      504,
+      897
+    ],
+    "lonlat": [
+      -61.223381300985906,
+      45.23933645527898
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 16911,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      552.2309190654778,
+      846.2797428488266
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "White Head Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1440,
+      2005
+    ],
+    "lonlat": [
+      -61.139145562852626,
+      45.20371741471688
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 21260,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1435.8145239211153,
+      1985.9729932082118
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Millstone Island southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1808,
+      2255
+    ],
+    "lonlat": [
+      -61.107792144338376,
+      45.20020364176888
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 18933,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1839.8907862794003,
+      2221.501747834147
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Whale Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2240,
+      2065
+    ],
+    "lonlat": [
+      -61.08657711562691,
+      45.21536436696778
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 21258,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2247.745997500606,
+      2041.427978776279
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Canso Rock east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4990,
+      1064
+    ],
+    "lonlat": [
+      -60.938395341149416,
+      45.30538645662071
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 16335,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4972.046569911297,
+      1087.0880242949352
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Southern Cranberry Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5238,
+      785
+    ],
+    "lonlat": [
+      -60.92632672963842,
+      45.32479922697309
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 16658,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5285.7982098257635,
+      775.1168018104509
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Publicover Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4180,
+      875
+    ],
+    "lonlat": [
+      -60.99314342258694,
+      45.30214203997167
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 133881,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4195.359030446445,
+      859.3397674425505
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Crooked central interior lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2510,
+      1145
+    ],
+    "lonlat": [
+      -61.091398153216005,
+      45.262292905391845
+    ],
+    "guide_file": ".crown-grant-local/113-topology-guide.npy",
+    "reference_objectid": 61948,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2541.0632661192794,
+      1107.657680578879
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

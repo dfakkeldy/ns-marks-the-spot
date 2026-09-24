@@ -1,0 +1,33 @@
+{
+  "sheet": "113",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q09"
+  ],
+  "notes": [
+    "Source corrections distinguish solid lake shore from adjacent dashed marsh, original island outlines from empty ocean and source/reference physical corners from nearby vertices.",
+    "Q06 uses Canso Rock northwest corner; initial east-tip proposal was imprecisely defined and replaced before fitting or scoring.",
+    "Q07 southern Cranberry fragment retains identifiable southern tip, but historical whole island is now represented by separated modern fragments; working source uncertainty18px versus12px elsewhere.",
+    "Goat/Burying Island and White Head Island each have distinct control/check endpoints, producing correlated regional samples. Parcel interiors and many minor rocks remain unsupported."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "source": "https://novascotia.ca/natr/land/grantmap.asp",
+  "route": "Westward series continuation through Canso, Chedabucto and the next mainland column",
+  "sheets": [
+    "113",
+    "112",
+    "111",
+    "103",
+    "104",
+    "105",
+    "106",
+    "107"
+  ],
+  "continuation": "reports/crown-grant/series/queue.json; publication checkpoints do not limit the full requested series"
+}

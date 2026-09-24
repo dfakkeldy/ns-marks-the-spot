@@ -1,0 +1,194 @@
+[
+  {
+    "id": "C01",
+    "label": "Porper Point southern tip in northwest coast fragment",
+    "role": "control",
+    "pixel_xy": [
+      685,
+      245
+    ],
+    "lonlat": [
+      -61.321018755484715,
+      45.43113038320604
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 4266,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      591.2498450373532,
+      273.0968442199519
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  },
+  {
+    "id": "C02",
+    "label": "Jerseymans Island north tip",
+    "role": "control",
+    "pixel_xy": [
+      5139,
+      243
+    ],
+    "lonlat": [
+      -61.05561107164343,
+      45.50405147323888
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 17712,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5089.999334669439,
+      230.37417468742933
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  },
+  {
+    "id": "C03",
+    "label": "Cape au Guet southeast corner",
+    "role": "control",
+    "pixel_xy": [
+      5730,
+      1285
+    ],
+    "lonlat": [
+      -60.99688159082032,
+      45.46918691306092
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 7236,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5688.406789116445,
+      1269.1763267519418
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  },
+  {
+    "id": "C04",
+    "label": "Fox Island west tip",
+    "role": "control",
+    "pixel_xy": [
+      3288,
+      3110
+    ],
+    "lonlat": [
+      -61.09830219978617,
+      45.35463552889003
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 18419,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3292.833723963995,
+      3072.9065662783105
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  },
+  {
+    "id": "C05",
+    "label": "Small western pond south tip",
+    "role": "control",
+    "pixel_xy": [
+      154,
+      3112
+    ],
+    "lonlat": [
+      -61.28389458782564,
+      45.30329521813289
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 137613,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      137.53152497496922,
+      3107.1594253346557
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  },
+  {
+    "id": "C06",
+    "label": "Round inland pond north of Hayden Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      2690,
+      3104
+    ],
+    "lonlat": [
+      -61.135533366644786,
+      45.34444784962357
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 135859,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2660.9255254142336,
+      3078.1336104463553
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  },
+  {
+    "id": "C07",
+    "label": "Small pond northwest of Second Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      969,
+      3602
+    ],
+    "lonlat": [
+      -61.22476404788406,
+      45.29582550951224
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 138618,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      956.4544313172228,
+      3587.3248176041525
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  },
+  {
+    "id": "C08",
+    "label": "Fogarty Point eastern cape",
+    "role": "control",
+    "pixel_xy": [
+      2718,
+      2790
+    ],
+    "lonlat": [
+      -61.14070529133519,
+      45.358060424515436
+    ],
+    "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+    "reference_objectid": 13002,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2690.5179773495765,
+      2769.5308525620494
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+    "review": "Final physical correspondence audited before fitting; every check excluded from fit."
+  }
+]

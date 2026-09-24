@@ -1,0 +1,132 @@
+{
+  "sheet": "112",
+  "version": "petit-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.592538333331264,
+      1.9736910084001038
+    ],
+    [
+      1.9736910084001038,
+      -4.592538333331264
+    ],
+    [
+      632193.1448384359,
+      5041748.924327699
+    ]
+  ],
+  "source_sha256": "65402aac6c72e0f91a81fe08f2bbf9153cc5aaaf3e1171b792db776fc29c5622",
+  "source_dimensions": [
+    6029,
+    4090
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IC01",
+      "label": "Fouger Point east tip in inset",
+      "role": "control",
+      "pixel_xy": [
+        4820,
+        1842
+      ],
+      "lonlat": [
+        -60.977150878648025,
+        45.52084948827511
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 6718,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4833.569201392704,
+        1845.6603128021816
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC02",
+      "label": "Heath Head southwest tip",
+      "role": "control",
+      "pixel_xy": [
+        4918,
+        2887
+      ],
+      "lonlat": [
+        -60.947589519773324,
+        45.47890909654689
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 20925,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4923.836301340081,
+        2878.65281033644
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC03",
+      "label": "Flat Point east tip",
+      "role": "control",
+      "pixel_xy": [
+        5700,
+        2465
+      ],
+      "lonlat": [
+        -60.91039406820604,
+        45.50903351511773
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 20959,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5711.950987304619,
+        2465.906022121664
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC04",
+      "label": "Green Island southeast corner",
+      "role": "control",
+      "pixel_xy": [
+        5645,
+        3198
+      ],
+      "lonlat": [
+        -60.895339038856896,
+        45.47840762854716
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 18506,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5683.064635935065,
+        3183.4281057305634
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    15.127348312095991,
+    69.90514190408696,
+    55.08806010813395,
+    79.49706574093689
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: constrained similarity limits free parameters and avoids unsupported affine shear; see component role plan for control distribution and model rationale"
+}

@@ -1,0 +1,44 @@
+{
+  "sheet": "113",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full raster and browser verified, regional limitations remain",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/113.pdf",
+    "pdf_sha256": "14072d2b85870991c835f0de4fdfd6225b0ca03c642bfefe146162d3982070ec",
+    "jpeg_sha256": "5a08d0844704cc54b4da9a0a880bc0a785e5ead0b2a9a5e02c8dc4e5badce2c3",
+    "dimensions": [
+      5663,
+      3871
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 65.42356201055506,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Nine independent checks give RMS 65.42 m, median 60.16 m, P95 100.67 m and maximum 114.61 m. The 100 m RMS ceiling passes; northern mainland edges, parcel interiors and unmeasured minor islands remain provisional.",
+    "Goat/Burying Island and White Head Island each supply one control and a separate endpoint check, so these local samples are spatially correlated.",
+    "Southern Cranberry Island retains a recognizable southern tip but the historical whole outline is now represented by separated modern fragments; working source uncertainty is 18 px for that check, 12 px elsewhere."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 65.42 m, median 60.16 m, P95 100.67 m, maximum 114.61 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Cole Harbour, Port Felix, Whitehead, Little Dover, Canso, St Andrews and Dover islands, the Perabie/Cranberry groups, White Head and Millstone islands, all small offshore rocks and the full Atlantic area. No displaced inset identified."
+  }
+}

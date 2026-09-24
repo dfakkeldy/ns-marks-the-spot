@@ -1,0 +1,39 @@
+{
+  "sheet": "111",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q09",
+    "Q10"
+  ],
+  "rejected_before_fit": {
+    "Q11": "Historical oval Port Royal island could not be securely distinguished in modern shoreline topology; code-filter corrections did not establish identity",
+    "Q12": "Eastern Burnt Island requested island-code proposal was 200 guide pixels away; shoreline identity near bridge/causeway unresolved, no distant vertex adopted"
+  },
+  "notes": [
+    "An eastern O Seal peninsula control added before any fit to improve control spread. No eastern independent island check accepted; eastern region stays limited.",
+    "Three western pond pairs plus Birch/McNamara/McLeod island endpoint pairs are spatially correlated, despite check exclusion.",
+    "Northern and far western edges, eastern inland lakes, urban/engineered Port Tupper shores and parcel interiors remain insufficiently validated. Entire original source frame retained.",
+    "Modern Birch Island is river-island feature27661, not forced into mainland-coast code. Discovery guides from110/112 only; no numerical score guided selection."
+  ]
+}
