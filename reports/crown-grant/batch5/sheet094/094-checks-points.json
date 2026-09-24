@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Lake north of Kerrowgare east lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      1868,
+      1645
+    ],
+    "lonlat": [
+      -62.43176489219237,
+      45.42752663127501
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 135083,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135083,
+    "nearest_unfiltered_distance_guide_px": 0.6266909586831091,
+    "selected_distance_guide_px": 0.6266909586831091,
+    "guide_reference_pixel_xy": [
+      1860.7718745779712,
+      1537.4163045746973
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Round Lake west of Murray Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1303,
+      2908
+    ],
+    "lonlat": [
+      -62.433632912673914,
+      45.36405329860117
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 139726,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139726,
+    "nearest_unfiltered_distance_guide_px": 1.2295544902275952,
+    "selected_distance_guide_px": 1.2295544902275952,
+    "guide_reference_pixel_xy": [
+      1304.0081523496192,
+      2823.7704725364456
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Narrow lake southwest of Lowmoor north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1838,
+      3088
+    ],
+    "lonlat": [
+      -62.397877013377276,
+      45.36562656345048
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 72235,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 207647,
+    "nearest_unfiltered_distance_guide_px": 0.6908519637383695,
+    "selected_distance_guide_px": 4.0088481459715295,
+    "guide_reference_pixel_xy": [
+      1839.2324424305698,
+      3001.0021036935505
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Lake west of Beaver Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2175,
+      3344
+    ],
+    "lonlat": [
+      -62.37127098929002,
+      45.360532456597845
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 73198,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 73198,
+    "nearest_unfiltered_distance_guide_px": 5.085964829234556,
+    "selected_distance_guide_px": 5.085964829234556,
+    "guide_reference_pixel_xy": [
+      2185.3734297742485,
+      3260.806180474232
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Eden Lake smaller island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3591,
+      2718
+    ],
+    "lonlat": [
+      -62.30283213027334,
+      45.411336545916484
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 143835,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 143835,
+    "nearest_unfiltered_distance_guide_px": 0.49738922137371866,
+    "selected_distance_guide_px": 0.49738922137371866,
+    "guide_reference_pixel_xy": [
+      3607.3141931716236,
+      2621.6144112444017
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "White Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3757,
+      3598
+    ],
+    "lonlat": [
+      -62.272235974517365,
+      45.37772112378242
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 140957,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140957,
+    "nearest_unfiltered_distance_guide_px": 2.5021422571052887,
+    "selected_distance_guide_px": 2.5021422571052887,
+    "guide_reference_pixel_xy": [
+      3774.964308013383,
+      3487.549906417611
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Round Lake south of Siloam east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3983,
+      3708
+    ],
+    "lonlat": [
+      -62.2568229908291,
+      45.376619125345584
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 142993,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 207326,
+    "nearest_unfiltered_distance_guide_px": 7.594207395595209,
+    "selected_distance_guide_px": 14.038752984215186,
+    "guide_reference_pixel_xy": [
+      3991.0031570295687,
+      3599.916038647876
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

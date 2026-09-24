@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q01",
+    "label": "Coastal creek mouth east of Knoydart Point",
+    "role": "proposal",
+    "pixel_xy": [
+      1570,
+      526
+    ],
+    "lonlat": [
+      -62.223195606763205,
+      45.727415423438806
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 13185,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13185,
+    "nearest_unfiltered_distance_guide_px": 8.883635280705777,
+    "selected_distance_guide_px": 8.883635280705777,
+    "guide_reference_pixel_xy": [
+      1587.3269151079003,
+      555.0234739774605
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Coastal creek mouth east of Moydart corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2091,
+      320
+    ],
+    "lonlat": [
+      -62.196804160795445,
+      45.74584564769213
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 13261,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13261,
+    "nearest_unfiltered_distance_guide_px": 1.0920351286581012,
+    "selected_distance_guide_px": 1.0920351286581012,
+    "guide_reference_pixel_xy": [
+      2121.204246881185,
+      328.747875454952
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Small pond west of Harbour Centre, north edge",
+    "role": "proposal",
+    "pixel_xy": [
+      5353,
+      3225
+    ],
+    "lonlat": [
+      -61.934607600262,
+      45.6773355216111
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 66582,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 66582,
+    "nearest_unfiltered_distance_guide_px": 0.2815700667807966,
+    "selected_distance_guide_px": 0.2815700667807966,
+    "guide_reference_pixel_xy": [
+      5352.258225842612,
+      3240.887745304266
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Harbour Centre island southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5750,
+      3227
+    ],
+    "lonlat": [
+      -61.91138292603777,
+      45.68372950952899
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 17976,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17976,
+    "nearest_unfiltered_distance_guide_px": 1.7092813541077574,
+    "selected_distance_guide_px": 1.7092813541077574,
+    "guide_reference_pixel_xy": [
+      5741.214417764451,
+      3242.2028433983214
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Harbour Centre peninsula western shore shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      5623,
+      3336
+    ],
+    "lonlat": [
+      -61.91629985880631,
+      45.676818575407324
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 2655,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2655,
+    "nearest_unfiltered_distance_guide_px": 2.4516820066774216,
+    "selected_distance_guide_px": 2.4516820066774216,
+    "guide_reference_pixel_xy": [
+      5613.349668571434,
+      3356.1869498523884
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

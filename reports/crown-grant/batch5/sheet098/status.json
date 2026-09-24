@@ -1,0 +1,45 @@
+{
+  "sheet": "098",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; sparse two-cluster validation under constrained similarity; broad interior unvalidated; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/098.pdf",
+    "pdf_sha256": "7894daf3af00eed7f2e86c74f2b1ea55f4672d0dc9cff8aaad873e3ca8c7ce97",
+    "jpeg_sha256": "db421d3745a70b0ef2df785703ef1eb4f1a8859ba2634956f6c47124307cec57",
+    "dimensions": [
+      6045,
+      4125
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 5,
+      "rms_ground_m": 59.79765350754585,
+      "rms_gate_passed": true,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Five excluded checks give RMS 59.80 m, median 36.82 m, P95 103.61 m and maximum 118.07 m. Numerical bounds pass, but five observations in two clusters do not validate the whole sheet.",
+    "Controls and checks are concentrated on the northwestern coast and southeastern Harbour Centre shore. Pond and island endpoint pairs and nearby coastal mouths are spatially correlated.",
+    "The broad central, western and southwestern interior and the northeastern inland region remain geographically unvalidated. Ambiguous parcel/stream intersections were not forced into observations; all original content remains visible.",
+    "A constrained similarity was chosen before fitting to limit unsupported affine shear across the sparse control layout. It cannot establish local map accuracy in the unsampled interior. Generalized coastal controls/checks use 18 px source uncertainty; pond/island points use 12 px."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 59.80 m, median 36.82 m, P95 103.61 m, maximum 118.07 m. 5 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains the Northumberland Strait shore from Ponds and Lismore through Knoydart, Moydart Point and Arisaig, the inland districts including Eigg Mountain and Maryvale, all western and southern parcel/river regions, Harbour Centre, Lanark and the northern Antigonish Harbour islands. No displaced inset identified."
+  }
+}

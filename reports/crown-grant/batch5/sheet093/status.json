@@ -1,0 +1,45 @@
+{
+  "sheet": "093",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric pass with regional limitations; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/093.pdf",
+    "pdf_sha256": "8ca35f19bb3e30e7a7b8a20f1a75a23346e8d4aad84aa7fe96d9885d54de94e3",
+    "jpeg_sha256": "94c92c3f94e4e6162e2ead4310502aa26d7bd4577d081e63a034d9c285d02915",
+    "dimensions": [
+      6051,
+      4132
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 6,
+      "rms_ground_m": 71.56080797873472,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 71.56 m, median 46.67 m, P95 113.88 m and maximum 118.69 m. Numerical bounds pass; regional qualifications remain.",
+    "Most controls/checks occupy the northern coast. The Telford-area pond and French River junctions extend validation inland, but the southern third, western urban/industrial river corridor and eastern inland areas remain insufficiently checked.",
+    "Pig Island, the inland pond and French River each have separate control/check observations in the same physical system, so these samples are spatially correlated.",
+    "Coastal barriers, changed marshes and minor islands are retained without local acceptance. Coast and river points use 18 px working source uncertainty; pond points use 12 px."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 71.56 m, median 46.67 m, P95 113.88 m, maximum 118.69 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains New Glasgow and Trenton, Kings Head and Melmerby, Big Island and the Merigomish Harbour islands, the harbour headlands and barriers, Thorburn, Telford, French River, Barneys River and all southern inland/parcel regions. No displaced inset identified."
+  }
+}

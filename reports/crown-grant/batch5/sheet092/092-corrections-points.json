@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C01",
+    "label": "Pictou Island West Point mainland-island shore, excluding offshore rock",
+    "role": "proposal",
+    "pixel_xy": [
+      2475,
+      546
+    ],
+    "lonlat": [
+      -62.602470945300325,
+      45.80416873202469
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 20908,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20908,
+    "nearest_unfiltered_distance_guide_px": 3.1020353161980783,
+    "selected_distance_guide_px": 3.1020353161980783,
+    "guide_reference_pixel_xy": [
+      2545.096530810115,
+      595.0324477214599
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Logan Point east shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      1204,
+      2197
+    ],
+    "lonlat": [
+      -62.63960879835711,
+      45.71335554366684
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 9709,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9709,
+    "nearest_unfiltered_distance_guide_px": 35.80444823804099,
+    "selected_distance_guide_px": 35.80444823804099,
+    "guide_reference_pixel_xy": [
+      1249.5746217070846,
+      2251.03932567453
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

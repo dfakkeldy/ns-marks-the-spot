@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5967 x 4113 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 107.26 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          50,
+          65
+        ],
+        [
+          5870,
+          65
+        ],
+        [
+          5870,
+          3990
+        ],
+        [
+          50,
+          3990
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains all of Pictou Island in its original main-map position, the Caribou shoreline and Doctor Island, Logan and Cole Points, Pictou Landing, Mackenzie Head, Chance Harbour, Evans Point, the printed portion of Roy Island and Colquhoun Point, all minor islands and the full Northumberland Strait area. No displaced inset identified."
+    }
+  ]
+}

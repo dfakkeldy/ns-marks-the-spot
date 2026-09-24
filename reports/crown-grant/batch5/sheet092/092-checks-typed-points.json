@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Pictou Island northern prominence",
+    "role": "proposal",
+    "pixel_xy": [
+      2998,
+      317
+    ],
+    "lonlat": [
+      -62.57598777878811,
+      45.82328990308975
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 20936,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20936,
+    "nearest_unfiltered_distance_guide_px": 0.2275703415455418,
+    "selected_distance_guide_px": 0.2275703415455418,
+    "guide_reference_pixel_xy": [
+      3086.896842109214,
+      355.20284651813563
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Pictou Island southeast shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3844,
+      849
+    ],
+    "lonlat": [
+      -62.51293904843407,
+      45.814760654743935
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 20971,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20971,
+    "nearest_unfiltered_distance_guide_px": 1.1881905763439786,
+    "selected_distance_guide_px": 1.1881905763439786,
+    "guide_reference_pixel_xy": [
+      3925.5179324573255,
+      898.9306343864882
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Pictou Island southwest broad corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3092,
+      818
+    ],
+    "lonlat": [
+      -62.55754782579594,
+      45.802298881121175
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 20907,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20907,
+    "nearest_unfiltered_distance_guide_px": 8.252736784270235,
+    "selected_distance_guide_px": 8.252736784270235,
+    "guide_reference_pixel_xy": [
+      3177.7675034505082,
+      895.9747525824932
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Johns Point northern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      413,
+      724
+    ],
+    "lonlat": [
+      -62.72240240396633,
+      45.76268856204544
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 4296,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4296,
+    "nearest_unfiltered_distance_guide_px": 2.289495950864561,
+    "selected_distance_guide_px": 2.289495950864561,
+    "guide_reference_pixel_xy": [
+      467.23671006644145,
+      748.0732566541992
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Doctor Island northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      876,
+      1280
+    ],
+    "lonlat": [
+      -62.680748882794084,
+      45.74622344942026
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 8055,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8055,
+    "nearest_unfiltered_distance_guide_px": 2.0451451793073168,
+    "selected_distance_guide_px": 2.0451451793073168,
+    "guide_reference_pixel_xy": [
+      930.4830924979178,
+      1331.9787433989113
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Roaring Bull Point northern nub",
+    "role": "proposal",
+    "pixel_xy": [
+      1784,
+      3255
+    ],
+    "lonlat": [
+      -62.579624538069346,
+      45.68029503268834
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 11069,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11069,
+    "nearest_unfiltered_distance_guide_px": 0.8622491979718595,
+    "selected_distance_guide_px": 0.8622491979718595,
+    "guide_reference_pixel_xy": [
+      1840.401437555498,
+      3284.3793578491313
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Logan Point east shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      1210,
+      2180
+    ],
+    "lonlat": [
+      -62.639407584087564,
+      45.715794305667714
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 7430,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 7430,
+    "nearest_unfiltered_distance_guide_px": 11.88403554778764,
+    "selected_distance_guide_px": 11.88403554778764,
+    "guide_reference_pixel_xy": [
+      1272.8837348467787,
+      2201.9154601127375
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

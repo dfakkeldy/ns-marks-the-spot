@@ -1,0 +1,14 @@
+{
+  "stage": "before first fit or score",
+  "rejected": [
+    {
+      "id": "Q01",
+      "reason": "Coastal shoulder west of Coal Point is too generalized to define the same exact turn in both outlines."
+    }
+  ],
+  "notes": [
+    "French River northern junction corrected to the actual meeting of branches, distinct from nearby road intersection, before fitting.",
+    "Smashem Head modern point moved from adjoining east face to the physical southern tip before fitting.",
+    "Barneys River fork candidates were not adopted because source parcel/road overlap left branch identity unresolved."
+  ]
+}

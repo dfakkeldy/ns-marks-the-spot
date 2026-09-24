@@ -8,9 +8,9 @@ Westward continuation through the next mainland column and eastern St Marys coas
 | 101 | 43.25 | 7 | complete |
 | 100 | 39.19 | 7 | complete |
 | 099 | 49.56 | 6 | complete |
-| 098 | — | — | queued |
-| 092 | — | — | queued |
-| 093 | — | — | queued |
-| 094 | — | — | queued |
+| 098 | 59.80 | 5 | complete |
+| 092 | 107.26 | 7 | complete |
+| 093 | 71.56 | 6 | complete |
+| 094 | 41.14 | 6 | complete |
 
 The independent ground RMS ceiling is 100 m. Per-sheet results retain failures, companion metrics, bias and geographic limitations. Assessment completion does not imply geographic acceptance. Source imagery and raster reviews remain private; no production activation.

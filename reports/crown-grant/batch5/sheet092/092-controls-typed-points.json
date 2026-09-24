@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Pictou Island West Point",
+    "role": "proposal",
+    "pixel_xy": [
+      2475,
+      546
+    ],
+    "lonlat": [
+      -62.60299565451175,
+      45.8040373465874
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 21592,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 21592,
+    "nearest_unfiltered_distance_guide_px": 0.657497109647696,
+    "selected_distance_guide_px": 0.657497109647696,
+    "guide_reference_pixel_xy": [
+      2536.4275910709403,
+      594.6765027556103
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Pictou Island Seal Point east end",
+    "role": "proposal",
+    "pixel_xy": [
+      4028,
+      650
+    ],
+    "lonlat": [
+      -62.50724318055625,
+      45.826454162754786
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 20905,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20905,
+    "nearest_unfiltered_distance_guide_px": 2.0970174420883883,
+    "selected_distance_guide_px": 2.0970174420883883,
+    "guide_reference_pixel_xy": [
+      4105.151761574496,
+      690.7524061823497
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Black Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      741,
+      745
+    ],
+    "lonlat": [
+      -62.70325955671844,
+      45.767123887352
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 3790,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3790,
+    "nearest_unfiltered_distance_guide_px": 1.2434192443181555,
+    "selected_distance_guide_px": 1.2434192443181555,
+    "guide_reference_pixel_xy": [
+      780.6754694452975,
+      768.9560495961923
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Mackenzie Head north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1161,
+      2870
+    ],
+    "lonlat": [
+      -62.62569928051631,
+      45.68556415918922
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 7382,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 7382,
+    "nearest_unfiltered_distance_guide_px": 1.1920300241662827,
+    "selected_distance_guide_px": 1.1920300241662827,
+    "guide_reference_pixel_xy": [
+      1218.1776006715954,
+      2905.815088570467
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Evans Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2160,
+      3608
+    ],
+    "lonlat": [
+      -62.54845345650482,
+      45.67126045854803
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 2334,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2334,
+    "nearest_unfiltered_distance_guide_px": 2.350899022663309,
+    "selected_distance_guide_px": 2.350899022663309,
+    "guide_reference_pixel_xy": [
+      2215.885855286673,
+      3653.1776103016455
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Roy Island northwestern lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      2241,
+      3880
+    ],
+    "lonlat": [
+      -62.53715371854117,
+      45.66174514366145
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 7798,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 7798,
+    "nearest_unfiltered_distance_guide_px": 5.4685531831808545,
+    "selected_distance_guide_px": 5.4685531831808545,
+    "guide_reference_pixel_xy": [
+      2300.0161603072193,
+      3915.6206753791776
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Cole Point southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      991,
+      2447
+    ],
+    "lonlat": [
+      -62.64624035461602,
+      45.699360383743304
+    ],
+    "guide_file": ".crown-grant-local/092-index-guide.npy",
+    "reference_objectid": 3739,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3739,
+    "nearest_unfiltered_distance_guide_px": 7.547892831286977,
+    "selected_distance_guide_px": 7.547892831286977,
+    "guide_reference_pixel_xy": [
+      1036.650130658527,
+      2500.8315866785124
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

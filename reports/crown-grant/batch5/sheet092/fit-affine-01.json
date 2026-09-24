@@ -1,0 +1,234 @@
+{
+  "sheet": "092",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.669207125185866,
+      1.9057117532910026
+    ],
+    [
+      1.8972948959386093,
+      -4.622673475342164
+    ],
+    [
+      518250.602679492,
+      5070202.749835668
+    ]
+  ],
+  "source_sha256": "d64415e6833fbf5076e16a0588eb73f6561b3855fd212973c08fee94b6d3d03d",
+  "source_dimensions": [
+    5967,
+    4113
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Pictou Island West Point shore, excluding offshore rock",
+      "role": "control",
+      "pixel_xy": [
+        2475,
+        546
+      ],
+      "lonlat": [
+        -62.602470945300325,
+        45.80416873202469
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 20908,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20908,
+      "nearest_unfiltered_distance_guide_px": 3.1020353161980783,
+      "selected_distance_guide_px": 3.1020353161980783,
+      "guide_reference_pixel_xy": [
+        2545.096530810115,
+        595.0324477214599
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Pictou Island Seal Point east end",
+      "role": "control",
+      "pixel_xy": [
+        4028,
+        650
+      ],
+      "lonlat": [
+        -62.50724318055625,
+        45.826454162754786
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 20905,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20905,
+      "nearest_unfiltered_distance_guide_px": 2.0970174420883883,
+      "selected_distance_guide_px": 2.0970174420883883,
+      "guide_reference_pixel_xy": [
+        4105.151761574496,
+        690.7524061823497
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Black Point northern tip",
+      "role": "control",
+      "pixel_xy": [
+        741,
+        745
+      ],
+      "lonlat": [
+        -62.70325955671844,
+        45.767123887352
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 3790,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3790,
+      "nearest_unfiltered_distance_guide_px": 1.2434192443181555,
+      "selected_distance_guide_px": 1.2434192443181555,
+      "guide_reference_pixel_xy": [
+        780.6754694452975,
+        768.9560495961923
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Mackenzie Head north tip",
+      "role": "control",
+      "pixel_xy": [
+        1161,
+        2870
+      ],
+      "lonlat": [
+        -62.62569928051631,
+        45.68556415918922
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 7382,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7382,
+      "nearest_unfiltered_distance_guide_px": 1.1920300241662827,
+      "selected_distance_guide_px": 1.1920300241662827,
+      "guide_reference_pixel_xy": [
+        1218.1776006715954,
+        2905.815088570467
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Evans Point east tip",
+      "role": "control",
+      "pixel_xy": [
+        2160,
+        3608
+      ],
+      "lonlat": [
+        -62.54845345650482,
+        45.67126045854803
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 2334,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 2334,
+      "nearest_unfiltered_distance_guide_px": 2.350899022663309,
+      "selected_distance_guide_px": 2.350899022663309,
+      "guide_reference_pixel_xy": [
+        2215.885855286673,
+        3653.1776103016455
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Roy Island northwestern lobe",
+      "role": "control",
+      "pixel_xy": [
+        2241,
+        3880
+      ],
+      "lonlat": [
+        -62.53715371854117,
+        45.66174514366145
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 7798,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7798,
+      "nearest_unfiltered_distance_guide_px": 5.4685531831808545,
+      "selected_distance_guide_px": 5.4685531831808545,
+      "guide_reference_pixel_xy": [
+        2300.0161603072193,
+        3915.6206753791776
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Cole Point southeast corner",
+      "role": "control",
+      "pixel_xy": [
+        991,
+        2447
+      ],
+      "lonlat": [
+        -62.64624035461602,
+        45.699360383743304
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 3739,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3739,
+      "nearest_unfiltered_distance_guide_px": 7.547892831286977,
+      "selected_distance_guide_px": 7.547892831286977,
+      "guide_reference_pixel_xy": [
+        1036.650130658527,
+        2500.8315866785124
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    55.33690282904116,
+    19.474442773217245,
+    68.09240287743887,
+    44.08998975553618,
+    20.9805201895277,
+    37.85583422495763,
+    76.1818836938106
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}
