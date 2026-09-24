@@ -395,6 +395,39 @@ describe("historical tax-sale records", () => {
     ).toBeNull();
   });
 
+  it("ingests the September 2026 Victoria tender results without guessing removed-row identities", () => {
+    const event = historicalTaxSaleEvents.find(
+      ({ id }) => id === "victoria-2026-09-14",
+    );
+    const records = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === event?.id,
+    );
+
+    expect(event).toMatchObject({
+      saleMethod: "sealed-tender",
+      resultStatus: "verified",
+      resultSha256:
+        "6588a167badd6ad9664d6631178a7babf51ca837576ec52108714bc469cd08ee",
+    });
+    expect(records).toHaveLength(4);
+    expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(3);
+    expect(records.filter(({ outcome }) => outcome === "unsold")).toHaveLength(1);
+    expect(
+      records.every(
+        ({ nspMatchStatus, nspMatchMethod, reviewState }) =>
+          nspMatchStatus === "matched" &&
+          nspMatchMethod === "exact-official-pid" &&
+          reviewState === "notice-verified",
+      ),
+    ).toBe(true);
+    expect(records.flatMap(({ pids }) => pids)).toEqual([
+      "85066322",
+      "85014165",
+      "85168979",
+      "85062669",
+    ]);
+  });
+
   it("maps CBRM July 2025 dispositions fail-closed onto the outcome vocabulary", () => {
     const event = historicalTaxSaleEvents.find(
       ({ id }) => id === "cbrm-2025-07-22",

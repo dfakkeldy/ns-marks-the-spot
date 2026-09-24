@@ -1444,7 +1444,7 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => {
       const selectedEvents = new URL(window.location.href).searchParams.get("event");
       expect(selectedEvents).not.toContain("middleton-2026-08-20");
-      expect(selectedEvents).toContain("victoria-county-2026-09-14");
+      expect(selectedEvents).not.toContain("victoria-county-2026-09-14");
     });
   });
 
