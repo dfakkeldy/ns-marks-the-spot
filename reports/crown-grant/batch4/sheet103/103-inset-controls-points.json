@@ -1,0 +1,68 @@
+[
+  {
+    "id": "IC01",
+    "label": "Doctors Brook at northern Malignant Cove shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1207,
+      1598
+    ],
+    "lonlat": [
+      -62.11021639642003,
+      45.78426183212399
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 6915,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1158.5174642419443,
+      1682.4521511103376
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Coastal creek north of Georgeville at shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1320,
+      2305
+    ],
+    "lonlat": [
+      -62.07291795731756,
+      45.80048614531299
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 13223,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1251.6348701037932,
+      2344.750063111831
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC03",
+    "label": "Morar northern coastal creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      1878,
+      3705
+    ],
+    "lonlat": [
+      -62.00458985455443,
+      45.846833516277236
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 4498,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1754.3155143510085,
+      3703.629720241239
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

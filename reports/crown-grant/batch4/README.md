@@ -7,8 +7,8 @@ Westward series continuation through Canso, Chedabucto and the next mainland col
 | 113 | 65.42 | 9 | complete |
 | 112 | 105.24 | 9 | complete |
 | 111 | 175.21 | 10 | complete |
-| 103 | — | — | queued |
-| 104 | — | — | queued |
+| 103 | 174.43 | 4 | complete |
+| 104 | 51.33 | 6 | complete |
 | 105 | — | — | queued |
 | 106 | — | — | queued |
 | 107 | — | — | queued |

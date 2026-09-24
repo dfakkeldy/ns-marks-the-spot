@@ -1,0 +1,156 @@
+[
+  {
+    "id": "Q01",
+    "label": "Brook entering coast west of Creeping Head",
+    "role": "proposal",
+    "pixel_xy": [
+      2070,
+      651
+    ],
+    "lonlat": [
+      -61.897438782025894,
+      45.74681043405296
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 10288,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2111.1527349438984,
+      602.8994195584673
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Lakevale central stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      3106,
+      847
+    ],
+    "lonlat": [
+      -61.91116943074405,
+      45.7929224554092
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 10043,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3114.2172893312527,
+      815.477349624387
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Lakevale eastern stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      3460,
+      916
+    ],
+    "lonlat": [
+      -61.91556738200901,
+      45.80897950447269
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 10077,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3461.1299299797975,
+      894.9178512663348
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Ballantyne Cove creek at historical harbour",
+    "role": "proposal",
+    "pixel_xy": [
+      4513,
+      1260
+    ],
+    "lonlat": [
+      -61.91948022606171,
+      45.85918053667478
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 3007,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4485.39335287048,
+      1280.459486491105
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Cape George southeast coast stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      4870,
+      1620
+    ],
+    "lonlat": [
+      -61.90786465992598,
+      45.881015353996595
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 4584,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4849.363076406647,
+      1633.5169056925224
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Eastern Cape George creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      5050,
+      1495
+    ],
+    "lonlat": [
+      -61.92185731313971,
+      45.88500715209275
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 4544,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5014.557867174037,
+      1473.7759729044046
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "South Side Harbour tidal branch bank corner",
+    "role": "proposal",
+    "pixel_xy": [
+      318,
+      575
+    ],
+    "lonlat": [
+      -61.852359445371135,
+      45.67413621883009
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 13356,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      386.26128925883677,
+      596.0221257677767
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

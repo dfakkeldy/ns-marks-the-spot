@@ -1,0 +1,90 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Middle coastal creek at shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1425,
+      2555
+    ],
+    "lonlat": [
+      -62.06045599229409,
+      45.80976215844013
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 13221,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1359.5864624565002,
+      2599.9214246579213
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Brook at south end of Malignant Cove",
+    "role": "proposal",
+    "pixel_xy": [
+      1115,
+      2030
+    ],
+    "lonlat": [
+      -62.08405112716613,
+      45.78866081522081
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 6918,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1084.801614273456,
+      2085.58617547882
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Georgeville coastal creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      1695,
+      3405
+    ],
+    "lonlat": [
+      -62.018825171880614,
+      45.8366464249375
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 4501,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1638.8833026177017,
+      3415.953994677984
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ04",
+    "label": "Southern Morar coastal creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      1920,
+      3775
+    ],
+    "lonlat": [
+      -62.00096505534069,
+      45.84895482842091
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 4497,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1774.3056010385044,
+      3772.719832778501
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

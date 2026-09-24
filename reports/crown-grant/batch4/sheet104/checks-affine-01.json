@@ -1,0 +1,153 @@
+{
+  "status": "Six independent physical checks reserved and audited before first frozen affine score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Pomquet Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        1900,
+        870
+      ],
+      "lonlat": [
+        -61.75010262746229,
+        45.652360349023695
+      ],
+      "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+      "reference_objectid": 20560,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1858.9360444484628,
+        876.0762669366086
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake and branch topology traced; original native and modern crosshairs inspected before first fit or score.",
+      "review": "All adopted coordinates corrected before fitting; every check excluded from fit."
+    },
+    {
+      "id": "Q02",
+      "label": "Mary Dismal Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        5180,
+        3018
+      ],
+      "lonlat": [
+        -61.489033625106075,
+        45.61373229882703
+      ],
+      "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+      "reference_objectid": 136696,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5110.993991241092,
+        3027.262312666746
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake and branch topology traced; original native and modern crosshairs inspected before first fit or score.",
+      "review": "All adopted coordinates corrected before fitting; every check excluded from fit."
+    },
+    {
+      "id": "Q05",
+      "label": "William Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        2076,
+        3160
+      ],
+      "lonlat": [
+        -61.68173877568644,
+        45.552670614415575
+      ],
+      "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+      "reference_objectid": 141677,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2010.7238154691295,
+        3168.4479814907536
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake and branch topology traced; original native and modern crosshairs inspected before first fit or score.",
+      "review": "All adopted coordinates corrected before fitting; every check excluded from fit."
+    },
+    {
+      "id": "Q06",
+      "label": "Small lake north of William Lake east tip",
+      "role": "check",
+      "pixel_xy": [
+        2006,
+        3098
+      ],
+      "lonlat": [
+        -61.68743208662191,
+        45.55455080451456
+      ],
+      "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+      "reference_objectid": 138555,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1947.8328650298645,
+        3101.412583863479
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake and branch topology traced; original native and modern crosshairs inspected before first fit or score.",
+      "review": "All adopted coordinates corrected before fitting; every check excluded from fit."
+    },
+    {
+      "id": "Q07",
+      "label": "Tracadie Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        3690,
+        2360
+      ],
+      "lonlat": [
+        -61.59922832284079,
+        45.61679488933879
+      ],
+      "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+      "reference_objectid": 137465,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3634.10091801174,
+        2376.003996478743
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake and branch topology traced; original native and modern crosshairs inspected before first fit or score.",
+      "review": "All adopted coordinates corrected before fitting; every check excluded from fit."
+    },
+    {
+      "id": "Q08",
+      "label": "Delory Island northeast physical shoreline corner",
+      "role": "check",
+      "pixel_xy": [
+        3425,
+        1543
+      ],
+      "lonlat": [
+        -61.6356830060192,
+        45.648791776126146
+      ],
+      "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+      "reference_objectid": 11756,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 11756,
+      "nearest_unfiltered_distance_guide_px": 8.907097488145086,
+      "selected_distance_guide_px": 8.907097488145086,
+      "guide_reference_pixel_xy": [
+        3387.1281860342715,
+        1562.2079756185412
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake and branch topology traced; original native and modern crosshairs inspected before first fit or score.",
+      "review": "All adopted coordinates corrected before fitting; every check excluded from fit."
+    }
+  ]
+}

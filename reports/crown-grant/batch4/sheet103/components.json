@@ -1,0 +1,105 @@
+{
+  "source_frame": "Original 5992 x 4111 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      70,
+      100
+    ],
+    [
+      5900,
+      100
+    ],
+    [
+      5900,
+      4000
+    ],
+    [
+      70,
+      4000
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 174.43 m exceeds 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          70,
+          100
+        ],
+        [
+          5900,
+          100
+        ],
+        [
+          5900,
+          4000
+        ],
+        [
+          70,
+          4000
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "75bc038a0157ed30e520f9d85b6fb0c493d3a8d8f8040b98a198761aa4cbcde7",
+      "holes_pixel_xy": [
+        [
+          [
+            945,
+            350
+          ],
+          [
+            2075,
+            1410
+          ],
+          [
+            2075,
+            3940
+          ],
+          [
+            895,
+            3940
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "coastal-inset",
+      "status": "RMS 89.34 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          945,
+          350
+        ],
+        [
+          2075,
+          1410
+        ],
+        [
+          2075,
+          3940
+        ],
+        [
+          895,
+          3940
+        ]
+      ],
+      "fit_file": "fit-coastal-similarity-01.json",
+      "fit_sha256": "3dab72adfe14ad03a317ecd52406097dde1ab7d9aaaf786dfb99cc3c99532bce",
+      "matrix": [
+        [
+          -1.846580059079279,
+          4.442448870944292
+        ],
+        [
+          4.442448870944292,
+          1.846580059079279
+        ],
+        [
+          564241.2410311514,
+          5062178.000574802
+        ]
+      ]
+    }
+  ]
+}

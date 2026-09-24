@@ -1,0 +1,156 @@
+{
+  "sheet": "103",
+  "version": "main-affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      -1.9011096545372288,
+      4.603536969147316
+    ],
+    [
+      4.6772516479648925,
+      1.9871635454179573
+    ],
+    [
+      586553.0849401918,
+      5055702.672656564
+    ]
+  ],
+  "source_sha256": "c85aaf6da0f79d8df12ec5ad3a11d6e6df000542060f81091aa96e152a84bb3e",
+  "source_dimensions": [
+    5992,
+    4111
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Creeping Head outer shore tip",
+      "role": "control",
+      "pixel_xy": [
+        2267,
+        784
+      ],
+      "lonlat": [
+        -61.89524002807166,
+        45.75758022512338
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 10949,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2312.284092813614,
+        727.9225012824754
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Lakevale western mouth bank at coastline",
+      "role": "control",
+      "pixel_xy": [
+        2867,
+        773
+      ],
+      "lonlat": [
+        -61.91033157945436,
+        45.782173004453824
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 10344,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2894.884804610512,
+        732.9487114477088
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Small stream mouth south of Ballantyne Cove",
+      "role": "control",
+      "pixel_xy": [
+        4515,
+        1479
+      ],
+      "lonlat": [
+        -61.90589254666233,
+        45.863242814307974
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 4464,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4483.136969212908,
+        1505.2306953428779
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Livingstone Cove beach creek mouth",
+      "role": "control",
+      "pixel_xy": [
+        5030,
+        457
+      ],
+      "lonlat": [
+        -61.98058313123807,
+        45.86692992523116
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 4419,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5014.317961786524,
+        497.9803525219904
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Cape George southwest shoreline corner",
+      "role": "control",
+      "pixel_xy": [
+        4632,
+        1716
+      ],
+      "lonlat": [
+        -61.89522658413078,
+        45.87209847928742
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 4173,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4594.3287733797915,
+        1731.3025980928796
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    12.10753820532827,
+    18.500015424979562,
+    41.223078788680525,
+    3.5547123751224263,
+    31.963447454177217
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

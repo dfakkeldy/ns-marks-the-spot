@@ -1,0 +1,139 @@
+{
+  "count": 4,
+  "rms_ground_m": 174.4338699571609,
+  "median_ground_m": 97.05326888507939,
+  "p95_ground_m": 285.4140682890866,
+  "max_ground_m": 311.2773481554522,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 49.75066665342527,
+  "mean_north_ground_m": 61.709275682695406,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Brook entering coast west of Creeping Head",
+      "role": "check",
+      "pixel_xy": [
+        2086,
+        661
+      ],
+      "lonlat": [
+        -61.897438782025894,
+        45.74681043405296
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 10288,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2111.1527349438984,
+        602.8994195584673
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Audited before fit; all independent checks excluded from fitting.",
+      "predicted_lonlat": [
+        -61.89848939601974,
+        45.747820247883325
+      ],
+      "error_ground_m": 138.85548237968146,
+      "east_ground_m": -81.75295650961363,
+      "north_ground_m": 112.23769014386946
+    },
+    {
+      "id": "Q02",
+      "label": "Lakevale central stream mouth",
+      "role": "check",
+      "pixel_xy": [
+        3102,
+        842
+      ],
+      "lonlat": [
+        -61.91116943074405,
+        45.7929224554092
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 10043,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3114.2172893312527,
+        815.477349624387
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Audited before fit; all independent checks excluded from fitting.",
+      "predicted_lonlat": [
+        -61.911553740836666,
+        45.7932810688689
+      ],
+      "error_ground_m": 49.81554345363162,
+      "east_ground_m": -29.88059565164845,
+      "north_ground_m": 39.85898108435974
+    },
+    {
+      "id": "Q03",
+      "label": "Lakevale eastern stream mouth",
+      "role": "check",
+      "pixel_xy": [
+        3460,
+        916
+      ],
+      "lonlat": [
+        -61.91556738200901,
+        45.80897950447269
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 10077,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3461.1299299797975,
+        894.9178512663348
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Audited before fit; all independent checks excluded from fitting.",
+      "predicted_lonlat": [
+        -61.91554322140676,
+        45.80947631352871
+      ],
+      "error_ground_m": 55.251055390477326,
+      "east_ground_m": 1.8779731896675071,
+      "north_ground_m": 55.219130185656525
+    },
+    {
+      "id": "Q06",
+      "label": "Eastern Cape George creek mouth",
+      "role": "check",
+      "pixel_xy": [
+        5050,
+        1485
+      ],
+      "lonlat": [
+        -61.922698983433264,
+        45.88520914327224
+      ],
+      "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+      "reference_objectid": 4543,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5023.735627272516,
+        1463.8346144232783
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+      "review": "Audited before fit; all independent checks excluded from fitting.",
+      "predicted_lonlat": [
+        -61.91872131063152,
+        45.8855646442528
+      ],
+      "error_ground_m": 311.2773481554522,
+      "east_ground_m": 308.75824558529564,
+      "north_ground_m": 39.521301316895915
+    }
+  ],
+  "fit_sha256": "75bc038a0157ed30e520f9d85b6fb0c493d3a8d8f8040b98a198761aa4cbcde7",
+  "checks_sha256": "10a9339176f17526418644adc9f137a4f8498e3f3430a76381eb0b03cf75eee9",
+  "status": "Four independent coastal checks selected before first score; sparse regional validation only"
+}

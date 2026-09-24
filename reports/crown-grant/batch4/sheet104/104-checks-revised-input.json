@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Pomquet Island south tip",
+    [
+      1900,
+      870
+    ],
+    [
+      1860,
+      878
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q02",
+    "Mary Dismal Lake north tip",
+    [
+      5180,
+      3018
+    ],
+    [
+      5110,
+      3024
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "William Lake north tip",
+    [
+      2076,
+      3160
+    ],
+    [
+      2012,
+      3170
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Small lake north of William Lake east tip",
+    [
+      2003,
+      3090
+    ],
+    [
+      1945,
+      3108
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Tracadie Lake south tip",
+    [
+      3690,
+      2360
+    ],
+    [
+      3635,
+      2375
+    ],
+    "WALK"
+  ],
+  [
+    "Q08",
+    "Delory Island northeast shoreline corner",
+    [
+      3420,
+      1540
+    ],
+    [
+      3360,
+      1544
+    ],
+    "WACO"
+  ]
+]
