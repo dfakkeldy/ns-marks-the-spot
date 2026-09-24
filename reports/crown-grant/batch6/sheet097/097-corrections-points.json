@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C06",
+    "label": "Southern Halibut Island west extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      632,
+      2410
+    ],
+    "lonlat": [
+      -62.20563335808295,
+      44.88935019433617
+    ],
+    "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+    "reference_objectid": 17176,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17176,
+    "nearest_unfiltered_distance_guide_px": 1.347712545167819,
+    "selected_distance_guide_px": 1.347712545167819,
+    "guide_reference_pixel_xy": [
+      584.3172972128959,
+      2360.7152946131537
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

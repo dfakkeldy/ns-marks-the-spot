@@ -1,0 +1,45 @@
+{
+  "sheet": "095",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full-frame raster and browser verification complete; geographic and user acceptance remain false",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/095.pdf",
+    "pdf_sha256": "4f2dbecf5b7a7f88caa03ac67120936a7ee6b40721e8f380797413e662c56603",
+    "jpeg_sha256": "af0f8aad248515baac4a37e52fad9bacc7f6ff6e38631a8a27ae38b4dbf94f4b",
+    "dimensions": [
+      6075,
+      4150
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 9,
+      "independent_checks": 8,
+      "rms_ground_m": 64.4772255308227,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight excluded checks give RMS 64.48 m, median 50.93 m, P95 105.15 m and maximum 106.30 m. Numerical bounds pass; geographic acceptance remains provisional.",
+    "The northwestern river corridor and far northern edge lack independent checks. The southern extension has a Trout Lake control and a Smith Lake check, but broad intervening river and parcel regions remain insufficiently checked.",
+    "The lake west of Hattie Lake, Glencross lakes and Sucker Lake provide separate control/check observations within shared systems, so some samples are spatially correlated.",
+    "Generalized lake and island outlines use 12 px working source uncertainty. Riverbanks and unnamed parcel intersections were not adopted as control points."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 64.48 m, median 50.93 m, P95 105.15 m, maximum 106.30 m. 9 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Caledonia and Lower Caledonia, West River St Marys, Indian Man Lake, Glencross and Mitchell lakes, Denver, Smithfield, Glenelg, Liscomb headwaters, Trout Lake, Smith Lake and the full southern lake/parcel region. No displaced inset identified."
+  }
+}

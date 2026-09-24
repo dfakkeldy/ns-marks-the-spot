@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6075 x 4150 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 64.48 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          125,
+          115
+        ],
+        [
+          5955,
+          115
+        ],
+        [
+          5955,
+          4025
+        ],
+        [
+          125,
+          4025
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Caledonia and Lower Caledonia, West River St Marys, Indian Man Lake, Glencross and Mitchell lakes, Denver, Smithfield, Glenelg, Liscomb headwaters, Trout Lake, Smith Lake and the full southern lake/parcel region. No displaced inset identified."
+    }
+  ]
+}
