@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 73.83756938652589,
+  "median_ground_m": 62.72418340787868,
+  "p95_ground_m": 108.70571566045955,
+  "max_ground_m": 113.0628951303449,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 25.42284037915053,
+  "mean_north_ground_m": 6.486514492085088,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Maple Hill Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        835,
+        300
+      ],
+      "lonlat": [
+        -63.01654733778456,
+        44.946387570647275
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 136875,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136875,
+      "nearest_unfiltered_distance_guide_px": 0.8838244847334276,
+      "selected_distance_guide_px": 0.8838244847334276,
+      "guide_reference_pixel_xy": [
+        860.6613344846992,
+        328.8163647399051
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "predicted_lonlat": [
+        -63.016208220588965,
+        44.94668204414465
+      ],
+      "error_ground_m": 42.27524895254925,
+      "east_ground_m": 26.76310435646079,
+      "north_ground_m": 32.72511144679581
+    },
+    {
+      "id": "Q02",
+      "label": "Melville Lake southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        1862,
+        414
+      ],
+      "lonlat": [
+        -62.955308902749124,
+        44.95986952412669
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 136509,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136509,
+      "nearest_unfiltered_distance_guide_px": 0.673684682166891,
+      "selected_distance_guide_px": 0.673684682166891,
+      "guide_reference_pixel_xy": [
+        1852.3571419723448,
+        410.798543783254
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "predicted_lonlat": [
+        -62.95409251447285,
+        44.959331733798024
+      ],
+      "error_ground_m": 113.0628951303449,
+      "east_ground_m": 95.97618816766115,
+      "north_ground_m": -59.76445063799272
+    },
+    {
+      "id": "Q03",
+      "label": "Big Ash Lake eastern headland",
+      "role": "check",
+      "pixel_xy": [
+        1923,
+        1205
+      ],
+      "lonlat": [
+        -62.93133998754501,
+        44.92728023219553
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 125275,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125275,
+      "nearest_unfiltered_distance_guide_px": 0.8014942317604531,
+      "selected_distance_guide_px": 0.8014942317604531,
+      "guide_reference_pixel_xy": [
+        1907.7809939396102,
+        1220.8198848428437
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "predicted_lonlat": [
+        -62.93115396896118,
+        44.92728199214273
+      ],
+      "error_ground_m": 14.686819626749774,
+      "east_ground_m": 14.685517057081327,
+      "north_ground_m": 0.19560039584763061
+    },
+    {
+      "id": "Q04",
+      "label": "Little Kearney Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        1974,
+        2912
+      ],
+      "lonlat": [
+        -62.88638214270201,
+        44.85617368789701
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 132771,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132771,
+      "nearest_unfiltered_distance_guide_px": 1.4612878779019698,
+      "selected_distance_guide_px": 1.4612878779019698,
+      "guide_reference_pixel_xy": [
+        1925.3325829459936,
+        2945.422937400639
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "predicted_lonlat": [
+        -62.88639065948215,
+        44.85673808230662
+      ],
+      "error_ground_m": 62.72418340787868,
+      "east_ground_m": -0.6731924716730148,
+      "north_ground_m": 62.720570756979605
+    },
+    {
+      "id": "Q05",
+      "label": "Southern Rocky Lake eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        3434,
+        3809
+      ],
+      "lonlat": [
+        -62.77999919511811,
+        44.84471788888097
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 129567,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129567,
+      "nearest_unfiltered_distance_guide_px": 0.6432282073138774,
+      "selected_distance_guide_px": 0.6432282073138774,
+      "guide_reference_pixel_xy": [
+        3345.586653141363,
+        3802.73621861625
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "predicted_lonlat": [
+        -62.780244089748216,
+        44.84384846358129
+      ],
+      "error_ground_m": 98.53896356406044,
+      "east_ground_m": -19.361541927626234,
+      "north_ground_m": -96.61810407198023
+    },
+    {
+      "id": "Q06",
+      "label": "Camp Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4578,
+        3315
+      ],
+      "lonlat": [
+        -62.72691370142716,
+        44.88309824903507
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 130860,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 130860,
+      "nearest_unfiltered_distance_guide_px": 2.9573700268166885,
+      "selected_distance_guide_px": 2.9573700268166885,
+      "guide_reference_pixel_xy": [
+        4440.057527265511,
+        3322.7618243170436
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "predicted_lonlat": [
+        -62.72623899478265,
+        44.883796767144204
+      ],
+      "error_ground_m": 94.16657974073138,
+      "east_ground_m": 53.30590435880554,
+      "north_ground_m": 77.62618952748743
+    },
+    {
+      "id": "Q07",
+      "label": "Cranberry Lake west of Little Atlantic southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4882,
+        1678
+      ],
+      "lonlat": [
+        -62.7486825770171,
+        44.95719551568983
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 139608,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139608,
+      "nearest_unfiltered_distance_guide_px": 0.5992969969006104,
+      "selected_distance_guide_px": 0.5992969969006104,
+      "guide_reference_pixel_xy": [
+        4776.586947360891,
+        1671.878964112606
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "predicted_lonlat": [
+        -62.748590518369014,
+        44.957452156001004
+      ],
+      "error_ground_m": 29.431168951201272,
+      "east_ground_m": 7.263903113344157,
+      "north_ground_m": 28.52068402745809
+    }
+  ],
+  "fit_sha256": "147b2b3cc982685ef4af49c80f7f86710d67797896701b63ee843fdeba58509e",
+  "checks_sha256": "e51f9ad3c8d812929910a019e62337f69f84dc7a70f019beb2d9325bc688bb79",
+  "status": "Seven excluded lake checks reserved before first affine fit; all share lake systems with controls"
+}

@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Porter Lake western island northern tip",
+    [
+      390,
+      262
+    ],
+    [
+      263,
+      333
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C02",
+    "Petpeswick Head southern tip",
+    [
+      2280,
+      1043
+    ],
+    [
+      2208,
+      1115
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Jeddore Cape southern tip",
+    [
+      3890,
+      1852
+    ],
+    [
+      3830,
+      1902
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Barren Island northern shore",
+    [
+      5096,
+      1934
+    ],
+    [
+      5058,
+      1994
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Duck Island northern tip",
+    [
+      5736,
+      1930
+    ],
+    [
+      5692,
+      1976
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "Brown Island northwestern shore",
+    [
+      4890,
+      233
+    ],
+    [
+      4789,
+      272
+    ],
+    "WACOIS10"
+  ]
+]

@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 131.8263871369466,
+  "median_ground_m": 51.449308790716984,
+  "p95_ground_m": 248.45372948029637,
+  "max_ground_m": 316.03149646502226,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 41.38570745481926,
+  "mean_north_ground_m": 55.52581095035498,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Porter Lake western island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        390,
+        315
+      ],
+      "lonlat": [
+        -63.29084896196139,
+        44.6759291486413
+      ],
+      "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+      "reference_objectid": 23011,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23011,
+      "nearest_unfiltered_distance_guide_px": 1.6347016018584561,
+      "selected_distance_guide_px": 1.6347016018584561,
+      "guide_reference_pixel_xy": [
+        262.7066884842934,
+        387.5259441281669
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+      "predicted_lonlat": [
+        -63.290300303881146,
+        44.67601620131624
+      ],
+      "error_ground_m": 44.56568264782013,
+      "east_ground_m": 43.5030511889181,
+      "north_ground_m": 9.673913743702093
+    },
+    {
+      "id": "Q02",
+      "label": "Porter Lake eastern island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        520,
+        316
+      ],
+      "lonlat": [
+        -63.28325214226663,
+        44.67797199022445
+      ],
+      "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+      "reference_objectid": 23013,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23013,
+      "nearest_unfiltered_distance_guide_px": 1.5996360682382422,
+      "selected_distance_guide_px": 1.5996360682382422,
+      "guide_reference_pixel_xy": [
+        392.1124989037635,
+        391.5956752637867
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+      "predicted_lonlat": [
+        -63.28273050214898,
+        44.67824736618886
+      ],
+      "error_ground_m": 51.449308790716984,
+      "east_ground_m": 41.35921214979187,
+      "north_ground_m": 30.601420643346877
+    },
+    {
+      "id": "Q03",
+      "label": "Barren Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        5144,
+        1974
+      ],
+      "lonlat": [
+        -62.971167480468644,
+        44.68908020208891
+      ],
+      "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+      "reference_objectid": 17342,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17342,
+      "nearest_unfiltered_distance_guide_px": 1.4996972028061066,
+      "selected_distance_guide_px": 1.4996972028061066,
+      "guide_reference_pixel_xy": [
+        5102.410999415268,
+        2036.6208082035882
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+      "predicted_lonlat": [
+        -62.971407128451695,
+        44.68949509254568
+      ],
+      "error_ground_m": 49.865510093903296,
+      "east_ground_m": -18.99726220341571,
+      "north_ground_m": 46.10502278168664
+    },
+    {
+      "id": "Q04",
+      "label": "Roger Island northern shore",
+      "role": "check",
+      "pixel_xy": [
+        5045,
+        1843
+      ],
+      "lonlat": [
+        -62.9797425956075,
+        44.69286576054646
+      ],
+      "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+      "reference_objectid": 20478,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20478,
+      "nearest_unfiltered_distance_guide_px": 0.22077253765767668,
+      "selected_distance_guide_px": 0.22077253765767668,
+      "guide_reference_pixel_xy": [
+        5006.77990022453,
+        1907.9827778566396
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+      "predicted_lonlat": [
+        -62.980525779695945,
+        44.69325361547682
+      ],
+      "error_ground_m": 75.57541863646306,
+      "east_ground_m": -62.0801855288981,
+      "north_ground_m": 43.10097988183375
+    },
+    {
+      "id": "Q05",
+      "label": "Duck Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        5753,
+        1968
+      ],
+      "lonlat": [
+        -62.936965548914934,
+        44.699717558833584
+      ],
+      "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+      "reference_objectid": 16635,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16635,
+      "nearest_unfiltered_distance_guide_px": 3.2817328747328744,
+      "selected_distance_guide_px": 3.2817328747328744,
+      "guide_reference_pixel_xy": [
+        5696.820731464366,
+        2023.0625310417963
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+      "predicted_lonlat": [
+        -62.93614906170883,
+        44.700290373329544
+      ],
+      "error_ground_m": 90.77227318260313,
+      "east_ground_m": 64.712166167739,
+      "north_ground_m": 63.654859426567484
+    },
+    {
+      "id": "Q06",
+      "label": "Brown Island southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        4923,
+        272
+      ],
+      "lonlat": [
+        -63.02767347484005,
+        44.75677827879069
+      ],
+      "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+      "reference_objectid": 16581,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16581,
+      "nearest_unfiltered_distance_guide_px": 0.49759768260906706,
+      "selected_distance_guide_px": 0.49759768260906706,
+      "guide_reference_pixel_xy": [
+        4827.090498353646,
+        314.48929899011273
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+      "predicted_lonlat": [
+        -63.02800760050363,
+        44.75677131310117
+      ],
+      "error_ground_m": 26.467293750811244,
+      "east_ground_m": -26.45597339693509,
+      "north_ground_m": -0.7740220361171036
+    },
+    {
+      "id": "Q07",
+      "label": "Jeddore Rock northern shore",
+      "role": "check",
+      "pixel_xy": [
+        4398,
+        2251
+      ],
+      "lonlat": [
+        -63.010775051438266,
+        44.66322472533006
+      ],
+      "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+      "reference_objectid": 23957,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23957,
+      "nearest_unfiltered_distance_guide_px": 1.9830741283942412,
+      "selected_distance_guide_px": 1.9830741283942412,
+      "guide_reference_pixel_xy": [
+        4301.762237488467,
+        2328.830731277354
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+      "predicted_lonlat": [
+        -63.0076521825794,
+        44.66499132492623
+      ],
+      "error_ground_m": 316.03149646502226,
+      "east_ground_m": 247.65894380653478,
+      "north_ground_m": 196.31850221146507
+    }
+  ],
+  "fit_sha256": "c3a9fc5e93859b2c667fc00e9832efe29aba836eb912036948288b79c6265946",
+  "checks_sha256": "262ba2c41fd89b6bacd5242955400751b59be433f8d222a48e26ffafbe274f24",
+  "status": "Seven excluded coastal checks reserved before first affine fit; three separate islands supplement four paired-island observations"
+}

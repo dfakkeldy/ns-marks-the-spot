@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Six controls span western Porter Lake island, intermediate Petpeswick/Jeddore capes and eastern offshore/harbour islands with non-collinear support.",
+  "corrections": [
+    "Porter Lake islands are modern WACOIS10; initial freshwater island filter failed distance guard before fit",
+    "Barren eastern modern corner and Jeddore Rock original northern shore refined before fit"
+  ],
+  "not_adopted": [
+    "Changed Chezzetcook barrier shores, Rudey Head and Flying Point geometry not forced into fixed shore points",
+    "Indian marsh connections left unvalidated"
+  ],
+  "limitations": [
+    "Four checks share islands with controls; eastern Porter island, Roger Island and Jeddore Rock are separate nearby islands",
+    "Petpeswick Head and Jeddore Cape controls lack accepted independent checks on the same capes",
+    "Most of the original frame is ocean; coverage is retained but accuracy cannot be independently measured at featureless water locations",
+    "Mainland urban/parcel regions and harbour heads remain unvalidated",
+    "Generalized coastal observations use18px working source uncertainty"
+  ]
+}

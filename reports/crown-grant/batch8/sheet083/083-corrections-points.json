@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C07",
+    "label": "Cranberry Lake west of Little Atlantic northwest shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4872,
+      1603
+    ],
+    "lonlat": [
+      -62.750483043691794,
+      44.96067692400051
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 139610,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139610,
+    "nearest_unfiltered_distance_guide_px": 1.384904470608007,
+    "selected_distance_guide_px": 1.384904470608007,
+    "guide_reference_pixel_xy": [
+      4781.319409501739,
+      1589.7938669366995
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Melville Lake southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1862,
+      414
+    ],
+    "lonlat": [
+      -62.955308902749124,
+      44.95986952412669
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 136509,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136509,
+    "nearest_unfiltered_distance_guide_px": 0.673684682166891,
+    "selected_distance_guide_px": 0.673684682166891,
+    "guide_reference_pixel_xy": [
+      1852.3571419723448,
+      410.798543783254
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Camp Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4578,
+      3315
+    ],
+    "lonlat": [
+      -62.72691370142716,
+      44.88309824903507
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 130860,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 130860,
+    "nearest_unfiltered_distance_guide_px": 2.9573700268166885,
+    "selected_distance_guide_px": 2.9573700268166885,
+    "guide_reference_pixel_xy": [
+      4440.057527265511,
+      3322.7618243170436
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Cranberry Lake west of Little Atlantic southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4882,
+      1678
+    ],
+    "lonlat": [
+      -62.7486825770171,
+      44.95719551568983
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 139608,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139608,
+    "nearest_unfiltered_distance_guide_px": 0.5992969969006104,
+    "selected_distance_guide_px": 0.5992969969006104,
+    "guide_reference_pixel_xy": [
+      4776.586947360891,
+      1671.878964112606
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
