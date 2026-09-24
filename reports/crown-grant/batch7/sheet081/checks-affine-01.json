@@ -1,0 +1,221 @@
+{
+  "status": "Eight excluded physical checks reserved before first affine fit; regional lake spread includes southwest and east",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Trout Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1440,
+        716
+      ],
+      "lonlat": [
+        -63.161823295114516,
+        45.26016022470143
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 139960,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139960,
+      "nearest_unfiltered_distance_guide_px": 1.4645175926582281,
+      "selected_distance_guide_px": 1.4645175926582281,
+      "guide_reference_pixel_xy": [
+        1452.7196787583525,
+        769.4374393137405
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    },
+    {
+      "id": "Q02",
+      "label": "Barren Lake eastern shore",
+      "role": "check",
+      "pixel_xy": [
+        1852,
+        700
+      ],
+      "lonlat": [
+        -63.13713560690442,
+        45.26735592741179
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 129762,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129762,
+      "nearest_unfiltered_distance_guide_px": 3.27700183659004,
+      "selected_distance_guide_px": 3.27700183659004,
+      "guide_reference_pixel_xy": [
+        1871.3097765958519,
+        767.1925303419121
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    },
+    {
+      "id": "Q03",
+      "label": "Twin Lakes eastern lobe northern tip",
+      "role": "check",
+      "pixel_xy": [
+        3822,
+        410
+      ],
+      "lonlat": [
+        -63.0296820818955,
+        45.313734353819264
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 138833,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138833,
+      "nearest_unfiltered_distance_guide_px": 0.12459316005158652,
+      "selected_distance_guide_px": 0.12459316005158652,
+      "guide_reference_pixel_xy": [
+        3818.082920969522,
+        445.9070076973876
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    },
+    {
+      "id": "Q04",
+      "label": "Flat Iron Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3585,
+        663
+      ],
+      "lonlat": [
+        -63.03729137714558,
+        45.29908317601039
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 127512,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127512,
+      "nearest_unfiltered_distance_guide_px": 0.7177662263138317,
+      "selected_distance_guide_px": 0.7177662263138317,
+      "guide_reference_pixel_xy": [
+        3585.6082823952893,
+        702.6014529688982
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    },
+    {
+      "id": "Q05",
+      "label": "North West Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        298,
+        3033
+      ],
+      "lonlat": [
+        -63.17105330532533,
+        45.144020637379185
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 134395,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134395,
+      "nearest_unfiltered_distance_guide_px": 0.7042910465272527,
+      "selected_distance_guide_px": 0.7042910465272527,
+      "guide_reference_pixel_xy": [
+        347.48837182612624,
+        3102.5159932955867
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    },
+    {
+      "id": "Q06",
+      "label": "Gleason Lakes northwest lake northeast tip",
+      "role": "check",
+      "pixel_xy": [
+        4068,
+        3425
+      ],
+      "lonlat": [
+        -62.94035929598533,
+        45.19168623560309
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 142746,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142746,
+      "nearest_unfiltered_distance_guide_px": 2.461380098306879,
+      "selected_distance_guide_px": 2.461380098306879,
+      "guide_reference_pixel_xy": [
+        4101.48067073134,
+        3481.9364995640935
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    },
+    {
+      "id": "Q07",
+      "label": "Eastville northern pond northwest corner",
+      "role": "check",
+      "pixel_xy": [
+        5790,
+        1936
+      ],
+      "lonlat": [
+        -62.87594879702802,
+        45.282892160361186
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 143399,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143399,
+      "nearest_unfiltered_distance_guide_px": 0.8644237204804591,
+      "selected_distance_guide_px": 0.8644237204804591,
+      "guide_reference_pixel_xy": [
+        5794.863703643612,
+        1981.9647241649218
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    },
+    {
+      "id": "Q08",
+      "label": "Halfway Brook pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2745,
+        1556
+      ],
+      "lonlat": [
+        -63.064089881517326,
+        45.24714886000665
+      ],
+      "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+      "reference_objectid": 83834,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 83834,
+      "nearest_unfiltered_distance_guide_px": 1.6827142320767492,
+      "selected_distance_guide_px": 1.6827142320767492,
+      "guide_reference_pixel_xy": [
+        2763.6621631229646,
+        1613.2621849337593
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/pond geometry and original paired native crosshairs inspected before first fit and check score."
+    }
+  ]
+}

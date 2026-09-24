@@ -1,0 +1,164 @@
+[
+  {
+    "id": "C01",
+    "label": "Kemptown pond northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4388,
+      813
+    ],
+    "lonlat": [
+      -63.08067100133513,
+      45.47012881564792
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 138214,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138214,
+    "nearest_unfiltered_distance_guide_px": 0.4369527997080293,
+    "selected_distance_guide_px": 0.4369527997080293,
+    "guide_reference_pixel_xy": [
+      4438.373738955415,
+      758.7736221248051
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score."
+  },
+  {
+    "id": "C02",
+    "label": "Northeast oval pond northern tip",
+    "role": "control",
+    "pixel_xy": [
+      5045,
+      530
+    ],
+    "lonlat": [
+      -63.04803259423325,
+      45.49308844463807
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 126795,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126795,
+    "nearest_unfiltered_distance_guide_px": 1.8342913219979187,
+    "selected_distance_guide_px": 1.8342913219979187,
+    "guide_reference_pixel_xy": [
+      5107.814371124841,
+      483.82487439969555
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score."
+  },
+  {
+    "id": "C03",
+    "label": "Eastern three-pond cluster middle pond north tip",
+    "role": "control",
+    "pixel_xy": [
+      5315,
+      1337
+    ],
+    "lonlat": [
+      -63.0124688885106,
+      45.46376627268329
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 139279,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139279,
+    "nearest_unfiltered_distance_guide_px": 0.7210796032262359,
+    "selected_distance_guide_px": 0.7210796032262359,
+    "guide_reference_pixel_xy": [
+      5370.807973448827,
+      1301.6950407166732
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score."
+  },
+  {
+    "id": "C04",
+    "label": "Eastern three-pond cluster east pond south tip",
+    "role": "control",
+    "pixel_xy": [
+      5365,
+      1381
+    ],
+    "lonlat": [
+      -63.00846503534063,
+      45.46258566491495
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 139281,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 222142,
+    "nearest_unfiltered_distance_guide_px": 2.165056143367287,
+    "selected_distance_guide_px": 3.158377947406128,
+    "guide_reference_pixel_xy": [
+      5418.642920074752,
+      1350.1480383356102
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score."
+  },
+  {
+    "id": "C05",
+    "label": "Duck Lake western tip",
+    "role": "control",
+    "pixel_xy": [
+      4792,
+      3245
+    ],
+    "lonlat": [
+      -62.99831159746104,
+      45.375452579846325
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 128215,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128215,
+    "nearest_unfiltered_distance_guide_px": 12.318028820029086,
+    "selected_distance_guide_px": 12.318028820029086,
+    "guide_reference_pixel_xy": [
+      4818.568413336179,
+      3204.012433985248
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score."
+  },
+  {
+    "id": "C06",
+    "label": "Island Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      5121,
+      3020
+    ],
+    "lonlat": [
+      -62.98328396223713,
+      45.39043911761749
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 137240,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137240,
+    "nearest_unfiltered_distance_guide_px": 0.4687237177803209,
+    "selected_distance_guide_px": 0.4687237177803209,
+    "guide_reference_pixel_xy": [
+      5164.906489361369,
+      2986.459301299881
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Full lake/pond shapes and paired original native crosshairs inspected before first fit or check score."
+  }
+]

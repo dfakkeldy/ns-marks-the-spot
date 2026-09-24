@@ -1,0 +1,54 @@
+[
+  [
+    "C02",
+    "Barren Lake southern tip",
+    [
+      1836,
+      721
+    ],
+    [
+      1847,
+      790
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Flat Iron Lake northern tip",
+    [
+      3614,
+      582
+    ],
+    [
+      3606,
+      623
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Twin Lakes eastern lobe northern tip",
+    [
+      3822,
+      410
+    ],
+    [
+      3818,
+      446
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Halfway Brook pond southern tip",
+    [
+      2745,
+      1556
+    ],
+    [
+      2762,
+      1613
+    ],
+    "WALK20"
+  ]
+]

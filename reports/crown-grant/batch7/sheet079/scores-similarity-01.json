@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 52.83086759299413,
+  "median_ground_m": 49.12028453429071,
+  "p95_ground_m": 76.98527857624613,
+  "max_ground_m": 80.38011459312324,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 2.2552168467295246,
+  "mean_north_ground_m": 20.647225203347993,
+  "points": [
+    {
+      "id": "Q02",
+      "label": "Northern pond east of Long Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        1097,
+        480
+      ],
+      "lonlat": [
+        -63.380128312766054,
+        45.583453704834994
+      ],
+      "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+      "reference_objectid": 141553,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141553,
+      "nearest_unfiltered_distance_guide_px": 0.5286471665625467,
+      "selected_distance_guide_px": 0.5286471665625467,
+      "guide_reference_pixel_xy": [
+        999.8064921621699,
+        414.50804213248193
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth.",
+      "predicted_lonlat": [
+        -63.379878686579204,
+        45.58366747956826
+      ],
+      "error_ground_m": 30.725306730857195,
+      "east_ground_m": 19.48138214803236,
+      "north_ground_m": 23.759634326049394
+    },
+    {
+      "id": "Q03",
+      "label": "Long Lake northeast tip",
+      "role": "check",
+      "pixel_xy": [
+        1165,
+        699
+      ],
+      "lonlat": [
+        -63.37054130295673,
+        45.57586404605503
+      ],
+      "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+      "reference_objectid": 137706,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137706,
+      "nearest_unfiltered_distance_guide_px": 2.9064999517165124,
+      "selected_distance_guide_px": 2.9064999517165124,
+      "guide_reference_pixel_xy": [
+        1071.0994278888102,
+        623.8144645664142
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth.",
+      "predicted_lonlat": [
+        -63.37043336026481,
+        45.57580276072148
+      ],
+      "error_ground_m": 10.834236188005718,
+      "east_ground_m": 8.425263637969515,
+      "north_ground_m": -6.811432037993287
+    },
+    {
+      "id": "Q04",
+      "label": "Cook Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        358,
+        1360
+      ],
+      "lonlat": [
+        -63.40081247611079,
+        45.53471837133266
+      ],
+      "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+      "reference_objectid": 135994,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135994,
+      "nearest_unfiltered_distance_guide_px": 0.2657052216904755,
+      "selected_distance_guide_px": 0.2657052216904755,
+      "guide_reference_pixel_xy": [
+        263.73501095565734,
+        1271.019495415152
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth.",
+      "predicted_lonlat": [
+        -63.40148132167464,
+        45.534395098759795
+      ],
+      "error_ground_m": 63.405934508737715,
+      "east_ground_m": -52.24383605065457,
+      "north_ground_m": -35.9290150941918
+    },
+    {
+      "id": "Q05",
+      "label": "Frog Lake southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        325,
+        1904
+      ],
+      "lonlat": [
+        -63.38993587129769,
+        45.510895334951925
+      ],
+      "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+      "reference_objectid": 127269,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127269,
+      "nearest_unfiltered_distance_guide_px": 0.8693536228919463,
+      "selected_distance_guide_px": 0.8693536228919463,
+      "guide_reference_pixel_xy": [
+        208.66630178526975,
+        1814.1972414914053
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth.",
+      "predicted_lonlat": [
+        -63.38990647816556,
+        45.51133681214393
+      ],
+      "error_ground_m": 49.12028453429071,
+      "east_ground_m": 2.296849214575614,
+      "north_ground_m": 49.06655517167659
+    },
+    {
+      "id": "Q06",
+      "label": "Whippy Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2017,
+        893
+      ],
+      "lonlat": [
+        -63.31588861877988,
+        45.58198094052604
+      ],
+      "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+      "reference_objectid": 141552,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141552,
+      "nearest_unfiltered_distance_guide_px": 1.4133928144950438,
+      "selected_distance_guide_px": 1.4133928144950438,
+      "guide_reference_pixel_xy": [
+        1919.0238690369297,
+        824.4131912528537
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth.",
+      "predicted_lonlat": [
+        -63.31546172399897,
+        45.582639103357046
+      ],
+      "error_ground_m": 80.38011459312324,
+      "east_ground_m": 33.316425283724705,
+      "north_ground_m": 73.15038365119906
+    }
+  ],
+  "fit_sha256": "5d4e7136a3817d99a9aba621c6ae755df8d388c14552d83935ae8daee84d4dff",
+  "checks_sha256": "9029b75655bc54089a9d7703f10224ca6376f6dd23587cda8fc0e43dc68dcab5",
+  "status": "Five excluded lake checks reserved before first similarity fit; all share lake systems with controls in northwest"
+}

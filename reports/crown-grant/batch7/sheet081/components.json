@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6062 x 4107 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 38.27 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          45,
+          110
+        ],
+        [
+          5930,
+          110
+        ],
+        [
+          5930,
+          4000
+        ],
+        [
+          45,
+          4000
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full original mapped frame retains Middle and Upper Stewiacke, Glenbervie, Eastville, Smithfield, South Branch, Dean and Chaplin, Trout, Barren, Long, Bob, Twin, Flat Iron, North West, Davis and Gleason lakes, Halfway Brook and all river corridors and inland parcels. No displaced inset identified."
+    }
+  ]
+}

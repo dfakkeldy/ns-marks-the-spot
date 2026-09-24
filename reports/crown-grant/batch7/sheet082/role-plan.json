@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Six controls provide non-collinear support from northeastern pond and east/central Pratt/Sand lakes through western Lindsay and southwest Square Lake.",
+  "corrections": [
+    "Southern Pratt Q02 source and modern southern shore refined before fit"
+  ],
+  "not_adopted": [
+    "Eastern Rocky C07 northern lake-stream transition lacks a distinct modern closed tip; associated Q07 generalized headland correspondence also uncertain, both rejected before fit",
+    "Dry Lake changed/generalized northern extent not used",
+    "Martin connected waters, Otter connections and southwestern Rocky ambiguous shore configurations not forced into fixed endpoints"
+  ],
+  "limitations": [
+    "All six checks share lake systems with controls and are strongly correlated",
+    "Northernmost river/parcel band and southeast/southernmost regions unvalidated",
+    "Square Lake outer northern extent is generalized; only its distinctive south lobe and central peninsula are sampled",
+    "Natural lake observations use12px working source uncertainty"
+  ]
+}

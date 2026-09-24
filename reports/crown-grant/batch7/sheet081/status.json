@@ -1,0 +1,45 @@
+{
+  "sheet": "081",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/081.pdf",
+    "pdf_sha256": "0a3e0d3796784b4163c5ecd68d26d94b9814594fc25d8af038d394357fe4fd4f",
+    "jpeg_sha256": "97e98d94a523f9bc48aa139c4649bd2fdcaf4da82777b6b703e682584dcbf1be",
+    "dimensions": [
+      6062,
+      4107
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 38.272895656477615,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight excluded checks give RMS 38.27 m, median 30.87 m, P95 62.65 m and maximum 76.55 m; all numerical bounds pass while coverage remains provisional.",
+    "Six checks share lake systems with controls. Gleason northwest lake and Eastville northern pond add separate local water bodies but do not remove local spatial correlation.",
+    "Broad central river corridor and far southeastern/southernmost parcel regions remain without accepted independent checks; lake spread does not validate every intervening feature.",
+    "Natural lake/pond observations use 12 px working source uncertainty. River meanders, marsh connections and generalized lake-stream transitions are unvalidated."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 38.27 m, median 30.87 m, P95 62.65 m, maximum 76.55 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Full original mapped frame retains Middle and Upper Stewiacke, Glenbervie, Eastville, Smithfield, South Branch, Dean and Chaplin, Trout, Barren, Long, Bob, Twin, Flat Iron, North West, Davis and Gleason lakes, Halfway Brook and all river corridors and inland parcels. No displaced inset identified."
+  }
+}

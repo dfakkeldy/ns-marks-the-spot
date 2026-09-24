@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-24T20:52:38.799248+00:00",
+  "updated_at_utc": "2026-09-24T21:39:12.790435+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -39,13 +39,13 @@
     "086",
     "085",
     "077",
-    "078"
-  ],
-  "remaining_sheets": [
+    "078",
     "079",
     "080",
     "081",
-    "082",
+    "082"
+  ],
+  "remaining_sheets": [
     "083",
     "084",
     "076",
@@ -275,6 +275,22 @@
       "ci_attempt": 2,
       "status": "merged after all required CI passed on unchanged retry",
       "initial_failure": "Existing launch-performance XCTest returned zero metrics in iteration3; no app/test changes in this report-only PR. Initial failure and diagnostic evidence preserved privately.",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 539,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/539",
+      "sheets": [
+        "086",
+        "085",
+        "077",
+        "078"
+      ],
+      "head": "417a2ebfb3172251f826a46d5bc7d9ec4ed9b39b",
+      "merge": "d9ec5afbba8ea481f45a49b07664b97c41c0ce77",
+      "merged_at_utc": "2026-09-24T21:20:18Z",
+      "ci_run": 36057926939,
+      "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled"
     }
   ],

@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Northern Pratt Lake northeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3348,
+      1891
+    ],
+    "lonlat": [
+      -62.92708501923253,
+      45.08412611520903
+    ],
+    "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+    "reference_objectid": 143241,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143241,
+    "nearest_unfiltered_distance_guide_px": 2.782336479632752,
+    "selected_distance_guide_px": 2.782336479632752,
+    "guide_reference_pixel_xy": [
+      3342.327746179886,
+      1834.774890835397
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Southern Pratt Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3330,
+      2084
+    ],
+    "lonlat": [
+      -62.92274815766783,
+      45.075738986973576
+    ],
+    "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+    "reference_objectid": 126703,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 265011,
+    "nearest_unfiltered_distance_guide_px": 1.0044323168910205,
+    "selected_distance_guide_px": 2.6506309569277913,
+    "guide_reference_pixel_xy": [
+      3333.620730810915,
+      2031.602993090055
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Sand Lake eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5009,
+      1954
+    ],
+    "lonlat": [
+      -62.82678709259098,
+      45.10949847060952
+    ],
+    "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+    "reference_objectid": 142907,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142907,
+    "nearest_unfiltered_distance_guide_px": 3.8826722173399517,
+    "selected_distance_guide_px": 3.8826722173399517,
+    "guide_reference_pixel_xy": [
+      5025.118924507522,
+      1908.8886601194972
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Three-lobed pond south of Martin Lakes southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5048,
+      701
+    ],
+    "lonlat": [
+      -62.856232240127646,
+      45.16363240507257
+    ],
+    "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+    "reference_objectid": 128855,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128855,
+    "nearest_unfiltered_distance_guide_px": 10.262725549599228,
+    "selected_distance_guide_px": 10.262725549599228,
+    "guide_reference_pixel_xy": [
+      5059.179919945891,
+      630.0184629069408
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Lindsay Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1761,
+      2595
+    ],
+    "lonlat": [
+      -63.0041129465963,
+      45.02891854229506
+    ],
+    "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+    "reference_objectid": 132746,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132746,
+    "nearest_unfiltered_distance_guide_px": 0.07562763591586323,
+    "selected_distance_guide_px": 0.07562763591586323,
+    "guide_reference_pixel_xy": [
+      1741.9591514623025,
+      2505.0636469660094
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Square Lake central peninsula northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1138,
+      3212
+    ],
+    "lonlat": [
+      -63.02612001989087,
+      44.99321675656086
+    ],
+    "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+    "reference_objectid": 128953,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128953,
+    "nearest_unfiltered_distance_guide_px": 1.2975801563431109,
+    "selected_distance_guide_px": 1.2975801563431109,
+    "guide_reference_pixel_xy": [
+      1112.6785324708326,
+      3102.742871172144
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Eastern Rocky Lake eastern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      4488,
+      3442
+    ],
+    "lonlat": [
+      -62.823460809130744,
+      45.039191027805444
+    ],
+    "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+    "reference_objectid": 142952,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142952,
+    "nearest_unfiltered_distance_guide_px": 3.781043931444332,
+    "selected_distance_guide_px": 3.781043931444332,
+    "guide_reference_pixel_xy": [
+      4471.457070791803,
+      3364.2018212613184
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
