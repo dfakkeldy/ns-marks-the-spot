@@ -1,0 +1,263 @@
+{
+  "sheet": "107",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.6089343780154355,
+      1.9506148281362248
+    ],
+    [
+      1.9203688317660592,
+      -4.609397613443289
+    ],
+    [
+      608539.3734905949,
+      5003038.698191371
+    ]
+  ],
+  "source_sha256": "c0f43fd2423b19ddcf06ede758be40b3f9ac3f8dfd8cc1de9ec8334d7cf002cc",
+  "source_dimensions": [
+    6025,
+    4102
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Green Island north tip",
+      "role": "control",
+      "pixel_xy": [
+        515,
+        1846
+      ],
+      "lonlat": [
+        -61.54513230985166,
+        45.104388773535945
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 16600,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16600,
+      "nearest_unfiltered_distance_guide_px": 2.555568103471157,
+      "selected_distance_guide_px": 2.555568103471157,
+      "guide_reference_pixel_xy": [
+        485.7258593951701,
+        1853.4591782313073
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Beach Point north tip of Goose Island",
+      "role": "control",
+      "pixel_xy": [
+        327,
+        930
+      ],
+      "lonlat": [
+        -61.5776807188054,
+        45.139154892330694
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 18390,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18390,
+      "nearest_unfiltered_distance_guide_px": 2.2432945305467364,
+      "selected_distance_guide_px": 2.2432945305467364,
+      "guide_reference_pixel_xy": [
+        295.7765897117206,
+        945.3697077597026
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Big Coddle Island north tip",
+      "role": "control",
+      "pixel_xy": [
+        975,
+        735
+      ],
+      "lonlat": [
+        -61.54392893076014,
+        45.15814075746252
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 16212,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16212,
+      "nearest_unfiltered_distance_guide_px": 1.118776513151468,
+      "selected_distance_guide_px": 1.118776513151468,
+      "guide_reference_pixel_xy": [
+        946.4890289238538,
+        751.0062363529578
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Small pond north of Second Lake, north end",
+      "role": "control",
+      "pixel_xy": [
+        3064,
+        164
+      ],
+      "lonlat": [
+        -61.43358351959439,
+        45.217226302379295
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 134412,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134412,
+      "nearest_unfiltered_distance_guide_px": 0.8945416688669701,
+      "selected_distance_guide_px": 0.8945416688669701,
+      "guide_reference_pixel_xy": [
+        3047.662170236348,
+        174.8282969564898
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Round pond west of Tor Bay, north edge",
+      "role": "control",
+      "pixel_xy": [
+        3000,
+        1004
+      ],
+      "lonlat": [
+        -61.4180781635016,
+        45.18007704703806
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 65994,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 65994,
+      "nearest_unfiltered_distance_guide_px": 2.434650081777287,
+      "selected_distance_guide_px": 2.434650081777287,
+      "guide_reference_pixel_xy": [
+        2969.4862348873867,
+        1032.3798248737585
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Eastern Sugar Island north shore",
+      "role": "control",
+      "pixel_xy": [
+        5564,
+        1022
+      ],
+      "lonlat": [
+        -61.26555875206173,
+        45.22269289839831
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 17634,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17634,
+      "nearest_unfiltered_distance_guide_px": 1.1637371381157522,
+      "selected_distance_guide_px": 1.1637371381157522,
+      "guide_reference_pixel_xy": [
+        5551.902833951695,
+        1037.3879572000587
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Mars Point southern end",
+      "role": "control",
+      "pixel_xy": [
+        5837,
+        630
+      ],
+      "lonlat": [
+        -61.25904917137623,
+        45.244492884784655
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 7058,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7058,
+      "nearest_unfiltered_distance_guide_px": 0.7760544042222037,
+      "selected_distance_guide_px": 0.7760544042222037,
+      "guide_reference_pixel_xy": [
+        5825.350544409943,
+        624.4248151066713
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Forsters Island west end",
+      "role": "control",
+      "pixel_xy": [
+        4675,
+        369
+      ],
+      "lonlat": [
+        -61.333710035740744,
+        45.23541977751946
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 18378,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18378,
+      "nearest_unfiltered_distance_guide_px": 1.4143751860854543,
+      "selected_distance_guide_px": 1.4143751860854543,
+      "guide_reference_pixel_xy": [
+        4658.368128481612,
+        379.358722211211
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    41.98723140486355,
+    4.773632136102737,
+    3.3407458170148385,
+    21.236993629587204,
+    90.69472926582387,
+    37.15405393056582,
+    68.73058993374457,
+    5.7401227382610065
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

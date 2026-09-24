@@ -9,8 +9,8 @@ Westward series continuation through Canso, Chedabucto and the next mainland col
 | 111 | 175.21 | 10 | complete |
 | 103 | 174.43 | 4 | complete |
 | 104 | 51.33 | 6 | complete |
-| 105 | — | — | queued |
-| 106 | — | — | queued |
-| 107 | — | — | queued |
+| 105 | 31.72 | 7 | complete |
+| 106 | 42.68 | 7 | complete |
+| 107 | 69.78 | 7 | complete |
 
 The independent ground RMS ceiling is 100 m. Per-sheet results retain failures, companion metrics, bias and geographic limitations. Assessment completion does not imply geographic acceptance. Source imagery and raster reviews remain private; no production activation.

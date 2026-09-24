@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6013 x 4118 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 42.68 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          55,
+          120
+        ],
+        [
+          5900,
+          120
+        ],
+        [
+          5900,
+          4000
+        ],
+        [
+          55,
+          4000
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Roachvale and Salmon River, the northern Ragged Head shore fragment, Chedabucto Bay, Lundy and the lake interior, Bonnett Lake, Upper New Harbour and Charlo Cove. All lake islands, coastal water and parcel regions remain visible. No displaced inset identified."
+    }
+  ]
+}
