@@ -1,0 +1,45 @@
+{
+  "sheet": "075",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/075.pdf",
+    "pdf_sha256": "a848a7b71d3ebfb12c4692c9e44f93f20d6b65b7c60d3b734b6919647a416cc7",
+    "jpeg_sha256": "7506b480a09039ea82e71bbd5b8b0e5b6215a61e00c7177eacc39ccb9dfcee56",
+    "dimensions": [
+      5322,
+      3640
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 6,
+      "rms_ground_m": 43.62663046339071,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 43.63 m, median 41.54 m, P95 68.31 m and maximum 75.42 m; numerical bounds pass with regional evidence qualifications.",
+    "All six checks reuse physical lakes or islands with controls; substantial spatial correlation limits interpretation.",
+    "Northern edge, central connected-water systems, river corridors and changing Chezzetcook tidal shore remain unvalidated.",
+    "Generalized natural lake observations use 12 px working source uncertainty; coastal islands use 18 px."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 43.63 m, median 41.54 m, P95 68.31 m, maximum 75.42 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Porter Lake, Chezzetcook Lake, White Lake Wilderness, Gibraltar Station, Musquodoboit Harbour, Petpeswick, Head Jeddore, Salmon River Bridge, all inland lake systems, harbour islands and parcels. No displaced inset identified."
+  }
+}

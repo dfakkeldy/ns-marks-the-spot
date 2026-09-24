@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5322 x 3640 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 43.63 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          70,
+          115
+        ],
+        [
+          5200,
+          115
+        ],
+        [
+          5200,
+          3530
+        ],
+        [
+          70,
+          3530
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Porter Lake, Chezzetcook Lake, White Lake Wilderness, Gibraltar Station, Musquodoboit Harbour, Petpeswick, Head Jeddore, Salmon River Bridge, all inland lake systems, harbour islands and parcels. No displaced inset identified."
+    }
+  ]
+}

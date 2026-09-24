@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Seven controls span the southern region from southwest to southeast, with Cook Lake providing central-northern support; northern third unvalidated.",
+  "corrections": [
+    "Y Lake north and Rocky Lake south refined before fit"
+  ],
+  "not_adopted": [
+    "Q04 Y Lake west rejected before fit after both proposals: ambiguous generalized shoreline/outlet transition",
+    "River bends, changing or simplified connected lake shores and parcel geometry not forced"
+  ],
+  "limitations": [
+    "Five checks share lakes/islands with controls; McMullin is a separate nearby lake",
+    "Northern third and northwestern river/parcel region lack independent checks; central Musquodoboit corridor unvalidated",
+    "12 px working source uncertainty"
+  ]
+}

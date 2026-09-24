@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Cook Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3405,
+      1304
+    ],
+    "lonlat": [
+      -63.264565544683464,
+      45.00913027101231
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 128537,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128537,
+    "nearest_unfiltered_distance_guide_px": 1.2247019333126627,
+    "selected_distance_guide_px": 1.2247019333126627,
+    "guide_reference_pixel_xy": [
+      3385.863825982611,
+      1322.7828921730397
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Southwestern Rocky Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      339,
+      3441
+    ],
+    "lonlat": [
+      -63.39735355411829,
+      44.856709229713495
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 141820,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 283925,
+    "nearest_unfiltered_distance_guide_px": 1.4063555471221583,
+    "selected_distance_guide_px": 4.681595733449192,
+    "guide_reference_pixel_xy": [
+      342.58529715327313,
+      3471.6448644602206
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Clump Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      518,
+      3513
+    ],
+    "lonlat": [
+      -63.38430391762961,
+      44.85695193533706
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 128809,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128809,
+    "nearest_unfiltered_distance_guide_px": 0.6662275854058771,
+    "selected_distance_guide_px": 0.6662275854058771,
+    "guide_reference_pixel_xy": [
+      522.4979965692037,
+      3541.561991151888
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Y Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      523,
+      3371
+    ],
+    "lonlat": [
+      -63.387540621742886,
+      44.86362509188892
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 140978,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140978,
+    "nearest_unfiltered_distance_guide_px": 0.4992501078151191,
+    "selected_distance_guide_px": 0.4992501078151191,
+    "guide_reference_pixel_xy": [
+      532.4940642620786,
+      3395.928228312754
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Higgins Lake southwest corner of western lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      4357,
+      2840
+    ],
+    "lonlat": [
+      -63.16641296262468,
+      44.95828790078608
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 137027,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137027,
+    "nearest_unfiltered_distance_guide_px": 1.8546548385048955,
+    "selected_distance_guide_px": 1.8546548385048955,
+    "guide_reference_pixel_xy": [
+      4312.145883770485,
+      2848.955305733718
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Little Shaw Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5212,
+      3210
+    ],
+    "lonlat": [
+      -63.103867929919936,
+      44.95701791284726
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 142505,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142505,
+    "nearest_unfiltered_distance_guide_px": 2.5795352676334775,
+    "selected_distance_guide_px": 2.5795352676334775,
+    "guide_reference_pixel_xy": [
+      5154.408269225038,
+      3227.1611987383803
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Cousins Lake central island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      801,
+      2976
+    ],
+    "lonlat": [
+      -63.38111782384954,
+      44.8862312347324
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 146257,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 146257,
+    "nearest_unfiltered_distance_guide_px": 1.2124853427292386,
+    "selected_distance_guide_px": 1.2124853427292386,
+    "guide_reference_pixel_xy": [
+      803.4145724269911,
+      3001.8605920795817
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

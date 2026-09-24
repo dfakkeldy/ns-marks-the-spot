@@ -1,0 +1,45 @@
+{
+  "sheet": "073",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/073.pdf",
+    "pdf_sha256": "c430402f6af2f65b34dba551d197e4b6708e99a269c5b682c9402dacf03aefc6",
+    "jpeg_sha256": "605a04955a78839bff317555c278248a02a65d32952c56dbd4db6bcedbb66a7f",
+    "dimensions": [
+      5697,
+      3899
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 6,
+      "rms_ground_m": 46.73223917251022,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 46.73 m, median 31.54 m, P95 79.85 m and maximum 93.25 m; numerical bounds pass with sparse geographic evidence.",
+    "Only five distinct ponds control the frame. Five checks reuse control ponds; the sixth is a separate pond near the western control, leaving substantial spatial correlation.",
+    "Far northeastern, southwestern and southern edge regions and tidal river corridors remain unvalidated.",
+    "Thick generalized natural shorelines use 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 46.73 m, median 31.54 m, P95 79.85 m, maximum 93.25 m. 5 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains McPhee Corner, Admiral Rock, Brookfield, Brentwood, Alton, Stewiacke, Shubenacadie, Milford Station, West St Andrews, Lanesville, Wittenberg, Coldstream, the complete Shubenacadie and Stewiacke river corridors, all mapped ponds and parcels. No displaced inset identified."
+  }
+}

@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Western Burton pond northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      817,
+      2314
+    ],
+    "lonlat": [
+      -63.57964275677066,
+      45.230960416778856
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 133595,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133595,
+    "nearest_unfiltered_distance_guide_px": 0.43990182669402794,
+    "selected_distance_guide_px": 0.43990182669402794,
+    "guide_reference_pixel_xy": [
+      799.9677567512263,
+      2308.438718577265
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Northern pond east of Georgefield northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1809,
+      2870
+    ],
+    "lonlat": [
+      -63.497635628436136,
+      45.22469052003921
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 141685,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141685,
+    "nearest_unfiltered_distance_guide_px": 0.4259071794746481,
+    "selected_distance_guide_px": 0.4259071794746481,
+    "guide_reference_pixel_xy": [
+      1798.5807308426592,
+      2858.074901930755
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Southeastern pond east of Georgefield northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1969,
+      2965
+    ],
+    "lonlat": [
+      -63.48432882303594,
+      45.22323185086502
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 142617,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142617,
+    "nearest_unfiltered_distance_guide_px": 0.9965007927033335,
+    "selected_distance_guide_px": 0.9965007927033335,
+    "guide_reference_pixel_xy": [
+      1957.3512530067237,
+      2955.0674576925812
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Pond northwest of South Maitland northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2135,
+      2279
+    ],
+    "lonlat": [
+      -63.49186173115433,
+      45.258816991418826
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 141270,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141270,
+    "nearest_unfiltered_distance_guide_px": 0.16164698841337322,
+    "selected_distance_guide_px": 0.16164698841337322,
+    "guide_reference_pixel_xy": [
+      2129.9453198636184,
+      2278.1521178212715
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Irwin Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4206,
+      1737
+    ],
+    "lonlat": [
+      -63.36804597583411,
+      45.3257778230995
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 137446,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137446,
+    "nearest_unfiltered_distance_guide_px": 0.16430568005290141,
+    "selected_distance_guide_px": 0.16430568005290141,
+    "guide_reference_pixel_xy": [
+      4213.051061383099,
+      1737.156170072849
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Pond at southeast sheet corner northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5091,
+      3420
+    ],
+    "lonlat": [
+      -63.26215963721686,
+      45.26339816775067
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 139854,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139854,
+    "nearest_unfiltered_distance_guide_px": 1.0420113707978387,
+    "selected_distance_guide_px": 1.0420113707978387,
+    "guide_reference_pixel_xy": [
+      5095.0395689760335,
+      3414.928697539028
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Salter Head northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2133,
+      645
+    ],
+    "lonlat": [
+      -63.538151247917334,
+      45.335690726883264
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 3506,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3506,
+    "nearest_unfiltered_distance_guide_px": 0.7964508520490547,
+    "selected_distance_guide_px": 0.7964508520490547,
+    "guide_reference_pixel_xy": [
+      2121.06310814718,
+      656.20605332579
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

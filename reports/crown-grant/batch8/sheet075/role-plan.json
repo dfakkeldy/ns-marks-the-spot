@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Six controls span northwest, northeast, interior, southwestern Porter Lake and southeastern Jeddore Arm.",
+  "corrections": [
+    "Griswold southwestern bay and Jeddore island western tip refined before fit; Porter Lake islet added for southwestern coverage"
+  ],
+  "not_adopted": [
+    "C05 and Q05 pond north of Flat Lake rejected before fit: modern open-water configuration and missing historical island prevent confident endpoint identity",
+    "Chezzetcook tidal shore and complex connected waters not forced"
+  ],
+  "limitations": [
+    "All six checks share physical lakes/islands with controls, hence substantial correlation",
+    "Central connected-water systems, river corridors and northern edge unvalidated",
+    "12 px working lake uncertainty;18 px coastal island uncertainty"
+  ]
+}

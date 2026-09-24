@@ -1,0 +1,15 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Seven controls span southwestern ponds, northern Salter Head, eastern Irwin Lake and far southeastern pond; non-collinear regional support.",
+  "corrections": [],
+  "not_adopted": [
+    "Low estuary coast, tidal flats, altered river bends and Black Rock/Lockherds generalized shore not forced into point matches",
+    "Eastern Burton pond and southern Irwin Lake configuration not adopted because changed or generalized connections"
+  ],
+  "limitations": [
+    "Five checks reuse pond systems; Noel Shore is separate coastal check; Salter Head and Irwin control lack paired independent checks",
+    "Northeastern estuary shore, large eastern interior and central river corridor unvalidated",
+    "18 px working source uncertainty for thick generalized shorelines"
+  ]
+}

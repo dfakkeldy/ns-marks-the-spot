@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5697 x 3899 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 46.73 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          55,
+          115
+        ],
+        [
+          5570,
+          115
+        ],
+        [
+          5570,
+          3770
+        ],
+        [
+          55,
+          3770
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains McPhee Corner, Admiral Rock, Brookfield, Brentwood, Alton, Stewiacke, Shubenacadie, Milford Station, West St Andrews, Lanesville, Wittenberg, Coldstream, the complete Shubenacadie and Stewiacke river corridors, all mapped ponds and parcels. No displaced inset identified."
+    }
+  ]
+}
