@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Green Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      515,
+      1846
+    ],
+    "lonlat": [
+      -61.54513230985166,
+      45.104388773535945
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 16600,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16600,
+    "nearest_unfiltered_distance_guide_px": 2.555568103471157,
+    "selected_distance_guide_px": 2.555568103471157,
+    "guide_reference_pixel_xy": [
+      485.7258593951701,
+      1853.4591782313073
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Beach Point north tip of Goose Island",
+    "role": "proposal",
+    "pixel_xy": [
+      327,
+      930
+    ],
+    "lonlat": [
+      -61.5776807188054,
+      45.139154892330694
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 18390,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18390,
+    "nearest_unfiltered_distance_guide_px": 2.2432945305467364,
+    "selected_distance_guide_px": 2.2432945305467364,
+    "guide_reference_pixel_xy": [
+      295.7765897117206,
+      945.3697077597026
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Big Coddle Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      954,
+      742
+    ],
+    "lonlat": [
+      -61.54483110383757,
+      45.157636461425895
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 16212,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16212,
+    "nearest_unfiltered_distance_guide_px": 3.7916730577227007,
+    "selected_distance_guide_px": 3.7916730577227007,
+    "guide_reference_pixel_xy": [
+      929.12515803508,
+      756.1401413825806
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Small pond north of Second Lake, north end",
+    "role": "proposal",
+    "pixel_xy": [
+      3064,
+      164
+    ],
+    "lonlat": [
+      -61.43358351959439,
+      45.217226302379295
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 134412,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134412,
+    "nearest_unfiltered_distance_guide_px": 0.8945416688669701,
+    "selected_distance_guide_px": 0.8945416688669701,
+    "guide_reference_pixel_xy": [
+      3047.662170236348,
+      174.8282969564898
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Round pond west of Tor Bay, north edge",
+    "role": "proposal",
+    "pixel_xy": [
+      3000,
+      1004
+    ],
+    "lonlat": [
+      -61.4180781635016,
+      45.18007704703806
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 65994,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 65994,
+    "nearest_unfiltered_distance_guide_px": 2.434650081777287,
+    "selected_distance_guide_px": 2.434650081777287,
+    "guide_reference_pixel_xy": [
+      2969.4862348873867,
+      1032.3798248737585
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Eastern Sugar Island north shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5564,
+      1022
+    ],
+    "lonlat": [
+      -61.26555875206173,
+      45.22269289839831
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 17634,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17634,
+    "nearest_unfiltered_distance_guide_px": 1.1637371381157522,
+    "selected_distance_guide_px": 1.1637371381157522,
+    "guide_reference_pixel_xy": [
+      5551.902833951695,
+      1037.3879572000587
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Mars Point southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      5837,
+      630
+    ],
+    "lonlat": [
+      -61.25904917137623,
+      45.244492884784655
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 7058,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 7058,
+    "nearest_unfiltered_distance_guide_px": 0.7760544042222037,
+    "selected_distance_guide_px": 0.7760544042222037,
+    "guide_reference_pixel_xy": [
+      5825.350544409943,
+      624.4248151066713
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Forsters Island west end",
+    "role": "proposal",
+    "pixel_xy": [
+      4675,
+      369
+    ],
+    "lonlat": [
+      -61.333710035740744,
+      45.23541977751946
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 18378,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18378,
+    "nearest_unfiltered_distance_guide_px": 1.4143751860854543,
+    "selected_distance_guide_px": 1.4143751860854543,
+    "guide_reference_pixel_xy": [
+      4658.368128481612,
+      379.358722211211
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,201 @@
+{
+  "status": "Seven independent checks reserved and audited before first affine fit or score; paired lake endpoints have spatial correlation",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Wallace Lake western end",
+      "role": "check",
+      "pixel_xy": [
+        2125,
+        361
+      ],
+      "lonlat": [
+        -61.66450784245367,
+        45.51595557848013
+      ],
+      "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+      "reference_objectid": 136361,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136361,
+      "nearest_unfiltered_distance_guide_px": 0.5746987938425105,
+      "selected_distance_guide_px": 0.5746987938425105,
+      "guide_reference_pixel_xy": [
+        2170.334327356948,
+        406.46744403091725
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+      "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+    },
+    {
+      "id": "Q03",
+      "label": "Elongated lake northeast of Five Mile Lake, south tip",
+      "role": "check",
+      "pixel_xy": [
+        4850,
+        672
+      ],
+      "lonlat": [
+        -61.49495008178417,
+        45.5482610528781
+      ],
+      "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+      "reference_objectid": 133138,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133138,
+      "nearest_unfiltered_distance_guide_px": 0.6893126308582891,
+      "selected_distance_guide_px": 0.6893126308582891,
+      "guide_reference_pixel_xy": [
+        4917.645843549282,
+        699.2409107986605
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+      "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+    },
+    {
+      "id": "Q04",
+      "label": "Round Lake southeast corner",
+      "role": "check",
+      "pixel_xy": [
+        1135,
+        2890
+      ],
+      "lonlat": [
+        -61.66509829354516,
+        45.39367340316765
+      ],
+      "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+      "reference_objectid": 134411,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134411,
+      "nearest_unfiltered_distance_guide_px": 0.5397876887412111,
+      "selected_distance_guide_px": 0.5397876887412111,
+      "guide_reference_pixel_xy": [
+        1179.5929310865467,
+        2922.645506490022
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+      "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+    },
+    {
+      "id": "Q05",
+      "label": "Pond north of Grant Lake, south end",
+      "role": "check",
+      "pixel_xy": [
+        2162,
+        2543
+      ],
+      "lonlat": [
+        -61.61208020065856,
+        45.42544879326942
+      ],
+      "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+      "reference_objectid": 126221,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126221,
+      "nearest_unfiltered_distance_guide_px": 1.402895294487966,
+      "selected_distance_guide_px": 1.402895294487966,
+      "guide_reference_pixel_xy": [
+        2214.168148690951,
+        2568.8703369498253
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+      "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+    },
+    {
+      "id": "Q06",
+      "label": "McPherson Lake northern end",
+      "role": "check",
+      "pixel_xy": [
+        5022,
+        3359
+      ],
+      "lonlat": [
+        -61.42288120689174,
+        45.438408248337055
+      ],
+      "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+      "reference_objectid": 136231,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136231,
+      "nearest_unfiltered_distance_guide_px": 1.3345962506325342,
+      "selected_distance_guide_px": 1.3345962506325342,
+      "guide_reference_pixel_xy": [
+        5100.369752246712,
+        3371.2823534724303
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+      "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+    },
+    {
+      "id": "Q07",
+      "label": "Heays Lake east outlet",
+      "role": "check",
+      "pixel_xy": [
+        1756,
+        391
+      ],
+      "lonlat": [
+        -61.68664125247053,
+        45.508957312066975
+      ],
+      "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+      "reference_objectid": 132830,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 210171,
+      "nearest_unfiltered_distance_guide_px": 2.3685869287507946,
+      "selected_distance_guide_px": 9.751114052930815,
+      "guide_reference_pixel_xy": [
+        1789.3055837809807,
+        425.0843288851902
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+      "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+    },
+    {
+      "id": "Q08",
+      "label": "Square Lake southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        629,
+        2505
+      ],
+      "lonlat": [
+        -61.703762682657924,
+        45.401665513426416
+      ],
+      "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+      "reference_objectid": 139694,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139694,
+      "nearest_unfiltered_distance_guide_px": 0.7060512823090369,
+      "selected_distance_guide_px": 0.7060512823090369,
+      "guide_reference_pixel_xy": [
+        675.3025456082541,
+        2538.1098443657393
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+      "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+    }
+  ]
+}

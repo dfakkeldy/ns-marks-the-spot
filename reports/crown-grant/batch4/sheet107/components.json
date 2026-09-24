@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6025 x 4102 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 69.78 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          80,
+          110
+        ],
+        [
+          5905,
+          110
+        ],
+        [
+          5905,
+          3980
+        ],
+        [
+          80,
+          3980
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Seal and Coddle Harbours, Goose and Big Coddle Islands, New Harbour, Larrys River, Tor Bay, Forsters Island, Mars Point, all Sugar Islands, Green Island and Frying Pan, and the entire southern Atlantic frame. All inland lakes and parcel areas remain visible. No displaced inset identified."
+    }
+  ]
+}

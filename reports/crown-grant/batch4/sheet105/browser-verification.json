@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T15:59:03.951814+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "105",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6087,
+        5136
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6025,
+        4115
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Full original mapped frame visibly rendered; unsupported interior and lake/harbour regions retained."
+  ]
+}
