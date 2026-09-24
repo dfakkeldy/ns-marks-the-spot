@@ -1,0 +1,30 @@
+{
+  "sheet": "136",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08"
+  ],
+  "notes": [
+    "White Point control is the northern mainland shore tip on WACO20 feature11630, below two separately traced islets; Q06 is the larger northern island southern tip. Initial proposal on the small island was corrected before fitting.",
+    "Three western lake controls and four nearby checks form spatially correlated samples. Sheep Island has separate north control and south check.",
+    "North/South Pond marshes, dynamic lagoon barriers and northern mainland lack independent validation; full mapped frame and islands retained.",
+    "All revised native crosshairs inspected; working source uncertainty12px. Discovery guide supplied by adjacent137, never used as control evidence."
+  ]
+}

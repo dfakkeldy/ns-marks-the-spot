@@ -1,0 +1,146 @@
+[
+  {
+    "id": "Q01",
+    "label": "Blackrock Point east tip",
+    "role": "check",
+    "pixel_xy": [
+      3184,
+      2109
+    ],
+    "lonlat": [
+      -60.55872875862961,
+      47.0319845980803
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 2403,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3147.3281194512965,
+      2061.1702220293228
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "Q03",
+    "label": "Small pond southeast of largest lake northeast tip",
+    "role": "check",
+    "pixel_xy": [
+      2925,
+      3350
+    ],
+    "lonlat": [
+      -60.544035420723,
+      46.971476358784585
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 34158,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2891.3255556259537,
+      3323.855234863353
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "Q04",
+    "label": "Elongated southern pond northeast tip",
+    "role": "check",
+    "pixel_xy": [
+      2916,
+      3393
+    ],
+    "lonlat": [
+      -60.54353774510809,
+      46.96919603524315
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 33278,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2880.944998477353,
+      3371.16084849264
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "Q05",
+    "label": "Lower eastern pond south tip below Cape St Lawrence",
+    "role": "check",
+    "pixel_xy": [
+      2780,
+      2077
+    ],
+    "lonlat": [
+      -60.58537717578348,
+      47.02653832471678
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 125494,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2755.0135035176645,
+      2033.9246426344616
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "Q06",
+    "label": "Small western interior pond south tip",
+    "role": "check",
+    "pixel_xy": [
+      1170,
+      3353
+    ],
+    "lonlat": [
+      -60.65935331689023,
+      46.94100324655306
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 33315,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1140.1785787546542,
+      3340.052339517162
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "Q07",
+    "label": "Island off Cape North north tip",
+    "role": "check",
+    "pixel_xy": [
+      5148,
+      2714
+    ],
+    "lonlat": [
+      -60.41342445627104,
+      47.03698223141479
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 20783,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5103.219058766321,
+      2692.6520117475884
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  }
+]

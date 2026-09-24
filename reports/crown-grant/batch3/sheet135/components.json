@@ -1,0 +1,105 @@
+{
+  "source_frame": "Original 5746 x 3965 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      140,
+      160
+    ],
+    [
+      5630,
+      160
+    ],
+    [
+      5630,
+      3810
+    ],
+    [
+      140,
+      3810
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 92.12 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          140,
+          160
+        ],
+        [
+          5630,
+          160
+        ],
+        [
+          5630,
+          3810
+        ],
+        [
+          140,
+          3810
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "ebf6bf28d4215e0c074b230167a1b82322b7021ea7481b7ed2a340cab1a2baa0",
+      "holes_pixel_xy": [
+        [
+          [
+            4405,
+            195
+          ],
+          [
+            5595,
+            195
+          ],
+          [
+            5595,
+            1420
+          ],
+          [
+            4405,
+            1420
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "stpaul-inset",
+      "status": "RMS 94.09 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          4405,
+          195
+        ],
+        [
+          5595,
+          195
+        ],
+        [
+          5595,
+          1420
+        ],
+        [
+          4405,
+          1420
+        ]
+      ],
+      "fit_file": "fit-stpaul-similarity-01.json",
+      "fit_sha256": "e7ea3ae4897905ddf2f8a66d68275dea18693596c7f3eb0f3b46a6aad01f8448",
+      "matrix": [
+        [
+          4.621699865518116,
+          2.0733567359412604
+        ],
+        [
+          2.0733567359412604,
+          -4.621699865518116
+        ],
+        [
+          691152.0378142567,
+          5224705.030340664
+        ]
+      ]
+    }
+  ]
+}

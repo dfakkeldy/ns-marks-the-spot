@@ -1,0 +1,170 @@
+[
+  {
+    "id": "C01",
+    "label": "Cape St Lawrence northern tip",
+    "role": "control",
+    "pixel_xy": [
+      2740,
+      1680
+    ],
+    "lonlat": [
+      -60.59846964298761,
+      47.04190089163969
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 10488,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2696.638827997376,
+      1666.201979536796
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "C02",
+    "label": "Cape North northern mainland corner",
+    "role": "control",
+    "pixel_xy": [
+      5125,
+      2710
+    ],
+    "lonlat": [
+      -60.414356717939185,
+      47.0369030539153
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 8126,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5090.317802144389,
+      2689.538577118423
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "C03",
+    "label": "Largest southwestern lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      2830,
+      3230
+    ],
+    "lonlat": [
+      -60.55298636185173,
+      46.97515806536719
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 136420,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2800.414589734515,
+      3206.427293775254
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "C04",
+    "label": "Western interior northern pond north tip",
+    "role": "control",
+    "pixel_xy": [
+      1355,
+      3290
+    ],
+    "lonlat": [
+      -60.64907451887144,
+      46.94703969241751
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 131272,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1321.0763814277598,
+      3273.537154765683
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "C05",
+    "label": "Lowland Cove narrow coastal notch",
+    "role": "control",
+    "pixel_xy": [
+      2104,
+      2075
+    ],
+    "lonlat": [
+      -60.630121797280964,
+      47.01353639072179
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 11564,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2067.4746430337545,
+      2063.58500554855
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "C06",
+    "label": "Pollett Cove river mouth",
+    "role": "control",
+    "pixel_xy": [
+      527,
+      3719
+    ],
+    "lonlat": [
+      -60.69205075024409,
+      46.914519918664084
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 9818,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      510.16408890491584,
+      3694.365695229615
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  },
+  {
+    "id": "C07",
+    "label": "Round pond west of Brook south tip",
+    "role": "control",
+    "pixel_xy": [
+      2500,
+      2040
+    ],
+    "lonlat": [
+      -60.60433508853391,
+      47.02295270711061
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 32359,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2478.057000929839,
+      2008.7763825567672
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+    "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+  }
+]

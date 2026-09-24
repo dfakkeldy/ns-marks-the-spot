@@ -1,0 +1,263 @@
+{
+  "count": 8,
+  "rms_ground_m": 62.0424756404173,
+  "median_ground_m": 43.22381467544497,
+  "p95_ground_m": 109.11101762592997,
+  "max_ground_m": 119.12586034251731,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 4.796192400007001,
+  "mean_north_ground_m": 19.085374617674674,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Sheep Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        1311,
+        1174
+      ],
+      "lonlat": [
+        -60.48243423003374,
+        46.91126425729226
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 20918,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1308.722861754417,
+        1117.1439361404628
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.482317082736905,
+        46.91139462060169
+      ],
+      "error_ground_m": 17.01985024269369,
+      "east_ground_m": 8.924473370874376,
+      "north_ground_m": 14.492379974879025
+    },
+    {
+      "id": "Q02",
+      "label": "Western chain small northern pond south tip",
+      "role": "check",
+      "pixel_xy": [
+        470,
+        2738
+      ],
+      "lonlat": [
+        -60.50000027944916,
+        46.826109885275926
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 126263,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        443.79041200625943,
+        2701.9189589776797
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.498908692685816,
+        46.82579120719435
+      ],
+      "error_ground_m": 90.5120240094107,
+      "east_ground_m": 83.29118493975092,
+      "north_ground_m": -35.42604976020256
+    },
+    {
+      "id": "Q03",
+      "label": "Western chain central rounded pond south tip",
+      "role": "check",
+      "pixel_xy": [
+        478,
+        2834
+      ],
+      "lonlat": [
+        -60.495962082040066,
+        46.8216180636936
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 126183,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        463.95985390170245,
+        2810.5526136526605
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.49601590794481,
+        46.821555710725704
+      ],
+      "error_ground_m": 8.057166998539143,
+      "east_ground_m": -4.107392699533189,
+      "north_ground_m": -6.931613466875497
+    },
+    {
+      "id": "Q04",
+      "label": "Western horizontal pond east tip",
+      "role": "check",
+      "pixel_xy": [
+        635,
+        2800
+      ],
+      "lonlat": [
+        -60.4869201925597,
+        46.82573957587017
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 126265,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        614.4264078154229,
+        2775.17282981507
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.48655937851084,
+        46.825787161270135
+      ],
+      "error_ground_m": 28.034765522534332,
+      "east_ground_m": 27.531143595379138,
+      "north_ground_m": 5.29001041909126
+    },
+    {
+      "id": "Q05",
+      "label": "Small pond southeast of Ellen Brook kidney lake east tip",
+      "role": "check",
+      "pixel_xy": [
+        650,
+        2590
+      ],
+      "lonlat": [
+        -60.490149078063695,
+        46.83532211731558
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 310669,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        642.7741034839419,
+        2570.5915693852585
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.49075513095935,
+        46.835608097089185
+      ],
+      "error_ground_m": 56.11071109765626,
+      "east_ground_m": -46.23514621559804,
+      "north_ground_m": 31.791872456760316
+    },
+    {
+      "id": "Q06",
+      "label": "Island north of White Point south tip",
+      "role": "check",
+      "pixel_xy": [
+        2876,
+        2318
+      ],
+      "lonlat": [
+        -60.35099651388674,
+        46.885804841075654
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 22162,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2860.8370337979286,
+        2277.932575816987
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.3513366304806,
+        46.88594659411612
+      ],
+      "error_ground_m": 30.33691825323368,
+      "east_ground_m": -25.9229021730419,
+      "north_ground_m": 15.758545365302034
+    },
+    {
+      "id": "Q07",
+      "label": "East coastal cape below White Point",
+      "role": "check",
+      "pixel_xy": [
+        3025,
+        2600
+      ],
+      "lonlat": [
+        -60.33525607157165,
+        46.87464791532894
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 2207,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2987.0091803870164,
+        2576.243486698135
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.33462304315888,
+        46.87562763241346
+      ],
+      "error_ground_m": 119.12586034251731,
+      "east_ground_m": 48.25721656884113,
+      "north_ground_m": 108.91378081479361
+    },
+    {
+      "id": "Q08",
+      "label": "Small stream mouth south of Cape Egmont",
+      "role": "check",
+      "pixel_xy": [
+        3150,
+        3410
+      ],
+      "lonlat": [
+        -60.30584411767474,
+        46.84066297209217
+      ],
+      "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+      "reference_objectid": 11511,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3126.087265136186,
+        3392.0331896218704
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+      "review": "Final correspondence audited before fitting; check locations excluded from fitting.",
+      "predicted_lonlat": [
+        -60.30654374982936,
+        46.84083203043916
+      ],
+      "error_ground_m": 56.58154599241294,
+      "east_ground_m": -53.36903818661643,
+      "north_ground_m": 18.7940711376492
+    }
+  ],
+  "fit_sha256": "098d6abb49eb7b270ba0cbf8e4013e3df72ee475b0f80c5404aef6fc04d52718",
+  "checks_sha256": "fab4d4914b1cebae8172df8b46ab11ae26fc40702219c750bde338c550f366e4",
+  "status": "Independent physical checks selected and audited before first frozen affine score"
+}

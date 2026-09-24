@@ -1,0 +1,178 @@
+[
+  {
+    "id": "Q01",
+    "label": "Sheep Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1308,
+      1168
+    ],
+    "lonlat": [
+      -60.48243423003374,
+      46.91126425729226
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 20918,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1308.722861754417,
+      1117.1439361404628
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Western chain small northern pond south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      475,
+      2740
+    ],
+    "lonlat": [
+      -60.50000027944916,
+      46.826109885275926
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126263,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      443.79041200625943,
+      2701.9189589776797
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Western chain central rounded pond south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      478,
+      2834
+    ],
+    "lonlat": [
+      -60.495962082040066,
+      46.8216180636936
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126183,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      463.95985390170245,
+      2810.5526136526605
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Western horizontal pond east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      634,
+      2808
+    ],
+    "lonlat": [
+      -60.4869201925597,
+      46.82573957587017
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126265,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      614.4264078154229,
+      2775.17282981507
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Small pond southeast of Ellen Brook kidney lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      648,
+      2586
+    ],
+    "lonlat": [
+      -60.490149078063695,
+      46.83532211731558
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 310669,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      642.7741034839419,
+      2570.5915693852585
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Island north of White Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2900,
+      2320
+    ],
+    "lonlat": [
+      -60.350593631016515,
+      46.88597813943285
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 16918,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2867.4564182647155,
+      2276.544742956059
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "East coastal cape below White Point",
+    "role": "proposal",
+    "pixel_xy": [
+      3020,
+      2600
+    ],
+    "lonlat": [
+      -60.33525002424695,
+      46.87466746556153
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 2207,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2987.233751376276,
+      2575.889324491378
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Coastal shoulder south of Cape Egmont",
+    "role": "proposal",
+    "pixel_xy": [
+      3150,
+      3410
+    ],
+    "lonlat": [
+      -60.30584411767474,
+      46.84066297209217
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 11511,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3126.087265136186,
+      3392.0331896218704
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

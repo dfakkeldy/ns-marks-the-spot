@@ -1,0 +1,139 @@
+{
+  "count": 4,
+  "rms_ground_m": 94.09306927755449,
+  "median_ground_m": 83.27812278535674,
+  "p95_ground_m": 131.96081317670772,
+  "max_ground_m": 140.32878326168534,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 37.34020195763133,
+  "mean_north_ground_m": 63.0651532434735,
+  "points": [
+    {
+      "id": "SQ02",
+      "label": "Trinity Cove inner eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        4805,
+        780
+      ],
+      "lonlat": [
+        -60.1634344163087,
+        47.19738810526526
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 22017,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4810.799616442993,
+        807.8022377766902
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit.",
+      "predicted_lonlat": [
+        -60.16172963513301,
+        47.19788116009002
+      ],
+      "error_ground_m": 140.32878326168534,
+      "east_ground_m": 129.17935001897476,
+      "north_ground_m": 54.81663014433
+    },
+    {
+      "id": "SQ03",
+      "label": "St Paul western central north cape",
+      "role": "check",
+      "pixel_xy": [
+        4901,
+        595
+      ],
+      "lonlat": [
+        -60.16073690540792,
+        47.207008964269775
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 17109,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4917.000719622243,
+        631.7607108546654
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit.",
+      "predicted_lonlat": [
+        -60.160431143560224,
+        47.20733471541304
+      ],
+      "error_ground_m": 42.99031860965539,
+      "east_ground_m": 23.164909011328934,
+      "north_ground_m": 36.21539016297538
+    },
+    {
+      "id": "SQ04",
+      "label": "St Paul west coast southwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        4640,
+        900
+      ],
+      "lonlat": [
+        -60.168639080767676,
+        47.189279897679825
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 22584,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4682.6233769525425,
+        941.6442036096705
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit.",
+      "predicted_lonlat": [
+        -60.16893336531828,
+        47.18998980115207
+      ],
+      "error_ground_m": 82.0139295422121,
+      "east_ground_m": -22.302641201094342,
+      "north_ground_m": 78.9232338060864
+    },
+    {
+      "id": "SQ05",
+      "label": "Northeastern neck west inner corner",
+      "role": "check",
+      "pixel_xy": [
+        5170,
+        549
+      ],
+      "lonlat": [
+        -60.145176039494466,
+        47.21314106185758
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 20920,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5167.1826156075695,
+        588.0269051212817
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit.",
+      "predicted_lonlat": [
+        -60.14492100727484,
+        47.213881384082995
+      ],
+      "error_ground_m": 84.54231602850138,
+      "east_ground_m": 19.319190001315945,
+      "north_ground_m": 82.30535886050224
+    }
+  ],
+  "fit_sha256": "e7ea3ae4897905ddf2f8a66d68275dea18693596c7f3eb0f3b46a6aad01f8448",
+  "checks_sha256": "45d7eeefee2f0401cb3b55896c453a4dc741e822aa6ae8fe61df8424c300fbee",
+  "status": "Independent physical checks selected and audited before first frozen component score"
+}
