@@ -1,0 +1,16 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Seven lake controls span northwest, western interior, south and eastern interior with non-collinear support.",
+  "corrections": [
+    "Cranberry northwest shore, Melville southeast, Camp south and Cranberry south refined before any fit/score"
+  ],
+  "not_adopted": [
+    "Dam Lake, complex OBrien shoreline/islands and generalized connections in the large central/northeastern lake systems not forced into stable matches"
+  ],
+  "limitations": [
+    "All seven checks share lake systems with controls; substantial spatial correlation remains",
+    "Far northeastern lake complexes, central connected-water interiors and far western Lake Charlotte corridor lack accepted independent validation",
+    "Natural generalized lake observations use12px working source uncertainty"
+  ]
+}

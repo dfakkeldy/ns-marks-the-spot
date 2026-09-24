@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6066 x 4089 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 73.84 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          25,
+          110
+        ],
+        [
+          5960,
+          110
+        ],
+        [
+          5960,
+          3980
+        ],
+        [
+          25,
+          3980
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Mooseland, Tangier Grand Lake Wilderness, Lake Charlotte and Ship Harbour Lake corridors, Maple Hill, Melville, Big Ash, Little Kearney, Camp, southern Rocky and Cranberry lakes, all large central/northeastern connected lake systems, islands and inland parcels. No displaced inset identified."
+    }
+  ]
+}

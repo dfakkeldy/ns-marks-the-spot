@@ -4,9 +4,9 @@ Continuation through the southern eastern mainland and next western column. Cont
 
 | Sheet | Main RMS (m) | Independent checks | Assessment |
 |---|---:|---:|---|
-| 083 | — | — | queued |
-| 084 | — | — | queued |
-| 076 | — | — | queued |
+| 083 | 73.84 | 7 | complete |
+| 084 | 51.02 | 9 | complete |
+| 076 | 131.83 | 7 | complete |
 | 075 | — | — | queued |
 | 074 | — | — | queued |
 | 073 | — | — | queued |

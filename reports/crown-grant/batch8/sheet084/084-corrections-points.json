@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C08",
+    "label": "Stoney Island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5688,
+      2122
+    ],
+    "lonlat": [
+      -62.59779593813437,
+      44.79312319696876
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 22086,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22086,
+    "nearest_unfiltered_distance_guide_px": 1.1650245976534936,
+    "selected_distance_guide_px": 1.1650245976534936,
+    "guide_reference_pixel_xy": [
+      5701.980787137989,
+      2100.5643469279166
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

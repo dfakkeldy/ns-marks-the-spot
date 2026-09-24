@@ -1,0 +1,321 @@
+{
+  "count": 9,
+  "rms_ground_m": 51.01750131888178,
+  "median_ground_m": 48.72116470514101,
+  "p95_ground_m": 73.76009454616633,
+  "max_ground_m": 77.27170503319049,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -10.39227259944858,
+  "mean_north_ground_m": -1.4789910643044928,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Mussell Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2187,
+        894
+      ],
+      "lonlat": [
+        -62.83044791040624,
+        44.78534696918636
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 11049,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 11049,
+      "nearest_unfiltered_distance_guide_px": 0.4368901507517724,
+      "selected_distance_guide_px": 0.4368901507517724,
+      "guide_reference_pixel_xy": [
+        2185.133838671434,
+        873.4158848564839
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.83028083971094,
+        44.78589584867629
+      ],
+      "error_ground_m": 62.41227242440342,
+      "east_ground_m": 13.221962688076221,
+      "north_ground_m": 60.99566748428176
+    },
+    {
+      "id": "Q02",
+      "label": "Cable Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        2240,
+        2148
+      ],
+      "lonlat": [
+        -62.79760219467239,
+        44.733923618124976
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 21162,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 21162,
+      "nearest_unfiltered_distance_guide_px": 1.6713987948320561,
+      "selected_distance_guide_px": 1.6713987948320561,
+      "guide_reference_pixel_xy": [
+        2228.0953970473493,
+        2119.405442076153
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.79784709807121,
+        44.7340467801001
+      ],
+      "error_ground_m": 23.741174151948545,
+      "east_ground_m": -19.398978863126775,
+      "north_ground_m": 13.686598159554125
+    },
+    {
+      "id": "Q03",
+      "label": "Western Long Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        170,
+        2802
+      ],
+      "lonlat": [
+        -62.90287444882892,
+        44.67220979459386
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 19223,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19223,
+      "nearest_unfiltered_distance_guide_px": 0.37216183747622067,
+      "selected_distance_guide_px": 0.37216183747622067,
+      "guide_reference_pixel_xy": [
+        132.30563457513927,
+        2748.212348627858
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.90283267816585,
+        44.67159416067862
+      ],
+      "error_ground_m": 68.4926788156301,
+      "east_ground_m": 3.3122440947746465,
+      "north_ground_m": -68.41254337033301
+    },
+    {
+      "id": "Q04",
+      "label": "Egg Island main body southern shore",
+      "role": "check",
+      "pixel_xy": [
+        692,
+        3204
+      ],
+      "lonlat": [
+        -62.862770616033,
+        44.66416645903588
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 18030,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18030,
+      "nearest_unfiltered_distance_guide_px": 0.12143225669336122,
+      "selected_distance_guide_px": 0.12143225669336122,
+      "guide_reference_pixel_xy": [
+        658.1095472296583,
+        3152.9476053682156
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.86310674881888,
+        44.66351379094556
+      ],
+      "error_ground_m": 77.27170503319049,
+      "east_ground_m": -26.657669292504092,
+      "north_ground_m": -72.52782270706794
+    },
+    {
+      "id": "Q05",
+      "label": "Friar Island southwest shore",
+      "role": "check",
+      "pixel_xy": [
+        2602,
+        2822
+      ],
+      "lonlat": [
+        -62.76036560858636,
+        44.71154873775805
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 18559,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18559,
+      "nearest_unfiltered_distance_guide_px": 0.7414777366918732,
+      "selected_distance_guide_px": 0.7414777366918732,
+      "guide_reference_pixel_xy": [
+        2587.680319941952,
+        2798.7051203455776
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.761047161954004,
+        44.711792533252925
+      ],
+      "error_ground_m": 60.42145769438572,
+      "east_ground_m": -54.00704551801647,
+      "north_ground_m": 27.092279053806852
+    },
+    {
+      "id": "Q06",
+      "label": "Charles Island Borgle Point eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        3668,
+        1882
+      ],
+      "lonlat": [
+        -62.72055618914306,
+        44.76917081254915
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 17217,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17217,
+      "nearest_unfiltered_distance_guide_px": 0.3513880372751494,
+      "selected_distance_guide_px": 0.3513880372751494,
+      "guide_reference_pixel_xy": [
+        3674.953512079024,
+        1859.6517006661743
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.720968023233,
+        44.76928165448561
+      ],
+      "error_ground_m": 34.85119959700128,
+      "east_ground_m": -32.60186739855027,
+      "north_ground_m": 12.317644071711412
+    },
+    {
+      "id": "Q07",
+      "label": "Tangier Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4543,
+        2530
+      ],
+      "lonlat": [
+        -62.65474955085841,
+        44.75655415646362
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 22141,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22141,
+      "nearest_unfiltered_distance_guide_px": 0.8306238049543229,
+      "selected_distance_guide_px": 0.8306238049543229,
+      "guide_reference_pixel_xy": [
+        4542.796299642534,
+        2509.2363107798155
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.65491701527302,
+        44.75671124136363
+      ],
+      "error_ground_m": 21.921400757351652,
+      "east_ground_m": -13.259797647244778,
+      "north_ground_m": 17.4563907357317
+    },
+    {
+      "id": "Q08",
+      "label": "Stoney Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5703,
+        2293
+      ],
+      "lonlat": [
+        -62.59337157886548,
+        44.78638914462369
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 22086,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22086,
+      "nearest_unfiltered_distance_guide_px": 1.0194240742947895,
+      "selected_distance_guide_px": 1.0194240742947895,
+      "guide_reference_pixel_xy": [
+        5709.847634224279,
+        2264.43365940894
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.59286532706942,
+        44.7861396705941
+      ],
+      "error_ground_m": 48.72116470514101,
+      "east_ground_m": 40.06456170460654,
+      "north_ground_m": -27.723325659870838
+    },
+    {
+      "id": "Q09",
+      "label": "Bald Rock northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1683,
+        3120
+      ],
+      "lonlat": [
+        -62.80745236937938,
+        44.68355698738216
+      ],
+      "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+      "reference_objectid": 23573,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23573,
+      "nearest_unfiltered_distance_guide_px": 1.0027179441337146,
+      "selected_distance_guide_px": 1.0027179441337146,
+      "guide_reference_pixel_xy": [
+        1647.079234776902,
+        3088.602967659477
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/coast context and paired original native crosshairs inspected before first fit or score; original island name does not dictate modern feature code.",
+      "predicted_lonlat": [
+        -62.80750539534229,
+        44.68377119717862
+      ],
+      "error_ground_m": 24.172547515229247,
+      "east_ground_m": -4.203863163052253,
+      "north_ground_m": 23.804192653445487
+    }
+  ],
+  "fit_sha256": "572b91d07776e16b73e2dbf09ea6f66360db206ce7a7d243d26b9421b1463de7",
+  "checks_sha256": "1191b1c736a360cad0d31e1601f09feb7dc77077389e114506408f7ae123d760",
+  "status": "Nine excluded coastal checks reserved before first affine fit; eight share islands with controls and Bald Rock is a fresh island"
+}
