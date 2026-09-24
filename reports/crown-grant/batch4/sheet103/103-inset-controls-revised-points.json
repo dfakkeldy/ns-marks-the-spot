@@ -1,0 +1,46 @@
+[
+  {
+    "id": "IC02",
+    "label": "Coastal creek north of Georgeville at shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1320,
+      2305
+    ],
+    "lonlat": [
+      -62.07291795731756,
+      45.80048614531299
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 13223,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1251.6348701037932,
+      2344.750063111831
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC03",
+    "label": "Morar northern coastal creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      1870,
+      3693
+    ],
+    "lonlat": [
+      -62.00584761876664,
+      45.84498313757772
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 4499,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1725.187873993651,
+      3669.8636471753125
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

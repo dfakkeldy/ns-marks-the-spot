@@ -1,15 +1,16 @@
 {
-  "verified_at_utc": "2026-09-24T14:50:04.919256+00:00",
-  "sheets": 3,
+  "verified_at_utc": "2026-09-24T15:47:32.983601+00:00",
+  "sheets": 5,
   "planned_batch_sheets": 8,
   "batch_assessment_complete": false,
-  "score_replays": 4,
+  "score_replays": 7,
   "regressions": "4 existing scorer/pixel-frame tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 1,
+  "main_rms_pass_count": 2,
   "main_rms_fail_sheets": [
     "112",
-    "111"
+    "111",
+    "103"
   ],
   "all_components_coverage_passed": true,
   "all_source_fit_component_raster_hashes_match": true,
@@ -106,6 +107,52 @@
           "independent_checks": 10,
           "rms_ground_m": 175.20614129354308,
           "rms_gate_passed": false,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "103",
+      "components": [
+        {
+          "component": "main",
+          "controls": 5,
+          "independent_checks": 4,
+          "rms_ground_m": 174.4338699571609,
+          "rms_gate_passed": false,
+          "fit": "fit-main-affine-01.json",
+          "checks": "checks-main-affine-01.json",
+          "scores": "scores-main-affine-01.json"
+        },
+        {
+          "component": "coastal-inset",
+          "controls": 2,
+          "independent_checks": 2,
+          "rms_ground_m": 89.34312565496919,
+          "rms_gate_passed": true,
+          "fit": "fit-coastal-similarity-01.json",
+          "checks": "checks-coastal-similarity-01.json",
+          "scores": "scores-coastal-similarity-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "104",
+      "components": [
+        {
+          "component": "main",
+          "controls": 6,
+          "independent_checks": 6,
+          "rms_ground_m": 51.32587817095849,
+          "rms_gate_passed": true,
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"

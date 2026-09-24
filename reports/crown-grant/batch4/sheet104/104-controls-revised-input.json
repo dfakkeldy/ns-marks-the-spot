@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Pomquet Island north tip",
+    [
+      1940,
+      768
+    ],
+    [
+      1920,
+      778
+    ],
+    "WACOIS"
+  ],
+  [
+    "C02",
+    "Bowman Head north tip",
+    [
+      3000,
+      1385
+    ],
+    [
+      2963,
+      1390
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Cape Jack north tip",
+    [
+      4670,
+      1060
+    ],
+    [
+      4625,
+      1083
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "William Lake south tip",
+    [
+      2020,
+      3335
+    ],
+    [
+      1950,
+      3350
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Tracadie Lake northwest tip",
+    [
+      3601,
+      2220
+    ],
+    [
+      3550,
+      2238
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Pomquet River branch junction at Pomquet Forks",
+    [
+      642,
+      1792
+    ],
+    [
+      594,
+      1788
+    ],
+    "WARV50"
+  ]
+]

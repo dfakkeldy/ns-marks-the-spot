@@ -1,0 +1,25 @@
+{
+  "sheet": "103",
+  "component": "coastal-inset",
+  "stage": "Before first inset fit or score",
+  "model": "similarity",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "IC02",
+    "IC03"
+  ],
+  "checks": [
+    "IQ01",
+    "IQ03"
+  ],
+  "rejected_before_fit": {
+    "IC01": "Doctors Brook/Malignant Cove outlet through coastal barrier and obscured historical annotations leave homologous mouth unresolved",
+    "IQ02": "South Malignant Cove outlet through barrier unresolved; initial reference was a nearby open-beach segment",
+    "IQ04": "Southern Morar assumed creek is not securely identifiable on original; no parcel-line surrogate adopted"
+  },
+  "notes": [
+    "Two controls only support constrained similarity; zero fitting residual is a mathematical consequence, not accuracy evidence.",
+    "Two independent checks are concentrated in the southern coastal corridor. Northern Doctors Brook/Malignant Cove section and strip interiors remain unvalidated extrapolation, even if RMS passes. Full inset imagery remains retained.",
+    "Printed line is Magnetic1963, not a fixed true-north frame. Named Doctors Brook location used only for discovery; no named location or printed boundary used as a control."
+  ]
+}
