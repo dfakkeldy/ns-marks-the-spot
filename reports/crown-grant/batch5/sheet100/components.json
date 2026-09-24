@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6018 x 4108 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 39.19 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          80,
+          105
+        ],
+        [
+          5905,
+          105
+        ],
+        [
+          5905,
+          3995
+        ],
+        [
+          80,
+          3995
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Lochaber and South River Lake, Copper Lake, Goshen and Argyle, Eight Island Lake, Giants Lake, the western St Marys River corridor, Melrose, Country Harbour Lake, Salmon River Lake, Mahers/Sheas Lake and every mapped lake, island and parcel region. No displaced inset identified."
+    }
+  ]
+}

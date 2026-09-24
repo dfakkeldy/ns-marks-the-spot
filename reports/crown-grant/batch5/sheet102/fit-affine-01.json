@@ -1,0 +1,205 @@
+{
+  "sheet": "102",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.616115544799605,
+      1.905825521994058
+    ],
+    [
+      1.9516986967678915,
+      -4.615279485613582
+    ],
+    [
+      581680.5444298511,
+      4991998.591473727
+    ]
+  ],
+  "source_sha256": "5deecf284266d3f5d3fa1329e990348287330ecabaeca2f7eb2e08726b84896a",
+  "source_dimensions": [
+    6022,
+    4091
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Wedge Island north tip",
+      "role": "control",
+      "pixel_xy": [
+        714,
+        1918
+      ],
+      "lonlat": [
+        -61.87437162277404,
+        45.00838569146991
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 22393,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22393,
+      "nearest_unfiltered_distance_guide_px": 1.6503392899500906,
+      "selected_distance_guide_px": 1.6503392899500906,
+      "guide_reference_pixel_xy": [
+        716.6443905295455,
+        1871.13999842247
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Walter Island north tip",
+      "role": "control",
+      "pixel_xy": [
+        1898,
+        1124
+      ],
+      "lonlat": [
+        -61.82289436034024,
+        45.06071123836797
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 22384,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22384,
+      "nearest_unfiltered_distance_guide_px": 0.646205642244924,
+      "selected_distance_guide_px": 0.646205642244924,
+      "guide_reference_pixel_xy": [
+        1900.3959445243236,
+        1098.510695276782
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Gillen Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        1322,
+        1210
+      ],
+      "lonlat": [
+        -61.85557838723522,
+        45.0485642197089
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 124890,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124890,
+      "nearest_unfiltered_distance_guide_px": 1.7604112379686159,
+      "selected_distance_guide_px": 1.7604112379686159,
+      "guide_reference_pixel_xy": [
+        1322.750845517323,
+        1154.8167305229
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Bickerton Island south end",
+      "role": "control",
+      "pixel_xy": [
+        3817,
+        1322
+      ],
+      "lonlat": [
+        -61.70505907600987,
+        45.084901891585815
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 17529,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17529,
+      "nearest_unfiltered_distance_guide_px": 1.8731508881458732,
+      "selected_distance_guide_px": 1.8731508881458732,
+      "guide_reference_pixel_xy": [
+        3821.0500999310752,
+        1297.5511235877639
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Saladin Point on Harbour Island, south end",
+      "role": "control",
+      "pixel_xy": [
+        5730,
+        1078
+      ],
+      "lonlat": [
+        -61.59854056945939,
+        45.126285603186055
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 18270,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18270,
+      "nearest_unfiltered_distance_guide_px": 0.43409889607551444,
+      "selected_distance_guide_px": 0.43409889607551444,
+      "guide_reference_pixel_xy": [
+        5716.566219819477,
+        1072.0166314929957
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Small lake northwest of Harpellville, south tip",
+      "role": "control",
+      "pixel_xy": [
+        2687,
+        340
+      ],
+      "lonlat": [
+        -61.79573238697981,
+        45.107102335625605
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 134679,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134679,
+      "nearest_unfiltered_distance_guide_px": 0.8900260795951969,
+      "selected_distance_guide_px": 0.8900260795951969,
+      "guide_reference_pixel_xy": [
+        2679.1284845060436,
+        303.18057454458904
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    18.38689674921211,
+    71.98454034373981,
+    53.813297579492236,
+    39.53717366296904,
+    23.178866717349933,
+    10.44320561548198
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

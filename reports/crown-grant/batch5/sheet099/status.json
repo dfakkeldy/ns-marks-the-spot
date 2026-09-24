@@ -1,0 +1,45 @@
+{
+  "sheet": "099",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric pass with sparse, correlated regional validation; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/099.pdf",
+    "pdf_sha256": "d73504b06243deba3542f060e132d76f9dafedc59fa9cd5a8c23ead86b077f42",
+    "jpeg_sha256": "d9c1d5ba7707c484b16f8f370ae505be10908588e55e23173979cc0cc0a6917e",
+    "dimensions": [
+      6035,
+      4111
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 6,
+      "rms_ground_m": 49.56441473412552,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 49.56 m, median 48.84 m, P95 61.52 m and maximum 65.31 m. Numerical bounds pass; the sparse and correlated sample limits geographic conclusions.",
+    "Indian and Boyd Lakes and both harbour islands have control/check endpoint pairs. Beaver Meadow and Ireland pond observations also cluster locally; these are not six independent geographic regions.",
+    "The eastern and southeastern river valleys, far northern inland band, Lochaber shores and many parcel interiors remain insufficiently validated. Low source contrast and parcel-line overlap prevented reliable observations in several areas.",
+    "The river bend is one control with no fresh local river check. Its generalized main-bank definition uses 18 px source uncertainty, as do Indian Lake's south lobe and the larger harbour island's broad south shore."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 49.56 m, median 48.84 m, P95 61.52 m, maximum 65.31 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Antigonish and its harbour islands, James and West Rivers, Beaver Mountain and Beaver Meadow, Indian and McEachern Lakes, Keppoch, Salt Springs, St Andrews, the interior valleys, Lochaber's northern reach and all eastern and southern parcel regions. No displaced inset identified. Printed features at the native sheet edges are retained."
+  }
+}

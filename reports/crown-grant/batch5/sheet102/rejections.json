@@ -1,0 +1,17 @@
+{
+  "stage": "before first fit or score",
+  "rejected": [
+    {
+      "id": "C04",
+      "reason": "Historical southwest corner of Holland Harbour Island is rounded in modern reference, with no precise shared corner established."
+    },
+    {
+      "id": "C06",
+      "reason": "Country Harbour Head has multiple generalized historical south-coast notches; the proposed corner does not unambiguously match the smoother modern outline."
+    }
+  ],
+  "notes": [
+    "Saladin Point is on Harbour Island. Initial mainland-code query failed the distance guard; correct WACOIS10 island geometry independently inspected.",
+    "Holland Head barrier and Tobacco Island northern connection changed and were not proposed as control points."
+  ]
+}

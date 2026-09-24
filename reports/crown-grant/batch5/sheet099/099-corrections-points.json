@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C04",
+    "label": "Western small pond south of Ireland, south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1279,
+      3595
+    ],
+    "lonlat": [
+      -62.076818842762975,
+      45.432804795219454
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 125246,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125246,
+    "nearest_unfiltered_distance_guide_px": 0.5392334118719563,
+    "selected_distance_guide_px": 0.5392334118719563,
+    "guide_reference_pixel_xy": [
+      1250.8616460228804,
+      3564.5211821653647
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "River bend southwest of Addington Forks, outer south bank",
+    "role": "proposal",
+    "pixel_xy": [
+      2335,
+      1004
+    ],
+    "lonlat": [
+      -62.075841381441684,
+      45.55807217342786
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 173353,
+    "reference_feature_code": "WARV10",
+    "nearest_unfiltered_feature_code": "WARV10",
+    "nearest_unfiltered_objectid": 173353,
+    "nearest_unfiltered_distance_guide_px": 0.10701067401570072,
+    "selected_distance_guide_px": 0.10701067401570072,
+    "guide_reference_pixel_xy": [
+      2304.104060126643,
+      977.0249554482289
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

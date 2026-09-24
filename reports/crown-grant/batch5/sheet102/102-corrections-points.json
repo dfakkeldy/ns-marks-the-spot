@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C02",
+    "label": "Walter Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1898,
+      1124
+    ],
+    "lonlat": [
+      -61.82289436034024,
+      45.06071123836797
+    ],
+    "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+    "reference_objectid": 22384,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22384,
+    "nearest_unfiltered_distance_guide_px": 0.646205642244924,
+    "selected_distance_guide_px": 0.646205642244924,
+    "guide_reference_pixel_xy": [
+      1900.3959445243236,
+      1098.510695276782
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

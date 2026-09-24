@@ -1,0 +1,226 @@
+[
+  {
+    "id": "C01",
+    "label": "Indian Lake north lobe",
+    "role": "control",
+    "pixel_xy": [
+      170,
+      1153
+    ],
+    "lonlat": [
+      -62.20000070395176,
+      45.516810656975295
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 137547,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137547,
+    "nearest_unfiltered_distance_guide_px": 0.8728106818918316,
+    "selected_distance_guide_px": 0.8728106818918316,
+    "guide_reference_pixel_xy": [
+      160.84627552703023,
+      1104.1408333847066
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "C02",
+    "label": "McEachern Lake south outlet",
+    "role": "control",
+    "pixel_xy": [
+      623,
+      1809
+    ],
+    "lonlat": [
+      -62.158376168810065,
+      45.49702722569665
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 136299,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136299,
+    "nearest_unfiltered_distance_guide_px": 0.42588499290584264,
+    "selected_distance_guide_px": 0.42588499290584264,
+    "guide_reference_pixel_xy": [
+      599.9984237391618,
+      1757.5741179240867
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "C03",
+    "label": "Round northern Beaver Meadow pond, north end",
+    "role": "control",
+    "pixel_xy": [
+      1507,
+      774
+    ],
+    "lonlat": [
+      -62.130778156169065,
+      45.55444026232782
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 124871,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124871,
+    "nearest_unfiltered_distance_guide_px": 9.281357274223822,
+    "selected_distance_guide_px": 9.281357274223822,
+    "guide_reference_pixel_xy": [
+      1477.4711975973914,
+      731.0697843665257
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "C04",
+    "label": "Western small pond south of Ireland, south tip",
+    "role": "control",
+    "pixel_xy": [
+      1279,
+      3595
+    ],
+    "lonlat": [
+      -62.076818842762975,
+      45.432804795219454
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 125246,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125246,
+    "nearest_unfiltered_distance_guide_px": 0.5392334118719563,
+    "selected_distance_guide_px": 0.5392334118719563,
+    "guide_reference_pixel_xy": [
+      1250.8616460228804,
+      3564.5211821653647
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "C05",
+    "label": "Boyd Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      3632,
+      2572
+    ],
+    "lonlat": [
+      -61.96095776595249,
+      45.51424496179118
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 124538,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124538,
+    "nearest_unfiltered_distance_guide_px": 0.4031019844180041,
+    "selected_distance_guide_px": 0.4031019844180041,
+    "guide_reference_pixel_xy": [
+      3608.1470017971005,
+      2554.6246579140425
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "C06",
+    "label": "Larger eastern oval Antigonish Harbour island, north end",
+    "role": "control",
+    "pixel_xy": [
+      5394,
+      190
+    ],
+    "lonlat": [
+      -61.91279690971192,
+      45.64438739169634
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 20141,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20141,
+    "nearest_unfiltered_distance_guide_px": 0.6675402531704453,
+    "selected_distance_guide_px": 0.6675402531704453,
+    "guide_reference_pixel_xy": [
+      5381.517189508711,
+      138.460981582175
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "C07",
+    "label": "Western elongated Antigonish Harbour island, north tip",
+    "role": "control",
+    "pixel_xy": [
+      5277,
+      175
+    ],
+    "lonlat": [
+      -61.92025054145798,
+      45.64291397779635
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 21596,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 21596,
+    "nearest_unfiltered_distance_guide_px": 1.7755572195000815,
+    "selected_distance_guide_px": 1.7755572195000815,
+    "guide_reference_pixel_xy": [
+      5261.35567980085,
+      125.73956756666303
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  },
+  {
+    "id": "C08",
+    "label": "River bend southwest of Addington Forks, outer south bank",
+    "role": "control",
+    "pixel_xy": [
+      2335,
+      1004
+    ],
+    "lonlat": [
+      -62.07584935718528,
+      45.55828907360244
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 176390,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 176390,
+    "nearest_unfiltered_distance_guide_px": 0.5542171329008297,
+    "selected_distance_guide_px": 0.5542171329008297,
+    "guide_reference_pixel_xy": [
+      2305.787470610754,
+      972.488152474747
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad physical lake/island/river shape and adjacent features traced; original native and modern crosshairs inspected before first fit and score.",
+    "review": "All image-based corrections completed before fitting; check observations excluded from every fit."
+  }
+]

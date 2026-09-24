@@ -1,0 +1,14 @@
+{
+  "stage": "before first fit or score",
+  "rejected": [
+    {
+      "id": "Q02",
+      "reason": "McEachern Lake northern narrow transition is not a clearly shared closed endpoint; excluded before fitting."
+    }
+  ],
+  "notes": [
+    "C08 initial WARV55 selection was distant from the observed river bend; subsequent tributary WARV10 candidate was not the intended main-bank edge. Final adopted WARV20 edge176390 visually audited; all proposals retained.",
+    "C04 modern point corrected to the pond southern tip before fitting.",
+    "Eastern and southeastern river candidates were not forced where native parcel lines and water geometry were hard to distinguish."
+  ]
+}

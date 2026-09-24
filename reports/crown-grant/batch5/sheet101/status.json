@@ -1,0 +1,45 @@
+{
+  "sheet": "101",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric pass with regional limitations; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/101.pdf",
+    "pdf_sha256": "f98a191924cdce286f51631931ffbab5c00a59250be0fbed481593c15f28d466",
+    "jpeg_sha256": "e31d00c96d0431b668a15e3e3921fc93821fd4301953340bbb2e32a410778802",
+    "dimensions": [
+      6046,
+      4149
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 43.247499712452594,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 43.25 m, median 45.04 m, P95 66.56 m and maximum 72.79 m. Numerical bounds pass; this is regional validation.",
+    "Costley, Monument, Stewart and Robinson Lakes each have a control and separate endpoint check; those observations are spatially correlated. The western river corridor, harbour channels, north-central interior and many minor lakes have insufficient local validation.",
+    "Ragged Point is the only coastal control, with no fresh southern coastal check. Its generalized shape uses 18 px working source uncertainty, as do the Stewart northwest corner and Archibald Big Lake western lobe check.",
+    "Historical channel-to-lake transitions and mining-era modifications can differ from modern hydrography. Leonard Lake northern transition was excluded as a check before fitting."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 43.25 m, median 45.04 m, P95 66.56 m, maximum 72.79 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains St Marys River, Waternish, Stillwater and Sherbrooke, the lake interior and all lake islands, Country Harbour Mines, Middle Country Harbour, Stormont, Isaacs Harbour and Goldboro, Ragged Point, and the western/southern parcel regions. No displaced inset identified."
+  }
+}
