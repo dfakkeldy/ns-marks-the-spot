@@ -1,14 +1,16 @@
 {
-  "verified_at_utc": "2026-09-24T18:48:03.821780+00:00",
-  "sheets": 3,
+  "verified_at_utc": "2026-09-24T19:54:52.981845+00:00",
+  "sheets": 8,
   "planned_batch_sheets": 8,
-  "batch_assessment_complete": false,
-  "score_replays": 3,
+  "batch_assessment_complete": true,
+  "score_replays": 8,
   "regressions": "4 existing scorer/pixel-frame tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 2,
+  "main_rms_pass_count": 5,
   "main_rms_fail_sheets": [
-    "097"
+    "097",
+    "090",
+    "087"
   ],
   "all_components_coverage_passed": true,
   "all_source_fit_component_raster_hashes_match": true,
@@ -98,6 +100,96 @@
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "091",
+      "components": [
+        {
+          "component": "main",
+          "controls": 8,
+          "independent_checks": 8,
+          "rms_ground_m": 96.68041014853144,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "090",
+      "components": [
+        {
+          "component": "main",
+          "controls": 8,
+          "independent_checks": 6,
+          "rms_ground_m": 105.24248474377777,
+          "rms_gate_passed": false,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "089",
+      "components": [
+        {
+          "component": "main",
+          "controls": 8,
+          "independent_checks": 7,
+          "rms_ground_m": 83.4623421113853,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "088",
+      "components": [
+        {
+          "component": "main",
+          "controls": 8,
+          "independent_checks": 5,
+          "rms_ground_m": 75.41467996366467,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "087",
+      "components": [
+        {
+          "component": "main",
+          "controls": 4,
+          "independent_checks": 4,
+          "rms_ground_m": 117.04764688698587,
+          "rms_gate_passed": false,
+          "fit": "fit-similarity-01.json",
+          "checks": "checks-similarity-01.json",
+          "scores": "scores-similarity-01.json"
         }
       ],
       "coverage_passed": true,

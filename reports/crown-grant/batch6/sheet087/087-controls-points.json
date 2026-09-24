@@ -1,0 +1,132 @@
+[
+  {
+    "id": "C01",
+    "label": "Botany Bay Lake south shore",
+    "role": "proposal",
+    "pixel_xy": [
+      324,
+      1410
+    ],
+    "lonlat": [
+      -62.96148687033042,
+      45.473852310346935
+    ],
+    "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+    "reference_objectid": 124945,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124945,
+    "nearest_unfiltered_distance_guide_px": 0.5490640306021223,
+    "selected_distance_guide_px": 0.5490640306021223,
+    "guide_reference_pixel_xy": [
+      271.4554301915341,
+      1367.9298927007476
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Round Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1040,
+      3680
+    ],
+    "lonlat": [
+      -62.86403383020688,
+      45.39035434849118
+    ],
+    "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+    "reference_objectid": 142990,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142990,
+    "nearest_unfiltered_distance_guide_px": 5.631831441838813,
+    "selected_distance_guide_px": 5.631831441838813,
+    "guide_reference_pixel_xy": [
+      1002.7843023571186,
+      3692.0288089349633
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Calder Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5064,
+      3445
+    ],
+    "lonlat": [
+      -62.634160315843474,
+      45.46793525952091
+    ],
+    "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+    "reference_objectid": 141605,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141605,
+    "nearest_unfiltered_distance_guide_px": 2.344288747540851,
+    "selected_distance_guide_px": 2.344288747540851,
+    "guide_reference_pixel_xy": [
+      5027.534753853339,
+      3472.2976587550947
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Mill Pond near Concord Mills south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2060,
+      2965
+    ],
+    "lonlat": [
+      -62.821329902720876,
+      45.43652428079777
+    ],
+    "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+    "reference_objectid": 132845,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132845,
+    "nearest_unfiltered_distance_guide_px": 0.7401310611767351,
+    "selected_distance_guide_px": 0.7401310611767351,
+    "guide_reference_pixel_xy": [
+      2016.1806692791288,
+      2993.282258682186
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Forbes Lake south tip candidate",
+    "role": "proposal",
+    "pixel_xy": [
+      5190,
+      2960
+    ],
+    "lonlat": [
+      -62.63876837652112,
+      45.489126083114556
+    ],
+    "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+    "reference_objectid": 127517,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127517,
+    "nearest_unfiltered_distance_guide_px": 4.185972239814614,
+    "selected_distance_guide_px": 4.185972239814614,
+    "guide_reference_pixel_xy": [
+      5135.854232362413,
+      3004.421230367385
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

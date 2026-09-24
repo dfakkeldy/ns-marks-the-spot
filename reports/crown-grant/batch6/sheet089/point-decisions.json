@@ -1,0 +1,12 @@
+{
+  "timing": "Before first fit or score",
+  "correction": "Q03 Biggar western island source crosshair refined to its northern tip from adjoining face",
+  "regions_not_adopted": [
+    "Long Ecumo Seco shore and uncertain northern lake/stream transitions were not used"
+  ],
+  "limitations": [
+    "Checks concentrate in northern lakes and Bruin Lake; East Lake southern control has no independent check nearby",
+    "Bruin supplies two controls and two checks within the same lake, including paired island endpoints; high local correlation",
+    "Little Seven Mile and Fraser checks share their lake with controls; whole-frame accuracy is not established"
+  ]
+}

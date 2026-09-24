@@ -1,0 +1,45 @@
+{
+  "sheet": "088",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS passes with sparse-coverage qualification; full-frame raster and browser verification complete; geographic and user acceptance remain false",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/088.pdf",
+    "pdf_sha256": "11968e2204e512c09f31bd78ea7bbbb6618a16a55db447c71553ccb88bdbe518",
+    "jpeg_sha256": "cb77501496ecd12e3051b4f615f3e362a887cb2d3a7f4f4dcb12172f9fb8e0cf",
+    "dimensions": [
+      6017,
+      4137
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 5,
+      "rms_ground_m": 75.41467996366467,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Five excluded checks give RMS 75.41 m, median 55.23 m, P95 116.04 m and maximum 126.88 m. Numerical bounds pass; sparse evidence keeps geographic acceptance provisional.",
+    "The northernmost band and much of the eastern river/parcel area have no independent checks. Duck Lake supplies an eastern control without local check validation; the broad intervening region remains underchecked.",
+    "Only five checks were accepted. Black, Sucker, Dean and Cox checks share lakes with controls; Battery Lake adds a separate southern lake. Spatial correlation and the small sample limit whole-sheet inference.",
+    "All retained observations use modern lake or lake-island boundaries and 12 px working source uncertainty. The full map remains visible without automatic acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 75.41 m, median 55.23 m, P95 116.04 m, maximum 126.88 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Elgin, Centredale, Bridgeville, St Paul and their river/parcel regions, Trafalgar and Cameron Settlement, Black and Sucker lakes, Hattie and Dean lakes, Duck Lake, College and Cox lakes with islands, Battery Lake and all southern mapped content. No displaced inset identified."
+  }
+}

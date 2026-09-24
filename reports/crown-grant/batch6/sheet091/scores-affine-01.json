@@ -1,0 +1,295 @@
+{
+  "count": 8,
+  "rms_ground_m": 96.68041014853144,
+  "median_ground_m": 69.95624338595188,
+  "p95_ground_m": 158.7793700688052,
+  "max_ground_m": 174.8427988718754,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -7.807728923758051,
+  "mean_north_ground_m": -4.969481763218333,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Lake east of Mushaboom Harbour south shore",
+      "role": "check",
+      "pixel_xy": [
+        1420,
+        938
+      ],
+      "lonlat": [
+        -62.533079044651174,
+        44.86849356106033
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 125475,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125475,
+      "nearest_unfiltered_distance_guide_px": 0.7975599224436454,
+      "selected_distance_guide_px": 0.7975599224436454,
+      "guide_reference_pixel_xy": [
+        1584.4492608581786,
+        922.3410109931137
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.53357942142784,
+        44.868098963061954
+      ],
+      "error_ground_m": 59.04763142684348,
+      "east_ground_m": -39.54354017302667,
+      "north_ground_m": -43.85123952301211
+    },
+    {
+      "id": "Q02",
+      "label": "First Lake north of Hartling north shore",
+      "role": "check",
+      "pixel_xy": [
+        4650,
+        322
+      ],
+      "lonlat": [
+        -62.36066267958788,
+        44.94825311175532
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 134543,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134543,
+      "nearest_unfiltered_distance_guide_px": 1.4714603518243,
+      "selected_distance_guide_px": 1.4714603518243,
+      "guide_reference_pixel_xy": [
+        4728.0238939251285,
+        310.0568049948197
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.36076627600433,
+        44.948399551877536
+      ],
+      "error_ground_m": 18.21217786703393,
+      "east_ground_m": -8.175577829484505,
+      "north_ground_m": 16.274008412635222
+    },
+    {
+      "id": "Q03",
+      "label": "Western Beaver Island southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        3757,
+        2994
+      ],
+      "lonlat": [
+        -62.34942907669192,
+        44.82139230357877
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 23430,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23430,
+      "nearest_unfiltered_distance_guide_px": 5.3159628061024335,
+      "selected_distance_guide_px": 5.3159628061024335,
+      "guide_reference_pixel_xy": [
+        3834.791628218023,
+        2955.4760335491737
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.34913095741969,
+        44.82173970006372
+      ],
+      "error_ground_m": 45.23650247038113,
+      "east_ground_m": 23.578532656693433,
+      "north_ground_m": 38.60562075022288
+    },
+    {
+      "id": "Q04",
+      "label": "Horse Island east extremity",
+      "role": "check",
+      "pixel_xy": [
+        3764,
+        2641
+      ],
+      "lonlat": [
+        -62.35726967818206,
+        44.83678543943435
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 17576,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17576,
+      "nearest_unfiltered_distance_guide_px": 0.3978998705284812,
+      "selected_distance_guide_px": 0.3978998705284812,
+      "guide_reference_pixel_xy": [
+        3849.861604295671,
+        2596.6269437897718
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.35710224259157,
+        44.83660296796578
+      ],
+      "error_ground_m": 24.217056182441986,
+      "east_ground_m": 13.23923486864121,
+      "north_ground_m": -20.27778267554188
+    },
+    {
+      "id": "Q05",
+      "label": "Guilford Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        1278,
+        2245
+      ],
+      "lonlat": [
+        -62.509964400753,
+        44.811698300474255
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 18577,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18577,
+      "nearest_unfiltered_distance_guide_px": 2.1093420363968405,
+      "selected_distance_guide_px": 2.1093420363968405,
+      "guide_reference_pixel_xy": [
+        1442.384987141355,
+        2212.073911456042
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.51062663100599,
+        44.8111439634457
+      ],
+      "error_ground_m": 80.86485534506028,
+      "east_ground_m": -52.38600387532183,
+      "north_ground_m": -61.60220310956654
+    },
+    {
+      "id": "Q06",
+      "label": "Mink or Logwood Island north shore",
+      "role": "check",
+      "pixel_xy": [
+        2859,
+        1998
+      ],
+      "lonlat": [
+        -62.42648491292723,
+        44.84802503277926
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 19931,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19931,
+      "nearest_unfiltered_distance_guide_px": 1.2479694922232791,
+      "selected_distance_guide_px": 1.2479694922232791,
+      "guide_reference_pixel_xy": [
+        2947.0125184360077,
+        1963.2704561217688
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.42487026054262,
+        44.848189454024784
+      ],
+      "error_ground_m": 128.94728800596062,
+      "east_ground_m": 127.64596758101165,
+      "north_ground_m": 18.273205641032973
+    },
+    {
+      "id": "Q07",
+      "label": "Round Island east shore",
+      "role": "check",
+      "pixel_xy": [
+        3177,
+        2102
+      ],
+      "lonlat": [
+        -62.40409423114047,
+        44.84813274699246
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 19989,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19989,
+      "nearest_unfiltered_distance_guide_px": 4.035292167159987,
+      "selected_distance_guide_px": 4.035292167159987,
+      "guide_reference_pixel_xy": [
+        3270.1718538752175,
+        2092.1216024647
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.40395371944258,
+        44.849215038433954
+      ],
+      "error_ground_m": 120.78562933895792,
+      "east_ground_m": 11.107922380986016,
+      "north_ground_m": 120.2737806638925
+    },
+    {
+      "id": "Q08",
+      "label": "High Island east shore",
+      "role": "check",
+      "pixel_xy": [
+        4720,
+        1792
+      ],
+      "lonlat": [
+        -62.320028603571124,
+        44.88913867013083
+      ],
+      "guide_file": ".crown-grant-local/091-adjacent-guide.npy",
+      "reference_objectid": 17981,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17981,
+      "nearest_unfiltered_distance_guide_px": 2.5074693566368498,
+      "selected_distance_guide_px": 2.5074693566368498,
+      "guide_reference_pixel_xy": [
+        4821.046150566079,
+        1749.2788092433475
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coast, island and lake outlines and paired native crosshairs visually audited before first fit or scoring.",
+      "review": "All physical corrections completed before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.3217745309866,
+        44.8881717564924
+      ],
+      "error_ground_m": 174.8427988718754,
+      "east_ground_m": -137.9283669995637,
+      "north_ground_m": -107.45124426540971
+    }
+  ],
+  "fit_sha256": "0d7a774b011299f62673804f957d4d26ef16e3898f24880db1b1c92db4c3fbf2",
+  "checks_sha256": "3e0fa358cf0fa75931407b393ebd61aaa13fde5e3d2dff4b4d614851dcf230df",
+  "status": "Eight excluded lake and island checks reserved and audited before first affine fit and score; shared physical systems imply spatial correlation"
+}
