@@ -1,0 +1,263 @@
+{
+  "count": 8,
+  "rms_ground_m": 84.16741211042824,
+  "median_ground_m": 79.03672868249909,
+  "p95_ground_m": 120.14554881892921,
+  "max_ground_m": 128.2979071569331,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 18.17350323932996,
+  "mean_north_ground_m": 31.74002896330356,
+  "points": [
+    {
+      "id": "Q02",
+      "label": "Serpent Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        4703,
+        1210
+      ],
+      "lonlat": [
+        -60.177311197912125,
+        46.0574847748681
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 126309,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4673.646218346374,
+        1205.4990506893955
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.1762007979509,
+        46.05834192353266
+      ],
+      "error_ground_m": 128.2979071569331,
+      "east_ground_m": 85.92479571275862,
+      "north_ground_m": 95.27477348474632
+    },
+    {
+      "id": "Q04",
+      "label": "Ducker Lake east end",
+      "role": "check",
+      "pixel_xy": [
+        5180,
+        1730
+      ],
+      "lonlat": [
+        -60.132562201110254,
+        46.04230695371777
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 127930,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5178.431872359361,
+        1728.6947211730294
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.13306787342376,
+        46.0429237242211
+      ],
+      "error_ground_m": 78.9420893523932,
+      "east_ground_m": -39.14074506360864,
+      "north_ground_m": 68.55549246549708
+    },
+    {
+      "id": "Q05",
+      "label": "Mill Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        5168,
+        1858
+      ],
+      "lonlat": [
+        -60.130081430648005,
+        46.03655440670773
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 136187,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5169.950085626566,
+        1852.8892635592492
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.130782762887044,
+        46.03695468899631
+      ],
+      "error_ground_m": 70.19348196644677,
+      "east_ground_m": -54.29133004602447,
+      "north_ground_m": 44.492430731614654
+    },
+    {
+      "id": "Q06",
+      "label": "Barren Lake west end",
+      "role": "check",
+      "pixel_xy": [
+        871,
+        2593
+      ],
+      "lonlat": [
+        -60.38900801877379,
+        45.931418243961424
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 129666,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        809.6594335705158,
+        2557.9356712519657
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.38926596819974,
+        45.931423884012986
+      ],
+      "error_ground_m": 20.016104482848977,
+      "east_ground_m": -20.00628413786612,
+      "north_ground_m": 0.6269239693083206
+    },
+    {
+      "id": "Q07",
+      "label": "Western McDonald Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        1220,
+        2225
+      ],
+      "lonlat": [
+        -60.376331573270406,
+        45.953815869494925
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 136948,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1152.5295950699947,
+        2189.871392104542
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.37572170566618,
+        45.953895580776226
+      ],
+      "error_ground_m": 48.10456830401932,
+      "east_ground_m": 47.281578988433274,
+      "north_ground_m": 8.860123028299611
+    },
+    {
+      "id": "Q08",
+      "label": "White Lily northeast pond north tip",
+      "role": "check",
+      "pixel_xy": [
+        1897,
+        2841
+      ],
+      "lonlat": [
+        -60.31870742918957,
+        45.937991661839746
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 135997,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1830.1306344674085,
+        2793.6352274159435
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.317468963882746,
+        45.937609759016034
+      ],
+      "error_ground_m": 105.00545476263633,
+      "east_ground_m": 96.04337794883853,
+      "north_ground_m": -42.44779242887224
+    },
+    {
+      "id": "Q09",
+      "label": "Mira round peninsula south tip",
+      "role": "check",
+      "pixel_xy": [
+        4515,
+        2578
+      ],
+      "lonlat": [
+        -60.15676024566648,
+        45.993294705745576
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 22825,
+      "reference_feature_code": "WACORV20",
+      "guide_reference_pixel_xy": [
+        4479.997795757547,
+        2554.76886589278
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.15558827898838,
+        45.99355036566261
+      ],
+      "error_ground_m": 95.13822504309395,
+      "east_ground_m": 90.79495289356132,
+      "north_ground_m": 28.41757191257498
+    },
+    {
+      "id": "Q10",
+      "label": "Mira long eastern island east tip",
+      "role": "check",
+      "pixel_xy": [
+        5227,
+        2458
+      ],
+      "lonlat": [
+        -60.11187368053927,
+        46.010456327539075
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 27425,
+      "reference_feature_code": "WACORVIS10",
+      "guide_reference_pixel_xy": [
+        5227.610555330699,
+        2451.9211768377572
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Excluded from fitting; final native paired crosshair inspected before first score.",
+      "predicted_lonlat": [
+        -60.11266412393236,
+        46.01090742709656
+      ],
+      "error_ground_m": 79.13136801260498,
+      "east_ground_m": -61.21832038145283,
+      "north_ground_m": 50.140708543259734
+    }
+  ],
+  "fit_sha256": "eb8a7f86f1406fd632251224be94f3dd7bfb71caee9ab67e43f11654769f36e0",
+  "checks_sha256": "f53ac8d8efa54633b2880fba1289abccb31a36f301f4ecd2ae8f7aa93af572a5",
+  "status": "Independent checks reserved and audited before first frozen fit and score"
+}

@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-09-24T12:02:22.626971+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "131",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6143,
+        5171
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5773,
+        3984
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Whole-sheet actual browser screenshot inspected against NSTDB water and modern basemap",
+    "Known geographic check failures remain; browser rendering is not geographic acceptance"
+  ]
+}

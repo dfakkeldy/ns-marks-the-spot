@@ -1,0 +1,132 @@
+[
+  [
+    "Q01",
+    "Northwest Man of War Point southeast tip",
+    [
+      425,
+      600
+    ],
+    [
+      410,
+      610
+    ],
+    "WACO"
+  ],
+  [
+    "Q02",
+    "Little Young island west tip",
+    [
+      2670,
+      1060
+    ],
+    [
+      2760,
+      1000
+    ],
+    "WACO"
+  ],
+  [
+    "Q03",
+    "Condor Point south tip",
+    [
+      3753,
+      746
+    ],
+    [
+      3860,
+      710
+    ],
+    "WACO"
+  ],
+  [
+    "Q04",
+    "Jessop Point northern shoulder",
+    [
+      3725,
+      1075
+    ],
+    [
+      3850,
+      1030
+    ],
+    "WACO"
+  ],
+  [
+    "Q05",
+    "Indian Lake east tip",
+    [
+      4535,
+      1320
+    ],
+    [
+      4560,
+      1280
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Scotch Lake east tip",
+    [
+      3200,
+      1515
+    ],
+    [
+      3260,
+      1480
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Long Island Barachois north apex",
+    [
+      1880,
+      1755
+    ],
+    [
+      1990,
+      1710
+    ],
+    "WACO"
+  ],
+  [
+    "Q08",
+    "McAllister Lake south tip",
+    [
+      1530,
+      2700
+    ],
+    [
+      1580,
+      2662
+    ],
+    "WALK"
+  ],
+  [
+    "Q09",
+    "Balls Lake northeast corner",
+    [
+      1850,
+      2830
+    ],
+    [
+      2290,
+      2710
+    ],
+    "WALK"
+  ],
+  [
+    "Q10",
+    "South Bar west tip",
+    [
+      5230,
+      1840
+    ],
+    [
+      5300,
+      1800
+    ],
+    "WACO"
+  ]
+]

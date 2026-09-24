@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-09-24T12:08:10.782253+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "132",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6141,
+        5140
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5797,
+        3886
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-sheet browser raster inspected against modern basemap and NSTDB vectors",
+    "RMS pass remains qualified by median and coverage limitations"
+  ]
+}

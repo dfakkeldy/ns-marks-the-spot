@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5773 x 3984 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 158.17 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          115,
+          170
+        ],
+        [
+          5665,
+          170
+        ],
+        [
+          5665,
+          3800
+        ],
+        [
+          115,
+          3800
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped rectangle, including Boularderie, Long Island and Little Island, Sydney Harbour and the southern inland lakes. No displaced inset identified; all mapped islands stay in the main frame."
+    }
+  ]
+}

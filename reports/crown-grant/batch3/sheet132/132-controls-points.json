@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "McAdam Lake west end",
+    "role": "proposal",
+    "pixel_xy": [
+      861,
+      526
+    ],
+    "lonlat": [
+      -60.43940620832445,
+      46.023800133346874
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136365,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      806.8290993088158,
+      509.4145141830668
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "East Bay northeast lobe north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1965,
+      815
+    ],
+    "lonlat": [
+      -60.358098779785045,
+      46.02816328522638
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 14138,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1960.7900703437044,
+      844.6168574305484
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Beadman Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5015,
+      1014
+    ],
+    "lonlat": [
+      -60.16282531870786,
+      46.07162817326055
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 129098,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4978.701765158039,
+      1005.5576432936359
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Middle Lake southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5225,
+      1318
+    ],
+    "lonlat": [
+      -60.13936309096209,
+      46.06238229106191
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136174,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5233.707327933982,
+      1304.7860662520397
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "McInnis Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4248,
+      3408
+    ],
+    "lonlat": [
+      -60.15075821562332,
+      45.95216912487571
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136742,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4257.2025733020855,
+      3382.5807511878666
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Rock Elm McAdam Lake northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1170,
+      3087
+    ],
+    "lonlat": [
+      -60.358601179276455,
+      45.91363301552394
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 131999,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1096.6137533554574,
+      3059.358397388831
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Southeast McDonalds Lake east end",
+    "role": "proposal",
+    "pixel_xy": [
+      5300,
+      3270
+    ],
+    "lonlat": [
+      -60.08904261096232,
+      45.97486964975017
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 135194,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5279.03521169076,
+      3258.5908369635
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Western Island Lake northern point",
+    "role": "proposal",
+    "pixel_xy": [
+      1060,
+      2272
+    ],
+    "lonlat": [
+      -60.384386017958285,
+      45.949053829056375
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 137132,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1005.6276426063268,
+      2240.446923194686
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
