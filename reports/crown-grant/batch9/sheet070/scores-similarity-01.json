@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 77.72458104411957,
+  "median_ground_m": 78.0914694763988,
+  "p95_ground_m": 95.06455656165646,
+  "max_ground_m": 99.13632369835544,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -41.07350848094817,
+  "mean_north_ground_m": 26.610394120604695,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Fountain Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        874,
+        2618
+      ],
+      "lonlat": [
+        -63.767228578008776,
+        45.54473140883935
+      ],
+      "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+      "reference_objectid": 127041,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127041,
+      "nearest_unfiltered_distance_guide_px": 0.4849354062702757,
+      "selected_distance_guide_px": 0.4849354062702757,
+      "guide_reference_pixel_xy": [
+        789.5763208967983,
+        2640.235920252977
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.76768887517946,
+        45.54507988338323
+      ],
+      "error_ground_m": 52.841715613061695,
+      "east_ground_m": -35.94721545340903,
+      "north_ground_m": 38.7304093714213
+    },
+    {
+      "id": "Q02",
+      "label": "Gamble Lake southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        585,
+        3665
+      ],
+      "lonlat": [
+        -63.75674012744356,
+        45.49317455863435
+      ],
+      "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+      "reference_objectid": 126502,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126502,
+      "nearest_unfiltered_distance_guide_px": 0.21500126655347424,
+      "selected_distance_guide_px": 0.21500126655347424,
+      "guide_reference_pixel_xy": [
+        506.9515717313625,
+        3697.209476126125
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.757919309850365,
+        45.49350294565402
+      ],
+      "error_ground_m": 99.13632369835544,
+      "east_ground_m": -92.17321276500556,
+      "north_ground_m": 36.498075634232094
+    },
+    {
+      "id": "Q03",
+      "label": "Newfound Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        2021,
+        2793
+      ],
+      "lonlat": [
+        -63.69024236065593,
+        45.55848031138138
+      ],
+      "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+      "reference_objectid": 134577,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134577,
+      "nearest_unfiltered_distance_guide_px": 2.079485157858849,
+      "selected_distance_guide_px": 2.079485157858849,
+      "guide_reference_pixel_xy": [
+        1948.1202842585044,
+        2820.0760034245905
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.691033263043586,
+        45.55882503389196
+      ],
+      "error_ground_m": 72.67134706435499,
+      "east_ground_m": -61.75099678479668,
+      "north_ground_m": 38.31369311658648
+    },
+    {
+      "id": "Q04",
+      "label": "Snake Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        5299,
+        3708
+      ],
+      "lonlat": [
+        -63.461440414716726,
+        45.578966977650424
+      ],
+      "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+      "reference_objectid": 125873,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125873,
+      "nearest_unfiltered_distance_guide_px": 1.5438604610061184,
+      "selected_distance_guide_px": 1.5438604610061184,
+      "guide_reference_pixel_xy": [
+        5224.232316020061,
+        3741.6605350209866
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.46078025231545,
+        45.57950314392591
+      ],
+      "error_ground_m": 78.77748801486054,
+      "east_ground_m": 51.524349249012474,
+      "north_ground_m": 59.59139243546239
+    },
+    {
+      "id": "Q05",
+      "label": "Pond northeast of Newfound Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2240,
+        2604
+      ],
+      "lonlat": [
+        -63.68145074332222,
+        45.57161511099157
+      ],
+      "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+      "reference_objectid": 128980,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128980,
+      "nearest_unfiltered_distance_guide_px": 2.0389287503855527,
+      "selected_distance_guide_px": 2.0389287503855527,
+      "guide_reference_pixel_xy": [
+        2175.546499099466,
+        2616.9878549701534
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.682309326026655,
+        45.57125447668713
+      ],
+      "error_ground_m": 78.0914694763988,
+      "east_ground_m": -67.02046665054206,
+      "north_ground_m": -40.08159995467877
+    }
+  ],
+  "fit_sha256": "cca6d6d1737ecd0ec630944095aa31de6264f10a042f9082b7feef21930031da",
+  "checks_sha256": "4c56a93a662088af357ee0c1572a0c818f52c915f4a954d120bc0fc9d31aa61d",
+  "status": "Five excluded checks reserved before first constrained similarity fit; four paired lakes plus separate pond northeast of Newfound Lake"
+}

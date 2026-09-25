@@ -1,0 +1,137 @@
+[
+  {
+    "id": "C01",
+    "label": "Lewis Head eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      4142,
+      238
+    ],
+    "lonlat": [
+      -63.72624923613613,
+      45.870723949841185
+    ],
+    "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+    "reference_objectid": 5817,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5817,
+    "nearest_unfiltered_distance_guide_px": 1.3556904463497361,
+    "selected_distance_guide_px": 1.3556904463497361,
+    "guide_reference_pixel_xy": [
+      4088.6935164129245,
+      207.63806461484637
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+  },
+  {
+    "id": "C02",
+    "label": "Bergman Point northern apex",
+    "role": "control",
+    "pixel_xy": [
+      4264,
+      480
+    ],
+    "lonlat": [
+      -63.71259579975725,
+      45.86233685844633
+    ],
+    "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+    "reference_objectid": 25540,
+    "reference_feature_code": "WACORV20",
+    "nearest_unfiltered_feature_code": "WACORV20",
+    "nearest_unfiltered_objectid": 25540,
+    "nearest_unfiltered_distance_guide_px": 1.4362123713900667,
+    "selected_distance_guide_px": 1.4362123713900667,
+    "guide_reference_pixel_xy": [
+      4203.6249204800115,
+      446.58543723099865
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+  },
+  {
+    "id": "C03",
+    "label": "Pugwash Point northern apex",
+    "role": "control",
+    "pixel_xy": [
+      4930,
+      455
+    ],
+    "lonlat": [
+      -63.6711590830935,
+      45.87594085854969
+    ],
+    "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+    "reference_objectid": 9763,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9763,
+    "nearest_unfiltered_distance_guide_px": 0.9251476952918235,
+    "selected_distance_guide_px": 0.9251476952918235,
+    "guide_reference_pixel_xy": [
+      4870.821652244427,
+      420.9077942146687
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+  },
+  {
+    "id": "C04",
+    "label": "Victoria Island northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4655,
+      1096
+    ],
+    "lonlat": [
+      -63.670975043991,
+      45.84241782100786
+    ],
+    "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+    "reference_objectid": 27465,
+    "reference_feature_code": "WACORVIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27465,
+    "nearest_unfiltered_distance_guide_px": 1.4154240854130733,
+    "selected_distance_guide_px": 1.4154240854130733,
+    "guide_reference_pixel_xy": [
+      4600.381711750291,
+      1066.3629825682146
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+  },
+  {
+    "id": "C05",
+    "label": "Big or Pugwash Lake northwest tip",
+    "role": "control",
+    "pixel_xy": [
+      2786,
+      3238
+    ],
+    "lonlat": [
+      -63.73006082637707,
+      45.7120021613551
+    ],
+    "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+    "reference_objectid": 125388,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125388,
+    "nearest_unfiltered_distance_guide_px": 2.973705653402185,
+    "selected_distance_guide_px": 2.973705653402185,
+    "guide_reference_pixel_xy": [
+      2743.1535019455478,
+      3236.0506961460924
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Five controls span northern Bass Point, central coastal headlands and southern Lake Killarney; the inland lake supplies transverse support beyond the narrow coast.",
+  "corrections": [
+    "Lake Killarney southeast lobe check refined to corresponding southern extremity before fit/scoring"
+  ],
+  "not_adopted": [
+    "Northport river-mouth spits and altered tidal configurations not forced into controls",
+    "Western inland river and parcel regions lack secure point evidence"
+  ],
+  "limitations": [
+    "Two checks share Lake Killarney; Cold Spring check shares cape with control; Linden peninsula is a separate coastal check",
+    "Western interior and featureless ocean have no independent validation",
+    "18 px working source uncertainty; full mapped frame retained without implying acceptance"
+  ]
+}

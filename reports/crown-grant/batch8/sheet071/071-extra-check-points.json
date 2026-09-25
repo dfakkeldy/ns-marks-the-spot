@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q04",
+    "label": "Southern East Folly Mountain pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4602,
+      1588
+    ],
+    "lonlat": [
+      -63.48162464835184,
+      45.50173963185796
+    ],
+    "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+    "reference_objectid": 134563,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134563,
+    "nearest_unfiltered_distance_guide_px": 0.3166523857361052,
+    "selected_distance_guide_px": 0.3166523857361052,
+    "guide_reference_pixel_xy": [
+      4674.316643222701,
+      1509.9975910770008
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

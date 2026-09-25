@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Bass Point northern apex",
+    [
+      2636,
+      598
+    ],
+    [
+      2676,
+      646
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Cold Spring Head upper eastern tip",
+    [
+      3217,
+      1367
+    ],
+    [
+      3268,
+      1412
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Coastal headland north of Linden eastern tip",
+    [
+      3475,
+      2520
+    ],
+    [
+      3521,
+      2560
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Lake Killarney northwest tip",
+    [
+      2370,
+      3636
+    ],
+    [
+      2399,
+      3653
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Amherst Shore Provincial Park eastern tip",
+    [
+      3108,
+      1190
+    ],
+    [
+      3142,
+      1234
+    ],
+    "WACO20"
+  ]
+]

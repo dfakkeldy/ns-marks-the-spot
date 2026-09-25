@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Northeastern upper round pond northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4453,
+      517
+    ],
+    "lonlat": [
+      -63.5174732314857,
+      45.543113529618346
+    ],
+    "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+    "reference_objectid": 114797,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 114797,
+    "nearest_unfiltered_distance_guide_px": 2.809499687013314,
+    "selected_distance_guide_px": 2.809499687013314,
+    "guide_reference_pixel_xy": [
+      4511.87179478578,
+      438.4269781411858
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Northeastern western small pond northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4387,
+      680
+    ],
+    "lonlat": [
+      -63.516615353399615,
+      45.535573436693234
+    ],
+    "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+    "reference_objectid": 139798,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139798,
+    "nearest_unfiltered_distance_guide_px": 1.3073466476208924,
+    "selected_distance_guide_px": 1.3073466476208924,
+    "guide_reference_pixel_xy": [
+      4459.564171145263,
+      599.1793498954503
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Northern East Folly Mountain pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4420,
+      1372
+    ],
+    "lonlat": [
+      -63.49799381224851,
+      45.50747176096563
+    ],
+    "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+    "reference_objectid": 84343,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 84343,
+    "nearest_unfiltered_distance_guide_px": 1.190284908725191,
+    "selected_distance_guide_px": 1.190284908725191,
+    "guide_reference_pixel_xy": [
+      4487.213519424375,
+      1292.1709772070171
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

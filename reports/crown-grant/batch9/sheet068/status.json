@@ -1,0 +1,45 @@
+{
+  "sheet": "068",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/068.pdf",
+    "pdf_sha256": "a86c54c6430be7bd7f002b2071e9b954eedbe8da188b3b96fb24bad7e0f5f97e",
+    "jpeg_sha256": "0a4bbe2c46bd2f8ab3754deeddbe51d73ed31f8e54cb9a9a9e4ea6cb73aa0417",
+    "dimensions": [
+      6075,
+      4135
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 4,
+      "rms_ground_m": 20.214786750610905,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Four excluded checks give RMS 20.21 m, median 17.90 m, P95 27.78 m and maximum 28.97 m; numerical bounds pass with limited geographic evidence.",
+    "Two checks share Lake Killarney and another shares Cold Spring Head with controls. Linden peninsula is a separate coastal check. Four checks form a small correlated sample.",
+    "Western inland regions, river corridors and featureless ocean have no independent validation. Complete imagery does not imply geographic acceptance there.",
+    "Thick generalized natural shorelines use 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "4 independent checks: RMS 20.21 m, median 17.90 m, P95 27.78 m, maximum 28.97 m. 5 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Lorneville, Rockwell, Bass Point, Chapman, Amherst Shore Provincial Park, Cold Spring Head, Northport, Head of Amherst, Lower Shinimicas, Shinimicas Bridge, Linden, East Linden and Lake Killarney, all mapped river mouths, inland parcels and the entire original Northumberland Strait ocean frame. No displaced inset identified."
+  }
+}

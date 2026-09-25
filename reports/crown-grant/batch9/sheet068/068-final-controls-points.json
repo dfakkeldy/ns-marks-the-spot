@@ -1,0 +1,137 @@
+[
+  {
+    "id": "C01",
+    "label": "Bass Point northern apex",
+    "role": "control",
+    "pixel_xy": [
+      2636,
+      598
+    ],
+    "lonlat": [
+      -63.91764124363307,
+      45.98397105159184
+    ],
+    "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+    "reference_objectid": 2123,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2123,
+    "nearest_unfiltered_distance_guide_px": 0.9344801257215463,
+    "selected_distance_guide_px": 0.9344801257215463,
+    "guide_reference_pixel_xy": [
+      2675.905811520817,
+      645.0702787322225
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring."
+  },
+  {
+    "id": "C02",
+    "label": "Cold Spring Head upper eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      3217,
+      1367
+    ],
+    "lonlat": [
+      -63.86311466740545,
+      45.962657377018516
+    ],
+    "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+    "reference_objectid": 3551,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3551,
+    "nearest_unfiltered_distance_guide_px": 0.46700692949599437,
+    "selected_distance_guide_px": 0.46700692949599437,
+    "guide_reference_pixel_xy": [
+      3268.406869183178,
+      1412.2292442801408
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring."
+  },
+  {
+    "id": "C03",
+    "label": "Coastal headland north of Linden eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      3475,
+      2520
+    ],
+    "lonlat": [
+      -63.81886250996909,
+      45.919431020407636
+    ],
+    "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+    "reference_objectid": 2148,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2148,
+    "nearest_unfiltered_distance_guide_px": 0.8147834278300035,
+    "selected_distance_guide_px": 0.8147834278300035,
+    "guide_reference_pixel_xy": [
+      3521.3618199204793,
+      2560.7300399848027
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring."
+  },
+  {
+    "id": "C04",
+    "label": "Lake Killarney northwest tip",
+    "role": "control",
+    "pixel_xy": [
+      2370,
+      3636
+    ],
+    "lonlat": [
+      -63.85684193347382,
+      45.85405910315318
+    ],
+    "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+    "reference_objectid": 133371,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133371,
+    "nearest_unfiltered_distance_guide_px": 1.3623694164841653,
+    "selected_distance_guide_px": 1.3623694164841653,
+    "guide_reference_pixel_xy": [
+      2400.1260552897,
+      3653.7668441246497
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring."
+  },
+  {
+    "id": "C05",
+    "label": "Amherst Shore Provincial Park eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      3108,
+      1190
+    ],
+    "lonlat": [
+      -63.87501939246423,
+      45.96787249136405
+    ],
+    "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+    "reference_objectid": 2018,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2018,
+    "nearest_unfiltered_distance_guide_px": 2.036056011244955,
+    "selected_distance_guide_px": 2.036056011244955,
+    "guide_reference_pixel_xy": [
+      3143.9348395044217,
+      1233.3660282553174
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring."
+  }
+]
