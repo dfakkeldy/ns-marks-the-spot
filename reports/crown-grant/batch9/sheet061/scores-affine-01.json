@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 79.73393836684093,
+  "median_ground_m": 73.26905706673786,
+  "p95_ground_m": 118.75265354475204,
+  "max_ground_m": 124.87568854822507,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 13.941318138897165,
+  "mean_north_ground_m": 18.495252346336333,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Cleveland Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3483,
+        718
+      ],
+      "lonlat": [
+        -64.01289005036057,
+        45.57539384158292
+      ],
+      "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+      "reference_objectid": 128398,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128398,
+      "nearest_unfiltered_distance_guide_px": 1.2352534192046176,
+      "selected_distance_guide_px": 1.2352534192046176,
+      "guide_reference_pixel_xy": [
+        3476.163343161694,
+        690.5846884328639
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical geometry inspected before first fit and score",
+      "predicted_lonlat": [
+        -64.0123358027953,
+        45.5743398610117
+      ],
+      "error_ground_m": 124.87568854822507,
+      "east_ground_m": 43.261873706994535,
+      "north_ground_m": -117.14242559275168
+    },
+    {
+      "id": "Q02",
+      "label": "British Lake southern lobe southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3271,
+        1946
+      ],
+      "lonlat": [
+        -63.99374542104149,
+        45.51854102790289
+      ],
+      "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+      "reference_objectid": 124654,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124654,
+      "nearest_unfiltered_distance_guide_px": 1.9888671719915534,
+      "selected_distance_guide_px": 1.9888671719915534,
+      "guide_reference_pixel_xy": [
+        3254.31965350057,
+        1963.0639681713656
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical geometry inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.993547606401215,
+        45.519185432588905
+      ],
+      "error_ground_m": 73.26905706673786,
+      "east_ground_m": 15.455557578680017,
+      "north_ground_m": 71.62039139365965
+    },
+    {
+      "id": "Q03",
+      "label": "Farmington small lake southeast lobe southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4358,
+        1671
+      ],
+      "lonlat": [
+        -63.93640631030329,
+        45.548758837341985
+      ],
+      "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+      "reference_objectid": 134040,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134040,
+      "nearest_unfiltered_distance_guide_px": 0.5746676979230015,
+      "selected_distance_guide_px": 0.5746676979230015,
+      "guide_reference_pixel_xy": [
+        4336.2937248619855,
+        1699.4939318459947
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical geometry inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.93673095576392,
+        45.54967066449743
+      ],
+      "error_ground_m": 104.46557186998164,
+      "east_ground_m": -25.351340708330234,
+      "north_ground_m": 101.3428104525055
+    },
+    {
+      "id": "Q04",
+      "label": "Fitch parcel lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4080,
+        1987
+      ],
+      "lonlat": [
+        -63.94466414323723,
+        45.530937984346636
+      ],
+      "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+      "reference_objectid": 141340,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141340,
+      "nearest_unfiltered_distance_guide_px": 0.6754148433052162,
+      "selected_distance_guide_px": 0.6754148433052162,
+      "guide_reference_pixel_xy": [
+        4063.3942436756333,
+        2011.298738156329
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical geometry inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.945030668221925,
+        45.531580262317306
+      ],
+      "error_ground_m": 76.91185938668836,
+      "east_ground_m": -28.63086415603882,
+      "north_ground_m": 71.38422607268481
+    },
+    {
+      "id": "Q05",
+      "label": "Pinnacle Island main body southern tip",
+      "role": "check",
+      "pixel_xy": [
+        143,
+        3992
+      ],
+      "lonlat": [
+        -64.12501940207834,
+        45.37839918312179
+      ],
+      "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+      "reference_objectid": 18128,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18128,
+      "nearest_unfiltered_distance_guide_px": 0.3835336636959688,
+      "selected_distance_guide_px": 0.3835336636959688,
+      "guide_reference_pixel_xy": [
+        154.61848685360746,
+        4003.960683459998
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical geometry inspected before first fit and score",
+      "predicted_lonlat": [
+        -64.12474815602653,
+        45.378773283766954
+      ],
+      "error_ground_m": 46.69091413267116,
+      "east_ground_m": 21.245512750645226,
+      "north_ground_m": 41.577273245207444
+    },
+    {
+      "id": "Q06",
+      "label": "Newton Lake southern peninsula northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4150,
+        3624
+      ],
+      "lonlat": [
+        -63.89991924005424,
+        45.46457469156047
+      ],
+      "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+      "reference_objectid": 134779,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134779,
+      "nearest_unfiltered_distance_guide_px": 0.9774679146905444,
+      "selected_distance_guide_px": 0.9774679146905444,
+      "guide_reference_pixel_xy": [
+        4126.458964986086,
+        3633.863014869974
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical geometry inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.89942453656608,
+        45.46417942569598
+      ],
+      "error_ground_m": 58.538312553703435,
+      "east_ground_m": 38.689576473684106,
+      "north_ground_m": -43.93006611561179
+    },
+    {
+      "id": "Q07",
+      "label": "Economy Lake northern lobe inward peninsula tip",
+      "role": "check",
+      "pixel_xy": [
+        4902,
+        3370
+      ],
+      "lonlat": [
+        -63.86216099081457,
+        45.48787199145069
+      ],
+      "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+      "reference_objectid": 140882,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140882,
+      "nearest_unfiltered_distance_guide_px": 2.0653597621306634,
+      "selected_distance_guide_px": 2.0653597621306634,
+      "guide_reference_pixel_xy": [
+        4868.797996892303,
+        3390.679553356138
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical geometry inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.86173989708671,
+        45.487913510401825
+      ],
+      "error_ground_m": 33.24077103420664,
+      "east_ground_m": 32.918911326645336,
+      "north_ground_m": 4.614556968660394
+    }
+  ],
+  "fit_sha256": "376a610f15152639ca2f3acfc8cee14c660462a8cb79cd05cdb4aea757013e11",
+  "checks_sha256": "e75917dbdf52d8db2fca5a2844a6eeb61d2dd2b48737db8eb285b9c0ae200742",
+  "status": "Seven excluded checks reserved before first affine fit; each shares a lake or island system with one control"
+}

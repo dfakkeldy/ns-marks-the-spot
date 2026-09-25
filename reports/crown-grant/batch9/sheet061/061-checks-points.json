@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Cleveland Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3483,
+      718
+    ],
+    "lonlat": [
+      -64.01254118790884,
+      45.57572077946996
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 128398,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128398,
+    "nearest_unfiltered_distance_guide_px": 2.1729688619787244,
+    "selected_distance_guide_px": 2.1729688619787244,
+    "guide_reference_pixel_xy": [
+      3483.990286201064,
+      686.0758711791132
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "British Lake southern lobe southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3271,
+      1946
+    ],
+    "lonlat": [
+      -63.99374542104149,
+      45.51854102790289
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 124654,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124654,
+    "nearest_unfiltered_distance_guide_px": 1.9888671719915534,
+    "selected_distance_guide_px": 1.9888671719915534,
+    "guide_reference_pixel_xy": [
+      3254.31965350057,
+      1963.0639681713656
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Farmington small lake southeast lobe southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4358,
+      1671
+    ],
+    "lonlat": [
+      -63.93640631030329,
+      45.548758837341985
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 134040,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134040,
+    "nearest_unfiltered_distance_guide_px": 0.5746676979230015,
+    "selected_distance_guide_px": 0.5746676979230015,
+    "guide_reference_pixel_xy": [
+      4336.2937248619855,
+      1699.4939318459947
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Fitch parcel lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4080,
+      1987
+    ],
+    "lonlat": [
+      -63.94466414323723,
+      45.530937984346636
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 141340,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141340,
+    "nearest_unfiltered_distance_guide_px": 0.6754148433052162,
+    "selected_distance_guide_px": 0.6754148433052162,
+    "guide_reference_pixel_xy": [
+      4063.3942436756333,
+      2011.298738156329
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Pinnacle Island main body southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      143,
+      3992
+    ],
+    "lonlat": [
+      -64.12501940207834,
+      45.37839918312179
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 18128,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18128,
+    "nearest_unfiltered_distance_guide_px": 0.3835336636959688,
+    "selected_distance_guide_px": 0.3835336636959688,
+    "guide_reference_pixel_xy": [
+      154.61848685360746,
+      4003.960683459998
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Newton Lake southern peninsula northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4150,
+      3624
+    ],
+    "lonlat": [
+      -63.89991924005424,
+      45.46457469156047
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 134779,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134779,
+    "nearest_unfiltered_distance_guide_px": 0.9774679146905444,
+    "selected_distance_guide_px": 0.9774679146905444,
+    "guide_reference_pixel_xy": [
+      4126.458964986086,
+      3633.863014869974
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Economy Lake northern lobe inward peninsula tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4902,
+      3370
+    ],
+    "lonlat": [
+      -63.86216099081457,
+      45.48787199145069
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 140882,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140882,
+    "nearest_unfiltered_distance_guide_px": 2.0653597621306634,
+    "selected_distance_guide_px": 2.0653597621306634,
+    "guide_reference_pixel_xy": [
+      4868.797996892303,
+      3390.679553356138
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

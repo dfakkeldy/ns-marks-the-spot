@@ -1,0 +1,171 @@
+{
+  "sheet": "059",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.963988651758803,
+      2.02142803559571
+    ],
+    [
+      1.9913750131928898,
+      -4.969727945755165
+    ],
+    [
+      388808.1932307211,
+      5079533.745264028
+    ]
+  ],
+  "source_sha256": "65eb234ebd12a0e9c1eeb6bf64eb46f75ef245406242d37d85846e5cfde729a5",
+  "source_dimensions": [
+    5653,
+    3895
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Round Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4372,
+        266
+      ],
+      "lonlat": [
+        -64.14737419984971,
+        45.931455534728954
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 143376,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143376,
+      "nearest_unfiltered_distance_guide_px": 0.5667427645053745,
+      "selected_distance_guide_px": 0.5667427645053745,
+      "guide_reference_pixel_xy": [
+        4436.454107407713,
+        267.33909264719114
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Long Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4238,
+        650
+      ],
+      "lonlat": [
+        -64.14586013118249,
+        45.91139964139172
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 132043,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132043,
+      "nearest_unfiltered_distance_guide_px": 2.6359306997759337,
+      "selected_distance_guide_px": 2.6359306997759337,
+      "guide_reference_pixel_xy": [
+        4291.994988926046,
+        661.7111578674521
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Blairs Lake northwest horn northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2388,
+        2355
+      ],
+      "lonlat": [
+        -64.21801025903868,
+        45.80082239586507
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 125324,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125324,
+      "nearest_unfiltered_distance_guide_px": 1.0524550641062311,
+      "selected_distance_guide_px": 1.0524550641062311,
+      "guide_reference_pixel_xy": [
+        2426.914385872078,
+        2375.4788856757805
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Small lake northwest of Blairs Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2317,
+        2314
+      ],
+      "lonlat": [
+        -64.22349955903915,
+        45.80174481802767
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 136994,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136994,
+      "nearest_unfiltered_distance_guide_px": 1.7503611045124694,
+      "selected_distance_guide_px": 1.7503611045124694,
+      "guide_reference_pixel_xy": [
+        2361.6223633204936,
+        2326.290861464222
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Amherst Point peninsula southern tip",
+      "role": "control",
+      "pixel_xy": [
+        778,
+        2460
+      ],
+      "lonlat": [
+        -64.31732455258806,
+        45.76583346065618
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 25672,
+      "reference_feature_code": "WACORV20",
+      "nearest_unfiltered_feature_code": "WACORV20",
+      "nearest_unfiltered_objectid": 25672,
+      "nearest_unfiltered_distance_guide_px": 0.33792956661410534,
+      "selected_distance_guide_px": 0.33792956661410534,
+      "guide_reference_pixel_xy": [
+        820.3340806273627,
+        2477.9491420958657
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    23.14802535548594,
+    29.531993031192826,
+    18.235843231556256,
+    31.3758980362067,
+    6.7911463583823934
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

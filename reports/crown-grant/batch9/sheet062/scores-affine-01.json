@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 52.62172767997084,
+  "median_ground_m": 50.14576277564896,
+  "p95_ground_m": 67.02962871019963,
+  "max_ground_m": 68.1707693919981,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 12.415602020581092,
+  "mean_north_ground_m": -13.020662678661543,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Moose Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        956,
+        272
+      ],
+      "lonlat": [
+        -64.07174408359789,
+        45.38740881773716
+      ],
+      "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+      "reference_objectid": 18158,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18158,
+      "nearest_unfiltered_distance_guide_px": 0.08870070650104024,
+      "selected_distance_guide_px": 0.08870070650104024,
+      "guide_reference_pixel_xy": [
+        923.998967730382,
+        270.0886946996907
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical coastal geometry and native paired crosshairs inspected before first fit and score; initial proposal accepted",
+      "predicted_lonlat": [
+        -64.07115029977157,
+        45.38701833828347
+      ],
+      "error_ground_m": 63.6062066648042,
+      "east_ground_m": 46.50172120885291,
+      "north_ground_m": -43.39745903736648
+    },
+    {
+      "id": "Q02",
+      "label": "Middle or Long Island southern extremity",
+      "role": "check",
+      "pixel_xy": [
+        437,
+        195
+      ],
+      "lonlat": [
+        -64.1060936263954,
+        45.380504033907584
+      ],
+      "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+      "reference_objectid": 18127,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18127,
+      "nearest_unfiltered_distance_guide_px": 0.8760933386295844,
+      "selected_distance_guide_px": 0.8760933386295844,
+      "guide_reference_pixel_xy": [
+        401.30281320080394,
+        206.17790286254603
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical coastal geometry and native paired crosshairs inspected before first fit and score; initial proposal accepted",
+      "predicted_lonlat": [
+        -64.10564781101706,
+        45.38061233776618
+      ],
+      "error_ground_m": 36.93410215301425,
+      "east_ground_m": 34.91762994190093,
+      "north_ground_m": 12.036902470725416
+    },
+    {
+      "id": "Q03",
+      "label": "Cape Tenny upper cape eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        2550,
+        3434
+      ],
+      "lonlat": [
+        -63.8865706706423,
+        45.27651202487044
+      ],
+      "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+      "reference_objectid": 8386,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8386,
+      "nearest_unfiltered_distance_guide_px": 0.33536594717704854,
+      "selected_distance_guide_px": 0.33536594717704854,
+      "guide_reference_pixel_xy": [
+        2529.162601054646,
+        3419.2933107832214
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical coastal geometry and native paired crosshairs inspected before first fit and score; initial proposal accepted",
+      "predicted_lonlat": [
+        -63.88686531995173,
+        45.27676390388141
+      ],
+      "error_ground_m": 36.306390441434274,
+      "east_ground_m": -23.120048361601366,
+      "north_ground_m": 27.993166141811898
+    },
+    {
+      "id": "Q04",
+      "label": "Burntcoat peninsula western extremity",
+      "role": "check",
+      "pixel_xy": [
+        3740,
+        3438
+      ],
+      "lonlat": [
+        -63.812968266348584,
+        45.29943553623012
+      ],
+      "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+      "reference_objectid": 12955,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 12955,
+      "nearest_unfiltered_distance_guide_px": 1.982268299490366,
+      "selected_distance_guide_px": 1.982268299490366,
+      "guide_reference_pixel_xy": [
+        3717.6777096054284,
+        3399.4767991480185
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical coastal geometry and native paired crosshairs inspected before first fit and score; initial proposal accepted",
+      "predicted_lonlat": [
+        -63.81243852279932,
+        45.298949252666844
+      ],
+      "error_ground_m": 68.1707693919981,
+      "east_ground_m": 41.55082890742828,
+      "north_ground_m": -54.04426349394178
+    },
+    {
+      "id": "Q05",
+      "label": "Birch or Diamond Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        565,
+        245
+      ],
+      "lonlat": [
+        -64.09591008353654,
+        45.38131509514492
+      ],
+      "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+      "reference_objectid": 18125,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18125,
+      "nearest_unfiltered_distance_guide_px": 1.0069388694946226,
+      "selected_distance_guide_px": 1.0069388694946226,
+      "guide_reference_pixel_xy": [
+        546.0922042163438,
+        248.56430205178913
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical coastal geometry and native paired crosshairs inspected before first fit and score; initial proposal accepted",
+      "predicted_lonlat": [
+        -64.0963059960723,
+        45.38081796664589
+      ],
+      "error_ground_m": 63.35742339828367,
+      "east_ground_m": -31.00897361001107,
+      "north_ground_m": -55.25039959423842
+    },
+    {
+      "id": "Q06",
+      "label": "Economy Point western coastal spur southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2909,
+        1929
+      ],
+      "lonlat": [
+        -63.90472825492231,
+        45.350027515640235
+      ],
+      "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+      "reference_objectid": 8762,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8762,
+      "nearest_unfiltered_distance_guide_px": 1.33912542422432,
+      "selected_distance_guide_px": 1.33912542422432,
+      "guide_reference_pixel_xy": [
+        2884.081618737662,
+        1922.789530118578
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical coastal geometry and native paired crosshairs inspected before first fit and score; initial proposal accepted",
+      "predicted_lonlat": [
+        -63.90465612496456,
+        45.350338281372416
+      ],
+      "error_ground_m": 34.99755748566951,
+      "east_ground_m": 5.652454036916869,
+      "north_ground_m": 34.538077441040116
+    }
+  ],
+  "fit_sha256": "eaec9f5395dc95188cbcf3b9a93fec20161a8f7fe172fd880ead773fa33251d9",
+  "checks_sha256": "c341373eb928f0f38f3719282fa288a838b7a37f9f9bda28d596f8125c5058cb",
+  "status": "Six excluded checks reserved before first affine fit; five paired coastal regions and a separate Birch Island check"
+}

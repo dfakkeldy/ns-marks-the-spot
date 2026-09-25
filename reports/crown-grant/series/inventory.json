@@ -5,8 +5,8 @@
   "page_sha256": "aad05a61551165f1958feded18c3d71f04a40fcb40dc5dd0546e14064ea8a523",
   "index_sha256": "845424aa6c30a74f97a0ee1c0660c89933bac1b412677a894309ed9ee610cdf5",
   "linked_pdf_count": 138,
-  "assessed_sheet_count": 78,
-  "remaining_sheet_count": 60,
+  "assessed_sheet_count": 82,
+  "remaining_sheet_count": 56,
   "unlinked_numeric_ids": [
     {
       "sheet": "001",
@@ -1481,8 +1481,10 @@
         "content_type": "application/pdf",
         "content_length": "3366162"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch9/sheet059/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "060",
@@ -1506,8 +1508,10 @@
         "content_type": "application/pdf",
         "content_length": "4136431"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch9/sheet060/status.json",
+      "source_status": "provisional-rms-failed"
     },
     {
       "sheet": "061",
@@ -1531,8 +1535,10 @@
         "content_type": "application/pdf",
         "content_length": "4496780"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch9/sheet061/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "062",
@@ -1556,8 +1562,10 @@
         "content_type": "application/pdf",
         "content_length": "2989951"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch9/sheet062/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "063",
@@ -3598,5 +3606,5 @@
       "source_status": "provisional-components"
     }
   ],
-  "progress_updated_at_utc": "2026-09-25T00:42:03.120660+00:00"
+  "progress_updated_at_utc": "2026-09-25T01:32:04.865759+00:00"
 }

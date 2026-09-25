@@ -1,0 +1,54 @@
+[
+  {
+    "id": "Q01",
+    "label": "Cleveland Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3483,
+      718
+    ],
+    "lonlat": [
+      -64.01289005036057,
+      45.57539384158292
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 128398,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128398,
+    "nearest_unfiltered_distance_guide_px": 1.2352534192046176,
+    "selected_distance_guide_px": 1.2352534192046176,
+    "guide_reference_pixel_xy": [
+      3476.163343161694,
+      690.5846884328639
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Economy Lake northern lobe eastern extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      4921,
+      3356
+    ],
+    "lonlat": [
+      -63.86100162444111,
+      45.48863053412482
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 140882,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140882,
+    "nearest_unfiltered_distance_guide_px": 3.0941338185643907,
+    "selected_distance_guide_px": 3.0941338185643907,
+    "guide_reference_pixel_xy": [
+      4891.960840939486,
+      3382.327121486538
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

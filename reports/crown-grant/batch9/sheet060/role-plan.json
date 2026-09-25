@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Only three reliable stream-junction control regions, all within the central portion of a largely river-and-parcel sheet; a uniform scale and rotation avoids unsupported affine shear.",
+  "corrections": [
+    "C02 source moved onto the actual river junction, then modern identity corrected from the adjacent southern tributary to the western tributary junction after tracing connectivity. All proposals retained.",
+    "C03 and Q02 source marks moved onto their respective Mapleton confluences from native detail before fitting."
+  ],
+  "not_adopted": [
+    "Harrison Lake, the central tiny lake, the southeastern oval pond, and northeastern parallel tributary candidates lacked a sufficiently confident precise correspondence. No absence or landscape-change cause is asserted."
+  ],
+  "limitations": [
+    "Four checks share three river systems with controls; Q02 is particularly close to C03. Sparse correlated sample.",
+    "Source represents some rivers with a single generalized line whereas modern data distinguishes banks; 18 px working source uncertainty.",
+    "Northern edge, far west and eastern and southern corners lack independent validation."
+  ]
+}

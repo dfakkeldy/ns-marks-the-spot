@@ -1,0 +1,116 @@
+{
+  "sheet": "060",
+  "version": "similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.952881014372486,
+      2.0500389333418076
+    ],
+    [
+      2.0500389333418076,
+      -4.952881014372486
+    ],
+    [
+      396123.5577250753,
+      5061727.6032719705
+    ]
+  ],
+  "source_sha256": "359ddbcc28b8235c45602a49680d583cde1851eb27300193a58895097a67cd72",
+  "source_dimensions": [
+    5679,
+    3889
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Little Forks River northern tributary junction",
+      "role": "control",
+      "pixel_xy": [
+        1963,
+        1077
+      ],
+      "lonlat": [
+        -64.18104653664534,
+        45.69139528216102
+      ],
+      "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+      "reference_objectid": 168668,
+      "reference_feature_code": "WARV20",
+      "nearest_unfiltered_feature_code": "WARV20",
+      "nearest_unfiltered_objectid": 168668,
+      "nearest_unfiltered_distance_guide_px": 0.21620984782279207,
+      "selected_distance_guide_px": 0.21620984782279207,
+      "guide_reference_pixel_xy": [
+        2005.940961000626,
+        1058.2079930163454
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C02",
+      "label": "Central western tributary joins north-south stream east of Springhill Junction",
+      "role": "control",
+      "pixel_xy": [
+        3643,
+        1897
+      ],
+      "lonlat": [
+        -64.05245097593682,
+        45.686698500703756
+      ],
+      "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+      "reference_objectid": 283843,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 283843,
+      "nearest_unfiltered_distance_guide_px": 0.4984651691338133,
+      "selected_distance_guide_px": 0.4984651691338133,
+      "guide_reference_pixel_xy": [
+        3692.9419527717982,
+        1877.4950737764593
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C03",
+      "label": "Maccan River principal fork east of Mapleton",
+      "role": "control",
+      "pixel_xy": [
+        1944,
+        3336
+      ],
+      "lonlat": [
+        -64.12035518548808,
+        45.5907788739476
+      ],
+      "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+      "reference_objectid": 224693,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 224693,
+      "nearest_unfiltered_distance_guide_px": 1.4112916508482776,
+      "selected_distance_guide_px": 1.4112916508482776,
+      "guide_reference_pixel_xy": [
+        2016.8149023477454,
+        3325.600899223471
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    24.22026137506536,
+    24.57462225240802,
+    20.336042337334728
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: constrained similarity limits free parameters and avoids unsupported affine shear; see component role plan for control distribution and model rationale"
+}

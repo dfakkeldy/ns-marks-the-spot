@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Cleveland Lake northern shore extremity",
+    [
+      3478,
+      675
+    ],
+    [
+      3459,
+      652
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "British Lake northwest lobe northern extremity",
+    [
+      3185,
+      1837
+    ],
+    [
+      3188,
+      1844
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Farmington small lake northern tip",
+    [
+      4347,
+      1627
+    ],
+    [
+      4330,
+      1649
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Fitch parcel lake northeast horn northern tip",
+    [
+      4112,
+      1922
+    ],
+    [
+      4101,
+      1943
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Pinnacle Island northern tip",
+    [
+      134,
+      3946
+    ],
+    [
+      151,
+      3955
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "Newton Lake eastern tip",
+    [
+      4268,
+      3638
+    ],
+    [
+      4243,
+      3641
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Economy Lake northern lobe eastern extremity",
+    [
+      4921,
+      3356
+    ],
+    [
+      4892,
+      3371
+    ],
+    "WALK20"
+  ]
+]

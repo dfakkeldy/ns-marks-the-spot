@@ -1,0 +1,14 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Seven controls span Five Islands at northwest, northern mainland Economy/Bass River and southern Cape Tenny/Burntcoat/Noel shorelines, providing broad non-collinear support.",
+  "corrections": [],
+  "not_adopted": [
+    "Generalized Lower Economy bay, Walton tidal configurations and minor Burntcoat shoreline lobes not forced into precise points"
+  ],
+  "limitations": [
+    "Five checks share islands or cape regions with controls; Birch Island is a separate nearby island. Correlated coastal sample.",
+    "Inland river regions and featureless basin water lack independent validation.",
+    "Coastal morphology and generalized thick source outlines remain limitations; 18 px working source uncertainty."
+  ]
+}

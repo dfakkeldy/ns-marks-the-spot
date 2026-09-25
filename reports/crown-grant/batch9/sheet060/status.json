@@ -1,0 +1,45 @@
+{
+  "sheet": "060",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL FAILED RMS; first fit and all checks retained; private browser and raster coverage verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/060.pdf",
+    "pdf_sha256": "427dc0accee2886e16777abd7533cb269506ee03d08f7ccd3a222bf7f860d9b2",
+    "jpeg_sha256": "359ddbcc28b8235c45602a49680d583cde1851eb27300193a58895097a67cd72",
+    "dimensions": [
+      5679,
+      3889
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 3,
+      "independent_checks": 4,
+      "rms_ground_m": 235.59208581379104,
+      "rms_gate_passed": false,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "First independent RMS 235.59 m exceeds the 100 m ceiling. Median 103.89 m, P95 396.35 m and maximum 445.64 m also exceed companion criteria. The failed first fit and all checks remain unchanged.",
+    "Only three stream-junction control regions support the constrained similarity. Four checks share those river systems, including one particularly close to a control.",
+    "Northern edge, far west and eastern and southern corners have no independent validation. Entire imagery is retained without geographic acceptance.",
+    "Generalized single-line historical rivers differ from modern bank and centreline representations; working source uncertainty is 18 px."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "4 independent checks: RMS 235.59 m, median 103.89 m, P95 396.35 m, maximum 445.64 m. 3 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Maccan, Harrison Lake, Athol, Little Forks, Springhill Junction, Springhill, Claremont, Southampton, Mapleton, Rodney and River Philip Centre, all mapped rivers and inland parcels. No displaced inset identified."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5679 x 3889 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 235.59 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          130
+        ],
+        [
+          5550,
+          130
+        ],
+        [
+          5550,
+          3760
+        ],
+        [
+          90,
+          3760
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains Maccan, Harrison Lake, Athol, Little Forks, Springhill Junction, Springhill, Claremont, Southampton, Mapleton, Rodney and River Philip Centre, all mapped rivers and inland parcels. No displaced inset identified."
+    }
+  ]
+}

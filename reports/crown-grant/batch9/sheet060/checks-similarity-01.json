@@ -1,0 +1,113 @@
+{
+  "status": "Four excluded physical stream junctions reserved before first similarity fit; all lie in the same three river regions as controls",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Central upper pair of tributaries junction",
+      "role": "check",
+      "pixel_xy": [
+        3611,
+        1858
+      ],
+      "lonlat": [
+        -64.05592645909113,
+        45.68805426219272
+      ],
+      "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+      "reference_objectid": 224268,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 224268,
+      "nearest_unfiltered_distance_guide_px": 0.9047805162636218,
+      "selected_distance_guide_px": 0.9047805162636218,
+      "guide_reference_pixel_xy": [
+        3657.1159709295607,
+        1831.8973174054408
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations"
+    },
+    {
+      "id": "Q02",
+      "label": "Maccan River next southern tributary west of principal Mapleton fork",
+      "role": "check",
+      "pixel_xy": [
+        1918,
+        3344
+      ],
+      "lonlat": [
+        -64.12089421264885,
+        45.5900557926151
+      ],
+      "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+      "reference_objectid": 277715,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 277715,
+      "nearest_unfiltered_distance_guide_px": 2.36334199977979,
+      "selected_distance_guide_px": 2.36334199977979,
+      "guide_reference_pixel_xy": [
+        2003.8045311941532,
+        3336.35524464841
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations"
+    },
+    {
+      "id": "Q03",
+      "label": "Maccan River southern tributary at Stephen Mills parcel",
+      "role": "check",
+      "pixel_xy": [
+        1700,
+        3396
+      ],
+      "lonlat": [
+        -64.13997235969312,
+        45.58262243867099
+      ],
+      "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+      "reference_objectid": 157855,
+      "reference_feature_code": "WARV10",
+      "nearest_unfiltered_feature_code": "WARV10",
+      "nearest_unfiltered_objectid": 157855,
+      "nearest_unfiltered_distance_guide_px": 0.19845913084528485,
+      "selected_distance_guide_px": 0.19845913084528485,
+      "guide_reference_pixel_xy": [
+        1688.1856012496864,
+        3369.929727653158
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations"
+    },
+    {
+      "id": "Q04",
+      "label": "Little Forks River southern branch division",
+      "role": "check",
+      "pixel_xy": [
+        1609,
+        1121
+      ],
+      "lonlat": [
+        -64.20346151316365,
+        45.682112889903294
+      ],
+      "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+      "reference_objectid": 261017,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 261017,
+      "nearest_unfiltered_distance_guide_px": 0.9519074681265292,
+      "selected_distance_guide_px": 0.9519074681265292,
+      "guide_reference_pixel_xy": [
+        1631.2289125861134,
+        1108.0760265935678
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations"
+    }
+  ]
+}
