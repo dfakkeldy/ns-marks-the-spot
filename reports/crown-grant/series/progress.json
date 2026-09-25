@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-25T01:32:04.865759+00:00",
+  "updated_at_utc": "2026-09-25T02:20:47.014193+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -59,13 +59,13 @@
     "059",
     "060",
     "061",
-    "062"
-  ],
-  "remaining_sheets": [
+    "062",
     "063",
     "064",
     "065",
-    "066",
+    "066"
+  ],
+  "remaining_sheets": [
     "067",
     "057",
     "056",
@@ -366,6 +366,22 @@
       "merge": "344ecd8015e3ae33129551bbca7a084f3e855c9f",
       "merged_at_utc": "2026-09-25T01:08:50Z",
       "ci_run": 36079041767,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 545,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/545",
+      "sheets": [
+        "059",
+        "060",
+        "061",
+        "062"
+      ],
+      "head": "69dc69f633117edcc3a941b5cda1a77895227331",
+      "merge": "839cca0826cb9ef05d5f1af15180d180184aa717",
+      "merged_at_utc": "2026-09-25T01:50:55Z",
+      "ci_run": 36082536193,
       "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled"
     }

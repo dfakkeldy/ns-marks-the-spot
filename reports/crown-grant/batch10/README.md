@@ -4,10 +4,10 @@ Continuation south through Hants and Halifax, then the next western mainland col
 
 | Sheet | Main RMS (m) | Independent checks | Assessment |
 |---|---:|---:|---|
-| 063 | — | — | queued |
-| 064 | — | — | queued |
-| 065 | — | — | queued |
-| 066 | — | — | queued |
+| 063 | 46.18 | 6 | complete |
+| 064 | 53.99 | 7 | complete |
+| 065 | 55.12 | 7 | complete |
+| 066 | 76.83 | 7 | complete |
 | 067 | — | — | queued |
 | 057 | — | — | queued |
 | 056 | — | — | queued |

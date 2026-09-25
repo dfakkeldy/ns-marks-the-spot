@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-25T01:41:31.437890+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "063",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6017,
+        5203
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6066,
+        4144
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Complete historical frame and modern-only NSTDB reference inspected in actual browser; correlated paired pond checks and unvalidated river regions retained."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5290 x 3647 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 53.99 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          115
+        ],
+        [
+          5220,
+          115
+        ],
+        [
+          5220,
+          3530
+        ],
+        [
+          90,
+          3530
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains West Gore, Gore, Rawdon, Rawdon Gold Mines, South Rawdon, Upper Rawdon, Hillsvale, East Uniacke, Mount Uniacke Gold Mines, Renfrew and Nine Mile River, all original lake systems, islands, rivers and inland parcels. No displaced inset identified."
+    }
+  ]
+}

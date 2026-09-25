@@ -1,0 +1,31 @@
+[
+  [
+    "C01",
+    "Nicholson Lake northern narrow horn tip",
+    [
+      1132,
+      310
+    ],
+    [
+      1208,
+      333
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Barrett Lake northern tip",
+    [
+      1453,
+      2519
+    ],
+    [
+      1522,
+      2573
+    ],
+    "WALK20",
+    [
+      129410
+    ]
+  ]
+]
