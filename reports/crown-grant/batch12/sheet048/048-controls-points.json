@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Green or Flat Island northwestern roof corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3055,
+      209
+    ],
+    "lonlat": [
+      -64.13383816142955,
+      44.42732073880967
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 18196,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18196,
+    "nearest_unfiltered_distance_guide_px": 1.4118839232732885,
+    "selected_distance_guide_px": 1.4118839232732885,
+    "guide_reference_pixel_xy": [
+      3057.245584608172,
+      147.80657064332627
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Ironbound Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3888,
+      384
+    ],
+    "lonlat": [
+      -64.07821799770163,
+      44.436167242288555
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 21749,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 21749,
+    "nearest_unfiltered_distance_guide_px": 0.9793701969963794,
+    "selected_distance_guide_px": 0.9793701969963794,
+    "guide_reference_pixel_xy": [
+      3880.6609704364673,
+      310.72269223385956
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Pearl Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3819,
+      1492
+    ],
+    "lonlat": [
+      -64.05142141274624,
+      44.386470613454414
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 20666,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20666,
+    "nearest_unfiltered_distance_guide_px": 1.504641214869686,
+    "selected_distance_guide_px": 1.504641214869686,
+    "guide_reference_pixel_xy": [
+      3837.502801323484,
+      1432.9256133908639
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Great Duck Island western projecting tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2115,
+      1717
+    ],
+    "lonlat": [
+      -64.15031459905487,
+      44.343662297575115
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 17077,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17077,
+    "nearest_unfiltered_distance_guide_px": 1.0303569210581653,
+    "selected_distance_guide_px": 1.0303569210581653,
+    "guide_reference_pixel_xy": [
+      2150.880395036773,
+      1666.4647057220573
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Little Duck Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1847,
+      1140
+    ],
+    "lonlat": [
+      -64.18271924775854,
+      44.362864931302674
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 19897,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19897,
+    "nearest_unfiltered_distance_guide_px": 0.18091360033379336,
+    "selected_distance_guide_px": 0.18091360033379336,
+    "guide_reference_pixel_xy": [
+      1869.819824819453,
+      1099.983671034919
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Cross Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1376,
+      2241
+    ],
+    "lonlat": [
+      -64.18194877529618,
+      44.30554853046468
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 16147,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16147,
+    "nearest_unfiltered_distance_guide_px": 0.8338958573067231,
+    "selected_distance_guide_px": 0.8338958573067231,
+    "guide_reference_pixel_xy": [
+      1411.3008023179718,
+      2212.7777533454355
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Ovens Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      434,
+      1563
+    ],
+    "lonlat": [
+      -64.25572976351454,
+      44.315427954591556
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 313625,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 313625,
+    "nearest_unfiltered_distance_guide_px": 0.4887462548337599,
+    "selected_distance_guide_px": 0.4887462548337599,
+    "guide_reference_pixel_xy": [
+      494.25383760384284,
+      1576.4176593977027
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

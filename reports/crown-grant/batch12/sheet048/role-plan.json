@@ -1,0 +1,16 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 7,
+  "reason": "Six island controls span northern Green/Ironbound, eastern Pearl and central Duck/Cross groups; Ovens Point adds western mainland support.",
+  "corrections": [
+    "Cross southeast check source moved onto the actual shore tip from the initial offshore crosshair before fitting."
+  ],
+  "limitations": [
+    "Six checks pair with control islands; Rose Point is a separate mainland check.",
+    "Northern mainland/Stonehurst island maze and most southern/eastern ocean area lack independent validation.",
+    "Generalized small islands and shore extrema carry18 px source uncertainty."
+  ],
+  "created_at_utc": "2026-09-25T05:52:19.284554+00:00"
+}

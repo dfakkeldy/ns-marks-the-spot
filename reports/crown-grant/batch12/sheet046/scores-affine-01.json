@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 96.79169290218512,
+  "median_ground_m": 83.71422603207017,
+  "p95_ground_m": 131.4838901911435,
+  "max_ground_m": 137.19962423067753,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -9.259407300592866,
+  "mean_north_ground_m": 6.550388901752259,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Duck Lake southern outlet",
+      "role": "check",
+      "pixel_xy": [
+        263,
+        427
+      ],
+      "lonlat": [
+        -64.49608115707176,
+        44.67953046408979
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 128119,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128119,
+      "nearest_unfiltered_distance_guide_px": 3.164381632922887,
+      "selected_distance_guide_px": 3.164381632922887,
+      "guide_reference_pixel_xy": [
+        252.9052482676343,
+        349.628222966101
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; native crosshair and physical definition inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.49529214811905,
+        44.67941439044326
+      ],
+      "error_ground_m": 63.87270395307201,
+      "east_ground_m": 62.55679448234466,
+      "north_ground_m": -12.898440772840496
+    },
+    {
+      "id": "Q03",
+      "label": "Nine Mile Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3049,
+        1310
+      ],
+      "lonlat": [
+        -64.29897274564168,
+        44.694732565754066
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 134486,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134486,
+      "nearest_unfiltered_distance_guide_px": 0.8860074633744297,
+      "selected_distance_guide_px": 0.8860074633744297,
+      "guide_reference_pixel_xy": [
+        3058.508738306118,
+        1237.7373406087281
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; native crosshair and physical definition inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.29998195627151,
+        44.69573562955438
+      ],
+      "error_ground_m": 137.19962423067753,
+      "east_ground_m": -79.9930795114476,
+      "north_ground_m": 111.46678482541039
+    },
+    {
+      "id": "Q04",
+      "label": "Russell Lake southern outlet",
+      "role": "check",
+      "pixel_xy": [
+        3698,
+        1508
+      ],
+      "lonlat": [
+        -64.25537305323748,
+        44.699327997838935
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 142095,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142095,
+      "nearest_unfiltered_distance_guide_px": 1.558718374530126,
+      "selected_distance_guide_px": 1.558718374530126,
+      "guide_reference_pixel_xy": [
+        3689.7394868508563,
+        1409.5367940233555
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; native crosshair and physical definition inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.2546727559922,
+        44.69982780186103
+      ],
+      "error_ground_m": 78.52080218065662,
+      "east_ground_m": 55.50376318788098,
+      "north_ground_m": 55.541413801571856
+    },
+    {
+      "id": "Q05",
+      "label": "Veniot Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1470,
+        2692
+      ],
+      "lonlat": [
+        -64.35933763623521,
+        44.60424940971668
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 139259,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139259,
+      "nearest_unfiltered_distance_guide_px": 1.143936271703388,
+      "selected_distance_guide_px": 1.143936271703388,
+      "guide_reference_pixel_xy": [
+        1469.1462855611462,
+        2614.1345442822203
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; native crosshair and physical definition inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.36035550200697,
+        44.60391588511048
+      ],
+      "error_ground_m": 88.90044792864659,
+      "east_ground_m": -80.80650056691128,
+      "north_ground_m": -37.062097998410316
+    },
+    {
+      "id": "Q07",
+      "label": "Big Whitford Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        4374,
+        3420
+      ],
+      "lonlat": [
+        -64.16113402973494,
+        44.628978147024114
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 125876,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125876,
+      "nearest_unfiltered_distance_guide_px": 0.6302275396877228,
+      "selected_distance_guide_px": 0.6302275396877228,
+      "guide_reference_pixel_xy": [
+        4375.162850278255,
+        3322.391176102101
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; native crosshair and physical definition inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.16209981533248,
+        44.62913221774742
+      ],
+      "error_ground_m": 78.52800413549375,
+      "east_ground_m": -76.63877610489479,
+      "north_ground_m": 17.121490316205847
+    },
+    {
+      "id": "Q08",
+      "label": "Long Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1385,
+        2728
+      ],
+      "lonlat": [
+        -64.36542926291916,
+        44.60151108680777
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 133129,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133129,
+      "nearest_unfiltered_distance_guide_px": 0.22248324997219382,
+      "selected_distance_guide_px": 0.22248324997219382,
+      "guide_reference_pixel_xy": [
+        1363.0119273157907,
+        2630.2221633085283
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; native crosshair and physical definition inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.3646253926738,
+        44.60065738152242
+      ],
+      "error_ground_m": 114.33668807254145,
+      "east_ground_m": 63.821354709470846,
+      "north_ground_m": -94.86681676142372
+    }
+  ],
+  "fit_sha256": "ee046ea9b74ef57ae8c7bbb24207d118ada4f9add3966dd2f77e956c4ede3767",
+  "checks_sha256": "3108d350f04dbb3010913590796864d56757a714ad670d5a46deaaaffa089ba7",
+  "status": "Reserved before first fit and score"
+}

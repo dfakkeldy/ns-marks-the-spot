@@ -1,0 +1,19 @@
+{
+  "initial": "048-south-provisional-guide.npy",
+  "refined": "048-frozen-north-discovery-guide.npy",
+  "reason": "Use newly frozen047 physical affine translated3690 source pixels south for discovery only; no048 observations or score exist yet.",
+  "actual_refined_frame_lonlat_bbox": [
+    -64.32810216984736,
+    44.20492070689478,
+    -63.87670932228984,
+    44.4830425508248
+  ],
+  "existing_reference_bbox": [
+    -64.34080428069412,
+    44.183019993442464,
+    -63.86397615888796,
+    44.49420020256071
+  ],
+  "actual_frame_within_reference_query": true,
+  "no_guide_point_adopted": true
+}

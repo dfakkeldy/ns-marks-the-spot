@@ -5,8 +5,8 @@
   "page_sha256": "aad05a61551165f1958feded18c3d71f04a40fcb40dc5dd0546e14064ea8a523",
   "index_sha256": "845424aa6c30a74f97a0ee1c0660c89933bac1b412677a894309ed9ee610cdf5",
   "linked_pdf_count": 138,
-  "assessed_sheet_count": 101,
-  "remaining_sheet_count": 37,
+  "assessed_sheet_count": 106,
+  "remaining_sheet_count": 32,
   "unlinked_numeric_ids": [
     {
       "sheet": "001",
@@ -979,8 +979,10 @@
         "content_type": "application/pdf",
         "content_length": "2825352"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch12/sheet039/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "040",
@@ -1004,8 +1006,10 @@
         "content_type": "application/pdf",
         "content_length": "3320077"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch12/sheet040/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "041",
@@ -1164,8 +1168,10 @@
         "content_type": "application/pdf",
         "content_length": "4332992"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch12/sheet046/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "047",
@@ -1189,8 +1195,10 @@
         "content_type": "application/pdf",
         "content_length": "3475773"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch12/sheet047/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "048",
@@ -1214,8 +1222,10 @@
         "content_type": "application/pdf",
         "content_length": "2240856"
       },
-      "assessment_state": "queued",
-      "assessment_complete": false
+      "assessment_state": "assessed",
+      "assessment_complete": true,
+      "status_record": "reports/crown-grant/batch12/sheet048/status.json",
+      "source_status": "provisional-rms-pass"
     },
     {
       "sheet": "049",
@@ -3644,5 +3654,5 @@
       "source_status": "provisional-components"
     }
   ],
-  "progress_updated_at_utc": "2026-09-25T05:20:30.119941+00:00"
+  "progress_updated_at_utc": "2026-09-25T06:13:23.420136+00:00"
 }

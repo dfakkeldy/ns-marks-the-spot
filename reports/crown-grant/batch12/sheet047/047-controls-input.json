@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Oak Island northern tip",
+    [
+      1556,
+      1117
+    ],
+    [
+      1585,
+      1038
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Meisner Island northern tip",
+    [
+      2645,
+      1317
+    ],
+    [
+      2672,
+      1258
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Snake Island northern tip",
+    [
+      3438,
+      1373
+    ],
+    [
+      3484,
+      1311
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C04",
+    "Rouse Island northern tip",
+    [
+      934,
+      2403
+    ],
+    [
+      951,
+      2317
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Black or Little Kaulback Island northern tip",
+    [
+      1832,
+      2507
+    ],
+    [
+      1855,
+      2421
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "Big Tancook South Head southeast turning corner",
+    [
+      2848,
+      3480
+    ],
+    [
+      2893,
+      3392
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C07",
+    "Little Tancook Island northern tip",
+    [
+      3410,
+      2900
+    ],
+    [
+      3458,
+      2830
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C08",
+    "Gravel Island northern tip",
+    [
+      4987,
+      3010
+    ],
+    [
+      5045,
+      2954
+    ],
+    "WACOIS10"
+  ]
+]

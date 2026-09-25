@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5245 x 3681 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 35.11 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          125,
+          115
+        ],
+        [
+          5150,
+          130
+        ],
+        [
+          5155,
+          3555
+        ],
+        [
+          130,
+          3535
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full original mapped frame retains Northfield, Sweetland, Lower New Cornwall, Midville Branch, Baker Settlement, Bridgewater, Laconia, Mahone Bay, Conquerall, Pleasantville and Lunenburg; Cook, Wiles, Oak Hill, Fancy, Minamkeak, Milipsigate, Hebb, Randall, Langille, Dares and Spectacle lakes, the LaHave River and all intervening land. No inset or internal crop."
+    }
+  ]
+}

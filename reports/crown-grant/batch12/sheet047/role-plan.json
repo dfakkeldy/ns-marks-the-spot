@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 8,
+  "reason": "Island controls span northern Oak/Meisner/Snake, western Rouse/Black, southern Tancooks and southeastern Gravel.",
+  "corrections": [
+    "Rouse modern northern tip refined before fitting."
+  ],
+  "unadopted": [
+    "Mason Island historical outline and nearby northern islet did not support a precise match to the current apparent combined outline; excluded before proposals/fitting."
+  ],
+  "limitations": [
+    "All eight checks pair with control islands; shore samples are not independent regional validation.",
+    "Mainland interiors, northern edge and substantial mainland coastline remain unvalidated.",
+    "Source uncertainty18 px; generalized island tips and small capes limit precision."
+  ],
+  "created_at_utc": "2026-09-25T05:40:56.970277+00:00"
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Beaver Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      960,
+      307
+    ],
+    "lonlat": [
+      -64.58936441585607,
+      44.27884802006553
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 128663,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128663,
+    "nearest_unfiltered_distance_guide_px": 0.5849487660928264,
+    "selected_distance_guide_px": 0.5849487660928264,
+    "guide_reference_pixel_xy": [
+      985.2036518923123,
+      161.4516470427625
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Branch Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1337,
+      1341
+    ],
+    "lonlat": [
+      -64.53905189085383,
+      44.24127253948367
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 124651,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124651,
+    "nearest_unfiltered_distance_guide_px": 1.996340472812974,
+    "selected_distance_guide_px": 1.996340472812974,
+    "guide_reference_pixel_xy": [
+      1346.0779149263399,
+      1200.3196801807499
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Sharp Head eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3668,
+      3480
+    ],
+    "lonlat": [
+      -64.33874832765711,
+      44.19421873100019
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 17236,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17236,
+    "nearest_unfiltered_distance_guide_px": 18.590201996236388,
+    "selected_distance_guide_px": 18.590201996236388,
+    "guide_reference_pixel_xy": [
+      3669.5341506563127,
+      3373.8533704844303
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "sheet": "040",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS gate passed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/040.pdf",
+    "pdf_sha256": "26bb1ed90788c68e2ac901ae8821a30658d82b84bf42e93de7b79701a9715e6f",
+    "jpeg_sha256": "2fd97c9057d797bcbd0ef55fd994cdd6befd82642cb0a67b7eb4b50ad966935f",
+    "dimensions": [
+      5544,
+      3981
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 7,
+      "rms_ground_m": 61.47220506610824,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "All seven checks share control waterbodies or the connected Crooked/Beaver system.",
+    "Northeast mainland and southwestern Great Island area remain unvalidated.",
+    "Great Island candidate not adopted because historical/modern shoreline connections were unresolved.",
+    "Source uncertainty 18 px; generalized lake and coast outlines limit point precision.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 61.47 m, median 44.56 m, P95 103.58 m, maximum 114.09 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Camperdown, Italy Cross, Petite Riviere, Green Bay, LaHave and Riverport, Crooked/Beaver, Branch and Dolliver lakes, Great Island, Indian Island, Cape LaHave and LaHave Ironbound Island, all depicted small islands and Atlantic water. No displaced inset or internal crop."
+  }
+}

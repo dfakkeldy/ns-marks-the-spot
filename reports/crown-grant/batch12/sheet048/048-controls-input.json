@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Green or Flat Island northwestern roof corner",
+    [
+      3055,
+      209
+    ],
+    [
+      3058,
+      149
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Ironbound Island southern tip",
+    [
+      3888,
+      384
+    ],
+    [
+      3880,
+      310
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Pearl Island northern tip",
+    [
+      3819,
+      1492
+    ],
+    [
+      3836,
+      1433
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C04",
+    "Great Duck Island western projecting tip",
+    [
+      2115,
+      1717
+    ],
+    [
+      2150,
+      1667
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Little Duck Island western tip",
+    [
+      1847,
+      1140
+    ],
+    [
+      1870,
+      1100
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "Cross Island southern tip",
+    [
+      1376,
+      2241
+    ],
+    [
+      1411,
+      2212
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C07",
+    "Ovens Point southern tip",
+    [
+      434,
+      1563
+    ],
+    [
+      494,
+      1576
+    ],
+    "WACO20"
+  ]
+]

@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Cook Lake southeast corner",
+    [
+      976,
+      535
+    ],
+    [
+      1040,
+      514
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Wiles Lake southern tip",
+    [
+      1218,
+      1221
+    ],
+    [
+      1268,
+      1217
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Oak Hill Lake southeast corner",
+    [
+      2110,
+      2160
+    ],
+    [
+      2160,
+      2160
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Fancy Lake central island southern tip",
+    [
+      1869,
+      3211
+    ],
+    [
+      1907,
+      3218
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q05",
+    "Lake Randall southern tip",
+    [
+      3128,
+      1214
+    ],
+    [
+      3175,
+      1214
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Langille Lake southern tip",
+    [
+      4107,
+      1505
+    ],
+    [
+      4142,
+      1508
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Dares Lake southern prong",
+    [
+      4483,
+      2945
+    ],
+    [
+      4514,
+      2956
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Spectacle western lake southwest tip",
+    [
+      4240,
+      3074
+    ],
+    [
+      4278,
+      3085
+    ],
+    "WALK20"
+  ]
+]
