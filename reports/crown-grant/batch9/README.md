@@ -7,7 +7,7 @@ Continuation through Cobequid uplands and the next western mainland column. Cont
 | 070 | 77.72 | 5 | complete |
 | 069 | 41.33 | 4 | complete |
 | 068 | 20.21 | 4 | complete |
-| 058 | — | — | queued |
+| 058 | 106.18 | 3 | complete |
 | 059 | — | — | queued |
 | 060 | — | — | queued |
 | 061 | — | — | queued |

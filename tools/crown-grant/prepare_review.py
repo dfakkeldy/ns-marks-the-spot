@@ -4,13 +4,19 @@ import json
 import shutil
 from pathlib import Path
 
+
+def ordered_queues(report_root):
+    return sorted(report_root.glob('batch*/queue.json'),
+                  key=lambda path: int(path.parent.name.removeprefix('batch')))
+
+
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--private-root',type=Path,required=True);p.add_argument('--leaflet',type=Path,required=True);a=p.parse_args()
     private=a.private_root.resolve();review=private/'review';review.mkdir(exist_ok=True)
     here=Path(__file__).resolve().parent;shutil.copy2(here/'review.html',review/'index.html')
     shutil.copytree(a.leaflet,review/'vendor',dirs_exist_ok=True)
     report_root=here.parents[1]/'reports/crown-grant'
-    queues=sorted(report_root.glob('batch*/queue.json'))
+    queues=ordered_queues(report_root)
     records=[(q.parent,s) for q in queues for s in json.loads(q.read_text())['sheets']]
     if not records:
         records=[(report_root/'batch1',s) for s in ['002','003','004','004a','005']]

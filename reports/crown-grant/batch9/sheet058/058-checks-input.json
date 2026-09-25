@@ -1,0 +1,82 @@
+[
+  [
+    "Q01",
+    "Large Lake (Big Jolicure) northeast tip",
+    [
+      1169,
+      2338
+    ],
+    [
+      1037,
+      2317
+    ],
+    "NBHN_4",
+    [
+      "NB13:5538"
+    ]
+  ],
+  [
+    "Q02",
+    "Long Lake (Jolicure) southwest tip",
+    [
+      955,
+      2779
+    ],
+    [
+      801,
+      2778
+    ],
+    "NBHN_4",
+    [
+      "NB13:428"
+    ]
+  ],
+  [
+    "Q03",
+    "Front Lake (Jolicure) southwest tip",
+    [
+      860,
+      2928
+    ],
+    [
+      650,
+      2932
+    ],
+    "NBHN_4",
+    [
+      "NB13:427"
+    ]
+  ],
+  [
+    "Q04",
+    "Small lake north of Large Lake southwest tip",
+    [
+      875,
+      2312
+    ],
+    [
+      713,
+      2340
+    ],
+    "NBHN_4",
+    [
+      "NB13:8685"
+    ]
+  ],
+  [
+    "Q05",
+    "Large Lake (Big Jolicure) eastern mid-lake point",
+    [
+      1006,
+      2497
+    ],
+    [
+      860,
+      2480
+    ],
+    "NBHN_4",
+    [
+      "NB13:5538"
+    ]
+  ]
+]

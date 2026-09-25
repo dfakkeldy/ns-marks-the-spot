@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-09-25T00:42:03.010103+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "058",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6218,
+        5386
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5274,
+        3625
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Full original mapped frame, grant-reference table and modern reference visibly inspected; failed first score remains unchanged.",
+    "NBHN/NSTDB per-sheet source credits and NB map attribution visibly verified. Switching to069 restored NSTDB-only credits; switching back058 restored NBHN/NSTDB credits."
+  ]
+}
