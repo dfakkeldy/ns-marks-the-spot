@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T06:08:23.590321+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 6,
+  "checks": 7,
+  "reason": "Northern Beaver and Branch lakes, western Dolliver lake, southern Indian and Cape LaHave, and eastern Ironbound span the mapped land.",
+  "corrections": [
+    "Cape LaHave and Sharp Head typed as island shoreline after mainland-only guard failures.",
+    "Beaver northern reference moved from inward peninsula to outer northern roof; Branch southern source and Sharp Head source/reference refined."
+  ],
+  "limitations": [
+    "All seven checks share control waterbodies or the connected Crooked/Beaver system.",
+    "Northeast mainland and southwestern Great Island area remain unvalidated.",
+    "Great Island candidate not adopted because historical/modern shoreline connections were unresolved."
+  ]
+}

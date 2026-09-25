@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-25T05:20:30.119941+00:00",
+  "updated_at_utc": "2026-09-25T06:13:23.420136+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -78,14 +78,14 @@
     "042",
     "043",
     "044",
-    "045"
-  ],
-  "remaining_sheets": [
+    "045",
     "046",
     "047",
     "048",
     "040",
-    "039",
+    "039"
+  ],
+  "remaining_sheets": [
     "038",
     "037",
     "036",
@@ -119,7 +119,7 @@
     "007",
     "006"
   ],
-  "publication_status": "Sheets 071/070/069/068 merged in PR543 after required CI passed. Border-sheet assessment and reviewer improvements prepared on codex/crown-grant-border. Continue every remaining official sheet.",
+  "publication_status": "PR549 merged after required CI passed. Sheets046\u2013048/040/039 complete for the next publication checkpoint; full-series assessment continues north through sheets038/037.",
   "delivered_checkpoints": [
     {
       "pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/528",
@@ -439,6 +439,21 @@
       "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled",
       "previous_head_ci": "d12073f821741ede7b57c7c4e4ee641e9423bd6a failed unchanged native UI assertions: Undo on attempt1, map credit on attempt2; logs retained, no cause established. Newly completed records added before the final green run."
+    },
+    {
+      "pr": 549,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/549",
+      "sheets": [
+        "043",
+        "044",
+        "045"
+      ],
+      "head": "eb81eeeef66fcfea98ccc20b976c9e0f35cf2b12",
+      "merge": "22186197e2654cd776ef6b2b246fef579a6c0d20",
+      "merged_at_utc": "2026-09-25T05:42:50Z",
+      "ci_run": 36098298996,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
     }
   ],
   "geographic_acceptance": "Per-sheet measured results and limitations remain authoritative; assessment is not an automatic geographic pass"

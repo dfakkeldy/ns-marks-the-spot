@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Beaver Lake southern tip",
+    [
+      1085,
+      670
+    ],
+    [
+      1100,
+      530
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Crooked Lake southern tip",
+    [
+      820,
+      730
+    ],
+    [
+      812,
+      590
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Branch Lake southern tip",
+    [
+      1351,
+      1342
+    ],
+    [
+      1345,
+      1202
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Dolliver\u2019s Lake southern tip",
+    [
+      586,
+      2560
+    ],
+    [
+      568,
+      2410
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Indian Island southern tip",
+    [
+      2500,
+      3790
+    ],
+    [
+      2500,
+      3675
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q06",
+    "LaHave Ironbound Island southern tip",
+    [
+      4804,
+      3220
+    ],
+    [
+      4820,
+      3135
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q07",
+    "Sharp Head eastern tip",
+    [
+      3667,
+      3470
+    ],
+    [
+      3662,
+      3345
+    ],
+    "WACO20"
+  ]
+]

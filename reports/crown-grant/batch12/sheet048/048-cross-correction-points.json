@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q06",
+    "label": "Cross Island southeast projecting tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1613,
+      2218
+    ],
+    "lonlat": [
+      -64.16746731186254,
+      44.31113256847007
+    ],
+    "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+    "reference_objectid": 16778,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16778,
+    "nearest_unfiltered_distance_guide_px": 1.4433387178726007,
+    "selected_distance_guide_px": 1.4433387178726007,
+    "guide_reference_pixel_xy": [
+      1652.9031988897477,
+      2192.1258145584725
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

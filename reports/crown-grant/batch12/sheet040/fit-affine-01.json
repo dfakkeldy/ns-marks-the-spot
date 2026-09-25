@@ -1,0 +1,199 @@
+{
+  "sheet": "040",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.960659748313826,
+      2.0810569714719573
+    ],
+    [
+      2.0310022340248852,
+      -4.858714499555516
+    ],
+    [
+      367751.9999792535,
+      4903555.454041019
+    ]
+  ],
+  "source_sha256": "2fd97c9057d797bcbd0ef55fd994cdd6befd82642cb0a67b7eb4b50ad966935f",
+  "source_dimensions": [
+    5544,
+    3981
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Beaver Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        960,
+        307
+      ],
+      "lonlat": [
+        -64.58936441585607,
+        44.27884802006553
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 128663,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128663,
+      "nearest_unfiltered_distance_guide_px": 0.5849487660928264,
+      "selected_distance_guide_px": 0.5849487660928264,
+      "guide_reference_pixel_xy": [
+        985.2036518923123,
+        161.4516470427625
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Branch Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1350,
+        1049
+      ],
+      "lonlat": [
+        -64.54638671146067,
+        44.25431157816815
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 124652,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124652,
+      "nearest_unfiltered_distance_guide_px": 3.10160735599457,
+      "selected_distance_guide_px": 3.10160735599457,
+      "guide_reference_pixel_xy": [
+        1358.374672044767,
+        904.358357096673
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Dolliver\u2019s Lake western projecting point",
+      "role": "control",
+      "pixel_xy": [
+        439,
+        2453
+      ],
+      "lonlat": [
+        -64.56513313434452,
+        44.175053344776806
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 141388,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141388,
+      "nearest_unfiltered_distance_guide_px": 0.4812345516373198,
+      "selected_distance_guide_px": 0.4812345516373198,
+      "guide_reference_pixel_xy": [
+        422.10624643805204,
+        2299.5306404490257
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Indian Island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2547,
+        3664
+      ],
+      "lonlat": [
+        -64.40244847812652,
+        44.16438228268963
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 17698,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17698,
+      "nearest_unfiltered_distance_guide_px": 1.3882265802681657,
+      "selected_distance_guide_px": 1.3882265802681657,
+      "guide_reference_pixel_xy": [
+        2546.3863900534925,
+        3540.071383875911
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "LaHave Ironbound Island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4863,
+        3000
+      ],
+      "lonlat": [
+        -64.27787202969573,
+        44.23769980750759
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 22582,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22582,
+      "nearest_unfiltered_distance_guide_px": 0.5176144281332913,
+      "selected_distance_guide_px": 0.5176144281332913,
+      "guide_reference_pixel_xy": [
+        4870.025720621401,
+        2927.5169749953784
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Cape LaHave southern tip",
+      "role": "control",
+      "pixel_xy": [
+        3453,
+        3688
+      ],
+      "lonlat": [
+        -64.34665232085929,
+        44.18082818093146
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 17239,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17239,
+      "nearest_unfiltered_distance_guide_px": 2.406507208220287,
+      "selected_distance_guide_px": 2.406507208220287,
+      "guide_reference_pixel_xy": [
+        3447.404700758343,
+        3579.9067733619595
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    36.05144358386758,
+    32.35501215650497,
+    50.797146906450436,
+    53.69858186195758,
+    33.338590602483556,
+    19.372013349135155
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

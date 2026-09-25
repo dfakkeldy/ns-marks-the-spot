@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 61.47220506610824,
+  "median_ground_m": 44.55719619888811,
+  "p95_ground_m": 103.58097117779913,
+  "max_ground_m": 114.09236252223435,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -3.0677643418894895,
+  "mean_north_ground_m": 12.968687439766821,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Beaver Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1085,
+        670
+      ],
+      "lonlat": [
+        -64.57231540845501,
+        44.2653506250913
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 128663,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128663,
+      "nearest_unfiltered_distance_guide_px": 2.06176731668895,
+      "selected_distance_guide_px": 2.06176731668895,
+      "guide_reference_pixel_xy": [
+        1100.7960021960898,
+        528.0980891261715
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.57242654191803,
+        44.26544441894786
+      ],
+      "error_ground_m": 13.688115213349645,
+      "east_ground_m": -8.87375577729846,
+      "north_ground_m": 10.422137808472705
+    },
+    {
+      "id": "Q02",
+      "label": "Crooked Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        820,
+        730
+      ],
+      "lonlat": [
+        -64.58811622306128,
+        44.25688818023626
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 128663,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128663,
+      "nearest_unfiltered_distance_guide_px": 1.5782124087712421,
+      "selected_distance_guide_px": 1.5782124087712421,
+      "guide_reference_pixel_xy": [
+        813.242736884451,
+        589.0271899243817
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.58715999401876,
+        44.25765105521004
+      ],
+      "error_ground_m": 114.09236252223435,
+      "east_ground_m": 76.36281422807279,
+      "north_ground_m": 84.76902611846964
+    },
+    {
+      "id": "Q03",
+      "label": "Branch Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1337,
+        1341
+      ],
+      "lonlat": [
+        -64.53905189085383,
+        44.24127253948367
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 124651,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124651,
+      "nearest_unfiltered_distance_guide_px": 1.996340472812974,
+      "selected_distance_guide_px": 1.996340472812974,
+      "guide_reference_pixel_xy": [
+        1346.0779149263399,
+        1200.3196801807499
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.53905959359375,
+        44.241268752982094
+      ],
+      "error_ground_m": 0.7453979022790386,
+      "east_ground_m": -0.6152983876093054,
+      "north_ground_m": -0.4207444912620723
+    },
+    {
+      "id": "Q04",
+      "label": "Dolliver\u2019s Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        586,
+        2560
+      ],
+      "lonlat": [
+        -64.55322610589846,
+        44.17317848216946
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 141386,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141386,
+      "nearest_unfiltered_distance_guide_px": 1.374687050686315,
+      "selected_distance_guide_px": 1.374687050686315,
+      "guide_reference_pixel_xy": [
+        568.0915615196573,
+        2411.3716344175627
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.55293282638382,
+        44.173687043517766
+      ],
+      "error_ground_m": 61.18316473895092,
+      "east_ground_m": 23.454103314272594,
+      "north_ground_m": 56.50915576432756
+    },
+    {
+      "id": "Q05",
+      "label": "Indian Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2500,
+        3790
+      ],
+      "lonlat": [
+        -64.40154694097696,
+        44.15763106621842
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 17698,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17698,
+      "nearest_unfiltered_distance_guide_px": 0.8917051601057748,
+      "selected_distance_guide_px": 0.8917051601057748,
+      "guide_reference_pixel_xy": [
+        2500.8895101097296,
+        3674.9374711486744
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.40253192779943,
+        44.157688925059304
+      ],
+      "error_ground_m": 79.05439137411702,
+      "east_ground_m": -78.79250370901292,
+      "north_ground_m": 6.429475468282932
+    },
+    {
+      "id": "Q06",
+      "label": "LaHave Ironbound Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4804,
+        3220
+      ],
+      "lonlat": [
+        -64.27517896578152,
+        44.22756100090251
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 22582,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22582,
+      "nearest_unfiltered_distance_guide_px": 3.631996586717271,
+      "selected_distance_guide_px": 3.631996586717271,
+      "guide_reference_pixel_xy": [
+        4820.219917882176,
+        3138.6253324442077
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.27557540792465,
+        44.227278981365394
+      ],
+      "error_ground_m": 44.55719619888811,
+      "east_ground_m": -31.675482974834516,
+      "north_ground_m": -31.336999081232676
+    },
+    {
+      "id": "Q07",
+      "label": "Sharp Head eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        3668,
+        3480
+      ],
+      "lonlat": [
+        -64.33874832765711,
+        44.19421873100019
+      ],
+      "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+      "reference_objectid": 17236,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17236,
+      "nearest_unfiltered_distance_guide_px": 18.590201996236388,
+      "selected_distance_guide_px": 18.590201996236388,
+      "guide_reference_pixel_xy": [
+        3669.5341506563127,
+        3373.8533704844303
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.33876501706888,
+        44.193898424027665
+      ],
+      "error_ground_m": 35.61623915693734,
+      "east_ground_m": -1.3342270868166277,
+      "north_ground_m": -35.59123950869036
+    }
+  ],
+  "fit_sha256": "f73b1d5bdf59fa5e0f8ccea1ef4e2a5f9a70c4f42cb1aa199f3e6f869bfa6c3a",
+  "checks_sha256": "c03dba3177731a2da8b81e9942ca632c2d75838f50a783c02d1d182eb72aed9b",
+  "status": "Reserved before first fit and score"
+}

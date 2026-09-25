@@ -1,0 +1,18 @@
+{
+  "timing": "Before first fit and score",
+  "failures": [
+    {
+      "packet": "controls",
+      "id": "C06",
+      "requested_code": "WACO20",
+      "nearest_distance_guide_px": 1097.2
+    },
+    {
+      "packet": "checks",
+      "id": "Q07",
+      "requested_code": "WACO20",
+      "nearest_distance_guide_px": 922.4
+    }
+  ],
+  "resolution": "Cape LaHave and Sharp Head belong to Cape LaHave Island; retry island shoreline code and inspect native correspondence before adopting."
+}

@@ -1,0 +1,11 @@
+{
+  "guide": "046-south-provisional-guide.npy",
+  "method": "Sheet045 provisional discovery guide translated south3700 pixels; not sheet045 frozen fit; no guide point adopted",
+  "source_identity": "Official046.pdf; native top and bottom marginal numerals both read46. An initial overview misreading of the bottom numeral was corrected by native-frame inspection before fit.",
+  "working_filename_corrections": [
+    "four-mile is Nine Mile Lake",
+    "vaughan is Veniot Lake",
+    "davis view contains Long Lake",
+    "white-island is Big Whitford Lake"
+  ]
+}

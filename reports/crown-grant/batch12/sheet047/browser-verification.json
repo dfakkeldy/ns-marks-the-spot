@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T05:51:08.212521+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "047",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6035,
+        5180
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5593,
+        3930
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole mapped frame historical and modern-only screenshots inspected; decoded source/raster and opacity65/40/0/65 verified.",
+    "Big and Little Tancook render in their actual mapped positions; all original water and islands retained.",
+    "Eight-check pass remains provisional with unvalidated mainland interior; no browser warnings or errors logged."
+  ]
+}

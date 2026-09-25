@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Duck Lake southern outlet",
+    [
+      263,
+      427
+    ],
+    [
+      255,
+      352
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Round Lake northern inlet",
+    [
+      2346,
+      1321
+    ],
+    [
+      2327,
+      1268
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Nine Mile Lake southern tip",
+    [
+      3049,
+      1310
+    ],
+    [
+      3059,
+      1237
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Russell Lake southern outlet",
+    [
+      3698,
+      1508
+    ],
+    [
+      3690,
+      1408
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Veniot Lake southern tip",
+    [
+      1470,
+      2692
+    ],
+    [
+      1469,
+      2613
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Mill Lake western narrow northern horn",
+    [
+      3620,
+      367
+    ],
+    [
+      3619,
+      244
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Big Whitford Lake southwest tip",
+    [
+      4374,
+      3420
+    ],
+    [
+      4375,
+      3323
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Long Lake northern tip",
+    [
+      1385,
+      2728
+    ],
+    [
+      1363,
+      2630
+    ],
+    "WALK20"
+  ]
+]

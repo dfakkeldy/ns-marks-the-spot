@@ -1,0 +1,18 @@
+{
+  "initial": "047-south-provisional-guide.npy",
+  "refined": "047-frozen-north-discovery-guide.npy",
+  "reason": "Initial guide propagated two unsolved row shifts from054; use newly frozen046 physical affine translated3690 source pixels south for discovery only. No047point/fit/score exists yet.",
+  "proposed_bbox": [
+    -64.43910087687944,
+    44.34358034710842,
+    -63.96090395628239,
+    44.65617952406699
+  ],
+  "existing_bbox": [
+    -64.43560070041868,
+    44.343272269399364,
+    -63.955322007293624,
+    44.65158522122386
+  ],
+  "no_discovery_point_adopted": true
+}
