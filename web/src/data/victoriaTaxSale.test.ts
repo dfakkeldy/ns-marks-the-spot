@@ -3,8 +3,11 @@ import victoriaTaxSaleSnapshotSource from "./victoriaTaxSale.snapshot.json?raw";
 import victoriaTaxSaleSnapshot from "./victoriaTaxSale.snapshot.json";
 import {
   VICTORIA_TAX_SALE_DATASET_SHA256,
+  VICTORIA_TAX_SALE_RESULT_DATASET_SHA256,
   victoriaTaxSaleEvent,
 } from "./victoriaTaxSale";
+import victoriaResultSnapshotSource from "./victoriaTaxSaleResults.snapshot.json?raw";
+import victoriaResultSnapshot from "./victoriaTaxSaleResults.snapshot.json";
 
 async function sha256Hex(source: string): Promise<string> {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(source));
@@ -17,11 +20,19 @@ describe("the Victoria County September 2026 tender dataset", () => {
     expect(victoriaTaxSaleSnapshot.ownerNamesExcluded).toBe(true);
     expect(victoriaTaxSaleSnapshot.sourceRowCount).toBe(9);
     expect(victoriaTaxSaleSnapshot.opaqueRemovedRowCount).toBe(5);
+    expect(await sha256Hex(victoriaResultSnapshotSource)).toBe(
+      VICTORIA_TAX_SALE_RESULT_DATASET_SHA256,
+    );
+    expect(victoriaResultSnapshot.ownerNamesExcluded).toBe(true);
+    expect(victoriaResultSnapshot.resultRowCount).toBe(9);
+    expect(victoriaResultSnapshot.matchedNoticeListingCount).toBe(4);
+    expect(victoriaResultSnapshot.opaqueRemovedRowCount).toBe(4);
+    expect(victoriaResultSnapshot.unspecifiedRowCount).toBe(1);
   });
 
   it("publishes four exact advertised PIDs without inventing removed-row identities", () => {
     expect(victoriaTaxSaleEvent.eventType).toBe("sealed-tender");
-    expect(victoriaTaxSaleEvent.eventStatus).toBe("upcoming");
+    expect(victoriaTaxSaleEvent.eventStatus).toBe("historical");
     expect(victoriaTaxSaleEvent.saleStartsAt).toBe("2026-09-14T12:00:00-03:00");
     expect(victoriaTaxSaleEvent.publishedOn).toBe("2026-08-13");
     expect(victoriaTaxSaleEvent.listings).toHaveLength(4);

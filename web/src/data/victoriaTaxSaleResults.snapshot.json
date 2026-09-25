@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "eventId": "victoria-2026-09-14",
+  "municipality": "Municipality of the County of Victoria",
+  "source": "https://victoriacounty.com/wp-content/uploads/2026/09/Tax-Sale-Results-for-September-14-2026.pdf",
+  "landingPage": "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+  "retrievedDate": "2026-09-24",
+  "saleDate": "2026-09-14",
+  "sourceDocumentSha256": "6588a167badd6ad9664d6631178a7babf51ca837576ec52108714bc469cd08ee",
+  "ownerNamesExcluded": true,
+  "resultRowCount": 9,
+  "matchedNoticeListingCount": 4,
+  "opaqueRemovedRowCount": 4,
+  "unspecifiedRowCount": 1,
+  "results": [
+    {
+      "rowNumber": 1,
+      "location": "71 Long Tom Rd., Ingonish Centre",
+      "totalOwingCents": null,
+      "hst": null,
+      "redeemable": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 2,
+      "location": "30 Courtney Rd., Cape North",
+      "totalOwingCents": null,
+      "hst": null,
+      "redeemable": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 3,
+      "location": "10608 No. 5 Hwy, Ross Ferry",
+      "totalOwingCents": null,
+      "hst": null,
+      "redeemable": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 4,
+      "location": "Big Harbour Rd., Port Bevis",
+      "totalOwingCents": 116751,
+      "hst": true,
+      "redeemable": true,
+      "winningBidCents": 5190000,
+      "outcome": "sold"
+    },
+    {
+      "rowNumber": 5,
+      "location": "Hwy 105, Inlet Baddeck",
+      "totalOwingCents": 176636,
+      "hst": true,
+      "redeemable": true,
+      "winningBidCents": 300000,
+      "outcome": "sold"
+    },
+    {
+      "rowNumber": 6,
+      "location": "4499 Washabuck Rd., Lower Washabuck",
+      "totalOwingCents": 428197,
+      "hst": false,
+      "redeemable": true,
+      "winningBidCents": 500000,
+      "outcome": "sold"
+    },
+    {
+      "rowNumber": 7,
+      "location": "Meat Cove Rd., Bay St. Lawrence",
+      "totalOwingCents": 200118,
+      "hst": false,
+      "redeemable": true,
+      "winningBidCents": null,
+      "outcome": "unsold"
+    },
+    {
+      "rowNumber": 8,
+      "location": "208 Little Narrows Rd., Little Narrows",
+      "totalOwingCents": null,
+      "hst": null,
+      "redeemable": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 9,
+      "location": "Aspy Bay, Sugarloaf",
+      "totalOwingCents": null,
+      "hst": null,
+      "redeemable": null,
+      "winningBidCents": null,
+      "outcome": "unspecified"
+    }
+  ]
+}

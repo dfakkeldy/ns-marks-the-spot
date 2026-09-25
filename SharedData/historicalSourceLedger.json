@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-08-23",
+  "retrievedOn": "2026-09-24",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -644,6 +644,25 @@
       "fieldsAvailable": ["notice AAN", "notice PID", "property description", "opening bid", "successful bid", "REMOVED"],
       "officialWinningBidsFound": false,
       "notes": "2 exact-PID notice rows were reconciled by unique official property description and both print NO BID. 7 additional rows print REMOVED without parcel identifiers and remain outside the map dataset. The result identity column was discarded before ingestion."
+    },
+    {
+      "municipality": "Municipality of the County of Victoria",
+      "event": "September 14, 2026 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+        "https://victoriacounty.com/property-tax-sale-notice/",
+        "https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/",
+        "https://victoriacounty.com/wp-content/uploads/2026/09/Tax-Sale-Results-for-September-14-2026.pdf",
+        "https://victoriacounty.com/wp-content/uploads/2026/08/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-SEPT-14-2026.pdf"
+      ],
+      "documentSha256": [
+        "4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5",
+        "6588a167badd6ad9664d6631178a7babf51ca837576ec52108714bc469cd08ee"
+      ],
+      "fieldsAvailable": ["notice AAN", "notice PID", "location", "Total Owing", "HST", "status", "redeemable", "Successful Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "4 exact-PID notice rows were reconciled by unique official Total Owing and location prefix; 3 print SOLD and 1 print NOT SOLD. 4 REMOVED rows and 1 row with no printed status publish no Total Owing and remain outside the map dataset. The assessed-name column is absent from the result PDF and was never copied from the archived notice."
     }
   ]
 }

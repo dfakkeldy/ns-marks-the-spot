@@ -1444,7 +1444,7 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => {
       const selectedEvents = new URL(window.location.href).searchParams.get("event");
       expect(selectedEvents).not.toContain("middleton-2026-08-20");
-      expect(selectedEvents).toContain("victoria-county-2026-09-14");
+      expect(selectedEvents).not.toContain("victoria-county-2026-09-14");
     });
   });
 
@@ -2998,8 +2998,8 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     ).toBeChecked();
     expect(
-      screen.getByRole("checkbox", { name: /Victoria County.*September 14, 2026/i }),
-    ).toBeChecked();
+      screen.queryByRole("checkbox", { name: /Victoria County.*September 14, 2026/i }),
+    ).not.toBeInTheDocument();
     expect(screen.getByLabelText("Search by PID or civic address")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
@@ -3019,9 +3019,6 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText("Snapshot retrieved August 10, 2026"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Snapshot retrieved September 16, 2026"),
     ).toBeInTheDocument();
     expect(
       screen.getByText("Snapshot retrieved September 11, 2026"),
@@ -3221,7 +3218,7 @@ describe("NS Marks The Spot Online", () => {
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
-    expect(screen.getByText("33 records · 27 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("34 records · 28 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
     expect(screen.getByText("10 records · 10 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
@@ -6310,17 +6307,13 @@ describe("NS Marks The Spot Online", () => {
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 43;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 39;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 16;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 12;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
-    );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 15;");
-    await user.click(
-      screen.getByRole("checkbox", { name: /Victoria County.*September 14, 2026/i }),
     );
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 11;");
     await user.click(

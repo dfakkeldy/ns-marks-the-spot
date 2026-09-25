@@ -30,10 +30,10 @@ struct HistoricalTaxSaleCatalogTests {
         #expect(Self.catalog.records.isEmpty == false)
     }
 
-    /// 25 sales in the dataset plus CBRM's, reconciled at load.
+    /// 26 sales in the dataset plus CBRM's, reconciled at load.
     @Test func cbrmsResultsAreReconciledOntoItsOwnNotice() throws {
-        #expect(Self.catalog.events.count == 26)
-        #expect(Self.catalog.records.count == 490)
+        #expect(Self.catalog.events.count == 27)
+        #expect(Self.catalog.records.count == 494)
 
         let cbrm = try #require(Self.catalog.event(id: "cbrm-2026-07-21"))
         #expect(cbrm.resultStatus == .verified)
