@@ -1,0 +1,227 @@
+{
+  "sheet": "031",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.9144156700369335,
+      1.9657852638542346
+    ],
+    [
+      2.0214920272935615,
+      -5.097188947876446
+    ],
+    [
+      326451.6201688731,
+      4929047.720077122
+    ]
+  ],
+  "source_sha256": "ed5ed3107b37c974bcfff7d47879297b4fdd7fd07ec160da1e631c5924187e01",
+  "source_dimensions": [
+    5551,
+    3892
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "South Mud Lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1442,
+        529
+      ],
+      "lonlat": [
+        -65.08189309246839,
+        44.49622229493445
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 139871,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 245273,
+      "nearest_unfiltered_distance_guide_px": 0.34126092940745884,
+      "selected_distance_guide_px": 2.2393747106036437,
+      "guide_reference_pixel_xy": [
+        1513.9071873485227,
+        469.7625494628446
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Round Lake eastern northern roof",
+      "role": "control",
+      "pixel_xy": [
+        2732,
+        736
+      ],
+      "lonlat": [
+        -64.99424748415794,
+        44.513018397704535
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 247065,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 247065,
+      "nearest_unfiltered_distance_guide_px": 1.6802632732575116,
+      "selected_distance_guide_px": 1.6802632732575116,
+      "guide_reference_pixel_xy": [
+        2833.289468689414,
+        682.5226391312899
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Rocky Lake northwest roof corner",
+      "role": "control",
+      "pixel_xy": [
+        4335,
+        1632
+      ],
+      "lonlat": [
+        -64.87351448116249,
+        44.50070331996292
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 143077,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143077,
+      "nearest_unfiltered_distance_guide_px": 0.5919050782875145,
+      "selected_distance_guide_px": 0.5919050782875145,
+      "guide_reference_pixel_xy": [
+        4354.939509041898,
+        1654.5888059660792
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Smith Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        4626,
+        2204
+      ],
+      "lonlat": [
+        -64.83943333891087,
+        44.48095559535845
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 141966,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141966,
+      "nearest_unfiltered_distance_guide_px": 1.6550529199321247,
+      "selected_distance_guide_px": 1.6550529199321247,
+      "guide_reference_pixel_xy": [
+        4649.262956623221,
+        2241.4818796268664
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Flint Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        512,
+        2732
+      ],
+      "lonlat": [
+        -65.07716219445764,
+        44.37982173333312
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 127139,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127139,
+      "nearest_unfiltered_distance_guide_px": 0.7172117703705702,
+      "selected_distance_guide_px": 0.7172117703705702,
+      "guide_reference_pixel_xy": [
+        601.6515074924682,
+        2734.299884495791
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Nineveh Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        5286,
+        2381
+      ],
+      "lonlat": [
+        -64.79619665203,
+        44.48498214475301
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 132616,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132616,
+      "nearest_unfiltered_distance_guide_px": 1.9791369821638665,
+      "selected_distance_guide_px": 1.9791369821638665,
+      "guide_reference_pixel_xy": [
+        5265.127693821443,
+        2426.6414458417566
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Unnamed lake west of Pleasant River northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3524,
+        2564
+      ],
+      "lonlat": [
+        -64.89891465133029,
+        44.443242818541094
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 140531,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140531,
+      "nearest_unfiltered_distance_guide_px": 0.4606721096140258,
+      "selected_distance_guide_px": 0.4606721096140258,
+      "guide_reference_pixel_xy": [
+        3533.6806753683486,
+        2604.6679599840427
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    152.89998112254958,
+    179.45868310623175,
+    56.75021550503411,
+    86.2080112470263,
+    49.956726894723964,
+    73.49273628262458,
+    76.18966788522977
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

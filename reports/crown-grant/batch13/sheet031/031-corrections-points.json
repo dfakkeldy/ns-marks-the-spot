@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C02",
+    "label": "Round Lake eastern northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      2732,
+      736
+    ],
+    "lonlat": [
+      -64.99424748415794,
+      44.513018397704535
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 247065,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 247065,
+    "nearest_unfiltered_distance_guide_px": 1.6802632732575116,
+    "selected_distance_guide_px": 1.6802632732575116,
+    "guide_reference_pixel_xy": [
+      2833.289468689414,
+      682.5226391312899
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

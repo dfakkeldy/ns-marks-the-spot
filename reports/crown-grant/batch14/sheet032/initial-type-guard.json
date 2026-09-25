@@ -1,0 +1,8 @@
+{
+  "stage": "Before native review, fit and score",
+  "failures": [
+    "C03 WALKIS10 nearest 467.7 guide px rejected",
+    "Q03 WALKIS10 nearest 439.2 guide px rejected"
+  ],
+  "resolution": "Big Lamoner island outline is coded WARVLKIS10, exact visible island feature 314538. New typed packets preserve initial proposal inputs."
+}

@@ -1,13 +1,15 @@
 {
-  "verified_at_utc": "2026-09-25T07:21:45.831714+00:00",
-  "sheets": 6,
+  "verified_at_utc": "2026-09-25T07:40:21.780128+00:00",
+  "sheets": 8,
   "planned_batch_sheets": 8,
-  "batch_assessment_complete": false,
-  "score_replays": 6,
+  "batch_assessment_complete": true,
+  "score_replays": 8,
   "regressions": "5 scorer/pixel-frame/review-order tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 6,
-  "main_rms_fail_sheets": [],
+  "main_rms_pass_count": 7,
+  "main_rms_fail_sheets": [
+    "031"
+  ],
   "all_components_coverage_passed": true,
   "all_source_fit_component_raster_hashes_match": true,
   "accepted_batch1_artifact_basis": "57765b8d5edc54798491ef524463b98330601633",
@@ -147,6 +149,42 @@
           "independent_checks": 7,
           "rms_ground_m": 57.85924840715645,
           "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "030",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 8,
+          "rms_ground_m": 95.11671467759331,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "031",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 7,
+          "rms_ground_m": 130.8870923964516,
+          "rms_gate_passed": false,
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"

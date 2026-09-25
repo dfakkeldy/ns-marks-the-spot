@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T07:35:21.062917+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "030",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6034,
+        5129
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5683,
+        3853
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual full-frame historical and modern-only screenshots inspected; decoded source/raster and opacity 65/40/0/65 verified.",
+    "Entire mapped frame retained. P95 fails 150 m; central and southwestern interior remain unvalidated.",
+    "Browser warning/error log empty."
+  ]
+}

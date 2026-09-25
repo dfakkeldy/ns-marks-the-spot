@@ -1,0 +1,221 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Stoney Lake western projecting bend",
+      "role": "check",
+      "pixel_xy": [
+        630,
+        838
+      ],
+      "lonlat": [
+        -65.22542233517238,
+        44.61919427378493
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 127685,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127685,
+      "nearest_unfiltered_distance_guide_px": 0.48032611203600917,
+      "selected_distance_guide_px": 0.48032611203600917,
+      "guide_reference_pixel_xy": [
+        631.4609683355666,
+        819.8650134543423
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    },
+    {
+      "id": "Q02",
+      "label": "Handsaw Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        754,
+        1431
+      ],
+      "lonlat": [
+        -65.20200423571139,
+        44.59565327822743
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 138464,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138464,
+      "nearest_unfiltered_distance_guide_px": 2.551889296818996,
+      "selected_distance_guide_px": 2.551889296818996,
+      "guide_reference_pixel_xy": [
+        751.5067141226609,
+        1409.0595998484641
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    },
+    {
+      "id": "Q03",
+      "label": "Unnamed lake north of Cushing grant southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2585,
+        1082
+      ],
+      "lonlat": [
+        -65.10018291996582,
+        44.646047324301705
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 133296,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133296,
+      "nearest_unfiltered_distance_guide_px": 0.5696185442171819,
+      "selected_distance_guide_px": 0.5696185442171819,
+      "guide_reference_pixel_xy": [
+        2570.11477067339,
+        1072.557936356985
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    },
+    {
+      "id": "Q04",
+      "label": "Small pond in central southern interior southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2220,
+        3035
+      ],
+      "lonlat": [
+        -65.06877229175853,
+        44.553744178195
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 106960,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 106960,
+      "nearest_unfiltered_distance_guide_px": 1.4380071846965559,
+      "selected_distance_guide_px": 1.4380071846965559,
+      "guide_reference_pixel_xy": [
+        2218.5620386976516,
+        3015.011487218435
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    },
+    {
+      "id": "Q05",
+      "label": "Wild Duck Lake northern small island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4600,
+        2664
+      ],
+      "lonlat": [
+        -64.93318788027607,
+        44.61637515680346
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 150664,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140967,
+      "nearest_unfiltered_distance_guide_px": 2.3506083423699486,
+      "selected_distance_guide_px": 2.9449681471003797,
+      "guide_reference_pixel_xy": [
+        4602.596629682928,
+        2647.9172126721824
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    },
+    {
+      "id": "Q06",
+      "label": "Cranberry Lake southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        5072,
+        3627
+      ],
+      "lonlat": [
+        -64.87714300572037,
+        44.5834727550464
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 125128,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125128,
+      "nearest_unfiltered_distance_guide_px": 2.876437753933203,
+      "selected_distance_guide_px": 2.876437753933203,
+      "guide_reference_pixel_xy": [
+        5092.6547483993345,
+        3611.6654396061786
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    },
+    {
+      "id": "Q07",
+      "label": "Unnamed lake south of Skunk Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4643,
+        660
+      ],
+      "lonlat": [
+        -64.98636307552086,
+        44.705527706064615
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 127988,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127988,
+      "nearest_unfiltered_distance_guide_px": 0.7038188867453568,
+      "selected_distance_guide_px": 0.7038188867453568,
+      "guide_reference_pixel_xy": [
+        4627.59320538817,
+        633.3787722175475
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    },
+    {
+      "id": "Q08",
+      "label": "Skunk Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4710,
+        413
+      ],
+      "lonlat": [
+        -64.98622470007183,
+        44.716094330214325
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 142561,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142561,
+      "nearest_unfiltered_distance_guide_px": 0.5293694821995494,
+      "selected_distance_guide_px": 0.5293694821995494,
+      "guide_reference_pixel_xy": [
+        4718.662923774973,
+        433.5918190754019
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; four source/reference shoreline corrections before first fit and score."
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Cameron or St Christopher Lake southeastern prong",
+    [
+      1590,
+      733
+    ],
+    [
+      1693,
+      718
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Molega Lake Round Island southern tip",
+    [
+      3431,
+      834
+    ],
+    [
+      3493,
+      831
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q03",
+    "Big Lamoner Island southern tip",
+    [
+      2363,
+      1228
+    ],
+    [
+      2450,
+      1238
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q04",
+    "Sixteen Mile Lake central island southern shore",
+    [
+      1209,
+      2049
+    ],
+    [
+      1312,
+      2062
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q05",
+    "Black Lake southern tip",
+    [
+      355,
+      2878
+    ],
+    [
+      500,
+      2900
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Long Lake southern tip",
+    [
+      4475,
+      2459
+    ],
+    [
+      4526,
+      2464
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Cow Moose Lake southern peninsula northern tip",
+    [
+      1030,
+      1705
+    ],
+    [
+      1145,
+      1709
+    ],
+    "WALK20"
+  ]
+]

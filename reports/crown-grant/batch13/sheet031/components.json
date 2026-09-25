@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5551 x 3892 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 130.89 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          15,
+          180
+        ],
+        [
+          5500,
+          140
+        ],
+        [
+          5480,
+          3790
+        ],
+        [
+          15,
+          3800
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The complete mapped frame, including its lakes, islands and intervening interior, is retained. Controls span northern, eastern, southwestern and south-central lakes. Unsampled strips remain provisional."
+    }
+  ]
+}

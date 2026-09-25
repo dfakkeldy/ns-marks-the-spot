@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "South Mud Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1442,
+      529
+    ],
+    "lonlat": [
+      -65.08189309246839,
+      44.49622229493445
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 139871,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 245273,
+    "nearest_unfiltered_distance_guide_px": 0.34126092940745884,
+    "selected_distance_guide_px": 2.2393747106036437,
+    "guide_reference_pixel_xy": [
+      1513.9071873485227,
+      469.7625494628446
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Round Lake eastern northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      2732,
+      736
+    ],
+    "lonlat": [
+      -64.99611216366543,
+      44.509704364006645
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 143286,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 247065,
+    "nearest_unfiltered_distance_guide_px": 1.6802632732575116,
+    "selected_distance_guide_px": 75.89860227545095,
+    "guide_reference_pixel_xy": [
+      2780.4863136032363,
+      734.8227014892036
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Rocky Lake northwest roof corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4335,
+      1632
+    ],
+    "lonlat": [
+      -64.87351448116249,
+      44.50070331996292
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 143077,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143077,
+    "nearest_unfiltered_distance_guide_px": 0.5919050782875145,
+    "selected_distance_guide_px": 0.5919050782875145,
+    "guide_reference_pixel_xy": [
+      4354.939509041898,
+      1654.5888059660792
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Smith Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      4626,
+      2204
+    ],
+    "lonlat": [
+      -64.83943333891087,
+      44.48095559535845
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 141966,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141966,
+    "nearest_unfiltered_distance_guide_px": 1.6550529199321247,
+    "selected_distance_guide_px": 1.6550529199321247,
+    "guide_reference_pixel_xy": [
+      4649.262956623221,
+      2241.4818796268664
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Flint Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      512,
+      2732
+    ],
+    "lonlat": [
+      -65.07716219445764,
+      44.37982173333312
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 127139,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127139,
+    "nearest_unfiltered_distance_guide_px": 0.7172117703705702,
+    "selected_distance_guide_px": 0.7172117703705702,
+    "guide_reference_pixel_xy": [
+      601.6515074924682,
+      2734.299884495791
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Nineveh Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5286,
+      2381
+    ],
+    "lonlat": [
+      -64.79619665203,
+      44.48498214475301
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 132616,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132616,
+    "nearest_unfiltered_distance_guide_px": 1.9791369821638665,
+    "selected_distance_guide_px": 1.9791369821638665,
+    "guide_reference_pixel_xy": [
+      5265.127693821443,
+      2426.6414458417566
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Unnamed lake west of Pleasant River northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3524,
+      2564
+    ],
+    "lonlat": [
+      -64.89891465133029,
+      44.443242818541094
+    ],
+    "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+    "reference_objectid": 140531,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140531,
+    "nearest_unfiltered_distance_guide_px": 0.4606721096140258,
+    "selected_distance_guide_px": 0.4606721096140258,
+    "guide_reference_pixel_xy": [
+      3533.6806753683486,
+      2604.6679599840427
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
