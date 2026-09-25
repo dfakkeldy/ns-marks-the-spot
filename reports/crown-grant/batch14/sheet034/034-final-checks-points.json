@@ -1,0 +1,191 @@
+[
+  {
+    "id": "Q01",
+    "label": "Town Lake southern shore",
+    "role": "check",
+    "pixel_xy": [
+      1969,
+      612
+    ],
+    "lonlat": [
+      -64.74678457715945,
+      44.01984110529493
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 139290,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139290,
+    "nearest_unfiltered_distance_guide_px": 1.7725029335260212,
+    "selected_distance_guide_px": 1.7725029335260212,
+    "guide_reference_pixel_xy": [
+      2003.520745782298,
+      620.6942817001836
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations."
+  },
+  {
+    "id": "Q02",
+    "label": "Coffin Island southern tip",
+    "role": "check",
+    "pixel_xy": [
+      3607,
+      1028
+    ],
+    "lonlat": [
+      -64.62830022095632,
+      44.03346146119986
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 16216,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16216,
+    "nearest_unfiltered_distance_guide_px": 0.6755791183158248,
+    "selected_distance_guide_px": 0.6755791183158248,
+    "guide_reference_pixel_xy": [
+      3626.6745137170656,
+      1065.962073879782
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations."
+  },
+  {
+    "id": "Q03",
+    "label": "Mouton Island southern tip",
+    "role": "check",
+    "pixel_xy": [
+      744,
+      2941
+    ],
+    "lonlat": [
+      -64.76112546070361,
+      43.88572289725527
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 20726,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20726,
+    "nearest_unfiltered_distance_guide_px": 0.528830503237592,
+    "selected_distance_guide_px": 0.528830503237592,
+    "guide_reference_pixel_xy": [
+      769.280139364826,
+      2907.551465009805
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations."
+  },
+  {
+    "id": "Q04",
+    "label": "Eastern Spectacle Island northern tip",
+    "role": "check",
+    "pixel_xy": [
+      438,
+      2132
+    ],
+    "lonlat": [
+      -64.80486198148802,
+      43.91816231802206
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 20389,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20389,
+    "nearest_unfiltered_distance_guide_px": 2.0392652910612297,
+    "selected_distance_guide_px": 2.0392652910612297,
+    "guide_reference_pixel_xy": [
+      462.7958125526202,
+      2079.9662609394873
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations."
+  },
+  {
+    "id": "Q05",
+    "label": "White Point Beach pond southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1614,
+      1750
+    ],
+    "lonlat": [
+      -64.73886085455332,
+      43.959471939818656
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 140325,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140325,
+    "nearest_unfiltered_distance_guide_px": 1.7424332363093333,
+    "selected_distance_guide_px": 1.7424332363093333,
+    "guide_reference_pixel_xy": [
+      1632.2603947810712,
+      1733.5776747773634
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations."
+  },
+  {
+    "id": "Q06",
+    "label": "Eagle Point southern shore low point",
+    "role": "check",
+    "pixel_xy": [
+      4229,
+      694
+    ],
+    "lonlat": [
+      -64.59670168153761,
+      44.06124006547837
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 5031,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5031,
+    "nearest_unfiltered_distance_guide_px": 0.780087206324597,
+    "selected_distance_guide_px": 0.780087206324597,
+    "guide_reference_pixel_xy": [
+      4247.9107580582495,
+      757.2250342424959
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations."
+  },
+  {
+    "id": "Q07",
+    "label": "Andrew Head western southern lobe",
+    "role": "check",
+    "pixel_xy": [
+      4733,
+      795
+    ],
+    "lonlat": [
+      -64.55936782618632,
+      44.067339341174495
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 12547,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 12547,
+    "nearest_unfiltered_distance_guide_px": 0.40303604559460066,
+    "selected_distance_guide_px": 0.40303604559460066,
+    "guide_reference_pixel_xy": [
+      4773.308777811064,
+      864.7409742919262
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations."
+  }
+]

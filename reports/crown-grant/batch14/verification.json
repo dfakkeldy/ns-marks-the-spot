@@ -1,12 +1,12 @@
 {
-  "verified_at_utc": "2026-09-25T07:48:22.540611+00:00",
-  "sheets": 1,
+  "verified_at_utc": "2026-09-25T08:30:00.267718+00:00",
+  "sheets": 4,
   "planned_batch_sheets": 8,
   "batch_assessment_complete": false,
-  "score_replays": 1,
+  "score_replays": 5,
   "regressions": "5 scorer/pixel-frame/review-order tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 1,
+  "main_rms_pass_count": 4,
   "main_rms_fail_sheets": [],
   "all_components_coverage_passed": true,
   "all_source_fit_component_raster_hashes_match": true,
@@ -60,6 +60,70 @@
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "033",
+      "components": [
+        {
+          "component": "main",
+          "controls": 8,
+          "independent_checks": 7,
+          "rms_ground_m": 48.13636614758933,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "034",
+      "components": [
+        {
+          "component": "main",
+          "controls": 8,
+          "independent_checks": 7,
+          "rms_ground_m": 81.92880400800229,
+          "rms_gate_passed": true,
+          "fit": "fit-main-affine-01.json",
+          "checks": "checks-main-affine-01.json",
+          "scores": "scores-main-affine-01.json"
+        },
+        {
+          "component": "offshore-inset",
+          "controls": 2,
+          "independent_checks": 3,
+          "rms_ground_m": 63.89464302666187,
+          "rms_gate_passed": true,
+          "fit": "fit-inset-similarity-01.json",
+          "checks": "checks-inset-similarity-01.json",
+          "scores": "scores-inset-similarity-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "027",
+      "components": [
+        {
+          "component": "main",
+          "controls": 6,
+          "independent_checks": 5,
+          "rms_ground_m": 82.2113760609723,
+          "rms_gate_passed": true,
+          "fit": "fit-similarity-01.json",
+          "checks": "checks-similarity-01.json",
+          "scores": "scores-similarity-01.json"
         }
       ],
       "coverage_passed": true,

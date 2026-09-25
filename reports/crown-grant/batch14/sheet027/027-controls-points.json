@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Black Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      328,
+      1452
+    ],
+    "lonlat": [
+      -65.06858976298041,
+      43.68557372153916
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 2376,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2376,
+    "nearest_unfiltered_distance_guide_px": 1.9163455029324084,
+    "selected_distance_guide_px": 1.9163455029324084,
+    "guide_reference_pixel_xy": [
+      409.78651841095416,
+      1495.2524963874603
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Hemeon Head southern shore low point",
+    "role": "proposal",
+    "pixel_xy": [
+      980,
+      1522
+    ],
+    "lonlat": [
+      -65.02644878682209,
+      43.69628969771838
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 6413,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 6413,
+    "nearest_unfiltered_distance_guide_px": 34.20353515082458,
+    "selected_distance_guide_px": 34.20353515082458,
+    "guide_reference_pixel_xy": [
+      1077.6102061212878,
+      1544.923799635726
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Ram Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      826,
+      1657
+    ],
+    "lonlat": [
+      -65.03399521801012,
+      43.686866460577356
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 20228,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20228,
+    "nearest_unfiltered_distance_guide_px": 0.34699476605162044,
+    "selected_distance_guide_px": 0.34699476605162044,
+    "guide_reference_pixel_xy": [
+      895.3206988691818,
+      1681.1325051054591
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Clam Island northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      581,
+      292
+    ],
+    "lonlat": [
+      -65.08435021097497,
+      43.74126681484898
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 16726,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16726,
+    "nearest_unfiltered_distance_guide_px": 0.5276836076965042,
+    "selected_distance_guide_px": 0.5276836076965042,
+    "guide_reference_pixel_xy": [
+      659.5618062949507,
+      322.7059995464515
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Green Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2798,
+      870
+    ],
+    "lonlat": [
+      -64.93627919507216,
+      43.75741820699173
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 23868,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23868,
+    "nearest_unfiltered_distance_guide_px": 1.2267706704183292,
+    "selected_distance_guide_px": 1.2267706704183292,
+    "guide_reference_pixel_xy": [
+      2824.619103800447,
+      911.0590924237622
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Thrum Point mainland southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3484,
+      452
+    ],
+    "lonlat": [
+      -64.90477800038389,
+      43.78942535910002
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 12145,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 12145,
+    "nearest_unfiltered_distance_guide_px": 3.9935734924659823,
+    "selected_distance_guide_px": 3.9935734924659823,
+    "guide_reference_pixel_xy": [
+      3523.1800652860547,
+      482.9895119667053
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

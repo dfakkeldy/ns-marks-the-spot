@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-25T07:48:21.586141+00:00",
+  "updated_at_utc": "2026-09-25T08:29:58.751932+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -92,12 +92,12 @@
     "029",
     "030",
     "031",
-    "032"
-  ],
-  "remaining_sheets": [
+    "032",
     "033",
     "034",
-    "027",
+    "027"
+  ],
+  "remaining_sheets": [
     "026",
     "025",
     "024",
@@ -119,7 +119,7 @@
     "007",
     "006"
   ],
-  "publication_status": "PR 551 merged; sheets 030\u2013032 next checkpoint in preparation; full series continues",
+  "publication_status": "PR552 merged; sheets033034 and continued western coast assessment in progress",
   "delivered_checkpoints": [
     {
       "pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/528",
@@ -489,6 +489,22 @@
       "merge": "1617e685cbe7c92ee7c379e0d862a7aa280e2010",
       "merged_at_utc": "2026-09-25T07:43:54Z",
       "ci_run": 36107399127,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 552,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/552",
+      "sheets": [
+        "030",
+        "031",
+        "032"
+      ],
+      "head": "cfa670abeade509fe2f9cfa386b357fa4985b2a2",
+      "merge": "a41d4c27850ed825fc5eaefdb00ee4e1e913574c",
+      "merged_at_utc": "2026-09-25T08:13:51Z",
+      "ci_run": 36109641166,
       "ci_attempt": 1,
       "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled"

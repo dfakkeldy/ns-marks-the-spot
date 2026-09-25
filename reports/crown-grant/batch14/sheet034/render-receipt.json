@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "f77a574be751449e0224d1d7246f0bd02a974ebc9fef9063e8afe32b0ffa9429",
+  "fit_sha256": "304b3b5676336fead00a98748522045b6eb46818ed3e086b52a9149ab71bebed",
+  "components_sha256": "66d7e16da7372873ba040d1c96cc6d6624c81e433e8fb442793384f9ff38dee7",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 81.93 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          43.84623812772634,
+          -64.88116371686971
+        ],
+        [
+          44.109207840435126,
+          -64.45097849361055
+        ]
+      ],
+      "dimensions": [
+        5986,
+        5085
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 16637645,
+      "source_mask_pixels": 16948025,
+      "affine_determinant": -32.51605336569752,
+      "png_sha256": "c90bbaabfe5dafcd4896f875de4d70174a4f48dfe8ae92b834be9f6e302e9275",
+      "tif_sha256": "c6e6a61b5625469ff1206b5d5d1d7994ccf96cf3bd77503038981d2349a9ce02"
+    },
+    {
+      "id": "offshore-inset",
+      "status": "RMS 63.89 m passes 100 m; limitations retained",
+      "png": "offshore-inset-3857.png",
+      "tif": "offshore-inset-3857.tif",
+      "bounds": [
+        [
+          44.082647521658764,
+          -64.55134466776457
+        ],
+        [
+          44.12202310180835,
+          -64.49665523326736
+        ]
+      ],
+      "dimensions": [
+        761,
+        763
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 344537,
+      "source_mask_pixels": 319225,
+      "affine_determinant": -35.59588029143507,
+      "png_sha256": "4c7dbac0d960a0f7cb2f90c640bab62355add0ee51cd6c05b1e4f95fd87fb66e",
+      "tif_sha256": "c275abbc11cc3612ff619b0db1c2786472c7e0c8740c73171f53486010a6ea47"
+    }
+  ]
+}

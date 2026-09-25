@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T08:24:39.087914+00:00",
+  "model": "Reflected uniform similarity EPSG:32620",
+  "controls": 6,
+  "checks": 5,
+  "reason": "A coastal strip with offshore Ram and Green islands supports a constrained scale/rotation/translation; avoid unsupported affine shear across the largely empty ocean frame.",
+  "corrections": [
+    "Black Point source moved from lettering to the southern shoreline.",
+    "Hemeon reference moved from eastern slope to the physical low shore."
+  ],
+  "unadopted": [
+    "Q04 Black Rock off Hemeon: historical large/small island arrangement not precisely reconciled with the split modern outlines.",
+    "Little Hope uses a lighthouse symbol rather than a mapped physical shoreline; not used.",
+    "McGrath, Rams Head and Harding connectivity not confidently reconciled."
+  ],
+  "limitations": [
+    "Controls and checks lie in the northern coastal strip; most of the mapped frame is unvalidated open water.",
+    "Three checks share control islands; Joli Point and Potter Ledge supply separate features, with Joli outside the control footprint.",
+    "Generalized shorelines, tiny rocky islets and cape low points carry 24 px source uncertainty; light symbols are not shoreline evidence."
+  ]
+}

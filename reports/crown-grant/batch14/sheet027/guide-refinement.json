@@ -1,0 +1,49 @@
+{
+  "stage": "Discovery before any points, fit or scoring",
+  "reason": "Initial west-only adjacency produced inland rivers against an ocean sheet and was rejected. Official inventory index polygons establish sheet027 one row south of western neighbour026, which aligns with034.",
+  "old_guide": "027-east-adjacent-guide.npy",
+  "new_guide": "027-southwest-guide.npy",
+  "index034": [
+    176,
+    503,
+    203,
+    488,
+    211,
+    510,
+    183,
+    524,
+    176,
+    503
+  ],
+  "index026": [
+    150,
+    517,
+    175,
+    504,
+    182,
+    525,
+    157,
+    539,
+    150,
+    517
+  ],
+  "index027": [
+    157,
+    540,
+    183,
+    527,
+    190,
+    548,
+    165,
+    562,
+    157,
+    540
+  ],
+  "old_reference_archive": ".crown-grant-local/027-rejected-northern-guide",
+  "new_bbox": [
+    -65.16824580693438,
+    43.550010627712574,
+    -64.64464739950554,
+    43.87807153098846
+  ]
+}

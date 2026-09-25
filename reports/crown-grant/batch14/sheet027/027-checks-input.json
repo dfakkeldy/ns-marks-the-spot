@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Clam Island southwestern tip",
+    [
+      549,
+      324
+    ],
+    [
+      629,
+      359
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q02",
+    "Ram Island southern tip",
+    [
+      865,
+      1789
+    ],
+    [
+      940,
+      1827
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q03",
+    "Green Island southern tip",
+    [
+      2779,
+      897
+    ],
+    [
+      2813,
+      954
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q04",
+    "Black Rock off Hemeon Head northern tip",
+    [
+      1083,
+      1568
+    ],
+    [
+      1157,
+      1609
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q05",
+    "Joli Point southern shore",
+    [
+      4646,
+      385
+    ],
+    [
+      4673,
+      439
+    ],
+    "WACO20"
+  ],
+  [
+    "Q06",
+    "Potter Ledge northern tip",
+    [
+      730,
+      1850
+    ],
+    [
+      807,
+      1898
+    ],
+    "WACOIS10"
+  ]
+]

@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Black Point southern tip",
+    [
+      328,
+      1452
+    ],
+    [
+      409,
+      1497
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Hemeon Head southern shore low point",
+    [
+      980,
+      1522
+    ],
+    [
+      1106,
+      1564
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Ram Island northern tip",
+    [
+      826,
+      1657
+    ],
+    [
+      895,
+      1681
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C04",
+    "Clam Island northeastern tip",
+    [
+      581,
+      292
+    ],
+    [
+      660,
+      323
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Green Island northern tip",
+    [
+      2798,
+      870
+    ],
+    [
+      2824,
+      910
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "Thrum Point mainland southern tip",
+    [
+      3484,
+      452
+    ],
+    [
+      3523,
+      479
+    ],
+    "WACO20"
+  ]
+]

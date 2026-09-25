@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T07:53:33.197352+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 7,
+  "reason": "Ten Mile, western Little Bonnature/pond, central Eight Mile/Barnaby, northeastern Horse, southern Crane and southeastern harbour island distribute physical observations.",
+  "corrections": [
+    "Little Bonnature northern reference changed from inlet to eastern lobe.",
+    "Port Medway harbour island corrected to WACORVIS10 feature27742 after original C08 guard and Q08 wrong-neighbour review.",
+    "Eight Mile southern source check moved onto island outline."
+  ],
+  "unadopted": [
+    "Q02 Little Bonnature generalized southern lobes not precisely reconciled.",
+    "Nampenca/Sheep Lake and Herring Cove generalized outlines, and main Bonnature island pattern, not confidently reconciled."
+  ],
+  "limitations": [
+    "All seven checks share control waterbodies or the associated Ten Mile Lake island. Exclusion from fitting does not establish independent historical cartography.",
+    "Northernmost/western margins and the southern strip below the harbour island lack independent validation. Little Bonnature has a control only.",
+    "Generalized lake roofs, small islands and pond tips carry 24 px working source uncertainty."
+  ]
+}
