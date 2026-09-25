@@ -1,0 +1,54 @@
+[
+  [
+    "Q01",
+    "Long Point western secondary shoulder",
+    [
+      5328,
+      383
+    ],
+    [
+      5334,
+      399
+    ],
+    "WACO20"
+  ],
+  [
+    "Q02",
+    "Annapolis north tributary east of the western river bridge",
+    [
+      880,
+      3181
+    ],
+    [
+      927,
+      3222
+    ],
+    "WARV"
+  ],
+  [
+    "Q03",
+    "Northern brook junction with Annapolis at Aylesford",
+    [
+      4125,
+      2848
+    ],
+    [
+      4150,
+      2881
+    ],
+    "WARV"
+  ],
+  [
+    "Q04",
+    "Northern brook junction with Annapolis east of Auburn",
+    [
+      3740,
+      3090
+    ],
+    [
+      3764,
+      3135
+    ],
+    "WARV"
+  ]
+]

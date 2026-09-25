@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Clear Lake northwestern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      346,
+      2220
+    ],
+    "lonlat": [
+      -65.30721042963528,
+      44.71787567397779
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 141290,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141290,
+    "nearest_unfiltered_distance_guide_px": 3.582904590243047,
+    "selected_distance_guide_px": 3.582904590243047,
+    "guide_reference_pixel_xy": [
+      490.94638634001603,
+      2236.4174965627026
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Spectacle western detached lake northeastern head",
+    "role": "proposal",
+    "pixel_xy": [
+      2328,
+      3363
+    ],
+    "lonlat": [
+      -65.16382714198333,
+      44.707271158671546
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 124659,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124659,
+    "nearest_unfiltered_distance_guide_px": 0.13344684773037663,
+    "selected_distance_guide_px": 0.13344684773037663,
+    "guide_reference_pixel_xy": [
+      2435.8823987608193,
+      3387.9369285348803
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Unnamed pond west of Roxbury northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3641,
+      1687
+    ],
+    "lonlat": [
+      -65.13200131162908,
+      44.80006657621192
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 128331,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128331,
+    "nearest_unfiltered_distance_guide_px": 1.4145909766838916,
+    "selected_distance_guide_px": 1.4145909766838916,
+    "guide_reference_pixel_xy": [
+      3729.983082460065,
+      1701.9833343013888
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Spectacle western detached lake western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2222,
+      3425
+    ],
+    "lonlat": [
+      -65.16835490802534,
+      44.70269939614491
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 124659,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124659,
+    "nearest_unfiltered_distance_guide_px": 2.088522193517395,
+    "selected_distance_guide_px": 2.088522193517395,
+    "guide_reference_pixel_xy": [
+      2329.932402601582,
+      3451.7051001002546
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Eel Ware Lake main southwestern lobe southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3563,
+      1484
+    ],
+    "lonlat": [
+      -65.14136073437525,
+      44.807456827656296
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 126971,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126971,
+    "nearest_unfiltered_distance_guide_px": 3.6155046038273233,
+    "selected_distance_guide_px": 3.6155046038273233,
+    "guide_reference_pixel_xy": [
+      3663.8511173549923,
+      1490.4281105886912
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Scrogg Lake elongated southeastern island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5680,
+      3201
+    ],
+    "lonlat": [
+      -64.97542485378,
+      44.77671577933981
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 149584,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 311452,
+    "nearest_unfiltered_distance_guide_px": 7.617208747964965,
+    "selected_distance_guide_px": 24.528131774316343,
+    "guide_reference_pixel_xy": [
+      5747.148077582591,
+      3193.4987517419504
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

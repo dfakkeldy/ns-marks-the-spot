@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 25.828851950224298,
+  "median_ground_m": 23.619070644734766,
+  "p95_ground_m": 36.88722521434464,
+  "max_ground_m": 39.319161972931106,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 11.87689375320106,
+  "mean_north_ground_m": 6.3262943926821364,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "West Allen Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        862,
+        1698
+      ],
+      "lonlat": [
+        -64.95624176505787,
+        44.85027524341131
+      ],
+      "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+      "reference_objectid": 141336,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141336,
+      "nearest_unfiltered_distance_guide_px": 0.46981184829289657,
+      "selected_distance_guide_px": 0.46981184829289657,
+      "guide_reference_pixel_xy": [
+        882.0953658825019,
+        1782.4600310003152
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.95597390542132,
+        44.850573369748254
+      ],
+      "error_ground_m": 39.319161972931106,
+      "east_ground_m": 21.17470762020894,
+      "north_ground_m": 33.13047321503659
+    },
+    {
+      "id": "Q02",
+      "label": "Small lake east of South Tremont southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2146,
+        1153
+      ],
+      "lonlat": [
+        -64.89081500313914,
+        44.8996819616498
+      ],
+      "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+      "reference_objectid": 140558,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140558,
+      "nearest_unfiltered_distance_guide_px": 1.029616361490924,
+      "selected_distance_guide_px": 1.029616361490924,
+      "guide_reference_pixel_xy": [
+        2174.168994815089,
+        1209.607898210641
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.89074374189204,
+        44.89963865197702
+      ],
+      "error_ground_m": 7.4057537975351995,
+      "east_ground_m": 5.628524022146683,
+      "north_ground_m": -4.812993521897235
+    },
+    {
+      "id": "Q03",
+      "label": "Half Moon Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5341,
+        1235
+      ],
+      "lonlat": [
+        -64.6883531864354,
+        44.95907855837101
+      ],
+      "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+      "reference_objectid": 137763,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137763,
+      "nearest_unfiltered_distance_guide_px": 1.3091716568469531,
+      "selected_distance_guide_px": 1.3091716568469531,
+      "guide_reference_pixel_xy": [
+        5390.140085848921,
+        1252.3016552469926
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.68843876794283,
+        44.958906732232236
+      ],
+      "error_ground_m": 20.254014251217146,
+      "east_ground_m": -6.75265263261455,
+      "north_ground_m": -19.095202950263477
+    },
+    {
+      "id": "Q05",
+      "label": "Small lake west of Lake Paul southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4063,
+        2690
+      ],
+      "lonlat": [
+        -64.72890586061006,
+        44.87052260085888
+      ],
+      "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+      "reference_objectid": 135522,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135522,
+      "nearest_unfiltered_distance_guide_px": 0.3732337162439844,
+      "selected_distance_guide_px": 0.3732337162439844,
+      "guide_reference_pixel_xy": [
+        4110.336766511027,
+        2739.8390909449663
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.72855732919831,
+        44.87042523956102
+      ],
+      "error_ground_m": 29.59141493858525,
+      "east_ground_m": 27.542466778518005,
+      "north_ground_m": -10.819628543612676
+    },
+    {
+      "id": "Q06",
+      "label": "Kerr Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5324,
+        3273
+      ],
+      "lonlat": [
+        -64.63387194751881,
+        44.86958518494944
+      ],
+      "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+      "reference_objectid": 132621,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132621,
+      "nearest_unfiltered_distance_guide_px": 0.8022818689369086,
+      "selected_distance_guide_px": 0.8022818689369086,
+      "guide_reference_pixel_xy": [
+        5382.494236339291,
+        3320.6227835231693
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.63366339931564,
+        44.869742553049235
+      ],
+      "error_ground_m": 24.03013222063172,
+      "east_ground_m": 16.48058012712024,
+      "north_ground_m": 17.488216982145783
+    },
+    {
+      "id": "Q07",
+      "label": "Lake Paul northern island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4567,
+        2929
+      ],
+      "lonlat": [
+        -64.69055683977912,
+        44.86970245237426
+      ],
+      "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+      "reference_objectid": 149043,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 149043,
+      "nearest_unfiltered_distance_guide_px": 1.456916556832449,
+      "selected_distance_guide_px": 1.456916556832449,
+      "guide_reference_pixel_xy": [
+        4619.948997459724,
+        2983.008959619561
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.69046588462734,
+        44.869901022062294
+      ],
+      "error_ground_m": 23.20800906883781,
+      "east_ground_m": 7.187736603827037,
+      "north_ground_m": 22.06690117468384
+    }
+  ],
+  "fit_sha256": "aae413f8c887b9d9a8a2a03561604ee2cb470ddd9f5c34175876637e479f1c90",
+  "checks_sha256": "e2175d4a52191de80540f1ebaa5d89f079220a38f8c50f6c9fc52666422b3928",
+  "status": "Reserved before first fit and score"
+}

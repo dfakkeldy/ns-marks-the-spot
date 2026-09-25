@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Clear Lake southwestern shore",
+    [
+      350,
+      2310
+    ],
+    [
+      491,
+      2340
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Godfrey Lake southeast corner",
+    [
+      1789,
+      3584
+    ],
+    [
+      1909,
+      3620
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Spectacle western detached lake western tip",
+    [
+      2228,
+      3425
+    ],
+    [
+      2338,
+      3448
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Eel Ware Lake main southwestern lobe southern tip",
+    [
+      3555,
+      1485
+    ],
+    [
+      3665,
+      1487
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Unnamed pond west of Roxbury southern tip",
+    [
+      3661,
+      1799
+    ],
+    [
+      3752,
+      1820
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Small lake southwest of Godfrey southern tip",
+    [
+      1347,
+      3659
+    ],
+    [
+      1469,
+      3695
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Scrogg Lake elongated southeastern island southern tip",
+    [
+      5680,
+      3201
+    ],
+    [
+      5745,
+      3210
+    ],
+    "WALKIS10"
+  ]
+]

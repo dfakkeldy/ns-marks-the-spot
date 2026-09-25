@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "West Allen Lake southern tip",
+    [
+      862,
+      1698
+    ],
+    [
+      882,
+      1782
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Small lake east of South Tremont southern tip",
+    [
+      2146,
+      1153
+    ],
+    [
+      2175,
+      1209
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Half Moon Lake southern tip",
+    [
+      5341,
+      1235
+    ],
+    [
+      5390,
+      1251
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Milton Lake northeast horn",
+    [
+      3129,
+      3369
+    ],
+    [
+      3172,
+      3448
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Small lake west of Lake Paul southern tip",
+    [
+      4063,
+      2690
+    ],
+    [
+      4110,
+      2740
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Kerr Lake southern tip",
+    [
+      5324,
+      3273
+    ],
+    [
+      5383,
+      3320
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Lake Paul northern island northern tip",
+    [
+      4567,
+      2929
+    ],
+    [
+      4621,
+      2982
+    ],
+    "WALKIS10"
+  ]
+]

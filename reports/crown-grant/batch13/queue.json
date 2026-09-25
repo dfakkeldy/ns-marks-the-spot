@@ -1,0 +1,15 @@
+{
+  "source": "https://novascotia.ca/natr/land/grantmap.asp",
+  "route": "Continuation north through inland Lunenburg and the Annapolis Valley, then the next western mainland column",
+  "sheets": [
+    "038",
+    "037",
+    "036",
+    "035",
+    "028",
+    "029",
+    "030",
+    "031"
+  ],
+  "continuation": "reports/crown-grant/series/queue.json; publication checkpoints do not limit the full requested series"
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C06",
+    "label": "Rocky Lake northeast of Fraxville northwest roof",
+    "role": "proposal",
+    "pixel_xy": [
+      5131,
+      934
+    ],
+    "lonlat": [
+      -64.61589177226548,
+      44.80761636037398
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 139242,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139242,
+    "nearest_unfiltered_distance_guide_px": 5.282622817051127,
+    "selected_distance_guide_px": 5.282622817051127,
+    "guide_reference_pixel_xy": [
+      5138.435164400551,
+      944.8984677728731
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Triangle or Birch Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3532,
+      1865
+    ],
+    "lonlat": [
+      -64.68954308338223,
+      44.734711354964304
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 124662,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124662,
+    "nearest_unfiltered_distance_guide_px": 1.0224060547007776,
+    "selected_distance_guide_px": 1.0224060547007776,
+    "guide_reference_pixel_xy": [
+      3540.5852249923046,
+      1913.161652906565
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Clear Lake large island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3155,
+      3335
+    ],
+    "lonlat": [
+      -64.67146726738456,
+      44.66330063750485
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 143804,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 143804,
+    "nearest_unfiltered_distance_guide_px": 0.5804419370121504,
+    "selected_distance_guide_px": 0.5804419370121504,
+    "guide_reference_pixel_xy": [
+      3191.443098117248,
+      3403.1636249835137
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,45 @@
+{
+  "sheet": "038",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS gate passed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/038.pdf",
+    "pdf_sha256": "c00ad2e2954cf18ab88c392aaa5f1989567c3f8815411ddb398007b46e036615",
+    "jpeg_sha256": "3fcc7cf96efb4e7f7fbe33f9d0ea0b8dae29286545309768c0aa707c77f34cba",
+    "dimensions": [
+      5544,
+      4006
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 48.366599368909625,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six checks share control lakes/island; Ashland Lake is a separate waterbody check.",
+    "Sherbrooke cove and Spenado have controls without local independent checks; northwest far edge and broad unsampled interior remain unvalidated.",
+    "Source uncertainty 18 px; generalized shore extrema and the small Church island limit precision.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 48.37 m, median 47.60 m, P95 63.88 m, maximum 64.59 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Full original mapped frame retains New Germany, Hemford, Pinehurst, Barss Corner, Maplewood, Walden and New Cornwall; Sherbrooke, Lake William, Lahave, Church, Big and Little Mushamush, Caribou, Spenado, Sunken, both sampled Rocky lakes, Rhodenizer, Ashland and all intervening land and water. No inset or internal crop."
+  }
+}

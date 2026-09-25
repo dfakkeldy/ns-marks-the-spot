@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "reference_features": [
+    149584,
+    311452
+  ],
+  "shared_endpoints_lonlat": [
+    [
+      -64.97431734492619,
+      44.77722465937901
+    ],
+    [
+      -64.97542485378,
+      44.77671577933981
+    ]
+  ],
+  "finding": "The northern and southern shoreline features meet at both exact endpoints and form the same elongated island. Different OBJECTIDs do not imply different islands.",
+  "resolution": "Retain the original southern check on feature311452. Reject the attempted feature149584-only correction, which cannot reach the island southern tip.",
+  "earlier_interpretation_corrected": "The initial southern check was incorrectly described as a neighbouring islet during inspection; topology resolves the split shoreline."
+}

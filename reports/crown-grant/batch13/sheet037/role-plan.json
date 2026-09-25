@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T06:26:56.596160+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Sixty island supplies western support, Owl/Rocky/Upper Gully northeast, Black Duck/Triangle/Butler central and Clear island south; Brown is a fresh southeast check.",
+  "corrections": [
+    "Rocky northern reference and Triangle southern reference refined to matching extrema.",
+    "Clear island southern source refinement overshot west; rejected intermediate correction preserved, final crosshair placed on the observed island tip."
+  ],
+  "unadopted": [
+    "Lower Thirty and Springfield Mill lake candidates and small west-central pond did not provide confidently matching modern endpoints."
+  ],
+  "limitations": [
+    "Eight checks pair with control lakes or islands; Brown Lake supplies a separate check.",
+    "Western third, far northern edge and major Sherbrooke/Long Lake shoreline stretches lack independent validation.",
+    "Small islands, generalized lake endpoints and outlet boundaries carry 18 px source uncertainty."
+  ]
+}

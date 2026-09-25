@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5544 x 4006 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 48.37 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          70,
+          165
+        ],
+        [
+          5470,
+          190
+        ],
+        [
+          5460,
+          3845
+        ],
+        [
+          60,
+          3820
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full original mapped frame retains New Germany, Hemford, Pinehurst, Barss Corner, Maplewood, Walden and New Cornwall; Sherbrooke, Lake William, Lahave, Church, Big and Little Mushamush, Caribou, Spenado, Sunken, both sampled Rocky lakes, Rhodenizer, Ashland and all intervening land and water. No inset or internal crop."
+    }
+  ]
+}

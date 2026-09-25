@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Sixty Lake island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1696,
+      1386
+    ],
+    "lonlat": [
+      -64.81637696512759,
+      44.71955310111553
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 154536,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 154536,
+    "nearest_unfiltered_distance_guide_px": 0.3523614694326018,
+    "selected_distance_guide_px": 0.3523614694326018,
+    "guide_reference_pixel_xy": [
+      1704.3142888548318,
+      1442.159314534394
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Black Duck Lake northwest roof",
+    "role": "proposal",
+    "pixel_xy": [
+      2954,
+      1968
+    ],
+    "lonlat": [
+      -64.72250017256283,
+      44.71888435746869
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 125601,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125601,
+    "nearest_unfiltered_distance_guide_px": 1.1297953082418064,
+    "selected_distance_guide_px": 1.1297953082418064,
+    "guide_reference_pixel_xy": [
+      2964.567663245427,
+      2020.9768295031972
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Triangle or Birch Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3526,
+      1702
+    ],
+    "lonlat": [
+      -64.69446629015026,
+      44.74167729396034
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 124661,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124661,
+    "nearest_unfiltered_distance_guide_px": 3.827074769537014,
+    "selected_distance_guide_px": 3.827074769537014,
+    "guide_reference_pixel_xy": [
+      3532.070577758597,
+      1748.8264239273267
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Butler Lake southern eastern lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      3520,
+      2505
+    ],
+    "lonlat": [
+      -64.67249110222664,
+      44.70686615511192
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 124967,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124967,
+    "nearest_unfiltered_distance_guide_px": 2.3836063357881017,
+    "selected_distance_guide_px": 2.3836063357881017,
+    "guide_reference_pixel_xy": [
+      3539.3452164949267,
+      2554.2919070062926
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Owl Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      4058,
+      283
+    ],
+    "lonlat": [
+      -64.69948627334897,
+      44.81481903831998
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 134375,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134375,
+    "nearest_unfiltered_distance_guide_px": 1.0085249517104924,
+    "selected_distance_guide_px": 1.0085249517104924,
+    "guide_reference_pixel_xy": [
+      4072.2042765262304,
+      304.0123797900742
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Rocky Lake northeast of Fraxville northwest roof",
+    "role": "proposal",
+    "pixel_xy": [
+      5131,
+      934
+    ],
+    "lonlat": [
+      -64.61619429640554,
+      44.807400526712705
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 139242,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139242,
+    "nearest_unfiltered_distance_guide_px": 1.4541383274195385,
+    "selected_distance_guide_px": 1.4541383274195385,
+    "guide_reference_pixel_xy": [
+      5132.569590627158,
+      947.2616243516095
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Lake Molly or Upper Gully eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5324,
+      1366
+    ],
+    "lonlat": [
+      -64.5920996558108,
+      44.791825834281426
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 137759,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137759,
+    "nearest_unfiltered_distance_guide_px": 2.058495006721982,
+    "selected_distance_guide_px": 2.058495006721982,
+    "guide_reference_pixel_xy": [
+      5328.196932778752,
+      1393.0068483054638
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Clear Lake large island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3165,
+      3306
+    ],
+    "lonlat": [
+      -64.67191239766576,
+      44.664874943151766
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 143804,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 143804,
+    "nearest_unfiltered_distance_guide_px": 0.4978078457530754,
+    "selected_distance_guide_px": 0.4978078457530754,
+    "guide_reference_pixel_xy": [
+      3198.5032634412055,
+      3370.0326411159476
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

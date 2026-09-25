@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Ramsey Lake northern tip",
+    [
+      2558,
+      2559
+    ],
+    [
+      2492,
+      2575
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Crosskill eastern lake northern roof",
+    [
+      1917,
+      2698
+    ],
+    [
+      1833,
+      2677
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Unnamed lake west of Crosskill southern tip",
+    [
+      1610,
+      2832
+    ],
+    [
+      1540,
+      2840
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Small pond northeast of Crosskill northern tip",
+    [
+      2190,
+      2506
+    ],
+    [
+      2115,
+      2528
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Western small pond northern tip",
+    [
+      1331,
+      2618
+    ],
+    [
+      1245,
+      2642
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Port Lorne eastern headland roof",
+    [
+      3280,
+      1622
+    ],
+    [
+      3222,
+      1630
+    ],
+    "WACO20"
+  ],
+  [
+    "C07",
+    "Port George eastern roof corner",
+    [
+      5240,
+      1196
+    ],
+    [
+      5211,
+      1215
+    ],
+    "WACO20"
+  ]
+]

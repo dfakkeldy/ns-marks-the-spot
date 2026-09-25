@@ -1,0 +1,194 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Small lake east of New Germany southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        1540,
+        1390
+      ],
+      "lonlat": [
+        -64.72110251108717,
+        44.562787845222054
+      ],
+      "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+      "reference_objectid": 126017,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126017,
+      "nearest_unfiltered_distance_guide_px": 1.6198453182139783,
+      "selected_distance_guide_px": 1.6198453182139783,
+      "guide_reference_pixel_xy": [
+        1567.3792973312084,
+        1401.8493749037152
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+    },
+    {
+      "id": "Q02",
+      "label": "Sunken Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4094,
+        1219
+      ],
+      "lonlat": [
+        -64.5654648488569,
+        44.62005833720556
+      ],
+      "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+      "reference_objectid": 142018,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142018,
+      "nearest_unfiltered_distance_guide_px": 0.8324493017870425,
+      "selected_distance_guide_px": 0.8324493017870425,
+      "guide_reference_pixel_xy": [
+        4144.169175072922,
+        1242.9480213448405
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+    },
+    {
+      "id": "Q03",
+      "label": "Rocky Lake near Walden western elbow",
+      "role": "check",
+      "pixel_xy": [
+        4116,
+        1707
+      ],
+      "lonlat": [
+        -64.55213973968266,
+        44.59959932977873
+      ],
+      "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+      "reference_objectid": 127915,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127915,
+      "nearest_unfiltered_distance_guide_px": 0.5676784764935741,
+      "selected_distance_guide_px": 0.5676784764935741,
+      "guide_reference_pixel_xy": [
+        4157.601572811138,
+        1714.5956305799773
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+    },
+    {
+      "id": "Q04",
+      "label": "Ashland Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1247,
+        2883
+      ],
+      "lonlat": [
+        -64.69946634893003,
+        44.4919598518453
+      ],
+      "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+      "reference_objectid": 126493,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126493,
+      "nearest_unfiltered_distance_guide_px": 1.2909054046035164,
+      "selected_distance_guide_px": 1.2909054046035164,
+      "guide_reference_pixel_xy": [
+        1279.810987472185,
+        2887.2769929631613
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+    },
+    {
+      "id": "Q05",
+      "label": "Western Rocky Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        807,
+        3075
+      ],
+      "lonlat": [
+        -64.72089089181509,
+        44.474919216846125
+      ],
+      "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+      "reference_objectid": 143168,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143168,
+      "nearest_unfiltered_distance_guide_px": 2.73384659084064,
+      "selected_distance_guide_px": 2.73384659084064,
+      "guide_reference_pixel_xy": [
+        849.4482542713522,
+        3083.7834605616517
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+    },
+    {
+      "id": "Q06",
+      "label": "Rhodenizer Lake northeast roof",
+      "role": "check",
+      "pixel_xy": [
+        793,
+        3531
+      ],
+      "lonlat": [
+        -64.70955574617513,
+        44.4547172934005
+      ],
+      "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+      "reference_objectid": 134017,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134017,
+      "nearest_unfiltered_distance_guide_px": 0.6403889563643823,
+      "selected_distance_guide_px": 0.6403889563643823,
+      "guide_reference_pixel_xy": [
+        837.5721238159458,
+        3538.7122981497087
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+    },
+    {
+      "id": "Q07",
+      "label": "Church Lake northern of two central islands southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3041,
+        2446
+      ],
+      "lonlat": [
+        -64.59934737344973,
+        44.54567619240562
+      ],
+      "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+      "reference_objectid": 147604,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 147604,
+      "nearest_unfiltered_distance_guide_px": 0.7458288508425321,
+      "selected_distance_guide_px": 0.7458288508425321,
+      "guide_reference_pixel_xy": [
+        3077.254234900349,
+        2463.0097514558583
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+    }
+  ]
+}

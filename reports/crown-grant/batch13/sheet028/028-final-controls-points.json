@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Ramsey Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      2558,
+      2559
+    ],
+    "lonlat": [
+      -65.27586195961449,
+      44.90016253956661
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 140892,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140892,
+    "nearest_unfiltered_distance_guide_px": 0.9436665287152306,
+    "selected_distance_guide_px": 0.9436665287152306,
+    "guide_reference_pixel_xy": [
+      2492.3620742329513,
+      2575.8714406274958
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score."
+  },
+  {
+    "id": "C02",
+    "label": "Crosskill eastern lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      1917,
+      2698
+    ],
+    "lonlat": [
+      -65.3113150028859,
+      44.88388828462293
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 132325,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132325,
+    "nearest_unfiltered_distance_guide_px": 0.8655294776931499,
+    "selected_distance_guide_px": 0.8655294776931499,
+    "guide_reference_pixel_xy": [
+      1833.3025720505393,
+      2677.810920113814
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score."
+  },
+  {
+    "id": "C03",
+    "label": "Unnamed lake west of Crosskill southern tip",
+    "role": "control",
+    "pixel_xy": [
+      1610,
+      2832
+    ],
+    "lonlat": [
+      -65.32406744069873,
+      44.87185462546426
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 126941,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126941,
+    "nearest_unfiltered_distance_guide_px": 0.22627051313513816,
+    "selected_distance_guide_px": 0.22627051313513816,
+    "guide_reference_pixel_xy": [
+      1540.134273483709,
+      2839.8178764795884
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score."
+  },
+  {
+    "id": "C04",
+    "label": "Small pond northeast of Crosskill northern tip",
+    "role": "control",
+    "pixel_xy": [
+      2190,
+      2506
+    ],
+    "lonlat": [
+      -65.29903597791083,
+      44.895295590482206
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 141969,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141969,
+    "nearest_unfiltered_distance_guide_px": 2.817698889974426,
+    "selected_distance_guide_px": 2.817698889974426,
+    "guide_reference_pixel_xy": [
+      2113.8987341325264,
+      2525.4064232180826
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score."
+  },
+  {
+    "id": "C05",
+    "label": "Western small pond northern tip",
+    "role": "control",
+    "pixel_xy": [
+      1315,
+      2618
+    ],
+    "lonlat": [
+      -65.34622770961575,
+      44.87449079164821
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 128280,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128280,
+    "nearest_unfiltered_distance_guide_px": 1.5279076508338296,
+    "selected_distance_guide_px": 1.5279076508338296,
+    "guide_reference_pixel_xy": [
+      1244.2623488925747,
+      2643.338048068341
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score."
+  },
+  {
+    "id": "C06",
+    "label": "Port Lorne eastern headland roof",
+    "role": "control",
+    "pixel_xy": [
+      3280,
+      1622
+    ],
+    "lonlat": [
+      -65.2579828686978,
+      44.952387810284065
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 9222,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9222,
+    "nearest_unfiltered_distance_guide_px": 1.3925832890034575,
+    "selected_distance_guide_px": 1.3925832890034575,
+    "guide_reference_pixel_xy": [
+      3223.2322830582852,
+      1630.648665307439
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score."
+  },
+  {
+    "id": "C07",
+    "label": "Port George eastern roof corner",
+    "role": "control",
+    "pixel_xy": [
+      5240,
+      1196
+    ],
+    "lonlat": [
+      -65.15354830289522,
+      45.00580822905392
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 4746,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4746,
+    "nearest_unfiltered_distance_guide_px": 1.152994125055581,
+    "selected_distance_guide_px": 1.152994125055581,
+    "guide_reference_pixel_xy": [
+      5211.550204196712,
+      1216.0132476470899
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score."
+  }
+]
