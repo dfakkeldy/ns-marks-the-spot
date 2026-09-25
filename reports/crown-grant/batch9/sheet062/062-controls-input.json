@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Moose Island western extremity",
+    [
+      628,
+      236
+    ],
+    [
+      599,
+      245
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Middle or Long Island northern tip",
+    [
+      414,
+      139
+    ],
+    [
+      383,
+      148
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Economy Point mainland southern tip",
+    [
+      3152,
+      2061
+    ],
+    [
+      3131,
+      2052
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Bass River western mouth cape southern tip",
+    [
+      4958,
+      1796
+    ],
+    [
+      4949,
+      1779
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Cape Tenny lower cape eastern tip",
+    [
+      2630,
+      3484
+    ],
+    [
+      2614,
+      3463
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "Burntcoat peninsula northwest corner below islet",
+    [
+      3910,
+      3225
+    ],
+    [
+      3889,
+      3205
+    ],
+    "WACO20"
+  ],
+  [
+    "C07",
+    "Noel Head western corner",
+    [
+      5061,
+      3563
+    ],
+    [
+      5040,
+      3520
+    ],
+    "WACO20"
+  ]
+]

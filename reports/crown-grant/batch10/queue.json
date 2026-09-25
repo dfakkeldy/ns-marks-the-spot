@@ -1,0 +1,15 @@
+{
+  "source": "https://novascotia.ca/natr/land/grantmap.asp",
+  "route": "Continuation south through Hants and Halifax, then the next western mainland column",
+  "sheets": [
+    "063",
+    "064",
+    "065",
+    "066",
+    "067",
+    "057",
+    "056",
+    "055"
+  ],
+  "continuation": "reports/crown-grant/series/queue.json; publication checkpoints do not limit the full requested series"
+}

@@ -1,0 +1,45 @@
+{
+  "sheet": "062",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; first fit retained; numerical pass with regional limitations; private browser and raster coverage verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/062.pdf",
+    "pdf_sha256": "0af3eaf780d8593aab6d3f9ff0382773297f58f1e9107194d4f2c238602e99dd",
+    "jpeg_sha256": "b7f4e7378a9737a3a0149836bdb1914d29eea64ec4da0be506109ce5ca593d23",
+    "dimensions": [
+      5680,
+      3877
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 6,
+      "rms_ground_m": 52.62172767997084,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 52.62 m, median 50.15 m, P95 67.03 m and maximum 68.17 m; numerical criteria pass with geographic limitations.",
+    "Five checks share island or cape regions with controls; Birch Island is a separate nearby island. The coastal sample remains geographically correlated.",
+    "Inland river regions and featureless basin water have no independent validation. Full imagery retention is not geographic acceptance there.",
+    "Coastal morphology and generalized thick source boundaries remain limitations; 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 52.62 m, median 50.15 m, P95 67.03 m, maximum 68.17 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Middle or Long Island, Birch or Diamond Island, Moose Island, Five Islands, Red Head, Lower Economy, Carrs Brook, Economy Point, Pleasant Hills, Upper Economy, Little Bass River, Bass River, Walton, East Walton, Tennycape, Cape Tenny, Moose Brook, Minasville, Burntcoat Head and Noel Head, including the entire original Minas Basin and Cobequid Bay water frame. No displaced inset identified."
+  }
+}

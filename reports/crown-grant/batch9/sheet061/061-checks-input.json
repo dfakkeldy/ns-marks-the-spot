@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Cleveland Lake southern tip",
+    [
+      3483,
+      718
+    ],
+    [
+      3485,
+      688
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "British Lake southern lobe southern tip",
+    [
+      3271,
+      1946
+    ],
+    [
+      3256,
+      1962
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Farmington small lake southeast lobe southern tip",
+    [
+      4358,
+      1671
+    ],
+    [
+      4336,
+      1699
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Fitch parcel lake southern tip",
+    [
+      4080,
+      1987
+    ],
+    [
+      4064,
+      2011
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Pinnacle Island main body southern tip",
+    [
+      143,
+      3992
+    ],
+    [
+      155,
+      4004
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q06",
+    "Newton Lake southern peninsula northern tip",
+    [
+      4150,
+      3624
+    ],
+    [
+      4126,
+      3633
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Economy Lake northern lobe inward peninsula tip",
+    [
+      4902,
+      3370
+    ],
+    [
+      4870,
+      3389
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Moose Island eastern tip",
+    [
+      956,
+      272
+    ],
+    [
+      924,
+      270
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q02",
+    "Middle or Long Island southern extremity",
+    [
+      437,
+      195
+    ],
+    [
+      401,
+      207
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q03",
+    "Cape Tenny upper cape eastern tip",
+    [
+      2550,
+      3434
+    ],
+    [
+      2529,
+      3419
+    ],
+    "WACO20"
+  ],
+  [
+    "Q04",
+    "Burntcoat peninsula western extremity",
+    [
+      3740,
+      3438
+    ],
+    [
+      3719,
+      3398
+    ],
+    "WACO20"
+  ],
+  [
+    "Q05",
+    "Birch or Diamond Island eastern tip",
+    [
+      565,
+      245
+    ],
+    [
+      547,
+      249
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q06",
+    "Economy Point western coastal spur southern tip",
+    [
+      2909,
+      1929
+    ],
+    [
+      2883,
+      1922
+    ],
+    "WACO20"
+  ]
+]

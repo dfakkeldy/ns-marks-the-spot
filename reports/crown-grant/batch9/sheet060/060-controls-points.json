@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Little Forks River northern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      1963,
+      1077
+    ],
+    "lonlat": [
+      -64.18104653664534,
+      45.69139528216102
+    ],
+    "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+    "reference_objectid": 168668,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 168668,
+    "nearest_unfiltered_distance_guide_px": 0.21620984782279207,
+    "selected_distance_guide_px": 0.21620984782279207,
+    "guide_reference_pixel_xy": [
+      2005.940961000626,
+      1058.2079930163454
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Central eastern river fork east of Springhill Junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3644,
+      1910
+    ],
+    "lonlat": [
+      -64.05089566312934,
+      45.68589552892783
+    ],
+    "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+    "reference_objectid": 284647,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 284647,
+    "nearest_unfiltered_distance_guide_px": 0.5399223879783948,
+    "selected_distance_guide_px": 0.5399223879783948,
+    "guide_reference_pixel_xy": [
+      3707.412718528183,
+      1901.6518913940527
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Maccan River principal fork east of Mapleton",
+    "role": "proposal",
+    "pixel_xy": [
+      1945,
+      3341
+    ],
+    "lonlat": [
+      -64.12035518548808,
+      45.5907788739476
+    ],
+    "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+    "reference_objectid": 224693,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 224693,
+    "nearest_unfiltered_distance_guide_px": 1.4112916508482776,
+    "selected_distance_guide_px": 1.4112916508482776,
+    "guide_reference_pixel_xy": [
+      2016.8149023477454,
+      3325.600899223471
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
