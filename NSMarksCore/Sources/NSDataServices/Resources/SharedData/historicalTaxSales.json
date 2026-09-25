@@ -521,6 +521,28 @@
       "resultCheckedOn": "2026-08-23",
       "noticeSha256": "0076fd4d1b4a25aef2247f4836b14c61de59e8246b2ef6be2303c1f72bce7203",
       "sourceNotes": "The dated municipal notice publishes 7 unique account/PID rows and positive totals. Twelve additional rows print REMOVED without identifiers and remain outside the mapped records. The municipality has not published parcel-level results, so every retained outcome stays unknown and no winning bid is claimed. All 7 exact PIDs returned from NSPRD on 2026-08-23. Identity fields were discarded before this public dataset was written."
+    },
+    {
+      "id": "victoria-2026-09-14",
+      "municipalityId": "victoria-county",
+      "municipality": "Municipality of the County of Victoria",
+      "shortMunicipality": "Victoria County",
+      "saleDate": "2026-09-14",
+      "saleMethod": "sealed-tender",
+      "listingIdentifierLabel": "AAN",
+      "advertisedAmountLabel": "Total Owing",
+      "currency": "CAD",
+      "resultStatus": "verified",
+      "noticeUrl": "https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/",
+      "termsUrl": "https://victoriacounty.com/wp-content/uploads/2026/08/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-SEPT-14-2026.pdf",
+      "landingPageUrl": "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+      "resultUrl": "https://victoriacounty.com/wp-content/uploads/2026/09/Tax-Sale-Results-for-September-14-2026.pdf",
+      "retrievedOn": "2026-09-24",
+      "noticeSnapshotDate": "2026-09-16",
+      "resultSnapshotDate": "2026-09-24",
+      "noticeSha256": "4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5",
+      "resultSha256": "6588a167badd6ad9664d6631178a7babf51ca837576ec52108714bc469cd08ee",
+      "sourceNotes": "The official 9-row 2026-09-14 sealed-tender result PDF was parsed without assessed-owner fields. 3 rows print SOLD with a numeric successful bid and 1 print NOT SOLD; each matches exactly one retained notice listing by unique total owing and location prefix, using the archived notice PID. 4 REMOVED rows and 1 row with no printed status publish no Total Owing and are excluded. The live notice page now prints that no property tax sale notices exist."
     }
   ],
   "records": [
@@ -970,6 +992,11 @@
     { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-06250378", "listingIdentifier": "06250378", "pids": ["20231825"], "civicDescription": "9 Park Street, Tatamagouche, Land Building", "advertisedAmountCents": 3010602, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
 
     { "eventId": "middleton-2026-08-20", "recordId": "middleton-2026-08-20-result-row-4", "listingIdentifier": "4", "pids": ["05193040"], "civicDescription": "Land, 50 School Street, Middleton", "advertisedAmountCents": 8461612, "winningBidCents": null, "outcome": "unsold", "resultNote": "The official Successful Bid column reads \"NO BID\".", "redemptionLabel": "Redeemable - Yes", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
-    { "eventId": "middleton-2026-08-20", "recordId": "middleton-2026-08-20-result-row-5", "listingIdentifier": "5", "pids": ["05030911"], "civicDescription": "Land, Senator Road, Middleton", "advertisedAmountCents": 1581351, "winningBidCents": null, "outcome": "unsold", "resultNote": "The official Successful Bid column reads \"NO BID\".", "redemptionLabel": "Redeemable - No", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" }
+    { "eventId": "middleton-2026-08-20", "recordId": "middleton-2026-08-20-result-row-5", "listingIdentifier": "5", "pids": ["05030911"], "civicDescription": "Land, Senator Road, Middleton", "advertisedAmountCents": 1581351, "winningBidCents": null, "outcome": "unsold", "resultNote": "The official Successful Bid column reads \"NO BID\".", "redemptionLabel": "Redeemable - No", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
+
+    { "eventId": "victoria-2026-09-14", "recordId": "victoria-2026-09-14-aan-02266288", "listingIdentifier": "02266288", "pids": ["85066322"], "civicDescription": "Big Harbour Rd., Port Bevis, Land Only 60 Acres +/- (HST Applicable)", "advertisedAmountCents": 116751, "winningBidCents": 5190000, "outcome": "sold", "resultNote": "Official result: SOLD.", "redemptionLabel": "Redeemable - Yes", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "victoria-2026-09-14", "recordId": "victoria-2026-09-14-aan-02449366", "listingIdentifier": "02449366", "pids": ["85014165"], "civicDescription": "Hwy 105, Inlet Baddeck, Land Only, 20,700 Sq. Feet +/- (HST Applicable)", "advertisedAmountCents": 176636, "winningBidCents": 300000, "outcome": "sold", "resultNote": "Official result: SOLD.", "redemptionLabel": "Redeemable - Yes", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "victoria-2026-09-14", "recordId": "victoria-2026-09-14-aan-02689154", "listingIdentifier": "02689154", "pids": ["85168979"], "civicDescription": "4499 Washabuck Rd., Lower Washabuck, Land/Dwelling/Building, 4.1 Acres +/-", "advertisedAmountCents": 428197, "winningBidCents": 500000, "outcome": "sold", "resultNote": "Official result: SOLD.", "redemptionLabel": "Redeemable - Yes", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "victoria-2026-09-14", "recordId": "victoria-2026-09-14-aan-02845776", "listingIdentifier": "02845776", "pids": ["85062669"], "civicDescription": "Meat Cove Rd., Bay St. Lawrence, Land/Building, 15,00 Sq. Feet +/-", "advertisedAmountCents": 200118, "winningBidCents": null, "outcome": "unsold", "resultNote": "Official result: NOT SOLD.", "redemptionLabel": "Redeemable - Yes", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" }
   ]
 }
