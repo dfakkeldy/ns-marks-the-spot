@@ -1,0 +1,13 @@
+{
+  "method": "Union of all original-frame alpha masks compared with independently sampled full-neatline polygon at pixel centres",
+  "original_dimensions": [
+    5665,
+    3961
+  ],
+  "edge_tolerance_native_pixels": 1,
+  "missing_interior_source_pixels": 0,
+  "excess_source_pixels": 0,
+  "overlapping_source_pixels": 0,
+  "union_source_pixels": 20046400,
+  "passed": true
+}

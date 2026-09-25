@@ -1,0 +1,41 @@
+[
+  [
+    "C01",
+    "Inset Isle Haute western mainland tip",
+    [
+      263,
+      2310
+    ],
+    [
+      268,
+      2264
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Inset Isle Haute eastern tip",
+    [
+      688,
+      2368
+    ],
+    [
+      720,
+      2347
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Inset Isle Haute southern tip",
+    [
+      557,
+      2430
+    ],
+    [
+      562,
+      2386
+    ],
+    "WACOIS10"
+  ]
+]

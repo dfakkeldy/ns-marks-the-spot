@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q01",
+    "label": "Main Apple Head western northern horn",
+    "role": "proposal",
+    "pixel_xy": [
+      2342,
+      1191
+    ],
+    "lonlat": [
+      -64.8371838906528,
+      45.48658453009766
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3815,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3815,
+    "nearest_unfiltered_distance_guide_px": 0.4906664237619504,
+    "selected_distance_guide_px": 0.4906664237619504,
+    "guide_reference_pixel_xy": [
+      2353.006698619749,
+      1153.490620696568
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Main Squally Point eastern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      915,
+      1862
+    ],
+    "lonlat": [
+      -64.90840282981513,
+      45.4300658345386
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3919,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3919,
+    "nearest_unfiltered_distance_guide_px": 1.1478103778891862,
+    "selected_distance_guide_px": 1.1478103778891862,
+    "guide_reference_pixel_xy": [
+      928.0610992252477,
+      1814.437649514759
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Main Howard Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5243,
+      2949
+    ],
+    "lonlat": [
+      -64.60696267046069,
+      45.4656170626256
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 141175,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141175,
+    "nearest_unfiltered_distance_guide_px": 1.2933367293754088,
+    "selected_distance_guide_px": 1.2933367293754088,
+    "guide_reference_pixel_xy": [
+      5263.244006419729,
+      2919.353790790192
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Main Green Point northwest coast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      529,
+      2113
+    ],
+    "lonlat": [
+      -64.92660239691261,
+      45.41088419921385
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3880,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3880,
+    "nearest_unfiltered_distance_guide_px": 0.10900775218805377,
+    "selected_distance_guide_px": 0.10900775218805377,
+    "guide_reference_pixel_xy": [
+      524.1072990949615,
+      2073.9807751656044
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Main coast northeast of Sand River mouth northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4888,
+      967
+    ],
+    "lonlat": [
+      -64.68310488053808,
+      45.54494764548395
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3780,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3780,
+    "nearest_unfiltered_distance_guide_px": 10.440774487800539,
+    "selected_distance_guide_px": 10.440774487800539,
+    "guide_reference_pixel_xy": [
+      4900.449302702444,
+      945.559228632017
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

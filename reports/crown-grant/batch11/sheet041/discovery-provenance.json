@@ -1,0 +1,10 @@
+{
+  "main_guide": "041-west-adjacent-guide.npy from sheet050 affine with westward pixel translation; discovery only",
+  "inset": {
+    "purpose": "Discovery only, not adopted seam control",
+    "source_annotation": "S.W. Corner of Sheet41",
+    "basis": "Provisional same scale/orientation as main guide; translate by[-910,2495] original-frame pixels so inset right-border coast joins approximate main left-border coast",
+    "note": "Must confirm physical shore pattern and independently fit/check inset; no seam estimate becomes an observation"
+  },
+  "no_guide_or_seam_coordinate_used_as_observation": true
+}

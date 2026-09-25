@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Unweighted affine EPSG:32620",
+  "reason": "Five physical coast controls span Grindstone Island, northern Cumberland Basin shore and the Nova Scotia coast; source uncertainties are reported, not used as fit weights.",
+  "corrections": [
+    "Grindstone and Cape Maringouin reference type corrected from Ocean to Tidal Watercourse before scoring; initial administrative-edge proposal rejected.",
+    "Peck Point source moved toward the actual shore bend before fitting."
+  ],
+  "not_adopted": [
+    "St Mary Point and other highly generalized dashed New Brunswick contours not forced into additional observations.",
+    "Modern northern Grindstone projection not adopted because correspondence with historical natural shoreline is uncertain.",
+    "Administrative waterbody closing edges are not physical shores and are never observations."
+  ],
+  "limitations": [
+    "Three New Brunswick checks, including one paired Grindstone check, and only one Nova Scotia check on the same head as a control.",
+    "New Brunswick dashed coast is coarsely generalized: working source uncertainty30 px versus18 px for Nova Scotia solid shore.",
+    "Northern river mouths, interior, southern offshore area and most Nova Scotia coast remain independently unvalidated."
+  ]
+}

@@ -1,0 +1,67 @@
+[
+  [
+    "Q01",
+    "Main Apple Head western northern horn",
+    [
+      2342,
+      1191
+    ],
+    [
+      2353,
+      1153
+    ],
+    "WACO20"
+  ],
+  [
+    "Q02",
+    "Main Squally Point eastern shoulder",
+    [
+      915,
+      1862
+    ],
+    [
+      927,
+      1814
+    ],
+    "WACO20"
+  ],
+  [
+    "Q03",
+    "Main Howard Lake southern tip",
+    [
+      5243,
+      2949
+    ],
+    [
+      5262,
+      2919
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Main Green Point northwest coast corner",
+    [
+      529,
+      2113
+    ],
+    [
+      524,
+      2074
+    ],
+    "WACO20"
+  ],
+  [
+    "Q05",
+    "Main coast northeast of Sand River mouth northwest corner",
+    [
+      4888,
+      967
+    ],
+    [
+      4891,
+      950
+    ],
+    "WACO20"
+  ]
+]

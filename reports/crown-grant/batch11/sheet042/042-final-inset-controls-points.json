@@ -1,0 +1,83 @@
+[
+  {
+    "id": "C01",
+    "label": "Inset Isle Haute western mainland tip",
+    "role": "control",
+    "pixel_xy": [
+      263,
+      2310
+    ],
+    "lonlat": [
+      -65.01847538271093,
+      45.2482232389529
+    ],
+    "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+    "reference_objectid": 17474,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17474,
+    "nearest_unfiltered_distance_guide_px": 0.30022848236185373,
+    "selected_distance_guide_px": 0.30022848236185373,
+    "guide_reference_pixel_xy": [
+      267.8750010022777,
+      2264.2729695810704
+    ],
+    "source_uncertainty_px": 30,
+    "modern_uncertainty_m": 20,
+    "review": "Broad island identity and native paired crosshairs inspected before first inset fit/score; generalized source shoreline."
+  },
+  {
+    "id": "C02",
+    "label": "Inset Isle Haute eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      688,
+      2368
+    ],
+    "lonlat": [
+      -64.98794543041184,
+      45.25337042880503
+    ],
+    "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+    "reference_objectid": 14768,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 14768,
+    "nearest_unfiltered_distance_guide_px": 0.43490319549206785,
+    "selected_distance_guide_px": 0.43490319549206785,
+    "guide_reference_pixel_xy": [
+      719.5665316876257,
+      2346.9647011102643
+    ],
+    "source_uncertainty_px": 30,
+    "modern_uncertainty_m": 20,
+    "review": "Broad island identity and native paired crosshairs inspected before first inset fit/score; generalized source shoreline."
+  },
+  {
+    "id": "C03",
+    "label": "Inset Isle Haute southern tip",
+    "role": "control",
+    "pixel_xy": [
+      557,
+      2430
+    ],
+    "lonlat": [
+      -64.99588077154809,
+      45.24877350186327
+    ],
+    "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+    "reference_objectid": 14768,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 14768,
+    "nearest_unfiltered_distance_guide_px": 1.3086523687064517,
+    "selected_distance_guide_px": 1.3086523687064517,
+    "guide_reference_pixel_xy": [
+      574.8395483258064,
+      2387.9961426242953
+    ],
+    "source_uncertainty_px": 30,
+    "modern_uncertainty_m": 20,
+    "review": "Broad island identity and native paired crosshairs inspected before first inset fit/score; generalized source shoreline."
+  }
+]

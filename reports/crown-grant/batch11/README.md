@@ -9,8 +9,8 @@ Continuation north through western Hants, then the next western mainland column.
 | 052 | 141.32 | 4 | complete |
 | 051 | 49.78 | 7 | complete |
 | 050 | 61.68 | 5 | complete |
-| 049 | — | — | queued |
-| 041 | — | — | queued |
-| 042 | — | — | queued |
+| 049 | 424.26 | 4 | complete |
+| 041 | 52.83 | 5 | complete |
+| 042 | 42.93 | 4 | complete |
 
 The independent ground RMS ceiling is 100 m. Per-sheet results retain failures, companion metrics, bias and geographic limitations. Assessment completion does not imply geographic acceptance. Source imagery and raster reviews remain private; no production activation.

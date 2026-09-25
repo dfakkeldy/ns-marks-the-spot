@@ -1,0 +1,8 @@
+{
+  "timing": "Before any fit or score",
+  "issue": "Ocean-only filtering was incorrect for Grindstone Island and Cape Maringouin physical shores; their NBHN boundary is classified Tidal Watercourse (7). Initial control snapped to an administrative ocean closing edge and first check was rejected by the150-guide-pixel guard.",
+  "resolution": "Retain raw proposal and corrected NBHN_7 proposals, inspect native crosshairs on physical coast before adoption",
+  "initial_Q01_requested_type_distance_guide_px": 190.4127454778397,
+  "reference_feature": "NB13:6582",
+  "reference_type": "NBHN_7"
+}

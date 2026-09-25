@@ -1,0 +1,47 @@
+{
+  "verified_at_utc": "2026-09-25T04:36:24.632537+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "041",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6164,
+        5297
+      ],
+      "complete": true
+    },
+    {
+      "file": "cape-chignecto-inset-3857.png",
+      "dimensions": [
+        1178,
+        1294
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5616,
+        3931
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-frame historical and modern-only views inspected; both rasters decoded and responded together to opacity controls.",
+    "Cape Chignecto inset and joining edge also inspected at 500 m scale with historical and modern-only views.",
+    "Transient base-tile loading during zoom resolved; no browser warnings or errors logged.",
+    "Numerical passes remain separate from geographic/user acceptance."
+  ]
+}

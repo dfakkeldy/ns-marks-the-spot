@@ -1,0 +1,30 @@
+{
+  "timing": "Before first fit and score",
+  "main": {
+    "model": "Affine EPSG:32620",
+    "controls": 6,
+    "checks": 5,
+    "reason": "Controls span northwest coast, southwestern Refugee Cove and southeastern Howard Lake; checks add northeastern coast.",
+    "limitations": [
+      "Coastal observations correlated; only one lake provides inland check.",
+      "Central and eastern interior unvalidated.",
+      "Low-water grant dashes are not adopted shoreline."
+    ]
+  },
+  "inset": {
+    "model": "Constrained reflected similarity EPSG:32620",
+    "status": "All seven native crosshairs inspected; 3 controls and 4 checks frozen before first inset fit/score",
+    "reason": "Small coastal continuation strip; avoid affine shear on sparse coastal geometry.",
+    "corrections": [
+      "Northern lower headland source refined to corner.",
+      "Southeastern bend source/reference refined to the southern extremum.",
+      "Middle western thumb source refined to projecting shore.",
+      "South-central check refined to the eastern of two distinct projecting tips."
+    ],
+    "limitations": [
+      "All inset checks follow one short coastal strip; not independent regional samples.",
+      "No printed inset scale or north arrow; provisional seam translation was for discovery only and is not an adopted control."
+    ]
+  },
+  "created_at_utc": "2026-09-25T04:26:04.057982+00:00"
+}

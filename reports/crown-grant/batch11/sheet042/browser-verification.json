@@ -1,0 +1,47 @@
+{
+  "verified_at_utc": "2026-09-25T04:46:34.945308+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "042",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6184,
+        5325
+      ],
+      "complete": true
+    },
+    {
+      "file": "isle-haute-inset-3857.png",
+      "dimensions": [
+        990,
+        861
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5665,
+        3961
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual complete-frame historical and modern-only views inspected; both rasters decoded and opacity controls applied together.",
+    "Displaced Isle Haute inset inspected separately at 500 m scale in historical and modern-only views.",
+    "Visible inset median bound failure and sparse two-check warning retained; no geographic acceptance.",
+    "No browser warnings or errors logged."
+  ]
+}

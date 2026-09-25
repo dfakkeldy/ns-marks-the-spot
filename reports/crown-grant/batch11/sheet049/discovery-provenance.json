@@ -1,0 +1,6 @@
+{
+  "purpose": "Discovery only; no inherited observations",
+  "basis": "051 affine translated through the preliminary050 guide by two northward offsets of3620 pixels; this is not the frozen050 fit",
+  "guide": "049-north-provisional-guide.npy",
+  "references": "NSTDB plus NBHN exact polygon rings with distinct source identities"
+}
