@@ -1,0 +1,116 @@
+{
+  "sheet": "020",
+  "version": "inset-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.8562120041010655,
+      1.99051472700707
+    ],
+    [
+      1.99051472700707,
+      -4.8562120041010655
+    ],
+    [
+      268412.83366143,
+      4952797.435857676
+    ]
+  ],
+  "source_sha256": "fcf89067b28d43ca655caffda4bfe0f93ea050a2ade07b44eac8e140a557de61",
+  "source_dimensions": [
+    5740,
+    3852
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IC01",
+      "label": "Prim Point western headland",
+      "role": "control",
+      "pixel_xy": [
+        1803,
+        842
+      ],
+      "lonlat": [
+        -65.79149635701927,
+        44.689846791042534
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4718,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4718,
+      "nearest_unfiltered_distance_guide_px": 1.449504599881739,
+      "selected_distance_guide_px": 1.449504599881739,
+      "guide_reference_pixel_xy": [
+        1794.5359909534454,
+        844.3467654892011
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC02",
+      "label": "Caldwell Cove western headland",
+      "role": "control",
+      "pixel_xy": [
+        456,
+        1197
+      ],
+      "lonlat": [
+        -65.86238931568117,
+        44.64856055167826
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4569,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4569,
+      "nearest_unfiltered_distance_guide_px": 0.06680791519776871,
+      "selected_distance_guide_px": 0.06680791519776871,
+      "guide_reference_pixel_xy": [
+        463.06666088470956,
+        1185.9955701035215
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC03",
+      "label": "Victoria-side western rock headland",
+      "role": "control",
+      "pixel_xy": [
+        2525,
+        799
+      ],
+      "lonlat": [
+        -65.74820105779911,
+        44.705834218381476
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 6553,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 6553,
+      "nearest_unfiltered_distance_guide_px": 0.6054974959150518,
+      "selected_distance_guide_px": 0.6054974959150518,
+      "guide_reference_pixel_xy": [
+        2527.0192289365223,
+        809.3948079101974
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    42.97258684639135,
+    14.751863970119265,
+    28.411246217339283
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: constrained similarity limits free parameters and avoids unsupported affine shear; see component role plan for control distribution and model rationale"
+}

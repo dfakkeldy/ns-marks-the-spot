@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Goat Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1515,
+      501
+    ],
+    "lonlat": [
+      -65.61332291821583,
+      44.70312624413515
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 18324,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18324,
+    "nearest_unfiltered_distance_guide_px": 0.33338622421500835,
+    "selected_distance_guide_px": 0.33338622421500835,
+    "guide_reference_pixel_xy": [
+      1533.7736380848219,
+      449.2447583662579
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Skull Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      2225,
+      1664
+    ],
+    "lonlat": [
+      -65.53835473954291,
+      44.66595204117702
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 142558,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142558,
+    "nearest_unfiltered_distance_guide_px": 0.7108659242908888,
+    "selected_distance_guide_px": 0.7108659242908888,
+    "guide_reference_pixel_xy": [
+      2227.293246894318,
+      1629.9236428790027
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Beeler Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      2346,
+      2019
+    ],
+    "lonlat": [
+      -65.52156664981008,
+      44.65343459581353
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 125544,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125544,
+    "nearest_unfiltered_distance_guide_px": 1.6314540980740677,
+    "selected_distance_guide_px": 1.6314540980740677,
+    "guide_reference_pixel_xy": [
+      2346.0227585065877,
+      1974.6936150882393
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Baillie Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      2449,
+      3265
+    ],
+    "lonlat": [
+      -65.4813518579913,
+      44.60013682704211
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 129832,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129832,
+    "nearest_unfiltered_distance_guide_px": 0.9940449016701559,
+    "selected_distance_guide_px": 0.9940449016701559,
+    "guide_reference_pixel_xy": [
+      2426.468252614781,
+      3247.83986307506
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Lake La Rose northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      4009,
+      1263
+    ],
+    "lonlat": [
+      -65.44216009038024,
+      44.71897510128977
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 133268,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133268,
+    "nearest_unfiltered_distance_guide_px": 0.46357114460610466,
+    "selected_distance_guide_px": 0.46357114460610466,
+    "guide_reference_pixel_xy": [
+      4002.215451568016,
+      1211.4104617253179
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Unnamed northeastern northern lake north",
+    "role": "proposal",
+    "pixel_xy": [
+      5160,
+      1290
+    ],
+    "lonlat": [
+      -65.37111847964567,
+      44.73985129049422
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 138759,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138759,
+    "nearest_unfiltered_distance_guide_px": 0.3628156484154652,
+    "selected_distance_guide_px": 0.3628156484154652,
+    "guide_reference_pixel_xy": [
+      5152.028985634213,
+      1251.638344047824
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Unnamed Perotte-area lake northeastern horn",
+    "role": "proposal",
+    "pixel_xy": [
+      4175,
+      2340
+    ],
+    "lonlat": [
+      -65.40190181141956,
+      44.67477009953711
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 132378,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132378,
+    "nearest_unfiltered_distance_guide_px": 1.1649431907425152,
+    "selected_distance_guide_px": 1.1649431907425152,
+    "guide_reference_pixel_xy": [
+      4163.401075854839,
+      2309.9062766362913
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Keeman Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      4250,
+      3264
+    ],
+    "lonlat": [
+      -65.37135612797958,
+      44.63543555827062
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 137182,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137182,
+    "nearest_unfiltered_distance_guide_px": 0.7409711217460342,
+    "selected_distance_guide_px": 0.7409711217460342,
+    "guide_reference_pixel_xy": [
+      4235.689102837234,
+      3254.672592861578
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T09:31:03.752544+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 8,
+  "reason": "Hill, Upper/Lower Mink, Central, Gull, unnamed northeastern lake, Daniels and Frozen Ocean Lake provide two-axis spread.",
+  "corrections": [
+    "Lower Mink southern source moved to the physical shoreline before fitting."
+  ],
+  "unadopted": [
+    "Oak Lake and major connected lake outlines differ from modern water geometry.",
+    "Harry/Ford and First-or-Lewis river-connected outlines were inspected but not adopted.",
+    "Hope Lake northwestern connection not precise enough for a separate point."
+  ],
+  "limitations": [
+    "Seven checks share control lakes or associated islands; Charity Lake adds one separate waterbody. Shared historical cartography limits independence.",
+    "Large connected lake interiors, the southeastern river corridors and regions between sampled features remain independently unvalidated.",
+    "Shoreline generalization, small islands and historical water-level differences carry 24 px working source uncertainty."
+  ]
+}

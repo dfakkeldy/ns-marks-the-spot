@@ -1,0 +1,248 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Gulliver Cove southern recess",
+      "role": "check",
+      "pixel_xy": [
+        1986,
+        370
+      ],
+      "lonlat": [
+        -65.91921973266624,
+        44.60917775905198
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 4531,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4531,
+      "nearest_unfiltered_distance_guide_px": 0.5740869036377568,
+      "selected_distance_guide_px": 0.5740869036377568,
+      "guide_reference_pixel_xy": [
+        1965.1076549286954,
+        392.56390264164656
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q02",
+      "label": "Delap Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        262,
+        3517
+      ],
+      "lonlat": [
+        -65.93667966127987,
+        44.43866227958672
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 128071,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128071,
+      "nearest_unfiltered_distance_guide_px": 0.09564264690656982,
+      "selected_distance_guide_px": 0.09564264690656982,
+      "guide_reference_pixel_xy": [
+        236.93022143060807,
+        3504.0654099928215
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q03",
+      "label": "Wagner Lake eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1349,
+        2950
+      ],
+      "lonlat": [
+        -65.88611727926904,
+        44.48482810455641
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 135064,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135064,
+      "nearest_unfiltered_distance_guide_px": 1.2917628704535993,
+      "selected_distance_guide_px": 1.2917628704535993,
+      "guide_reference_pixel_xy": [
+        1335.1406497062999,
+        2946.6062751528807
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q04",
+      "label": "Amirault Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1855,
+        3683
+      ],
+      "lonlat": [
+        -65.83517473732284,
+        44.463249390913774
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 129609,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129609,
+      "nearest_unfiltered_distance_guide_px": 0.5389735833820389,
+      "selected_distance_guide_px": 0.5389735833820389,
+      "guide_reference_pixel_xy": [
+        1847.9065225666272,
+        3670.530805513379
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q05",
+      "label": "Mallett Lake southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        2961,
+        3375
+      ],
+      "lonlat": [
+        -65.77732862284347,
+        44.49727446776022
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 136689,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136689,
+      "nearest_unfiltered_distance_guide_px": 0.8701630638134165,
+      "selected_distance_guide_px": 0.8701630638134165,
+      "guide_reference_pixel_xy": [
+        2939.7202929664054,
+        3386.1760171524948
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q06",
+      "label": "Harris Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4800,
+        2793
+      ],
+      "lonlat": [
+        -65.68218499622886,
+        44.55862539371026
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 137968,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137968,
+      "nearest_unfiltered_distance_guide_px": 0.8996800945118245,
+      "selected_distance_guide_px": 0.8996800945118245,
+      "guide_reference_pixel_xy": [
+        4780.708553640521,
+        2814.5544150169007
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q07",
+      "label": "Worcester Lake eastern lobe south",
+      "role": "check",
+      "pixel_xy": [
+        5322,
+        147
+      ],
+      "lonlat": [
+        -65.72502804979445,
+        44.68355919617945
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 141478,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141478,
+      "nearest_unfiltered_distance_guide_px": 1.5042463684329275,
+      "selected_distance_guide_px": 1.5042463684329275,
+      "guide_reference_pixel_xy": [
+        5276.30642758304,
+        188.33480876509566
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q08",
+      "label": "Gilbert Point northern shore",
+      "role": "check",
+      "pixel_xy": [
+        420,
+        2303
+      ],
+      "lonlat": [
+        -65.95938206819855,
+        44.49425613544545
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 10142,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 10142,
+      "nearest_unfiltered_distance_guide_px": 0.2028347687593441,
+      "selected_distance_guide_px": 0.2028347687593441,
+      "guide_reference_pixel_xy": [
+        410.200967072451,
+        2313.027462323429
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    },
+    {
+      "id": "Q09",
+      "label": "Gilbert Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        546,
+        3724
+      ],
+      "lonlat": [
+        -65.91380354826046,
+        44.435996026270765
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 126176,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126176,
+      "nearest_unfiltered_distance_guide_px": 0.891976078649401,
+      "selected_distance_guide_px": 0.891976078649401,
+      "guide_reference_pixel_xy": [
+        528.4361601642449,
+        3696.77806531603
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coast/lake/island context and every native paired crosshair inspected before first fit and score; Worcester and Gilbert southern source checks corrected from the scan."
+    }
+  ]
+}

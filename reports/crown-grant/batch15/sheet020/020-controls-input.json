@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Western inland pond northern shore",
+    [
+      967,
+      3340
+    ],
+    [
+      950,
+      3336
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Eastern inland pond northern shore",
+    [
+      4757,
+      2660
+    ],
+    [
+      4771,
+      2674
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Western coastal stream mouth",
+    [
+      704,
+      2917
+    ],
+    [
+      699,
+      2928
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Young Cove western stream mouth",
+    [
+      4368,
+      2307
+    ],
+    [
+      4376,
+      2325
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Eastern coastal stream mouth",
+    [
+      5274,
+      2052
+    ],
+    [
+      5291,
+      2083
+    ],
+    "WACO20"
+  ]
+]

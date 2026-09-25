@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Hill Lake northern roof",
+    [
+      326,
+      724
+    ],
+    [
+      372,
+      753
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Upper Mink Lake eastern tip",
+    [
+      2515,
+      714
+    ],
+    [
+      2525,
+      733
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Central Lake northwestern roof",
+    [
+      2674,
+      2280
+    ],
+    [
+      2713,
+      2283
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Gull Lake northern roof",
+    [
+      5335,
+      1145
+    ],
+    [
+      5353,
+      1148
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Unnamed northeastern lake northern roof",
+    [
+      5005,
+      173
+    ],
+    [
+      5023,
+      179
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Daniels Lake western triangular island north",
+    [
+      230,
+      3452
+    ],
+    [
+      305,
+      3464
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C07",
+    "Frozen Ocean Lake northeastern peninsula north",
+    [
+      3212,
+      3528
+    ],
+    [
+      3250,
+      3520
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Lower Mink Lake southern tip",
+    [
+      1873,
+      749
+    ],
+    [
+      1896,
+      788
+    ],
+    "WALK20"
+  ]
+]

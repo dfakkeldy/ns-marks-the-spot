@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Goat Island northern tip",
+    [
+      1515,
+      501
+    ],
+    [
+      1534,
+      449
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Skull Lake northern roof",
+    [
+      2225,
+      1664
+    ],
+    [
+      2228,
+      1630
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Beeler Lake northern roof",
+    [
+      2346,
+      2019
+    ],
+    [
+      2347,
+      1976
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Baillie Lake northern roof",
+    [
+      2449,
+      3265
+    ],
+    [
+      2427,
+      3247
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Lake La Rose northern roof",
+    [
+      4009,
+      1263
+    ],
+    [
+      4002,
+      1211
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Unnamed northeastern northern lake north",
+    [
+      5160,
+      1290
+    ],
+    [
+      5152,
+      1252
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Unnamed Perotte-area lake northeastern horn",
+    [
+      4175,
+      2340
+    ],
+    [
+      4163,
+      2311
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Keeman Lake northeastern roof",
+    [
+      4250,
+      3264
+    ],
+    [
+      4236,
+      3254
+    ],
+    "WALK20"
+  ]
+]

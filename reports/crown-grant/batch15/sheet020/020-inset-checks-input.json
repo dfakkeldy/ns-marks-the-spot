@@ -1,0 +1,54 @@
+[
+  [
+    "IQ01",
+    "Prim Point western recess",
+    [
+      1740,
+      870
+    ],
+    [
+      1743,
+      873
+    ],
+    "WACO20"
+  ],
+  [
+    "IQ02",
+    "Caldwell Cove eastern headland",
+    [
+      644,
+      1184
+    ],
+    [
+      647,
+      1178
+    ],
+    "WACO20"
+  ],
+  [
+    "IQ03",
+    "Broad Cove eastern headland",
+    [
+      1134,
+      1008
+    ],
+    [
+      1133,
+      1011
+    ],
+    "WACO20"
+  ],
+  [
+    "IQ04",
+    "Victoria-side eastern coastal notch",
+    [
+      2767,
+      719
+    ],
+    [
+      2775,
+      728
+    ],
+    "WACO20"
+  ]
+]
