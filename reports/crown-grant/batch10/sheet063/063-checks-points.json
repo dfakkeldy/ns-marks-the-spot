@@ -1,0 +1,158 @@
+[
+  {
+    "id": "Q01",
+    "label": "Anthony Lake eastern extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      1155,
+      2434
+    ],
+    "lonlat": [
+      -63.911803302669455,
+      45.141048958554904
+    ],
+    "guide_file": ".crown-grant-local/063-adjacent-ppi-guide.npy",
+    "reference_objectid": 129459,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129459,
+    "nearest_unfiltered_distance_guide_px": 1.4165854719857536,
+    "selected_distance_guide_px": 1.4165854719857536,
+    "guide_reference_pixel_xy": [
+      1178.0903651465778,
+      2429.9140539456857
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Southern lake north of Kennetcook River southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2423,
+      3180
+    ],
+    "lonlat": [
+      -63.8204635379338,
+      45.131840719702815
+    ],
+    "guide_file": ".crown-grant-local/063-adjacent-ppi-guide.npy",
+    "reference_objectid": 136261,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136261,
+    "nearest_unfiltered_distance_guide_px": 1.2985823266406205,
+    "selected_distance_guide_px": 1.2985823266406205,
+    "guide_reference_pixel_xy": [
+      2422.7017904306413,
+      3178.0311122658895
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Densmore parcel diagonal pond southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5681,
+      1378
+    ],
+    "lonlat": [
+      -63.674792111361434,
+      45.26328179296724
+    ],
+    "guide_file": ".crown-grant-local/063-adjacent-ppi-guide.npy",
+    "reference_objectid": 137154,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137154,
+    "nearest_unfiltered_distance_guide_px": 1.2111775011133126,
+    "selected_distance_guide_px": 1.2111775011133126,
+    "guide_reference_pixel_xy": [
+      5672.793167756579,
+      1393.1933865100145
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Densmore parcel northern long pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5700,
+      1269
+    ],
+    "lonlat": [
+      -63.67683740062821,
+      45.268065695617466
+    ],
+    "guide_file": ".crown-grant-local/063-adjacent-ppi-guide.npy",
+    "reference_objectid": 98088,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 98088,
+    "nearest_unfiltered_distance_guide_px": 0.6158095767982716,
+    "selected_distance_guide_px": 0.6158095767982716,
+    "guide_reference_pixel_xy": [
+      5684.520432196732,
+      1283.329198668711
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Hennigar northern lake eastern extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      5154,
+      1877
+    ],
+    "lonlat": [
+      -63.694364757214764,
+      45.23347175487631
+    ],
+    "guide_file": ".crown-grant-local/063-adjacent-ppi-guide.npy",
+    "reference_objectid": 138210,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138210,
+    "nearest_unfiltered_distance_guide_px": 0.5406395421309504,
+    "selected_distance_guide_px": 0.5406395421309504,
+    "guide_reference_pixel_xy": [
+      5131.505983922398,
+      1880.809549521422
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Hennigar southern lake southwest lobe southern extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      5044,
+      2003
+    ],
+    "lonlat": [
+      -63.697335652132956,
+      45.22685049117272
+    ],
+    "guide_file": ".crown-grant-local/063-adjacent-ppi-guide.npy",
+    "reference_objectid": 97360,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 97360,
+    "nearest_unfiltered_distance_guide_px": 1.9243892438833698,
+    "selected_distance_guide_px": 1.9243892438833698,
+    "guide_reference_pixel_xy": [
+      5031.189683186589,
+      1997.4874102084432
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C07",
+    "label": "Rocky Lake near Renfrew northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3243,
+      2771
+    ],
+    "lonlat": [
+      -63.650540460959185,
+      44.99612173099038
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 143066,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143066,
+    "nearest_unfiltered_distance_guide_px": 0.403893686603618,
+    "selected_distance_guide_px": 0.403893686603618,
+    "guide_reference_pixel_xy": [
+      3315.3452010696637,
+      2738.7903184996685
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Jack Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      968,
+      573
+    ],
+    "lonlat": [
+      -63.67855009132085,
+      44.73692771246737
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 137348,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137348,
+    "nearest_unfiltered_distance_guide_px": 0.6657196711299456,
+    "selected_distance_guide_px": 0.6657196711299456,
+    "guide_reference_pixel_xy": [
+      933.308458966203,
+      540.5899455455365
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Georges Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1848,
+      3253
+    ],
+    "lonlat": [
+      -63.55850433597001,
+      44.63995660887167
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 18306,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18306,
+    "nearest_unfiltered_distance_guide_px": 1.8224245403018775,
+    "selected_distance_guide_px": 1.8224245403018775,
+    "guide_reference_pixel_xy": [
+      1838.797136761481,
+      3233.6388423318276
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "East Lake northern island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3873,
+      992
+    ],
+    "lonlat": [
+      -63.497798614136535,
+      44.76999778839653
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 147004,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 147004,
+    "nearest_unfiltered_distance_guide_px": 1.2459941232396066,
+    "selected_distance_guide_px": 1.2459941232396066,
+    "guide_reference_pixel_xy": [
+      3868.09200068278,
+      972.3999701141147
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Grassy Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5354,
+      207
+    ],
+    "lonlat": [
+      -63.42981541895368,
+      44.82890458378584
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 138023,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138023,
+    "nearest_unfiltered_distance_guide_px": 0.5211632771615334,
+    "selected_distance_guide_px": 0.5211632771615334,
+    "guide_reference_pixel_xy": [
+      5378.0511532746605,
+      192.51864680077415
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Pound Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5501,
+      474
+    ],
+    "lonlat": [
+      -63.41467389844874,
+      44.82038236705119
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 141848,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141848,
+    "nearest_unfiltered_distance_guide_px": 1.6415707632177692,
+    "selected_distance_guide_px": 1.6415707632177692,
+    "guide_reference_pixel_xy": [
+      5524.986335574824,
+      456.64151389093604
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Gammon Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4659,
+      3347
+    ],
+    "lonlat": [
+      -63.39370227037722,
+      44.68558389158597
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 126588,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126588,
+    "nearest_unfiltered_distance_guide_px": 0.4302259318509469,
+    "selected_distance_guide_px": 0.4302259318509469,
+    "guide_reference_pixel_xy": [
+      4654.405499061395,
+      3312.1437527865637
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Snow Lake western narrow horn tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5394,
+      3779
+    ],
+    "lonlat": [
+      -63.34024728504183,
+      44.68073410161418
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 141968,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141968,
+    "nearest_unfiltered_distance_guide_px": 0.9557529088653149,
+    "selected_distance_guide_px": 0.9557529088653149,
+    "guide_reference_pixel_xy": [
+      5395.951272652193,
+      3734.0924335652962
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

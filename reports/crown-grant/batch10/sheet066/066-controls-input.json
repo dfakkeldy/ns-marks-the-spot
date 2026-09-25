@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Jack Lake northern tip",
+    [
+      984,
+      527
+    ],
+    [
+      946,
+      497
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Georges Island northern tip",
+    [
+      1825,
+      3187
+    ],
+    [
+      1817,
+      3167
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "East Lake northern island northern tip",
+    [
+      3878,
+      974
+    ],
+    [
+      3872,
+      961
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C04",
+    "Grassy Lake northeast corner northern tip",
+    [
+      5362,
+      156
+    ],
+    [
+      5383,
+      141
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Pound Lake northern tip",
+    [
+      5495,
+      435
+    ],
+    [
+      5522,
+      418
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Gammon Lake northern tip",
+    [
+      4676,
+      3183
+    ],
+    [
+      4683,
+      3143
+    ],
+    "WALK20"
+  ]
+]

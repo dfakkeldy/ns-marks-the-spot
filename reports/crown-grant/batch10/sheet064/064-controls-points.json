@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Northern small pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1158,
+      388
+    ],
+    "lonlat": [
+      -63.85717636417916,
+      45.06634151798629
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 126792,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126792,
+    "nearest_unfiltered_distance_guide_px": 0.6450402192905283,
+    "selected_distance_guide_px": 0.6450402192905283,
+    "guide_reference_pixel_xy": [
+      1166.3549598015961,
+      377.99983584927395
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Isolated west-central lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1317,
+      1735
+    ],
+    "lonlat": [
+      -63.80858650504781,
+      45.00666423103949
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 136786,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136786,
+    "nearest_unfiltered_distance_guide_px": 1.4270844380668282,
+    "selected_distance_guide_px": 1.4270844380668282,
+    "guide_reference_pixel_xy": [
+      1350.564486511401,
+      1705.6409937473945
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Rocky Lake north of Big Lake western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2103,
+      1521
+    ],
+    "lonlat": [
+      -63.76260931254743,
+      45.03172672702488
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 142858,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142858,
+    "nearest_unfiltered_distance_guide_px": 0.7288269489724545,
+    "selected_distance_guide_px": 0.7288269489724545,
+    "guide_reference_pixel_xy": [
+      2130.3240942897974,
+      1503.2726539793657
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Nix Lake southwest lobe southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      511,
+      2087
+    ],
+    "lonlat": [
+      -63.851159860718184,
+      44.97293244541915
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 134585,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134585,
+    "nearest_unfiltered_distance_guide_px": 1.2600247583843422,
+    "selected_distance_guide_px": 1.2600247583843422,
+    "guide_reference_pixel_xy": [
+      549.999093416438,
+      2080.7677725815447
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Knowles Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      921,
+      1997
+    ],
+    "lonlat": [
+      -63.827197551545034,
+      44.984853385856475
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 133054,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133054,
+    "nearest_unfiltered_distance_guide_px": 0.2191016791624521,
+    "selected_distance_guide_px": 0.2191016791624521,
+    "guide_reference_pixel_xy": [
+      948.2105303191347,
+      1996.0606838573003
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Pond south of Nine Mile River northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4381,
+      1735
+    ],
+    "lonlat": [
+      -63.604608038900096,
+      45.068195608894726
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 137226,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137226,
+    "nearest_unfiltered_distance_guide_px": 2.0933028763318746,
+    "selected_distance_guide_px": 2.0933028763318746,
+    "guide_reference_pixel_xy": [
+      4440.8610773399705,
+      1692.9113120322581
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Rocky Lake near Renfrew northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3232,
+      2758
+    ],
+    "lonlat": [
+      -63.6495206998145,
+      44.99648311173115
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 143066,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 239258,
+    "nearest_unfiltered_distance_guide_px": 3.236587422465498,
+    "selected_distance_guide_px": 13.809680860734082,
+    "guide_reference_pixel_xy": [
+      3331.20083506644,
+      2737.7573718645144
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "North Uniacke Lake eastern extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      191,
+      3416
+    ],
+    "lonlat": [
+      -63.834296767626924,
+      44.903973578861525
+    ],
+    "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+    "reference_objectid": 134986,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134986,
+    "nearest_unfiltered_distance_guide_px": 0.4306430764255041,
+    "selected_distance_guide_px": 0.4306430764255041,
+    "guide_reference_pixel_xy": [
+      255.90520026325248,
+      3404.5799208774697
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5614 x 3843 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 55.12 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          20,
+          100
+        ],
+        [
+          5500,
+          100
+        ],
+        [
+          5500,
+          3730
+        ],
+        [
+          20,
+          3730
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Mount Uniacke, Lewis Mills, South Uniacke, Beaverbank, Middle Beaverbank, Upper and Middle Sackville, Maroon Hill, Lucasville, Windsor Junction, Grand Lake, Horse and Ned islands, Oakfield, Wellington, Enfield, Elmsdale, Oldham, Lake Thomas and all original surrounding lakes, islands, rivers and parcels. Large-scale index-card callouts remain visible; no displaced inset panel is present in this official PDF."
+    }
+  ]
+}

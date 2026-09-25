@@ -1,0 +1,16 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Six controls include western Anthony Lake, a southern central lake and four northeastern ponds, providing non-collinear support with strong northeastern clustering.",
+  "corrections": [],
+  "not_adopted": [
+    "Long Lake shape and outlet differences prevented a precise match",
+    "The fragmented northern pond above the southern central lake was not adopted",
+    "Modern central water bodies without a clear historical outline and generalized river bends were not forced into matches"
+  ],
+  "limitations": [
+    "All six checks share lake/pond systems with controls; four occur in the northeastern cluster.",
+    "Northwestern interior, southeastern and southern river regions lack independent validation.",
+    "18 px source uncertainty for thick generalized lake/pond outlines; no whole-sheet geographic acceptance."
+  ]
+}

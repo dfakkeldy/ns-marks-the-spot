@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Eight controls span one northern pond, central-west and eastern ponds, western lakes and southwestern and south-central lakes, supplying broad non-collinear support.",
+  "corrections": [
+    "Renfrew Rocky Lake northern source and modern marks refined onto the observed northern shoreline from native paired detail before fitting."
+  ],
+  "not_adopted": [
+    "Big Lake complex altered outline and extended western lake system not forced into precise points",
+    "Generalized rivers and unspecified parcel corners not adopted"
+  ],
+  "limitations": [
+    "Five checks share lake systems with controls; Copper Mine and Carrigan are separate lakes.",
+    "Northern and northeastern river/parcel regions have no independent checks; one small northern control is not independent validation.",
+    "18 px working source uncertainty for thick generalized shorelines."
+  ]
+}

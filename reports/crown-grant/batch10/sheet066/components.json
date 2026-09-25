@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6004 x 4136 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 76.83 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          15,
+          115
+        ],
+        [
+          5830,
+          115
+        ],
+        [
+          5830,
+          4005
+        ],
+        [
+          15,
+          4005
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Lower Sackville, Bedford, Millview, Princes Lodge, Rockingham, Fairview, Armdale, Halifax, Point Pleasant, Georges Island, Bedford Basin, Dartmouth, Port Wallis, Woodside, Imperial, Montague Gold Mines, Waverley game sanctuary, New Road Settlement, Cherry Brook, Preston, Upper and West Lawrencetown and Mineville, all original lakes, islands, shaded Preston regions and harbour waters. Large-scale index-card callouts remain visible; no displaced inset panel identified."
+    }
+  ]
+}

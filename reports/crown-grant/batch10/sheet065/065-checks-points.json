@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Nicholson Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1140,
+      556
+    ],
+    "lonlat": [
+      -63.75707033798183,
+      44.899645132590294
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 135073,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135073,
+    "nearest_unfiltered_distance_guide_px": 2.280774015315858,
+    "selected_distance_guide_px": 2.280774015315858,
+    "guide_reference_pixel_xy": [
+      1225.1709532416426,
+      583.2743581727846
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Armand Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3195,
+      263
+    ],
+    "lonlat": [
+      -63.637290161948535,
+      44.95112539121177
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 129714,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129714,
+    "nearest_unfiltered_distance_guide_px": 1.352893712977866,
+    "selected_distance_guide_px": 1.352893712977866,
+    "guide_reference_pixel_xy": [
+      3284.5523133421666,
+      299.2766746081179
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Horse Island in Grand Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4180,
+      443
+    ],
+    "lonlat": [
+      -63.57241053153836,
+      44.96164126839193
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 152997,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 152997,
+    "nearest_unfiltered_distance_guide_px": 0.7363271404883598,
+    "selected_distance_guide_px": 0.7363271404883598,
+    "guide_reference_pixel_xy": [
+      4255.975057020725,
+      476.7359045492485
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Wilson Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1208,
+      2561
+    ],
+    "lonlat": [
+      -63.69962363394755,
+      44.81103605547811
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 141064,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141064,
+    "nearest_unfiltered_distance_guide_px": 1.9580015599002942,
+    "selected_distance_guide_px": 1.9580015599002942,
+    "guide_reference_pixel_xy": [
+      1275.2038650775794,
+      2617.052640470094
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Barrett Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1390,
+      2610
+    ],
+    "lonlat": [
+      -63.686221931603946,
+      44.8119671808007
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 129410,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129410,
+    "nearest_unfiltered_distance_guide_px": 1.9900164643788105,
+    "selected_distance_guide_px": 1.9900164643788105,
+    "guide_reference_pixel_xy": [
+      1466.0132461299072,
+      2677.8860939502483
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Little Lake No Good western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5144,
+      3170
+    ],
+    "lonlat": [
+      -63.43996647030274,
+      44.85739201596516
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 140646,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140646,
+    "nearest_unfiltered_distance_guide_px": 1.4501623342739076,
+    "selected_distance_guide_px": 1.4501623342739076,
+    "guide_reference_pixel_xy": [
+      5205.99015405809,
+      3246.940487972228
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Ned Island in Grand Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4272,
+      260
+    ],
+    "lonlat": [
+      -63.57152689442013,
+      44.971613584956856
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 152998,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 152998,
+    "nearest_unfiltered_distance_guide_px": 1.7357436113259592,
+    "selected_distance_guide_px": 1.7357436113259592,
+    "guide_reference_pixel_xy": [
+      4350.275224011333,
+      290.8051829751348
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

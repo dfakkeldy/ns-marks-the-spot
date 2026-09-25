@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Seven controls span northwest Nicholson Lake, northern Armand Lake and Horse Island, western southern lakes and the southeast Little Lake No Good, with Indian Point providing central lake-shore support.",
+  "corrections": [
+    "Nicholson Lake modern northern horn mark refined to its extremity.",
+    "Initial Barrett Lake control incorrectly selected a nearby tiny pond. Replaced from physical shoreline identity with the northern end of Barrett Lake, refined after native crosshair review; all initial and intermediate proposals retained."
+  ],
+  "not_adopted": [
+    "Ripley Lake and small southeastern ponds with less clear corresponding outlines",
+    "Complex Duck Pond and southern Rocky Lake configurations not forced into precise matches"
+  ],
+  "limitations": [
+    "Six checks share control lake/island systems; Ned Island is a separate nearby island.",
+    "Central interior, far eastern river corridor and southwestern/southern urban edge lack independent validation.",
+    "18 px working uncertainty for generalized thick source shorelines.",
+    "Printed large-scale index-card callouts are retained; no displaced inset panel appears in this official PDF."
+  ]
+}
