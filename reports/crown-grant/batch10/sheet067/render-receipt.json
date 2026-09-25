@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "fbe0252fae6660327210793e44774d63186c407326a311a8dfb33f98ec5f2948",
+  "fit_sha256": "e566ee26c230211fc0c52c7538334778385d288d865036d884d2b79473e3b71b",
+  "components_sha256": "0c31edf1b50ccbe00f3cdef8fb8b95d4b22cfe127cdbe0fabfe98e7607861285",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 100.17 m exceeds 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          44.415604421806115,
+          -63.64768026042558
+        ],
+        [
+          44.68176849818568,
+          -63.21397364125267
+        ]
+      ],
+      "dimensions": [
+        6035,
+        5197
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 16611514,
+      "source_mask_pixels": 21233908,
+      "affine_determinant": -25.403563038579716,
+      "png_sha256": "9f4a357376d5730d2e23647187c2e9cc9abdaf3c84f040aa9b8ab68a89134ae9",
+      "tif_sha256": "c4c5a0c8b06eb54da32eb11295013ba2593a1e8916cd21a07615c7ceb65bd00f"
+    },
+    {
+      "id": "eastern-passage-inset",
+      "status": "RMS 66.29 m passes 100 m; limitations retained",
+      "png": "eastern-passage-inset-3857.png",
+      "tif": "eastern-passage-inset-3857.tif",
+      "bounds": [
+        [
+          44.59495353220648,
+          -63.51193072495093
+        ],
+        [
+          44.62268341310519,
+          -63.472836043786046
+        ]
+      ],
+      "dimensions": [
+        544,
+        542
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 226835,
+      "source_mask_pixels": 1201292,
+      "affine_determinant": -6.118986793282382,
+      "png_sha256": "cae554a91f13d9ed8d5dc3d3ba4ec417312307a85d503f731ff66f15eb5b31fc",
+      "tif_sha256": "ff49ea769e0d2fe629ba3a839e06750901db7a6e2829ce284979b9c5327d4140"
+    }
+  ]
+}

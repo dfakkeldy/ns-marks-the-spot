@@ -8,8 +8,8 @@ Continuation south through Hants and Halifax, then the next western mainland col
 | 064 | 53.99 | 7 | complete |
 | 065 | 55.12 | 7 | complete |
 | 066 | 76.83 | 7 | complete |
-| 067 | — | — | queued |
-| 057 | — | — | queued |
+| 067 | 100.17 | 4 | complete |
+| 057 | 59.36 | 7 | complete |
 | 056 | — | — | queued |
 | 055 | — | — | queued |
 

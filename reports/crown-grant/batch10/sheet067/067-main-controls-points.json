@@ -1,0 +1,132 @@
+[
+  {
+    "id": "C01",
+    "label": "Main map Lawlor Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2364,
+      335
+    ],
+    "lonlat": [
+      -63.50439365099238,
+      44.60941980113984
+    ],
+    "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+    "reference_objectid": 18407,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18407,
+    "nearest_unfiltered_distance_guide_px": 0.29231180989875155,
+    "selected_distance_guide_px": 0.29231180989875155,
+    "guide_reference_pixel_xy": [
+      2374.146839527122,
+      344.74724646890536
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Main map Devil Island northeast northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2845,
+      1126
+    ],
+    "lonlat": [
+      -63.4584493425293,
+      44.58525002049418
+    ],
+    "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+    "reference_objectid": 18189,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18189,
+    "nearest_unfiltered_distance_guide_px": 2.2135676149528183,
+    "selected_distance_guide_px": 2.2135676149528183,
+    "guide_reference_pixel_xy": [
+      2829.7892364871805,
+      1116.1113834653515
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Main map Osborne Head southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3625,
+      843
+    ],
+    "lonlat": [
+      -63.42051846230653,
+      44.61126229356639
+    ],
+    "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+    "reference_objectid": 8203,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8203,
+    "nearest_unfiltered_distance_guide_px": 1.2332967913218746,
+    "selected_distance_guide_px": 1.2332967913218746,
+    "guide_reference_pixel_xy": [
+      3605.4692502357066,
+      818.8867499547778
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Main map Hartlen peninsula southern shore extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      3035,
+      1110
+    ],
+    "lonlat": [
+      -63.44780735600979,
+      44.589810274889864
+    ],
+    "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+    "reference_objectid": 14130,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 14130,
+    "nearest_unfiltered_distance_guide_px": 0.6951885683640604,
+    "selected_distance_guide_px": 0.6951885683640604,
+    "guide_reference_pixel_xy": [
+      3023.6727010051254,
+      1088.3866791104665
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Main map Graham Head southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5750,
+      1370
+    ],
+    "lonlat": [
+      -63.28173450812491,
+      44.62777959047805
+    ],
+    "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+    "reference_objectid": 314367,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 314367,
+    "nearest_unfiltered_distance_guide_px": 1.8067364143120797,
+    "selected_distance_guide_px": 1.8067364143120797,
+    "guide_reference_pixel_xy": [
+      5760.303424167156,
+      1326.7488477665465
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

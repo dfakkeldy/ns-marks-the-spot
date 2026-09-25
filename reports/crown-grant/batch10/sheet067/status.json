@@ -1,0 +1,66 @@
+{
+  "sheet": "067",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; MAIN RMS FAILED; inset numerical pass with island-only validation; first component fits unchanged; private raster/browser/source partition verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/067.pdf",
+    "pdf_sha256": "07ee58f1a47087e643cd652c1612a48e457f9c6082e3eb162642f5bb757e2fa2",
+    "jpeg_sha256": "fbe0252fae6660327210793e44774d63186c407326a311a8dfb33f98ec5f2948",
+    "dimensions": [
+      5828,
+      4121
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-main-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 4,
+      "rms_ground_m": 100.17459813305791,
+      "rms_gate_passed": false,
+      "fit": "fit-main-similarity-01.json",
+      "checks": "checks-main-similarity-01.json",
+      "scores": "scores-main-similarity-01.json"
+    },
+    {
+      "component": "eastern-passage-inset",
+      "controls": 3,
+      "independent_checks": 4,
+      "rms_ground_m": 66.29321558476471,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main map first RMS 100.17 m exceeds the strict 100 m ceiling; median97.84 m also exceeds75 m. Four northern coastal checks do not validate the western coast or southern ocean.",
+    "Inset first RMS66.29 m passes100 m, with median17.40 m, P95114.11 m and maximum129.70 m. All three controls and four checks are on Lawlor Island; mainland streets, harbour and river remain unvalidated.",
+    "Both components use constrained similarities selected before scoring. Their Lawlor Island observations share modern reference geography; scores are not statistically independent and are not pooled.",
+    "Egg Island has no corresponding outline in the downloaded modern reference. Its historical depiction remains retained; no disappearance cause is asserted.",
+    "Main source uncertainty18 px; enlarged inset12 px. Full imagery retention is separate from geographic acceptance."
+  ],
+  "review": {
+    "status": "MAIN RMS EXCEEDS 100 m \u2014 inset separately passes",
+    "statistics": "main: 4 checks, RMS 100.17 m; eastern-passage-inset: 4 checks, RMS 66.29 m. Gate: 100 m. No pooled score.",
+    "coverage": "Main western coast and southern ocean are unvalidated; inset mainland is unvalidated. Complete original outer frame retains Halifax Harbour entrance, the generalized western Herring Cove and Chebucto Head coast marked for sheet057, McNabs and Lawlor islands, Thrumcap, Devil Island, Eastern Passage, Hartlen Point, Cow Bay, Osborne and Pensey heads, Cole Harbour and Lawrencetown coast, Egg Island, Graham Head, the mapped portion of Shut In Island and the entire original Atlantic Ocean frame. The enlarged circular Eastern Passage and Lawlor Island inset has its own transform and complementary native mask.",
+    "focusBounds": [
+      [
+        44.415604421806115,
+        -63.64768026042558
+      ],
+      [
+        44.68176849818568,
+        -63.21397364125267
+      ]
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "timing": "Before first inset fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Three controls follow a narrow diagonal coastal strip; uniform scale and rotation avoid unsupported affine shear.",
+  "corrections": [
+    "Peggy Point western source and reference, Dover southern reference and Taylor western reference refined to their shore extrema.",
+    "Indian Island north check corrected to the actual northern projection; Corney Rock reference corrected to its northern tip."
+  ],
+  "rejections": [
+    {
+      "id": "IQ01",
+      "reason": "Broad generalized southern Peggy Point shore lacks a precise corresponding vertex; rejected before fitting or scoring, original proposal retained."
+    }
+  ],
+  "limitations": [
+    "Only three checks on two islands (Indian Island and Corney Rock); small correlated sample.",
+    "Peggy Cove and Dover mainland interiors, northern inset edge and southeastern partial islands remain unvalidated."
+  ]
+}

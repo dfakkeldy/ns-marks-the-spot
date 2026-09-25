@@ -1,0 +1,151 @@
+{
+  "count": 4,
+  "rms_ground_m": 66.29321558476471,
+  "median_ground_m": 17.398121739317347,
+  "p95_ground_m": 114.1130104558103,
+  "max_ground_m": 129.7013640727238,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -22.25652606084489,
+  "mean_north_ground_m": 12.78360234724427,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Inset Lawlor Island northeast bay southern bend",
+      "role": "check",
+      "pixel_xy": [
+        2718,
+        3198
+      ],
+      "lonlat": [
+        -63.49748593239963,
+        44.60525581452857
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18407,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18407,
+      "nearest_unfiltered_distance_guide_px": 1.1132436074527103,
+      "selected_distance_guide_px": 1.1132436074527103,
+      "guide_reference_pixel_xy": [
+        2698.928301066044,
+        3190.69871487841
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained",
+      "predicted_lonlat": [
+        -63.497192130297414,
+        44.60515700903112
+      ],
+      "error_ground_m": 25.77900662663405,
+      "east_ground_m": 23.323914516723164,
+      "north_ground_m": -10.97962632663939
+    },
+    {
+      "id": "IQ02",
+      "label": "Inset Lawlor Island eastern lower shoulder northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2878,
+        3329
+      ],
+      "lonlat": [
+        -63.49075378368852,
+        44.601732102553115
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18407,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18407,
+      "nearest_unfiltered_distance_guide_px": 0.5693936641836205,
+      "selected_distance_guide_px": 0.5693936641836205,
+      "guide_reference_pixel_xy": [
+        2910.442259546893,
+        3347.6413697754033
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained",
+      "predicted_lonlat": [
+        -63.49224996768451,
+        44.60220082430631
+      ],
+      "error_ground_m": 129.7013640727238,
+      "east_ground_m": -118.78280355731592,
+      "north_ground_m": 52.08732495904687
+    },
+    {
+      "id": "IQ03",
+      "label": "Inset Lawlor Island easternmost outer shore",
+      "role": "check",
+      "pixel_xy": [
+        3024,
+        3461
+      ],
+      "lonlat": [
+        -63.487791166366186,
+        44.59915147351339
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18407,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18407,
+      "nearest_unfiltered_distance_guide_px": 0.8425697278537435,
+      "selected_distance_guide_px": 0.8425697278537435,
+      "guide_reference_pixel_xy": [
+        3003.2594074027147,
+        3462.1983569711447
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained",
+      "predicted_lonlat": [
+        -63.4877449821408,
+        44.59922560730658
+      ],
+      "error_ground_m": 9.017236852000643,
+      "east_ground_m": 3.6667761194403012,
+      "north_ground_m": 8.23804062474693
+    },
+    {
+      "id": "IQ04",
+      "label": "Inset Lawlor Island northwest natural shore below small jetty",
+      "role": "check",
+      "pixel_xy": [
+        2458,
+        3094
+      ],
+      "lonlat": [
+        -63.50529590493336,
+        44.60751987761882
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18309,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18309,
+      "nearest_unfiltered_distance_guide_px": 1.3643006784594518,
+      "selected_distance_guide_px": 1.3643006784594518,
+      "guide_reference_pixel_xy": [
+        2453.0840316017566,
+        3089.171633035643
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained",
+      "predicted_lonlat": [
+        -63.50526106119679,
+        44.607535973761834
+      ],
+      "error_ground_m": 3.2939558051056874,
+      "east_ground_m": 2.7660086777728874,
+      "north_ground_m": 1.7886701318226736
+    }
+  ],
+  "fit_sha256": "a05e07d370779785b05dd355ef7d3a71d221979c9e76e0d7af5fca015c9083e8",
+  "checks_sha256": "5c830e58bdbbeb632d2732bc9596610e166abefbb8b239fec45f77463255bcf1",
+  "status": "Four excluded Lawlor Island inset checks reserved before first inset similarity fit; same island as controls, no independent mainland check"
+}
