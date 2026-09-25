@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T03:42:14.175309+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "052",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6073,
+        5192
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5663,
+        3848
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-sheet historical and modern-only screenshots inspected, raster decoding and opacity verified.",
+    "Full Minas Basin water, original grant-list block and all marginal coastal portions retained.",
+    "RMS and companion failures remain explicit; northern coast unvalidated."
+  ]
+}

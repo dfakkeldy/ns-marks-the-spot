@@ -1,0 +1,41 @@
+[
+  [
+    "C07",
+    "Cariboo Lake lower lobe lower-right corner in original scan",
+    [
+      5856,
+      1429
+    ],
+    [
+      5975,
+      1420
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Big Indian Lake elongated island lower tip in original scan",
+    [
+      4667,
+      3378
+    ],
+    [
+      4759,
+      3371
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q06",
+    "Kehoe Lake left tip in original scan",
+    [
+      2180,
+      2836
+    ],
+    [
+      2217,
+      2805
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,54 @@
+[
+  [
+    "C01",
+    "Lower Point west side of Shoulie mouth projecting tip",
+    [
+      1372,
+      362
+    ],
+    [
+      1337,
+      363
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Shoulie northern western tributary junction",
+    [
+      1253,
+      1005
+    ],
+    [
+      1214,
+      1019
+    ],
+    "WARV50"
+  ],
+  [
+    "Q04",
+    "River Hebert western tributary opposite Sandhill Brook",
+    [
+      4354,
+      1553
+    ],
+    [
+      4344,
+      1501
+    ],
+    "WARV"
+  ],
+  [
+    "Q06",
+    "Newville eastern tributary outlet into River Hebert",
+    [
+      3826,
+      3302
+    ],
+    [
+      3766,
+      3305
+    ],
+    "WARV50"
+  ]
+]

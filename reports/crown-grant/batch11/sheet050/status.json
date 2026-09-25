@@ -1,0 +1,45 @@
+{
+  "sheet": "050",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; scores, alpha coverage and browser assessed; no geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/050.pdf",
+    "pdf_sha256": "5af4d067809f8c742fccde9b664fbae3476b73edf67ca31162111bb29b9f731f",
+    "jpeg_sha256": "b69a7ca594d994e2b6c0fc35a8ff8aa112fc909b522580fac273a6688f7fa5a2",
+    "dimensions": [
+      5593,
+      3925
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 5,
+      "rms_ground_m": 61.67815692779736,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six controls are in the northern half. The Newville lake junction is the only southern check; most southern and southwestern interior remains unvalidated.",
+    "The five checks include a paired pond and river-network observations plus separate northeastern pond and Newville lake features. River observations are spatially correlated.",
+    "Source uncertainty 18 px; generalized channels and annotations constrain point precision.",
+    "Numerical passes do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 61.68 m, median 38.25 m, P95 95.88 m, maximum 103.67 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains the Chignecto Bay coast, Raven and Cranberry heads, Lower Point, Shoulie and its river, Head of River Hebert, Harrison and Pettigrew settlements, Newville, Halfway River, West Brook, Brown Brook and all original interior water and land. No inset or internal crop is introduced."
+  }
+}

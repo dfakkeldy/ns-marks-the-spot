@@ -1,0 +1,199 @@
+{
+  "sheet": "054",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.918336398433276,
+      2.0504758358582458
+    ],
+    [
+      2.08262498211049,
+      -4.877916547922318
+    ],
+    [
+      398508.3200151258,
+      4978829.661087864
+    ]
+  ],
+  "source_sha256": "227f2d199b7b70569214d8a18563c78889d6c2ce2926124da2e74e781cdca69e",
+  "source_dimensions": [
+    5704,
+    3876
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Palmer Lake northern horn",
+      "role": "control",
+      "pixel_xy": [
+        1117,
+        1461
+      ],
+      "lonlat": [
+        -64.17781511871691,
+        44.913405117325105
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 134306,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134306,
+      "nearest_unfiltered_distance_guide_px": 0.18386287121557127,
+      "selected_distance_guide_px": 0.18386287121557127,
+      "guide_reference_pixel_xy": [
+        1127.9938405700377,
+        1519.183759671403
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Murphy Lake eastern horn",
+      "role": "control",
+      "pixel_xy": [
+        558,
+        2641
+      ],
+      "lonlat": [
+        -64.17978292565806,
+        44.85091831201001
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 137242,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137242,
+      "nearest_unfiltered_distance_guide_px": 0.36286505530851487,
+      "selected_distance_guide_px": 0.36286505530851487,
+      "guide_reference_pixel_xy": [
+        586.6898068798473,
+        2697.811714906129
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Shady Lake eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        2402,
+        3073
+      ],
+      "lonlat": [
+        -64.05470903830535,
+        44.867778744400646
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 142290,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142290,
+      "nearest_unfiltered_distance_guide_px": 0.6983671127169625,
+      "selected_distance_guide_px": 0.6983671127169625,
+      "guide_reference_pixel_xy": [
+        2439.3018566978863,
+        3094.017679192242
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "King Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3732,
+        2717
+      ],
+      "lonlat": [
+        -63.98107600820314,
+        44.90789307863064
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 132504,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132504,
+      "nearest_unfiltered_distance_guide_px": 1.1475946164506696,
+      "selected_distance_guide_px": 1.1475946164506696,
+      "guide_reference_pixel_xy": [
+        3777.07342366426,
+        2750.4058756468585
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Cochran Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4644,
+        2756
+      ],
+      "lonlat": [
+        -63.92339455385033,
+        44.92413936140213
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 127580,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127580,
+      "nearest_unfiltered_distance_guide_px": 0.5013671726604504,
+      "selected_distance_guide_px": 0.5013671726604504,
+      "guide_reference_pixel_xy": [
+        4700.305978780205,
+        2769.602827458293
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Pigott Lake northeastern horn",
+      "role": "control",
+      "pixel_xy": [
+        5417,
+        2822
+      ],
+      "lonlat": [
+        -63.87456511523833,
+        44.93550893847883
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 134335,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134335,
+      "nearest_unfiltered_distance_guide_px": 2.2565136785420377,
+      "selected_distance_guide_px": 2.2565136785420377,
+      "guide_reference_pixel_xy": [
+        5462.2408641623915,
+        2830.7347043401096
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    18.882002541394126,
+    32.61076500184022,
+    55.66745817555455,
+    51.85237655886778,
+    47.780007370881265,
+    36.99267469336359
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

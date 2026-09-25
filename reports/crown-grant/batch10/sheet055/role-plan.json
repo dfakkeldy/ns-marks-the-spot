@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Seven controls span eastern, western, southern and northern interior lakes and a lake island.",
+  "corrections": [
+    "Cariboo lower-right corner clarified; Big Indian Island check source, Kehoe outlet reference and Island Lake bottom tip source/reference refined from native imagery."
+  ],
+  "rejections": [
+    {
+      "id": "C05",
+      "reason": "Ash Lake long-island upper outline and adjoining historical separate islet have unresolved correspondence; rejected before fitting or scoring. The distinct lower tip remains an independent check on that island."
+    }
+  ],
+  "not_adopted": [
+    "Snake Lake channel, Hammonds Plains elongated pond and other substantially different or generalized configurations were not forced into point matches."
+  ],
+  "limitations": [
+    "Seven checks are paired with control lakes or islands; Ash Lake island is a separate check feature.",
+    "Far northern/southern edge and large intervening interiors lack independent validation.",
+    "Original upside-down scan retained without coordinate rebasing; working source uncertainty18 px."
+  ]
+}

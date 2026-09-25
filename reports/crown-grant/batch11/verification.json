@@ -1,15 +1,14 @@
 {
-  "verified_at_utc": "2026-09-25T03:26:10.394463+00:00",
-  "sheets": 8,
+  "verified_at_utc": "2026-09-25T03:58:59.376269+00:00",
+  "sheets": 5,
   "planned_batch_sheets": 8,
-  "batch_assessment_complete": true,
-  "score_replays": 10,
+  "batch_assessment_complete": false,
+  "score_replays": 5,
   "regressions": "5 scorer/pixel-frame/review-order tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 6,
+  "main_rms_pass_count": 4,
   "main_rms_fail_sheets": [
-    "067",
-    "056"
+    "052"
   ],
   "all_components_coverage_passed": true,
   "all_source_fit_component_raster_hashes_match": true,
@@ -52,67 +51,13 @@
   ],
   "rows": [
     {
-      "sheet": "063",
-      "components": [
-        {
-          "component": "main",
-          "controls": 6,
-          "independent_checks": 6,
-          "rms_ground_m": 46.18328792778325,
-          "rms_gate_passed": true,
-          "fit": "fit-affine-01.json",
-          "checks": "checks-affine-01.json",
-          "scores": "scores-affine-01.json"
-        }
-      ],
-      "coverage_passed": true,
-      "raster_hashes_verified": true,
-      "browser_receipt_present": true
-    },
-    {
-      "sheet": "064",
-      "components": [
-        {
-          "component": "main",
-          "controls": 8,
-          "independent_checks": 7,
-          "rms_ground_m": 53.990787120621974,
-          "rms_gate_passed": true,
-          "fit": "fit-affine-01.json",
-          "checks": "checks-affine-01.json",
-          "scores": "scores-affine-01.json"
-        }
-      ],
-      "coverage_passed": true,
-      "raster_hashes_verified": true,
-      "browser_receipt_present": true
-    },
-    {
-      "sheet": "065",
-      "components": [
-        {
-          "component": "main",
-          "controls": 7,
-          "independent_checks": 7,
-          "rms_ground_m": 55.123568652470794,
-          "rms_gate_passed": true,
-          "fit": "fit-affine-01.json",
-          "checks": "checks-affine-01.json",
-          "scores": "scores-affine-01.json"
-        }
-      ],
-      "coverage_passed": true,
-      "raster_hashes_verified": true,
-      "browser_receipt_present": true
-    },
-    {
-      "sheet": "066",
+      "sheet": "054",
       "components": [
         {
           "component": "main",
           "controls": 6,
           "independent_checks": 7,
-          "rms_ground_m": 76.8335400164426,
+          "rms_ground_m": 97.69563230188984,
           "rms_gate_passed": true,
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
@@ -124,27 +69,17 @@
       "browser_receipt_present": true
     },
     {
-      "sheet": "067",
+      "sheet": "053",
       "components": [
         {
           "component": "main",
-          "controls": 5,
-          "independent_checks": 4,
-          "rms_ground_m": 100.17459813305791,
-          "rms_gate_passed": false,
-          "fit": "fit-main-similarity-01.json",
-          "checks": "checks-main-similarity-01.json",
-          "scores": "scores-main-similarity-01.json"
-        },
-        {
-          "component": "eastern-passage-inset",
-          "controls": 3,
-          "independent_checks": 4,
-          "rms_ground_m": 66.29321558476471,
+          "controls": 6,
+          "independent_checks": 5,
+          "rms_ground_m": 67.38395047691112,
           "rms_gate_passed": true,
-          "fit": "fit-inset-similarity-01.json",
-          "checks": "checks-inset-similarity-01.json",
-          "scores": "scores-inset-similarity-01.json"
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
         }
       ],
       "coverage_passed": true,
@@ -152,42 +87,32 @@
       "browser_receipt_present": true
     },
     {
-      "sheet": "057",
+      "sheet": "052",
       "components": [
         {
           "component": "main",
-          "controls": 7,
+          "controls": 4,
+          "independent_checks": 4,
+          "rms_ground_m": 141.3227388784321,
+          "rms_gate_passed": false,
+          "fit": "fit-similarity-01.json",
+          "checks": "checks-similarity-01.json",
+          "scores": "scores-similarity-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "051",
+      "components": [
+        {
+          "component": "main",
+          "controls": 6,
           "independent_checks": 7,
-          "rms_ground_m": 59.35648090816673,
+          "rms_ground_m": 49.77692931992484,
           "rms_gate_passed": true,
-          "fit": "fit-main-affine-01.json",
-          "checks": "checks-main-affine-01.json",
-          "scores": "scores-main-affine-01.json"
-        },
-        {
-          "component": "peggy-cove-inset",
-          "controls": 3,
-          "independent_checks": 3,
-          "rms_ground_m": 35.656279033218276,
-          "rms_gate_passed": true,
-          "fit": "fit-inset-similarity-01.json",
-          "checks": "checks-inset-similarity-01.json",
-          "scores": "scores-inset-similarity-01.json"
-        }
-      ],
-      "coverage_passed": true,
-      "raster_hashes_verified": true,
-      "browser_receipt_present": true
-    },
-    {
-      "sheet": "056",
-      "components": [
-        {
-          "component": "main",
-          "controls": 7,
-          "independent_checks": 6,
-          "rms_ground_m": 103.05652311467188,
-          "rms_gate_passed": false,
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"
@@ -198,13 +123,13 @@
       "browser_receipt_present": true
     },
     {
-      "sheet": "055",
+      "sheet": "050",
       "components": [
         {
           "component": "main",
-          "controls": 7,
-          "independent_checks": 8,
-          "rms_ground_m": 67.23209444880312,
+          "controls": 6,
+          "independent_checks": 5,
+          "rms_ground_m": 61.67815692779736,
           "rms_gate_passed": true,
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",

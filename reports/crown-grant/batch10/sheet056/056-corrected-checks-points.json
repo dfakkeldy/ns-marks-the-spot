@@ -1,0 +1,158 @@
+[
+  {
+    "id": "Q01",
+    "label": "Shut In Island northern tip (lower in original scan)",
+    "role": "proposal",
+    "pixel_xy": [
+      4767,
+      1401
+    ],
+    "lonlat": [
+      -63.96115212395765,
+      44.552342241277756
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 22526,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22526,
+    "nearest_unfiltered_distance_guide_px": 1.508019546741722,
+    "selected_distance_guide_px": 1.508019546741722,
+    "guide_reference_pixel_xy": [
+      4683.783928648103,
+      1571.891792251845
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Croucher Island northern tip (lower in original scan)",
+    "role": "proposal",
+    "pixel_xy": [
+      3929,
+      3118
+    ],
+    "lonlat": [
+      -63.95756725841896,
+      44.642837123024115
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 21973,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 21973,
+    "nearest_unfiltered_distance_guide_px": 0.11963611921027352,
+    "selected_distance_guide_px": 0.11963611921027352,
+    "guide_reference_pixel_xy": [
+      3848.0873418489937,
+      3264.9182430282235
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Middle Five Bridge Lake northern horn (lower in original scan)",
+    "role": "proposal",
+    "pixel_xy": [
+      2111,
+      1738
+    ],
+    "lonlat": [
+      -63.81066930833801,
+      44.613920417342584
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 136068,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 254343,
+    "nearest_unfiltered_distance_guide_px": 3.386999386104123,
+    "selected_distance_guide_px": 5.71999505562928,
+    "guide_reference_pixel_xy": [
+      2075.480404080765,
+      1834.4607125150505
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Hatchet Lake northern tip (lower in original scan)",
+    "role": "proposal",
+    "pixel_xy": [
+      1257,
+      365
+    ],
+    "lonlat": [
+      -63.722232011615134,
+      44.568478442319304
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 137877,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137877,
+    "nearest_unfiltered_distance_guide_px": 0.6056797785339967,
+    "selected_distance_guide_px": 0.6056797785339967,
+    "guide_reference_pixel_xy": [
+      1248.5677986015216,
+      442.7891618103022
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Ash Lake northern tip (lower in original scan)",
+    "role": "proposal",
+    "pixel_xy": [
+      488,
+      2911
+    ],
+    "lonlat": [
+      -63.74499752745056,
+      44.69667270735547
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 129558,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129558,
+    "nearest_unfiltered_distance_guide_px": 0.40581497458362426,
+    "selected_distance_guide_px": 0.40581497458362426,
+    "guide_reference_pixel_xy": [
+      455.3385016967659,
+      3010.776164357434
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Grassy Lake northern horn (lower in original scan)",
+    "role": "proposal",
+    "pixel_xy": [
+      1794,
+      1522
+    ],
+    "lonlat": [
+      -63.78526816207158,
+      44.60980459420651
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 138238,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138238,
+    "nearest_unfiltered_distance_guide_px": 4.351698323765168,
+    "selected_distance_guide_px": 4.351698323765168,
+    "guide_reference_pixel_xy": [
+      1760.9516249801381,
+      1604.1605419550324
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

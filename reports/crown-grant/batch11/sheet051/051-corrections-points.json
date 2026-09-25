@@ -1,0 +1,80 @@
+[
+  {
+    "id": "Q04",
+    "label": "Cape Sharp southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1909,
+      2525
+    ],
+    "lonlat": [
+      -64.38528082718052,
+      45.364778538265966
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 8404,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8404,
+    "nearest_unfiltered_distance_guide_px": 0.57782989953454,
+    "selected_distance_guide_px": 0.57782989953454,
+    "guide_reference_pixel_xy": [
+      1970.327486734779,
+      2415.476067045005
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Partridge Island southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2653,
+      2817
+    ],
+    "lonlat": [
+      -64.33032097352286,
+      45.36647255560126
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 8497,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8497,
+    "nearest_unfiltered_distance_guide_px": 1.525640133101642,
+    "selected_distance_guide_px": 1.525640133101642,
+    "guide_reference_pixel_xy": [
+      2730.842157807201,
+      2707.0065316953696
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Two Brothers smaller island southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4359,
+      3221
+    ],
+    "lonlat": [
+      -64.21256879569155,
+      45.3815330976098
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 17265,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17265,
+    "nearest_unfiltered_distance_guide_px": 2.1402984940699974,
+    "selected_distance_guide_px": 2.1402984940699974,
+    "guide_reference_pixel_xy": [
+      4456.067295795947,
+      3109.4457746525295
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

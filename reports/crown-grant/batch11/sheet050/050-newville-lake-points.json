@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q06",
+    "label": "Newville lake northwestern river junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3826,
+      3302
+    ],
+    "lonlat": [
+      -64.34468032041013,
+      45.52554110235751
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 134784,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 170052,
+    "nearest_unfiltered_distance_guide_px": 0.873922109146113,
+    "selected_distance_guide_px": 3.696822666660456,
+    "guide_reference_pixel_xy": [
+      3775.5678641679115,
+      3304.347879893263
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

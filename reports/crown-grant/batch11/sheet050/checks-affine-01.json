@@ -1,0 +1,140 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Northeastern elongated pond southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        5187,
+        585
+      ],
+      "lonlat": [
+        -64.3315845850561,
+        45.67081719855717
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 143380,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143380,
+      "nearest_unfiltered_distance_guide_px": 1.1131380905013257,
+      "selected_distance_guide_px": 1.1131380905013257,
+      "guide_reference_pixel_xy": [
+        5145.991638395062,
+        584.4943027566187
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained."
+    },
+    {
+      "id": "Q03",
+      "label": "Fork in Shoulie southern western tributary",
+      "role": "check",
+      "pixel_xy": [
+        705,
+        1726
+      ],
+      "lonlat": [
+        -64.58283116148368,
+        45.535148021768336
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 240990,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 240990,
+      "nearest_unfiltered_distance_guide_px": 0.14388165386766116,
+      "selected_distance_guide_px": 0.14388165386766116,
+      "guide_reference_pixel_xy": [
+        675.0975947289262,
+        1732.8942777260672
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained."
+    },
+    {
+      "id": "Q05",
+      "label": "River Hebert eastern tributary south of Sandhill Brook",
+      "role": "check",
+      "pixel_xy": [
+        4395,
+        1642
+      ],
+      "lonlat": [
+        -64.3527953516637,
+        45.609190373974066
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 161466,
+      "reference_feature_code": "WARV10",
+      "nearest_unfiltered_feature_code": "WARV10",
+      "nearest_unfiltered_objectid": 161466,
+      "nearest_unfiltered_distance_guide_px": 0.4182190207374171,
+      "selected_distance_guide_px": 0.4182190207374171,
+      "guide_reference_pixel_xy": [
+        4355.874450847332,
+        1647.6010707336245
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained."
+    },
+    {
+      "id": "Q06",
+      "label": "Newville lake northwestern river junction",
+      "role": "check",
+      "pixel_xy": [
+        3826,
+        3302
+      ],
+      "lonlat": [
+        -64.34468032041013,
+        45.52554110235751
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 134784,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV20",
+      "nearest_unfiltered_objectid": 170052,
+      "nearest_unfiltered_distance_guide_px": 0.873922109146113,
+      "selected_distance_guide_px": 3.696822666660456,
+      "guide_reference_pixel_xy": [
+        3775.5678641679115,
+        3304.347879893263
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained."
+    },
+    {
+      "id": "Q07",
+      "label": "Northeastern small southern pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5225,
+        805
+      ],
+      "lonlat": [
+        -64.32251202242382,
+        45.66233661917134
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 132337,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132337,
+      "nearest_unfiltered_distance_guide_px": 1.2098622456174186,
+      "selected_distance_guide_px": 1.2098622456174186,
+      "guide_reference_pixel_xy": [
+        5197.141469649505,
+        800.2015627289657
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained."
+    }
+  ]
+}

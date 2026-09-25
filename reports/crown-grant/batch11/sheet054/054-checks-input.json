@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Palmer Lake southern shore",
+    [
+      1142,
+      1550
+    ],
+    [
+      1140,
+      1607
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Murphy Lake eastern lobe northern shore",
+    [
+      505,
+      2608
+    ],
+    [
+      499,
+      2657
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Shady Lake western outlet",
+    [
+      2333,
+      3075
+    ],
+    [
+      2368,
+      3104
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "King Lake southwest corner",
+    [
+      3745,
+      2784
+    ],
+    [
+      3782,
+      2818
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Cochran Lake southern tip",
+    [
+      4677,
+      2871
+    ],
+    [
+      4733,
+      2879
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Pigott Lake southern horn",
+    [
+      5410,
+      3006
+    ],
+    [
+      5443,
+      3013
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Ryan Lake northern tip",
+    [
+      3203,
+      2810
+    ],
+    [
+      3228,
+      2832
+    ],
+    "WALK20"
+  ]
+]

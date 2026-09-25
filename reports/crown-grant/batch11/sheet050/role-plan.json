@@ -1,0 +1,26 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Six controls span northern coast, northeast pond and western/eastern river systems in the northern half; southern extrapolation is tested only by the Newville lake junction.",
+  "corrections": [
+    "Lower Point source moved onto the projecting shore tip.",
+    "Shoulie northern western junction reference refined from a virtual river segment to the tributary geometry.",
+    "Newville point identified as the lake shoreline junction, not a separate tributary: an incorrect WARV50 type-filtered proposal selected a different stream and was discarded before scoring; adopted WALK20 shoreline vertex inspected."
+  ],
+  "rejections": [
+    {
+      "id": "Q02",
+      "reason": "Two close historical eastern tributaries versus one corresponding modern branch; exact correspondence ambiguous."
+    },
+    {
+      "id": "Q04",
+      "reason": "Old Road annotations and channel-bank ambiguity prevent a precise source confluence. Initial and revised proposals rejected before fitting/scoring."
+    }
+  ],
+  "limitations": [
+    "Most observations lie in northern half; only Newville check samples southern area.",
+    "River-junction checks are spatially correlated with control river systems. Two checks are on separate northeastern pond/Newville lake features.",
+    "Southwestern Fox/Viegle configurations not forced into matches; most southern interior and western margin remain unvalidated.",
+    "Source uncertainty18 px; generalized channels and historical annotations limit precision."
+  ]
+}

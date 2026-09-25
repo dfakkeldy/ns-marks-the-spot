@@ -10,7 +10,7 @@ Continuation south through Hants and Halifax, then the next western mainland col
 | 066 | 76.83 | 7 | complete |
 | 067 | 100.17 | 4 | complete |
 | 057 | 59.36 | 7 | complete |
-| 056 | — | — | queued |
-| 055 | — | — | queued |
+| 056 | 103.06 | 6 | complete |
+| 055 | 67.23 | 8 | complete |
 
 The independent ground RMS ceiling is 100 m. Per-sheet results retain failures, companion metrics, bias and geographic limitations. Assessment completion does not imply geographic acceptance. Source imagery and raster reviews remain private; no production activation.

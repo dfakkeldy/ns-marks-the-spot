@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Lizard Lake upper tip in original scan",
+    "role": "control",
+    "pixel_xy": [
+      1405,
+      1196
+    ],
+    "lonlat": [
+      -63.841370503899206,
+      44.75880039931919
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 132705,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132705,
+    "nearest_unfiltered_distance_guide_px": 0.1913199404146236,
+    "selected_distance_guide_px": 0.1913199404146236,
+    "guide_reference_pixel_xy": [
+      1433.1899499479332,
+      1179.0228546905564
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score."
+  },
+  {
+    "id": "C02",
+    "label": "Little Hubley Lake upper eastern horn in original scan",
+    "role": "control",
+    "pixel_xy": [
+      4444,
+      1024
+    ],
+    "lonlat": [
+      -64.01191714951507,
+      44.69934034024473
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 132127,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132127,
+    "nearest_unfiltered_distance_guide_px": 1.1831840765294441,
+    "selected_distance_guide_px": 1.1831840765294441,
+    "guide_reference_pixel_xy": [
+      4515.8128490514355,
+      1017.8597679794766
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score."
+  },
+  {
+    "id": "C03",
+    "label": "Three Cornered Lake upper tip in original scan",
+    "role": "control",
+    "pixel_xy": [
+      5043,
+      2673
+    ],
+    "lonlat": [
+      -64.08841257219333,
+      44.75729162076729
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 138778,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138778,
+    "nearest_unfiltered_distance_guide_px": 0.4720939426103634,
+    "selected_distance_guide_px": 0.4720939426103634,
+    "guide_reference_pixel_xy": [
+      5145.2572308387025,
+      2657.6041401936673
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score."
+  },
+  {
+    "id": "C04",
+    "label": "Big Indian Lake elongated island upper tip in original scan",
+    "role": "control",
+    "pixel_xy": [
+      4694,
+      3303
+    ],
+    "lonlat": [
+      -64.08372020264805,
+      44.789799335208684
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 145250,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 145250,
+    "nearest_unfiltered_distance_guide_px": 0.49794728391704773,
+    "selected_distance_guide_px": 0.49794728391704773,
+    "guide_reference_pixel_xy": [
+      4785.344010410656,
+      3285.639988423907
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score."
+  },
+  {
+    "id": "C06",
+    "label": "Kehoe Lake upper tip in original scan",
+    "role": "control",
+    "pixel_xy": [
+      2269,
+      2756
+    ],
+    "lonlat": [
+      -63.929915151682216,
+      44.809123837651164
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 137402,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137402,
+    "nearest_unfiltered_distance_guide_px": 1.1073879446273756,
+    "selected_distance_guide_px": 1.1073879446273756,
+    "guide_reference_pixel_xy": [
+      2312.911595603393,
+      2736.204166425625
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score."
+  },
+  {
+    "id": "C07",
+    "label": "Cariboo Lake lower lobe lower-right corner in original scan",
+    "role": "control",
+    "pixel_xy": [
+      5856,
+      1429
+    ],
+    "lonlat": [
+      -64.10443843236862,
+      44.6911361656462
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 124478,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124478,
+    "nearest_unfiltered_distance_guide_px": 0.6182566210858782,
+    "selected_distance_guide_px": 0.6182566210858782,
+    "guide_reference_pixel_xy": [
+      5974.935480703483,
+      1419.3851191091817
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score."
+  },
+  {
+    "id": "C08",
+    "label": "Island Lake upper eastern lobe in original scan",
+    "role": "control",
+    "pixel_xy": [
+      586,
+      3080
+    ],
+    "lonlat": [
+      -63.83973142193148,
+      44.85178989611907
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 137343,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137343,
+    "nearest_unfiltered_distance_guide_px": 0.2634713114832551,
+    "selected_distance_guide_px": 0.2634713114832551,
+    "guide_reference_pixel_xy": [
+      585.807304040296,
+      3050.179681382142
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score."
+  }
+]

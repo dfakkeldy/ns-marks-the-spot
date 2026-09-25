@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T03:31:21.540112+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "054",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6136,
+        5264
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5704,
+        3876
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-sheet historical and modern-only screenshots inspected, raster decoding and opacity verified.",
+    "Upper frame extends to original y=0 to retain geography drawn above the interrupted neatline.",
+    "RMS-only pass does not validate northern rivers; median/P95 companion failures remain recorded."
+  ]
+}

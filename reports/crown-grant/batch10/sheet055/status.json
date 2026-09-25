@@ -1,0 +1,45 @@
+{
+  "sheet": "055",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; scores, alpha coverage and browser assessed; no geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/055.pdf",
+    "pdf_sha256": "bd8aede312cfaf41a4a658766c3882d5c3a762e65ec305c400c7635063c97c10",
+    "jpeg_sha256": "cd8c1247759dc861d7ce46c07aed8e2ed0fe8cb4bb6353aa21f99d79e6f23e46",
+    "dimensions": [
+      6188,
+      4162
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 67.23209444880312,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven of eight checks share control lakes or islands; Ash Lake island is a separate check feature.",
+    "The far northern/southern edges and intervening interiors lack independent validation.",
+    "Working source uncertainty 18 px; generalized shapes and annotations limit physical matching precision.",
+    "The embedded JPEG is upside down; its original unrotated pixel-edge coordinates are used throughout. Numerical passes do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 67.23 m, median 54.79 m, P95 105.70 m, maximum 118.64 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Hammonds Plains, French Village and Head of St Margarets Bay edge, Pockwock Lake, Island Lake, Ash Lake, Big Indian Lake, Cariboo Lake and all mapped inland water and land across Halifax and Hants counties. No inset or internal crop is introduced."
+  }
+}
