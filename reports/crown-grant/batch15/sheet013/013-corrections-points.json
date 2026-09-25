@@ -1,0 +1,54 @@
+[
+  {
+    "id": "Q07",
+    "label": "Worcester Lake eastern lobe south",
+    "role": "proposal",
+    "pixel_xy": [
+      5322,
+      147
+    ],
+    "lonlat": [
+      -65.72502804979445,
+      44.68355919617945
+    ],
+    "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+    "reference_objectid": 141478,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141478,
+    "nearest_unfiltered_distance_guide_px": 1.5042463684329275,
+    "selected_distance_guide_px": 1.5042463684329275,
+    "guide_reference_pixel_xy": [
+      5276.30642758304,
+      188.33480876509566
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Gilbert Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      546,
+      3724
+    ],
+    "lonlat": [
+      -65.91380354826046,
+      44.435996026270765
+    ],
+    "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+    "reference_objectid": 126176,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126176,
+    "nearest_unfiltered_distance_guide_px": 0.891976078649401,
+    "selected_distance_guide_px": 0.891976078649401,
+    "guide_reference_pixel_xy": [
+      528.4361601642449,
+      3696.77806531603
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

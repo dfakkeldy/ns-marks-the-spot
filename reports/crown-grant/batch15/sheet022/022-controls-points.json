@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Hill Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      326,
+      724
+    ],
+    "lonlat": [
+      -65.57580815531122,
+      44.51366134263317
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 137802,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137802,
+    "nearest_unfiltered_distance_guide_px": 0.05277185798428998,
+    "selected_distance_guide_px": 0.05277185798428998,
+    "guide_reference_pixel_xy": [
+      372.02469808002934,
+      752.953364457353
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Upper Mink Lake eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2515,
+      714
+    ],
+    "lonlat": [
+      -65.45296120339708,
+      44.55400969568972
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 139075,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139075,
+    "nearest_unfiltered_distance_guide_px": 0.5444754382214646,
+    "selected_distance_guide_px": 0.5444754382214646,
+    "guide_reference_pixel_xy": [
+      2525.1952093965374,
+      732.4917217353359
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Central Lake northwestern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      2674,
+      2280
+    ],
+    "lonlat": [
+      -65.40242859053674,
+      44.493977013495005
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 137602,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137602,
+    "nearest_unfiltered_distance_guide_px": 0.517272303290213,
+    "selected_distance_guide_px": 0.517272303290213,
+    "guide_reference_pixel_xy": [
+      2713.517143502133,
+      2283.011542701279
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Gull Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      5335,
+      1145
+    ],
+    "lonlat": [
+      -65.28005386235199,
+      44.588693453944266
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 138548,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138548,
+    "nearest_unfiltered_distance_guide_px": 0.35337229281132787,
+    "selected_distance_guide_px": 0.35337229281132787,
+    "guide_reference_pixel_xy": [
+      5353.075025307422,
+      1147.654683941044
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Unnamed northeastern lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      5005,
+      173
+    ],
+    "lonlat": [
+      -65.32379152356818,
+      44.62234302061212
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 131812,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 131812,
+    "nearest_unfiltered_distance_guide_px": 0.30611243999358784,
+    "selected_distance_guide_px": 0.30611243999358784,
+    "guide_reference_pixel_xy": [
+      5022.872898457805,
+      179.27847804920748
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Daniels Lake western triangular island north",
+    "role": "proposal",
+    "pixel_xy": [
+      230,
+      3452
+    ],
+    "lonlat": [
+      -65.50992626772654,
+      44.40151883576425
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 150941,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 150941,
+    "nearest_unfiltered_distance_guide_px": 1.6739646371948378,
+    "selected_distance_guide_px": 1.6739646371948378,
+    "guide_reference_pixel_xy": [
+      306.6040029017604,
+      3464.4788865186274
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Frozen Ocean Lake northeastern peninsula north",
+    "role": "proposal",
+    "pixel_xy": [
+      3212,
+      3528
+    ],
+    "lonlat": [
+      -65.34007954218669,
+      44.45316065851672
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 126497,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126497,
+    "nearest_unfiltered_distance_guide_px": 0.8933287692725385,
+    "selected_distance_guide_px": 0.8933287692725385,
+    "guide_reference_pixel_xy": [
+      3250.206625204417,
+      3519.1308956823777
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Lower Mink Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1873,
+      749
+    ],
+    "lonlat": [
+      -65.48756736697982,
+      44.54018912820415
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 132171,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132171,
+    "nearest_unfiltered_distance_guide_px": 0.7074978419089731,
+    "selected_distance_guide_px": 0.7074978419089731,
+    "guide_reference_pixel_xy": [
+      1896.4050634565647,
+      788.5800661966205
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

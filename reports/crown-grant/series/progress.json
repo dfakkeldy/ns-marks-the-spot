@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-25T09:27:15.123797+00:00",
+  "updated_at_utc": "2026-09-25T10:12:44.622496+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -99,13 +99,13 @@
     "026",
     "025",
     "024",
-    "023"
-  ],
-  "remaining_sheets": [
+    "023",
     "022",
     "021",
     "020",
-    "013",
+    "013"
+  ],
+  "remaining_sheets": [
     "014",
     "015",
     "016",
@@ -524,6 +524,23 @@
       "ci_attempt": 1,
       "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 554,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/554",
+      "sheets": [
+        "026",
+        "025",
+        "024",
+        "023"
+      ],
+      "head": "a8522c9549933a457add2549f868fa3985ca8490",
+      "merge": "1c09f10faa4491d0dc5a4dedd2b4ff97183b5ac4",
+      "merged_at_utc": "2026-09-25T09:59:48Z",
+      "ci_run": 36118608266,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled; PR already merged when normal merge command was issued"
     }
   ],
   "geographic_acceptance": "Per-sheet measured results and limitations remain authoritative; assessment is not an automatic geographic pass"

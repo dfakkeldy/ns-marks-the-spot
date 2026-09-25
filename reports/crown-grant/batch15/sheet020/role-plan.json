@@ -1,0 +1,28 @@
+{
+  "timing": "Before first component fits and scores",
+  "created_at_utc": "2026-09-25T09:50:44.921183+00:00",
+  "model": "Separate reflected uniform similarities in EPSG:32620",
+  "main": {
+    "controls": 5,
+    "checks": 5
+  },
+  "inset": {
+    "controls": 3,
+    "checks": 4
+  },
+  "reason": "Both point sets occupy narrow coastal regions; constrained similarities avoid unsupported affine shear over open water.",
+  "corrections": [
+    "Delap Q03 initial nearest coast feature4883 lay on eastern bank; physical inspection selected western bank4884 before fitting."
+  ],
+  "unadopted": [
+    "The apparent middle-west pond is the decorative letter S in TOWNSHIP, not water.",
+    "Parker Cove harbour structure and Prim light symbol are not shoreline observations."
+  ],
+  "limitations": [
+    "Main observations occupy the narrow southern coastal strip and three small inland ponds. Broad open water and most intervening interior remain independently unvalidated.",
+    "Main checks include two control ponds, a nearby Young Cove stream mouth, independent Delap Cove and a separate far-eastern pond. Shared historical cartography and nearby coast features limit independence.",
+    "Inset observations are confined to the coast. Prim and Caldwell checks are close to control headlands; the broad ocean interior is not independently validated.",
+    "Thin generalized coasts, stream-mouth bank junctions, small ponds and shoreline change carry 24 px working source uncertainty.",
+    "Main and inset have independent transforms and scores; no pooled accuracy claim is made."
+  ]
+}

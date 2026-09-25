@@ -1,0 +1,132 @@
+[
+  {
+    "id": "C01",
+    "label": "Western inland pond northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      967,
+      3340
+    ],
+    "lonlat": [
+      -65.67023759465594,
+      44.72529795433845
+    ],
+    "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+    "reference_objectid": 124518,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124518,
+    "nearest_unfiltered_distance_guide_px": 0.7215192646209792,
+    "selected_distance_guide_px": 0.7215192646209792,
+    "guide_reference_pixel_xy": [
+      949.688847337733,
+      3336.650979316095
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Eastern inland pond northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4757,
+      2660
+    ],
+    "lonlat": [
+      -65.45700988506309,
+      44.82942949530479
+    ],
+    "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+    "reference_objectid": 135274,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135274,
+    "nearest_unfiltered_distance_guide_px": 1.0274799057396746,
+    "selected_distance_guide_px": 1.0274799057396746,
+    "guide_reference_pixel_xy": [
+      4771.852130250656,
+      2673.425901582814
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Western coastal stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      704,
+      2917
+    ],
+    "lonlat": [
+      -65.69677613465147,
+      44.738315944380886
+    ],
+    "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+    "reference_objectid": 4777,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4777,
+    "nearest_unfiltered_distance_guide_px": 0.8108202916345701,
+    "selected_distance_guide_px": 0.8108202916345701,
+    "guide_reference_pixel_xy": [
+      698.8387346246163,
+      2927.205378691433
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Young Cove western stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      4368,
+      2307
+    ],
+    "lonlat": [
+      -65.49065300441409,
+      44.836963333219565
+    ],
+    "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+    "reference_objectid": 4881,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4881,
+    "nearest_unfiltered_distance_guide_px": 0.3221135732146836,
+    "selected_distance_guide_px": 0.3221135732146836,
+    "guide_reference_pixel_xy": [
+      4376.016563369078,
+      2325.3216874396894
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Eastern coastal stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      5274,
+      2052
+    ],
+    "lonlat": [
+      -65.44180089912707,
+      44.865489707059425
+    ],
+    "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+    "reference_objectid": 4566,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4566,
+    "nearest_unfiltered_distance_guide_px": 0.6213468027164144,
+    "selected_distance_guide_px": 0.6213468027164144,
+    "guide_reference_pixel_xy": [
+      5290.888373060152,
+      2083.6112374952063
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

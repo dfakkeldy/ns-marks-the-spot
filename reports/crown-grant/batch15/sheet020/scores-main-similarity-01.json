@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 52.944798130328884,
+  "median_ground_m": 37.624852557178954,
+  "p95_ground_m": 82.01340928013207,
+  "max_ground_m": 86.66130848626396,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -6.699931855511304,
+  "mean_north_ground_m": 25.137799215753933,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Western inland pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        944,
+        3385
+      ],
+      "lonlat": [
+        -65.66958555978843,
+        44.72298343299597
+      ],
+      "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+      "reference_objectid": 124517,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124517,
+      "nearest_unfiltered_distance_guide_px": 1.5467682682985724,
+      "selected_distance_guide_px": 1.5467682682985724,
+      "guide_reference_pixel_xy": [
+        938.5631531958934,
+        3384.4273191662505
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.66979853372708,
+        44.72284249408647
+      ],
+      "error_ground_m": 23.021712890329386,
+      "east_ground_m": -16.87307980762256,
+      "north_ground_m": -15.662006327746074
+    },
+    {
+      "id": "Q02",
+      "label": "Eastern inland pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4741,
+        2749
+      ],
+      "lonlat": [
+        -65.45548573930891,
+        44.824402183054865
+      ],
+      "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+      "reference_objectid": 135273,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135273,
+      "nearest_unfiltered_distance_guide_px": 0.6063931692011452,
+      "selected_distance_guide_px": 0.6063931692011452,
+      "guide_reference_pixel_xy": [
+        4749.402259780851,
+        2777.897924997844
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.4555025307371,
+        44.82497276569038
+      ],
+      "error_ground_m": 63.42181245560452,
+      "east_ground_m": -1.3279755695755937,
+      "north_ground_m": 63.40790783522575
+    },
+    {
+      "id": "Q03",
+      "label": "Delap Cove stream mouth western bank",
+      "role": "check",
+      "pixel_xy": [
+        1809,
+        2694
+      ],
+      "lonlat": [
+        -65.63610299507305,
+        44.769102366241434
+      ],
+      "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+      "reference_objectid": 4884,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4884,
+      "nearest_unfiltered_distance_guide_px": 1.282699984629805,
+      "selected_distance_guide_px": 1.282699984629805,
+      "guide_reference_pixel_xy": [
+        1797.0723154311418,
+        2718.1141554361675
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.636106519046,
+        44.769882200544515
+      ],
+      "error_ground_m": 86.66130848626396,
+      "east_ground_m": -0.27896405648728045,
+      "north_ground_m": 86.66085949035235
+    },
+    {
+      "id": "Q04",
+      "label": "Young Cove eastern stream mouth",
+      "role": "check",
+      "pixel_xy": [
+        4410,
+        2284
+      ],
+      "lonlat": [
+        -65.48881189418698,
+        44.83877872347157
+      ],
+      "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+      "reference_objectid": 4879,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4879,
+      "nearest_unfiltered_distance_guide_px": 0.7943737657870164,
+      "selected_distance_guide_px": 0.7943737657870164,
+      "guide_reference_pixel_xy": [
+        4416.891167068039,
+        2302.2131168621127
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.48852755756731,
+        44.83872767060077
+      ],
+      "error_ground_m": 23.18665062588587,
+      "east_ground_m": 22.48184477025477,
+      "north_ground_m": -5.673396070526182
+    },
+    {
+      "id": "Q05",
+      "label": "Far eastern inland pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        5535,
+        2918
+      ],
+      "lonlat": [
+        -65.40182869722827,
+        44.83316333426154
+      ],
+      "guide_file": ".crown-grant-local/020-frozen-south-guide.npy",
+      "reference_objectid": 126438,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126438,
+      "nearest_unfiltered_distance_guide_px": 0.3998246865360099,
+      "selected_distance_guide_px": 0.3998246865360099,
+      "guide_reference_pixel_xy": [
+        5560.010335191211,
+        2939.3996910854476
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.40230294719812,
+        44.83313593824872
+      ],
+      "error_ground_m": 37.624852557178954,
+      "east_ground_m": -37.50148461412586,
+      "north_ground_m": -3.0443688485361555
+    }
+  ],
+  "fit_sha256": "27d21d78ea51631be230bc8ae3d752b3c44b65fc0caf03e69c04a2702f9a0103",
+  "checks_sha256": "c0d32d787b69af9035bd351c91a4ce88fdf0ac9bfb51d5d13317ff0f93ab9edc",
+  "status": "Reserved before first component fit and score"
+}

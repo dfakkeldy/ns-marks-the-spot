@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C08",
+    "label": "Lower Mink Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1871,
+      756
+    ],
+    "lonlat": [
+      -65.48756736697982,
+      44.54018912820415
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 132171,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132171,
+    "nearest_unfiltered_distance_guide_px": 0.7074978419089731,
+    "selected_distance_guide_px": 0.7074978419089731,
+    "guide_reference_pixel_xy": [
+      1896.4050634565647,
+      788.5800661966205
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

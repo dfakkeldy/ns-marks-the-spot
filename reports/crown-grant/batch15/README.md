@@ -4,10 +4,10 @@ Continue north through Annapolis and Digby, then south through the next western 
 
 | Sheet | Main RMS (m) | Independent checks | Assessment |
 |---|---:|---:|---|
-| 022 | — | — | queued |
-| 021 | — | — | queued |
-| 020 | — | — | queued |
-| 013 | — | — | queued |
+| 022 | 101.96 | 8 | complete |
+| 021 | 71.93 | 7 | complete |
+| 020 | 52.94 | 5 | complete |
+| 013 | 72.21 | 9 | complete |
 | 014 | — | — | queued |
 | 015 | — | — | queued |
 | 016 | — | — | queued |

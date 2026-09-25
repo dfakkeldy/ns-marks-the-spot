@@ -1,0 +1,66 @@
+{
+  "sheet": "020",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; separate component scores, full coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/020.pdf",
+    "pdf_sha256": "6729787e51218b2c9de57f3f7c87f6868214a5613978ef5c90ca55e986fedc6f",
+    "jpeg_sha256": "fcf89067b28d43ca655caffda4bfe0f93ea050a2ade07b44eac8e140a557de61",
+    "dimensions": [
+      5740,
+      3852
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-main-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 5,
+      "rms_ground_m": 52.944798130328884,
+      "rms_gate_passed": true,
+      "fit": "fit-main-similarity-01.json",
+      "checks": "checks-main-similarity-01.json",
+      "scores": "scores-main-similarity-01.json"
+    },
+    {
+      "component": "prim-point-inset",
+      "controls": 3,
+      "independent_checks": 4,
+      "rms_ground_m": 38.3320328739047,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main observations occupy the narrow southern coastal strip and three small inland ponds. Broad open water and most intervening interior remain independently unvalidated.",
+    "Main checks include two control ponds, a nearby Young Cove stream mouth, independent Delap Cove and a separate far-eastern pond. Shared historical cartography and nearby coast features limit independence.",
+    "Inset observations are confined to the coast. Prim and Caldwell checks are close to control headlands; the broad ocean interior is not independently validated.",
+    "Thin generalized coasts, stream-mouth bank junctions, small ponds and shoreline change carry 24 px working source uncertainty.",
+    "Main and inset have independent transforms and scores; no pooled accuracy claim is made."
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 5 checks, RMS 52.94 m; prim-point-inset: 4 checks, RMS 38.33 m. Gate: 100 m. No pooled score.",
+    "coverage": "The entire mapped frame is partitioned into the main coast/open-water map and the displaced Prim Point\u2013Culloden/Victoria inset. Both use original scan pixels and separate similarities. All water, islands and edge extensions are retained; large unsampled areas remain provisional.",
+    "focusBounds": [
+      [
+        44.63712857651722,
+        -65.91213927962555
+      ],
+      [
+        44.95679588596008,
+        -65.37502548658112
+      ]
+    ]
+  }
+}

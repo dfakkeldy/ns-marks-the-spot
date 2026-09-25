@@ -1,0 +1,210 @@
+[
+  {
+    "id": "Q01",
+    "label": "Hill Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      241,
+      891
+    ],
+    "lonlat": [
+      -65.57605352102239,
+      44.50444260872016
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 137801,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137801,
+    "nearest_unfiltered_distance_guide_px": 1.1587631945963652,
+    "selected_distance_guide_px": 1.1587631945963652,
+    "guide_reference_pixel_xy": [
+      284.209586436511,
+      938.8603484450141
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Upper Mink Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2438,
+      814
+    ],
+    "lonlat": [
+      -65.45421516751375,
+      44.54832016110571
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 139076,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139076,
+    "nearest_unfiltered_distance_guide_px": 0.2014399347242473,
+    "selected_distance_guide_px": 0.2014399347242473,
+    "guide_reference_pixel_xy": [
+      2455.1505949379643,
+      840.133787936531
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Central Lake southeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2835,
+      2404
+    ],
+    "lonlat": [
+      -65.39024238430014,
+      44.4913637215313
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 137603,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137603,
+    "nearest_unfiltered_distance_guide_px": 1.1376265116199282,
+    "selected_distance_guide_px": 1.1376265116199282,
+    "guide_reference_pixel_xy": [
+      2867.0601318753324,
+      2415.412691757665
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Gull Lake southwestern prong",
+    "role": "proposal",
+    "pixel_xy": [
+      5242,
+      1315
+    ],
+    "lonlat": [
+      -65.2803785337576,
+      44.579988780033815
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 138548,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARA50",
+    "nearest_unfiltered_objectid": 148358,
+    "nearest_unfiltered_distance_guide_px": 1.800364008914504,
+    "selected_distance_guide_px": 2.693210857076511,
+    "guide_reference_pixel_xy": [
+      5269.4463744295645,
+      1322.873662186088
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Unnamed northeastern lake southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4939,
+      249
+    ],
+    "lonlat": [
+      -65.32570834309696,
+      44.61807194490754
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 131812,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 131812,
+    "nearest_unfiltered_distance_guide_px": 0.30374543235010104,
+    "selected_distance_guide_px": 0.30374543235010104,
+    "guide_reference_pixel_xy": [
+      4956.267189060687,
+      253.85553099459503
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Daniels Lake southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      445,
+      3523
+    ],
+    "lonlat": [
+      -65.49581853263818,
+      44.40321817721769
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 142676,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142676,
+    "nearest_unfiltered_distance_guide_px": 2.0720549455771895,
+    "selected_distance_guide_px": 2.0720549455771895,
+    "guide_reference_pixel_xy": [
+      527.574677281722,
+      3521.9907681229524
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Frozen Ocean Lake southwestern lobe south",
+    "role": "proposal",
+    "pixel_xy": [
+      2938,
+      3784
+    ],
+    "lonlat": [
+      -65.35000659900584,
+      44.43753519574916
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 126580,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126580,
+    "nearest_unfiltered_distance_guide_px": 1.2723062872824356,
+    "selected_distance_guide_px": 1.2723062872824356,
+    "guide_reference_pixel_xy": [
+      2963.7358999531134,
+      3772.8557281728135
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Charity Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1393,
+      2543
+    ],
+    "lonlat": [
+      -65.46997853092266,
+      44.46070757246685
+    ],
+    "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+    "reference_objectid": 128697,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128697,
+    "nearest_unfiltered_distance_guide_px": 1.7656991850452342,
+    "selected_distance_guide_px": 1.7656991850452342,
+    "guide_reference_pixel_xy": [
+      1427.75749714853,
+      2520.594958206988
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
