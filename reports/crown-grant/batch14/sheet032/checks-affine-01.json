@@ -1,0 +1,194 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Cameron or St Christopher Lake southeastern prong",
+      "role": "check",
+      "pixel_xy": [
+        1590,
+        733
+      ],
+      "lonlat": [
+        -64.96139930734421,
+        44.32612087157046
+      ],
+      "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+      "reference_objectid": 127387,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127387,
+      "nearest_unfiltered_distance_guide_px": 1.8880423876483798,
+      "selected_distance_guide_px": 1.8880423876483798,
+      "guide_reference_pixel_xy": [
+        1692.472835878376,
+        719.8129539559595
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody and neighbouring island context plus all native paired crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q02",
+      "label": "Molega Lake Round Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3431,
+        834
+      ],
+      "lonlat": [
+        -64.83922945882743,
+        44.35877904167276
+      ],
+      "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+      "reference_objectid": 151732,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 151732,
+      "nearest_unfiltered_distance_guide_px": 0.5678209654411591,
+      "selected_distance_guide_px": 0.5678209654411591,
+      "guide_reference_pixel_xy": [
+        3492.7752636692603,
+        831.5214539581211
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody and neighbouring island context plus all native paired crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q03",
+      "label": "Big Lamoner Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2363,
+        1228
+      ],
+      "lonlat": [
+        -64.89661017863018,
+        44.317697550197366
+      ],
+      "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+      "reference_objectid": 314538,
+      "reference_feature_code": "WARVLKIS10",
+      "nearest_unfiltered_feature_code": "WARVLKIS10",
+      "nearest_unfiltered_objectid": 314538,
+      "nearest_unfiltered_distance_guide_px": 0.9324209980670833,
+      "selected_distance_guide_px": 0.9324209980670833,
+      "guide_reference_pixel_xy": [
+        2449.2675186278066,
+        1238.5769575001905
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody and neighbouring island context plus all native paired crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q04",
+      "label": "Sixteen Mile Lake central island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1209,
+        2049
+      ],
+      "lonlat": [
+        -64.94823364454115,
+        44.25507020058431
+      ],
+      "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+      "reference_objectid": 150713,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 150713,
+      "nearest_unfiltered_distance_guide_px": 0.339843344074161,
+      "selected_distance_guide_px": 0.339843344074161,
+      "guide_reference_pixel_xy": [
+        1312.0353301739087,
+        2061.661998110474
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody and neighbouring island context plus all native paired crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q05",
+      "label": "Black Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        355,
+        2878
+      ],
+      "lonlat": [
+        -64.97796896185844,
+        44.198562156427556
+      ],
+      "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+      "reference_objectid": 124720,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124720,
+      "nearest_unfiltered_distance_guide_px": 1.168913606087045,
+      "selected_distance_guide_px": 1.168913606087045,
+      "guide_reference_pixel_xy": [
+        498.8955692271702,
+        2899.6171270621708
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody and neighbouring island context plus all native paired crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q06",
+      "label": "Long Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4475,
+        2459
+      ],
+      "lonlat": [
+        -64.72449709044088,
+        44.30380979928197
+      ],
+      "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+      "reference_objectid": 132031,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132031,
+      "nearest_unfiltered_distance_guide_px": 1.9611124560955806,
+      "selected_distance_guide_px": 1.9611124560955806,
+      "guide_reference_pixel_xy": [
+        4527.141269998741,
+        2462.405175603577
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody and neighbouring island context plus all native paired crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q07",
+      "label": "Cow Moose Lake southern peninsula northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1030,
+        1705
+      ],
+      "lonlat": [
+        -64.96930076106463,
+        44.268054801059556
+      ],
+      "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+      "reference_objectid": 127597,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127597,
+      "nearest_unfiltered_distance_guide_px": 1.1347869341935712,
+      "selected_distance_guide_px": 1.1347869341935712,
+      "guide_reference_pixel_xy": [
+        1144.684704239713,
+        1710.0901054855203
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody and neighbouring island context plus all native paired crosshairs inspected before first fit and score."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-25T07:21:44.312097+00:00",
+  "updated_at_utc": "2026-09-25T07:48:21.586141+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -89,12 +89,12 @@
     "036",
     "035",
     "028",
-    "029"
-  ],
-  "remaining_sheets": [
+    "029",
     "030",
     "031",
-    "032",
+    "032"
+  ],
+  "remaining_sheets": [
     "033",
     "034",
     "027",
@@ -119,7 +119,7 @@
     "007",
     "006"
   ],
-  "publication_status": "PR550 merged after required CI passed. Batch13 continues through western Annapolis sheets; full official series remains in progress.",
+  "publication_status": "PR 551 merged; sheets 030\u2013032 next checkpoint in preparation; full series continues",
   "delivered_checkpoints": [
     {
       "pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/528",
@@ -472,6 +472,25 @@
       "ci_attempt": 2,
       "status": "merged after required CI passed on unchanged-head failed-job retry",
       "initial_ci_failure": "Existing native measurement badge-tap assertion MapChromeUITests.swift:103; no native code/test changes; private log preserved; cause not established",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 551,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/551",
+      "sheets": [
+        "038",
+        "037",
+        "036",
+        "035",
+        "028",
+        "029"
+      ],
+      "head": "b1bca383e0b57206a5945763dd88dc55a5bfb766",
+      "merge": "1617e685cbe7c92ee7c379e0d862a7aa280e2010",
+      "merged_at_utc": "2026-09-25T07:43:54Z",
+      "ci_run": 36107399127,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled"
     }
   ],

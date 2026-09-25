@@ -1,0 +1,44 @@
+{
+  "sheet": "032",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/032.pdf",
+    "pdf_sha256": "f75e6424cc037fb5b72510485e5c4a02f73f03599f6c135deae7fbac1e3b6ec4",
+    "jpeg_sha256": "1b92b51e6670b0fba21f28f1daeb14f0c14b79be589415ae440c62afd15f6a00",
+    "dimensions": [
+      5298,
+      3682
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 56.82217051403146,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six checks share control lakes or islands; Cow Moose Lake provides one separate nearby waterbody. Shared historical cartography limits independence.",
+    "Easternmost margin, much of the southern interior and intervening central areas lack independent checks. Big Winnifred has a control only.",
+    "Generalized shorelines and small island tips, including lettering across Sixteen Mile island, carry 24 px source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 56.82 m, median 55.40 m, P95 80.19 m, maximum 80.51 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "The entire mapped frame retains Molega, Ponhook, Sixteen Mile and other lake islands, full intervening land and the Big Winnifred portion at the southern edge. Geographic support is limited to sampled physical features."
+  }
+}
