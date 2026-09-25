@@ -1,0 +1,67 @@
+[
+  [
+    "C04",
+    "Conway Lake northern tip",
+    [
+      2509,
+      769
+    ],
+    [
+      2518,
+      759
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Kempton Lake northern roof",
+    [
+      4741,
+      506
+    ],
+    [
+      4746,
+      499
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "South West Lake northern roof",
+    [
+      3824,
+      2123
+    ],
+    [
+      3834,
+      2106
+    ],
+    "WALK20"
+  ],
+  [
+    "Q01",
+    "Hardwood Lake large eastern island southern tip",
+    [
+      1128,
+      657
+    ],
+    [
+      1145,
+      629
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q05",
+    "Bullrush Lake southwestern island northern tip",
+    [
+      2896,
+      1483
+    ],
+    [
+      2915,
+      1462
+    ],
+    "WALKIS10"
+  ]
+]

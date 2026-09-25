@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Grays Lake northeastern roof",
+    [
+      1124,
+      402
+    ],
+    [
+      1128,
+      346
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Lake Martin northern roof",
+    [
+      564,
+      3581
+    ],
+    [
+      550,
+      3598
+    ],
+    "WARV20"
+  ],
+  [
+    "Q05",
+    "Beartrack Lake southern tip",
+    [
+      1123,
+      1957
+    ],
+    [
+      1140,
+      1985
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Lake Martin southern shore",
+    [
+      593,
+      3642
+    ],
+    [
+      589,
+      3655
+    ],
+    "WARV20"
+  ],
+  [
+    "Q08",
+    "First Porcupine Lake southern tip",
+    [
+      1616,
+      2320
+    ],
+    [
+      1613,
+      2349
+    ],
+    "WALK20"
+  ]
+]

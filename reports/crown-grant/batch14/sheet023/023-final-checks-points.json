@@ -1,0 +1,245 @@
+[
+  {
+    "id": "Q01",
+    "label": "Flat Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1574,
+      630
+    ],
+    "lonlat": [
+      -65.41624845607357,
+      44.38067235133798
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 140472,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140472,
+    "nearest_unfiltered_distance_guide_px": 3.4861162739021037,
+    "selected_distance_guide_px": 3.4861162739021037,
+    "guide_reference_pixel_xy": [
+      1552.8797298594145,
+      766.6987878760556
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q02",
+    "label": "Poplar Lake southeastern lobe south",
+    "role": "check",
+    "pixel_xy": [
+      1157,
+      1200
+    ],
+    "lonlat": [
+      -65.42624807718342,
+      44.349460216341875
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 133941,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133941,
+    "nearest_unfiltered_distance_guide_px": 2.7177544700692033,
+    "selected_distance_guide_px": 2.7177544700692033,
+    "guide_reference_pixel_xy": [
+      1128.590982457681,
+      1323.6527210735949
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q03",
+    "label": "Luxton Lake central island south",
+    "role": "check",
+    "pixel_xy": [
+      2461,
+      1509
+    ],
+    "lonlat": [
+      -65.34338751642458,
+      44.36157766061482
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 151423,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 151423,
+    "nearest_unfiltered_distance_guide_px": 0.3541057418588878,
+    "selected_distance_guide_px": 0.3541057418588878,
+    "guide_reference_pixel_xy": [
+      2458.704729724326,
+      1595.1954644231591
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q04",
+    "label": "Ber Lake southwestern lobe south",
+    "role": "check",
+    "pixel_xy": [
+      2443,
+      1939
+    ],
+    "lonlat": [
+      -65.33394253206511,
+      44.3431426062478
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 125465,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125465,
+    "nearest_unfiltered_distance_guide_px": 0.9192621457479554,
+    "selected_distance_guide_px": 0.9192621457479554,
+    "guide_reference_pixel_xy": [
+      2435.0405045851367,
+      2019.0816306455527
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q05",
+    "label": "Central Lake southern lobe south",
+    "role": "check",
+    "pixel_xy": [
+      3494,
+      532
+    ],
+    "lonlat": [
+      -65.30816129076766,
+      44.420109004348916
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 304669,
+    "reference_feature_code": "WARVLK20",
+    "nearest_unfiltered_feature_code": "WARVLK20",
+    "nearest_unfiltered_objectid": 304669,
+    "nearest_unfiltered_distance_guide_px": 1.3758062689255024,
+    "selected_distance_guide_px": 1.3758062689255024,
+    "guide_reference_pixel_xy": [
+      3495.9964850022225,
+      651.3758017787477
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q06",
+    "label": "Turtle Lake western long island south",
+    "role": "check",
+    "pixel_xy": [
+      5476,
+      2829
+    ],
+    "lonlat": [
+      -65.13731420454668,
+      44.361482924178695
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 150621,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 150621,
+    "nearest_unfiltered_distance_guide_px": 0.4950498079984825,
+    "selected_distance_guide_px": 0.4950498079984825,
+    "guide_reference_pixel_xy": [
+      5500.730664686242,
+      2864.5846293207724
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q07",
+    "label": "Sisketch Lake northeastern peninsula east tip",
+    "role": "check",
+    "pixel_xy": [
+      1574,
+      3548
+    ],
+    "lonlat": [
+      -65.34156085525828,
+      44.261049070337585
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 141946,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141946,
+    "nearest_unfiltered_distance_guide_px": 1.6869826315241043,
+    "selected_distance_guide_px": 1.6869826315241043,
+    "guide_reference_pixel_xy": [
+      1596.3264237531694,
+      3600.212256790488
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q08",
+    "label": "Irving Lake western narrow island south",
+    "role": "check",
+    "pixel_xy": [
+      1794,
+      3189
+    ],
+    "lonlat": [
+      -65.3394882299794,
+      44.28089159320481
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 314688,
+    "reference_feature_code": "WARVLKIS10",
+    "nearest_unfiltered_feature_code": "WARVLKIS10",
+    "nearest_unfiltered_objectid": 314688,
+    "nearest_unfiltered_distance_guide_px": 0.728172565901922,
+    "selected_distance_guide_px": 0.728172565901922,
+    "guide_reference_pixel_xy": [
+      1802.4876718149171,
+      3219.4825494067045
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "Q09",
+    "label": "Little Red Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1472,
+      1666
+    ],
+    "lonlat": [
+      -65.39748701361496,
+      44.33544284593903
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 132791,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132791,
+    "nearest_unfiltered_distance_guide_px": 0.4330934441277042,
+    "selected_distance_guide_px": 0.4330934441277042,
+    "guide_reference_pixel_xy": [
+      1428.7962070794892,
+      1779.382149678655
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  }
+]

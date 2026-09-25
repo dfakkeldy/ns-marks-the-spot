@@ -1,0 +1,21 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T08:50:04.041056+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Western Hardwood/Rush/Brandy, central Conway/Bullrush, northern First, eastern Kempton and south-central South West Lake distribute controls over the sampled area.",
+  "corrections": [
+    "Conway, Kempton and South West northern source positions refined.",
+    "Hardwood island southern source and Bullrush island northern source/reference refined."
+  ],
+  "unadopted": [
+    "East Horseshoe, Third River/Back, Buoy and Barren lake details were inspected but no points adopted.",
+    "Southern river corridors lack confidently reconciled physical checks."
+  ],
+  "limitations": [
+    "Eight checks share control lakes or associated islands; Mud Lake adds a separate waterbody. Shared historical cartography limits independence.",
+    "The southern portion below South West Lake and intervening interior between sampled lakes remain independently unvalidated.",
+    "Thin generalized shores, lake outlets and small island extrema carry 24 px working source uncertainty."
+  ]
+}

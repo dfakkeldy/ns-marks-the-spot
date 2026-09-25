@@ -1,0 +1,23 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T09:08:53.948503+00:00",
+  "model": "Reflected uniform similarity EPSG:32620",
+  "controls": 7,
+  "checks": 8,
+  "reason": "Recognizable Grays, Handsled, First Beaver, Black Duck, Beartrack, Second Porcupine and Martin geometry lies in a narrow western strip. Four parameters avoid unsupported affine shear across the eastern lake complex.",
+  "corrections": [
+    "Lake Martin WALK20 proposals rejected: C07 hit neighbouring northern lake, Q07 failed213.7pxguard. Correct WARV20 bank widening174699 inspected before fitting.",
+    "Grays northern source and Beartrack southern reference refined."
+  ],
+  "unadopted": [
+    "Bear/Coombs island outlines and Cataract/Mills connections not precisely reconciled with modern water.",
+    "Harlow/Mullins and Jordan Lake outlines, First Porcupine northern expansion and Second Porcupine southern extension remain unresolved."
+  ],
+  "limitations": [
+    "All adopted observations are in the western strip. Roughly the eastern two-thirds, including the Rossignol lake/island complex, remain independently unvalidated.",
+    "Seven checks share control waterbodies; First Porcupine provides one separate nearby lake. Independence is limited by shared historical cartography.",
+    "Bear/Coombs islands, Cataract/Mills lake connections and other Rossignol outlines differ substantially from modern water geometry. Neither old nested contours nor red boundary lines were treated as modern shorelines.",
+    "Generalized lake tips, river-connected shore corners and narrow reaches carry 24 px working source uncertainty.",
+    "The full map is retained under a constrained similarity; numerical statistics do not establish geographic accuracy in the extrapolated eastern area."
+  ]
+}

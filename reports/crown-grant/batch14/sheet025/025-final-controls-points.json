@@ -1,0 +1,218 @@
+[
+  {
+    "id": "C01",
+    "label": "Hardwood Lake large eastern island northern roof",
+    "role": "control",
+    "pixel_xy": [
+      1175,
+      494
+    ],
+    "lonlat": [
+      -65.2324255086753,
+      44.06594971441153
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 151269,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 151269,
+    "nearest_unfiltered_distance_guide_px": 0.8393972741904122,
+    "selected_distance_guide_px": 0.8393972741904122,
+    "guide_reference_pixel_xy": [
+      1180.5889200985548,
+      463.5981311741052
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  },
+  {
+    "id": "C02",
+    "label": "Rush Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      791,
+      865
+    ],
+    "lonlat": [
+      -65.24471379471026,
+      44.04155057822561
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 142886,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142886,
+    "nearest_unfiltered_distance_guide_px": 2.069637750887887,
+    "selected_distance_guide_px": 2.069637750887887,
+    "guide_reference_pixel_xy": [
+      805.0679412508034,
+      847.0685222760076
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  },
+  {
+    "id": "C03",
+    "label": "Brandy Lake southern tip",
+    "role": "control",
+    "pixel_xy": [
+      519,
+      1581
+    ],
+    "lonlat": [
+      -65.24157190145313,
+      44.00470355744402
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 134110,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134110,
+    "nearest_unfiltered_distance_guide_px": 0.9455616247300325,
+    "selected_distance_guide_px": 0.9455616247300325,
+    "guide_reference_pixel_xy": [
+      534.591733985988,
+      1562.7375213054474
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  },
+  {
+    "id": "C04",
+    "label": "Conway Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      2509,
+      769
+    ],
+    "lonlat": [
+      -65.14329946009406,
+      44.080005092054485
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 127591,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127591,
+    "nearest_unfiltered_distance_guide_px": 0.9762451251605985,
+    "selected_distance_guide_px": 0.9762451251605985,
+    "guide_reference_pixel_xy": [
+      2518.258087712631,
+      758.0584877711954
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  },
+  {
+    "id": "C05",
+    "label": "Bullrush Lake northeastern roof",
+    "role": "control",
+    "pixel_xy": [
+      3013,
+      1229
+    ],
+    "lonlat": [
+      -65.09943911115126,
+      44.07036082206182
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 141593,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141593,
+    "nearest_unfiltered_distance_guide_px": 5.434096208924951,
+    "selected_distance_guide_px": 5.434096208924951,
+    "guide_reference_pixel_xy": [
+      3036.200012659421,
+      1215.3919609045843
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  },
+  {
+    "id": "C06",
+    "label": "Kempton Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      4741,
+      506
+    ],
+    "lonlat": [
+      -65.01518147901668,
+      44.135973072975595
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 137206,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137206,
+    "nearest_unfiltered_distance_guide_px": 4.2020422102728645,
+    "selected_distance_guide_px": 4.2020422102728645,
+    "guide_reference_pixel_xy": [
+      4743.45965022489,
+      502.34720506647136
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  },
+  {
+    "id": "C07",
+    "label": "South West Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      3824,
+      2123
+    ],
+    "lonlat": [
+      -65.02675175692364,
+      44.04720946401129
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 140183,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140183,
+    "nearest_unfiltered_distance_guide_px": 2.4105478141380106,
+    "selected_distance_guide_px": 2.4105478141380106,
+    "guide_reference_pixel_xy": [
+      3834.668086256832,
+      2108.316117768525
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  },
+  {
+    "id": "C08",
+    "label": "First Lake northern lobe tip",
+    "role": "control",
+    "pixel_xy": [
+      3517,
+      222
+    ],
+    "lonlat": [
+      -65.09767499974477,
+      44.12459044135323
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 127116,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127116,
+    "nearest_unfiltered_distance_guide_px": 0.5269403034562836,
+    "selected_distance_guide_px": 0.5269403034562836,
+    "guide_reference_pixel_xy": [
+      3519.844781933003,
+      201.50356075610034
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and every native paired crosshair inspected; five source/reference corrections before first fit and score."
+  }
+]
