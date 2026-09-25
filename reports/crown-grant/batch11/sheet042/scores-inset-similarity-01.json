@@ -1,0 +1,83 @@
+{
+  "count": 2,
+  "rms_ground_m": 88.06881874921615,
+  "median_ground_m": 87.38482640600519,
+  "p95_ground_m": 97.24420008785978,
+  "max_ground_m": 98.33968605251029,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -29.135862945128096,
+  "mean_north_ground_m": -74.29364864268538,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Inset Isle Haute northern tip",
+      "role": "check",
+      "pixel_xy": [
+        315,
+        2299
+      ],
+      "lonlat": [
+        -65.01440802977451,
+        45.250572475478116
+      ],
+      "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+      "reference_objectid": 17474,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17474,
+      "nearest_unfiltered_distance_guide_px": 2.3988504898055862,
+      "selected_distance_guide_px": 2.3988504898055862,
+      "guide_reference_pixel_xy": [
+        342.0064151837141,
+        2243.3988419118105
+      ],
+      "source_uncertainty_px": 30,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first inset fit/score; native crosshair inspected; never fitting input; sparse generalized island checks.",
+      "predicted_lonlat": [
+        -65.01525319332606,
+        45.249919355336004
+      ],
+      "error_ground_m": 98.33968605251029,
+      "east_ground_m": -66.34813871053642,
+      "north_ground_m": -72.58524879446034
+    },
+    {
+      "id": "Q02",
+      "label": "Inset Isle Haute southwest projecting mainland corner",
+      "role": "check",
+      "pixel_xy": [
+        351,
+        2380
+      ],
+      "lonlat": [
+        -65.01077381842249,
+        45.247439182022056
+      ],
+      "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+      "reference_objectid": 17474,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17474,
+      "nearest_unfiltered_distance_guide_px": 0.36451907595650224,
+      "selected_distance_guide_px": 0.36451907595650224,
+      "guide_reference_pixel_xy": [
+        364.35359986673575,
+        2325.0885510642547
+      ],
+      "source_uncertainty_px": 30,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first inset fit/score; native crosshair inspected; never fitting input; sparse generalized island checks.",
+      "predicted_lonlat": [
+        -65.01067094423604,
+        45.24675532045624
+      ],
+      "error_ground_m": 76.42996675950009,
+      "east_ground_m": 8.076412820280229,
+      "north_ground_m": -76.00204849091044
+    }
+  ],
+  "fit_sha256": "bd8595c31735f66a8b400ac1b6558a3e91b0afd42498bbcedf1f52c1553e4ed1",
+  "checks_sha256": "9ae85698ec3a1ad4bef4359bde3794772082ea4b21e5b50f91edc23ea8858b2d",
+  "status": "Reserved before first inset fit and score"
+}

@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "f47734dafd71f78ca76e9ff73c7bf0319bd7e7cd3819ca8122559364424d7c5a",
+  "fit_sha256": "777e4689e86e18ab544b2b2f145f7f13426460665719384a3945441bfff6b982",
+  "components_sha256": "a2ea3651589a639a257cf5b3485ba97f95e09e92454aee08363dd3058d43396d",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 42.93 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          45.16704553380664,
+          -64.9071224986961
+        ],
+        [
+          45.43621375433452,
+          -64.46270796133649
+        ]
+      ],
+      "dimensions": [
+        6184,
+        5325
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 18013750,
+      "source_mask_pixels": 19559650,
+      "affine_determinant": -29.149829082199965,
+      "png_sha256": "986cd36e6661fd34f910d49e7c8128d61d4158e77f3ace979c21908004328ed8",
+      "tif_sha256": "ec9963fa69f35199f58f05506caa23ed1c91a4abd7224e8f7e7eae7ccecb4def"
+    },
+    {
+      "id": "isle-haute-inset",
+      "status": "RMS 88.07 m passes 100 m; limitations retained",
+      "png": "isle-haute-inset-3857.png",
+      "tif": "isle-haute-inset-3857.tif",
+      "bounds": [
+        [
+          45.23162372750351,
+          -65.03433284967288
+        ],
+        [
+          45.27518269878004,
+          -64.96318627917061
+        ]
+      ],
+      "dimensions": [
+        990,
+        861
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 494268,
+      "source_mask_pixels": 486750,
+      "affine_determinant": -32.201929988944514,
+      "png_sha256": "863de6094f2f4dee2d357bdb1bb7d97389c2a4b94218fa6aa8d3864fd29477f4",
+      "tif_sha256": "b442d4891e495407fc4fe83423d2b24eefd66b4cc2393b49b60533fbcb858187"
+    }
+  ]
+}

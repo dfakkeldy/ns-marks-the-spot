@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Northeastern elongated pond southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5187,
+      585
+    ],
+    "lonlat": [
+      -64.3315845850561,
+      45.67081719855717
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 143380,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143380,
+    "nearest_unfiltered_distance_guide_px": 1.1131380905013257,
+    "selected_distance_guide_px": 1.1131380905013257,
+    "guide_reference_pixel_xy": [
+      5145.991638395062,
+      584.4943027566187
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Shoulie northern eastern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      1269,
+      1089
+    ],
+    "lonlat": [
+      -64.56377138417031,
+      45.57364551339721
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 241936,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 241936,
+    "nearest_unfiltered_distance_guide_px": 0.8419840195862778,
+    "selected_distance_guide_px": 0.8419840195862778,
+    "guide_reference_pixel_xy": [
+      1248.3264372464619,
+      1104.223871264956
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Fork in Shoulie southern western tributary",
+    "role": "proposal",
+    "pixel_xy": [
+      705,
+      1726
+    ],
+    "lonlat": [
+      -64.58283116148368,
+      45.535148021768336
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 240990,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 240990,
+    "nearest_unfiltered_distance_guide_px": 0.14388165386766116,
+    "selected_distance_guide_px": 0.14388165386766116,
+    "guide_reference_pixel_xy": [
+      675.0975947289262,
+      1732.8942777260672
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "River Hebert western tributary opposite Sandhill Brook",
+    "role": "proposal",
+    "pixel_xy": [
+      4343,
+      1527
+    ],
+    "lonlat": [
+      -64.357955829739,
+      45.61526854532199
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 241518,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 241518,
+    "nearest_unfiltered_distance_guide_px": 1.1711783708239574,
+    "selected_distance_guide_px": 1.1711783708239574,
+    "guide_reference_pixel_xy": [
+      4337.083879525831,
+      1500.729645155603
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "River Hebert eastern tributary south of Sandhill Brook",
+    "role": "proposal",
+    "pixel_xy": [
+      4395,
+      1642
+    ],
+    "lonlat": [
+      -64.3527953516637,
+      45.609190373974066
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 161466,
+    "reference_feature_code": "WARV10",
+    "nearest_unfiltered_feature_code": "WARV10",
+    "nearest_unfiltered_objectid": 161466,
+    "nearest_unfiltered_distance_guide_px": 0.4182190207374171,
+    "selected_distance_guide_px": 0.4182190207374171,
+    "guide_reference_pixel_xy": [
+      4355.874450847332,
+      1647.6010707336245
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Newville eastern tributary outlet into River Hebert",
+    "role": "proposal",
+    "pixel_xy": [
+      3826,
+      3302
+    ],
+    "lonlat": [
+      -64.34493645871378,
+      45.525649700509774
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 170052,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134784,
+    "nearest_unfiltered_distance_guide_px": 18.068711327878585,
+    "selected_distance_guide_px": 18.17648776594237,
+    "guide_reference_pixel_xy": [
+      3773.0393817320582,
+      3300.7716790557606
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Northeastern small southern pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5225,
+      805
+    ],
+    "lonlat": [
+      -64.32251202242382,
+      45.66233661917134
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 132337,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132337,
+    "nearest_unfiltered_distance_guide_px": 1.2098622456174186,
+    "selected_distance_guide_px": 1.2098622456174186,
+    "guide_reference_pixel_xy": [
+      5197.141469649505,
+      800.2015627289657
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

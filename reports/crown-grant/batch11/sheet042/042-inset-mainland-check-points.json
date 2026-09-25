@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q02",
+    "label": "Inset Isle Haute southwest projecting mainland corner",
+    "role": "proposal",
+    "pixel_xy": [
+      351,
+      2380
+    ],
+    "lonlat": [
+      -65.01077381842249,
+      45.247439182022056
+    ],
+    "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+    "reference_objectid": 17474,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17474,
+    "nearest_unfiltered_distance_guide_px": 0.36451907595650224,
+    "selected_distance_guide_px": 0.36451907595650224,
+    "guide_reference_pixel_xy": [
+      364.35359986673575,
+      2325.0885510642547
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

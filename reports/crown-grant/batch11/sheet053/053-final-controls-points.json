@@ -1,0 +1,164 @@
+[
+  {
+    "id": "C01",
+    "label": "Shey Lake western tip",
+    "role": "control",
+    "pixel_xy": [
+      1649,
+      2880
+    ],
+    "lonlat": [
+      -64.19106608483425,
+      45.0121454250392
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 141082,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141082,
+    "nearest_unfiltered_distance_guide_px": 3.1897388366094557,
+    "selected_distance_guide_px": 3.1897388366094557,
+    "guide_reference_pixel_xy": [
+      1653.9753265812178,
+      2829.9630324490136
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshairs and broad physical identity inspected before first fit or score."
+  },
+  {
+    "id": "C02",
+    "label": "Lily Lake northwest shoulder",
+    "role": "control",
+    "pixel_xy": [
+      3467,
+      2177
+    ],
+    "lonlat": [
+      -64.09219798539762,
+      45.08348602411626
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 140692,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140692,
+    "nearest_unfiltered_distance_guide_px": 0.8157016249914972,
+    "selected_distance_guide_px": 0.8157016249914972,
+    "guide_reference_pixel_xy": [
+      3463.73895507236,
+      2095.345419371268
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshairs and broad physical identity inspected before first fit or score."
+  },
+  {
+    "id": "C03",
+    "label": "Smith Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4677,
+      2666
+    ],
+    "lonlat": [
+      -63.99618596283473,
+      45.08566740737046
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 142567,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 232391,
+    "nearest_unfiltered_distance_guide_px": 2.138950466122778,
+    "selected_distance_guide_px": 3.8282500505695616,
+    "guide_reference_pixel_xy": [
+      4691.425750118273,
+      2583.7087230837205
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshairs and broad physical identity inspected before first fit or score."
+  },
+  {
+    "id": "C04",
+    "label": "Wade Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4669,
+      879
+    ],
+    "lonlat": [
+      -64.04823226583017,
+      45.16919846662271
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 141202,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141202,
+    "nearest_unfiltered_distance_guide_px": 1.3793869026981134,
+    "selected_distance_guide_px": 1.3793869026981134,
+    "guide_reference_pixel_xy": [
+      4692.771029365831,
+      798.856224696734
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshairs and broad physical identity inspected before first fit or score."
+  },
+  {
+    "id": "C05",
+    "label": "Woodward Sandford or Knox Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4385,
+      1462
+    ],
+    "lonlat": [
+      -64.04975756919393,
+      45.13535969879268
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 140324,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140324,
+    "nearest_unfiltered_distance_guide_px": 0.7833803718383285,
+    "selected_distance_guide_px": 0.7833803718383285,
+    "guide_reference_pixel_xy": [
+      4407.153868891997,
+      1397.7681205446133
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshairs and broad physical identity inspected before first fit or score."
+  },
+  {
+    "id": "C06",
+    "label": "Indian Point projecting shore tip",
+    "role": "control",
+    "pixel_xy": [
+      2398,
+      736
+    ],
+    "lonlat": [
+      -64.20262358453762,
+      45.129776152977165
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 8436,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8436,
+    "nearest_unfiltered_distance_guide_px": 2.839743220792912,
+    "selected_distance_guide_px": 2.839743220792912,
+    "guide_reference_pixel_xy": [
+      2438.233986172185,
+      656.7531250219326
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshairs and broad physical identity inspected before first fit or score."
+  }
+]

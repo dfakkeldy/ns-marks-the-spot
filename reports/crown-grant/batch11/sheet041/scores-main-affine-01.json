@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 52.83412595190792,
+  "median_ground_m": 44.264572618577716,
+  "p95_ground_m": 83.72834824451223,
+  "max_ground_m": 91.33981642004076,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 5.390713711886171,
+  "mean_north_ground_m": 18.554304037954285,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Main Apple Head western northern horn",
+      "role": "check",
+      "pixel_xy": [
+        2342,
+        1191
+      ],
+      "lonlat": [
+        -64.8371838906528,
+        45.48658453009766
+      ],
+      "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+      "reference_objectid": 3815,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3815,
+      "nearest_unfiltered_distance_guide_px": 0.4906664237619504,
+      "selected_distance_guide_px": 0.4906664237619504,
+      "guide_reference_pixel_xy": [
+        2353.006698619749,
+        1153.490620696568
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit; broad context and native paired crosshair inspected; never a fitting input.",
+      "predicted_lonlat": [
+        -64.83728068509062,
+        45.486754534845346
+      ],
+      "error_ground_m": 20.35348009932039,
+      "east_ground_m": -7.567039469982415,
+      "north_ground_m": 18.894551220210534
+    },
+    {
+      "id": "Q02",
+      "label": "Main Squally Point eastern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        915,
+        1862
+      ],
+      "lonlat": [
+        -64.90840282981513,
+        45.4300658345386
+      ],
+      "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+      "reference_objectid": 3919,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3919,
+      "nearest_unfiltered_distance_guide_px": 1.1478103778891862,
+      "selected_distance_guide_px": 1.1478103778891862,
+      "guide_reference_pixel_xy": [
+        928.0610992252477,
+        1814.437649514759
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit; broad context and native paired crosshair inspected; never a fitting input.",
+      "predicted_lonlat": [
+        -64.90881745681541,
+        45.429685558911004
+      ],
+      "error_ground_m": 53.282475542398146,
+      "east_ground_m": -32.44675539768911,
+      "north_ground_m": -42.26381743393265
+    },
+    {
+      "id": "Q03",
+      "label": "Main Howard Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5243,
+        2949
+      ],
+      "lonlat": [
+        -64.60696267046069,
+        45.4656170626256
+      ],
+      "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+      "reference_objectid": 141175,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141175,
+      "nearest_unfiltered_distance_guide_px": 1.2933367293754088,
+      "selected_distance_guide_px": 1.2933367293754088,
+      "guide_reference_pixel_xy": [
+        5263.244006419729,
+        2919.353790790192
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit; broad context and native paired crosshair inspected; never a fitting input.",
+      "predicted_lonlat": [
+        -64.60672417305005,
+        45.46555110835518
+      ],
+      "error_ground_m": 20.040546915655174,
+      "east_ground_m": 18.651859653240223,
+      "north_ground_m": -7.330187729820135
+    },
+    {
+      "id": "Q04",
+      "label": "Main Green Point northwest coast corner",
+      "role": "check",
+      "pixel_xy": [
+        529,
+        2113
+      ],
+      "lonlat": [
+        -64.92660239691261,
+        45.41088419921385
+      ],
+      "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+      "reference_objectid": 3880,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3880,
+      "nearest_unfiltered_distance_guide_px": 0.10900775218805377,
+      "selected_distance_guide_px": 0.10900775218805377,
+      "guide_reference_pixel_xy": [
+        524.1072990949615,
+        2073.9807751656044
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit; broad context and native paired crosshair inspected; never a fitting input.",
+      "predicted_lonlat": [
+        -64.92624769007965,
+        45.41119437194355
+      ],
+      "error_ground_m": 44.264572618577716,
+      "east_ground_m": 27.76674757424203,
+      "north_ground_m": 34.47259952851923
+    },
+    {
+      "id": "Q05",
+      "label": "Main coast northeast of Sand River mouth northwest corner",
+      "role": "check",
+      "pixel_xy": [
+        4888,
+        967
+      ],
+      "lonlat": [
+        -64.68310488053808,
+        45.54494764548395
+      ],
+      "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+      "reference_objectid": 3780,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3780,
+      "nearest_unfiltered_distance_guide_px": 10.440774487800539,
+      "selected_distance_guide_px": 10.440774487800539,
+      "guide_reference_pixel_xy": [
+        4900.449302702444,
+        945.559228632017
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit; broad context and native paired crosshair inspected; never a fitting input.",
+      "predicted_lonlat": [
+        -64.68284175455369,
+        45.54574840480679
+      ],
+      "error_ground_m": 91.33981642004076,
+      "east_ground_m": 20.548756199620126,
+      "north_ground_m": 88.99837460479445
+    }
+  ],
+  "fit_sha256": "635c9fc81675ae704d7ec10c860453be4cb86ab02f936df8829ff4f5f52a20fc",
+  "checks_sha256": "a944ebf9c8d6c7d9f706ab07f24204ee336680bc0dea88090fb40344484d1d09",
+  "status": "Reserved before first fit and score"
+}

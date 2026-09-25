@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Shut In Island northern tip (lower in original scan)",
+    [
+      4767,
+      1401
+    ],
+    [
+      4685,
+      1571
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q02",
+    "Croucher Island northern tip (lower in original scan)",
+    [
+      3929,
+      3118
+    ],
+    [
+      3848,
+      3265
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q03",
+    "Middle Five Bridge Lake northern horn (lower in original scan)",
+    [
+      2111,
+      1738
+    ],
+    [
+      2072,
+      1839
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Hatchet Lake northern tip (lower in original scan)",
+    [
+      1257,
+      365
+    ],
+    [
+      1248,
+      443
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Ash Lake northern tip (lower in original scan)",
+    [
+      488,
+      2911
+    ],
+    [
+      455,
+      3011
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Grassy Lake northern horn (lower in original scan)",
+    [
+      1794,
+      1522
+    ],
+    [
+      1763,
+      1608
+    ],
+    "WALK20"
+  ]
+]

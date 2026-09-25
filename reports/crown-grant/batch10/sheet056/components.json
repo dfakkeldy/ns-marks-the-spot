@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5729 x 3827 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 103.06 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          85,
+          105
+        ],
+        [
+          5680,
+          105
+        ],
+        [
+          5680,
+          3720
+        ],
+        [
+          85,
+          3720
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains St Margarets Bay, the western shoreline slivers, Shut In and other offshore islands, Indian Harbour, Peggy Cove edge, Glen Margaret, Seabright, French Village, Tantallon, Hubbards edge and the Five Bridge and eastern inland lakes. No internal inset or ocean area is removed."
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "sheet": "055",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      -4.604947545705536,
+      -1.8752240482596754
+    ],
+    [
+      -1.9111112810594528,
+      4.658246806615272
+    ],
+    [
+      442200.11186270276,
+      4953579.870951403
+    ]
+  ],
+  "source_sha256": "cd8c1247759dc861d7ce46c07aed8e2ed0fe8cb4bb6353aa21f99d79e6f23e46",
+  "source_dimensions": [
+    6188,
+    4162
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Lizard Lake upper tip in original scan",
+      "role": "control",
+      "pixel_xy": [
+        1405,
+        1196
+      ],
+      "lonlat": [
+        -63.841370503899206,
+        44.75880039931919
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 132705,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132705,
+      "nearest_unfiltered_distance_guide_px": 0.1913199404146236,
+      "selected_distance_guide_px": 0.1913199404146236,
+      "guide_reference_pixel_xy": [
+        1433.1899499479332,
+        1179.0228546905564
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Little Hubley Lake upper eastern horn in original scan",
+      "role": "control",
+      "pixel_xy": [
+        4444,
+        1024
+      ],
+      "lonlat": [
+        -64.01191714951507,
+        44.69934034024473
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 132127,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132127,
+      "nearest_unfiltered_distance_guide_px": 1.1831840765294441,
+      "selected_distance_guide_px": 1.1831840765294441,
+      "guide_reference_pixel_xy": [
+        4515.8128490514355,
+        1017.8597679794766
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Three Cornered Lake upper tip in original scan",
+      "role": "control",
+      "pixel_xy": [
+        5043,
+        2673
+      ],
+      "lonlat": [
+        -64.08841257219333,
+        44.75729162076729
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 138778,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138778,
+      "nearest_unfiltered_distance_guide_px": 0.4720939426103634,
+      "selected_distance_guide_px": 0.4720939426103634,
+      "guide_reference_pixel_xy": [
+        5145.2572308387025,
+        2657.6041401936673
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Big Indian Lake elongated island upper tip in original scan",
+      "role": "control",
+      "pixel_xy": [
+        4694,
+        3303
+      ],
+      "lonlat": [
+        -64.08372020264805,
+        44.789799335208684
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 145250,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 145250,
+      "nearest_unfiltered_distance_guide_px": 0.49794728391704773,
+      "selected_distance_guide_px": 0.49794728391704773,
+      "guide_reference_pixel_xy": [
+        4785.344010410656,
+        3285.639988423907
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Kehoe Lake upper tip in original scan",
+      "role": "control",
+      "pixel_xy": [
+        2269,
+        2756
+      ],
+      "lonlat": [
+        -63.929915151682216,
+        44.809123837651164
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 137402,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137402,
+      "nearest_unfiltered_distance_guide_px": 1.1073879446273756,
+      "selected_distance_guide_px": 1.1073879446273756,
+      "guide_reference_pixel_xy": [
+        2312.911595603393,
+        2736.204166425625
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Cariboo Lake lower lobe lower-right corner in original scan",
+      "role": "control",
+      "pixel_xy": [
+        5856,
+        1429
+      ],
+      "lonlat": [
+        -64.10443843236862,
+        44.6911361656462
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 124478,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124478,
+      "nearest_unfiltered_distance_guide_px": 0.6182566210858782,
+      "selected_distance_guide_px": 0.6182566210858782,
+      "guide_reference_pixel_xy": [
+        5974.935480703483,
+        1419.3851191091817
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Island Lake upper eastern lobe in original scan",
+      "role": "control",
+      "pixel_xy": [
+        586,
+        3080
+      ],
+      "lonlat": [
+        -63.83973142193148,
+        44.85178989611907
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 137343,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137343,
+      "nearest_unfiltered_distance_guide_px": 0.2634713114832551,
+      "selected_distance_guide_px": 0.2634713114832551,
+      "guide_reference_pixel_xy": [
+        585.807304040296,
+        3050.179681382142
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    38.23520889260325,
+    60.66264350752794,
+    16.78027610658158,
+    8.013416515164755,
+    19.441144746324607,
+    26.59313002448939,
+    30.523721993473213
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

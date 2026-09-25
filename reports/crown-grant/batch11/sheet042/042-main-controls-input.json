@@ -1,0 +1,41 @@
+[
+  [
+    "C01",
+    "Main Cape d Or southwest tip",
+    [
+      1565,
+      1680
+    ],
+    [
+      1530,
+      1695
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Main Cape Spencer eastern corner",
+    [
+      2700,
+      1574
+    ],
+    [
+      2677,
+      1578
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Main Spencer Island western tip",
+    [
+      2975,
+      1384
+    ],
+    [
+      2945,
+      1399
+    ],
+    "WACOIS10"
+  ]
+]

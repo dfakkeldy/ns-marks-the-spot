@@ -1,0 +1,45 @@
+{
+  "sheet": "053",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; lake check scores, coverage and browser assessed; no geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/053.pdf",
+    "pdf_sha256": "58a6c8fd2198ce75864cab64b47264dd200cb28685abd578440f123e740ceec9",
+    "jpeg_sha256": "d526930f1a07eb1481cfb26284553a837cccbc076e8119718038fcef0766a3d5",
+    "dimensions": [
+      5358,
+      3610
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 5,
+      "rms_ground_m": 67.38395047691112,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Five checks are paired with the five control lakes; the Indian Point coast control has no independent coastal check.",
+    "Northwestern Grand Pre/Hortonville, western interior, major estuarine rivers and the northern/southern margins lack independent validation.",
+    "Working source uncertainty 18 px; historical shoreline generalization limits point precision.",
+    "RMS and companion numerical passes do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 67.38 m, median 70.13 m, P95 84.12 m, maximum 87.00 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped frame retains the Avon estuary and Minas Basin water, Grand Pre, Hortonville, Avonport, Hantsport, Mount Denson, Falmouth and Windsor edge, Cheverie, Kempt Shore, Burlington, Cogmagun and Kennetcook rivers, and all depicted islands and lake areas. No inset, estuary or internal region is removed."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "purpose": "Discovery only, no inherited controls",
+  "original_orientation": "Embedded JPEG upside down; all final points remain in original unrotated pixel-edge frame",
+  "linear_basis": "Negated main057 affine axes, provisional common scale and orientation",
+  "translation_anchor": {
+    "approximate_original_pixel_xy": [
+      4640,
+      170
+    ],
+    "reference": "Previously independently matched Peggy Point western head from057 inset; discovery only"
+  }
+}

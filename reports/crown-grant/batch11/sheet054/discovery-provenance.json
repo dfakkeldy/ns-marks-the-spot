@@ -1,0 +1,5 @@
+{
+  "purpose": "Discovery only; not inherited observations",
+  "basis": "Negated055 original axes scaled160/150, translation equivalent to055 original[6188,8012]",
+  "guide": "054-north-adjacent-ppi-guide.npy"
+}

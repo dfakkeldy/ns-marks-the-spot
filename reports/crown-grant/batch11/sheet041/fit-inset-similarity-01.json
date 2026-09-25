@@ -1,0 +1,116 @@
+{
+  "sheet": "041",
+  "version": "inset-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.959391143714947,
+      2.0050025182033
+    ],
+    [
+      2.0050025182033,
+      -4.959391143714947
+    ],
+    [
+      342968.73191536986,
+      5025732.901098299
+    ]
+  ],
+  "source_sha256": "88e6089dfaad86956126fc71012f1d2345dc1b2cdf8cb4cdc9a18e6043c51a47",
+  "source_dimensions": [
+    5616,
+    3931
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Inset Cape Chignecto western tip",
+      "role": "control",
+      "pixel_xy": [
+        498,
+        1108
+      ],
+      "lonlat": [
+        -64.94456239007751,
+        45.328156817353005
+      ],
+      "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+      "reference_objectid": 3926,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3926,
+      "nearest_unfiltered_distance_guide_px": 1.2296840441737948,
+      "selected_distance_guide_px": 1.2296840441737948,
+      "guide_reference_pixel_xy": [
+        502.34498853678815,
+        1058.8197009878932
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C02",
+      "label": "Inset northern lower headland northwest tip",
+      "role": "control",
+      "pixel_xy": [
+        818,
+        527
+      ],
+      "lonlat": [
+        -64.9396273699128,
+        45.359608971309015
+      ],
+      "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+      "reference_objectid": 4148,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4148,
+      "nearest_unfiltered_distance_guide_px": 0.9789337124773656,
+      "selected_distance_guide_px": 0.9789337124773656,
+      "guide_reference_pixel_xy": [
+        831.277779992146,
+        484.9386956319213
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C03",
+      "label": "Inset southeastern southern coast bend",
+      "role": "control",
+      "pixel_xy": [
+        947,
+        1184
+      ],
+      "lonlat": [
+        -64.91333406026229,
+        45.333511888247386
+      ],
+      "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+      "reference_objectid": 1870,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 1870,
+      "nearest_unfiltered_distance_guide_px": 1.1626607443431458,
+      "selected_distance_guide_px": 1.1626607443431458,
+      "guide_reference_pixel_xy": [
+        966.0690823710756,
+        1142.543006684631
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    44.454854485235536,
+    30.235695380254207,
+    44.03994489969348
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: constrained similarity limits free parameters and avoids unsupported affine shear; see component role plan for control distribution and model rationale"
+}

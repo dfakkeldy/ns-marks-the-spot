@@ -1,0 +1,20 @@
+{
+  "verified_at_utc": "2026-09-25T03:54:29.807907+00:00",
+  "NBHN_raw_polygons": 185,
+  "NBHN_normalized_features": 185,
+  "exact_ring_arrays_verified": true,
+  "resampling": false,
+  "excluded_features": 0,
+  "ocean_features": [
+    "NB13:6460",
+    "NB13:8598",
+    "NB13:8686",
+    "NB13:8696",
+    "NB13:9040",
+    "NB13:9041"
+  ],
+  "warning": "Ocean polygon rings include administrative closing segments. Only visually matched physical shore edges may be adopted; administrative segments are not controls or checks.",
+  "NSTDB_features": 2352,
+  "combined_features": 2537,
+  "reference_identity": "Original NBHN_OBJECTID retained; OBJECTID prefixed NB13; REFERENCE_DATASET distinguishes NBHN from NSTDB"
+}

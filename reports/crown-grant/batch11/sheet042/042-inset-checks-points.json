@@ -1,0 +1,54 @@
+[
+  {
+    "id": "Q01",
+    "label": "Inset Isle Haute northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      315,
+      2299
+    ],
+    "lonlat": [
+      -65.01440802977451,
+      45.250572475478116
+    ],
+    "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+    "reference_objectid": 17474,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17474,
+    "nearest_unfiltered_distance_guide_px": 2.3988504898055862,
+    "selected_distance_guide_px": 2.3988504898055862,
+    "guide_reference_pixel_xy": [
+      342.0064151837141,
+      2243.3988419118105
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Inset Isle Haute southwest projecting corner",
+    "role": "proposal",
+    "pixel_xy": [
+      351,
+      2380
+    ],
+    "lonlat": [
+      -65.01089931164003,
+      45.247203830879045
+    ],
+    "guide_file": ".crown-grant-local/042-inset-graticule-guide.npy",
+    "reference_objectid": 18599,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18599,
+    "nearest_unfiltered_distance_guide_px": 2.2659841350138934,
+    "selected_distance_guide_px": 2.2659841350138934,
+    "guide_reference_pixel_xy": [
+      360.70027747703716,
+      2328.85618034238
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

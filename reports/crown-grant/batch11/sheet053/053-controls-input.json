@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Shey Lake western tip",
+    [
+      1649,
+      2880
+    ],
+    [
+      1653,
+      2833
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Lily Lake northwest shoulder",
+    [
+      3467,
+      2177
+    ],
+    [
+      3463,
+      2095
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Smith Lake northern tip",
+    [
+      4677,
+      2666
+    ],
+    [
+      4688,
+      2582
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Wade Lake northern tip",
+    [
+      4669,
+      879
+    ],
+    [
+      4692,
+      800
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Woodward Sandford or Knox Lake northern tip",
+    [
+      4385,
+      1462
+    ],
+    [
+      4407,
+      1397
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Indian Point projecting shore tip",
+    [
+      2398,
+      736
+    ],
+    [
+      2436,
+      655
+    ],
+    "WACO"
+  ]
+]

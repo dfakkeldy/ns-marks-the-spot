@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 67.23209444880312,
+  "median_ground_m": 54.79268152856538,
+  "p95_ground_m": 105.70264665828913,
+  "max_ground_m": 118.64065650104344,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -3.1810402107567075,
+  "mean_north_ground_m": 7.187051187562364,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Lizard Lake lower tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        1395,
+        1299
+      ],
+      "lonlat": [
+        -63.84329265310048,
+        44.76301568921665
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 132705,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132705,
+      "nearest_unfiltered_distance_guide_px": 1.2059534294568481,
+      "selected_distance_guide_px": 1.2059534294568481,
+      "guide_reference_pixel_xy": [
+        1424.683092518244,
+        1275.9938351400197
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.84290080372359,
+        44.76341598728738
+      ],
+      "error_ground_m": 54.23334574126572,
+      "east_ground_m": 31.02296442372357,
+      "north_ground_m": 44.48405859019663
+    },
+    {
+      "id": "Q02",
+      "label": "Little Hubley Lake western arm tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        4213,
+        1198
+      ],
+      "lonlat": [
+        -64.0030944685302,
+        44.71133462494135
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 132130,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132130,
+      "nearest_unfiltered_distance_guide_px": 1.6373005310999338,
+      "selected_distance_guide_px": 1.6373005310999338,
+      "guide_reference_pixel_xy": [
+        4276.980864527461,
+        1206.2814507082803
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.003516665612,
+        44.710310331410454
+      ],
+      "error_ground_m": 118.64065650104344,
+      "east_ground_m": -33.456219376119655,
+      "north_ground_m": -113.82568585365755
+    },
+    {
+      "id": "Q03",
+      "label": "Three Cornered Lake lower tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        5036,
+        2888
+      ],
+      "lonlat": [
+        -64.09355391345755,
+        44.7661484739987
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 138779,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138779,
+      "nearest_unfiltered_distance_guide_px": 2.203468789434121,
+      "selected_distance_guide_px": 2.203468789434121,
+      "guide_reference_pixel_xy": [
+        5143.232106992451,
+        2868.065336542786
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.09319331935033,
+        44.76646393037436
+      ],
+      "error_ground_m": 45.20886842147117,
+      "east_ground_m": 28.546963710513552,
+      "north_ground_m": 35.055850394199766
+    },
+    {
+      "id": "Q04",
+      "label": "Big Indian Lake elongated island lower tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        4667,
+        3378
+      ],
+      "lonlat": [
+        -64.08432333403404,
+        44.79378880492563
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 145250,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 145250,
+      "nearest_unfiltered_distance_guide_px": 1.0769396590555118,
+      "selected_distance_guide_px": 1.0769396590555118,
+      "guide_reference_pixel_xy": [
+        4758.809163186001,
+        3369.940103618428
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.0840569563389,
+        44.793328239997464
+      ],
+      "error_ground_m": 55.352017315865034,
+      "east_ground_m": 21.078406170994032,
+      "north_ground_m": -51.18150656464133
+    },
+    {
+      "id": "Q05",
+      "label": "Ash Lake long island lower tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        1897,
+        3197
+      ],
+      "lonlat": [
+        -63.918054544537675,
+        44.83379239050379
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 145959,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 145959,
+      "nearest_unfiltered_distance_guide_px": 1.4305943760870299,
+      "selected_distance_guide_px": 1.4305943760870299,
+      "guide_reference_pixel_xy": [
+        1916.670903234568,
+        3162.736477495753
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.919064621217196,
+        44.83394599764975
+      ],
+      "error_ground_m": 81.67491409317402,
+      "east_ground_m": -79.87105286699654,
+      "north_ground_m": 17.07063285425594
+    },
+    {
+      "id": "Q06",
+      "label": "Kehoe Lake left tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        2180,
+        2836
+      ],
+      "lonlat": [
+        -63.926432968951154,
+        44.81357943017989
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 137402,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137402,
+      "nearest_unfiltered_distance_guide_px": 4.2877827237018495,
+      "selected_distance_guide_px": 4.2877827237018495,
+      "guide_reference_pixel_xy": [
+        2221.287230619404,
+        2805.068806262221
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.926503540545376,
+        44.813970186960425
+      ],
+      "error_ground_m": 43.78141963211974,
+      "east_ground_m": -5.58232312397859,
+      "north_ground_m": 43.42407596648723
+    },
+    {
+      "id": "Q07",
+      "label": "Cariboo Lake lower lobe left tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        5796,
+        1409
+      ],
+      "lonlat": [
+        -64.10039153746791,
+        44.690891649056226
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 124479,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124479,
+      "nearest_unfiltered_distance_guide_px": 1.5550536707018472,
+      "selected_distance_guide_px": 1.5550536707018472,
+      "guide_reference_pixel_xy": [
+        5916.497914930165,
+        1389.5975917971227
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.10027920098607,
+        44.69154398275283
+      ],
+      "error_ground_m": 73.03595441083833,
+      "east_ground_m": 8.904770807981391,
+      "north_ground_m": 72.49107319911451
+    },
+    {
+      "id": "Q08",
+      "label": "Island Lake lower tip in original scan",
+      "role": "check",
+      "pixel_xy": [
+        611,
+        3283
+      ],
+      "lonlat": [
+        -63.84665128443188,
+        44.85973181068531
+      ],
+      "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 137246,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137246,
+      "nearest_unfiltered_distance_guide_px": 0.8904862618850568,
+      "selected_distance_guide_px": 0.8904862618850568,
+      "guide_reference_pixel_xy": [
+        619.01398590178,
+        3252.890376424417
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Original unrotated upside-down JPEG frame; native crosshair and broad physical context inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.84660183826253,
+        44.85982159738712
+      ],
+      "error_ground_m": 10.715992150665935,
+      "east_ground_m": 3.9081685678285845,
+      "north_ground_m": 9.977910914543715
+    }
+  ],
+  "fit_sha256": "68f2618625dd4135424ded42f380cdf9fa2026fd8a0c236252d54eab6aea4129",
+  "checks_sha256": "dbafd6d5ba53d201bf85a712a73bdb1bfbf0c7ebbf8c07f4454f4698e0392b29",
+  "status": "Reserved before first fit and score"
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5593 x 3925 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 61.68 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          95,
+          110
+        ],
+        [
+          5530,
+          110
+        ],
+        [
+          5530,
+          3795
+        ],
+        [
+          95,
+          3795
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains the Chignecto Bay coast, Raven and Cranberry heads, Lower Point, Shoulie and its river, Head of River Hebert, Harrison and Pettigrew settlements, Newville, Halfway River, West Brook, Brown Brook and all original interior water and land. No inset or internal crop is introduced."
+    }
+  ]
+}

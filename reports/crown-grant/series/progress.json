@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-09-25T03:13:14.290722+00:00",
+  "updated_at_utc": "2026-09-25T04:46:35.055591+00:00",
   "official_pdf_count": 138,
   "previously_assessed_count": 25,
   "newly_assessed": [
@@ -65,9 +65,7 @@
     "065",
     "066",
     "067",
-    "057"
-  ],
-  "remaining_sheets": [
+    "057",
     "056",
     "055",
     "054",
@@ -77,7 +75,9 @@
     "050",
     "049",
     "041",
-    "042",
+    "042"
+  ],
+  "remaining_sheets": [
     "043",
     "044",
     "045",
@@ -400,6 +400,22 @@
       "ci_run": 36085983364,
       "status": "merged after all required CI passed",
       "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 547,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/547",
+      "sheets": [
+        "067",
+        "057"
+      ],
+      "head": "3cf80a1bdd7bd445a3cce2d7edc3e9e824ea666d",
+      "merge": "9bcd3502700515f31cf9c1cf2867a19c381769a6",
+      "merged_at_utc": "2026-09-25T03:57:10Z",
+      "ci_run": 36089602259,
+      "status": "merged after required CI passed on unchanged-head failed-job retry",
+      "auto_merge": "unavailable; repository setting disabled",
+      "initial_ci_failure": "Existing native measurement UI badge-tap assertion, MapChromeUITests.swift:103; no native code/test changed; failure evidence retained privately; cause not established",
+      "ci_attempt": 2
     }
   ],
   "geographic_acceptance": "Per-sheet measured results and limitations remain authoritative; assessment is not an automatic geographic pass"

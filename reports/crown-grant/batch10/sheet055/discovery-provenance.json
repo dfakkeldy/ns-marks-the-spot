@@ -1,0 +1,6 @@
+{
+  "purpose": "Discovery only; not inherited controls",
+  "basis": "Frozen056 affine with original-frame offset[0,3550] and150/160 pixel-scale ratio",
+  "original_orientation": "Upside-down original JPEG; no rotation or coordinate rebasing in fit/score/warp",
+  "guide": "055-north-adjacent-ppi-guide.npy"
+}

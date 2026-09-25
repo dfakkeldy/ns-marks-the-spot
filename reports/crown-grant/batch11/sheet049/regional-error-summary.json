@@ -1,0 +1,29 @@
+{
+  "purpose": "Diagnostic subsets of the same four frozen checks, not additional observations or independent province-wide validation",
+  "fit_sha256": "6876a902d1e3fd654a5f465d196d2358e74054e13ee300cfff07766d2ca067ef",
+  "checks_sha256": "fe629aba8525f26925bb2392d4da2ca3b34d8a3275032162fbcf7b790499ab20",
+  "regions": {
+    "NBHN": {
+      "count": 3,
+      "point_ids": [
+        "Q01",
+        "Q02",
+        "Q03"
+      ],
+      "rms_ground_m": 489.28484303210905,
+      "median_ground_m": 551.1590642132506,
+      "p95_ground_m": 618.9620585929496,
+      "max_ground_m": 626.4957246351383
+    },
+    "NSTDB": {
+      "count": 1,
+      "point_ids": [
+        "Q04"
+      ],
+      "rms_ground_m": 42.26488105554632,
+      "median_ground_m": 42.26488105554632,
+      "p95_ground_m": 42.26488105554632,
+      "max_ground_m": 42.26488105554632
+    }
+  }
+}

@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Lizard Lake lower tip in original scan",
+    [
+      1395,
+      1299
+    ],
+    [
+      1424,
+      1275
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Little Hubley Lake western arm tip in original scan",
+    [
+      4213,
+      1198
+    ],
+    [
+      4278,
+      1205
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Three Cornered Lake lower tip in original scan",
+    [
+      5036,
+      2888
+    ],
+    [
+      5144,
+      2866
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Big Indian Lake elongated island lower tip in original scan",
+    [
+      4650,
+      3380
+    ],
+    [
+      4759,
+      3371
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q05",
+    "Ash Lake long island lower tip in original scan",
+    [
+      1897,
+      3197
+    ],
+    [
+      1916,
+      3164
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q06",
+    "Kehoe Lake left tip in original scan",
+    [
+      2180,
+      2836
+    ],
+    [
+      2224,
+      2808
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Cariboo Lake lower lobe left tip in original scan",
+    [
+      5796,
+      1409
+    ],
+    [
+      5918,
+      1390
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,54 @@
+[
+  [
+    "Q01",
+    "NB Grindstone Island eastern tip",
+    [
+      1930,
+      1616
+    ],
+    [
+      1879,
+      1531
+    ],
+    "NBHN_7"
+  ],
+  [
+    "Q02",
+    "NB Cape Maringouin western tip",
+    [
+      2602,
+      1838
+    ],
+    [
+      2666,
+      1839
+    ],
+    "NBHN_7"
+  ],
+  [
+    "Q03",
+    "NB Peck Point southeast shore corner",
+    [
+      3710,
+      1977
+    ],
+    [
+      3745,
+      1971
+    ],
+    "NBHN_100"
+  ],
+  [
+    "Q04",
+    "NS Downing Head northeast shore tip",
+    [
+      4707,
+      2175
+    ],
+    [
+      4668,
+      2142
+    ],
+    "WACO20"
+  ]
+]

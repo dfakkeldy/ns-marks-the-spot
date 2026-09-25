@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Northeastern elongated pond southwest tip",
+    [
+      5187,
+      585
+    ],
+    [
+      5145,
+      585
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Shoulie northern eastern tributary junction",
+    [
+      1269,
+      1089
+    ],
+    [
+      1248,
+      1105
+    ],
+    "WARV"
+  ],
+  [
+    "Q03",
+    "Fork in Shoulie southern western tributary",
+    [
+      705,
+      1726
+    ],
+    [
+      675,
+      1733
+    ],
+    "WARV"
+  ],
+  [
+    "Q04",
+    "River Hebert western tributary opposite Sandhill Brook",
+    [
+      4343,
+      1527
+    ],
+    [
+      4338,
+      1500
+    ],
+    "WARV"
+  ],
+  [
+    "Q05",
+    "River Hebert eastern tributary south of Sandhill Brook",
+    [
+      4395,
+      1642
+    ],
+    [
+      4356,
+      1648
+    ],
+    "WARV"
+  ],
+  [
+    "Q06",
+    "Newville eastern tributary outlet into River Hebert",
+    [
+      3826,
+      3302
+    ],
+    [
+      3755,
+      3303
+    ],
+    "WARV"
+  ],
+  [
+    "Q07",
+    "Northeastern small southern pond southern tip",
+    [
+      5225,
+      805
+    ],
+    [
+      5197,
+      799
+    ],
+    "WALK20"
+  ]
+]

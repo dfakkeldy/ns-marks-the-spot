@@ -1,0 +1,106 @@
+[
+  {
+    "id": "Q01",
+    "label": "NB Grindstone Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1930,
+      1616
+    ],
+    "lonlat": [
+      -64.61084759143228,
+      45.72552364202424
+    ],
+    "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+    "reference_objectid": "NB13:6582",
+    "reference_feature_code": "NBHN_7",
+    "nearest_unfiltered_feature_code": "NBHN_7",
+    "nearest_unfiltered_objectid": "NB13:6582",
+    "nearest_unfiltered_distance_guide_px": 1.6434432534312615,
+    "selected_distance_guide_px": 1.6434432534312615,
+    "guide_reference_pixel_xy": [
+      1880.6028741202317,
+      1530.6370946653187
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "NB Cape Maringouin western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2602,
+      1838
+    ],
+    "lonlat": [
+      -64.55266471604114,
+      45.727121655102756
+    ],
+    "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+    "reference_objectid": "NB13:6582",
+    "reference_feature_code": "NBHN_7",
+    "nearest_unfiltered_feature_code": "NBHN_7",
+    "nearest_unfiltered_objectid": "NB13:6582",
+    "nearest_unfiltered_distance_guide_px": 1.5361919418073633,
+    "selected_distance_guide_px": 1.5361919418073633,
+    "guide_reference_pixel_xy": [
+      2667.5142886323156,
+      1838.7415128240827
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "NB Peck Point southeast shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3710,
+      1977
+    ],
+    "lonlat": [
+      -64.48084425873141,
+      45.74191717836914
+    ],
+    "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+    "reference_objectid": "NB13:8696",
+    "reference_feature_code": "NBHN_100",
+    "nearest_unfiltered_feature_code": "NBHN_100",
+    "nearest_unfiltered_objectid": "NB13:8696",
+    "nearest_unfiltered_distance_guide_px": 0.667816249323612,
+    "selected_distance_guide_px": 0.667816249323612,
+    "guide_reference_pixel_xy": [
+      3745.1207042555907,
+      1971.6568173456471
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "NS Downing Head northeast shore tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4707,
+      2175
+    ],
+    "lonlat": [
+      -64.41769622150716,
+      45.752041406697124
+    ],
+    "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+    "reference_objectid": 3368,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3368,
+    "nearest_unfiltered_distance_guide_px": 1.3083211684637028,
+    "selected_distance_guide_px": 1.3083211684637028,
+    "guide_reference_pixel_xy": [
+      4668.681573784561,
+      2143.1167638318148
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

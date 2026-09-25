@@ -1,0 +1,35 @@
+{
+  "main": "Sheet051 affine shifted west for discovery only; no adjacent-sheet prediction adopted",
+  "inset": {
+    "method": "Printed Long65 degrees and Lat45 degrees15 minutes supplied coarse discovery anchor only; approximate line intersection original pixel530,2340; main-map orientation and scale provisional",
+    "no_graticule_or_guide_point_adopted": true
+  },
+  "reference_expansion": {
+    "reason": "Initial main-frame query excluded Isle Haute; expanded westward before adopted observations",
+    "original_files": [
+      {
+        "name": "042-reference-main-only/042-reference-bbox.json",
+        "sha256": "9649b87a49b9aa8aaa6a85d40fff37e33ef5456f5a8936490d339aacafde8ffe"
+      },
+      {
+        "name": "042-reference-main-only/042-reference-receipt.json",
+        "sha256": "cf3bc4690321d6344c8fce88df980d096d7da3cb820983fa6915b84cad623d69"
+      },
+      {
+        "name": "042-reference-main-only/042-water-page0.geojson",
+        "sha256": "2ad35ff3c515844f5aa0f4e014c707a7b4b3619f507a1cd01daa2ab68d242f70"
+      },
+      {
+        "name": "042-reference-main-only/042-water-page1.geojson",
+        "sha256": "d033d0bb1323b2da4af7dee48728e73519525ea1dfc363d84f1503f8f4e1614c"
+      },
+      {
+        "name": "042-reference-main-only/042-water-tight.geojson",
+        "sha256": "0b52dfd310024b1cad2c58be70a97d15c4d71ac4df4f77afd9c897cc53650cf3"
+      }
+    ],
+    "original_count": 3843,
+    "expanded_count": 3937
+  },
+  "no_guide_or_graticule_point_adopted": true
+}

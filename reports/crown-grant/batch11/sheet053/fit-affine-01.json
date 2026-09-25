@@ -1,0 +1,199 @@
+{
+  "sheet": "053",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      5.252003969471301,
+      2.221096053154425
+    ],
+    [
+      2.168578542318454,
+      -5.278664649115529
+    ],
+    [
+      391217.6212359688,
+      4996573.548879984
+    ]
+  ],
+  "source_sha256": "d526930f1a07eb1481cfb26284553a837cccbc076e8119718038fcef0766a3d5",
+  "source_dimensions": [
+    5358,
+    3610
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Shey Lake western tip",
+      "role": "control",
+      "pixel_xy": [
+        1649,
+        2880
+      ],
+      "lonlat": [
+        -64.19106608483425,
+        45.0121454250392
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 141082,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141082,
+      "nearest_unfiltered_distance_guide_px": 3.1897388366094557,
+      "selected_distance_guide_px": 3.1897388366094557,
+      "guide_reference_pixel_xy": [
+        1653.9753265812178,
+        2829.9630324490136
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Lily Lake northwest shoulder",
+      "role": "control",
+      "pixel_xy": [
+        3467,
+        2177
+      ],
+      "lonlat": [
+        -64.09219798539762,
+        45.08348602411626
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 140692,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140692,
+      "nearest_unfiltered_distance_guide_px": 0.8157016249914972,
+      "selected_distance_guide_px": 0.8157016249914972,
+      "guide_reference_pixel_xy": [
+        3463.73895507236,
+        2095.345419371268
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Smith Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4677,
+        2666
+      ],
+      "lonlat": [
+        -63.99618596283473,
+        45.08566740737046
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 142567,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 232391,
+      "nearest_unfiltered_distance_guide_px": 2.138950466122778,
+      "selected_distance_guide_px": 3.8282500505695616,
+      "guide_reference_pixel_xy": [
+        4691.425750118273,
+        2583.7087230837205
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Wade Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4669,
+        879
+      ],
+      "lonlat": [
+        -64.04823226583017,
+        45.16919846662271
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 141202,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141202,
+      "nearest_unfiltered_distance_guide_px": 1.3793869026981134,
+      "selected_distance_guide_px": 1.3793869026981134,
+      "guide_reference_pixel_xy": [
+        4692.771029365831,
+        798.856224696734
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Woodward Sandford or Knox Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4385,
+        1462
+      ],
+      "lonlat": [
+        -64.04975756919393,
+        45.13535969879268
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 140324,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140324,
+      "nearest_unfiltered_distance_guide_px": 0.7833803718383285,
+      "selected_distance_guide_px": 0.7833803718383285,
+      "guide_reference_pixel_xy": [
+        4407.153868891997,
+        1397.7681205446133
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Indian Point projecting shore tip",
+      "role": "control",
+      "pixel_xy": [
+        2398,
+        736
+      ],
+      "lonlat": [
+        -64.20262358453762,
+        45.129776152977165
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 8436,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8436,
+      "nearest_unfiltered_distance_guide_px": 2.839743220792912,
+      "selected_distance_guide_px": 2.839743220792912,
+      "guide_reference_pixel_xy": [
+        2438.233986172185,
+        656.7531250219326
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    49.1407417968837,
+    106.5103961130103,
+    72.79988644043397,
+    29.585580738623428,
+    82.65884941996602,
+    59.712105485130216
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

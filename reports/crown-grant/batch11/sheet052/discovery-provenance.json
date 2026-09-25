@@ -1,0 +1,5 @@
+{
+  "purpose": "Discovery only; not inherited observations",
+  "basis": "Frozen053 affine offset[0,-3330], scaled140/150",
+  "guide": "052-north-adjacent-ppi-guide.npy"
+}

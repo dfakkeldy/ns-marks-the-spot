@@ -1,0 +1,113 @@
+{
+  "status": "Reserved before first main fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Main Cape d Or southeast corner",
+      "role": "check",
+      "pixel_xy": [
+        1701,
+        1652
+      ],
+      "lonlat": [
+        -64.7667270184035,
+        45.29363684621901
+      ],
+      "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+      "reference_objectid": 8367,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8367,
+      "nearest_unfiltered_distance_guide_px": 2.1401402528844518,
+      "selected_distance_guide_px": 2.1401402528844518,
+      "guide_reference_pixel_xy": [
+        1670.5534937893972,
+        1673.0673279679613
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved and native crosshair inspected before first main fit/score; never fitting input."
+    },
+    {
+      "id": "Q02",
+      "label": "Main Cape Spencer southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2628,
+        1600
+      ],
+      "lonlat": [
+        -64.70922425570981,
+        45.313927340098125
+      ],
+      "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+      "reference_objectid": 8873,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8873,
+      "nearest_unfiltered_distance_guide_px": 0.7925822242053808,
+      "selected_distance_guide_px": 0.7925822242053808,
+      "guide_reference_pixel_xy": [
+        2609.2290196007234,
+        1622.1837819524808
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved and native crosshair inspected before first main fit/score; never fitting input."
+    },
+    {
+      "id": "Q03",
+      "label": "Main Spencer Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3000,
+        1408
+      ],
+      "lonlat": [
+        -64.69095675269303,
+        45.32958113063566
+      ],
+      "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+      "reference_objectid": 18574,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18574,
+      "nearest_unfiltered_distance_guide_px": 0.9815198928492931,
+      "selected_distance_guide_px": 0.9815198928492931,
+      "guide_reference_pixel_xy": [
+        2983.899275674543,
+        1428.9763380102813
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved and native crosshair inspected before first main fit/score; never fitting input."
+    },
+    {
+      "id": "Q04",
+      "label": "Main Horseshoe Cove eastern projecting tip",
+      "role": "check",
+      "pixel_xy": [
+        1806,
+        1492
+      ],
+      "lonlat": [
+        -64.76406721142295,
+        45.303014562647604
+      ],
+      "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+      "reference_objectid": 6630,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 6630,
+      "nearest_unfiltered_distance_guide_px": 0.7341892883223656,
+      "selected_distance_guide_px": 0.7341892883223656,
+      "guide_reference_pixel_xy": [
+        1784.2729613746633,
+        1508.6815614418592
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved and native crosshair inspected before first main fit/score; never fitting input."
+    }
+  ]
+}

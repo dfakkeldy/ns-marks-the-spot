@@ -1,0 +1,164 @@
+[
+  {
+    "id": "C01",
+    "label": "Leeks Lake northern western lobe",
+    "role": "control",
+    "pixel_xy": [
+      2995,
+      1323
+    ],
+    "lonlat": [
+      -64.34949422984472,
+      45.438956668032546
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 131152,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 131152,
+    "nearest_unfiltered_distance_guide_px": 0.47526467486862867,
+    "selected_distance_guide_px": 0.47526467486862867,
+    "guide_reference_pixel_xy": [
+      3076.8189378905226,
+      1197.5605764870998
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained."
+  },
+  {
+    "id": "C02",
+    "label": "Summit Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      3383,
+      815
+    ],
+    "lonlat": [
+      -64.33899306864465,
+      45.46851073906871
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 137359,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137359,
+    "nearest_unfiltered_distance_guide_px": 0.41606652056930965,
+    "selected_distance_guide_px": 0.41606652056930965,
+    "guide_reference_pixel_xy": [
+      3466.4160653442377,
+      690.0009893750539
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained."
+  },
+  {
+    "id": "C03",
+    "label": "Small pond west of Cranberry Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4289,
+      1104
+    ],
+    "lonlat": [
+      -64.27412213185308,
+      45.473016278229686
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 124495,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124495,
+    "nearest_unfiltered_distance_guide_px": 0.6099488351604272,
+    "selected_distance_guide_px": 0.6099488351604272,
+    "guide_reference_pixel_xy": [
+      4383.581809524912,
+      984.5559793832945
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained."
+  },
+  {
+    "id": "C04",
+    "label": "Cape Split mainland northern tip",
+    "role": "control",
+    "pixel_xy": [
+      171,
+      2461
+    ],
+    "lonlat": [
+      -64.49691549045873,
+      45.33508824849849
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 11309,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11309,
+    "nearest_unfiltered_distance_guide_px": 0.573226002590632,
+    "selected_distance_guide_px": 0.573226002590632,
+    "guide_reference_pixel_xy": [
+      205.57316389743937,
+      2326.991562185227
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained."
+  },
+  {
+    "id": "C05",
+    "label": "Partridge Island western tip",
+    "role": "control",
+    "pixel_xy": [
+      2541,
+      2765
+    ],
+    "lonlat": [
+      -64.33911419049466,
+      45.367124999972
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 5039,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5039,
+    "nearest_unfiltered_distance_guide_px": 2.643293333589254,
+    "selected_distance_guide_px": 2.643293333589254,
+    "guide_reference_pixel_xy": [
+      2616.8762759551173,
+      2642.6074607801856
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained."
+  },
+  {
+    "id": "C06",
+    "label": "Two Brothers larger island northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4353,
+      3035
+    ],
+    "lonlat": [
+      -64.21826327634709,
+      45.38957370152131
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 17266,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17266,
+    "nearest_unfiltered_distance_guide_px": 0.7106162871921514,
+    "selected_distance_guide_px": 0.7106162871921514,
+    "guide_reference_pixel_xy": [
+      4445.710607273213,
+      2920.9964207711164
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained."
+  }
+]

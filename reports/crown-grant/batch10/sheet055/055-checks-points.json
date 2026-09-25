@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Lizard Lake lower tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      1395,
+      1299
+    ],
+    "lonlat": [
+      -63.84329265310048,
+      44.76301568921665
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 132705,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132705,
+    "nearest_unfiltered_distance_guide_px": 1.2059534294568481,
+    "selected_distance_guide_px": 1.2059534294568481,
+    "guide_reference_pixel_xy": [
+      1424.683092518244,
+      1275.9938351400197
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Little Hubley Lake western arm tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      4213,
+      1198
+    ],
+    "lonlat": [
+      -64.0030944685302,
+      44.71133462494135
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 132130,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132130,
+    "nearest_unfiltered_distance_guide_px": 1.6373005310999338,
+    "selected_distance_guide_px": 1.6373005310999338,
+    "guide_reference_pixel_xy": [
+      4276.980864527461,
+      1206.2814507082803
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Three Cornered Lake lower tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      5036,
+      2888
+    ],
+    "lonlat": [
+      -64.09355391345755,
+      44.7661484739987
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 138779,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138779,
+    "nearest_unfiltered_distance_guide_px": 2.203468789434121,
+    "selected_distance_guide_px": 2.203468789434121,
+    "guide_reference_pixel_xy": [
+      5143.232106992451,
+      2868.065336542786
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Big Indian Lake elongated island lower tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      4650,
+      3380
+    ],
+    "lonlat": [
+      -64.08432333403404,
+      44.79378880492563
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 145250,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 145250,
+    "nearest_unfiltered_distance_guide_px": 1.0769396590555118,
+    "selected_distance_guide_px": 1.0769396590555118,
+    "guide_reference_pixel_xy": [
+      4758.809163186001,
+      3369.940103618428
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Ash Lake long island lower tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      1897,
+      3197
+    ],
+    "lonlat": [
+      -63.918054544537675,
+      44.83379239050379
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 145959,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 145959,
+    "nearest_unfiltered_distance_guide_px": 1.4305943760870299,
+    "selected_distance_guide_px": 1.4305943760870299,
+    "guide_reference_pixel_xy": [
+      1916.670903234568,
+      3162.736477495753
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Kehoe Lake left tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      2180,
+      2836
+    ],
+    "lonlat": [
+      -63.92672154937319,
+      44.813751731596305
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 137403,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137403,
+    "nearest_unfiltered_distance_guide_px": 2.313311338129607,
+    "selected_distance_guide_px": 2.313311338129607,
+    "guide_reference_pixel_xy": [
+      2224.075946706056,
+      2810.312064325437
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Cariboo Lake lower lobe left tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      5796,
+      1409
+    ],
+    "lonlat": [
+      -64.10039153746791,
+      44.690891649056226
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 124479,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124479,
+    "nearest_unfiltered_distance_guide_px": 1.5550536707018472,
+    "selected_distance_guide_px": 1.5550536707018472,
+    "guide_reference_pixel_xy": [
+      5916.497914930165,
+      1389.5975917971227
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

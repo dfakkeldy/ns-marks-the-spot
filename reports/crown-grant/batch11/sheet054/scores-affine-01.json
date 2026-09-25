@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 97.69563230188984,
+  "median_ground_m": 86.63977816972452,
+  "p95_ground_m": 153.64049150311195,
+  "max_ground_m": 170.95525097284113,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 66.46324120974359,
+  "mean_north_ground_m": 21.266436491128765,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Palmer Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1142,
+        1550
+      ],
+      "lonlat": [
+        -64.17472078525999,
+        44.90970653904517
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 134306,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134306,
+      "nearest_unfiltered_distance_guide_px": 0.39104160586118747,
+      "selected_distance_guide_px": 0.39104160586118747,
+      "guide_reference_pixel_xy": [
+        1139.905874403601,
+        1607.3795443447307
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.17365500549991,
+        44.90989154155569
+      ],
+      "error_ground_m": 86.63977816972452,
+      "east_ground_m": 84.16497083905037,
+      "north_ground_m": 20.559884361563746
+    },
+    {
+      "id": "Q02",
+      "label": "Murphy Lake eastern lobe northern shore",
+      "role": "check",
+      "pixel_xy": [
+        505,
+        2608
+      ],
+      "lonlat": [
+        -64.1862978560607,
+        44.851107376747066
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 137244,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137244,
+      "nearest_unfiltered_distance_guide_px": 0.23381563790263932,
+      "selected_distance_guide_px": 0.23381563790263932,
+      "guide_reference_pixel_xy": [
+        498.9791546075721,
+        2656.7671154317213
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.18423350639512,
+        44.851565812756114
+      ],
+      "error_ground_m": 170.95525097284113,
+      "east_ground_m": 163.18714710368621,
+      "north_ground_m": 50.94755004263676
+    },
+    {
+      "id": "Q03",
+      "label": "Shady Lake western outlet",
+      "role": "check",
+      "pixel_xy": [
+        2333,
+        3075
+      ],
+      "lonlat": [
+        -64.05888592457747,
+        44.866093600274475
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 142291,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142291,
+      "nearest_unfiltered_distance_guide_px": 1.79867547572638,
+      "selected_distance_guide_px": 1.79867547572638,
+      "guide_reference_pixel_xy": [
+        2368.2277517954935,
+        3102.215801976621
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.05841056847325,
+        44.8660370421061
+      ],
+      "error_ground_m": 38.0896921995575,
+      "east_ground_m": 37.56755939080945,
+      "north_ground_m": -6.285151810023059
+    },
+    {
+      "id": "Q04",
+      "label": "King Lake southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        3745,
+        2784
+      ],
+      "lonlat": [
+        -63.97893700551201,
+        44.9049407525832
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 132503,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132503,
+      "nearest_unfiltered_distance_guide_px": 0.9199512062128219,
+      "selected_distance_guide_px": 0.9199512062128219,
+      "guide_reference_pixel_xy": [
+        3782.221700375434,
+        2818.89283770381
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.978843905765395,
+        44.90558855920174
+      ],
+      "error_ground_m": 72.3652086390241,
+      "east_ground_m": 7.352665512641825,
+      "north_ground_m": 71.99070586699852
+    },
+    {
+      "id": "Q05",
+      "label": "Cochran Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4677,
+        2871
+      ],
+      "lonlat": [
+        -63.91845960833442,
+        44.91987528095618
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 127579,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127579,
+      "nearest_unfiltered_distance_guide_px": 0.0953648235359961,
+      "selected_distance_guide_px": 0.0953648235359961,
+      "guide_reference_pixel_xy": [
+        4733.092798985832,
+        2879.021972660208
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.918705361890346,
+        44.91947125501344
+      ],
+      "error_ground_m": 48.9129535378199,
+      "east_ground_m": -19.40401341762415,
+      "north_ground_m": -44.899457536607166
+    },
+    {
+      "id": "Q06",
+      "label": "Pigott Lake southern horn",
+      "role": "check",
+      "pixel_xy": [
+        5410,
+        3006
+      ],
+      "lonlat": [
+        -63.87088185969621,
+        44.927021164833434
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 133551,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133551,
+      "nearest_unfiltered_distance_guide_px": 0.7353059629889521,
+      "selected_distance_guide_px": 0.7353059629889521,
+      "guide_reference_pixel_xy": [
+        5443.469213177159,
+        3013.5661394294584
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.8695859061595,
+        44.927457900084306
+      ],
+      "error_ground_m": 113.23938607374404,
+      "east_ground_m": 102.31069009371313,
+      "north_ground_m": 48.535360830085985
+    },
+    {
+      "id": "Q07",
+      "label": "Ryan Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        3203,
+        2810
+      ],
+      "lonlat": [
+        -64.01286479813007,
+        44.89408362582863
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 141542,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141542,
+      "nearest_unfiltered_distance_guide_px": 0.40445182146502967,
+      "selected_distance_guide_px": 0.40445182146502967,
+      "guide_reference_pixel_xy": [
+        3228.3999980279477,
+        2832.0598569421563
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.01172463430234,
+        44.894155753537106
+      ],
+      "error_ground_m": 90.41970661420201,
+      "east_ground_m": 90.06366894592827,
+      "north_ground_m": 8.016163683246592
+    }
+  ],
+  "fit_sha256": "f506d44a1f9c7dba4f7ae77b7ff0fefd303d71ee45f6ba00afa9e3a9672a6acc",
+  "checks_sha256": "fcb6c859a4db127bb227ec7504e6b7b82cdb013ae54e080afdd5920ddb7c5e79",
+  "status": "Reserved before first fit and score"
+}
