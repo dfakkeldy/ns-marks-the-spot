@@ -1,0 +1,171 @@
+{
+  "sheet": "043",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      5.025198227921166,
+      2.031311108690532
+    ],
+    [
+      2.013783805059169,
+      -4.907415741196136
+    ],
+    [
+      356957.03939413076,
+      5003829.373054902
+    ]
+  ],
+  "source_sha256": "2dc18022cc2cddf8fa1974d04659c7a36de7ca8c41fb866f3f2deb94e6200167",
+  "source_dimensions": [
+    5727,
+    3921
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Black Rock northern coastal tip",
+      "role": "control",
+      "pixel_xy": [
+        740,
+        396
+      ],
+      "lonlat": [
+        -64.76210951114342,
+        45.17044860673676
+      ],
+      "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+      "reference_objectid": 8682,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8682,
+      "nearest_unfiltered_distance_guide_px": 1.5982706582338375,
+      "selected_distance_guide_px": 1.5982706582338375,
+      "guide_reference_pixel_xy": [
+        673.9726224122569,
+        324.77567798795644
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Halls Point northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2950,
+        624
+      ],
+      "lonlat": [
+        -64.61750469856192,
+        45.20338246589903
+      ],
+      "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+      "reference_objectid": 8575,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8575,
+      "nearest_unfiltered_distance_guide_px": 7.1977566239261455,
+      "selected_distance_guide_px": 7.1977566239261455,
+      "guide_reference_pixel_xy": [
+        2918.6558705478674,
+        555.0711396841798
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Murray Brook main fork",
+      "role": "control",
+      "pixel_xy": [
+        1455,
+        823
+      ],
+      "lonlat": [
+        -64.70616384181704,
+        45.16492063591943
+      ],
+      "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+      "reference_objectid": 236480,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 236480,
+      "nearest_unfiltered_distance_guide_px": 3.6596078816234248,
+      "selected_distance_guide_px": 3.6596078816234248,
+      "guide_reference_pixel_xy": [
+        1388.135219772288,
+        765.7227727179416
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Cornwallis River Cambridge southern tributary junction",
+      "role": "control",
+      "pixel_xy": [
+        1678,
+        3184
+      ],
+      "lonlat": [
+        -64.62877954724223,
+        45.066566095707955
+      ],
+      "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+      "reference_objectid": 266245,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 266245,
+      "nearest_unfiltered_distance_guide_px": 0.21700454281567158,
+      "selected_distance_guide_px": 0.21700454281567158,
+      "guide_reference_pixel_xy": [
+        1611.8625653265044,
+        3119.832063458045
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "North Brook southeastern tributary junction",
+      "role": "control",
+      "pixel_xy": [
+        4580,
+        2269
+      ],
+      "lonlat": [
+        -64.46844330992863,
+        45.16177292901632
+      ],
+      "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+      "reference_objectid": 231427,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 231427,
+      "nearest_unfiltered_distance_guide_px": 1.5549775819897405,
+      "selected_distance_guide_px": 1.5549775819897405,
+      "guide_reference_pixel_xy": [
+        4597.537428129232,
+        2242.484581605997
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    58.51693009648959,
+    90.46325596027485,
+    60.02894940237532,
+    33.98984325215239,
+    55.88435542225138
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q02",
+    "label": "Baxter Harbour inner coast bend",
+    "role": "proposal",
+    "pixel_xy": [
+      4589,
+      720
+    ],
+    "lonlat": [
+      -64.51301539708139,
+      45.23015074097664
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 9024,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9024,
+    "nearest_unfiltered_distance_guide_px": 1.7464847779014754,
+    "selected_distance_guide_px": 1.7464847779014754,
+    "guide_reference_pixel_xy": [
+      4565.093514889479,
+      661.4928140620468
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Foote Brook western tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      1824,
+      847
+    ],
+    "lonlat": [
+      -64.68193948197509,
+      45.17159382090783
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 262266,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 262266,
+    "nearest_unfiltered_distance_guide_px": 3.085594598765593,
+    "selected_distance_guide_px": 3.085594598765593,
+    "guide_reference_pixel_xy": [
+      1774.0381054189638,
+      782.1350869877497
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "North Brook southeastern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      4580,
+      2269
+    ],
+    "lonlat": [
+      -64.46844330992863,
+      45.16177292901632
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 231427,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 231427,
+    "nearest_unfiltered_distance_guide_px": 1.5549775819897405,
+    "selected_distance_guide_px": 1.5549775819897405,
+    "guide_reference_pixel_xy": [
+      4597.537428129232,
+      2242.484581605997
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "North Brook and Sleepy Hollow Brook junction",
+    "role": "proposal",
+    "pixel_xy": [
+      4445,
+      2474
+    ],
+    "lonlat": [
+      -64.47446547288037,
+      45.149688866918545
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 271021,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 271021,
+    "nearest_unfiltered_distance_guide_px": 1.1126988534000453,
+    "selected_distance_guide_px": 1.1126988534000453,
+    "guide_reference_pixel_xy": [
+      4414.0799671966815,
+      2439.3741898217704
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Cornwallis River northern tributary junction west of Kentville",
+    "role": "proposal",
+    "pixel_xy": [
+      2980,
+      3410
+    ],
+    "lonlat": [
+      -64.5406602733391,
+      45.081930076763015
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 285728,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 285728,
+    "nearest_unfiltered_distance_guide_px": 9.067702601918402,
+    "selected_distance_guide_px": 9.067702601918402,
+    "guide_reference_pixel_xy": [
+      2942.6229626596905,
+      3349.910567254992
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

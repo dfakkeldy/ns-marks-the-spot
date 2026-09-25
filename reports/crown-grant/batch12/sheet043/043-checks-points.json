@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q01",
+    "label": "Canada Creek coast junction east of Black Rock",
+    "role": "proposal",
+    "pixel_xy": [
+      815,
+      427
+    ],
+    "lonlat": [
+      -64.75725095561135,
+      45.17057659737825
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 8682,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 275883,
+    "nearest_unfiltered_distance_guide_px": 2.9032031644631475,
+    "selected_distance_guide_px": 4.736905856234346,
+    "guide_reference_pixel_xy": [
+      741.1241585976677,
+      351.39841934351716
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Baxter Harbour inner coast bend",
+    "role": "proposal",
+    "pixel_xy": [
+      4590,
+      724
+    ],
+    "lonlat": [
+      -64.51301539708139,
+      45.23015074097664
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 9024,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9024,
+    "nearest_unfiltered_distance_guide_px": 1.7464847779014754,
+    "selected_distance_guide_px": 1.7464847779014754,
+    "guide_reference_pixel_xy": [
+      4565.093514889479,
+      661.4928140620468
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Foote Brook western tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      1825,
+      855
+    ],
+    "lonlat": [
+      -64.68140257900315,
+      45.17097906311593
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 239701,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 239701,
+    "nearest_unfiltered_distance_guide_px": 8.133107947074425,
+    "selected_distance_guide_px": 8.133107947074425,
+    "guide_reference_pixel_xy": [
+      1776.1511432432453,
+      797.1647572565125
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Chipman Brook western tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      2177,
+      1030
+    ],
+    "lonlat": [
+      -64.6557667661346,
+      45.17039117996984
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 279949,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 279949,
+    "nearest_unfiltered_distance_guide_px": 0.47208350308575436,
+    "selected_distance_guide_px": 0.47208350308575436,
+    "guide_reference_pixel_xy": [
+      2119.957865645294,
+      961.529800542281
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Billtown stream northern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      2647,
+      2543
+    ],
+    "lonlat": [
+      -64.58527857200832,
+      45.113150514127625
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 261349,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 261349,
+    "nearest_unfiltered_distance_guide_px": 1.444689078181852,
+    "selected_distance_guide_px": 1.444689078181852,
+    "guide_reference_pixel_xy": [
+      2597.193164593191,
+      2483.1983919054037
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "Q07",
+    "label": "Cornwallis River northern tributary junction west of Kentville",
+    "role": "proposal",
+    "pixel_xy": [
+      2980,
+      3410
+    ],
+    "lonlat": [
+      -64.54095228291163,
+      45.08097644607786
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 170826,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 170826,
+    "nearest_unfiltered_distance_guide_px": 0.6462781099804551,
+    "selected_distance_guide_px": 0.6462781099804551,
+    "guide_reference_pixel_xy": [
+      2930.622154648823,
+      3366.5243169709574
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "North Brook and Sleepy Hollow Brook junction",
+    "role": "proposal",
+    "pixel_xy": [
+      4445,
+      2474
+    ],
+    "lonlat": [
+      -64.47457628854004,
+      45.15008405085172
+    ],
+    "guide_file": ".crown-grant-local/043-west-adjacent-guide.npy",
+    "reference_objectid": 271021,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 271021,
+    "nearest_unfiltered_distance_guide_px": 3.0220797551108776,
+    "selected_distance_guide_px": 3.0220797551108776,
+    "guide_reference_pixel_xy": [
+      4415.887351437879,
+      2431.1077176901745
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

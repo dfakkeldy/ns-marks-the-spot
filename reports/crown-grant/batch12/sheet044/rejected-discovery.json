@@ -1,0 +1,25 @@
+{
+  "before_any_fit_or_score": true,
+  "rejected": [
+    {
+      "packet": "river",
+      "ids": [
+        "C06",
+        "Q06"
+      ],
+      "reason": "Type-filtered candidates select wrong downstream/main-river geometry. Old mouth and current waterbody/river connectivity are not a precise stable match; neither adopted."
+    },
+    {
+      "candidate": "Gaspereau southern island",
+      "reason": "Historical disconnected round outline corresponds to a differently connected modern shoreline; no precise correspondence adopted."
+    },
+    {
+      "candidate": "River Lake western island",
+      "reason": "Modern outline joins or extends neighbouring historical shapes; not forced into an island match."
+    },
+    {
+      "candidate": "Morton southern island",
+      "reason": "Historical narrow-neck outline corresponds to separately depicted modern bodies; not adopted."
+    }
+  ]
+}

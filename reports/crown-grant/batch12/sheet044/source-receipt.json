@@ -1,0 +1,97 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/044.pdf",
+  "source_dimensions": [
+    5672,
+    3933
+  ],
+  "ppi": 150,
+  "reference": {
+    "retrieved_at_utc": "2026-09-25T04:49:17.118908+00:00",
+    "bbox": [
+      -64.7331848112542,
+      44.82048993204498,
+      -64.24797524190562,
+      45.13395542388521
+    ],
+    "reference_count": 7298,
+    "truncated": false,
+    "pages": [
+      {
+        "file": "044-water-page0.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-64.7331848112542%2C44.82048993204498%2C-64.24797524190562%2C45.13395542388521&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=0",
+        "count": 2000,
+        "sha256": "bdf702a57c81b236a4ba8af6e096a51dc3a9316548d7515b3d2e1ca6c537020b"
+      },
+      {
+        "file": "044-water-page1.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-64.7331848112542%2C44.82048993204498%2C-64.24797524190562%2C45.13395542388521&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=2000",
+        "count": 2000,
+        "sha256": "eb068a7113897a47e8ca9cb82b16d3e4d364d290f80ad6b32ef6141a184dd1b3"
+      },
+      {
+        "file": "044-water-page2.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-64.7331848112542%2C44.82048993204498%2C-64.24797524190562%2C45.13395542388521&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=4000",
+        "count": 2000,
+        "sha256": "8e77b3adf7cb54123a01c06d6bce34e5f5f89bbf086aaeece93cafa7c90f50b5"
+      },
+      {
+        "file": "044-water-page3.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-64.7331848112542%2C44.82048993204498%2C-64.24797524190562%2C45.13395542388521&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=6000",
+        "count": 1298,
+        "sha256": "b1d4184f49dedd34ce54b6be335847df51de1ad2c4daaf6a8e0e06a1b25d51c7"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "044.pdf",
+      "bytes": 3430498,
+      "sha256": "11aa85ec050407e1637c3860f0439964f573d31c442a177a09dcdc390bf5e4a9"
+    },
+    {
+      "name": "044-000.jpg",
+      "bytes": 3429329,
+      "sha256": "fe8fb448da91fc3259fde5a4bca71f28ae36ca102d45e778261fb10f37f356e4"
+    },
+    {
+      "name": "044-water-tight.geojson",
+      "bytes": 17517697,
+      "sha256": "7b1278b76e157ea6bde58f64ec7b1934ff0e797f1a1330f841f6e69fdff223f1"
+    },
+    {
+      "name": "044-reference-receipt.json",
+      "bytes": 2297,
+      "sha256": "0d66d249ef3cd9fbdb39c599a3e7da2678bb137377477dfcd320c378d5007d41"
+    },
+    {
+      "name": "044-water-page0.geojson",
+      "bytes": 2752698,
+      "sha256": "bdf702a57c81b236a4ba8af6e096a51dc3a9316548d7515b3d2e1ca6c537020b"
+    },
+    {
+      "name": "044-water-page1.geojson",
+      "bytes": 6074329,
+      "sha256": "eb068a7113897a47e8ca9cb82b16d3e4d364d290f80ad6b32ef6141a184dd1b3"
+    },
+    {
+      "name": "044-water-page2.geojson",
+      "bytes": 5026849,
+      "sha256": "8e77b3adf7cb54123a01c06d6bce34e5f5f89bbf086aaeece93cafa7c90f50b5"
+    },
+    {
+      "name": "044-water-page3.geojson",
+      "bytes": 3400213,
+      "sha256": "b1d4184f49dedd34ce54b6be335847df51de1ad2c4daaf6a8e0e06a1b25d51c7"
+    },
+    {
+      "name": "044-island-discovery-guide.npy",
+      "bytes": 176,
+      "sha256": "141dd9b81bb895707011e56aeedf01055231ccfac7627a3eff7f06a679840e8d"
+    },
+    {
+      "name": "044-west-adjacent-guide.npy",
+      "bytes": 176,
+      "sha256": "01b1baea762d27a003985f4cd0dee10355631bf00916e4b99641c70e600da338"
+    }
+  ]
+}

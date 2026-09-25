@@ -1,0 +1,24 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Five controls span northwest/north shores, Cambridge in southwest and North Brook in eastern interior.",
+  "controls": 5,
+  "checks": 7,
+  "corrections": [
+    "Baxter Harbour source refined from road edge to physical inner shoreline.",
+    "Foote Brook source and reference moved to the actual western tributary junction rather than downstream channel.",
+    "North Brook / Sleepy Hollow and Kentville tributary reference proposals refined to their junctions before scoring."
+  ],
+  "rejections": [
+    {
+      "id": "C05",
+      "reason": "Brooklyn Corner narrow source junction versus modern braided bank outlines is ambiguous at the proposed pixel; not adopted."
+    }
+  ],
+  "limitations": [
+    "River checks include correlated tributary systems and generalized centreline/bank junctions.",
+    "Eastern tidal Habitant/Canard reaches, far southeast and some interior areas remain unvalidated.",
+    "Source uncertainty18 px; stream generalization and crossing annotations limit precision."
+  ],
+  "created_at_utc": "2026-09-25T04:50:03.475876+00:00"
+}

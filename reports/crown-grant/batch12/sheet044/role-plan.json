@@ -1,0 +1,39 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "controls": 6,
+  "checks": 6,
+  "reason": "Five islands distributed through western/central/southern lakes plus northern Mill Brook control give two-dimensional support; eastern third remains extrapolation.",
+  "corrections": [
+    "Moore Brook reference refined to the actual tributary junction before scoring."
+  ],
+  "rejections": [
+    {
+      "packet": "river",
+      "ids": [
+        "C06",
+        "Q06"
+      ],
+      "reason": "Type-filtered candidates select wrong downstream/main-river geometry. Old mouth and current waterbody/river connectivity are not a precise stable match; neither adopted."
+    },
+    {
+      "candidate": "Gaspereau southern island",
+      "reason": "Historical disconnected round outline corresponds to a differently connected modern shoreline; no precise correspondence adopted."
+    },
+    {
+      "candidate": "River Lake western island",
+      "reason": "Modern outline joins or extends neighbouring historical shapes; not forced into an island match."
+    },
+    {
+      "candidate": "Morton southern island",
+      "reason": "Historical narrow-neck outline corresponds to separately depicted modern bodies; not adopted."
+    }
+  ],
+  "limitations": [
+    "Five island checks pair with control islands; sixth check is a separate junction in the same northern drainage.",
+    "Several nearby old islands have different modern connectivity; these unresolved candidates were excluded before scoring.",
+    "Eastern third and northern corners lack independent validation.",
+    "Source uncertainty24 px for generalized lake islands,18 px for stream junctions; unweighted fit."
+  ],
+  "created_at_utc": "2026-09-25T05:03:54.806433+00:00"
+}

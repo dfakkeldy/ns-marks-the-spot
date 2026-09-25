@@ -1,0 +1,321 @@
+{
+  "count": 9,
+  "rms_ground_m": 66.49156392064721,
+  "median_ground_m": 40.551459377475155,
+  "p95_ground_m": 120.39800920223541,
+  "max_ground_m": 150.91127413307947,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -13.183121894680381,
+  "mean_north_ground_m": 14.669501696251622,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Caribou or Long Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        426,
+        341
+      ],
+      "lonlat": [
+        -64.58868389514694,
+        44.8469505867709
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 128298,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128298,
+      "nearest_unfiltered_distance_guide_px": 2.8705609082759445,
+      "selected_distance_guide_px": 2.8705609082759445,
+      "guide_reference_pixel_xy": [
+        429.5846912677516,
+        282.81038361252286
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.5885191846084,
+        44.84729616742903
+      ],
+      "error_ground_m": 40.551459377475155,
+      "east_ground_m": 13.021354453696736,
+      "north_ground_m": 38.403973568293814
+    },
+    {
+      "id": "Q02",
+      "label": "Porcupine Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2330,
+        820
+      ],
+      "lonlat": [
+        -64.45691595130198,
+        44.862825116602764
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 134145,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134145,
+      "nearest_unfiltered_distance_guide_px": 0.3362147606872465,
+      "selected_distance_guide_px": 0.3362147606872465,
+      "guide_reference_pixel_xy": [
+        2347.8710561179905,
+        767.6894942180952
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.4568970620784,
+        44.8631598813676
+      ],
+      "error_ground_m": 37.232049647321354,
+      "east_ground_m": 1.4928963150130403,
+      "north_ground_m": 37.20210721898993
+    },
+    {
+      "id": "Q03",
+      "label": "Duck Pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3678,
+        764
+      ],
+      "lonlat": [
+        -64.3739420184316,
+        44.89212838743114
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 141002,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141002,
+      "nearest_unfiltered_distance_guide_px": 0.7285583152039691,
+      "selected_distance_guide_px": 0.7285583152039691,
+      "guide_reference_pixel_xy": [
+        3720.2563505092403,
+        700.6819689399563
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.37416050394609,
+        44.89147505237146
+      ],
+      "error_ground_m": 74.6281118059694,
+      "east_ground_m": -17.259380377571745,
+      "north_ground_m": -72.60488179665717
+    },
+    {
+      "id": "Q04",
+      "label": "Five Island Lake northern inlet",
+      "role": "check",
+      "pixel_xy": [
+        5038,
+        1467
+      ],
+      "lonlat": [
+        -64.27118459867098,
+        44.88727097913663
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 127401,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127401,
+      "nearest_unfiltered_distance_guide_px": 0.3931672291527666,
+      "selected_distance_guide_px": 0.3931672291527666,
+      "guide_reference_pixel_xy": [
+        5069.766776535194,
+        1405.6834762480576
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.27047247455128,
+        44.88695259576862
+      ],
+      "error_ground_m": 66.46001695368228,
+      "east_ground_m": 56.25903510436248,
+      "north_ground_m": -35.38156048861959
+    },
+    {
+      "id": "Q05",
+      "label": "Little Salter Lake western outlet",
+      "role": "check",
+      "pixel_xy": [
+        4445,
+        1930
+      ],
+      "lonlat": [
+        -64.29501853750378,
+        44.85535891868287
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 138754,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138754,
+      "nearest_unfiltered_distance_guide_px": 1.517039317222252,
+      "selected_distance_guide_px": 1.517039317222252,
+      "guide_reference_pixel_xy": [
+        4476.111209729745,
+        1876.7705854460364
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.29528144573436,
+        44.85547450394611
+      ],
+      "error_ground_m": 24.43078936601353,
+      "east_ground_m": -20.78152884283598,
+      "north_ground_m": 12.844902802314081
+    },
+    {
+      "id": "Q06",
+      "label": "Bill Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4209,
+        2241
+      ],
+      "lonlat": [
+        -64.30149721735226,
+        44.83738087397863
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 125966,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125966,
+      "nearest_unfiltered_distance_guide_px": 0.87713947147664,
+      "selected_distance_guide_px": 0.87713947147664,
+      "guide_reference_pixel_xy": [
+        4235.670823315333,
+        2183.4348719330737
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.30178968979996,
+        44.83743445833099
+      ],
+      "error_ground_m": 23.88001193466644,
+      "east_ground_m": -23.12564330758426,
+      "north_ground_m": 5.954795681649795
+    },
+    {
+      "id": "Q07",
+      "label": "Big Otter Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3968,
+        3516
+      ],
+      "lonlat": [
+        -64.28268825333802,
+        44.77746432665239
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 125198,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125198,
+      "nearest_unfiltered_distance_guide_px": 1.0861302078127688,
+      "selected_distance_guide_px": 1.0861302078127688,
+      "guide_reference_pixel_xy": [
+        3981.9217750962707,
+        3446.0833096015267
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.28309127332155,
+        44.77737731908348
+      ],
+      "error_ground_m": 33.33279324296446,
+      "east_ground_m": -31.89966265572751,
+      "north_ground_m": -9.668848319681155
+    },
+    {
+      "id": "Q08",
+      "label": "Lawson Lake northern inlet",
+      "role": "check",
+      "pixel_xy": [
+        1281,
+        3423
+      ],
+      "lonlat": [
+        -64.4524001096954,
+        44.72864866578897
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 132960,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV10",
+      "nearest_unfiltered_objectid": 172606,
+      "nearest_unfiltered_distance_guide_px": 0.5691132055184821,
+      "selected_distance_guide_px": 11.358963980706392,
+      "guide_reference_pixel_xy": [
+        1264.6707403943874,
+        3369.2354211870115
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.45313324885616,
+        44.72990208745537
+      ],
+      "error_ground_m": 150.91127413307947,
+      "east_ground_m": -58.076641497509215,
+      "north_ground_m": 139.28860819478115
+    },
+    {
+      "id": "Q09",
+      "label": "Little Otter Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4063,
+        3166
+      ],
+      "lonlat": [
+        -64.28593554121214,
+        44.7942719049421
+      ],
+      "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+      "reference_objectid": 133012,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133012,
+      "nearest_unfiltered_distance_guide_px": 0.5573189427490587,
+      "selected_distance_guide_px": 0.5573189427490587,
+      "guide_reference_pixel_xy": [
+        4080.555817104061,
+        3103.95911295095
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitting input.",
+      "predicted_lonlat": [
+        -64.28641929396909,
+        44.794415760129624
+      ],
+      "error_ground_m": 41.48266077333982,
+      "east_ground_m": -38.278526243966986,
+      "north_ground_m": 15.986418405193737
+    }
+  ],
+  "fit_sha256": "bcde5d183dfc1e35797a4b595d038ee738f1516ce1e252942c183a9d76492559",
+  "checks_sha256": "3a5b89ebd86f44f39602120f8454a6c747e18a809aa04d2e18a5b6b95695dd74",
+  "status": "Reserved before first fit and score"
+}

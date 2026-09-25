@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Lake controls span northwest Caribou, northeast Five Island, southwest Lawson and southeastern Otter lakes.",
+  "corrections": [
+    "Little Salter eastern control refined to the eastern shore tip before fitting.",
+    "Discovery filename panther was a working label; the original scan clearly labels Porcupine Lake. Bill Lake spelling follows the original scan."
+  ],
+  "limitations": [
+    "Eight checks pair with control lakes; Little Otter is a separate lake check.",
+    "Heavily annotated western interior and some river reaches lack independent validation.",
+    "Source uncertainty18 px; small lakes and historical lake/river junctions are generalized."
+  ],
+  "created_at_utc": "2026-09-25T05:13:08.443458+00:00"
+}
