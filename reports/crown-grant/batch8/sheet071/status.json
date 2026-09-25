@@ -1,0 +1,46 @@
+{
+  "sheet": "071",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; local numerical RMS pass only; most of sheet unvalidated; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/071.pdf",
+    "pdf_sha256": "12cd2904bed06973e0bb49217d51deb3281dd0747e30af2a059d70daba16aa44",
+    "jpeg_sha256": "60e3b58f2d76d4d5e4954ab2130afd17ed0406ea31b81576df6e82e5962b09cd",
+    "dimensions": [
+      6001,
+      4193
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 3,
+      "independent_checks": 4,
+      "rms_ground_m": 41.419930395599955,
+      "rms_gate_passed": true,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Four excluded checks give RMS 41.42 m, median 25.59 m, P95 66.37 m and maximum 73.22 m, but this is sparse local evidence only.",
+    "Only three control ponds and four checks are supported in a narrow northeastern cluster. Three checks share control ponds; the fourth is a nearby separate pond.",
+    "Most of the sheet, including western and central interior, southern areas, estuaries and the entire coast, remains unvalidated. Whole-sheet geographic adequacy is not established.",
+    "A constrained similarity was chosen before scoring to avoid unsupported affine shear. Extrapolation beyond the small control region is weakly supported.",
+    "Natural shorelines use 12 px working source uncertainty."
+  ],
+  "review": {
+    "status": "LOCAL RMS PASSES 100 m \u2014 most of sheet unvalidated",
+    "statistics": "4 independent checks: RMS 41.42 m, median 25.59 m, P95 66.37 m, maximum 73.22 m. 3 controls; fit unchanged after scoring.",
+    "coverage": "Only a small northeastern pond cluster has measured evidence. Most of this sheet, including its entire coast, remains unvalidated. Complete original mapped frame retains Portapique River Wilderness, Londonderry, Folly Lake, Probert, East Folly Mountain, Portapique, Highland Village, Great Village, Spencer Point, East Mines, Debert, Glenholme, Staples Brook, Masstown, Belmont and Debert Camp, all mapped ponds, rivers, the complete Cobequid Bay coast and original ocean area. No displaced inset identified."
+  }
+}

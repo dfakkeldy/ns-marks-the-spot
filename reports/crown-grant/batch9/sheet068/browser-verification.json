@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-25T00:12:19.556285+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "068",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6241,
+        5280
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6075,
+        4135
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Complete original mapped frame, ocean and modern reference visibly inspected; small correlated sample and western inland coverage limitations retained."
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "sheet": "070",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass but median companion bound exceeded and northern half unvalidated; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/070.pdf",
+    "pdf_sha256": "4fadf1c649219a41232fa57e2b20502257378f15eb2d9a4ea99b73d5fc30d40e",
+    "jpeg_sha256": "7ba6913a5b8b92e41528b7e9ff12bee3ebed5c1d38ec65c40509d7d375efdeab",
+    "dimensions": [
+      5676,
+      3894
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 4,
+      "independent_checks": 5,
+      "rms_ground_m": 77.72458104411957,
+      "rms_gate_passed": true,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Five excluded checks give RMS 77.72 m, median 78.09 m, P95 95.06 m and maximum 99.14 m. RMS passes 100 m, but median exceeds the companion 75 m bound.",
+    "Four controls lie in the southern region, mostly near the bottom edge. Northern half and central river corridors remain unvalidated.",
+    "Four checks reuse control lakes; the fifth is a separate pond northeast of Newfound Lake. Substantial spatial correlation remains.",
+    "A constrained similarity was chosen before scoring because north-south control support is limited. The southern observations do not establish whole-sheet geographic adequacy.",
+    "Thick generalized natural shorelines use 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 77.72 m, median 78.09 m, P95 95.06 m, maximum 99.14 m. 4 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Jackson, Rose, Atkinson, Greenville, Leroy, Henderson Settlement, Wentworth Centre, Lower Greenville, Westchester Station, Wentworth Station, Westchester Lake area, Fountain, Gamble, Newfound, Snake and Debert lakes, northern-edge Dewar Lake, all river corridors, ponds and parcels. No displaced inset identified."
+  }
+}

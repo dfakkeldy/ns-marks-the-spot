@@ -1,0 +1,116 @@
+{
+  "sheet": "071",
+  "version": "similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.578544018823597,
+      1.9026113223754806
+    ],
+    [
+      1.9026113223754806,
+      -4.578544018823597
+    ],
+    [
+      438255.1552745615,
+      5037325.259602477
+    ]
+  ],
+  "source_sha256": "60e3b58f2d76d4d5e4954ab2130afd17ed0406ea31b81576df6e82e5962b09cd",
+  "source_dimensions": [
+    6001,
+    4193
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Northeastern upper round pond northern shore",
+      "role": "control",
+      "pixel_xy": [
+        4453,
+        517
+      ],
+      "lonlat": [
+        -63.5174732314857,
+        45.543113529618346
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 114797,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 114797,
+      "nearest_unfiltered_distance_guide_px": 2.809499687013314,
+      "selected_distance_guide_px": 2.809499687013314,
+      "guide_reference_pixel_xy": [
+        4511.87179478578,
+        438.4269781411858
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C02",
+      "label": "Northeastern western small pond northern shore",
+      "role": "control",
+      "pixel_xy": [
+        4387,
+        680
+      ],
+      "lonlat": [
+        -63.516615353399615,
+        45.535573436693234
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 139798,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139798,
+      "nearest_unfiltered_distance_guide_px": 1.3073466476208924,
+      "selected_distance_guide_px": 1.3073466476208924,
+      "guide_reference_pixel_xy": [
+        4459.564171145263,
+        599.1793498954503
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C03",
+      "label": "Northern East Folly Mountain pond southern tip",
+      "role": "control",
+      "pixel_xy": [
+        4420,
+        1372
+      ],
+      "lonlat": [
+        -63.49799381224851,
+        45.50747176096563
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 84343,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 84343,
+      "nearest_unfiltered_distance_guide_px": 1.190284908725191,
+      "selected_distance_guide_px": 1.190284908725191,
+      "guide_reference_pixel_xy": [
+        4487.213519424375,
+        1292.1709772070171
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    28.38183332746086,
+    35.05342533982521,
+    7.204368180072912
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: constrained similarity limits free parameters and avoids unsupported affine shear; see component role plan for control distribution and model rationale"
+}

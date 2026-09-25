@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Five controls span northeastern headlands/island and southern Big Lake with two-dimensional support, though west and northwest are unvalidated.",
+  "corrections": [
+    "Bergman Point C02 and Q04 switched from WACO20 to the physically corresponding WACORV20 boundary after native feature-class audit; initial wrong proposals preserved"
+  ],
+  "not_adopted": [
+    "Pitheo and Wigmore lake configurations, Big Lake eastern arm/islands, altered Marsh Point and generalized Scale Point not forced into matches",
+    "Western inland rivers and parcels lack sufficiently secure point identity"
+  ],
+  "limitations": [
+    "Four checks are correlated with nearby control regions: Fishing/Pugwash coast, Bergman cape, Victoria Island and Big Lake",
+    "Western and northwestern areas and inland river corridors unvalidated; southern support relies on Big Lake",
+    "18 px working source uncertainty"
+  ]
+}

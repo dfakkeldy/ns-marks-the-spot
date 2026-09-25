@@ -1,0 +1,41 @@
+[
+  [
+    "C01",
+    "Northeastern upper round pond northern shore",
+    [
+      4453,
+      517
+    ],
+    [
+      4513,
+      441
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Northeastern western small pond northern shore",
+    [
+      4387,
+      680
+    ],
+    [
+      4459,
+      598
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Northern East Folly Mountain pond southern tip",
+    [
+      4420,
+      1372
+    ],
+    [
+      4487,
+      1291
+    ],
+    "WALK20"
+  ]
+]

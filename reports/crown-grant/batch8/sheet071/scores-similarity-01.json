@@ -1,0 +1,151 @@
+{
+  "count": 4,
+  "rms_ground_m": 41.419930395599955,
+  "median_ground_m": 25.592764353260957,
+  "p95_ground_m": 66.3682080132555,
+  "max_ground_m": 73.21975237991238,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 13.446260176408323,
+  "mean_north_ground_m": 16.342917396065957,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Northeastern upper round pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4454,
+        532
+      ],
+      "lonlat": [
+        -63.517420621779415,
+        45.54219738653396
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 114796,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 114796,
+      "nearest_unfiltered_distance_guide_px": 1.5595612718290977,
+      "selected_distance_guide_px": 1.5595612718290977,
+      "guide_reference_pixel_xy": [
+        4504.77165019844,
+        457.64471872593276
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.51672811384738,
+        45.54264146491326
+      ],
+      "error_ground_m": 73.21975237991238,
+      "east_ground_m": 54.084208270337136,
+      "north_ground_m": 49.356160247191845
+    },
+    {
+      "id": "Q02",
+      "label": "Northeastern western small pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4384,
+        695
+      ],
+      "lonlat": [
+        -63.51699359256203,
+        45.534568455362525
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 139797,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139797,
+      "nearest_unfiltered_distance_guide_px": 4.248562875290765,
+      "selected_distance_guide_px": 4.248562875290765,
+      "guide_reference_pixel_xy": [
+        4445.488666985766,
+        617.6081749711884
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.51678845067554,
+        45.53472487224234
+      ],
+      "error_ground_m": 23.64273877098866,
+      "east_ground_m": 16.0236338914621,
+      "north_ground_m": 17.384540646954047
+    },
+    {
+      "id": "Q03",
+      "label": "Northern East Folly Mountain pond northern shore",
+      "role": "check",
+      "pixel_xy": [
+        4420,
+        1335
+      ],
+      "lonlat": [
+        -63.49898479487192,
+        45.50912634425348
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 84344,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 84344,
+      "nearest_unfiltered_distance_guide_px": 0.09899417085931134,
+      "selected_distance_guide_px": 0.09899417085931134,
+      "guide_reference_pixel_xy": [
+        4487.098599665915,
+        1252.0088290285785
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.49885497502142,
+        45.50904546243397
+      ],
+      "error_ground_m": 13.554557289102933,
+      "east_ground_m": 10.14484333805302,
+      "north_ground_m": -8.989336847061338
+    },
+    {
+      "id": "Q04",
+      "label": "Southern East Folly Mountain pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4602,
+        1588
+      ],
+      "lonlat": [
+        -63.48162464835184,
+        45.50173963185796
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 134563,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134563,
+      "nearest_unfiltered_distance_guide_px": 0.3166523857361052,
+      "selected_distance_guide_px": 0.3166523857361052,
+      "guide_reference_pixel_xy": [
+        4674.316643222701,
+        1509.9975910770008
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.48196330172649,
+        45.501808195302104
+      ],
+      "error_ground_m": 27.542789935533253,
+      "east_ground_m": -26.467644794218973,
+      "north_ground_m": 7.620305537179272
+    }
+  ],
+  "fit_sha256": "f28e28ba8dc2c14dcbafee3fd1220d2acb1983a22e2451ab0eb09e807400724e",
+  "checks_sha256": "1a17ee59efd8cfaef92088ad431b652907cbe6d0b97b5c0dda1116c58d7e627c",
+  "status": "Four excluded checks reserved before first constrained similarity fit; three paired ponds and one separate southern pond, all in northeastern cluster"
+}

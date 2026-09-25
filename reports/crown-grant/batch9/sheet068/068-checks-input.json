@@ -1,0 +1,54 @@
+[
+  [
+    "Q01",
+    "Cold Spring Head lower eastern tip",
+    [
+      3217,
+      1394
+    ],
+    [
+      3265,
+      1442
+    ],
+    "WACO20"
+  ],
+  [
+    "Q02",
+    "Lake Killarney southeast tip",
+    [
+      2727,
+      3839
+    ],
+    [
+      2779,
+      3862
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Linden southern peninsula northern apex",
+    [
+      3564,
+      3108
+    ],
+    [
+      3609,
+      3140
+    ],
+    "WACO20"
+  ],
+  [
+    "Q04",
+    "Lake Killarney western lobe southern shore",
+    [
+      2401,
+      3695
+    ],
+    [
+      2434,
+      3710
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Lewis Head eastern tip",
+    [
+      4142,
+      238
+    ],
+    [
+      4090,
+      208
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Bergman Point northern apex",
+    [
+      4264,
+      480
+    ],
+    [
+      4205,
+      447
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Pugwash Point northern apex",
+    [
+      4930,
+      455
+    ],
+    [
+      4871,
+      420
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Victoria Island northern tip",
+    [
+      4655,
+      1096
+    ],
+    [
+      4600,
+      1065
+    ],
+    "WACORVIS10"
+  ],
+  [
+    "C05",
+    "Big or Pugwash Lake northwest tip",
+    [
+      2786,
+      3238
+    ],
+    [
+      2741,
+      3234
+    ],
+    "WALK20"
+  ]
+]

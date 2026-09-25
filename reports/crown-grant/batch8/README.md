@@ -11,6 +11,6 @@ Continuation through the southern eastern mainland and next western column. Cont
 | 074 | 61.27 | 6 | complete |
 | 073 | 46.73 | 6 | complete |
 | 072 | 31.64 | 6 | complete |
-| 071 | — | — | queued |
+| 071 | 41.42 | 4 | complete |
 
 The independent ground RMS ceiling is 100 m. Per-sheet results retain failures, companion metrics, bias and geographic limitations. Assessment completion does not imply geographic acceptance. Source imagery and raster reviews remain private; no production activation.

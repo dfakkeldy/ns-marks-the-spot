@@ -1,0 +1,113 @@
+{
+  "status": "Four excluded checks reserved before first constrained similarity fit; three paired ponds and one separate southern pond, all in northeastern cluster",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Northeastern upper round pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4454,
+        532
+      ],
+      "lonlat": [
+        -63.517420621779415,
+        45.54219738653396
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 114796,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 114796,
+      "nearest_unfiltered_distance_guide_px": 1.5595612718290977,
+      "selected_distance_guide_px": 1.5595612718290977,
+      "guide_reference_pixel_xy": [
+        4504.77165019844,
+        457.64471872593276
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring."
+    },
+    {
+      "id": "Q02",
+      "label": "Northeastern western small pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4384,
+        695
+      ],
+      "lonlat": [
+        -63.51699359256203,
+        45.534568455362525
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 139797,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139797,
+      "nearest_unfiltered_distance_guide_px": 4.248562875290765,
+      "selected_distance_guide_px": 4.248562875290765,
+      "guide_reference_pixel_xy": [
+        4445.488666985766,
+        617.6081749711884
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring."
+    },
+    {
+      "id": "Q03",
+      "label": "Northern East Folly Mountain pond northern shore",
+      "role": "check",
+      "pixel_xy": [
+        4420,
+        1335
+      ],
+      "lonlat": [
+        -63.49898479487192,
+        45.50912634425348
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 84344,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 84344,
+      "nearest_unfiltered_distance_guide_px": 0.09899417085931134,
+      "selected_distance_guide_px": 0.09899417085931134,
+      "guide_reference_pixel_xy": [
+        4487.098599665915,
+        1252.0088290285785
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring."
+    },
+    {
+      "id": "Q04",
+      "label": "Southern East Folly Mountain pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4602,
+        1588
+      ],
+      "lonlat": [
+        -63.48162464835184,
+        45.50173963185796
+      ],
+      "guide_file": ".crown-grant-local/071-adjacent-ppi-guide.npy",
+      "reference_objectid": 134563,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134563,
+      "nearest_unfiltered_distance_guide_px": 0.3166523857361052,
+      "selected_distance_guide_px": 0.3166523857361052,
+      "guide_reference_pixel_xy": [
+        4674.316643222701,
+        1509.9975910770008
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role selected before first fitting/scoring."
+    }
+  ]
+}
