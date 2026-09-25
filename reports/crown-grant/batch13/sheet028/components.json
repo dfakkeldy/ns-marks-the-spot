@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6004 x 4108 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 88.01 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          150,
+          135
+        ],
+        [
+          5980,
+          100
+        ],
+        [
+          5980,
+          3950
+        ],
+        [
+          180,
+          3990
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains the entire depicted Bay of Fundy, Phinney Cove, Hampton and St Croix Bay, Port Lorne and Port George, Upper Granville, Bridgetown, Clarence, Paradise, Lawrencetown, Brickton and Middleton; Ramsey and Crosskill lakes, every small depicted pond, the Annapolis River and intervening land. No inset or internal crop."
+    }
+  ]
+}

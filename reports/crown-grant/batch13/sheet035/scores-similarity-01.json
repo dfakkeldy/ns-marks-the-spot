@@ -1,0 +1,117 @@
+{
+  "count": 3,
+  "rms_ground_m": 75.05774417015296,
+  "median_ground_m": 76.38872315791511,
+  "p95_ground_m": 93.19776641113427,
+  "max_ground_m": 95.06543788371418,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 8.959199691417204,
+  "mean_north_ground_m": -34.21502845311954,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Long Point western secondary shoulder",
+      "role": "check",
+      "pixel_xy": [
+        5328,
+        383
+      ],
+      "lonlat": [
+        -64.83350139761012,
+        45.14786440860982
+      ],
+      "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+      "reference_objectid": 8616,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8616,
+      "nearest_unfiltered_distance_guide_px": 0.48357848143790466,
+      "selected_distance_guide_px": 0.48357848143790466,
+      "guide_reference_pixel_xy": [
+        5334.162171811564,
+        398.54442514199764
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/river context and native paired crosshairs inspected; endpoint corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.83253491442593,
+        45.14735063506957
+      ],
+      "error_ground_m": 95.06543788371418,
+      "east_ground_m": 76.00856666403793,
+      "north_ground_m": -57.09759428995955
+    },
+    {
+      "id": "Q02",
+      "label": "Annapolis north tributary east of the western river bridge",
+      "role": "check",
+      "pixel_xy": [
+        855,
+        3178
+      ],
+      "lonlat": [
+        -65.02022644957557,
+        44.95082201758388
+      ],
+      "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+      "reference_objectid": 249016,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV10",
+      "nearest_unfiltered_objectid": 156909,
+      "nearest_unfiltered_distance_guide_px": 0.0,
+      "selected_distance_guide_px": 0.0,
+      "guide_reference_pixel_xy": [
+        911.4030023244559,
+        3221.597084163339
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/river context and native paired crosshairs inspected; endpoint corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -65.02065923385712,
+        44.951086195252444
+      ],
+      "error_ground_m": 45.03687793372759,
+      "east_ground_m": -34.152692135376704,
+      "north_ground_m": 29.35837178597712
+    },
+    {
+      "id": "Q04",
+      "label": "Northern brook junction with Annapolis east of Auburn",
+      "role": "check",
+      "pixel_xy": [
+        3740,
+        3082
+      ],
+      "lonlat": [
+        -64.85562465382338,
+        45.008112141784885
+      ],
+      "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+      "reference_objectid": 254158,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV20",
+      "nearest_unfiltered_objectid": 166914,
+      "nearest_unfiltered_distance_guide_px": 1.4529745075837959,
+      "selected_distance_guide_px": 2.1113846891239643,
+      "guide_reference_pixel_xy": [
+        3763.921551559062,
+        3111.8900731890462
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/river context and native paired crosshairs inspected; endpoint corrections completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.85581464513702,
+        45.0074381151496
+      ],
+      "error_ground_m": 76.38872315791511,
+      "east_ground_m": -14.978275454409612,
+      "north_ground_m": -74.90586285537618
+    }
+  ],
+  "fit_sha256": "1ce0b1bb81fd46e5e7d15a9cb34e9ef80f26af2dc5807295af437b60a6d75716",
+  "checks_sha256": "113ff181ab098d28dd948b2f785bebc2bf2620f9bd83e1911a077512c80919d9",
+  "status": "Reserved before first fit and score"
+}

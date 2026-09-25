@@ -1,0 +1,106 @@
+[
+  {
+    "id": "Q01",
+    "label": "Long Point western secondary shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      5328,
+      383
+    ],
+    "lonlat": [
+      -64.83350139761012,
+      45.14786440860982
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 8616,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8616,
+    "nearest_unfiltered_distance_guide_px": 0.48357848143790466,
+    "selected_distance_guide_px": 0.48357848143790466,
+    "guide_reference_pixel_xy": [
+      5334.162171811564,
+      398.54442514199764
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Annapolis north tributary east of the western river bridge",
+    "role": "proposal",
+    "pixel_xy": [
+      880,
+      3181
+    ],
+    "lonlat": [
+      -65.01887209920064,
+      44.95106202471728
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 249016,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 249016,
+    "nearest_unfiltered_distance_guide_px": 6.741158873971384,
+    "selected_distance_guide_px": 6.741158873971384,
+    "guide_reference_pixel_xy": [
+      932.7941107299994,
+      3225.4455048704986
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Northern brook junction with Annapolis at Aylesford",
+    "role": "proposal",
+    "pixel_xy": [
+      4125,
+      2848
+    ],
+    "lonlat": [
+      -64.83892511395801,
+      45.02460467567583
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 262719,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 262719,
+    "nearest_unfiltered_distance_guide_px": 1.4185713977804353,
+    "selected_distance_guide_px": 1.4185713977804353,
+    "guide_reference_pixel_xy": [
+      4149.188782163081,
+      2882.163731254055
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Northern brook junction with Annapolis east of Auburn",
+    "role": "proposal",
+    "pixel_xy": [
+      3740,
+      3090
+    ],
+    "lonlat": [
+      -64.85462630864046,
+      45.00686450503093
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 248733,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 248733,
+    "nearest_unfiltered_distance_guide_px": 9.24737634445399,
+    "selected_distance_guide_px": 9.24737634445399,
+    "guide_reference_pixel_xy": [
+      3766.868428301299,
+      3143.7912506696302
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

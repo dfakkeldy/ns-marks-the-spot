@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C05",
+    "label": "Western small pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1315,
+      2618
+    ],
+    "lonlat": [
+      -65.34622770961575,
+      44.87449079164821
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 128280,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128280,
+    "nearest_unfiltered_distance_guide_px": 1.5279076508338296,
+    "selected_distance_guide_px": 1.5279076508338296,
+    "guide_reference_pixel_xy": [
+      1244.2623488925747,
+      2643.338048068341
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

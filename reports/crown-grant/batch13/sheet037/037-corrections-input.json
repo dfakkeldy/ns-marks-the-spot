@@ -1,0 +1,41 @@
+[
+  [
+    "C06",
+    "Rocky Lake northeast of Fraxville northwest roof",
+    [
+      5131,
+      934
+    ],
+    [
+      5142,
+      941
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Triangle or Birch Lake southern tip",
+    [
+      3532,
+      1865
+    ],
+    [
+      3540,
+      1914
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Clear Lake large island southern tip",
+    [
+      3155,
+      3335
+    ],
+    [
+      3192,
+      3403
+    ],
+    "WALKIS10"
+  ]
+]

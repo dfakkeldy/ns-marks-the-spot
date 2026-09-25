@@ -1,0 +1,86 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Long Point western secondary shoulder",
+      "role": "check",
+      "pixel_xy": [
+        5328,
+        383
+      ],
+      "lonlat": [
+        -64.83350139761012,
+        45.14786440860982
+      ],
+      "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+      "reference_objectid": 8616,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8616,
+      "nearest_unfiltered_distance_guide_px": 0.48357848143790466,
+      "selected_distance_guide_px": 0.48357848143790466,
+      "guide_reference_pixel_xy": [
+        5334.162171811564,
+        398.54442514199764
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/river context and native paired crosshairs inspected; endpoint corrections completed before first fit and score."
+    },
+    {
+      "id": "Q02",
+      "label": "Annapolis north tributary east of the western river bridge",
+      "role": "check",
+      "pixel_xy": [
+        855,
+        3178
+      ],
+      "lonlat": [
+        -65.02022644957557,
+        44.95082201758388
+      ],
+      "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+      "reference_objectid": 249016,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV10",
+      "nearest_unfiltered_objectid": 156909,
+      "nearest_unfiltered_distance_guide_px": 0.0,
+      "selected_distance_guide_px": 0.0,
+      "guide_reference_pixel_xy": [
+        911.4030023244559,
+        3221.597084163339
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/river context and native paired crosshairs inspected; endpoint corrections completed before first fit and score."
+    },
+    {
+      "id": "Q04",
+      "label": "Northern brook junction with Annapolis east of Auburn",
+      "role": "check",
+      "pixel_xy": [
+        3740,
+        3082
+      ],
+      "lonlat": [
+        -64.85562465382338,
+        45.008112141784885
+      ],
+      "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+      "reference_objectid": 254158,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV20",
+      "nearest_unfiltered_objectid": 166914,
+      "nearest_unfiltered_distance_guide_px": 1.4529745075837959,
+      "selected_distance_guide_px": 2.1113846891239643,
+      "guide_reference_pixel_xy": [
+        3763.921551559062,
+        3111.8900731890462
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/river context and native paired crosshairs inspected; endpoint corrections completed before first fit and score."
+    }
+  ]
+}

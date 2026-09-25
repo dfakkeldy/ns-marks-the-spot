@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Ramsey Lake western extremum",
+    [
+      2495,
+      2652
+    ],
+    [
+      2415,
+      2673
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Crosskill eastern lake southwest corner",
+    [
+      1918,
+      2791
+    ],
+    [
+      1838,
+      2770
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Unnamed lake west of Crosskill northern tip",
+    [
+      1640,
+      2763
+    ],
+    [
+      1573,
+      2770
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Small pond northeast of Crosskill southwest tip",
+    [
+      2172,
+      2537
+    ],
+    [
+      2101,
+      2558
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Western small pond southern tip",
+    [
+      1306,
+      2650
+    ],
+    [
+      1227,
+      2674
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "St Croix Bay western projecting headland",
+    [
+      1838,
+      1870
+    ],
+    [
+      1783,
+      1883
+    ],
+    "WACO20"
+  ],
+  [
+    "Q07",
+    "St Croix Bay southernmost shore bend",
+    [
+      2098,
+      2009
+    ],
+    [
+      2040,
+      2018
+    ],
+    "WACO20"
+  ]
+]

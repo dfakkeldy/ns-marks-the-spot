@@ -1,0 +1,41 @@
+[
+  [
+    "C04",
+    "Annapolis north tributary junction at Middleton",
+    [
+      323,
+      3041
+    ],
+    [
+      378,
+      3067
+    ],
+    "WARV50"
+  ],
+  [
+    "Q02",
+    "Annapolis north tributary east of the western river bridge",
+    [
+      855,
+      3178
+    ],
+    [
+      919,
+      3224
+    ],
+    "WARV50"
+  ],
+  [
+    "Q04",
+    "Northern brook junction with Annapolis east of Auburn",
+    [
+      3740,
+      3082
+    ],
+    [
+      3764,
+      3114
+    ],
+    "WARV50"
+  ]
+]

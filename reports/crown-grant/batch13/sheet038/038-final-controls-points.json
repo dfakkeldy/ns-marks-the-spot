@@ -1,0 +1,218 @@
+[
+  {
+    "id": "C01",
+    "label": "Small lake east of New Germany northern roof",
+    "role": "control",
+    "pixel_xy": [
+      1530,
+      1292
+    ],
+    "lonlat": [
+      -64.72408818413729,
+      44.56679484804774
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 126018,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126018,
+    "nearest_unfiltered_distance_guide_px": 0.26552268126719925,
+    "selected_distance_guide_px": 0.26552268126719925,
+    "guide_reference_pixel_xy": [
+      1559.8111466508126,
+      1307.186645939597
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  },
+  {
+    "id": "C02",
+    "label": "Sunken Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4122,
+      1034
+    ],
+    "lonlat": [
+      -64.56833560005855,
+      44.62897550313211
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 142107,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142107,
+    "nearest_unfiltered_distance_guide_px": 0.1301692641090584,
+    "selected_distance_guide_px": 0.1301692641090584,
+    "guide_reference_pixel_xy": [
+      4178.12874778168,
+      1055.0191845258232
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  },
+  {
+    "id": "C03",
+    "label": "Rocky Lake near Walden southern tip",
+    "role": "control",
+    "pixel_xy": [
+      4167,
+      1745
+    ],
+    "lonlat": [
+      -64.54748988029633,
+      44.5983057634701
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 127914,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127914,
+    "nearest_unfiltered_distance_guide_px": 0.27789805763490383,
+    "selected_distance_guide_px": 0.27789805763490383,
+    "guide_reference_pixel_xy": [
+      4210.041738011234,
+      1767.274745825911
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  },
+  {
+    "id": "C04",
+    "label": "Sherbrooke Lake Kill Dog Cove southern shore",
+    "role": "control",
+    "pixel_xy": [
+      3676,
+      378
+    ],
+    "lonlat": [
+      -64.61494284823706,
+      44.648341874647684
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 142518,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142518,
+    "nearest_unfiltered_distance_guide_px": 0.6274560206764288,
+    "selected_distance_guide_px": 0.6274560206764288,
+    "guide_reference_pixel_xy": [
+      3705.516349802667,
+      404.39972933905665
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  },
+  {
+    "id": "C05",
+    "label": "Western Rocky Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      753,
+      2747
+    ],
+    "lonlat": [
+      -64.73287264164698,
+      44.48844096827557
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 143169,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143169,
+    "nearest_unfiltered_distance_guide_px": 1.7383012818784422,
+    "selected_distance_guide_px": 1.7383012818784422,
+    "guide_reference_pixel_xy": [
+      797.859821912949,
+      2752.7326400233433
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  },
+  {
+    "id": "C06",
+    "label": "Rhodenizer Lake southern tip",
+    "role": "control",
+    "pixel_xy": [
+      770,
+      3685
+    ],
+    "lonlat": [
+      -64.70669163690194,
+      44.447612883947436
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 134017,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134017,
+    "nearest_unfiltered_distance_guide_px": 0.8112753713174655,
+    "selected_distance_guide_px": 0.8112753713174655,
+    "guide_reference_pixel_xy": [
+      818.192716968013,
+      3691.919614464161
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  },
+  {
+    "id": "C07",
+    "label": "Church Lake northern of two central islands northern tip",
+    "role": "control",
+    "pixel_xy": [
+      3042,
+      2426
+    ],
+    "lonlat": [
+      -64.59942504162477,
+      44.546765326488774
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 147604,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 147604,
+    "nearest_unfiltered_distance_guide_px": 3.304042162361932,
+    "selected_distance_guide_px": 3.304042162361932,
+    "guide_reference_pixel_xy": [
+      3085.10477793921,
+      2441.6976196169853
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  },
+  {
+    "id": "C08",
+    "label": "Spenado Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4710,
+      3427
+    ],
+    "lonlat": [
+      -64.46882192749483,
+      44.535895642531834
+    ],
+    "guide_file": ".crown-grant-local/038-north-provisional-guide.npy",
+    "reference_objectid": 139689,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139689,
+    "nearest_unfiltered_distance_guide_px": 0.3110630042490407,
+    "selected_distance_guide_px": 0.3110630042490407,
+    "guide_reference_pixel_xy": [
+      4767.84359821002,
+      3434.268884125049
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected; all corrections/exclusions before first fit and score."
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T07:01:31.641779+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 6,
+  "reason": "Five southwest lakes/ponds plus Port Lorne and Port George coastal roofs supply controls; St Croix Bay contributes independent coastal checks.",
+  "corrections": [
+    "Western pond northern source moved from an offshore crosshair onto its actual northern shore."
+  ],
+  "rejected": {
+    "Q03": "Unnamed lake west of Crosskill north proposal matched an inner modern peninsula beside an expanded connection rather than the historical outer roof."
+  },
+  "limitations": [
+    "Four checks pair with control lakes/ponds, and two checks sample the same St Croix Bay coast. Spatial independence is limited.",
+    "Five inland controls cluster in the southwest. Southeast river corridor, broad central/eastern interior and Bay of Fundy water remain unvalidated.",
+    "Port Lorne, Port George and the unnamed lake west of Crosskill have no local independent check.",
+    "Generalized coastal roofs and lake outlines carry 24 px source uncertainty."
+  ]
+}
