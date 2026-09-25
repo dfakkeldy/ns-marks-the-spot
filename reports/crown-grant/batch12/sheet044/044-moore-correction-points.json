@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q07",
+    "label": "Moore Brook junction with Mill Brook east of North Alton",
+    "role": "proposal",
+    "pixel_xy": [
+      3091,
+      469
+    ],
+    "lonlat": [
+      -64.51309086602073,
+      45.05329217325981
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 272389,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 272389,
+    "nearest_unfiltered_distance_guide_px": 3.6261050316282235,
+    "selected_distance_guide_px": 3.6261050316282235,
+    "guide_reference_pixel_xy": [
+      3093.5520600440213,
+      491.7290453648893
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

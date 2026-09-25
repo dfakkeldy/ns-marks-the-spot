@@ -1,0 +1,15 @@
+{
+  "source": "https://novascotia.ca/natr/land/grantmap.asp",
+  "route": "Continuation south through Kings County and the South Shore, then the next western mainland column",
+  "sheets": [
+    "043",
+    "044",
+    "045",
+    "046",
+    "047",
+    "048",
+    "040",
+    "039"
+  ],
+  "continuation": "reports/crown-grant/series/queue.json; publication checkpoints do not limit the full requested series"
+}
