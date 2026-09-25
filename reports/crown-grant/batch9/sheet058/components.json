@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5274 x 3625 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 106.18 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          70,
+          90
+        ],
+        [
+          5190,
+          90
+        ],
+        [
+          5190,
+          3525
+        ],
+        [
+          70,
+          3525
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains the New Brunswick context and Midgic station, Large/Big Jolicure, Long and Front/Jolicure lakes, all other mapped NB ponds, Tantramar and La Coupe river context, the provincial boundary and Baie Verte Road, Hackmatack Lake Sanctuary context, Tidnish Head, Tidnish Bridge, Tidnish, Baie Verte, the complete largely blank northern area and the original grant-reference table. No displaced inset identified."
+    }
+  ]
+}

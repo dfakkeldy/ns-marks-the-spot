@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Four mapped NB lake controls and one NS headland provide two-dimensional support across the populated southern portion of this border sheet.",
+  "corrections": [
+    "Front Lake northern and southern extremities refined from native source/reference shapes; Tidnish Head source tip refined before first fit",
+    "Initial west-only neighbor guide discarded before any point selection; translated discovery prior and all initial reference results preserved"
+  ],
+  "not_adopted": [
+    "Q01 Large Lake northeastern outlet/shore projection and Q04 small northern lake changed southwestern lobe rejected before fit",
+    "Ogdens-area generalized pond shape, altered western Large Lake shores, and Hackmatack boundary-lake configurations not forced into matches"
+  ],
+  "limitations": [
+    "Three checks all belong to NB lake systems already used by controls; small highly correlated sample",
+    "Tidnish Head is the sole Nova Scotia control and has no independent NS check; NS accuracy unvalidated",
+    "Northern largely blank administrative context, Bay Verte and intervening areas unvalidated",
+    "Generalized original lake outlines use 18 px working uncertainty; NBHN source reports 5 m planimetric accuracy, while 20 m working modern uncertainty is retained"
+  ]
+}

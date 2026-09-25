@@ -1,0 +1,15 @@
+{
+  "verified_at_utc": "2026-09-25T00:32:39.960098+00:00",
+  "source_nb_polygons": 316,
+  "exact_polygon_ring_conversions": 316,
+  "review_nb_non_ocean_features": 315,
+  "nstdb_features": 2257,
+  "combined_review_features": 2572,
+  "all_nb_ring_coordinates_equal_source": true,
+  "unique_combined_ids": true,
+  "raw_ocean_polygon_retained": true,
+  "notes": [
+    "The GeoNB Ocean polygon is excluded only from combined review display because some ring segments are administrative closures",
+    "Source attributes, names, NID, original OBJECTID and reported planimetric accuracy remain preserved"
+  ]
+}

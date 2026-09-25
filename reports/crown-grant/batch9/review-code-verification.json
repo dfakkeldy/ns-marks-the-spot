@@ -1,0 +1,12 @@
+{
+  "verified_at_utc": "2026-09-25T00:32:39.960840+00:00",
+  "python_tests": 5,
+  "result": "passed",
+  "command": "/opt/local/bin/python3.12 -m unittest discover -s tools/crown-grant -p 'test_*.py'",
+  "javascript_syntax": "node --check /private/tmp/crown-review.js passed",
+  "browser_attribution_verification": "Actual058 NBHN/NSTDB credits and map attribution inspected;069 default NSTDB credits restored on switch;058 credits restored on return;no console errors",
+  "changes": [
+    "Numeric batch queue ordering including batch10 and11",
+    "Per-sheet modern reference credits and per-feature dataset popup label rendered as text"
+  ]
+}
