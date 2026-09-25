@@ -1,0 +1,151 @@
+{
+  "count": 4,
+  "rms_ground_m": 100.17459813305791,
+  "median_ground_m": 97.8420706642767,
+  "p95_ground_m": 131.2023603043518,
+  "max_ground_m": 135.9941525422729,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 46.38824849198753,
+  "mean_north_ground_m": 18.203458774697133,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Main map Lawlor Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2520,
+        685
+      ],
+      "lonlat": [
+        -63.48836141501385,
+        44.59822729172521
+      ],
+      "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+      "reference_objectid": 18408,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18408,
+      "nearest_unfiltered_distance_guide_px": 5.072925021658359,
+      "selected_distance_guide_px": 5.072925021658359,
+      "guide_reference_pixel_xy": [
+        2509.072557586187,
+        669.9582444977714
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+      "predicted_lonlat": [
+        -63.487945345039435,
+        44.59789899207602
+      ],
+      "error_ground_m": 49.21585715310687,
+      "east_ground_m": 33.0344429942699,
+      "north_ground_m": -36.481860854037485
+    },
+    {
+      "id": "Q02",
+      "label": "Main map Devil Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2796,
+        1225
+      ],
+      "lonlat": [
+        -63.45911222697735,
+        44.579905855044785
+      ],
+      "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+      "reference_objectid": 16515,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16515,
+      "nearest_unfiltered_distance_guide_px": 0.9728901162910674,
+      "selected_distance_guide_px": 0.9728901162910674,
+      "guide_reference_pixel_xy": [
+        2773.7434627053444,
+        1220.6275176365161
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+      "predicted_lonlat": [
+        -63.458207577538495,
+        44.580417685440715
+      ],
+      "error_ground_m": 91.63527037242116,
+      "east_ground_m": 71.84740795160558,
+      "north_ground_m": 56.87682082239031
+    },
+    {
+      "id": "Q03",
+      "label": "Main map Hartlen peninsula southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        2963,
+        1102
+      ],
+      "lonlat": [
+        -63.452391433726454,
+        44.58929732881445
+      ],
+      "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+      "reference_objectid": 6563,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 6563,
+      "nearest_unfiltered_distance_guide_px": 7.847330458006831,
+      "selected_distance_guide_px": 7.847330458006831,
+      "guide_reference_pixel_xy": [
+        2952.767678604636,
+        1070.8483679888304
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+      "predicted_lonlat": [
+        -63.45159264238577,
+        44.588555107410144
+      ],
+      "error_ground_m": 104.04887095613225,
+      "east_ground_m": 63.43129084339085,
+      "north_ground_m": -82.47811157626623
+    },
+    {
+      "id": "Q05",
+      "label": "Main map Shut In Island northern extremity",
+      "role": "check",
+      "pixel_xy": [
+        5755,
+        1507
+      ],
+      "lonlat": [
+        -63.27885534570796,
+        44.62081081963568
+      ],
+      "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+      "reference_objectid": 20381,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20381,
+      "nearest_unfiltered_distance_guide_px": 2.246490222568766,
+      "selected_distance_guide_px": 2.246490222568766,
+      "guide_reference_pixel_xy": [
+        5741.806977902132,
+        1485.9034540344728
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+      "predicted_lonlat": [
+        -63.27863811925616,
+        44.622024747345336
+      ],
+      "error_ground_m": 135.9941525422729,
+      "east_ground_m": 17.239852178683797,
+      "north_ground_m": 134.89698670670194
+    }
+  ],
+  "fit_sha256": "e566ee26c230211fc0c52c7538334778385d288d865036d884d2b79473e3b71b",
+  "checks_sha256": "2ee7756a6de3953b4dcfe7756c612c11d4f7db74bc97ac0a6dc15e6c7803775d",
+  "status": "Four main-map checks reserved before first constrained similarity fit; paired Lawlor, Devil and Hartlen regions plus separate Shut In Island"
+}

@@ -1,0 +1,113 @@
+{
+  "status": "Four excluded Lawlor Island inset checks reserved before first inset similarity fit; same island as controls, no independent mainland check",
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Inset Lawlor Island northeast bay southern bend",
+      "role": "check",
+      "pixel_xy": [
+        2718,
+        3198
+      ],
+      "lonlat": [
+        -63.49748593239963,
+        44.60525581452857
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18407,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18407,
+      "nearest_unfiltered_distance_guide_px": 1.1132436074527103,
+      "selected_distance_guide_px": 1.1132436074527103,
+      "guide_reference_pixel_xy": [
+        2698.928301066044,
+        3190.69871487841
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained"
+    },
+    {
+      "id": "IQ02",
+      "label": "Inset Lawlor Island eastern lower shoulder northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2878,
+        3329
+      ],
+      "lonlat": [
+        -63.49075378368852,
+        44.601732102553115
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18407,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18407,
+      "nearest_unfiltered_distance_guide_px": 0.5693936641836205,
+      "selected_distance_guide_px": 0.5693936641836205,
+      "guide_reference_pixel_xy": [
+        2910.442259546893,
+        3347.6413697754033
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained"
+    },
+    {
+      "id": "IQ03",
+      "label": "Inset Lawlor Island easternmost outer shore",
+      "role": "check",
+      "pixel_xy": [
+        3024,
+        3461
+      ],
+      "lonlat": [
+        -63.487791166366186,
+        44.59915147351339
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18407,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18407,
+      "nearest_unfiltered_distance_guide_px": 0.8425697278537435,
+      "selected_distance_guide_px": 0.8425697278537435,
+      "guide_reference_pixel_xy": [
+        3003.2594074027147,
+        3462.1983569711447
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained"
+    },
+    {
+      "id": "IQ04",
+      "label": "Inset Lawlor Island northwest natural shore below small jetty",
+      "role": "check",
+      "pixel_xy": [
+        2458,
+        3094
+      ],
+      "lonlat": [
+        -63.50529590493336,
+        44.60751987761882
+      ],
+      "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+      "reference_objectid": 18309,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18309,
+      "nearest_unfiltered_distance_guide_px": 1.3643006784594518,
+      "selected_distance_guide_px": 1.3643006784594518,
+      "guide_reference_pixel_xy": [
+        2453.0840316017566,
+        3089.171633035643
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained"
+    }
+  ]
+}

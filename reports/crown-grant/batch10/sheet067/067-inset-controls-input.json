@@ -1,0 +1,41 @@
+[
+  [
+    "IC01",
+    "Inset Lawlor Island northern tip",
+    [
+      2482,
+      3006
+    ],
+    [
+      2482,
+      3006
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IC02",
+    "Inset Lawlor Island southern tip",
+    [
+      2983,
+      3509
+    ],
+    [
+      2964,
+      3508
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IC03",
+    "Inset Lawlor Island northeast narrow finger tip",
+    [
+      2748,
+      3152
+    ],
+    [
+      2746,
+      3146
+    ],
+    "WACOIS10"
+  ]
+]

@@ -1,13 +1,15 @@
 {
-  "verified_at_utc": "2026-09-25T02:20:48.668642+00:00",
-  "sheets": 4,
+  "verified_at_utc": "2026-09-25T03:13:15.998328+00:00",
+  "sheets": 6,
   "planned_batch_sheets": 8,
   "batch_assessment_complete": false,
-  "score_replays": 4,
+  "score_replays": 8,
   "regressions": "5 scorer/pixel-frame/review-order tests passed",
   "rms_ceiling_m": 100,
-  "main_rms_pass_count": 4,
-  "main_rms_fail_sheets": [],
+  "main_rms_pass_count": 5,
+  "main_rms_fail_sheets": [
+    "067"
+  ],
   "all_components_coverage_passed": true,
   "all_source_fit_component_raster_hashes_match": true,
   "accepted_batch1_artifact_basis": "57765b8d5edc54798491ef524463b98330601633",
@@ -114,6 +116,62 @@
           "fit": "fit-affine-01.json",
           "checks": "checks-affine-01.json",
           "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "067",
+      "components": [
+        {
+          "component": "main",
+          "controls": 5,
+          "independent_checks": 4,
+          "rms_ground_m": 100.17459813305791,
+          "rms_gate_passed": false,
+          "fit": "fit-main-similarity-01.json",
+          "checks": "checks-main-similarity-01.json",
+          "scores": "scores-main-similarity-01.json"
+        },
+        {
+          "component": "eastern-passage-inset",
+          "controls": 3,
+          "independent_checks": 4,
+          "rms_ground_m": 66.29321558476471,
+          "rms_gate_passed": true,
+          "fit": "fit-inset-similarity-01.json",
+          "checks": "checks-inset-similarity-01.json",
+          "scores": "scores-inset-similarity-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "057",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 7,
+          "rms_ground_m": 59.35648090816673,
+          "rms_gate_passed": true,
+          "fit": "fit-main-affine-01.json",
+          "checks": "checks-main-affine-01.json",
+          "scores": "scores-main-affine-01.json"
+        },
+        {
+          "component": "peggy-cove-inset",
+          "controls": 3,
+          "independent_checks": 3,
+          "rms_ground_m": 35.656279033218276,
+          "rms_gate_passed": true,
+          "fit": "fit-inset-similarity-01.json",
+          "checks": "checks-inset-similarity-01.json",
+          "scores": "scores-inset-similarity-01.json"
         }
       ],
       "coverage_passed": true,

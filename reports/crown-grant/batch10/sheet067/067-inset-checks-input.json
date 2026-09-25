@@ -1,0 +1,54 @@
+[
+  [
+    "IQ01",
+    "Inset Lawlor Island northeast bay southern bend",
+    [
+      2718,
+      3198
+    ],
+    [
+      2690,
+      3188
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ02",
+    "Inset Lawlor Island eastern lower shoulder northern tip",
+    [
+      2878,
+      3329
+    ],
+    [
+      2910,
+      3348
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ03",
+    "Inset Lawlor Island easternmost outer shore",
+    [
+      3024,
+      3461
+    ],
+    [
+      3003,
+      3463
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ04",
+    "Inset Lawlor Island northwest natural shore below small jetty",
+    [
+      2458,
+      3094
+    ],
+    [
+      2452,
+      3090
+    ],
+    "WACOIS10"
+  ]
+]

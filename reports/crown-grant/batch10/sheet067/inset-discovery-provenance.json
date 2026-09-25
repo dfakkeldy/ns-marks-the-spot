@@ -1,0 +1,16 @@
+{
+  "purpose": "Discovery only; not adopted controls",
+  "printed_scale": 15840,
+  "ppi": 160,
+  "projected_metres_per_pixel": 2.5145999999999997,
+  "orientation": "Printed GRID NORTH arrow near vertical; provisional UTM-grid orientation for discovery",
+  "anchor_original_pixel_xy": [
+    2482,
+    3006
+  ],
+  "anchor_reference_in_main_guide_xy": [
+    2374,
+    345
+  ],
+  "note": "Approximate Lawlor northern tip transferred through the unaccepted main discovery guide. All adopted inset points will be independently matched to original modern coordinates."
+}

@@ -1,0 +1,14 @@
+{
+  "timing": "Before first main fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Seven controls spread across western and southern islands and northeastern ponds; northwestern and central interior remain unvalidated.",
+  "corrections": [
+    "Betty Island southern source crosshair moved from offshore onto the actual southern tip, [1044,2049].",
+    "Third and Charley Pond eastern reference vertices refined to the actual lake ends, before scoring."
+  ],
+  "limitations": [
+    "All seven checks are paired with the same islands or ponds as controls; spatially correlated sample.",
+    "Northern and western mainland interior and much coastline have no independent validation.",
+    "Generalized Clarke Island, Roost coast and difficult coastline configurations not forced into point matches."
+  ]
+}

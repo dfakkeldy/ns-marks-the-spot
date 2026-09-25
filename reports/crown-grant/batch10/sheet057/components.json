@@ -1,0 +1,105 @@
+{
+  "source_frame": "Original 5699 x 3850 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      30,
+      110
+    ],
+    [
+      5620,
+      110
+    ],
+    [
+      5620,
+      3710
+    ],
+    [
+      30,
+      3710
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 59.36 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          30,
+          110
+        ],
+        [
+          5620,
+          110
+        ],
+        [
+          5620,
+          3710
+        ],
+        [
+          30,
+          3710
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "332ce4a3a888105f36ff455aae8267c8c79765b3f2fb6dac4b88fbfa7c540379",
+      "holes_pixel_xy": [
+        [
+          [
+            30,
+            2830
+          ],
+          [
+            950,
+            2830
+          ],
+          [
+            950,
+            3710
+          ],
+          [
+            30,
+            3710
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "peggy-cove-inset",
+      "status": "RMS 35.66 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          30,
+          2830
+        ],
+        [
+          950,
+          2830
+        ],
+        [
+          950,
+          3710
+        ],
+        [
+          30,
+          3710
+        ]
+      ],
+      "fit_file": "fit-inset-similarity-01.json",
+      "fit_sha256": "3f8bfa1eafe94bbb2bfecf276c9c5db66190044ec55b867e128d9dbc92bd914a",
+      "matrix": [
+        [
+          4.956453155908604,
+          2.0466511059428005
+        ],
+        [
+          2.0466511059428005,
+          -4.956453155908604
+        ],
+        [
+          419652.560666226,
+          4940719.138432049
+        ]
+      ]
+    }
+  ]
+}

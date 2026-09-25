@@ -1,0 +1,23 @@
+{
+  "timing": "Before first main fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Five controls form a sparse northern coastal band. Constrained scale and rotation avoid unsupported affine shear across the large unvalidated ocean and western coast.",
+  "corrections": [
+    "Hartlen southwest check source moved onto the shoreline corner from native detail."
+  ],
+  "rejections": [
+    {
+      "id": "Q04",
+      "reason": "Lawlor western projecting spur has materially different outline; precise point correspondence unresolved. Rejected before any fit or score; original proposal retained."
+    }
+  ],
+  "not_adopted": [
+    "Egg Island has no matching outline in the downloaded modern water reference; no cause asserted. Historical island remains in full raster.",
+    "Highly generalized Chebucto/western coast and changed Thrumcap/Bight configurations not forced into point matches"
+  ],
+  "limitations": [
+    "Four checks are a small correlated northern coastal sample; only Shut In Island is a separate check island.",
+    "Western coast, most interior and southern ocean area lack independent validation.",
+    "Main and inset Lawlor observations share modern reference geography; their component scores are not statistically independent."
+  ]
+}
