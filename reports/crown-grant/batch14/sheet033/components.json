@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5242 x 3683 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 48.14 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          95,
+          105
+        ],
+        [
+          5190,
+          155
+        ],
+        [
+          5175,
+          3600
+        ],
+        [
+          95,
+          3530
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The entire mapped frame retains lakes, harbour islands, intervening interior and the southern Liverpool\u2013Port Medway strip. Controls span western, northern, central and southeastern areas; unsampled margins remain provisional."
+    }
+  ]
+}

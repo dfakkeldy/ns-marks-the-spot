@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Town Lake central northern island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1972,
+      446
+    ],
+    "lonlat": [
+      -64.75102044225848,
+      44.02768026644636
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 149461,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 149461,
+    "nearest_unfiltered_distance_guide_px": 2.0455057356593946,
+    "selected_distance_guide_px": 2.0455057356593946,
+    "guide_reference_pixel_xy": [
+      2010.7111958476016,
+      457.58841983473394
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Victoria Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2598,
+      1471
+    ],
+    "lonlat": [
+      -64.68190130352468,
+      43.99314267736517
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 139172,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139172,
+    "nearest_unfiltered_distance_guide_px": 0.4523201506709479,
+    "selected_distance_guide_px": 0.4523201506709479,
+    "guide_reference_pixel_xy": [
+      2625.328555734188,
+      1468.689122776268
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Coffin Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3697,
+      769
+    ],
+    "lonlat": [
+      -64.6292109538511,
+      44.047954692751865
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 16216,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16216,
+    "nearest_unfiltered_distance_guide_px": 0.43308628040441033,
+    "selected_distance_guide_px": 0.43308628040441033,
+    "guide_reference_pixel_xy": [
+      3728.1523252810002,
+      804.405414275825
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Mouton Island northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      764,
+      2304
+    ],
+    "lonlat": [
+      -64.7790113949172,
+      43.91633794524356
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 20941,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20941,
+    "nearest_unfiltered_distance_guide_px": 0.4671910942929675,
+    "selected_distance_guide_px": 0.4671910942929675,
+    "guide_reference_pixel_xy": [
+      779.8307070421288,
+      2262.5645606666803
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Western Spectacle Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      334,
+      2252
+    ],
+    "lonlat": [
+      -64.80814438913555,
+      43.91011533934088
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 20387,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20387,
+    "nearest_unfiltered_distance_guide_px": 1.1416122987167032,
+    "selected_distance_guide_px": 1.1416122987167032,
+    "guide_reference_pixel_xy": [
+      357.6060905329068,
+      2203.03256374551
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "White Point western cape southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1624,
+      1882
+    ],
+    "lonlat": [
+      -64.73440939356827,
+      43.95324262012897
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 11668,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11668,
+    "nearest_unfiltered_distance_guide_px": 2.5547919457801465,
+    "selected_distance_guide_px": 2.5547919457801465,
+    "guide_reference_pixel_xy": [
+      1640.526187976473,
+      1869.5104708826402
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Western Head southern shore low point",
+    "role": "proposal",
+    "pixel_xy": [
+      2798,
+      1652
+    ],
+    "lonlat": [
+      -64.66251568682075,
+      43.98825532072334
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 12707,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 12707,
+    "nearest_unfiltered_distance_guide_px": 4.494856207180007,
+    "selected_distance_guide_px": 4.494856207180007,
+    "guide_reference_pixel_xy": [
+      2835.449166283419,
+      1667.3607412842102
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Andrew Head eastern southern lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      4814,
+      800
+    ],
+    "lonlat": [
+      -64.55363501881257,
+      44.06912033201164
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 1907,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1907,
+    "nearest_unfiltered_distance_guide_px": 1.361182110101354,
+    "selected_distance_guide_px": 1.361182110101354,
+    "guide_reference_pixel_xy": [
+      4860.563673271856,
+      866.2893547700951
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

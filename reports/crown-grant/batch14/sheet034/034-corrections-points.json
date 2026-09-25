@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C01",
+    "label": "Town Lake central northern island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1978,
+      446
+    ],
+    "lonlat": [
+      -64.75102044225848,
+      44.02768026644636
+    ],
+    "guide_file": ".crown-grant-local/034-frozen-north-guide.npy",
+    "reference_objectid": 149461,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 149461,
+    "nearest_unfiltered_distance_guide_px": 2.0455057356593946,
+    "selected_distance_guide_px": 2.0455057356593946,
+    "guide_reference_pixel_xy": [
+      2010.7111958476016,
+      457.58841983473394
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

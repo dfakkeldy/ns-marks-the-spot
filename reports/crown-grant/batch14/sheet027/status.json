@@ -1,0 +1,44 @@
+{
+  "sheet": "027",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/027.pdf",
+    "pdf_sha256": "07b1a95b5e9aff3617ea69af2f449f72c2757b3b978b2f4ed8b49ddfc8b2ed3b",
+    "jpeg_sha256": "296c893e12420efccc94274cd4abbd9048f7d28e8c8f5f2b770f55a51aa0972f",
+    "dimensions": [
+      5749,
+      3861
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 5,
+      "rms_ground_m": 82.2113760609723,
+      "rms_gate_passed": true,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Controls and checks lie in the northern coastal strip; most of the mapped frame is unvalidated open water.",
+    "Three checks share control islands; Joli Point and Potter Ledge supply separate features, with Joli outside the control footprint.",
+    "Generalized shorelines, tiny rocky islets and cape low points carry 24 px source uncertainty; light symbols are not shoreline evidence."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 82.21 m, median 60.02 m, P95 133.97 m, maximum 151.05 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame, all depicted offshore islands and the broad Atlantic area are retained. Physical validation is confined to the northern coastline and nearby islets; empty ocean does not establish geographic accuracy."
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 82.2113760609723,
+  "median_ground_m": 60.017721914481854,
+  "p95_ground_m": 133.9691254781313,
+  "max_ground_m": 151.0483325414771,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -48.849667985769926,
+  "mean_north_ground_m": 21.782170418745068,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Clam Island southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        549,
+        324
+      ],
+      "lonlat": [
+        -65.08526108570244,
+        43.739173951758744
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 16726,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16726,
+      "nearest_unfiltered_distance_guide_px": 1.5059420462924364,
+      "selected_distance_guide_px": 1.5059420462924364,
+      "guide_reference_pixel_xy": [
+        629.5623996183276,
+        357.60301463282667
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score.",
+      "predicted_lonlat": [
+        -65.08530136011781,
+        43.73900102930056
+      ],
+      "error_ground_m": 19.484926080417154,
+      "east_ground_m": -3.2443842651551194,
+      "north_ground_m": -19.21292052498356
+    },
+    {
+      "id": "Q02",
+      "label": "Ram Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        865,
+        1789
+      ],
+      "lonlat": [
+        -65.02738514214418,
+        43.68139711548134
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 20228,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20228,
+      "nearest_unfiltered_distance_guide_px": 0.3710132386346385,
+      "selected_distance_guide_px": 0.3710132386346385,
+      "guide_reference_pixel_xy": [
+        940.3440309651778,
+        1827.1389011095744
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score.",
+      "predicted_lonlat": [
+        -65.02790722448849,
+        43.68112505304388
+      ],
+      "error_ground_m": 51.826051234705496,
+      "east_ground_m": -42.09785302563123,
+      "north_ground_m": -30.22764227019154
+    },
+    {
+      "id": "Q03",
+      "label": "Green Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2779,
+        897
+      ],
+      "lonlat": [
+        -64.93598138519694,
+        43.75577198169332
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 23868,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23868,
+      "nearest_unfiltered_distance_guide_px": 9.502233269569166,
+      "selected_distance_guide_px": 9.502233269569166,
+      "guide_reference_pixel_xy": [
+        2814.983859551139,
+        944.7071673645405
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.93611832848127,
+        43.756354474866136
+      ],
+      "error_ground_m": 65.65229722474825,
+      "east_ground_m": -11.02854738233946,
+      "north_ground_m": 64.71935779596535
+    },
+    {
+      "id": "Q05",
+      "label": "Joli Point southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4646,
+        385
+      ],
+      "lonlat": [
+        -64.83539159184814,
+        43.81335016280155
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 9790,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 9790,
+      "nearest_unfiltered_distance_guide_px": 1.1903503313662656,
+      "selected_distance_guide_px": 1.1903503313662656,
+      "guide_reference_pixel_xy": [
+        4673.391346264863,
+        440.1241805959726
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.83701331323977,
+        43.81403506457288
+      ],
+      "error_ground_m": 151.0483325414771,
+      "east_ground_m": -130.47768191551103,
+      "north_ground_m": 76.09975877435733
+    },
+    {
+      "id": "Q06",
+      "label": "Potter Ledge northern tip",
+      "role": "check",
+      "pixel_xy": [
+        730,
+        1850
+      ],
+      "lonlat": [
+        -65.0337110714058,
+        43.67574199020558
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 23418,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23418,
+      "nearest_unfiltered_distance_guide_px": 0.7364200189536746,
+      "selected_distance_guide_px": 0.7364200189536746,
+      "guide_reference_pixel_xy": [
+        806.2673041561502,
+        1897.9260321372421
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score.",
+      "predicted_lonlat": [
+        -65.034422862099,
+        43.67589978605481
+      ],
+      "error_ground_m": 60.017721914481854,
+      "east_ground_m": -57.399873340212785,
+      "north_ground_m": 17.532298318577762
+    }
+  ],
+  "fit_sha256": "cb5f83f4dcab942513e1434747d816bd04ca5f5a01a27f27bec9adcc8f0898a8",
+  "checks_sha256": "b18e36bcff7d579ecd9c589210153697d5a9237d576e22b394a8b4b1a1c825c3",
+  "status": "Reserved before first fit and score"
+}

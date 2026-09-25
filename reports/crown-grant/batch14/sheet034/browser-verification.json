@@ -1,0 +1,54 @@
+{
+  "verified_at_utc": "2026-09-25T08:18:40.640220+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "034",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        5986,
+        5085
+      ],
+      "complete": true
+    },
+    {
+      "file": "offshore-inset-3857.png",
+      "dimensions": [
+        761,
+        763
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5304,
+        3689
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Whole-sheet historical and modern-only screenshots inspected; both components decoded, both opacity styles verified65/40/0/65.",
+    "Keyboard panned and zoomed twice to500m. Full inset historical and modern-only screenshots inspected at approximately638x639CSSpixels, including mainland corner and southern islet; northern island discrepancies remain provisional and unvalidated.",
+    "Both components restored to65%; browser warning/error log empty."
+  ],
+  "inset_close_review": {
+    "scale_bar": "500 m",
+    "displayed_css_dimensions": [
+      638,
+      639
+    ],
+    "historical_and_modern_only": true
+  }
+}

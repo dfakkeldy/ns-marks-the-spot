@@ -1,0 +1,54 @@
+[
+  {
+    "id": "IC01",
+    "label": "Inset mainland southwest angular shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4630,
+      1428
+    ],
+    "lonlat": [
+      -64.54203205883864,
+      44.10120502890291
+    ],
+    "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+    "reference_objectid": 12576,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 12576,
+    "nearest_unfiltered_distance_guide_px": 0.8846224457202171,
+    "selected_distance_guide_px": 0.8846224457202171,
+    "guide_reference_pixel_xy": [
+      4616.133293484338,
+      1451.1771346583264
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Inset southern islet westernmost shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4848,
+      1527
+    ],
+    "lonlat": [
+      -64.52420956839583,
+      44.100572469249876
+    ],
+    "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+    "reference_objectid": 18597,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18597,
+    "nearest_unfiltered_distance_guide_px": 0.8411899956673738,
+    "selected_distance_guide_px": 0.8411899956673738,
+    "guide_reference_pixel_xy": [
+      4837.79221401806,
+      1564.7171616037376
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

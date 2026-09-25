@@ -1,0 +1,64 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/027.pdf",
+  "source_dimensions": [
+    5749,
+    3861
+  ],
+  "ppi": 150,
+  "reference": {
+    "retrieved_at_utc": "2026-09-25T08:13:21.802006+00:00",
+    "bbox": [
+      -65.16824580693438,
+      43.550010627712574,
+      -64.64464739950554,
+      43.87807153098846
+    ],
+    "reference_count": 1855,
+    "truncated": false,
+    "pages": [
+      {
+        "file": "027-water-page0.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-65.16824580693438%2C43.550010627712574%2C-64.64464739950554%2C43.87807153098846&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=0",
+        "count": 1855,
+        "sha256": "921680bc1520509e04dcfa390bc755ca17dc833f06d78d503d9549c69d36ee75"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "027.pdf",
+      "bytes": 2875223,
+      "sha256": "07b1a95b5e9aff3617ea69af2f449f72c2757b3b978b2f4ed8b49ddfc8b2ed3b"
+    },
+    {
+      "name": "027-000.jpg",
+      "bytes": 2874048,
+      "sha256": "296c893e12420efccc94274cd4abbd9048f7d28e8c8f5f2b770f55a51aa0972f"
+    },
+    {
+      "name": "027-water-tight.geojson",
+      "bytes": 5882783,
+      "sha256": "74fbfc6179d40141d520cc81ba75341739b6b7e4982d593c16ccae549cba18b6"
+    },
+    {
+      "name": "027-reference-receipt.json",
+      "bytes": 753,
+      "sha256": "b0b9841692d96b1ec1b6ce6503ab2ab875a2eeb9e11bd8af09bfeb95857a4ff1"
+    },
+    {
+      "name": "027-water-page0.geojson",
+      "bytes": 5817819,
+      "sha256": "921680bc1520509e04dcfa390bc755ca17dc833f06d78d503d9549c69d36ee75"
+    },
+    {
+      "name": "027-east-adjacent-guide.npy",
+      "bytes": 176,
+      "sha256": "d8521aef6025bd44689e3cd22cea14da99c146ca3039c1721eed1da5b61da7a0"
+    },
+    {
+      "name": "027-southwest-guide.npy",
+      "bytes": 176,
+      "sha256": "4afd7c85c3d37569abd5584b2b1ca350dea33b908aab30b2e59ce9f9445548a5"
+    }
+  ]
+}

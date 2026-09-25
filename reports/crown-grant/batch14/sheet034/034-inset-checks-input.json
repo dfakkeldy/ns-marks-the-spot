@@ -1,0 +1,41 @@
+[
+  [
+    "IQ01",
+    "Inset southern islet northeastern horn tip",
+    [
+      4880,
+      1515
+    ],
+    [
+      4867,
+      1544
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ02",
+    "Inset southern islet southwestern low shore",
+    [
+      4856,
+      1537
+    ],
+    [
+      4840,
+      1574
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ03",
+    "Inset mainland southeast rounded shore turn",
+    [
+      4667,
+      1422
+    ],
+    [
+      4664,
+      1440
+    ],
+    "WACO20"
+  ]
+]

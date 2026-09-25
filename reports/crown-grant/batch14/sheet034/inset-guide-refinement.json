@@ -1,0 +1,21 @@
+{
+  "reason": "Native sheet 040 southwestern crop shows joins inset on sheet34 and a cropped island at its southern margin; direct 040 guide replaces approximate two-sheet adjacency.",
+  "source_anchor": [
+    4615,
+    1250
+  ],
+  "neighbour_anchor": [
+    130,
+    3810
+  ],
+  "pixel_scale": 1.0714285714285714,
+  "guide": "034-inset-sheet040-guide.npy",
+  "earlier_guide": "034-inset-discovery-guide.npy",
+  "bounds": [
+    -64.55097790821927,
+    44.08539425166994,
+    -64.49833743993344,
+    44.122930260159656
+  ],
+  "role": "Discovery only; no accepted observations, fit or score"
+}

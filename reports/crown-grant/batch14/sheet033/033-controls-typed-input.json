@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Ten Mile Lake northern roof",
+    [
+      1994,
+      435
+    ],
+    [
+      2024,
+      386
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Little Bonnature Lake northern tip",
+    [
+      309,
+      1778
+    ],
+    [
+      329,
+      1736
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Unnamed pond west of Green Brook southern tip",
+    [
+      1358,
+      1788
+    ],
+    [
+      1380,
+      1749
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Barnaby Lake northern roof",
+    [
+      2935,
+      867
+    ],
+    [
+      2978,
+      809
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Horse Lake northern tip",
+    [
+      4826,
+      718
+    ],
+    [
+      4914,
+      663
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Crane Lake northern tip",
+    [
+      3663,
+      2127
+    ],
+    [
+      3708,
+      2064
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Eight Mile Lake north-central island northern tip",
+    [
+      2328,
+      1075
+    ],
+    [
+      2364,
+      1019
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C08",
+    "Port Medway Harbour small western island northern tip",
+    [
+      4574,
+      2834
+    ],
+    [
+      4642,
+      2757
+    ],
+    "WACORVIS10"
+  ]
+]
