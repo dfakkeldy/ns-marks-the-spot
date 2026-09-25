@@ -13,7 +13,7 @@ try {
     lib: { entry: { civic: resolve('src/services/civicAddresses.ts'), mailing: resolve('src/services/mailingAddresses.ts') }, formats: ['es'], fileName: (_, name) => `${name}.mjs` },
   }});
   const { civicAddressForFeature } = await import(join(temporary, 'civic.mjs'));
-  const { matchMailingAddress, normalizeAddress, formatCivicRoadName } = { ...await import(join(temporary, 'mailing.mjs')), ...await import(join(temporary, 'civic.mjs')) };
+  const { matchMailingAddress, normalizeAddress, roadKeyVariants, formatCivicRoadName } = { ...await import(join(temporary, 'mailing.mjs')), ...await import(join(temporary, 'civic.mjs')) };
   const all = readdirSync('public/mailing-addresses').filter(p => /^[0-9a-f]{2}\.json\.gz$/.test(p))
     .flatMap(p => Object.values(JSON.parse(gunzipSync(readFileSync(`public/mailing-addresses/${p}`))).streets).flat());
   const codes = ['B0E1P0', 'B0E2W0', 'B0E1X0'];
@@ -25,7 +25,7 @@ try {
   if (civic.length !== civicInput.features.length) throw Error('Unreadable civic rows: review input before publication');
   const claims = new Map();
   for (const point of civic) {
-    const match = matchMailingAddress(point, roads.get(normalizeAddress(formatCivicRoadName(point.properties) ?? '')) ?? []);
+    const match = matchMailingAddress(point, roadKeyVariants(formatCivicRoadName(point.properties) ?? '').flatMap(key => roads.get(key) ?? []));
     if (match.status !== 'matched') continue;
     if (!claims.has(match.record.id)) claims.set(match.record.id, []);
     claims.get(match.record.id).push(point);
@@ -43,8 +43,8 @@ try {
   const receipt = { version: 1, postalCodes: codes, totalAddresses: addresses.length, mappedAddresses: addresses.filter(a => a.civic).length,
     unverifiedAddresses: addresses.filter(a => !a.civic).length, bounds: data.bounds, bytes: bytes.length, sha256: digest(bytes), decodedSha256: digest(decoded), sources,
     mailingSource: JSON.parse(readFileSync('public/mailing-addresses/source.json')),
-    matching: 'Exact normalized road, civic number, suffix and unit; building-to-civic distance at most 50 m. Exactly one NAR record per civic point and one civic point per NAR record. Unverified addresses remain listed but cannot be placed.',
-    limitations: 'Postal records are June 2026 NAR building-address records, not residents or a complete delivery list. Civic points are not guaranteed house locations. Roads, buildings and water are dated topographic features, not delivery routes or access permission. No aerial imagery is bundled.',
+    matching: 'Exact normalized road (a numbered highway matches whether written "19 HWY" or "Highway 19"), civic number, suffix and unit; building-to-civic distance at most 50 m. Exactly one NAR record per civic point and one civic point per NAR record. Unverified addresses remain listed and are shown only at their own NAR building coordinate, marked as postal points.',
+    limitations: 'Postal records are June 2026 NAR building-address records, not residents or a complete delivery list. Civic points and NAR building coordinates are not guaranteed house locations. Roads, buildings and water are dated topographic features, not delivery routes or access permission. No aerial imagery is bundled.',
     attribution: 'Contains information licensed under the Open Government Licence – Nova Scotia.',
     licence: 'https://support.novascotia.ca/services/open-data-portal-licence',
   };

@@ -287,23 +287,57 @@ for (const viewport of [{ width: 390, height: 340 }, { width: 1440, height: 1000
     await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
     const input = page.getByRole('searchbox', { name: 'Search civic address' });
     await input.fill('544');
-    const civic = page.getByRole('button', { name: /5447 Highway 19, Judique, Inverness County/ });
-    await expect(civic).toBeEnabled();
-    await civic.scrollIntoViewIfNeeded();
-    await expect(civic).toBeInViewport({ ratio: 1 });
+    // The register writes "19 HWY" and the province "Highway 19"; the pack joins them into one row.
+    const joined = pack.addresses.find((a: { civic: { pntid: string } | null }) => a.civic?.pntid === '32300049');
+    expect(joined).toBeTruthy();
+    const row = page.getByRole('button', { name: /5447 HIGHWAY 19, JUDIQUE, NS B0E 1P0/ });
+    await expect(row).toBeEnabled();
+    await row.scrollIntoViewIfNeeded();
+    await expect(row).toBeInViewport({ ratio: 1 });
     const count = await page.locator('.poker-results li button').count();
     await page.screenshot({ path: info.outputPath('544-suggestions.png') });
     await input.press('End');
     await input.press('7');
     await expect(input).toHaveValue('5447');
-    await expect(civic).toBeEnabled();
+    await expect(row).toBeEnabled();
     expect(await page.locator('.poker-results li button').count()).toBeLessThanOrEqual(count);
+    // One row for the address: no separate civic-only duplicate.
+    await expect(page.locator('.poker-results li button')).toHaveCount(1);
+    await expect(page.getByRole('button', { name: /5447 Highway 19, Judique, Inverness County/ })).toHaveCount(0);
     await input.fill('544 Highway 19');
-    await civic.click();
-    await expect(input).toHaveValue('5447 Highway 19, Judique, Inverness County');
+    await row.click();
+    await expect(input).toHaveValue('5447 HIGHWAY 19, JUDIQUE, NS B0E 1P0');
     await expect(page.locator('.poker-results')).toHaveCount(0);
     const session = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
-    expect(session.selectedId).toBe('civic:32300049:5447 Highway 19, Judique, Inverness County');
+    expect(session.selectedId).toBe(joined.mailing.id);
     expect(errors).toEqual([]);
   });
 }
+
+test('a postal record with no provincial civic point opens at its own building coordinate as a postal point', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  await page.goto('/poker');
+  await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+  const input = page.getByRole('searchbox', { name: 'Search civic address' });
+  await input.fill('40 Wills');
+  const rows = page.locator('.poker-results li button');
+  await expect(rows).toHaveCount(1);
+  await expect(rows.first()).toContainText('40 WILLS LANE, JUDIQUE, NS B0E 1P0');
+  await expect(rows.first()).toContainText('Postal building point · no unique provincial civic point');
+  await expect(rows.first()).toBeEnabled();
+  await rows.first().click();
+  await expect(page.locator('.poker-results')).toHaveCount(0);
+  const postal = page.locator('.poker-number.is-postal');
+  await expect(postal).toHaveCount(1);
+  await expect(postal).toHaveText('40');
+  // Neighbouring provincial civic numbers keep their ordinary labels.
+  await expect(page.locator('.poker-number:not(.is-postal)', { hasText: /^25$/ })).toHaveCount(1);
+  const record = pack.addresses.find((a: { mailing: { number: string; road: string } }) => a.mailing.number === '40' && a.mailing.road === 'Wills LANE');
+  const session = await page.evaluate(() => JSON.parse(localStorage.getItem('ns-marks:poker:v1')!));
+  expect(session.selectedId).toBe(record.mailing.id);
+  expect(session.center[0]).toBeCloseTo(record.mailing.coordinates[1], 3);
+  expect(session.center[1]).toBeCloseTo(record.mailing.coordinates[0], 3);
+  expect(errors).toEqual([]);
+});

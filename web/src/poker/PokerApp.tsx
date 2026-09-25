@@ -7,7 +7,7 @@ import { pathDistanceMetres } from '../services/geodesy';
 import { browserLocationFailure, getBrowserLocation, type BrowserLocation } from '../services/browserLocation';
 import { MAILING_ATTRIBUTION, MAILING_LICENCE_URL } from '../services/mailingAddresses';
 import { OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL, PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL, PROVINCE_LICENSE_ACCEPTANCE_KEY } from '../licensing/provinceLicense';
-import { addressId, addressLabel, searchableAddresses, deliveryStatus, readSession, searchAddresses, writeSession, type SearchAddress, type PokerData, type PokerState } from './model';
+import { addressId, addressLabel, civicLabelPoints, searchableAddresses, deliveryStatus, placement, postalOnlyAddresses, readSession, searchAddresses, writeSession, type PokerAddress, type SearchAddress, type PokerData, type PokerState } from './model';
 import { waterStyle, roadStyle } from './cartography';
 import { offlineReady, saveOffline } from './offline';
 import 'leaflet/dist/leaflet.css';
@@ -15,20 +15,29 @@ import './poker.css';
 const palette = atlasPalettes.day;
 const AERIAL = 'https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer/tile/{z}/{y}/{x}';
 const tileEvents = { tileerror: () => window.dispatchEvent(new Event('poker-aerial-error')) };
-function MapContents({ data, state, setState, mapRef, aerial, addresses, location }: {
-  data: PokerData; addresses: SearchAddress[]; location: BrowserLocation | null; state: PokerState; setState: React.Dispatch<React.SetStateAction<PokerState>>; mapRef: React.RefObject<L.Map | null>; aerial: boolean;
+function MapContents({ data, state, setState, mapRef, aerial, addresses, postalOnly, location }: {
+  data: PokerData; addresses: SearchAddress[]; postalOnly: PokerAddress[]; location: BrowserLocation | null; state: PokerState; setState: React.Dispatch<React.SetStateAction<PokerState>>; mapRef: React.RefObject<L.Map | null>; aerial: boolean;
 }) {
   const map = useMap();
   const [view, setView] = useState(0);
   useEffect(() => { mapRef.current = map; return () => { mapRef.current = null; }; }, [map, mapRef]);
   useMapEvents({
+    zoomend: () => setView(v => v + 1),
     moveend: () => { const center = map.getCenter(); setState(s => ({ ...s, center: [center.lat, center.lng], zoom: map.getZoom() })); setView(v => v + 1); },
     click: ({ latlng }) => setState(s => s.finished || s.points.length >= 5000 ? s : { ...s, points: [...s.points, { lat: latlng.lat, lng: latlng.lng }] }),
   });
+  const labelPoints = useMemo(() => civicLabelPoints(data.civic), [data.civic]);
   const visibleCivic = useMemo(() => {
     void view;
-    return map.getZoom() < 16 ? [] : data.civic.filter(a => map.getBounds().contains([a.coordinates[1], a.coordinates[0]])).slice(0, 500);
-  }, [data.civic, map, view]);
+    return map.getZoom() < 16 ? [] : labelPoints.filter(a => map.getBounds().contains([a.coordinates[1], a.coordinates[0]])).slice(0, 500);
+  }, [labelPoints, map, view]);
+  const visiblePostal = useMemo(() => {
+    void view;
+    return map.getZoom() < 16 ? [] : postalOnly.filter(a => map.getBounds().contains([a.mailing.coordinates[1], a.mailing.coordinates[0]])).slice(0, 100);
+  }, [postalOnly, map, view]);
+  // Individual building dots only help once streets are legible; at regional
+  // zoom they read as noise over the road network.
+  const streetZoom = map.getZoom() >= 14;
   const roadLabels = useMemo(() => {
     void view;
     if (map.getZoom() < 15) return [];
@@ -48,7 +57,8 @@ function MapContents({ data, state, setState, mapRef, aerial, addresses, locatio
     return labels;
   }, [data.roads, map, view]);
   const metres = pathDistanceMetres(state.points);
-  const selected = addresses.find(a => addressId(a) === state.selectedId)?.civic;
+  const selected = addresses.find(a => addressId(a) === state.selectedId);
+  const selectedPlace = selected ? placement(selected) : null;
   return <>
     <GeoJSON data={data.water} interactive={false} style={feature => waterStyle(feature?.properties?.feat_desc ?? '')} />
     <GeoJSON data={data.roads} style={feature => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '', true)} interactive={false} />
@@ -57,7 +67,7 @@ function MapContents({ data, state, setState, mapRef, aerial, addresses, locatio
       if (typeof name === 'string' && name) { const label = document.createElement('span'); label.textContent = name; layer.bindTooltip(label, { sticky: true }); }
     }} />
     <GeoJSON data={data.footprints} interactive={false} style={{ color: palette.mutedInk, weight: .6, fillColor: palette.building, fillOpacity: 1 }} />
-    <GeoJSON data={data.buildings} interactive={false} pointToLayer={(_, point) => L.circleMarker(point, { radius: 2.5, color: palette.mutedInk, weight: 1, fillColor: palette.building, fillOpacity: 1, interactive: false })} />
+    {streetZoom && <GeoJSON data={data.buildings} interactive={false} pointToLayer={(_, point) => L.circleMarker(point, { radius: 2.5, color: palette.mutedInk, weight: 1, fillColor: palette.building, fillOpacity: 1, interactive: false })} />}
     {aerial && <TileLayer url={AERIAL} maxNativeZoom={19} maxZoom={21} zIndex={450} eventHandlers={tileEvents} />}
     {roadLabels.map(label => <CircleMarker key={label.name} center={label.point} radius={0} interactive={false} pathOptions={{ opacity: 0 }}>
       <Tooltip permanent direction="center" className="poker-road-label">{label.name}</Tooltip>
@@ -65,7 +75,10 @@ function MapContents({ data, state, setState, mapRef, aerial, addresses, locatio
     {visibleCivic.map(address => <CircleMarker key={addressId({ mailing: null, civic: address })} center={[address.coordinates[1], address.coordinates[0]]} radius={2} interactive={false} pathOptions={{ color: palette.ink, fillColor: '#fff', fillOpacity: 1, weight: 1 }}>
       <Tooltip permanent direction="top" className="poker-number">{String(address.properties.civicnum ?? '')}{String(address.properties.civsuffix ?? '')}</Tooltip>
     </CircleMarker>)}
-    {selected && <CircleMarker center={[selected.coordinates[1], selected.coordinates[0]]} radius={8} interactive={false} pathOptions={{ color: '#b73324', weight: 3, fillOpacity: 0 }} />}
+    {visiblePostal.map(address => <CircleMarker key={address.mailing.id} center={[address.mailing.coordinates[1], address.mailing.coordinates[0]]} radius={2} interactive={false} pathOptions={{ color: '#17518a', fillColor: '#fff', fillOpacity: 1, weight: 1 }}>
+      <Tooltip permanent direction="top" className="poker-number is-postal">{address.mailing.number}{address.mailing.suffix}</Tooltip>
+    </CircleMarker>)}
+    {selectedPlace && <CircleMarker center={[selectedPlace.coordinates[1], selectedPlace.coordinates[0]]} radius={8} interactive={false} pathOptions={{ color: '#b73324', weight: 3, fillOpacity: 0, dashArray: selectedPlace.source === 'postal' ? '4 4' : undefined }} />}
     {state.points.length > 1 && <Polyline positions={state.points} interactive={false} pathOptions={{ color: '#b73324', weight: 4 }} />}
     {state.points.map((point, i) => <CircleMarker key={i} center={point} radius={5} interactive={false} pathOptions={{ color: '#b73324', fillColor: '#fff', fillOpacity: 1 }}>
       {i === state.points.length - 1 && state.points.length > 1 && <Tooltip permanent direction="top" offset={[0,-10]} className={`poker-distance${state.finished && metres > 500 ? ' over-limit' : ''}`}>
@@ -136,15 +149,15 @@ export function PokerApp() {
     return () => controller.abort();
   }, [retry]);
   const addresses = useMemo(() => data ? searchableAddresses(data) : [], [data]);
+  const postalOnly = useMemo(() => data ? postalOnlyAddresses(data) : [], [data]);
   const matches = useMemo(() => searchAddresses(addresses, state.query, state.postalCode), [addresses, state.query, state.postalCode]);
   const metres = pathDistanceMetres(state.points);
   const chooseAddress = (address: SearchAddress) => {
-    if (!address.civic) return;
     locationRequest.current++;
     setLocating(false); setLocationNotice('');
     setState(s => ({ ...s, selectedId: addressId(address), query: addressLabel(address), points: [], finished: false }));
     setSearchOpen(false); inputRef.current?.blur();
-    const [lng, lat] = address.civic.coordinates;
+    const [lng, lat] = placement(address).coordinates;
     mapRef.current?.setView([lat, lng], 18);
   };
   const locate = async () => {
@@ -228,16 +241,16 @@ export function PokerApp() {
         onFocus={event => { event.currentTarget.select(); setSearchOpen(true); }}
         onChange={event => { setState(s => ({ ...s, query: event.target.value })); setSearchOpen(true); }}
         onKeyDown={event => { if (event.key === 'Escape') setSearchOpen(false); if (event.key === 'Enter' && matches.length === 1) chooseAddress(matches[0]); }} />
-      {searchOpen && data && <div className="poker-results"><div className="poker-results-heading"><span>{matches.length ? `${matches.length} matches${matches.length > 40 ? ' · showing first 40; refine your search' : ''}` : 'No match in this saved address list.'}</span><button onClick={() => setSearchOpen(false)}>Close results</button></div>
+      {searchOpen && data && <div className="poker-results"><div className="poker-results-heading"><span>{matches.length ? `${matches.length} ${matches.length === 1 ? 'match' : 'matches'}${matches.length > 40 ? ' · showing first 40; refine your search' : ''}` : 'No match in this saved address list.'}</span><button onClick={() => setSearchOpen(false)}>Close results</button></div>
         {state.postalCode && matches.some(a => !a.mailing) && <p>Also showing regional civic addresses with unverified postal codes.</p>}
-        <ul>{matches.slice(0,40).map(a => <li key={addressId(a)}><button disabled={!a.civic} onClick={() => chooseAddress(a)}>{addressLabel(a)}{!a.mailing && <small>Provincial civic address · postal code unverified{a.civic.properties.add_loc && ` · ${a.civic.properties.add_loc}`}</small>}{!a.civic && <small>No unique civic map point verified</small>}</button></li>)}</ul>
+        <ul>{matches.slice(0,40).map(a => <li key={addressId(a)}><button onClick={() => chooseAddress(a)}>{addressLabel(a)}{!a.mailing && <small>Provincial civic address · postal code unverified{a.civic.properties.add_loc && ` · ${a.civic.properties.add_loc}`}</small>}{!a.civic && <small>Postal building point · no unique provincial civic point</small>}</button></li>)}</ul>
       </div>}
     </section>
     {storageFailed && <p className="poker-storage-error" role="alert">This browser could not save your session.</p>}
     <section className="poker-map" aria-label="Driveway map">
       {loadError ? <div className="poker-load-error" role="alert">{loadError}<button onClick={() => setRetry(v => v + 1)}>Retry</button></div> : !data ? <p className="poker-loading" role="status">Loading local addresses and Atlas road map…</p> :
         <MapContainer center={state.center} zoom={state.zoom} minZoom={9} maxZoom={21} maxBounds={[[data.bounds[1], data.bounds[0]], [data.bounds[3], data.bounds[2]]]} maxBoundsViscosity={.8} preferCanvas doubleClickZoom={false} attributionControl={false}>
-          <MapContents key={packRevision} data={data} addresses={addresses} location={location} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
+          <MapContents key={packRevision} data={data} addresses={addresses} postalOnly={postalOnly} location={location} state={state} setState={setState} mapRef={mapRef} aerial={aerial && online && !aerialError} />
         </MapContainer>}
       <button className="poker-basemap" onClick={toggleAerial} disabled={!online} aria-label={aerial && online && !aerialError ? 'Use Atlas map' : 'Aerial (online)'}>{aerial && online && !aerialError ? 'Atlas' : 'Aerial'}</button>
       <button className="poker-locate" aria-label="Use my location" title="Use my location" aria-busy={locating} disabled={!data || Boolean(loadError) || locating} onClick={() => void locate()}>
@@ -274,7 +287,7 @@ export function PokerApp() {
       <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it.</p>
       <p><strong>Use my location</strong> below zoom asks your browser for a fresh position. The blue dot and circle show the last reading and its reported accuracy. Tap again to update it; this does not follow you or change your trace. Location stays in this browser and can work offline if your device can get a position.</p>
       <p>Typing a leading civic number such as 544 also suggests longer matching addresses, including 5447.</p>
-      <p>{data?.addresses.length.toLocaleString()} postal records from June 2026; {data?.addresses.filter(a => !a.civic).length} lack a unique verified civic point and cannot be placed. Provincial civic addresses missing from that list are also searchable, with their postal codes marked unverified. Postal-area filters also show those regional civic addresses; they do not establish a delivery route. Missing records are not evidence that an address does not exist. This is address lookup, not resident or owner lookup.</p>
+      <p>{data?.addresses.length.toLocaleString()} postal records from June 2026; {data?.addresses.filter(a => !a.civic).length} have no unique verified provincial civic point. Those open at their Statistics Canada building coordinate with a dashed ring, and the ones with no provincial civic point on their road at all are labelled in blue as postal points. Provincial civic addresses missing from that list are also searchable, with their postal codes marked unverified. Postal-area filters also show those regional civic addresses; they do not establish a delivery route. Missing records are not evidence that an address does not exist. This is address lookup, not resident or owner lookup.</p>
       <p>{OPEN_GOVERNMENT_ATTRIBUTION} <a href={OPEN_GOVERNMENT_LICENCE_URL}>Provincial licence</a>. Civic points, NSRN roads, NSTDB buildings and water are dated source features, not verified delivery routes or access permission. <a href={new URL('poker/source.json', document.baseURI).href}>Source dates and receipt</a>.</p>
       <p>{MAILING_ATTRIBUTION} <a href={MAILING_LICENCE_URL}>Statistics Canada licence</a>.</p>
       {aerial && <p>{PROVINCE_ATTRIBUTION} <a href={PROVINCE_LICENSE_URL}>Aerial service licence</a>.</p>}

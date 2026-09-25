@@ -1644,8 +1644,14 @@ Aerial remains an online, licence-gated option.
 
 `public/poker/source.json` records exact source queries, dates, counts, hashes,
 licences and the conservative NAR-to-civic matching policy. All 1,575 NAR records
-in B0E 1P0, B0E 2W0 and B0E 1X0 remain searchable; 1,017 have a unique verified
-civic point. The remaining 558 postal records are visibly unverified and cannot be placed.
+in B0E 1P0, B0E 2W0 and B0E 1X0 remain searchable; 1,507 have a unique verified
+civic point. A numbered highway joins whether the register writes `19 HWY` or the
+province writes `Highway 19`; that one spelling difference had previously left
+about 500 Highway 19 and Highway 252 records unverified and listed each of them
+twice in search. The remaining 68 postal records are visibly unverified: selecting
+one opens its own Statistics Canada building coordinate with a dashed ring, and
+the few whose civic number has no provincial point on that road at all (for
+example 40 Wills Lane) are labelled in blue as postal points at street zoom.
 Search also includes provincial civic addresses in the saved region that lack
 a verified postal-list match, including 117 Gussieville Rd. Those results retain
 their provincial location caveat and show “postal code unverified”; they remain

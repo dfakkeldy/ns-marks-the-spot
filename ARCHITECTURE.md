@@ -913,7 +913,11 @@ nothing is uploaded.
 map's theme. It reuses civic parsing, conservative mailing-address matching,
 Atlas palette tokens, Leaflet and spherical path measurement. Its bounded
 open-data snapshot retains source IDs and provenance; postal records without
-one unique civic match remain visible but unplaceable. Search adds the pack’s
+one unique civic match remain visible and open only at their own NAR building
+coordinate, marked as postal points, never at a civic point. The shared matcher
+compares road names through `roadMatchKey`, which treats a numbered highway the
+same whether written `19 HWY` (register) or `Highway 19` (province), and looks
+the register shard up under both spellings. Search adds the pack’s
 remaining provincial civic addresses as separately identified civic-only entries,
 without constructing NAR records or assigning postal codes. Point ID plus civic
 label preserves units sharing a point. Postal filters retain civic-only entries
