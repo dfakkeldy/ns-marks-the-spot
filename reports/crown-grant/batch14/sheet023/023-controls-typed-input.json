@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Flat Lake northwestern horn",
+    [
+      1288,
+      315
+    ],
+    [
+      1255,
+      449
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Poplar Lake northern roof",
+    [
+      1012,
+      887
+    ],
+    [
+      979,
+      1022
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Luxton Lake northern roof",
+    [
+      2511,
+      1352
+    ],
+    [
+      2506,
+      1438
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Ber Lake northwestern horn",
+    [
+      2408,
+      1815
+    ],
+    [
+      2394,
+      1891
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Central Lake northern roof",
+    [
+      3565,
+      240
+    ],
+    [
+      3568,
+      365
+    ],
+    "WARVLK20"
+  ],
+  [
+    "C06",
+    "Turtle Lake eastern long island north",
+    [
+      5498,
+      2718
+    ],
+    [
+      5517,
+      2746
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C07",
+    "Sisketch Lake northern roof",
+    [
+      1458,
+      3380
+    ],
+    [
+      1478,
+      3430
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Irving Lake northern horn",
+    [
+      1753,
+      2943
+    ],
+    [
+      1765,
+      2994
+    ],
+    "WARVLK20"
+  ]
+]

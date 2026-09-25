@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T09:26:40.485915+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "023",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6016,
+        5167
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6089,
+        4149
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-frame historical and modern-only screenshots inspected; decoded source/raster and opacity65/40/0/65 verified.",
+    "Kejimkujik, lake islands and southern river extensions retained; unsampled complex remains unvalidated.",
+    "Warning/error console empty."
+  ]
+}

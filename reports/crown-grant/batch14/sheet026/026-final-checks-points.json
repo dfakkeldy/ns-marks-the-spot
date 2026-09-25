@@ -1,0 +1,137 @@
+[
+  {
+    "id": "Q01",
+    "label": "Green Harbour Lake southern shore",
+    "role": "check",
+    "pixel_xy": [
+      420,
+      2306
+    ],
+    "lonlat": [
+      -65.13254661557245,
+      43.802667820952124
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 125091,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125091,
+    "nearest_unfiltered_distance_guide_px": 0.5518158558283013,
+    "selected_distance_guide_px": 0.5518158558283013,
+    "guide_reference_pixel_xy": [
+      392.1672517497209,
+      2281.474141092156
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score."
+  },
+  {
+    "id": "Q02",
+    "label": "Stewart Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      4844,
+      2347
+    ],
+    "lonlat": [
+      -64.84431272584699,
+      43.89059740275887
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 140120,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140120,
+    "nearest_unfiltered_distance_guide_px": 0.5199418354282758,
+    "selected_distance_guide_px": 0.5199418354282758,
+    "guide_reference_pixel_xy": [
+      4833.310435725434,
+      2332.417096119141
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score."
+  },
+  {
+    "id": "Q03",
+    "label": "Cameron Lake southern shore",
+    "role": "check",
+    "pixel_xy": [
+      4463,
+      2691
+    ],
+    "lonlat": [
+      -64.8579151356479,
+      43.867566608059256
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 124444,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124444,
+    "nearest_unfiltered_distance_guide_px": 0.9077638790081698,
+    "selected_distance_guide_px": 0.9077638790081698,
+    "guide_reference_pixel_xy": [
+      4476.595359301136,
+      2670.3147390551167
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score."
+  },
+  {
+    "id": "Q04",
+    "label": "Sinclair Island southern shore",
+    "role": "check",
+    "pixel_xy": [
+      3185,
+      2378
+    ],
+    "lonlat": [
+      -64.95065133345318,
+      43.85548394278666
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 20383,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20383,
+    "nearest_unfiltered_distance_guide_px": 0.6297545378542813,
+    "selected_distance_guide_px": 0.6297545378542813,
+    "guide_reference_pixel_xy": [
+      3174.595165977429,
+      2363.7941645383835
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score."
+  },
+  {
+    "id": "Q05",
+    "label": "Forbes Lake northwestern horn",
+    "role": "check",
+    "pixel_xy": [
+      4517,
+      2721
+    ],
+    "lonlat": [
+      -64.8534808756267,
+      43.86651858943624
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 140888,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140888,
+    "nearest_unfiltered_distance_guide_px": 1.148993588685349,
+    "selected_distance_guide_px": 1.148993588685349,
+    "guide_reference_pixel_xy": [
+      4526.175394687394,
+      2714.1998672952177
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score."
+  }
+]

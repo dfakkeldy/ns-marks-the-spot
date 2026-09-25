@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Green Harbour Lake northeastern roof",
+    [
+      619,
+      2005
+    ],
+    [
+      573,
+      1988
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Stewart Lake southeastern projecting tip",
+    [
+      4999,
+      2300
+    ],
+    [
+      5000,
+      2278
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Cameron Lake northern shore",
+    [
+      4465,
+      2670
+    ],
+    [
+      4475,
+      2654
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Sinclair Island northern shore",
+    [
+      3184,
+      2368
+    ],
+    [
+      3172,
+      2357
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Port Hebert east-bank peninsula northern tip near Ensign Burgess grant",
+    [
+      3222,
+      2215
+    ],
+    [
+      3210,
+      2188
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "Black Point southern tip at Little Port Joli",
+    [
+      4909,
+      3455
+    ],
+    [
+      4933,
+      3386
+    ],
+    "WACO20"
+  ]
+]

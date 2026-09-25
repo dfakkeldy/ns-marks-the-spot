@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6089 x 4149 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 88.20 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          145,
+          145
+        ],
+        [
+          5975,
+          125
+        ],
+        [
+          5975,
+          3995
+        ],
+        [
+          145,
+          4010
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The complete mapped frame retains Kejimkujik, lake islands and southern river extensions. Eight controls and nine excluded checks sample northern, western, central, southwestern and eastern waterbodies; the large unsampled lake complex remains provisional."
+    }
+  ]
+}

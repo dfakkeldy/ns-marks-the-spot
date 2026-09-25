@@ -1,0 +1,47 @@
+{
+  "sheet": "024",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/024.pdf",
+    "pdf_sha256": "60c33ec712adedac4c9b91596b4dd9c51e1ccfac2affeebe66d27dcc21bf98d0",
+    "jpeg_sha256": "635a354ad1b6ae14b7eab1cf887abee20f4e25eb26f113f75cff3f507ee5076d",
+    "dimensions": [
+      5717,
+      3934
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 155.1936308224329,
+      "rms_gate_passed": false,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "RMS155.19m, median83.10m, P95285.43m and maximum342.06m exceed their respective100/75/150/200m criteria.",
+    "All adopted observations are in the western strip. Roughly the eastern two-thirds, including the Rossignol lake/island complex, remain independently unvalidated.",
+    "Seven checks share control waterbodies; First Porcupine provides one separate nearby lake. Independence is limited by shared historical cartography.",
+    "Bear/Coombs islands, Cataract/Mills lake connections and other Rossignol outlines differ substantially from modern water geometry. Neither old nested contours nor red boundary lines were treated as modern shorelines.",
+    "Generalized lake tips, river-connected shore corners and narrow reaches carry 24 px working source uncertainty.",
+    "The full map is retained under a constrained similarity; numerical statistics do not establish geographic accuracy in the extrapolated eastern area."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 155.19 m, median 83.10 m, P95 285.43 m, maximum 342.06 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "The full mapped frame retains all Rossignol islands, connected lake reaches, western inland lakes and southern extensions. Seven controls and eight checks support only the narrow western strip; the large eastern lake complex is retained as unvalidated extrapolation."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5464 x 3681 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 103.53 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          135,
+          140
+        ],
+        [
+          5260,
+          110
+        ],
+        [
+          5310,
+          3490
+        ],
+        [
+          145,
+          3505
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "The full mapped frame retains the northern interior, rivers, all southern lakes and tidal bays. Adopted geographic support is confined to the southern half; retained content must not be confused with validated geography."
+    }
+  ]
+}

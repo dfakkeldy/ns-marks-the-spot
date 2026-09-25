@@ -1,0 +1,21 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T09:23:24.231365+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Western Flat/Poplar, central Luxton/Ber, northern Central, southwestern Sisketch/Irving and eastern Turtle Lake distribute physical controls over both source axes.",
+  "corrections": [
+    "Central Lake northern and southern source placements corrected from native crosshairs.",
+    "Central and Irving shorelines use WARVLK20; Irving islands use WARVLKIS10. Initial lake-only Central proposals failed the distance guard."
+  ],
+  "unadopted": [
+    "North-central pond northern connection is too generalized.",
+    "Hemlock/George and southern river-lake complex have insufficiently reconciled island topology for adopted points."
+  ],
+  "limitations": [
+    "Eight checks share control lakes or associated islands; Little Red Lake adds one separate waterbody. Shared historical cartography limits independence.",
+    "The large Kejimkujik/Hemlock/George lake complex, southeastern river reaches and intervening interior are retained but independently unvalidated.",
+    "Generalized shore extrema and narrow islands carry 24 px working source uncertainty."
+  ]
+}

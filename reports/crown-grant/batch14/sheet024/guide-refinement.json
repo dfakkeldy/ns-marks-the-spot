@@ -1,0 +1,17 @@
+{
+  "reason": "New frozen sheet025 northward adjacency refines discovery before any adopted observation; original sheet032 eastern guide retained.",
+  "guide": "024-frozen-south-guide.npy",
+  "old_guide": "024-east-adjacent-guide.npy",
+  "bounds": [
+    -65.42463233718163,
+    44.048763713585224,
+    -64.96816819519957,
+    44.33553712346369
+  ],
+  "reference_bbox": [
+    -65.4515940373277,
+    44.020589370762096,
+    -64.92954579111777,
+    44.35609318367863
+  ]
+}

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "C04",
+    "label": "Conway Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2509,
+      769
+    ],
+    "lonlat": [
+      -65.14329946009406,
+      44.080005092054485
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 127591,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127591,
+    "nearest_unfiltered_distance_guide_px": 0.9762451251605985,
+    "selected_distance_guide_px": 0.9762451251605985,
+    "guide_reference_pixel_xy": [
+      2518.258087712631,
+      758.0584877711954
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Kempton Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      4741,
+      506
+    ],
+    "lonlat": [
+      -65.01518147901668,
+      44.135973072975595
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 137206,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137206,
+    "nearest_unfiltered_distance_guide_px": 4.2020422102728645,
+    "selected_distance_guide_px": 4.2020422102728645,
+    "guide_reference_pixel_xy": [
+      4743.45965022489,
+      502.34720506647136
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "South West Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      3824,
+      2123
+    ],
+    "lonlat": [
+      -65.02675175692364,
+      44.04720946401129
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 140183,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140183,
+    "nearest_unfiltered_distance_guide_px": 2.4105478141380106,
+    "selected_distance_guide_px": 2.4105478141380106,
+    "guide_reference_pixel_xy": [
+      3834.668086256832,
+      2108.316117768525
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Hardwood Lake large eastern island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1128,
+      657
+    ],
+    "lonlat": [
+      -65.23006689052457,
+      44.05797217457371
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 151269,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 151269,
+    "nearest_unfiltered_distance_guide_px": 0.10920213447952547,
+    "selected_distance_guide_px": 0.10920213447952547,
+    "guide_reference_pixel_xy": [
+      1144.9842151267221,
+      629.1080552819185
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Bullrush Lake southwestern island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2896,
+      1483
+    ],
+    "lonlat": [
+      -65.09989100302163,
+      44.057010667930776
+    ],
+    "guide_file": ".crown-grant-local/025-east-adjacent-guide.npy",
+    "reference_objectid": 148327,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 148327,
+    "nearest_unfiltered_distance_guide_px": 3.4439132618699295,
+    "selected_distance_guide_px": 3.4439132618699295,
+    "guide_reference_pixel_xy": [
+      2916.89408778731,
+      1464.8762771092588
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Grays Lake southern shore",
+    [
+      1097,
+      444
+    ],
+    [
+      1092,
+      386
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Handsled Lake southern shore",
+    [
+      552,
+      799
+    ],
+    [
+      562,
+      833
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "First Beaver Lake southern prong",
+    [
+      1188,
+      704
+    ],
+    [
+      1184,
+      722
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Black Duck Lake southern tip",
+    [
+      1266,
+      3010
+    ],
+    [
+      1247,
+      3019
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Beartrack Lake southern tip",
+    [
+      1123,
+      1957
+    ],
+    [
+      1132,
+      1981
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Second Porcupine Lake eastern waist corner",
+    [
+      1643,
+      2590
+    ],
+    [
+      1631,
+      2607
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Lake Martin southern shore",
+    [
+      593,
+      3642
+    ],
+    [
+      589,
+      3655
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "First Porcupine Lake southern tip",
+    [
+      1616,
+      2320
+    ],
+    [
+      1613,
+      2349
+    ],
+    "WALK20"
+  ]
+]

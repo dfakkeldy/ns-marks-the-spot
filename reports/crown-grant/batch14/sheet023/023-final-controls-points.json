@@ -1,0 +1,218 @@
+[
+  {
+    "id": "C01",
+    "label": "Flat Lake northwestern horn",
+    "role": "control",
+    "pixel_xy": [
+      1288,
+      315
+    ],
+    "lonlat": [
+      -65.44139090308624,
+      44.38884754104765
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 140471,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140471,
+    "nearest_unfiltered_distance_guide_px": 0.42572252842914154,
+    "selected_distance_guide_px": 0.42572252842914154,
+    "guide_reference_pixel_xy": [
+      1254.6303602482658,
+      449.2112016220344
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "C02",
+    "label": "Poplar Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      1012,
+      887
+    ],
+    "lonlat": [
+      -65.4424894263057,
+      44.359542668161325
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 133941,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133941,
+    "nearest_unfiltered_distance_guide_px": 1.4463083095544598,
+    "selected_distance_guide_px": 1.4463083095544598,
+    "guide_reference_pixel_xy": [
+      978.4095944034052,
+      1023.3203139618272
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "C03",
+    "label": "Luxton Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      2511,
+      1352
+    ],
+    "lonlat": [
+      -65.34466246776617,
+      44.36909219011194
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 132376,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132376,
+    "nearest_unfiltered_distance_guide_px": 0.4820441985777619,
+    "selected_distance_guide_px": 0.4820441985777619,
+    "guide_reference_pixel_xy": [
+      2506.377327791706,
+      1438.2999839112163
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "C04",
+    "label": "Ber Lake northwestern horn",
+    "role": "control",
+    "pixel_xy": [
+      2408,
+      1815
+    ],
+    "lonlat": [
+      -65.3389754156111,
+      44.34780387654229
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 125464,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 244697,
+    "nearest_unfiltered_distance_guide_px": 0.22543389182908422,
+    "selected_distance_guide_px": 9.196437803022707,
+    "guide_reference_pixel_xy": [
+      2401.971964686876,
+      1895.5850024314132
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "C05",
+    "label": "Central Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      3575,
+      239
+    ],
+    "lonlat": [
+      -65.31133698527807,
+      44.43362259088779
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 304667,
+    "reference_feature_code": "WARVLK20",
+    "nearest_unfiltered_feature_code": "WARVLK20",
+    "nearest_unfiltered_objectid": 304667,
+    "nearest_unfiltered_distance_guide_px": 1.3792928765448456,
+    "selected_distance_guide_px": 1.3792928765448456,
+    "guide_reference_pixel_xy": [
+      3568.6316632138914,
+      363.7738473082427
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "C06",
+    "label": "Turtle Lake eastern long island north",
+    "role": "control",
+    "pixel_xy": [
+      5498,
+      2718
+    ],
+    "lonlat": [
+      -65.13934049719767,
+      44.36674581425251
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 150620,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 150620,
+    "nearest_unfiltered_distance_guide_px": 1.6792024385158117,
+    "selected_distance_guide_px": 1.6792024385158117,
+    "guide_reference_pixel_xy": [
+      5517.0868856770685,
+      2747.676953102695
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "C07",
+    "label": "Sisketch Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      1458,
+      3380
+    ],
+    "lonlat": [
+      -65.35264396728977,
+      44.2661959491414
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 141947,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141947,
+    "nearest_unfiltered_distance_guide_px": 0.34598146998804896,
+    "selected_distance_guide_px": 0.34598146998804896,
+    "guide_reference_pixel_xy": [
+      1478.0202435132815,
+      3429.6546112657525
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  },
+  {
+    "id": "C08",
+    "label": "Irving Lake northern horn",
+    "role": "control",
+    "pixel_xy": [
+      1753,
+      2943
+    ],
+    "lonlat": [
+      -65.34738403454274,
+      44.28978010672854
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 304389,
+    "reference_feature_code": "WARVLK20",
+    "nearest_unfiltered_feature_code": "WARVLK20",
+    "nearest_unfiltered_objectid": 304389,
+    "nearest_unfiltered_distance_guide_px": 0.7089596145894855,
+    "selected_distance_guide_px": 0.7089596145894855,
+    "guide_reference_pixel_xy": [
+      1764.4392515099025,
+      2994.4338027961785
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island context and native paired crosshairs inspected before first fit and score; Central Lake source pixels and river-lake reference types corrected from physical evidence."
+  }
+]

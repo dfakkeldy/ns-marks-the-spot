@@ -1,0 +1,11 @@
+{
+  "stage": "Before first fit and score",
+  "rejected": [
+    "Sinclair C04/Q04 requested tidal-river-island type returned nearest707.8/714.0guidepx, both rejected by guard; no initial points packet completed."
+  ],
+  "resolution": "Physical Sinclair Island is coast-island20383WACOIS10 and peninsula bank is WACO20; corrected typed packets retain original proposals.",
+  "physical_corrections": [
+    "Stewart southeastern reference moved onto the eastern projecting tip rather than its low southern shore.",
+    "Cameron southern source refined onto the native shoreline."
+  ]
+}

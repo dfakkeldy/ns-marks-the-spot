@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 155.1936308224329,
+  "median_ground_m": 83.1000303985347,
+  "p95_ground_m": 285.42537616790446,
+  "max_ground_m": 342.0567381465598,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 1.6764091177446758,
+  "mean_north_ground_m": -6.633875941540024,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Grays Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1097,
+        444
+      ],
+      "lonlat": [
+        -65.34760784027434,
+        44.22604669884746
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 110501,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 110501,
+      "nearest_unfiltered_distance_guide_px": 0.9977933748432373,
+      "selected_distance_guide_px": 0.9977933748432373,
+      "guide_reference_pixel_xy": [
+        1091.1261064820574,
+        386.48156176984776
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.34502571518416,
+        44.223591364746
+      ],
+      "error_ground_m": 342.0567381465598,
+      "east_ground_m": 206.3230837250323,
+      "north_ground_m": -272.82521370587705
+    },
+    {
+      "id": "Q02",
+      "label": "Handsled Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        552,
+        799
+      ],
+      "lonlat": [
+        -65.3673042292493,
+        44.19583752712958
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 138467,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138467,
+      "nearest_unfiltered_distance_guide_px": 0.7439411114651847,
+      "selected_distance_guide_px": 0.7439411114651847,
+      "guide_reference_pixel_xy": [
+        561.343679794285,
+        833.3502744137077
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.36871094664278,
+        44.197105323652174
+      ],
+      "error_ground_m": 180.25284677897332,
+      "east_ground_m": -112.45325421270248,
+      "north_ground_m": 140.87354041443461
+    },
+    {
+      "id": "Q03",
+      "label": "First Beaver Lake southern prong",
+      "role": "check",
+      "pixel_xy": [
+        1188,
+        704
+      ],
+      "lonlat": [
+        -65.33263357792677,
+        44.21324082656598
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 127108,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127108,
+      "nearest_unfiltered_distance_guide_px": 0.5885379302552185,
+      "selected_distance_guide_px": 0.5885379302552185,
+      "guide_reference_pixel_xy": [
+        1183.9583817849052,
+        721.4129354213364
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.3322716895645,
+        44.21390858143843
+      ],
+      "error_ground_m": 79.63583745003459,
+      "east_ground_m": 28.921201596349203,
+      "north_ground_m": 74.19858964017887
+    },
+    {
+      "id": "Q04",
+      "label": "Black Duck Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1266,
+        3010
+      ],
+      "lonlat": [
+        -65.2648235741126,
+        44.113872874284816
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 125412,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125412,
+      "nearest_unfiltered_distance_guide_px": 1.0754997772599875,
+      "selected_distance_guide_px": 1.0754997772599875,
+      "guide_reference_pixel_xy": [
+        1248.0731342147337,
+        3018.9287067460828
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.26407584641461,
+        44.11355406738393
+      ],
+      "error_ground_m": 69.55438023582022,
+      "east_ground_m": 59.85789194647095,
+      "north_ground_m": -35.423785536185534
+    },
+    {
+      "id": "Q05",
+      "label": "Beartrack Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1123,
+        1957
+      ],
+      "lonlat": [
+        -65.30018746679227,
+        44.157039735597884
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 143461,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143461,
+      "nearest_unfiltered_distance_guide_px": 1.2469141257672387,
+      "selected_distance_guide_px": 1.2469141257672387,
+      "guide_reference_pixel_xy": [
+        1139.3134364200523,
+        1983.9591228277422
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.30177829651684,
+        44.15725984616568
+      ],
+      "error_ground_m": 129.5860893116112,
+      "east_ground_m": -127.25689567192296,
+      "north_ground_m": 24.458884827853236
+    },
+    {
+      "id": "Q06",
+      "label": "Second Porcupine Lake eastern waist corner",
+      "role": "check",
+      "pixel_xy": [
+        1643,
+        2590
+      ],
+      "lonlat": [
+        -65.25319409329605,
+        44.139565479327814
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 132450,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132450,
+      "nearest_unfiltered_distance_guide_px": 2.3946393729358477,
+      "selected_distance_guide_px": 2.3946393729358477,
+      "guide_reference_pixel_xy": [
+        1628.6456073244335,
+        2606.5628125623334
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.25247074260962,
+        44.13957157953062
+      ],
+      "error_ground_m": 57.88499798884821,
+      "east_ground_m": 57.88102626952737,
+      "north_ground_m": 0.6780782810592909
+    },
+    {
+      "id": "Q07",
+      "label": "Lake Martin southern shore",
+      "role": "check",
+      "pixel_xy": [
+        593,
+        3642
+      ],
+      "lonlat": [
+        -65.28708199301973,
+        44.0727216092176
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 174699,
+      "reference_feature_code": "WARV20",
+      "nearest_unfiltered_feature_code": "WARV20",
+      "nearest_unfiltered_objectid": 174699,
+      "nearest_unfiltered_distance_guide_px": 1.5974940593848368,
+      "selected_distance_guide_px": 1.5974940593848368,
+      "guide_reference_pixel_xy": [
+        588.7093868108932,
+        3656.5708377523115
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.28799993983402,
+        44.072310571156734
+      ],
+      "error_ground_m": 86.56422334703483,
+      "east_ground_m": -73.53554145828043,
+      "north_ground_m": -45.671532776039484
+    },
+    {
+      "id": "Q08",
+      "label": "First Porcupine Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1616,
+        2320
+      ],
+      "lonlat": [
+        -65.26121247695357,
+        44.15042581342055
+      ],
+      "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+      "reference_objectid": 139250,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139250,
+      "nearest_unfiltered_distance_guide_px": 2.676459502756843,
+      "selected_distance_guide_px": 2.676459502756843,
+      "guide_reference_pixel_xy": [
+        1613.2015573295648,
+        2351.668859328027
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+      "predicted_lonlat": [
+        -65.2615415445195,
+        44.150971556820316
+      ],
+      "error_ground_m": 66.10849252652771,
+      "east_ground_m": -26.326239252516512,
+      "north_ground_m": 60.64043132225586
+    }
+  ],
+  "fit_sha256": "5310d512a82893454d9e764dc542dd68b3341d7d09b4127330105e4b8f8ca8ca",
+  "checks_sha256": "84fe9f16a3ec577164623b18d0b67a36a867abb37be26c8d75a365cb4ca8736e",
+  "status": "Reserved before first fit and score"
+}
