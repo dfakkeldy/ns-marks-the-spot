@@ -36,19 +36,25 @@ no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. A collapsed, default-off live-conditions
 family offers optional Highway cameras (511 Nova Scotia) and Weather radar
 (ECCC GeoMet); source and licence detail are in
-[web/README.md](web/README.md). The web map also adds 38 default-off research
+[web/README.md](web/README.md). The web map also adds 52 default-off research
 controls: retained GeoNova topography, land, water, forest, geology,
 environmental-screen, and historical-coal inventories; 15 NSTDB
 infrastructure and mapped-place overlays now drawn from identified
 Open Government Licence – Nova Scotia datasets instead of restricted
-MapServer exports; and a default-off Sentinel-2 2016–2017 background
-(EOX `s2cloudless_3857`, CC BY 4.0). Browser print can include all 38,
-subject to zoom and source readiness; generated PDF supports their 33
-MapServer, open-data and tile entries (four feature-query layers and the
+MapServer exports; eight electoral layers; six Rhodena project layers;
+and a default-off Sentinel-2 2016–2017 background
+(EOX `s2cloudless_3857`, CC BY 4.0). Browser print can include the static
+context layers, including static Rhodena geometry, subject to zoom and
+source readiness; the interactive Rhodena turbine viewshed and private
+viewpoint are omitted. Generated PDF supports their 33
+MapServer, open-data and tile entries (four feature-query layers, eight
+electoral feature entries, six Rhodena source-format layers, and the
 static radon image are omitted and named as not included). They are
-web-only; the native offline catalogue is unchanged. Inventory,
+web-only; the native offline catalogue is unchanged. GeoNova inventory,
 licences, and the radon source receipt are in [web/README.md](web/README.md)
-and [docs/geonova-layer-expansion.md](docs/geonova-layer-expansion.md).
+and [docs/geonova-layer-expansion.md](docs/geonova-layer-expansion.md);
+Rhodena product and source-prep detail are in [web/README.md](web/README.md)
+and [web/scripts/rhodena/README.md](web/scripts/rhodena/README.md).
 Background Maps offers NS Marks Atlas Day,
 Night, Fletcher, System appearance (the default), and OpenStreetMap raster;
 atlas detail is in [web/README.md](web/README.md). The iOS app opens on the
