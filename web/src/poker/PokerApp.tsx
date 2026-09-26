@@ -9,6 +9,8 @@ import { MAILING_ATTRIBUTION, MAILING_LICENCE_URL } from '../services/mailingAdd
 import { OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL, PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL, PROVINCE_LICENSE_ACCEPTANCE_KEY } from '../licensing/provinceLicense';
 import { addressId, addressLabel, civicLabelPoints, searchableAddresses, deliveryStatus, placement, postalOnlyAddresses, readSession, searchAddresses, writeSession, type PokerAddress, type SearchAddress, type PokerData, type PokerState } from './model';
 import { waterStyle, roadStyle } from './cartography';
+import { namedRoads } from './labels';
+import { PokerLabels } from './PokerLabels';
 import { offlineReady, saveOffline } from './offline';
 import 'leaflet/dist/leaflet.css';
 import './poker.css';
@@ -27,35 +29,10 @@ function MapContents({ data, state, setState, mapRef, aerial, addresses, postalO
     click: ({ latlng }) => setState(s => s.finished || s.points.length >= 5000 ? s : { ...s, points: [...s.points, { lat: latlng.lat, lng: latlng.lng }] }),
   });
   const labelPoints = useMemo(() => civicLabelPoints(data.civic), [data.civic]);
-  const visibleCivic = useMemo(() => {
-    void view;
-    return map.getZoom() < 16 ? [] : labelPoints.filter(a => map.getBounds().contains([a.coordinates[1], a.coordinates[0]])).slice(0, 500);
-  }, [labelPoints, map, view]);
-  const visiblePostal = useMemo(() => {
-    void view;
-    return map.getZoom() < 16 ? [] : postalOnly.filter(a => map.getBounds().contains([a.mailing.coordinates[1], a.mailing.coordinates[0]])).slice(0, 100);
-  }, [postalOnly, map, view]);
+  const roadNames = useMemo(() => namedRoads(data.roads), [data.roads]);
   // Individual building dots only help once streets are legible; at regional
   // zoom they read as noise over the road network.
   const streetZoom = map.getZoom() >= 14;
-  const roadLabels = useMemo(() => {
-    void view;
-    if (map.getZoom() < 15) return [];
-    const bounds = map.getBounds();
-    const names = new Set<string>();
-    const labels: { name: string; point: [number, number] }[] = [];
-    for (const feature of data.roads.features) {
-      const name = feature.properties?.street;
-      if (typeof name !== 'string' || !name || names.has(name) || /^(Track|Trail|Driveway|Railroad|Unknown)$/iu.test(name)) continue;
-      const lines = feature.geometry.type === 'MultiLineString' ? feature.geometry.coordinates : feature.geometry.type === 'LineString' ? [feature.geometry.coordinates] : [];
-      const visible = lines.flat().filter(p => bounds.contains([p[1], p[0]]));
-      if (!visible.length) continue;
-      const point = visible[Math.floor(visible.length / 2)];
-      labels.push({ name, point: [point[1], point[0]] }); names.add(name);
-      if (labels.length === 30) break;
-    }
-    return labels;
-  }, [data.roads, map, view]);
   const metres = pathDistanceMetres(state.points);
   const selected = addresses.find(a => addressId(a) === state.selectedId);
   const selectedPlace = selected ? placement(selected) : null;
@@ -69,15 +46,7 @@ function MapContents({ data, state, setState, mapRef, aerial, addresses, postalO
     <GeoJSON data={data.footprints} interactive={false} style={{ color: palette.mutedInk, weight: .6, fillColor: palette.building, fillOpacity: 1 }} />
     {streetZoom && <GeoJSON data={data.buildings} interactive={false} pointToLayer={(_, point) => L.circleMarker(point, { radius: 2.5, color: palette.mutedInk, weight: 1, fillColor: palette.building, fillOpacity: 1, interactive: false })} />}
     {aerial && <TileLayer url={AERIAL} maxNativeZoom={19} maxZoom={21} zIndex={450} eventHandlers={tileEvents} />}
-    {roadLabels.map(label => <CircleMarker key={label.name} center={label.point} radius={0} interactive={false} pathOptions={{ opacity: 0 }}>
-      <Tooltip permanent direction="center" className="poker-road-label">{label.name}</Tooltip>
-    </CircleMarker>)}
-    {visibleCivic.map(address => <CircleMarker key={addressId({ mailing: null, civic: address })} center={[address.coordinates[1], address.coordinates[0]]} radius={2} interactive={false} pathOptions={{ color: palette.ink, fillColor: '#fff', fillOpacity: 1, weight: 1 }}>
-      <Tooltip permanent direction="top" className="poker-number">{String(address.properties.civicnum ?? '')}{String(address.properties.civsuffix ?? '')}</Tooltip>
-    </CircleMarker>)}
-    {visiblePostal.map(address => <CircleMarker key={address.mailing.id} center={[address.mailing.coordinates[1], address.mailing.coordinates[0]]} radius={2} interactive={false} pathOptions={{ color: '#17518a', fillColor: '#fff', fillOpacity: 1, weight: 1 }}>
-      <Tooltip permanent direction="top" className="poker-number is-postal">{address.mailing.number}{address.mailing.suffix}</Tooltip>
-    </CircleMarker>)}
+    <PokerLabels view={view} roads={roadNames} civic={labelPoints} postal={postalOnly} selected={selectedPlace?.coordinates ?? null} />
     {selectedPlace && <CircleMarker center={[selectedPlace.coordinates[1], selectedPlace.coordinates[0]]} radius={8} interactive={false} pathOptions={{ color: '#b73324', weight: 3, fillOpacity: 0, dashArray: selectedPlace.source === 'postal' ? '4 4' : undefined }} />}
     {state.points.length > 1 && <Polyline positions={state.points} interactive={false} pathOptions={{ color: '#b73324', weight: 4 }} />}
     {state.points.map((point, i) => <CircleMarker key={i} center={point} radius={5} interactive={false} pathOptions={{ color: '#b73324', fillColor: '#fff', fillOpacity: 1 }}>
