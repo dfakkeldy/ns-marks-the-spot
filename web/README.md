@@ -372,21 +372,26 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
 
-The web-only `contextLayerCatalog` adds 38 default-off research controls across
+The web-only `contextLayerCatalog` adds 52 default-off research controls across
 these categories: provincial topography, 15 OGL-NS infrastructure and
 mapped-place overlays, water and forest context, geology, environmental
-screens, historical coal workings under **Historical Maps**, and the
+screens, historical coal workings under **Historical Maps**, eight
+**Elections & Districts** layers, six **Rhodena Wind Project** layers, and the
 default-off Sentinel-2 2016–2017 background (EOX CC BY 4.0 `s2cloudless_3857`).
 All start off. Source-specific legends, dates, coverage, scale caveats and
 licence acknowledgement remain visible; the native offline catalogue is
-unchanged. Browser **Print / Save PDF** supports all 38, subject to fitted
-zoom and source readiness; generated PDF supports their 33 MapServer,
-open-data and tile entries (four feature-query layers and the static radon
+unchanged. Browser **Print / Save PDF** supports the static context layers,
+including static Rhodena geometry, subject to fitted zoom and source
+readiness; the interactive Rhodena turbine viewshed and private viewpoint
+(`rhodena-visibility`) are omitted. Generated PDF supports their 33 MapServer,
+open-data and tile entries (four feature-query layers, eight electoral
+feature entries, six Rhodena source-format layers, and the static radon
 image are omitted and named as not included). The
-[GeoNova source inventory](../docs/geonova-layer-expansion.md) lists every
-control, official source, delivery path and licence, including the open-data
-replacements, Sentinel-2 WMTS identifier, and the reproducible radon image
-and its source receipt.
+[GeoNova source inventory](../docs/geonova-layer-expansion.md) lists the
+GeoNova subset (38 of 52), including official sources, delivery paths,
+licences, open-data replacements, the Sentinel-2 WMTS identifier, and the
+reproducible radon image and its source receipt. Electoral and Rhodena
+controls are documented with those themes below.
 
 The eight built-in map setups are **Explore Nova Scotia**,
 **Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
@@ -610,10 +615,13 @@ generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
 
-Browser **Print / Save PDF** supports all 38 context controls, subject to
-selection, fitted zoom, licence acknowledgement and source readiness. The
+Browser **Print / Save PDF** supports the static context layers (52 catalog
+entries, including static Rhodena geometry), subject to selection, fitted zoom,
+licence acknowledgement and source readiness. Interactive Rhodena turbine
+viewshed and private viewpoint (`rhodena-visibility`) are omitted. The
 separate **Export map (PDF)** supports 33 context MapServer, open-data and tile entries;
-the four feature-query layers and static radon image are omitted and explicitly
+the four feature-query layers, eight electoral feature entries, six Rhodena
+source-format layers, and static radon image are omitted and explicitly
 listed as not included.
 
 Attribution follows the material actually rendered or reported:

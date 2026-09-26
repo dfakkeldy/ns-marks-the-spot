@@ -265,9 +265,12 @@ fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
 receipt discloses resampling. Source errors remain failures and require the
 existing incomplete-export consent; the renderer never substitutes another
 basemap. Legacy snapshots without a basemap style continue to use OSM.
-Browser print supports all 46 context controls subject to fitted zoom and source
-readiness. Generated PDF supports their 33 MapServer, open-data and tile entries; the four
-feature-query entries, eight electoral feature entries and static radon image are omitted and named as not
+Browser print supports the static context layers (52 catalog entries, including
+static Rhodena geometry) subject to fitted zoom and source readiness; the
+interactive Rhodena turbine viewshed and private viewpoint are omitted.
+Generated PDF supports their 33 MapServer, open-data and tile entries; the four
+feature-query entries, eight electoral feature entries, six Rhodena
+source-format layers, and static radon image are omitted and named as not
 included. It preserves the on-screen image order and selected-parcel authority.
 
 The exact receipt is derived only after the print map resolves. It uses the
@@ -338,9 +341,10 @@ movement, and deduplicates returned records. Occurrences begin at zoom 8; the
 denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
 
-`layers/contextLayerCatalog.ts` adds 38 default-off web-only research controls,
-composed from the NSTDB infrastructure/place catalogue, the land/environment
-catalogues, and the EOX Sentinel-2 2016 mosaic. Fifteen infrastructure/place
+`layers/contextLayerCatalog.ts` adds 52 default-off web-only research controls,
+composed from the NSTDB infrastructure/place catalogue (16), the
+land/environment catalogues (21), eight electoral layers, six Rhodena project
+layers, and the EOX Sentinel-2 2016 mosaic. Fifteen infrastructure/place
 overlays now query identified OGL-NS open datasets for the viewport; the
 complete provincial topographic cartography and sixteen land/environment image
 entries still reuse the ArcGIS image adapter; four use `ContextFeatureLayer`
@@ -350,8 +354,9 @@ with bounded, cancellable viewport queries and source-class legends; radon uses
 source dates, coverage and scale caveats remain descriptor-specific. The
 catalogue participates in categories, share state, custom themes and browser
 print without extending the native parity/offline catalogue. See the
-[GeoNova source inventory](docs/geonova-layer-expansion.md) for all layers,
-licence distinctions, source checks and the radon reproduction receipt.
+[GeoNova source inventory](docs/geonova-layer-expansion.md) for the GeoNova
+subset, licence distinctions, source checks and the radon reproduction receipt;
+electoral and Rhodena layers are documented with those web-only themes.
 
 `MineralProximityParcelLayer` is the only derived resource renderer. It asks
 `mineralProximity.ts` for occurrence points around the viewport and submits the
@@ -604,6 +609,19 @@ inspector evidence requests and reuses the distance tool, resetting it for
 each address. Defaults are NS Aerial (`ns-aerial`) and roads (street-name
 labels), subject to the Province licence gate; there are no quick aerial or
 next-address controls. A civic point is never promoted to a house location.
+
+The web-only Rhodena theme lives in `web/src/rhodena/` (theme id `rhodena`,
+category `rhodena-project`). It is a research-map setup, excluded from
+`buildMapPresentationFixture` and `layerParity.ts` with Poker and Electoral
+Districts. The six catalog
+ids are `rhodena-visibility`, `rhodena-turbines`, `rhodena-infrastructure`,
+`rhodena-study`, `rhodena-receptors`, and `rhodena-distance-rings`. Combined
+and per-turbine bare-earth viewsheds run in `visibility.worker.ts` against a
+fixed Mapzen terrain extract (`public/rhodena/terrain.bin`). A chosen
+viewpoint stays in memory; it is not written to share URLs or storage.
+Browser print omits interactive `rhodena-visibility` and the private
+viewpoint; static Rhodena geometry can still print. Product and source-prep
+detail live in `web/README.md` and `web/scripts/rhodena/README.md`.
 
 The same civic service owns sidebar address discovery. It sends normalized user
 text through Socrata's full-text `$q` index, returns bounded labelled Civic
