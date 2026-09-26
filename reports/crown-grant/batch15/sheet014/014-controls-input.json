@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Dunbar Lake northeastern roof",
+    [
+      642,
+      943
+    ],
+    [
+      663,
+      939
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "McKeen Lake northern roof",
+    [
+      2756,
+      297
+    ],
+    [
+      2761,
+      244
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Dugas Lake island north",
+    [
+      2401,
+      1316
+    ],
+    [
+      2412,
+      1297
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C04",
+    "Little Uniacke Lake northeastern horn",
+    [
+      3760,
+      939
+    ],
+    [
+      3800,
+      904
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Uniacke Lake southern tip",
+    [
+      3145,
+      1764
+    ],
+    [
+      3186,
+      1737
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Colibri Lake northern roof",
+    [
+      1558,
+      2768
+    ],
+    [
+      1560,
+      2761
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Cranberry Lake northern roof",
+    [
+      5125,
+      3559
+    ],
+    [
+      5179,
+      3499
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Unnamed northeastern lake northeastern roof",
+    [
+      4619,
+      726
+    ],
+    [
+      4644,
+      654
+    ],
+    "WALK20"
+  ]
+]

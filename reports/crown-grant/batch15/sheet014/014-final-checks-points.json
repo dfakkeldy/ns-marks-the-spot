@@ -1,0 +1,245 @@
+[
+  {
+    "id": "Q01",
+    "label": "Dunbar Lake southwestern tip",
+    "role": "check",
+    "pixel_xy": [
+      503,
+      1009
+    ],
+    "lonlat": [
+      -65.892667726644,
+      44.39548543484738
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 127940,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127940,
+    "nearest_unfiltered_distance_guide_px": 4.20232131028205,
+    "selected_distance_guide_px": 4.20232131028205,
+    "guide_reference_pixel_xy": [
+      525.1852926727734,
+      1007.622071914142
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q02",
+    "label": "McKeen Lake southwestern lobe south",
+    "role": "check",
+    "pixel_xy": [
+      2748,
+      443
+    ],
+    "lonlat": [
+      -65.77379296817733,
+      44.46486936750025
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 136706,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136706,
+    "nearest_unfiltered_distance_guide_px": 1.1443349419620124,
+    "selected_distance_guide_px": 1.1443349419620124,
+    "guide_reference_pixel_xy": [
+      2769.340729157673,
+      410.9353418711107
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q03",
+    "label": "Dugas Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      2376,
+      1409
+    ],
+    "lonlat": [
+      -65.76921719559485,
+      44.41487023663343
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 127657,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127657,
+    "nearest_unfiltered_distance_guide_px": 0.8416212062097642,
+    "selected_distance_guide_px": 0.8416212062097642,
+    "guide_reference_pixel_xy": [
+      2395.860427178559,
+      1392.170032722177
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q04",
+    "label": "Little Uniacke Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      3679,
+      1074
+    ],
+    "lonlat": [
+      -65.69941115961343,
+      44.45593617805368
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 132107,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 259899,
+    "nearest_unfiltered_distance_guide_px": 2.0459989920684465,
+    "selected_distance_guide_px": 6.025676192714889,
+    "guide_reference_pixel_xy": [
+      3715.9296872598934,
+      1034.0464753987035
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q05",
+    "label": "Colibri Lake eastern corner",
+    "role": "check",
+    "pixel_xy": [
+      1625,
+      2826
+    ],
+    "lonlat": [
+      -65.77655631172713,
+      44.3383771848879
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 128726,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128726,
+    "nearest_unfiltered_distance_guide_px": 1.1415234386126898,
+    "selected_distance_guide_px": 1.1415234386126898,
+    "guide_reference_pixel_xy": [
+      1626.8622366027557,
+      2805.907424556208
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q06",
+    "label": "Cranberry Lake southeastern tip",
+    "role": "check",
+    "pixel_xy": [
+      5194,
+      3635
+    ],
+    "lonlat": [
+      -65.53624574659653,
+      44.374120753690015
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 129050,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129050,
+    "nearest_unfiltered_distance_guide_px": 1.1820727241314253,
+    "selected_distance_guide_px": 1.1820727241314253,
+    "guide_reference_pixel_xy": [
+      5255.188588137506,
+      3585.8330679370556
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q07",
+    "label": "Unnamed northeastern lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      4580,
+      901
+    ],
+    "lonlat": [
+      -65.65107277123822,
+      44.48092331794615
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 132863,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132863,
+    "nearest_unfiltered_distance_guide_px": 0.43084479593324226,
+    "selected_distance_guide_px": 0.43084479593324226,
+    "guide_reference_pixel_xy": [
+      4599.425397653773,
+      851.0682940286351
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q08",
+    "label": "Prevost Lake western tip",
+    "role": "check",
+    "pixel_xy": [
+      447,
+      2195
+    ],
+    "lonlat": [
+      -65.86498716055362,
+      44.34191740338207
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 133878,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133878,
+    "nearest_unfiltered_distance_guide_px": 1.5028509401085097,
+    "selected_distance_guide_px": 1.5028509401085097,
+    "guide_reference_pixel_xy": [
+      437.77790380775696,
+      2197.8746667051455
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "Q09",
+    "label": "Wright Lake eastern tip",
+    "role": "check",
+    "pixel_xy": [
+      1535,
+      300
+    ],
+    "lonlat": [
+      -65.85082575960571,
+      44.44766676749948
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 133001,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133001,
+    "nearest_unfiltered_distance_guide_px": 3.8278967102597865,
+    "selected_distance_guide_px": 3.8278967102597865,
+    "guide_reference_pixel_xy": [
+      1558.2962724770769,
+      268.9670551485615
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C01",
+    "label": "Dunbar Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      640,
+      928
+    ],
+    "lonlat": [
+      -65.88638900042496,
+      44.40124043614633
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 127941,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127941,
+    "nearest_unfiltered_distance_guide_px": 2.779192679797803,
+    "selected_distance_guide_px": 2.779192679797803,
+    "guide_reference_pixel_xy": [
+      662.094604863727,
+      936.3724209624343
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Dugas Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2376,
+      1409
+    ],
+    "lonlat": [
+      -65.76921719559485,
+      44.41487023663343
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 127657,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127657,
+    "nearest_unfiltered_distance_guide_px": 0.8416212062097642,
+    "selected_distance_guide_px": 0.8416212062097642,
+    "guide_reference_pixel_xy": [
+      2395.860427178559,
+      1392.170032722177
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

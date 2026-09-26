@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Granit Lake southern tip",
+    [
+      3295,
+      572
+    ],
+    [
+      3253,
+      581
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Whitesand Lake southern shore",
+    [
+      5055,
+      450
+    ],
+    [
+      5088,
+      487
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Flagstaff Lake southern tip",
+    [
+      4126,
+      1768
+    ],
+    [
+      4118,
+      1822
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "East Clearwater Lake southeastern lobe south",
+    [
+      3498,
+      2699
+    ],
+    [
+      3453,
+      2699
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Lost Lake southwestern tip",
+    [
+      4118,
+      2683
+    ],
+    [
+      4067,
+      2700
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Harlow Lake southern lobe south",
+    [
+      655,
+      1750
+    ],
+    [
+      627,
+      1734
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Barrios Lake northeastern island south",
+    [
+      328,
+      1410
+    ],
+    [
+      309,
+      1383
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q08",
+    "Toad Lake southern tip",
+    [
+      1323,
+      1525
+    ],
+    [
+      1297,
+      1517
+    ],
+    "WALK20"
+  ],
+  [
+    "Q09",
+    "Dugeau Lake eastern horn north",
+    [
+      2238,
+      1825
+    ],
+    [
+      2210,
+      1840
+    ],
+    "WALK20"
+  ]
+]

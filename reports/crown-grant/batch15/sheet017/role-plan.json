@@ -1,0 +1,23 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-26T02:50:15.138731+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 8,
+  "reason": "Westmore/Rory in the northwest, Johns/Upper Stave in the northeast, McKay central, Gold southwest and Wentworth southeast provide two-axis spread.",
+  "corrections": [
+    "McKay and Rory initial WALK20 searches failed distance guards; physical lake outlines are WARVLK20. All rejected inputs retained."
+  ],
+  "rejected": [
+    "C06 and Q06 Beech Hill: ambiguous stream/lake endpoint correspondence, excluded before fit or score."
+  ],
+  "unadopted": [
+    "Lincumdoody, Lower Stave, western McKay, Western and Deception details inspected but not adopted."
+  ],
+  "limitations": [
+    "Seven checks share control lakes or islands; Aspect supplies a separate waterbody. Shared historical cartography limits independence.",
+    "The southwestern quarter, far eastern edge and much of the river/lake interior remain independently unvalidated.",
+    "Generalized shores and small islands carry 24 px working source uncertainty.",
+    "Beech Hill northern and southern proposals were excluded before fitting because the modern stream/lake boundaries are not confidently equivalent to the historical endpoints."
+  ]
+}

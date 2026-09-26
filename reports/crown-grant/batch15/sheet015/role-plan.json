@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T10:34:21.345141+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Northern Granit/Whitesand, central Flagstaff/Harlow/Barrios, southern East Clearwater/Lost and southwestern Solomon Churchill distribute controls across both axes.",
+  "corrections": [
+    "Granit southern check moved from label/stream to the actual lake shore through preserved pre-fit corrections.",
+    "East Clearwater northern source and Whitesand northeastern reference refined from native geometry."
+  ],
+  "unadopted": [
+    "Western and Napier lake outlines not adopted.",
+    "Far southeastern connected river/lake features lack sufficiently reconciled precise observations."
+  ],
+  "limitations": [
+    "Seven checks share control lakes or islands; Toad and Dugeau add two separate waterbodies. Shared historical cartography limits independence.",
+    "The far southeastern and southern areas below Lost Lake are independently unvalidated. Solomon Churchill is a southwestern control without its own independent check.",
+    "Western Lake, Napier and several connected river-lake outlines differ from modern geometry and remain unadopted.",
+    "Generalized lake extremities, narrow connections and island tips carry 24 px working source uncertainty."
+  ]
+}

@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Second Lake southern tip",
+    [
+      1572,
+      1010
+    ],
+    [
+      1593,
+      1007
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Otter Lake northern roof",
+    [
+      2240,
+      1019
+    ],
+    [
+      2263,
+      1031
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Little Stony Lake northeastern roof",
+    [
+      3934,
+      448
+    ],
+    [
+      3984,
+      446
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Muise Lake northern roof",
+    [
+      340,
+      2307
+    ],
+    [
+      386,
+      2310
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Clamshell Lake northern roof",
+    [
+      3172,
+      2893
+    ],
+    [
+      3214,
+      2910
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Unnamed southeastern pond northern tip",
+    [
+      4025,
+      3470
+    ],
+    [
+      4058,
+      3513
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Crane Lake northern roof",
+    [
+      204,
+      3152
+    ],
+    [
+      245,
+      3161
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T10:51:40.018613+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 8,
+  "reason": "Second/Otter/Little Stony in the north, Muise/Crane in the west and Clamshell/unnamed pond in the south provide two-axis control spread.",
+  "corrections": [
+    "Second southern, Muise northern and Crane southern source placements refined.",
+    "Little Stony northeastern reference moved from eastern slope to northern roof."
+  ],
+  "unadopted": [
+    "Third, Rocky, Sabeans, unnamed Round and Bucks/Muise details inspected but not adopted.",
+    "Broad eastern lake/island complex lacks sufficiently reconciled physical observations."
+  ],
+  "limitations": [
+    "Seven checks share control lakes; Rushmere supplies a separate waterbody. Shared historical cartography limits independence.",
+    "The eastern third, Mink/Moose/Roseway complex, northern edge and much of the central interior remain independently unvalidated.",
+    "Generalized lake extrema and river-connected shores carry 24 px working source uncertainty.",
+    "Small islands and altered lake connections in the unsampled complexes were not forced into matches."
+  ]
+}

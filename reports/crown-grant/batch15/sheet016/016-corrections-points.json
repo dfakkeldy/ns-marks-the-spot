@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C01",
+    "label": "Second Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1583,
+      1008
+    ],
+    "lonlat": [
+      -65.62994424266837,
+      44.09887397563173
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 143137,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143137,
+    "nearest_unfiltered_distance_guide_px": 1.052491011070816,
+    "selected_distance_guide_px": 1.052491011070816,
+    "guide_reference_pixel_xy": [
+      1593.9565259414376,
+      1006.5609152112156
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Little Stony Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      3934,
+      448
+    ],
+    "lonlat": [
+      -65.50196901708128,
+      44.170218108727035
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 132386,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132386,
+    "nearest_unfiltered_distance_guide_px": 0.6871965425204265,
+    "selected_distance_guide_px": 0.6871965425204265,
+    "guide_reference_pixel_xy": [
+      3974.315394795267,
+      436.05962215783074
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Muise Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      347,
+      2307
+    ],
+    "lonlat": [
+      -65.66735376269595,
+      44.01836481342323
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 135631,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135631,
+    "nearest_unfiltered_distance_guide_px": 2.180113793784752,
+    "selected_distance_guide_px": 2.180113793784752,
+    "guide_reference_pixel_xy": [
+      384.73938685667235,
+      2311.778693525237
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Crane Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      229,
+      3346
+    ],
+    "lonlat": [
+      -65.64519536901386,
+      43.970039017577946
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 137577,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137577,
+    "nearest_unfiltered_distance_guide_px": 0.43784733560337274,
+    "selected_distance_guide_px": 0.43784733560337274,
+    "guide_reference_pixel_xy": [
+      276.3149817765807,
+      3372.695867184084
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

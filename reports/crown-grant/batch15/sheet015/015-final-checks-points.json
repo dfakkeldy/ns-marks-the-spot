@@ -1,0 +1,245 @@
+[
+  {
+    "id": "Q01",
+    "label": "Granit Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      3297,
+      558
+    ],
+    "lonlat": [
+      -65.63735792222884,
+      44.30987790989317
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 126491,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126491,
+    "nearest_unfiltered_distance_guide_px": 0.9228253132828586,
+    "selected_distance_guide_px": 0.9228253132828586,
+    "guide_reference_pixel_xy": [
+      3252.9258185384097,
+      581.9198389367666
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q02",
+    "label": "Whitesand Lake southern shore",
+    "role": "check",
+    "pixel_xy": [
+      5055,
+      450
+    ],
+    "lonlat": [
+      -65.52940195341783,
+      44.35093483043838
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 141251,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141251,
+    "nearest_unfiltered_distance_guide_px": 0.2747502452068715,
+    "selected_distance_guide_px": 0.2747502452068715,
+    "guide_reference_pixel_xy": [
+      5087.975360130018,
+      486.72635684907436
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q03",
+    "label": "Flagstaff Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      4126,
+      1768
+    ],
+    "lonlat": [
+      -65.55082425271036,
+      44.27291440254907
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 127410,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127410,
+    "nearest_unfiltered_distance_guide_px": 1.3527694944638424,
+    "selected_distance_guide_px": 1.3527694944638424,
+    "guide_reference_pixel_xy": [
+      4116.97734962136,
+      1822.885534588946
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q04",
+    "label": "East Clearwater Lake southeastern lobe south",
+    "role": "check",
+    "pixel_xy": [
+      3498,
+      2699
+    ],
+    "lonlat": [
+      -65.56646238686201,
+      44.2211710148646
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 129120,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129120,
+    "nearest_unfiltered_distance_guide_px": 0.8068699423471707,
+    "selected_distance_guide_px": 0.8068699423471707,
+    "guide_reference_pixel_xy": [
+      3453.002655387856,
+      2699.8068655729294
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q05",
+    "label": "Lost Lake southwestern tip",
+    "role": "check",
+    "pixel_xy": [
+      4118,
+      2683
+    ],
+    "lonlat": [
+      -65.5295935278231,
+      44.23349780915221
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 131883,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 131883,
+    "nearest_unfiltered_distance_guide_px": 1.3298541214638955,
+    "selected_distance_guide_px": 1.3298541214638955,
+    "guide_reference_pixel_xy": [
+      4065.839632671734,
+      2699.3503388207173
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q06",
+    "label": "Harlow Lake southern lobe south",
+    "role": "check",
+    "pixel_xy": [
+      655,
+      1750
+    ],
+    "lonlat": [
+      -65.76324443948575,
+      44.2065085192429
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 138375,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138375,
+    "nearest_unfiltered_distance_guide_px": 0.3251139544231351,
+    "selected_distance_guide_px": 0.3251139544231351,
+    "guide_reference_pixel_xy": [
+      626.7316853363882,
+      1734.1835928229848
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q07",
+    "label": "Barrios Lake northeastern island south",
+    "role": "check",
+    "pixel_xy": [
+      328,
+      1410
+    ],
+    "lonlat": [
+      -65.79216699122455,
+      44.2153927785409
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 145937,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 145937,
+    "nearest_unfiltered_distance_guide_px": 1.34068705673201,
+    "selected_distance_guide_px": 1.34068705673201,
+    "guide_reference_pixel_xy": [
+      307.95850335096475,
+      1383.8442313155392
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q08",
+    "label": "Toad Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1323,
+      1525
+    ],
+    "lonlat": [
+      -65.7289765921491,
+      44.22954567731193
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 138915,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138915,
+    "nearest_unfiltered_distance_guide_px": 0.5854366485977512,
+    "selected_distance_guide_px": 0.5854366485977512,
+    "guide_reference_pixel_xy": [
+      1297.5760917477892,
+      1517.1041842965642
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  },
+  {
+    "id": "Q09",
+    "label": "Dugeau Lake eastern horn north",
+    "role": "check",
+    "pixel_xy": [
+      2238,
+      1825
+    ],
+    "lonlat": [
+      -65.66512077026727,
+      44.23377054247855
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 127750,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127750,
+    "nearest_unfiltered_distance_guide_px": 0.8056246185775253,
+    "selected_distance_guide_px": 0.8056246185775253,
+    "guide_reference_pixel_xy": [
+      2209.6763063728577,
+      1840.7377353602787
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence."
+  }
+]

@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 98.07389707566091,
+  "median_ground_m": 88.46098607956792,
+  "p95_ground_m": 131.3315253834508,
+  "max_ground_m": 131.77782493940506,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -5.55947665909367,
+  "mean_north_ground_m": -6.554829457720981,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Second Lake eastern central headland",
+      "role": "check",
+      "pixel_xy": [
+        1628,
+        882
+      ],
+      "lonlat": [
+        -65.63068903515983,
+        44.10515714337542
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 143226,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143226,
+      "nearest_unfiltered_distance_guide_px": 9.42271166178765,
+      "selected_distance_guide_px": 9.42271166178765,
+      "guide_reference_pixel_xy": [
+        1637.621825230599,
+        881.9150590449572
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.62981135093392,
+        44.10570820564546
+      ],
+      "error_ground_m": 93.2052937623716,
+      "east_ground_m": 70.27060512408327,
+      "north_ground_m": 61.23127338889128
+    },
+    {
+      "id": "Q02",
+      "label": "Otter Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        2230,
+        1140
+      ],
+      "lonlat": [
+        -65.58705062415918,
+        44.10549978355085
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 140373,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140373,
+      "nearest_unfiltered_distance_guide_px": 0.2056786800806787,
+      "selected_distance_guide_px": 0.2056786800806787,
+      "guide_reference_pixel_xy": [
+        2243.845324242837,
+        1146.135569648468
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.58633504013315,
+        44.10604914276149
+      ],
+      "error_ground_m": 83.71667839676424,
+      "east_ground_m": 57.29194170955576,
+      "north_ground_m": 61.041917212159376
+    },
+    {
+      "id": "Q03",
+      "label": "Little Stony Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3926,
+        548
+      ],
+      "lonlat": [
+        -65.49958089274757,
+        44.165801327620244
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 132385,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132385,
+      "nearest_unfiltered_distance_guide_px": 0.5450705764646835,
+      "selected_distance_guide_px": 0.5450705764646835,
+      "guide_reference_pixel_xy": [
+        3969.5124403469963,
+        535.2436955438461
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.50019785043847,
+        44.16492811144719
+      ],
+      "error_ground_m": 108.85515500474463,
+      "east_ground_m": -49.346545847447025,
+      "north_ground_m": -97.02764134015003
+    },
+    {
+      "id": "Q04",
+      "label": "Muise Lake eastern central bulge",
+      "role": "check",
+      "pixel_xy": [
+        423,
+        2443
+      ],
+      "lonlat": [
+        -65.65873819673459,
+        44.014023676335654
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 135736,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135736,
+      "nearest_unfiltered_distance_guide_px": 1.82268668332984,
+      "selected_distance_guide_px": 1.82268668332984,
+      "guide_reference_pixel_xy": [
+        466.6836278736009,
+        2448.3017278977204
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.6593350366566,
+        44.0137126301918
+      ],
+      "error_ground_m": 59.03359195577285,
+      "east_ground_m": -47.85923138787375,
+      "north_ground_m": -34.560945446596925
+    },
+    {
+      "id": "Q05",
+      "label": "Clamshell Lake eastern horn",
+      "role": "check",
+      "pixel_xy": [
+        3245,
+        2998
+      ],
+      "lonlat": [
+        -65.47386938041706,
+        44.04468665223983
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 128500,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128500,
+      "nearest_unfiltered_distance_guide_px": 0.49066402440875184,
+      "selected_distance_guide_px": 0.49066402440875184,
+      "guide_reference_pixel_xy": [
+        3289.1362048355513,
+        3009.471380342846
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.4738353285264,
+        44.04400118374855
+      ],
+      "error_ground_m": 76.21341413744656,
+      "east_ground_m": 2.729153265557911,
+      "north_ground_m": -76.1645338523058
+    },
+    {
+      "id": "Q06",
+      "label": "Unnamed southeastern pond southeastern shore",
+      "role": "check",
+      "pixel_xy": [
+        4097,
+        3595
+      ],
+      "lonlat": [
+        -65.40735277503607,
+        44.03354263983793
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 134103,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134103,
+      "nearest_unfiltered_distance_guide_px": 3.0927902159532685,
+      "selected_distance_guide_px": 3.0927902159532685,
+      "guide_reference_pixel_xy": [
+        4115.321925497265,
+        3633.79604440229
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.40599509229885,
+        44.034190780294615
+      ],
+      "error_ground_m": 130.5026833509643,
+      "east_ground_m": 108.83201004879521,
+      "north_ground_m": 72.01766415637897
+    },
+    {
+      "id": "Q07",
+      "label": "Crane Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        229,
+        3346
+      ],
+      "lonlat": [
+        -65.64519536901386,
+        43.970039017577946
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 137577,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137577,
+      "nearest_unfiltered_distance_guide_px": 0.43784733560337274,
+      "selected_distance_guide_px": 0.43784733560337274,
+      "guide_reference_pixel_xy": [
+        276.3149817765807,
+        3372.695867184084
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.64608357119157,
+        43.97026542275188
+      ],
+      "error_ground_m": 75.58416184218247,
+      "east_ground_m": -71.27488393875637,
+      "north_ground_m": 25.15663810810263
+    },
+    {
+      "id": "Q08",
+      "label": "Rushmere Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1302,
+        2602
+      ],
+      "lonlat": [
+        -65.60052403439728,
+        44.024365725665
+      ],
+      "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+      "reference_objectid": 143294,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143294,
+      "nearest_unfiltered_distance_guide_px": 0.7449308360707373,
+      "selected_distance_guide_px": 0.7449308360707373,
+      "guide_reference_pixel_xy": [
+        1361.3799401288852,
+        2612.6407553737517
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence.",
+      "predicted_lonlat": [
+        -65.60195989466959,
+        44.02378852788893
+      ],
+      "error_ground_m": 131.77782493940506,
+      "east_ground_m": -115.11886224666439,
+      "north_ground_m": -64.13300788824735
+    }
+  ],
+  "fit_sha256": "cd5324c8bd3143fe8850f2a5f2441f061508eb1bd415da6fc824e662cf741d83",
+  "checks_sha256": "0ab91f8962cd4bc2520095a00fddca446e35c29af7e6abb17aacbcc0ede34d53",
+  "status": "Reserved before first fit and score"
+}
