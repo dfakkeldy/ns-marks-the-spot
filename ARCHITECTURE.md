@@ -693,8 +693,8 @@ covers several parcels, so listing-level amounts are never allocated by the UI.
 Filters derive matched PID sets by municipality, year, and outcome without
 altering the upcoming-notice layer.
 
-The supported slice spans eleven municipalities and carries 26 events, 490
-owner-free records, and 468 matched PIDs. Twenty-five events have verified
+The supported slice spans eleven municipalities and carries 27 events, 494
+owner-free records, and 472 matched PIDs. Twenty-six events have verified
 results; Colchester's June 9, 2026 notice-only event awaits official results,
 with seven exact-PID records retained outcome unknown and twelve opaque
 `REMOVED` rows outside the matched layer. Halifax Regional Municipality

@@ -8,8 +8,8 @@ September 14, 2026 Victoria County tender, and the September 15, 2026 Halifax
 tender—each pinned to its official notice date. Whether a catalogued event is
 presented as current or past is decided at runtime from its advertised start
 time and any verified result dataset, as described under Data flow below.
-Completed Middleton and CBRM events remain in historical-record mode with only
-printed official outcomes classified.
+Completed Middleton, CBRM, and Victoria County events remain in
+historical-record mode with only printed official outcomes classified.
 
 ## Run locally
 
@@ -1362,15 +1362,21 @@ closed on an unrecognized winning-bid value or identifier mismatch.
 ## Victoria September 2026 source receipt
 
 - Official landing page: [Victoria County Tax Sales](https://victoriacounty.com/residents/property-taxation-services/tax-sales/)
-- Current official source: [September 14, 2026 Tax Sale by Tender](https://victoriacounty.com/property-tax-sale-notice/),
-  dated August 13, 2026. Sealed bids must arrive by noon at the Municipal
-  Administration Building in Baddeck.
-- The official table contains nine numbered rows. Rows 1, 2, 3, 8, and 9 now
+- Archived official notice: [September 14, 2026 Tax Sale by Tender](https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/),
+  dated August 13, 2026. Sealed bids were due by noon at the Municipal
+  Administration Building in Baddeck. The live notice page now prints that no
+  property tax sale notices exist.
+- The archived official table contains nine numbered rows. Rows 1, 2, 3, 8, and 9
   print `REMOVED` in every public field, including AAN and PID, so they remain
   five opaque removed-row counts without parcel identities. The other four rows
   publish exact AAN/PID pairs, descriptions, redeemability, and total owing.
   Two land-only rows print TOTAL OWING as `$digits.cents + hst`; the advertised
   dollar amount is stored and HST is not added.
+- The [September 14, 2026 result PDF](https://victoriacounty.com/wp-content/uploads/2026/09/Tax-Sale-Results-for-September-14-2026.pdf)
+  was retrieved September 24, 2026 with SHA-256
+  `6588a167badd6ad9664d6631178a7babf51ca837576ec52108714bc469cd08ee`.
+  Three retained listings print `SOLD` and one prints `NOT SOLD`; those four
+  exact-PID records now render in the historical catalog.
 - The assessed-name column is discarded before normalized facts or the public
   snapshot are written. Land-registration values are validated for known
   `YES`/`NO` input but are not added to the public map schema. The normalized
@@ -1428,14 +1434,14 @@ exception PID to remain empty, so either provincial change triggers review.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 26 events—25
+The historical layer is visually distinct and off by default. Its 27 events—26
 with verified results and one notice-only event awaiting official results—span
 eleven municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Halifax | 7 | 87 | 93 | 82 | 4 | 0 | 0 | 1 |
-| Victoria County | 3 | 19 | 19 | 6 | 3 | 1 | 0 | 9 |
+| Victoria County | 4 | 23 | 23 | 9 | 4 | 1 | 0 | 9 |
 | CBRM | 2 | 140 | 133 | 71 | 0 | 0 | 1 | 68 |
 | Cumberland | 2 | 34 | 33 | 27 | 0 | 6 | 0 | 1 |
 | Lunenburg District | 6 | 145 | 125 | 69 | 21 | 37 | 0 | 18 |
@@ -1445,7 +1451,7 @@ eleven municipalities:
 | Clare | 1 | 16 | 16 | 12 | 1 | 0 | 2 | 1 |
 | Middleton | 1 | 2 | 2 | 0 | 2 | 0 | 0 | 0 |
 | Colchester | 1 | 7 | 7 | 0 | 0 | 0 | 0 | 7 |
-| **Total** | **26** | **490** | **468** | **292** | **33** | **57** | **3** | **105** |
+| **Total** | **27** | **494** | **472** | **295** | **34** | **57** | **3** | **105** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026

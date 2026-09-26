@@ -3,16 +3,17 @@
 Retrieved and reviewed July 19, 2026; CBRM result availability re-checked July
 21, 2026 after the auction; Victoria County, Cumberland, and the CBRM July 22,
 2025 result sources were retrieved and reviewed July 23, 2026; the Region of
-Queens February 10, 2026 result was retrieved and reviewed August 6, 2026; and
-the Clare February 28, 2026 notice and result were retrieved and reviewed
-August 8, 2026. Only official municipal primary sources were used. Text
-extraction supported reconciliation;
+Queens February 10, 2026 result was retrieved and reviewed August 6, 2026; the
+Clare February 28, 2026 notice and result were retrieved and reviewed
+August 8, 2026; and the Victoria County September 14, 2026 sealed-tender result
+was retrieved and reviewed September 24, 2026. Only official municipal primary
+sources were used. Text extraction supported reconciliation;
 PIDs and financial values in the fourteen result-backed Halifax notice/result
-PDFs, the three Victoria County result PDFs, every row of the CBRM July 22, 2025
+PDFs, the four Victoria County result PDFs, every row of the CBRM July 22, 2025
 result, and both Cumberland result tables were also checked against rendered
 pages. Tender terms independently confirmed the sale method for six Halifax
-events and the August 2025 Victoria County event. Public data and screenshots
-omit assessed-owner and bidder names.
+events and the August 2025 and September 2026 Victoria County events. Public
+data and screenshots omit assessed-owner and bidder names.
 
 ## Result-backed Region of Queens event (derived PIDs)
 
@@ -83,25 +84,29 @@ query during review. Multi-PID records retain amounts at listing level.
 
 Victoria County publishes self-contained `TAX SALE RESULTS` tables carrying
 AAN, PID, location, `Total Owing`, HST, status, redeemability, and `Successful
-Bid` in a single official document. Its pre-sale property listings are removed
-from the municipal site after each sale and have no Wayback capture, so
-notice-to-result reconciliation is impossible; the retained notice receipts are
-the official sale announcements plus the tender or auction terms that pin each
-sale method, date, and venue.
+Bid` in a single official document. Pre-sale property listings are removed from
+the municipal site after each sale. The August 2025, November 2025, and March
+2026 sales have no Wayback capture of those listings, so notice-to-result
+reconciliation is impossible for those events; their retained notice receipts
+are the official sale announcements plus the tender or auction terms that pin
+each sale method, date, and venue. The September 14, 2026 tender has an archived
+notice table, so its four retained rows reconcile to that capture.
 
 | Municipality / event | Official notice receipts | Official result | Records / PIDs | Row disposition | SHA-256 receipts |
 | --- | --- | --- | ---: | --- | --- |
 | Victoria County — August 26, 2025 (by tender) | [Announcement notice](https://victoriacounty.com/wp-content/uploads/2025/07/Tax-Sale-Notice-1-Website-Post.jpeg) and [tender terms](https://victoriacounty.com/wp-content/uploads/2025/07/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-aug-26-2025.pdf) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2025/09/Tax-Sale-Results-August-26-2025.pdf) | 12 / 13 | All twelve rows included: two `SOLD/PAID` with bids, one `NOT SOLD`, and nine rows publishing amounts but no status held as outcome unknown | Notice `cc201189d850b05a419b876c32cb23f75ff3487034d0b1e433246cf0bbd94dcd`; terms `69b3db9491611816fd09a4ddbda0c9f43300feb2fb972d6acd158f8bcbcdce52`; result `2d85a27e119a597dd5f61e18bd0df8a3c33c5046c2c1dd45a98deedc7a796cb1` |
 | Victoria County — November 25, 2025 (public auction) | [Announcement notice](https://victoriacounty.com/wp-content/uploads/2025/10/Tax-Sale-Notice-2-Website-Post.jpeg) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2025/12/Tax-Sale-Results-for-November-25-2025.pdf) | 2 / 2 | One `SOLD` (its AAN officially printed with seven digits) and one `NOT SOLD` included; one `DEFERRED` and three `PAID` rows publish no `Total Owing` and are excluded | Notice `cb54268759745bb68475e0f1e3233558b879dbfda66c3df55cf8eb010fbd06aa`; result `592396e7d8c39320407b1f512aeddd1bbb25c8c59a1774ac45aa523a589f56db` |
 | Victoria County — March 24, 2026 (public auction) | [Announcement page snapshot](https://victoriacounty.com/upcoming-tax-sale-by-public-auction-3/) and [housekeeping rules](https://victoriacounty.com/wp-content/uploads/2026/02/Tax-Sale-Housekeeping-Rules.pdf) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2026/03/Tax-Sale-Results-March-24-2026.pdf) | 5 / 5 | Three `SOLD` and one `NOT SOLD` included; one `REMOVED` row printed beside a $17,500.00 bid kept fail-closed as withdrawn with no winning bid; ten `REMOVED` rows publish no `Total Owing` and are excluded, one printing a malformed seven-digit PID | Notice snapshot `a1220caa96989654dd34c468e5f10e59a97fe232ae3bf1efdc73fa7fbb2d1f7f`; terms `3a603c74648e04f11cb525c9d0040156f1c42c0822dd5bc1f276e2686ccc5897`; result `78a4bc0e6bf5d0348fef186d25bb57569b25a3122859d217c46b64ec5b5f9f89` |
+| Victoria County — September 14, 2026 (by tender) | [Archived notice](https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/) and [tender terms](https://victoriacounty.com/wp-content/uploads/2026/08/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-SEPT-14-2026.pdf) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2026/09/Tax-Sale-Results-for-September-14-2026.pdf) | 4 / 4 | Three `SOLD` (AANs 02266288, 02449366, 02689154) and one `NOT SOLD` (AAN 02845776) included; four `REMOVED` rows and one no-status row publish no `Total Owing` and are excluded. The live notice page now prints that no property tax sale notices exist. | Notice `4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5`; result `6588a167badd6ad9664d6631178a7babf51ca837576ec52108714bc469cd08ee` |
 
-The Victoria County slice has 19 owner-free records and 19 exact PIDs: six
-sold outcomes, three official `NOT SOLD` outcomes, one fail-closed withdrawn
-outcome, and nine outcome-unknown rows. All 19 PIDs were returned by the live
-NSPRD query on July 23, 2026 (PID `85008126` returns four polygon parts for
-one PID). PID `85142388` appears in two events — `NOT SOLD` in August 2025 and
-`REMOVED` beside a printed bid in March 2026 — and both records are retained
-separately.
+The Victoria County slice has 23 owner-free records and 23 unique exact PIDs
+(24 PID slots): nine sold outcomes, four official `NOT SOLD` outcomes, one
+fail-closed withdrawn outcome, and nine outcome-unknown rows. The 19 PIDs
+already in the slice were returned by the live NSPRD query on July 23, 2026
+(PID `85008126` returns four polygon parts for one PID); the four September 14,
+2026 exact official PIDs are additional matched parcels. PID `85142388` appears
+in two events — `NOT SOLD` in August 2025 and `REMOVED` beside a printed bid in
+March 2026 — and both records are retained separately.
 
 ## Result-backed CBRM event (pre-sale notice decayed)
 
