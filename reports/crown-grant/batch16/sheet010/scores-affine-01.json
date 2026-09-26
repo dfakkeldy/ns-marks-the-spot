@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 101.25945336625703,
+  "median_ground_m": 91.42812019159106,
+  "p95_ground_m": 143.54071734133225,
+  "max_ground_m": 159.75951835161945,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 4.5653342772935055,
+  "mean_north_ground_m": 17.766966167436188,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Peggy Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        624,
+        369
+      ],
+      "lonlat": [
+        -65.82949649287708,
+        43.685556036073436
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 20669,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20669,
+      "nearest_unfiltered_distance_guide_px": 0.5371214684180879,
+      "selected_distance_guide_px": 0.5371214684180879,
+      "guide_reference_pixel_xy": [
+        650.528873559786,
+        290.0937668896513
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.83084376445402,
+        43.685262467036765
+      ],
+      "error_ground_m": 113.42008689365606,
+      "east_ground_m": -108.62911520154074,
+      "north_ground_m": -32.6164290120007
+    },
+    {
+      "id": "Q02",
+      "label": "Pig-Yoke Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        2676,
+        909
+      ],
+      "lonlat": [
+        -65.69189773703631,
+        43.70031446407491
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 132688,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132688,
+      "nearest_unfiltered_distance_guide_px": 9.767758572295193,
+      "selected_distance_guide_px": 9.767758572295193,
+      "guide_reference_pixel_xy": [
+        2685.259858208883,
+        873.266007210128
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.69342026620016,
+        43.70123500839426
+      ],
+      "error_ground_m": 159.75951835161945,
+      "east_ground_m": -122.72737672996357,
+      "north_ground_m": 102.27949308108163
+    },
+    {
+      "id": "Q03",
+      "label": "Wabi Lake southwestern lobe southern end",
+      "role": "check",
+      "pixel_xy": [
+        4164,
+        1433
+      ],
+      "lonlat": [
+        -65.59100591622857,
+        43.70647139697029
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 141107,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141107,
+      "nearest_unfiltered_distance_guide_px": 1.2716309444838922,
+      "selected_distance_guide_px": 1.2716309444838922,
+      "guide_reference_pixel_xy": [
+        4137.165352766286,
+        1388.040620380547
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.59006041340334,
+        43.70686183711009
+      ],
+      "error_ground_m": 87.6897507607746,
+      "east_ground_m": 76.20755733700643,
+      "north_ground_m": 43.38087819781484
+    },
+    {
+      "id": "Q04",
+      "label": "Second Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3192,
+        2220
+      ],
+      "lonlat": [
+        -65.62636881131728,
+        43.65408323593292
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 142837,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142837,
+      "nearest_unfiltered_distance_guide_px": 0.3162666519245079,
+      "selected_distance_guide_px": 0.3162666519245079,
+      "guide_reference_pixel_xy": [
+        3194.2519616331556,
+        2171.1911542061716
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.62636811608188,
+        43.65329423466032
+      ],
+      "error_ground_m": 87.6623849532844,
+      "east_ground_m": 0.05608587140686926,
+      "north_ground_m": -87.66236701157945
+    },
+    {
+      "id": "Q05",
+      "label": "First Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        3206,
+        2523
+      ],
+      "lonlat": [
+        -65.61739363984448,
+        43.64067757187458
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 126808,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126808,
+      "nearest_unfiltered_distance_guide_px": 2.5768783801928734,
+      "selected_distance_guide_px": 2.5768783801928734,
+      "guide_reference_pixel_xy": [
+        3203.006850433012,
+        2484.6221951039042
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.61716721995774,
+        43.64017373773579
+      ],
+      "error_ground_m": 58.88448194006716,
+      "east_ground_m": 18.269669504239758,
+      "north_ground_m": -55.97857973864599
+    },
+    {
+      "id": "Q06",
+      "label": "East Lake northeastern shore",
+      "role": "check",
+      "pixel_xy": [
+        1335,
+        3309
+      ],
+      "lonlat": [
+        -65.70773192132664,
+        43.5692241957539
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 128251,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128251,
+      "nearest_unfiltered_distance_guide_px": 0.195137240920311,
+      "selected_distance_guide_px": 0.195137240920311,
+      "guide_reference_pixel_xy": [
+        1330.8082479836885,
+        3286.9638101252494
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.70701073516722,
+        43.56923852240717
+      ],
+      "error_ground_m": 58.28219401926056,
+      "east_ground_m": 58.26044695519788,
+      "north_ground_m": 1.591998831439811
+    },
+    {
+      "id": "Q07",
+      "label": "West Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        1071,
+        3360
+      ],
+      "lonlat": [
+        -65.72200430261177,
+        43.561169780731746
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 140943,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140943,
+      "nearest_unfiltered_distance_guide_px": 1.530078941636953,
+      "selected_distance_guide_px": 1.530078941636953,
+      "guide_reference_pixel_xy": [
+        1062.815974498808,
+        3351.4810279191006
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.72132641773165,
+        43.56187026672744
+      ],
+      "error_ground_m": 95.16648962240754,
+      "east_ground_m": 54.76906291324312,
+      "north_ground_m": 77.8267980496244
+    },
+    {
+      "id": "Q08",
+      "label": "Rat Island northern end",
+      "role": "check",
+      "pixel_xy": [
+        1245,
+        850
+      ],
+      "lonlat": [
+        -65.78120052700214,
+        43.675251964041664
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 20816,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20816,
+      "nearest_unfiltered_distance_guide_px": 0.32628439049565666,
+      "selected_distance_guide_px": 0.32628439049565666,
+      "guide_reference_pixel_xy": [
+        1230.3199563846574,
+        791.9360514628934
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.78045256805352,
+        43.67609182633086
+      ],
+      "error_ground_m": 111.11054013492289,
+      "east_ground_m": 60.3163435687583,
+      "north_ground_m": 93.31393694175495
+    }
+  ],
+  "fit_sha256": "b351afd855c7a0b7258cd014051ba55e7a0c4c5bdb882e5691d023a3986ec6cf",
+  "checks_sha256": "6e24a08be982ea5c048ca2a2688811ec6fb13951d94e08c5d8e5c9cc16578a5e",
+  "status": "Reserved before first fit and score"
+}

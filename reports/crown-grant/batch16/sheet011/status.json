@@ -1,0 +1,46 @@
+{
+  "sheet": "011",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical and browser assessment complete; not geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/011.pdf",
+    "pdf_sha256": "a11b48abb00138ad52c758508904e78a6a96b33e5518a04e17aadc570a0b9f4d",
+    "jpeg_sha256": "e9d131ba64b79f9a46ff8c87fa1408efcff71b66b5f098b47b8ac14b46ba76b4",
+    "dimensions": [
+      5720,
+      3934
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 7,
+      "rms_ground_m": 142.86475263080376,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "RMS 142.86 m, median 133.59 m, P95 208.42 m and maximum 230.57 m fail all numerical limits.",
+    "Six checks pair with control islands; Coesars Pond provides a separate inland check. Shared historical cartography limits independence.",
+    "Northern/eastern mainland, Cape Sable sandbar, town harbours and much of the central coast remain independently unvalidated.",
+    "Tidal islands and generalized extrema carry 24 px working source uncertainty; island-size differences are visible.",
+    "Small offshore ledges, altered shore connections and unmatched sandbars remain included but were not forced into controls."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 142.86 m, median 133.59 m, P95 208.42 m, maximum 230.57 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Full mapped frame retains Barrington, Cape Sable, Port Latour, Baccaro, Blanche, all coastal waters, islands and offshore ledges. Six island controls and seven excluded checks cover widely separated physical features; most mainland shoreline and sandbar detail remains provisional."
+  }
+}

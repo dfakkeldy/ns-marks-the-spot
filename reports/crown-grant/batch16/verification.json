@@ -1,0 +1,132 @@
+{
+  "verified_at_utc": "2026-09-26T03:21:57.399506+00:00",
+  "sheets": 4,
+  "planned_batch_sheets": 8,
+  "batch_assessment_complete": false,
+  "score_replays": 4,
+  "regressions": "5 scorer/pixel-frame/review-order tests passed",
+  "rms_ceiling_m": 100,
+  "main_rms_pass_count": 1,
+  "main_rms_fail_sheets": [
+    "019",
+    "011",
+    "010"
+  ],
+  "all_components_coverage_passed": true,
+  "all_source_fit_component_raster_hashes_match": true,
+  "accepted_batch1_artifact_basis": "57765b8d5edc54798491ef524463b98330601633",
+  "accepted_batch1_preserved_files": [
+    "reports/crown-grant/batch1/sheet002/fit-affine-03.json",
+    "reports/crown-grant/batch1/sheet002/fit-affine-02.json",
+    "reports/crown-grant/batch1/sheet002/fit-affine-01.json",
+    "reports/crown-grant/batch1/sheet002/scores-affine-02-corrected.json",
+    "reports/crown-grant/batch1/sheet002/scores-affine-01.json",
+    "reports/crown-grant/batch1/sheet002/scores-affine-02.json",
+    "reports/crown-grant/batch1/sheet002/scores-affine-03.json",
+    "reports/crown-grant/batch1/sheet002/components.json",
+    "reports/crown-grant/batch1/sheet002/render-receipt.json",
+    "reports/crown-grant/batch1/sheet003/fit-affine-01.json",
+    "reports/crown-grant/batch1/sheet003/scores-affine-01.json",
+    "reports/crown-grant/batch1/sheet003/components.json",
+    "reports/crown-grant/batch1/sheet003/render-receipt.json",
+    "reports/crown-grant/batch1/sheet004/fit-affine-01.json",
+    "reports/crown-grant/batch1/sheet004/scores-affine-01.json",
+    "reports/crown-grant/batch1/sheet004/scores-affine-01-audited.json",
+    "reports/crown-grant/batch1/sheet004/components.json",
+    "reports/crown-grant/batch1/sheet004/render-receipt.json",
+    "reports/crown-grant/batch1/sheet004a/fit-main-affine-01.json",
+    "reports/crown-grant/batch1/sheet004a/fit-north-similarity-01.json",
+    "reports/crown-grant/batch1/sheet004a/fit-south-similarity-01.json",
+    "reports/crown-grant/batch1/sheet004a/scores-main-affine-01.json",
+    "reports/crown-grant/batch1/sheet004a/scores-north-counterfactual-global.json",
+    "reports/crown-grant/batch1/sheet004a/scores-north-similarity-01.json",
+    "reports/crown-grant/batch1/sheet004a/scores-south-similarity-01.json",
+    "reports/crown-grant/batch1/sheet004a/components.json",
+    "reports/crown-grant/batch1/sheet004a/render-receipt.json",
+    "reports/crown-grant/batch1/sheet005/fit-main-affine-01.json",
+    "reports/crown-grant/batch1/sheet005/fit-inset-affine-01.json",
+    "reports/crown-grant/batch1/sheet005/scores-main-affine-01.json",
+    "reports/crown-grant/batch1/sheet005/scores-main-affine-01-audited.json",
+    "reports/crown-grant/batch1/sheet005/scores-inset-affine-01.json",
+    "reports/crown-grant/batch1/sheet005/components.json",
+    "reports/crown-grant/batch1/sheet005/render-receipt.json"
+  ],
+  "rows": [
+    {
+      "sheet": "018",
+      "components": [
+        {
+          "component": "main",
+          "controls": 8,
+          "independent_checks": 9,
+          "rms_ground_m": 41.710409847200324,
+          "rms_gate_passed": true,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "019",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 8,
+          "rms_ground_m": 103.4403508678554,
+          "rms_gate_passed": false,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "011",
+      "components": [
+        {
+          "component": "main",
+          "controls": 6,
+          "independent_checks": 7,
+          "rms_ground_m": 142.86475263080376,
+          "rms_gate_passed": false,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    },
+    {
+      "sheet": "010",
+      "components": [
+        {
+          "component": "main",
+          "controls": 7,
+          "independent_checks": 8,
+          "rms_ground_m": 101.25945336625703,
+          "rms_gate_passed": false,
+          "fit": "fit-affine-01.json",
+          "checks": "checks-affine-01.json",
+          "scores": "scores-affine-01.json"
+        }
+      ],
+      "coverage_passed": true,
+      "raster_hashes_verified": true,
+      "browser_receipt_present": true
+    }
+  ],
+  "limitations": [
+    "Measurements remain provisional; companion bounds and regional check coverage apply",
+    "Browser receipts verify standalone private Leaflet rasters, not native import or production deployment"
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "sheet": "010",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "affine, row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.880844872312413,
+      1.9949195433601807
+    ],
+    [
+      2.0715702827199967,
+      -4.97897876357364
+    ],
+    [
+      268028.8383736291,
+      4841403.716266111
+    ]
+  ],
+  "source_sha256": "a831f1f12239e9c1e2edaa5a46c75183b250151bd76d97bde793b85c12674892",
+  "source_dimensions": [
+    5713,
+    3846
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Peggy Island northern end",
+      "role": "control",
+      "pixel_xy": [
+        663,
+        248
+      ],
+      "lonlat": [
+        -65.83216647299272,
+        43.691906626735964
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 20669,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20669,
+      "nearest_unfiltered_distance_guide_px": 0.6498364437106443,
+      "selected_distance_guide_px": 0.6498364437106443,
+      "guide_reference_pixel_xy": [
+        668.7119805247639,
+        151.58252226177137
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C02",
+      "label": "Pig-Yoke Lake northern horn",
+      "role": "control",
+      "pixel_xy": [
+        2656,
+        645
+      ],
+      "lonlat": [
+        -65.7011892611271,
+        43.71150525032405
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 132689,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132689,
+      "nearest_unfiltered_distance_guide_px": 1.4897009326252937,
+      "selected_distance_guide_px": 1.4897009326252937,
+      "guide_reference_pixel_xy": [
+        2653.362030062417,
+        600.3461809786968
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C03",
+      "label": "Wabi Lake northwestern lobe northern shore",
+      "role": "control",
+      "pixel_xy": [
+        4110,
+        1155
+      ],
+      "lonlat": [
+        -65.60204753249667,
+        43.717895273923084
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 141107,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141107,
+      "nearest_unfiltered_distance_guide_px": 0.7485587297621574,
+      "selected_distance_guide_px": 0.7485587297621574,
+      "guide_reference_pixel_xy": [
+        4082.70324956032,
+        1099.7435234361328
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C04",
+      "label": "Second Lake northern shore",
+      "role": "control",
+      "pixel_xy": [
+        3146,
+        1987
+      ],
+      "lonlat": [
+        -65.63473750680025,
+        43.663343394519174
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 142837,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142837,
+      "nearest_unfiltered_distance_guide_px": 3.756477050273831,
+      "selected_distance_guide_px": 3.756477050273831,
+      "guide_reference_pixel_xy": [
+        3158.1514560603537,
+        1941.079343541991
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C05",
+      "label": "First Lake northern shore",
+      "role": "control",
+      "pixel_xy": [
+        3249,
+        2325
+      ],
+      "lonlat": [
+        -65.61990160956043,
+        43.65031156205476
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 126696,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126696,
+      "nearest_unfiltered_distance_guide_px": 0.42634956693386267,
+      "selected_distance_guide_px": 0.42634956693386267,
+      "guide_reference_pixel_xy": [
+        3251.412591790722,
+        2284.107433549012
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C06",
+      "label": "East Lake southwestern shore",
+      "role": "control",
+      "pixel_xy": [
+        1232,
+        3437
+      ],
+      "lonlat": [
+        -65.70978431047769,
+        43.56106591840799
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 128250,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128250,
+      "nearest_unfiltered_distance_guide_px": 0.8034239151682292,
+      "selected_distance_guide_px": 0.8034239151682292,
+      "guide_reference_pixel_xy": [
+        1231.6688713923795,
+        3430.4450854388997
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C07",
+      "label": "West Lake northern horn",
+      "role": "control",
+      "pixel_xy": [
+        1147,
+        3228
+      ],
+      "lonlat": [
+        -65.72061757846689,
+        43.569169264984886
+      ],
+      "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+      "reference_objectid": 140943,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140943,
+      "nearest_unfiltered_distance_guide_px": 3.898270233226597,
+      "selected_distance_guide_px": 3.898270233226597,
+      "guide_reference_pixel_xy": [
+        1151.3561746739433,
+        3206.864733575145
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    64.86172346999352,
+    126.40409527566943,
+    90.28330802536277,
+    96.81728295537285,
+    63.193939827844886,
+    59.79474032354155,
+    13.69738805360431
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: see role plan for two-axis control coverage and limitations"
+}

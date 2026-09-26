@@ -1,0 +1,236 @@
+[
+  {
+    "id": "Q01",
+    "label": "Harper Lake eastern peninsula tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1313,
+      466
+    ],
+    "lonlat": [
+      -65.4546948132833,
+      43.802058835382205
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 138575,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138575,
+    "nearest_unfiltered_distance_guide_px": 1.0035424032494045,
+    "selected_distance_guide_px": 1.0035424032494045,
+    "guide_reference_pixel_xy": [
+      1314.168426655815,
+      478.5617678598501
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Courtney Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      2531,
+      752
+    ],
+    "lonlat": [
+      -65.36868498142564,
+      43.81510398429649
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 128925,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128925,
+    "nearest_unfiltered_distance_guide_px": 10.856163580475911,
+    "selected_distance_guide_px": 10.856163580475911,
+    "guide_reference_pixel_xy": [
+      2526.4783344511525,
+      743.2741168639623
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Dirty Creek Lake large island southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      355,
+      1570
+    ],
+    "lonlat": [
+      -65.4808725426206,
+      43.73011616151375
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 146522,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 146522,
+    "nearest_unfiltered_distance_guide_px": 0.6265203656425408,
+    "selected_distance_guide_px": 0.6265203656425408,
+    "guide_reference_pixel_xy": [
+      396.4998212555656,
+      1604.6227083459962
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Morris Lake central large island southwestern end",
+    "role": "proposal",
+    "pixel_xy": [
+      802,
+      2052
+    ],
+    "lonlat": [
+      -65.44081694350656,
+      43.71664537988677
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 144749,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144749,
+    "nearest_unfiltered_distance_guide_px": 0.9986223385360099,
+    "selected_distance_guide_px": 0.9986223385360099,
+    "guide_reference_pixel_xy": [
+      804.0706257398706,
+      2075.634609716013
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Lake George central island southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3388,
+      1452
+    ],
+    "lonlat": [
+      -65.29325215095444,
+      43.79976627020558
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 153671,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 153671,
+    "nearest_unfiltered_distance_guide_px": 0.9875028707138095,
+    "selected_distance_guide_px": 0.9875028707138095,
+    "guide_reference_pixel_xy": [
+      3374.619514043967,
+      1450.230997874518
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Church Over Lake island southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1406,
+      2564
+    ],
+    "lonlat": [
+      -65.38658113600552,
+      43.705476201118074
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 152569,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134588,
+    "nearest_unfiltered_distance_guide_px": 13.363124378789756,
+    "selected_distance_guide_px": 16.019063763266843,
+    "guide_reference_pixel_xy": [
+      1413.3968587330892,
+      2587.540392945055
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Rodney Lake northeastern bay eastern end",
+    "role": "proposal",
+    "pixel_xy": [
+      3290,
+      2573
+    ],
+    "lonlat": [
+      -65.26645439296183,
+      43.74492472078257
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 142785,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142785,
+    "nearest_unfiltered_distance_guide_px": 0.746645928093875,
+    "selected_distance_guide_px": 0.746645928093875,
+    "guide_reference_pixel_xy": [
+      3279.727680053329,
+      2579.167218066985
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Veitch Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4976,
+      1087
+    ],
+    "lonlat": [
+      -65.20258238859984,
+      43.85063941745773
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 139081,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139081,
+    "nearest_unfiltered_distance_guide_px": 2.776515067648486,
+    "selected_distance_guide_px": 2.776515067648486,
+    "guide_reference_pixel_xy": [
+      4950.560929685598,
+      1066.7192634680541
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Enslow Point southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      3848,
+      2415
+    ],
+    "lonlat": [
+      -65.23531447379904,
+      43.76421172646643
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 5122,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5122,
+    "nearest_unfiltered_distance_guide_px": 0.404168035706298,
+    "selected_distance_guide_px": 0.404168035706298,
+    "guide_reference_pixel_xy": [
+      3836.0060975881643,
+      2415.404122036649
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]
