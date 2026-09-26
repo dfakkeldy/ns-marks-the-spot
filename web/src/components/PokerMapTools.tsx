@@ -9,10 +9,14 @@ import {
   type CivicAddress,
 } from "../services/civicAddresses";
 
-// Controls that float over the Poker map: a number beneath one could not be read.
+// Controls and panels that float over the Poker map: a number beneath one could not be read.
 // Passing notices are left out, since one can vanish without the map moving.
 const CONTROLS = [".poker-search", ".mobile-map-chrome", ".leaflet-control", ".research-terrain-controls", ".location-button",
-  ".location-cluster", ".poker-workspace", ".measure-actions", ".display-scale-readout", ".position-readout", ".map-attribution"];
+  ".location-cluster", ".location-hud", ".poker-workspace", ".measure-actions", ".display-scale-readout", ".position-readout",
+  ".map-attribution", ".modern-map-error"];
+// Chrome that changes size without the map moving: the footer folds after five seconds on a
+// phone, sliding the measure buttons down, and the search opens its results.
+const RESIZING = ".map-attribution, .poker-search";
 const DOT = { color: "#173a4a", fillColor: "#fff", fillOpacity: 1, weight: 1 };
 
 const numberSizes = new Map<string, { width: number; height: number }>();
@@ -60,13 +64,20 @@ export function PokerMapTools({ session }: { session: PokerSession }) {
   const [viewport, setViewport] = useState(0);
   const [reading, setReading] = useState<Awaited<ReturnType<typeof fetchViewportCivicAddresses>> | null>(null);
   const [status, setStatus] = useState("Zoom in to see civic numbers.");
-  const [fontsReady, setFontsReady] = useState(() => document.fonts?.status !== "loading");
+  // Bumped when a web font finishes loading or the chrome changes size, to place again without refetching.
+  const [fontRevision, setFontRevision] = useState(0);
+  const [chromeRevision, setChromeRevision] = useState(0);
   // A pan or zoom outlasts the 200 ms wait, so nothing is fetched until it ends: a reading
-  // taken mid-animation would be placed against a view the map is leaving.
-  const moving = useRef(false);
+  // taken mid-animation would be placed against a view the map is leaving. Zooms are tracked
+  // apart because choosing an address frames it with a pan that ends inside the zoom.
+  const panning = useRef(false);
+  const zooming = useRef(false);
+  const stalledView = useRef<string | null>(null);
   useMapEvents({
-    movestart: () => { moving.current = true; setReading(null); setViewport((value) => value + 1); },
-    moveend: () => { moving.current = false; setViewport((value) => value + 1); },
+    movestart: () => { panning.current = true; setReading(null); setViewport((value) => value + 1); },
+    zoomstart: () => { zooming.current = true; },
+    zoomend: () => { zooming.current = false; },
+    moveend: () => { panning.current = false; setViewport((value) => value + 1); },
   });
 
   useEffect(() => {
@@ -96,7 +107,13 @@ export function PokerMapTools({ session }: { session: PokerSession }) {
   useEffect(() => {
     const controller = new AbortController();
     const timer = setTimeout(() => {
-      if (moving.current) return;
+      if (panning.current || zooming.current) {
+        // An interrupted fly-to reports no end; a view that has not moved for a whole wait is settled.
+        const center = map.getCenter(), view = `${center.lat},${center.lng},${map.getZoom()}`;
+        if (stalledView.current !== view) { stalledView.current = view; setViewport((value) => value + 1); return; }
+        panning.current = zooming.current = false;
+      }
+      stalledView.current = null;
       setReading(null);
       if (map.getZoom() < 16) {
         setStatus("Zoom to level 16 or closer to see civic numbers.");
@@ -122,17 +139,25 @@ export function PokerMapTools({ session }: { session: PokerSession }) {
   }, [onCivicStatusChange, status]);
 
   useEffect(() => {
-    if (fontsReady) return;
-    let live = true;
-    void document.fonts?.ready.then(() => { if (live) setFontsReady(true); });
-    return () => { live = false; };
-  }, [fontsReady]);
+    const fonts = document.fonts;
+    if (!fonts?.addEventListener) return;
+    const bump = () => setFontRevision((value) => value + 1);
+    fonts.addEventListener("loadingdone", bump);
+    return () => fonts.removeEventListener("loadingdone", bump);
+  }, []);
+
+  useEffect(() => {
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => setChromeRevision((value) => value + 1));
+    for (const element of document.querySelectorAll(RESIZING)) observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   // Each number tries the positions around its dot and is left off where none
   // is clear; its dot always draws. Units sharing a provincial point and number
   // are one label. The chosen address places first.
   const labels = useMemo(() => {
-    void fontsReady;
+    void fontRevision; void chromeRevision;
     const points = civicLabelPoints(reading?.addresses ?? []).map((address) => {
       const text = `${address.properties.civicnum ?? ""}${address.properties.civsuffix ?? ""}`;
       return { address, text, key: `${address.pntid}|${text}` };
@@ -157,7 +182,7 @@ export function PokerMapTools({ session }: { session: PokerSession }) {
     const placed = new Map(placeLabels({ width, height, points: layout, roads: [], obstacles, showAllPoints: map.getZoom() >= map.getMaxZoom() })
       .points.map((point) => [point.key, point]));
     return points.map((point) => ({ ...point, placed: placed.get(point.key) }));
-  }, [fontsReady, map, reading, session.address]);
+  }, [chromeRevision, fontRevision, map, reading, session.address]);
 
   return <>
     {labels.map(({ address, key, text, placed }) => <CircleMarker

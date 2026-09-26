@@ -220,15 +220,18 @@ export function placeLabels(layout: LabelLayout): { points: PlacedPoint[]; roads
   }
   const placePoint = (point: PointLabel) => {
     const box = (offset: ScreenPoint) => entry({ cx: point.x + offset.x, cy: point.y + offset.y, hw: point.width / 2 + POINT_PAD, hh: point.height / 2 + POINT_PAD, angle: 0 });
+    // A number cut by the screen edge reads as a different number ('1181' as '181'), so a dot
+    // on screen takes only whole positions; one just off screen may be placed ahead of a pan.
+    const onScreen = point.x >= 0 && point.y >= 0 && point.x <= layout.width && point.y <= layout.height;
     let chosen: { offset: ScreenPoint; box: Entry } | null = null;
     for (const offset of pointAnchors(point)) {
       const candidate = box(offset);
       if (grid.collides(candidate, { origin: point })) continue;
       if (inside(candidate, layout)) { chosen = { offset, box: candidate }; break; }
-      chosen ??= { offset, box: candidate };
+      if (!onScreen) chosen ??= { offset, box: candidate };
     }
     if (!chosen && (point.selected || layout.showAllPoints)) {
-      const offset = pointAnchors(point)[0];
+      const offset = pointAnchors(point).find(anchor => inside(box(anchor), layout)) ?? pointAnchors(point)[0];
       chosen = { offset, box: box(offset) };
     }
     if (!chosen) return;

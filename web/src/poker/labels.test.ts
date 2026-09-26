@@ -94,6 +94,17 @@ describe('Poker label placement', () => {
     expect(edge.dx).toBeLessThan(0);
   });
 
+  it('never shows a number cut off by the screen edge, which would read as another number', () => {
+    // Only the positions spilling past the right edge are free for a dot 6 px from it.
+    const obstacles = [{ left: 330, top: 360, right: 380, bottom: 440 }];
+    expect(placeLabels({ ...view, points: [civic('edge', 394, 400)], roads: [], obstacles }).points).toEqual([]);
+    // Just off screen, a number may wait there for a pan to bring it in.
+    expect(placeLabels({ ...view, points: [civic('beyond', 405, 400)], roads: [], obstacles }).points).toHaveLength(1);
+    // Forced at the closest zoom, it still takes a whole position when one exists.
+    const [forced] = placeLabels({ ...view, points: [civic('edge', 394, 400)], roads: [], obstacles, showAllPoints: true }).points;
+    expect(394 + forced.dx + 15).toBeLessThanOrEqual(398);
+  });
+
   it('places the chosen address, then highways, then numbers, then trails', () => {
     // The name fills the road's whole on-screen length, so only one of the two labels can have the spot above the house.
     const crossing = [[[0, 400], [400, 400]]] as [number, number][][];
