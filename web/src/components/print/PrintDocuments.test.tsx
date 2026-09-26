@@ -42,7 +42,7 @@ it("prints every captured context layer with its source name and a defined legen
     const row = within(legend).getByText(layer.name).closest("li")!;
     expect(row.querySelector(".print-layer-symbol"))
       .toHaveAttribute("data-symbol-kind", "source-classes");
-    if (layer.delivery === "feature-query" || layer.delivery === "static-image") {
+    if (layer.delivery === "feature-query" || layer.delivery === "static-image" || layer.delivery === "rhodena") {
       const classes = within(row).getByLabelText(`${layer.name} classes`);
       for (const { label } of layer.legend) {
         expect(within(classes).getAllByText(label).length).toBeGreaterThan(0);

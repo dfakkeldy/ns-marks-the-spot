@@ -223,7 +223,7 @@ export function ActiveLayerLegend({
 
 function ContextPrintLegend({ layerId }: { layerId: ShareLayerId }) {
   const layer = contextLayerCatalog.find(({ id }) => id === layerId);
-  if (!layer || (layer.delivery !== "feature-query" && layer.delivery !== "static-image")) return null;
+  if (!layer || (layer.delivery !== "feature-query" && layer.delivery !== "static-image" && layer.delivery !== "rhodena")) return null;
   return (
     <span className="print-context-classes" aria-label={`${layer.name} classes`}>
       {layer.legend.map(({ label, color }, index) => (

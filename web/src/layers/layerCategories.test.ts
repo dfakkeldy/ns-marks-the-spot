@@ -52,6 +52,7 @@ describe("layer category contract", () => {
       "forestry-ecology",
       "geology-resources",
       "historical-maps",
+      "rhodena-project",
       "elections-districts",
       "tax-sale",
       "my-maps",

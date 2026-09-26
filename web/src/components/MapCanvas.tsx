@@ -1,3 +1,7 @@
+import { RhodenaVisibility } from "../rhodena/RhodenaVisibility";
+import { RhodenaLayer } from "../rhodena/RhodenaLayer";
+import { RhodenaFocus } from "../rhodena/RhodenaFocus";
+import { isRhodenaLayerId } from "../rhodena/catalog";
 import { atlasPalettes } from "../atlas/palette";
 import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
 import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
@@ -202,6 +206,7 @@ import type { PdfTemplateId } from "../print/pdf/templates/types";
 const LOCATE_MIN_ZOOM = 14;
 
 type MapCanvasProps = {
+  rhodenaFitRevision?: number;
   poker?: PokerSession | null;
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
@@ -1852,6 +1857,7 @@ function LocationControlIcon() {
 }
 
 export function MapCanvas({
+  rhodenaFitRevision = 0,
   poker = null,
   parcels,
   taxSalePids,
@@ -1997,7 +2003,8 @@ export function MapCanvas({
   const [modernMapFailed, setModernMapFailed] = useState(false);
   const [modernMapFailure, setModernMapFailure] = useState<string | null>(null);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
-  const measuring = poker !== null || measureMode !== "off";
+  const [visibilityPicking, setVisibilityPicking] = useState(false);
+  const measuring = poker !== null || measureMode !== "off" || visibilityPicking;
   const [terrainRequested, setTerrainRequested] = useState(false);
   const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
   const [terrainStatus, setTerrainStatus] = useState<TerrainStatus>({ kind: "loading", message: "Loading 3D terrain…" });
@@ -2007,7 +2014,7 @@ export function MapCanvas({
   const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
   const [terrainRetry, setTerrainRetry] = useState(0);
   const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
-  const terrainBlocked = Boolean(isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
+  const terrainBlocked = Boolean(contextLayers["rhodena-visibility"] || isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
   useLayoutEffect(() => {
@@ -2627,7 +2634,12 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
-        {contextLayerCatalog.map((layer) => isElectoralLayerId(layer.id) ? (
+        <RhodenaFocus revision={rhodenaFitRevision} />
+        {contextLayerCatalog.map((layer) => layer.id === "rhodena-visibility" ? (
+          contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} /> : null
+        ) : isRhodenaLayerId(layer.id) ? (
+          <RhodenaLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
+        ) : isElectoralLayerId(layer.id) ? (
           <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (
           <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} />
@@ -2909,7 +2921,7 @@ export function MapCanvas({
             }}>
               <PokerMapTools session={poker} />
               <MeasureTool key={`poker-${poker.revision}`} driveway suspended={terrainActive} mode="distance" onModeChange={setMeasureMode} />
-            </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
+            </div> : <MeasureTool suspended={visibilityPicking} mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
         {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer key={terrainRetry} basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={reportTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}

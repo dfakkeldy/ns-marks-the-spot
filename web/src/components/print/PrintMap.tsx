@@ -74,8 +74,8 @@ export function PrintMap({
       return null;
     }
   }, []);
-  const layerIds = useMemo(
-    () => printedLayerIds([...snapshot.layerIds], includeAerial),
+  const layerIds = useMemo<ShareLayerId[]>(
+    () => printedLayerIds([...snapshot.layerIds], includeAerial).filter(id => id !== "rhodena-visibility"),
     [includeAerial, snapshot.layerIds],
   );
   const [statuses, setStatuses] = useState<Record<string, MapLayerStatus>>({});
@@ -138,6 +138,7 @@ export function PrintMap({
       role="region"
       aria-label={`Printable map for PID ${snapshot.pid}`}
     >
+      {snapshot.layerIds.includes("rhodena-visibility") ? <p>Not included: interactive Rhodena turbine viewshed and private viewpoint. Use the live map for this preliminary terrain analysis.</p> : null}
       <div className="print-electoral-legends">{contextLayerCatalog.filter(layer => layer.electoral && layerIds.includes(layer.id)).map(layer => {
         const state = statuses[layer.id]?.status;
         const messages = { 'returned-empty': 'Source returned no records', 'outside-coverage': 'Outside this source’s mapped coverage', 'source-error': 'Source request failed', 'licence-blocked': 'Province licence blocked this source' };

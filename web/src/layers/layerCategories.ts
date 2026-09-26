@@ -3,6 +3,7 @@ import type { ChurchCountyLayerId } from "./layerCatalog";
 import type { ShareLayerId } from "../services/mapShareState";
 
 export type LayerCategoryId =
+  | "rhodena-project"
   | "elections-districts"
   | "background-maps"
   | "land-property"
@@ -37,6 +38,7 @@ export const layerCategories = [
   { id: "forestry-ecology", name: "Forestry & Ecology", description: "Forestry policy and ecological information." },
   { id: "geology-resources", name: "Geology & Resources", description: "Minerals, tenure, mines, and resource context." },
   { id: "historical-maps", name: "Historical Maps", description: "Fletcher and Church historical map collections." },
+  { id: "rhodena-project", name: "Rhodena Wind Project", description: "The 2024 assessed proposal, source evidence and approximate infrastructure." },
   { id: "elections-districts", name: "Elections & Districts", description: "Dated electoral boundaries, results, and seats by level of government." },
   { id: "tax-sale", name: "Tax Sale", description: "Optional current and historical tax-sale research." },
   { id: "my-maps", name: "My Maps", description: "Import, register, and control your own maps and data." },

@@ -1,3 +1,4 @@
+import { rhodenaLayers } from "../rhodena/catalog";
 import { electoralLayers } from "./electoralLayers";
 import { sentinel2Layer } from "./sentinel2";
 import { openSourceMetadata } from "./openDataSources";
@@ -6,6 +7,7 @@ import { landContextLayers } from "./landContextLayers";
 import type { ContextLayerDescriptor } from "./contextLayerTypes";
 
 export type ContextLayerId =
+  | (typeof rhodenaLayers)[number]["id"]
   | (typeof electoralLayers)[number]["id"]
   | typeof sentinel2Layer.id
   | (typeof infrastructureLayers)[number]["id"]
@@ -18,6 +20,7 @@ export const contextLayerCatalog: readonly ContextMapLayer[] = [
   ...infrastructureLayers.map((layer) => openSourceMetadata(layer, "openData" in layer ? layer.openData : undefined)),
   ...landContextLayers,
   ...electoralLayers,
+  ...rhodenaLayers,
   sentinel2Layer,
 ];
 

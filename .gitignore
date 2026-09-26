@@ -115,3 +115,6 @@ web/playwright-report/
 
 # Crown Grant scans, warps, tiles and imagery-bearing review evidence stay private.
 .crown-grant-local/
+
+# Downloaded original Rhodena PDFs stay outside distributed source
+web/scripts/.rhodena-cache/
