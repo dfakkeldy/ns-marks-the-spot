@@ -17,6 +17,27 @@ Research snapshot: **2026-07-24**. Prototype by GDAL 3.9 CLI workflow; findings 
 > Physical checks require separate component transforms; a single grid/affine
 > placement misses the Northern Seal group by about 8 km.
 
+> **26 September 2026 — series assessment complete:** All **138 linked official
+> sheets** have been assessed and the remaining queue is empty. Cite
+> [reports/crown-grant/series/README.md](../reports/crown-grant/series/README.md),
+> [progress.json](../reports/crown-grant/series/progress.json)
+> (`remaining_sheets: []`),
+> [verification.json](../reports/crown-grant/series/verification.json)
+> (`linked_official_sheets: 138`, `assessed_sheets: 138`, `remaining_sheets: 0`),
+> and PR [#561](https://github.com/dfakkeldy/ns-marks-the-spot/pull/561)
+> (merge `521091b8e1c1bdba07eeed23dbd90775d98fd1ef`). Assessment is not
+> geographic acceptance and is not production. Main-map results: **102** within
+> 100 m independent ground RMS, **36** above that ceiling, **82** within all
+> four numerical limits. Sheet 002 retains qualified user acceptance with an
+> unsupported inset. No public tiles; imagery stays private; complete-scan /
+> base-map redistribution remains unclarified; the requested use is directed
+> to the provincial
+> [Open Data Portal licence](https://support.novascotia.ca/services/open-data-portal-licence).
+> Fletcher and Church freeze status is unchanged. The July 2026 “~12–25 hours
+> supervised to georeference all 138 sheets” figure below is a historical
+> estimate superseded by that record. This document does not clear licensing
+> for redistribution and does not enable a production layer.
+
 
 
 > [!WARNING]
@@ -43,7 +64,7 @@ Georeferencing the Grant Index Sheets is **technically straightforward and highl
 - **The red overprinted grid is the automation key.** It is the **Nova Scotia 1:10,000 provincial mapsheet grid: a true 10 km × 10 km square grid** aligned to the provincial MTM projection's north. Measured spacing was 10.02–10.04 km on four independent sheets once per-sheet scan DPI is applied. Detecting the grid is fully scriptable (done here), giving ~5–6 exact interior control points per sheet.
 - **The catch for full automation:** the grid lines are **not labelled with coordinates** on the map face, so each sheet still needs *one* external tie to fix which 10 km lines it shows. That reduces per-sheet human effort to ~1–3 minutes.
 
-**Recommendation:** pursue the grid-based hybrid pipeline ([§7](#7-automation-feasibility-for-all-138-sheets)). Estimated **~12–25 hours of supervised work** to georeference all 138 sheets once licensing clears. Do not start producing public artifacts until DNRR permission is in hand.
+**July 2026 recommendation (historical):** pursue the grid-based hybrid pipeline ([§7](#7-automation-feasibility-for-all-138-sheets)). That note estimated **~12–25 hours of supervised work** to georeference all 138 sheets once licensing cleared. That figure is a forward estimate from this snapshot; it has been superseded by the completed assessment record (PR [#561](https://github.com/dfakkeldy/ns-marks-the-spot/pull/561) / `521091b8e1c1bdba07eeed23dbd90775d98fd1ef`). Assessment is not geographic acceptance and is not production readiness. Do not produce public tiles; imagery stays private; licensing is not cleared for redistribution.
 
 ---
 
@@ -110,7 +131,7 @@ gdal_translate -of GTiff \
 # 3. Warp to WGS84 (or EPSG:3857 for tiling)
 gdalwarp -order 1 -r bilinear -t_srs EPSG:4326 -dstalpha s085_gcp.tif s085_wgs84.tif
 
-# 4. (When licensing clears) slice to XYZ tiles
+# 4. (If a public layer ever ships) slice to XYZ tiles
 gdal2tiles.py --xyz -z 10-15 s085_webmerc.tif Tiles/GrantIndex_085
 ```
 
@@ -185,6 +206,15 @@ Either is ~1–3 minutes of human work per sheet.
 
 ## 7. Automation feasibility for all 138 sheets
 
+The effort column is the **2026-07-24 forward estimate**. It is not a remaining
+work queue. All 138 linked official sheets have since been assessed and the
+remaining queue is empty
+([series README](../reports/crown-grant/series/README.md),
+[progress.json](../reports/crown-grant/series/progress.json),
+[verification.json](../reports/crown-grant/series/verification.json)).
+That completed assessment does not mean the sheets are geographically accepted
+or production-ready, and it does not clear licensing for public tiles.
+
 | Stage | Automatable? | Effort |
 |---|---|---|
 | Download 138 PDFs (browser UA) | Fully | minutes, scripted |
@@ -197,14 +227,16 @@ Either is ~1–3 minutes of human work per sheet.
 
 **Two paths:**
 
-- **(a) Manual GCPs on coast/road features.** Works, but interior sheets (no coastline) have sparse features matchable to modern data — the same weakness that pushed sheet 085's RMS onto coastal points. ~15–40 min/sheet skilled → **~35–90 hours** for 138.
-- **(b) Grid-based hybrid (recommended).** Auto-detect the 10 km grid → auto-propose absolute coordinates from the NSTDB sheet-index footprint → human confirms one tie and eyeballs the overlay → warp. ~5–10 min/sheet → **~12–25 hours** for 138, with better and more uniform interior accuracy than path (a).
+- **(a) Manual GCPs on coast/road features (historical estimate).** Works, but interior sheets (no coastline) have sparse features matchable to modern data — the same weakness that pushed sheet 085's RMS onto coastal points. Then estimated ~15–40 min/sheet skilled → **~35–90 hours** for 138.
+- **(b) Grid-based hybrid (recommended in 2026-07-24).** Auto-detect the 10 km grid → auto-propose absolute coordinates from the NSTDB sheet-index footprint → human confirms one tie and eyeballs the overlay → warp. Then estimated ~5–10 min/sheet → **~12–25 hours** for 138, with better and more uniform interior accuracy than path (a).
 
-**Total estimated pipeline time (path b, post-licensing): ~12–25 hours supervised**, plus a few hours to build and validate the batch scripts on the three sheets already extracted.
+**Historical estimate (path b, 2026-07-24): ~12–25 hours supervised**, plus a few hours to build and validate the batch scripts on the three sheets already extracted. That estimate is superseded by the 138-sheet assessment record. Completing the assessment did not produce public tiles, did not place imagery in the repository, and did not enable a production layer.
 
 ---
 
 ## 8. Recommended tiling zoom range
+
+These zoom notes remain hypothetical tiling advice **if a public layer ever ships**. They do not enable production tiles, pin a host, or change the Fletcher/Church freeze.
 
 Source resolution is ~5 m/px. Web Mercator ground resolution at 46 °N is `108,797 / 2^z` m/px:
 
@@ -223,7 +255,7 @@ Source resolution is ~5 m/px. Web Mercator ground resolution at 46 °N is `108,7
 
 ## 9. How the layer would register in the catalog
 
-When licensing clears, this is a `WebLayerDescriptor` in `web/src/layers/layerCatalog.ts`, following the **Fletcher `rights-pending` precedent** (Fletcher ships on iOS but is filtered out of the web map via `provinceLayerCatalog` until rights are cleared):
+If a public layer ever ships, it would be a `WebLayerDescriptor` in `web/src/layers/layerCatalog.ts`, following the **Fletcher `rights-pending` precedent** (Fletcher ships on iOS but is filtered out of the web map via `provinceLayerCatalog` until rights are cleared). Completing the 138-sheet assessment does not enable that layer, does not change the Fletcher or Church freeze, and does not clear licensing:
 
 ```ts
 {
@@ -253,13 +285,12 @@ The iOS `LayerCatalog.swift` mirror would use `LayerAttribution(provider: "NS De
 
 ---
 
-## 10. Next steps
+## 10. Status after the 138-sheet assessment
 
-1. **Blocked on licensing.** Request sent to the Crown Land division (`crownland@novascotia.ca`) on 2026-07-24; await their reply. Produce no public tiles and commit no sheet imagery until then.
-2. When cleared: build the batch scripts (download → extract → grid-detect → tie → warp → tile) and validate on sheets 085, 114, 120 first.
-3. Confirm the NSTDB 1:10,000 sheet-index → grant-index-sheet footprint mapping so absolute grid coordinates can be auto-assigned ([§6.3](#63-the-automation-gap)).
-4. Add the `crown-grant-restricted` licence discriminator and the mandatory-caution display path *before* the layer ships, so the disclaimer cannot be forgotten.
-5. Update `ARCHITECTURE.md` / `README.md` when the new layer type and licence discriminator land.
+1. **Assessment complete; not production.** All 138 linked official sheets have been assessed and the remaining queue is empty ([series README](../reports/crown-grant/series/README.md), [progress.json](../reports/crown-grant/series/progress.json), [verification.json](../reports/crown-grant/series/verification.json), PR [#561](https://github.com/dfakkeldy/ns-marks-the-spot/pull/561) / `521091b8e1c1bdba07eeed23dbd90775d98fd1ef`). Main-map results remain **102** within 100 m RMS, **36** above, **82** within all four numerical limits. Sheet 002 retains qualified user acceptance with an unsupported inset. Numeric passes are not geographic acceptance.
+2. **Licensing is not cleared for redistribution.** The requested use is directed to the [Open Data Portal licence](https://support.novascotia.ca/services/open-data-portal-licence); complete-scan / base-map redistribution remains unclarified. Produce no public tiles and commit no sheet imagery.
+3. **Fletcher / Church freeze unchanged.** Completing this assessment does not change hosted Fletcher tiles or the catalogued-but-untilled Church county maps, and it does not add a Crown Grant production layer.
+4. **If a public layer ever ships:** add the `crown-grant-restricted` licence discriminator and the mandatory-caution display path *before* the layer ships, so the sheet's own graphic-index disclaimer cannot be forgotten. Then update `ARCHITECTURE.md` / `README.md` for that new layer type. Do not treat this section as permission to enable the layer.
 
 ## Reproducibility
 
