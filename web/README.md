@@ -1615,7 +1615,12 @@ this repository and published by KinNoKi with a rewrite that preserves the short
 URL. It restores this browser's search, postal filter, chosen address, viewport
 and current trace from `ns-marks:poker:v1`. Selecting an address starts a new
 trace; Finish checks the user's strictly-over-500-metre carding threshold against
-the unrounded geodesic path length. Civic numbers stay available at street zoom.
+the unrounded geodesic path length. Civic numbers show from zoom 16 and road names
+from zoom 15, placed so no label covers another label, an address dot or a map
+control. Road names run along straight stretches of their road, turned to match
+it; a lane shorter than its name gets one label over it. A number with no clear
+spot around its dot waits for a closer zoom while the dot stays, and at the
+closest zoom every number shows.
 The research map's older Poker theme remains separate; old KinNoKi Poker links
 lead to the dedicated app, including browsers that cached the former redirect.
 

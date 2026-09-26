@@ -2,7 +2,8 @@
  * Screen-space label placement for Poker. Road names lie along straight runs of
  * their road; civic numbers try eight positions around their dot. A label that
  * finds no clear space is left off for this view rather than drawn over another
- * one. Dots always draw, so a missing number never hides that a point exists.
+ * one. Dots always draw, above every label, so a missing number never hides
+ * that a point exists.
  */
 import { latLngBounds, type LatLngBounds } from 'leaflet';
 import { roadRank } from './cartography';
@@ -43,12 +44,18 @@ const DIAGONAL = Math.SQRT1_2;
 // Above first, as Poker always drew them; then beside, below and the corners.
 const ANCHORS: readonly [number, number][] = [[0, -1], [1, 0], [-1, 0], [0, 1], [1, -1], [-1, -1], [1, 1], [-1, 1]];
 
-type Entry = LabelBox & { cos: number; sin: number; minX: number; minY: number; maxX: number; maxY: number; stamp: number; dot: boolean };
+/**
+ * What a collision box stands for. A number ignores the dots at its own spot. A
+ * road name may pass over another address's dot when nothing else fits, because
+ * dots draw above labels; the chosen address's ring it may not cover.
+ */
+type Kind = 'label' | 'dot' | 'ring';
+type Entry = LabelBox & { cos: number; sin: number; minX: number; minY: number; maxX: number; maxY: number; stamp: number; kind: Kind };
 
-function entry(box: LabelBox, dot = false): Entry {
+function entry(box: LabelBox, kind: Kind = 'label'): Entry {
   const cos = Math.cos(box.angle), sin = Math.sin(box.angle);
   const ex = box.hw * Math.abs(cos) + box.hh * Math.abs(sin), ey = box.hw * Math.abs(sin) + box.hh * Math.abs(cos);
-  return { ...box, cos, sin, minX: box.cx - ex, minY: box.cy - ey, maxX: box.cx + ex, maxY: box.cy + ey, stamp: 0, dot };
+  return { ...box, cos, sin, minX: box.cx - ex, minY: box.cy - ey, maxX: box.cx + ex, maxY: box.cy + ey, stamp: 0, kind };
 }
 
 function radius(box: Entry, ax: number, ay: number): number {
@@ -87,13 +94,14 @@ class CollisionGrid {
   insert(box: Entry): void {
     this.each(box, (cell, key) => { if (cell) cell.push(box); else this.cells.set(key, [box]); });
   }
-  /** A number's own dot, and any dot at the same spot, is cleared by its anchor offset rather than tested. */
-  collides(box: Entry, origin?: ScreenPoint): boolean {
+  /** `origin`: a number's own spot, whose dots its anchor offset already clears. `overDots`: a road name's last resort. */
+  collides(box: Entry, { origin, overDots = false }: { origin?: ScreenPoint; overDots?: boolean } = {}): boolean {
     const stamp = ++this.stamp;
     return this.each(box, cell => cell?.some(other => {
       if (other.stamp === stamp) return false;
       other.stamp = stamp;
-      if (origin && other.dot && Math.abs(other.cx - origin.x) < 0.5 && Math.abs(other.cy - origin.y) < 0.5) return false;
+      if (origin && other.kind !== 'label' && Math.abs(other.cx - origin.x) < 0.5 && Math.abs(other.cy - origin.y) < 0.5) return false;
+      if (overDots && other.kind === 'dot') return false;
       return entriesOverlap(box, other);
     }));
   }
@@ -127,6 +135,30 @@ function at(line: Measured, distance: number): { point: ScreenPoint; index: numb
   return { point: { x: points[low].x + (points[high].x - points[low].x) * t, y: points[low].y + (points[high].y - points[low].y) * t }, index: low };
 }
 
+/** The stretches of a line inside the view, as distances along it, so a long road off screen costs one pass over its vertices. */
+function onScreen(line: Measured, layout: LabelLayout): [number, number][] {
+  const { points, lengths } = line, ranges: [number, number][] = [];
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], dx = points[i].x - a.x, dy = points[i].y - a.y;
+    // Liang-Barsky: clip the segment to the view.
+    let t0 = 0, t1 = 1;
+    for (const [p, q] of [[-dx, a.x], [dx, layout.width - a.x], [-dy, a.y], [dy, layout.height - a.y]]) {
+      if (p === 0) { if (q < 0) t0 = Infinity; } else if (p < 0) t0 = Math.max(t0, q / p); else t1 = Math.min(t1, q / p);
+    }
+    if (t0 > t1) continue;
+    const span = lengths[i] - lengths[i - 1], from = lengths[i - 1] + t0 * span, to = lengths[i - 1] + t1 * span;
+    const last = ranges[ranges.length - 1];
+    if (last && from <= last[1] + 1e-6) last[1] = Math.max(last[1], to); else ranges.push([from, to]);
+  }
+  return ranges;
+}
+
+/** Distances from `middle` outward in ROAD_STEP steps, up to `reach` either side. */
+function* outward(middle: number, reach: number): Generator<number> {
+  yield middle;
+  for (let step = ROAD_STEP; step <= reach; step += ROAD_STEP) { yield middle - step; yield middle + step; }
+}
+
 /**
  * The label box for a road name centred at `distance` along the line, or null
  * where the road bends too much under the text for a straight label to cover it.
@@ -153,9 +185,9 @@ function upright(dx: number, dy: number): number {
 }
 
 /**
- * A road shorter than its name: one straight label over it at `distance`,
- * turned to the road's direction there. Null where the road wanders more than
- * a label height from that line, so a name never cuts across a bend.
+ * A road too short or winding for its name to run along: one straight label
+ * over it at `distance`, turned to the road's direction there. Null where the
+ * road wanders more than a label height from that line.
  */
 export function acrossBox(line: ScreenPoint[] | Measured, distance: number, width: number, height: number): LabelBox | null {
   const measured = Array.isArray(line) ? measure(line) : line;
@@ -171,21 +203,6 @@ export function acrossBox(line: ScreenPoint[] | Measured, distance: number, widt
   return { cx: centre.x, cy: centre.y, hw: width / 2, hh: height / 2, angle: upright(dx, dy) };
 }
 
-/** Candidate distances along a line: one window per ROAD_SPACING, searched outward from its middle. */
-function roadCandidates(total: number, width: number): number[][] {
-  if (total < width) return [];
-  const windows = Math.max(1, Math.round(total / ROAD_SPACING)), span = total / windows;
-  return Array.from({ length: windows }, (_, w) => {
-    const middle = span * (w + 0.5), found: number[] = [];
-    for (let step = 0; step <= span / 2; step += ROAD_STEP) {
-      for (const distance of step ? [middle - step, middle + step] : [middle]) {
-        if (distance >= width / 2 && distance <= total - width / 2) found.push(distance);
-      }
-    }
-    return found;
-  });
-}
-
 /**
  * Places Poker's labels for one view: the selected address, then highway and
  * ordinary road names, then civic and postal numbers, then tracks and trails.
@@ -199,67 +216,66 @@ export function placeLabels(layout: LabelLayout): { points: PlacedPoint[]; roads
   }
   for (const point of layout.points) {
     const reach = Math.max(DOT_RADIUS, point.clearance);
-    grid.insert(entry({ cx: point.x, cy: point.y, hw: reach, hh: reach, angle: 0 }, true));
+    grid.insert(entry({ cx: point.x, cy: point.y, hw: reach, hh: reach, angle: 0 }, point.selected ? 'ring' : 'dot'));
   }
   const placePoint = (point: PointLabel) => {
-    let fallback: { offset: ScreenPoint; box: Entry } | null = null;
+    const box = (offset: ScreenPoint) => entry({ cx: point.x + offset.x, cy: point.y + offset.y, hw: point.width / 2 + POINT_PAD, hh: point.height / 2 + POINT_PAD, angle: 0 });
+    let chosen: { offset: ScreenPoint; box: Entry } | null = null;
     for (const offset of pointAnchors(point)) {
-      const box = entry({ cx: point.x + offset.x, cy: point.y + offset.y, hw: point.width / 2 + POINT_PAD, hh: point.height / 2 + POINT_PAD, angle: 0 });
-      if (grid.collides(box, point)) continue;
-      if (inside(box, layout)) { fallback = { offset, box }; break; }
-      fallback ??= { offset, box };
+      const candidate = box(offset);
+      if (grid.collides(candidate, { origin: point })) continue;
+      if (inside(candidate, layout)) { chosen = { offset, box: candidate }; break; }
+      chosen ??= { offset, box: candidate };
     }
-    if (!fallback && (point.selected || layout.showAllPoints)) {
+    if (!chosen && (point.selected || layout.showAllPoints)) {
       const offset = pointAnchors(point)[0];
-      fallback = { offset, box: entry({ cx: point.x + offset.x, cy: point.y + offset.y, hw: point.width / 2 + POINT_PAD, hh: point.height / 2 + POINT_PAD, angle: 0 }) };
+      chosen = { offset, box: box(offset) };
     }
-    if (!fallback) return;
-    grid.insert(fallback.box);
-    points.push({ kind: 'point', key: point.key, dx: fallback.offset.x, dy: fallback.offset.y });
+    if (!chosen) return;
+    grid.insert(chosen.box);
+    points.push({ kind: 'point', key: point.key, dx: chosen.offset.x, dy: chosen.offset.y });
   };
   const placeRoad = (road: RoadLabel) => {
+    const runs = road.lines.map(measure).map(measured => ({ measured, total: measured.lengths[measured.lengths.length - 1], shown: onScreen(measured, layout) }))
+      .filter(run => run.shown.length);
     const placed: ScreenPoint[] = [];
-    let index = 0;
-    for (const line of road.lines) {
-      const measured = measure(line);
-      for (const window of roadCandidates(measured.lengths[measured.lengths.length - 1], road.width)) {
-        for (const distance of window) {
-          const centre = at(measured, distance).point;
-          if (centre.x < 0 || centre.y < 0 || centre.x > layout.width || centre.y > layout.height) continue;
-          const shape = roadBox(measured, distance, road.width, road.height);
-          if (!shape) continue;
-          const box = entry({ ...shape, hw: shape.hw + ROAD_PAD, hh: shape.hh + ROAD_PAD });
-          if (!inside(box, layout) || placed.some(p => Math.hypot(p.x - shape.cx, p.y - shape.cy) < REPEAT_GAP) || grid.collides(box)) continue;
-          grid.insert(box);
-          placed.push({ x: shape.cx, y: shape.cy });
-          roads.push({ kind: 'road', key: road.key, index: index++, x: shape.cx, y: shape.cy, angle: shape.angle * 180 / Math.PI });
-          break;
+    const tryAt = (distances: Iterable<number>, shapeAt: (distance: number) => LabelBox | null, overDots: boolean) => {
+      for (const distance of distances) {
+        const shape = shapeAt(distance);
+        if (!shape || placed.some(p => Math.hypot(p.x - shape.cx, p.y - shape.cy) < REPEAT_GAP)) continue;
+        const box = entry({ ...shape, hw: shape.hw + ROAD_PAD, hh: shape.hh + ROAD_PAD });
+        if (!inside(box, layout) || grid.collides(box, { overDots })) continue;
+        grid.insert(box);
+        placed.push({ x: shape.cx, y: shape.cy });
+        roads.push({ kind: 'road', key: road.key, index: placed.length - 1, x: shape.cx, y: shape.cy, angle: shape.angle * 180 / Math.PI });
+        return true;
+      }
+      return false;
+    };
+    const shownAt = (shown: [number, number][], distance: number) => shown.some(([from, to]) => distance >= from && distance <= to);
+    // Clear of every address dot where possible; over one, which still draws on top, rather than leave the road unnamed.
+    for (const overDots of [false, true]) {
+      for (const { measured, total, shown } of runs) {
+        if (total < road.width) continue;
+        // Windows are fixed along the whole run, so a pan does not move a name that stays in view.
+        const windows = Math.max(1, Math.round(total / ROAD_SPACING)), span = total / windows;
+        for (let w = 0; w < windows; w++) {
+          if (!shown.some(([from, to]) => to >= w * span && from <= (w + 1) * span)) continue;
+          const distances = [...outward(span * (w + 0.5), span / 2)].filter(d => d >= road.width / 2 && d <= total - road.width / 2 && shownAt(shown, d));
+          tryAt(distances, distance => roadBox(measured, distance, road.width, road.height), overDots);
         }
       }
+      if (placed.length) return;
     }
-    if (index) return;
-    // Too short or winding to run along in view: one label over the middle of its longest stretch on screen.
-    const stretches = road.lines.map(measure).map(measured => {
-      const total = measured.lengths[measured.lengths.length - 1];
-      let low = Infinity, high = -Infinity;
-      for (let distance = 0; distance <= total; distance += ROAD_STEP / 2) {
-        const p = at(measured, distance).point;
-        if (p.x >= 0 && p.y >= 0 && p.x <= layout.width && p.y <= layout.height) { low = Math.min(low, distance); high = Math.max(high, distance); }
-      }
-      return { measured, low, high };
+    // Too short or winding to run along: one label over the middle of its longest stretch on screen,
+    // never hanging past the ends of the run, where it would cross the road it meets.
+    const stretches = runs.flatMap(({ measured, total, shown }) => {
+      const reach = Math.min(road.width / 2, total / 2);
+      return shown.map(([from, to]) => ({ measured, low: Math.max(from, reach), high: Math.min(to, total - reach) }));
     }).filter(stretch => stretch.high >= stretch.low).sort((a, b) => (b.high - b.low) - (a.high - a.low));
-    for (const { measured, low, high } of stretches) {
-      const middle = (low + high) / 2;
-      for (let step = 0; step <= (high - low) / 2; step += ROAD_STEP) {
-        for (const distance of step ? [middle - step, middle + step] : [middle]) {
-          const shape = acrossBox(measured, distance, road.width, road.height);
-          if (!shape) continue;
-          const box = entry({ ...shape, hw: shape.hw + ROAD_PAD, hh: shape.hh + ROAD_PAD });
-          if (!inside(box, layout) || grid.collides(box)) continue;
-          grid.insert(box);
-          roads.push({ kind: 'road', key: road.key, index: 0, x: shape.cx, y: shape.cy, angle: shape.angle * 180 / Math.PI });
-          return;
-        }
+    for (const overDots of [false, true]) {
+      for (const { measured, low, high } of stretches) {
+        if (tryAt(outward((low + high) / 2, (high - low) / 2), distance => acrossBox(measured, distance, road.width, road.height), overDots)) return;
       }
     }
   };

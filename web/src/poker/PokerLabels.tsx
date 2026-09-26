@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import L from 'leaflet';
 import { CircleMarker, Marker, useMap } from 'react-leaflet';
 import { atlasPalettes } from '../atlas/palette';
@@ -10,9 +10,29 @@ const palette = atlasPalettes.day;
 const NUMBER = { font: '650 12px system-ui', size: 12, padding: 4, height: 14 };
 const POSTAL_FONT = 'italic 650 12px system-ui';
 const ROAD = { font: '600 11px system-ui', size: 11, padding: 8, height: 15 };
-// Controls float over the map, so a label beneath one could not be read.
-const CHROME = ['.poker-searchbar', '.poker-options', '.poker-basemap', '.poker-locate', '.poker-location-notice', '.poker-map-notice',
-  '.poker-storage-error', '.poker-measurement', '.poker-footer', '.leaflet-control-zoom', '.leaflet-control-scale'];
+// Controls float over the map, so a label beneath one could not be read. Notices are left out: one can
+// vanish in the same update that moves the map, and its space would stay blank until the next pan.
+const CHROME = ['.poker-searchbar', '.poker-options', '.poker-basemap', '.poker-locate', '.poker-measurement', '.poker-footer',
+  '.leaflet-control-zoom', '.leaflet-control-scale'];
+const CIVIC_DOT = { color: palette.ink, fillColor: '#fff', fillOpacity: 1, weight: 1 };
+const POSTAL_DOT = { color: '#17518a', fillColor: '#fff', fillOpacity: 1, weight: 1 };
+/**
+ * Address dots draw above every label, so a road name that has to pass over one
+ * never hides it. Created once per map and never removed: Leaflet keeps one
+ * canvas renderer per pane name for the life of the map.
+ */
+const DOT_PANE = 'poker-dots';
+function dotPane(map: L.Map): string {
+  if (!map.getPane(DOT_PANE)) Object.assign(map.createPane(DOT_PANE).style, { zIndex: '610', pointerEvents: 'none' });
+  return DOT_PANE;
+}
+/** One [lat, lng] per source coordinate pair, so a new layout does not move dots and labels that stayed put. */
+const latLngs = new WeakMap<readonly number[], [number, number]>();
+function latLng(coordinates: readonly number[]): [number, number] {
+  let value = latLngs.get(coordinates);
+  if (!value) { value = [coordinates[1], coordinates[0]]; latLngs.set(coordinates, value); }
+  return value;
+}
 const widths = new Map<string, number>();
 let context: CanvasRenderingContext2D | null | undefined;
 function textWidth(text: string, font: string, size: number): number {
@@ -48,19 +68,20 @@ function capped<T>(items: T[], visible: (item: T) => boolean, limit: number): T[
 }
 const same = (a: readonly number[], b: readonly number[] | null) => b !== null && a[0] === b[0] && a[1] === b[1];
 /** Civic and postal dots with their numbers, and road names, placed so no label covers another. */
-export function PokerLabels({ view, roads, civic, postal, selected }: {
-  view: number; roads: NamedRoad[]; civic: CivicAddress[]; postal: PokerAddress[]; selected: [number, number] | null;
+export const PokerLabels = memo(function PokerLabels({ view, roads, civic, postal, selected }: {
+  view: number; roads: NamedRoad[]; civic: CivicAddress[]; postal: PokerAddress[]; selected: readonly number[] | null;
 }) {
   const map = useMap();
+  const pane = dotPane(map);
   const icons = useRef(new Map<string, L.DivIcon>());
   // Map controls mount after the first render; place again once they can be avoided.
   const [mounted, setMounted] = useState(false);
   useEffect(() => { const frame = requestAnimationFrame(() => setMounted(true)); return () => cancelAnimationFrame(frame); }, []);
   const layout = useMemo(() => {
     void view; void mounted;
-    const zoom = map.getZoom(), shown = map.getBounds(), near = shown.pad(0.25);
+    // Labels just past the edge are placed too, within the margin the canvas also paints, so a short pan shows numbers with their dots.
+    const zoom = map.getZoom(), shown = map.getBounds(), near = shown.pad(0.1);
     const contains = (bounds: L.LatLngBounds, [lng, lat]: readonly number[]) => bounds.contains([lat, lng]);
-    // Labels just past the edge are placed too, so a short pan does not reveal a bare map.
     const civicHere = zoom < 16 ? [] : capped(civic.filter(a => contains(near, a.coordinates)), a => contains(shown, a.coordinates), 1000);
     const postalHere = zoom < 16 ? [] : capped(postal.filter(a => contains(near, a.mailing.coordinates)), a => contains(shown, a.mailing.coordinates), 200);
     const project = ([lng, lat]: readonly number[]) => map.latLngToContainerPoint([lat, lng]);
@@ -79,22 +100,25 @@ export function PokerLabels({ view, roads, civic, postal, selected }: {
     const shell = container.closest('.poker-app') ?? container;
     const obstacles: Rect[] = CHROME.flatMap(selector => [...shell.querySelectorAll(selector)]).map(element => element.getBoundingClientRect())
       .filter(r => r.width && r.height).map(r => ({ left: r.left - frame.left, top: r.top - frame.top, right: r.right - frame.left, bottom: r.bottom - frame.top }));
+    // Below street zoom no numbers are placed, so the chosen address's ring is kept clear of road names here.
+    if (selected && zoom < 16) { const { x, y } = project(selected); obstacles.push({ left: x - 10, top: y - 10, right: x + 10, bottom: y + 10 }); }
     const size = map.getSize();
     const placed = placeLabels({
       width: size.x, height: size.y, obstacles, roads: roadLabels, showAllPoints: zoom >= map.getMaxZoom(),
-      points: [...civicPoints.map(p => point(p.key, p.text, p.address.coordinates, NUMBER.font)), ...postalPoints.map(p => point(p.key, p.text, p.address.mailing.coordinates, POSTAL_FONT))],
+      // Postal-only points first: where one sits on a civic point, the blue number is the one that says the lists disagree.
+      points: [...postalPoints.map(p => point(p.key, p.text, p.address.mailing.coordinates, POSTAL_FONT)), ...civicPoints.map(p => point(p.key, p.text, p.address.coordinates, NUMBER.font))],
     });
     return { civicPoints, postalPoints, placed: new Map(placed.points.map(p => [p.key, p])), roads: placed.roads.map(road => ({ ...road, latlng: map.containerPointToLatLng([road.x, road.y]) })) };
   }, [civic, map, mounted, postal, roads, selected, view]);
   const cache = icons.current;
   return <>
-    {layout.civicPoints.map(({ address, key }) => <CircleMarker key={key} center={[address.coordinates[1], address.coordinates[0]]} radius={2} interactive={false} pathOptions={{ color: palette.ink, fillColor: '#fff', fillOpacity: 1, weight: 1 }} />)}
-    {layout.postalPoints.map(({ address, key }) => <CircleMarker key={key} center={[address.mailing.coordinates[1], address.mailing.coordinates[0]]} radius={2} interactive={false} pathOptions={{ color: '#17518a', fillColor: '#fff', fillOpacity: 1, weight: 1 }} />)}
+    {layout.civicPoints.map(({ address, key }) => <CircleMarker key={key} pane={pane} center={latLng(address.coordinates)} radius={2} interactive={false} pathOptions={CIVIC_DOT} />)}
+    {layout.postalPoints.map(({ address, key }) => <CircleMarker key={key} pane={pane} center={latLng(address.mailing.coordinates)} radius={2} interactive={false} pathOptions={POSTAL_DOT} />)}
     {layout.roads.map(road => <Marker key={`road:${road.key}#${road.index}`} position={road.latlng} interactive={false} keyboard={false}
       icon={labelIcon(cache, 'poker-road-label', road.key, 0, 0, road.angle)} />)}
-    {layout.civicPoints.map(({ address, key, text }) => { const p = layout.placed.get(key); return p && <Marker key={`civic:${key}`} position={[address.coordinates[1], address.coordinates[0]]} interactive={false} keyboard={false}
+    {layout.civicPoints.map(({ address, key, text }) => { const p = layout.placed.get(key); return p && <Marker key={`civic:${key}`} position={latLng(address.coordinates)} interactive={false} keyboard={false}
       icon={labelIcon(cache, 'poker-number', text, p.dx, p.dy)} />; })}
-    {layout.postalPoints.map(({ address, key, text }) => { const p = layout.placed.get(key); return p && <Marker key={`postal:${key}`} position={[address.mailing.coordinates[1], address.mailing.coordinates[0]]} interactive={false} keyboard={false}
+    {layout.postalPoints.map(({ address, key, text }) => { const p = layout.placed.get(key); return p && <Marker key={`postal:${key}`} position={latLng(address.mailing.coordinates)} interactive={false} keyboard={false}
       icon={labelIcon(cache, 'poker-number is-postal', text, p.dx, p.dy)} />; })}
   </>;
-}
+});

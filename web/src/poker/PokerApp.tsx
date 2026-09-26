@@ -251,6 +251,7 @@ export function PokerApp() {
     </dialog>}
     {help && <dialog className="poker-modal" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setHelp(false)} aria-labelledby="poker-help"><h2 id="poker-help">Your pocket route map</h2>
       <p>Trace the actual driveway from the house to your delivery route. Civic points may not mark the house, and distances are approximate. A finished trace over 500 metres is flagged for carding.</p>
+      <p>Where numbers or road names would overlap, some wait for a closer zoom. Every address point keeps its dot.</p>
       <p>Return to <strong>kinnokilabs.com/poker</strong>. This browser remembers your search, map position and current trace. Selecting a different address starts a new trace. Nothing is uploaded.</p>
       <p>Open <strong>Map options</strong> and tap <strong>Save offline</strong> while connected. Then use your browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. Each browser or installed copy saves its own session. Clearing website data removes downloads and the saved trace.</p>
       <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it.</p>
