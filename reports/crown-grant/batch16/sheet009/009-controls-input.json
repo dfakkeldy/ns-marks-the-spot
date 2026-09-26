@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Rankin Island northeastern horn",
+    [
+      827,
+      2760
+    ],
+    [
+      826,
+      2771
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Lear Island northern end",
+    [
+      300,
+      3476
+    ],
+    [
+      294,
+      3463
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "East Goose Lake upper large island northern end",
+    [
+      1386,
+      2687
+    ],
+    [
+      1374,
+      2697
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C04",
+    "Gull Lake northern shore",
+    [
+      4806,
+      552
+    ],
+    [
+      4842,
+      576
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Nessisse Lake northern shore",
+    [
+      5427,
+      1352
+    ],
+    [
+      5454,
+      1358
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "South Clearwater Lake island northern shore",
+    [
+      4112,
+      2677
+    ],
+    [
+      4148,
+      2680
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C07",
+    "Dyes Island northern end",
+    [
+      1009,
+      2255
+    ],
+    [
+      1015,
+      2277
+    ],
+    "WACORVIS"
+  ]
+]

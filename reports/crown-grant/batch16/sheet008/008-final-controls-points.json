@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Brazil Lake western arm northern shore",
+    "role": "control",
+    "pixel_xy": [
+      915,
+      298
+    ],
+    "lonlat": [
+      -66.00690548276134,
+      44.01065505717591
+    ],
+    "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+    "reference_objectid": 124950,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124950,
+    "nearest_unfiltered_distance_guide_px": 2.5939801805693947,
+    "selected_distance_guide_px": 2.5939801805693947,
+    "guide_reference_pixel_xy": [
+      942.3716118501616,
+      251.48328358563595
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C02",
+    "label": "Back Lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      1752,
+      658
+    ],
+    "lonlat": [
+      -65.9410344224131,
+      44.01328759505201
+    ],
+    "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+    "reference_objectid": 125117,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125117,
+    "nearest_unfiltered_distance_guide_px": 0.2016295972939563,
+    "selected_distance_guide_px": 0.2016295972939563,
+    "guide_reference_pixel_xy": [
+      1807.1903834440163,
+      590.0663975809002
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C03",
+    "label": "Snare Lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      2959,
+      1292
+    ],
+    "lonlat": [
+      -65.84665036027047,
+      44.008984464907776
+    ],
+    "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+    "reference_objectid": 137634,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137634,
+    "nearest_unfiltered_distance_guide_px": 8.784002588535488,
+    "selected_distance_guide_px": 8.784002588535488,
+    "guide_reference_pixel_xy": [
+      2981.272383738833,
+      1217.6124354006024
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C04",
+    "label": "Nepsepek Lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      4123,
+      1258
+    ],
+    "lonlat": [
+      -65.77228598868874,
+      44.03326906777351
+    ],
+    "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+    "reference_objectid": 135071,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135071,
+    "nearest_unfiltered_distance_guide_px": 1.4464881306669284,
+    "selected_distance_guide_px": 1.4464881306669284,
+    "guide_reference_pixel_xy": [
+      4130.6948256798205,
+      1218.5860705298837
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C05",
+    "label": "Spark Lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      3790,
+      2140
+    ],
+    "lonlat": [
+      -65.76733615433383,
+      43.98381614736345
+    ],
+    "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+    "reference_objectid": 139387,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139387,
+    "nearest_unfiltered_distance_guide_px": 1.7082764946473887,
+    "selected_distance_guide_px": 1.7082764946473887,
+    "guide_reference_pixel_xy": [
+      3794.194398687978,
+      2127.4936085806694
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C06",
+    "label": "Unnamed narrow south-central lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      2696,
+      2018
+    ],
+    "lonlat": [
+      -65.84187630409687,
+      43.9665969584575
+    ],
+    "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+    "reference_objectid": 127607,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127607,
+    "nearest_unfiltered_distance_guide_px": 0.5384723637631859,
+    "selected_distance_guide_px": 0.5384723637631859,
+    "guide_reference_pixel_xy": [
+      2698.9776034798706,
+      1999.5380063962657
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C07",
+    "label": "Paul Surette lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      1855,
+      3203
+    ],
+    "lonlat": [
+      -65.86204273604243,
+      43.89126949865768
+    ],
+    "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+    "reference_objectid": 127166,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127166,
+    "nearest_unfiltered_distance_guide_px": 1.8569438589677971,
+    "selected_distance_guide_px": 1.8569438589677971,
+    "guide_reference_pixel_xy": [
+      1829.7514843968092,
+      3221.840239248122
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+  }
+]

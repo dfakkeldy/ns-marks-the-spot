@@ -1,0 +1,21 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-26T04:01:42.801271+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Church Point northwest, Bartlet north, Henriette/Spectacle west-central, Ball/Phillip east and Comeau/southwestern lake south provide two-axis spread.",
+  "corrections": [],
+  "discovery": [
+    "Sheet007 first affine guide used only for candidate discovery; no geographic acceptance transferred.",
+    "Four broad and fourteen detail pairs and all seventeen native crosshair cards inspected before fitting."
+  ],
+  "unadopted": [
+    "Meteghan, Seth, Bayou and Prime lake details inspected but not adopted."
+  ],
+  "limitations": [
+    "Seven checks pair with control waterbodies; Peter and Gullhead lakes supply separate checks. Spectacle island endpoints share historical cartography and are close together.",
+    "Eastern third, northern edge, unsampled coastal sections and Bay Sainte Marie waters remain independently unvalidated.",
+    "Generalized shorelines and lake extremities carry 24 px source uncertainty; modern connected water outlines can differ from historical isolated-lake depictions."
+  ]
+}

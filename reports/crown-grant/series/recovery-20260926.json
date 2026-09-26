@@ -474,8 +474,8 @@
           "original_hash_match": null
         }
       ],
-      "combined_hash": "62a58a9aa38487454e75937be3098eb0d919b63fc67fcc906b944d261ade51c7",
-      "combined_original_hash_match": false
+      "combined_hash": "ce7beee82735983141f1b5a715584ed343441bb5835ca05ce818c2202c428ae7",
+      "combined_original_hash_match": true
     },
     {
       "sheet": "003",
@@ -1551,9 +1551,9 @@
   "limitations": [
     "This reconstructs official source PDFs/JPEGs, active rasters and the principal water-reference extracts. Original uncommitted discovery guides and historical screenshot files cannot be recovered byte-for-byte.",
     "Committed controls, checks, fits, scores, masks, provenance and acceptance decisions remain authoritative and unchanged.",
-    "The original sheet 002 water receipt has no individual page hash; its recovered feature count matches.",
     "Sheet 005 initially used an unfiltered recovery query; replaying the original coastal filter restored the exact original page and combined-extract hash. The rejected recovery extract is retained privately.",
-    "Recovered data and surviving working assets are now independently stored outside disposable worktrees. No imagery publication or production activation."
+    "Recovered data and surviving working assets are now independently stored outside disposable worktrees. No imagery publication or production activation.",
+    "Sheet 002 has no separate page hash, but its recovered raw response exactly matches the original combined-reference hash."
   ],
   "browser_smoke_verification": {
     "verified_at_utc": "2026-09-26T03:18:11.006670+00:00",
@@ -1567,5 +1567,10 @@
     "all_selected_source_and_raster_images_decoded": true,
     "warning_error_console_empty": true,
     "scope": "Fresh smoke check of restored links and representative single/multiple-component sheets. Existing historical browser receipts remain unchanged; no new all-sheet geographic acceptance claim."
+  },
+  "sheet002_combined_reference_hash_match": {
+    "verified_at_utc": "2026-09-26T03:26:36.820788+00:00",
+    "sha256": "ce7beee82735983141f1b5a715584ed343441bb5835ca05ce818c2202c428ae7",
+    "matched": true
   }
 }

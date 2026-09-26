@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5280 x 3595 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 136.55 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          60,
+          110
+        ],
+        [
+          5180,
+          105
+        ],
+        [
+          5185,
+          3465
+        ],
+        [
+          60,
+          3470
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains all inland lakes and reservoirs, river corridors, islands and settlements from Carleton and Kemptville to South Canaan and Tusket. Seven controls and eight excluded checks sample distinct lake extremities; unmeasured regions remain provisional."
+    }
+  ]
+}

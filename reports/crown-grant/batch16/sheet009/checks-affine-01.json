@@ -1,0 +1,221 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Rankin Island southeastern end",
+      "role": "check",
+      "pixel_xy": [
+        838,
+        2900
+      ],
+      "lonlat": [
+        -65.84631208469146,
+        43.73756026749399
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 20280,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20280,
+      "nearest_unfiltered_distance_guide_px": 1.8760789604300927,
+      "selected_distance_guide_px": 1.8760789604300927,
+      "guide_reference_pixel_xy": [
+        836.9276253516437,
+        2906.12531757995
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    },
+    {
+      "id": "Q02",
+      "label": "Lear Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        270,
+        3616
+      ],
+      "lonlat": [
+        -65.86242353892658,
+        43.695240816733175
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 19740,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19740,
+      "nearest_unfiltered_distance_guide_px": 2.4107109087713665,
+      "selected_distance_guide_px": 2.4107109087713665,
+      "guide_reference_pixel_xy": [
+        242.10709586110897,
+        3602.85853651911
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    },
+    {
+      "id": "Q03",
+      "label": "East Goose Lake upper large island southern end",
+      "role": "check",
+      "pixel_xy": [
+        1383,
+        2703
+      ],
+      "lonlat": [
+        -65.81926241609064,
+        43.756270989074395
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 146769,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 146769,
+      "nearest_unfiltered_distance_guide_px": 0.2668367800746205,
+      "selected_distance_guide_px": 0.2668367800746205,
+      "guide_reference_pixel_xy": [
+        1376.7335946432431,
+        2719.984832498827
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    },
+    {
+      "id": "Q04",
+      "label": "Gull Lake western cape",
+      "role": "check",
+      "pixel_xy": [
+        4680,
+        660
+      ],
+      "lonlat": [
+        -65.67616793250944,
+        43.91073329516112
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 132997,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132997,
+      "nearest_unfiltered_distance_guide_px": 0.7815746731283646,
+      "selected_distance_guide_px": 0.7815746731283646,
+      "guide_reference_pixel_xy": [
+        4713.223972464446,
+        687.9070471423911
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    },
+    {
+      "id": "Q05",
+      "label": "Nessisse Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        5462,
+        1529
+      ],
+      "lonlat": [
+        -65.6051220895572,
+        43.88830046492763
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 135173,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135173,
+      "nearest_unfiltered_distance_guide_px": 12.852994743465901,
+      "selected_distance_guide_px": 12.852994743465901,
+      "guide_reference_pixel_xy": [
+        5503.579016544158,
+        1541.6553609023103
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    },
+    {
+      "id": "Q06",
+      "label": "South Clearwater Lake island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4098,
+        2690
+      ],
+      "lonlat": [
+        -65.65517141182907,
+        43.81065890511035
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 144641,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 144641,
+      "nearest_unfiltered_distance_guide_px": 0.5613886121680621,
+      "selected_distance_guide_px": 0.5613886121680621,
+      "guide_reference_pixel_xy": [
+        4132.137308696809,
+        2698.4556623330573
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    },
+    {
+      "id": "Q07",
+      "label": "Big Gooseberry Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        632,
+        3694
+      ],
+      "lonlat": [
+        -65.83828433588968,
+        43.698676639589415
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 17140,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17140,
+      "nearest_unfiltered_distance_guide_px": 1.2392995868075807,
+      "selected_distance_guide_px": 1.2392995868075807,
+      "guide_reference_pixel_xy": [
+        607.9603952473844,
+        3686.23866659333
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    },
+    {
+      "id": "Q08",
+      "label": "Little Gooseberry Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        398,
+        3517
+      ],
+      "lonlat": [
+        -65.85650125223229,
+        43.70222361911853
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 19257,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19257,
+      "nearest_unfiltered_distance_guide_px": 1.1318235447451412,
+      "selected_distance_guide_px": 1.1318235447451412,
+      "guide_reference_pixel_xy": [
+        385.66427971830126,
+        3507.916382557829
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting."
+    }
+  ]
+}

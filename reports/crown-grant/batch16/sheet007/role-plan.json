@@ -1,0 +1,25 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-26T03:41:29.958126+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Ash northwest, small northern lake, Melanson/Tedford west-central, Whistler east and Edwards/Duck/Beaver south supply two-axis spread.",
+  "corrections": [
+    "Melanson southern source refined onto actual shore before fit."
+  ],
+  "discovery": [
+    "Initial guide propagated from sheet008 failed affine.",
+    "Direct eastern guide from sheet015 first failed affine used for final crosshairs; both retained, no model acceptance transferred.",
+    "Complete mapped-frame bounds under eastern guide remain inside original reference query."
+  ],
+  "unadopted": [
+    "Heron, Farish, Tumbler, Lucky and Sunday details inspected but not adopted."
+  ],
+  "limitations": [
+    "Eight checks pair with control waterbodies; Grass Lake is a separate check. Tedford island endpoints are close and share historical cartography.",
+    "Northern/eastern edges, Wentworth/Cedar lake complex and western river corridor remain independently unvalidated.",
+    "Generalized lake extrema, stream-connected ends and small islands carry 24 px source uncertainty.",
+    "The northern small lake name is left unasserted because the scan transcription is uncertain; its physical geometry and coordinates identify it."
+  ]
+}

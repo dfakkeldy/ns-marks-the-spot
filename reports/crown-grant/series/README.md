@@ -1,15 +1,23 @@
 # Crown Grant complete-series assessment
 
-The 24 September 2026 instruction authorizes continuation until every available official sheet has been georeferenced and assessed. It supersedes earlier twenty-sheet limits. Publication batches are checkpoints, not stopping conditions.
+All **138 available official sheets** have been georeferenced and assessed, including `004a`. The final queue is empty. Assessment completion means the available evidence has been evaluated; it does not mean every sheet or region is geographically validated.
 
-The official HTML image map lists **138 PDF sheets**, including `004a`. All 138 were available on 24 September (25 previously cached originals and 113 successful PDF HEAD responses). `inventory.json` preserves source URLs, index polygons, availability evidence and prior assessment records. `queue.json` orders all 113 remaining sheets. HTTP availability does not establish readable imagery or geographic support.
+The full-series replay verified **166 saved score records**, original PDF/JPEG hashes for all 138 sheets, and **157 active raster components**. Every saved component-coverage check passed, every sheet has a browser review receipt, and all principal reference extracts are available. The 34 frozen batch1 measurement/render artifacts remain byte-identical to target-history commit `57765b8d5edc54798491ef524463b98330601633`. See [verification.json](verification.json) for the per-sheet results.
 
-Numbers `001` and `012` are not linked by the official index; they are not counted as failed linked downloads. Direct PDF addresses for 001, 012 and 134 were also checked and return HTTP 404 (`unlinked-source-check.json`). `134` is replaced by the separately fitted inset on `126`, whose existing assessment is retained. Other displaced insets are assessed separately when identified on native scans.
+| Active main-map result | Sheets |
+|---|---:|
+| Within 100 m independent ground RMS | 102 |
+| Above 100 m independent ground RMS | 36 |
+| Within all four numerical limits | 82 |
 
-The prior 25 assessed sheets remain in batch1 and batch2. Sheet 002 retains its original incomplete whole-sheet validation and unsupported inset despite qualified user acceptance; it is not silently promoted to complete. Current counts and work state are in `progress.json`. Batch1 accepted measurement artifacts are preserved against target-history commit `57765b8d5edc54798491ef524463b98330601633`. Batch2 verification records 13 main maps within the 100 m independent ground RMS ceiling and seven exceeding it; all results and regional limitations remain authoritative. User approval does not erase failed measurements.
+The four numerical limits are RMS ≤100 m, median ≤75 m, empirical P95 ≤150 m and maximum ≤200 m, using WGS84 geodesic distances. Main maps and separate insets are not pooled. Numeric passes do not establish geographic or user acceptance, and unmeasured regions remain provisional. Per-sheet records preserve fit history, failures, bias, check counts and limitations.
 
-Continue south from 130 through 131–133, north through the last eastern column, then cover the remaining western columns. Batch3 contains the next nine sheets, and the complete-series queue continues beyond it.
+Sheet 002 retains its qualified user acceptance, incomplete whole-sheet accuracy validation and unsupported inset. Its fresh main-map checks are used in the summary; it is not promoted to geographic acceptance. The separately fitted replacement for sheet 134 remains on sheet 126. Numbers 001 and 012 are absent from the official index; direct addresses for 001, 012 and 134 returned HTTP 404, as recorded in [unlinked-source-check.json](unlinked-source-check.json).
 
-Controls and checks are selected by physical feature identity, audited in native pixels, and kept separate before fitting. Every assessment reports independent geodesic RMS, median/P95/maximum, bias, check count and regional limitations. Geographic acceptance, full-source raster coverage, browser verification and repository delivery are distinct states. Unsupported regions remain visible and qualified; failed results are retained.
+The [official index](https://novascotia.ca/natr/land/grantmap.asp) supplied the 138 linked PDFs. [inventory.json](inventory.json) preserves source URLs, index polygons, availability evidence and assessment paths. [progress.json](progress.json) records repository checkpoints. All 113 sheets in the continuation queue have been assessed alongside the earlier 25.
 
-Original scans, reference extracts, audit figures and rasters stay private and ignored. The new worktree links existing assets from the preserved `749c` worktree without duplicating them. Newly acquired sources and derived files live in the current ignored directory. The existing loopback server at port 8842 is reused; no production imagery activation or public scan upload is authorized.
+Controls and withheld checks were selected using physical features and inspected in native source pixels before fitting. Full mapped frames retain water and islands, with displaced insets handled separately. Coverage checks verify the saved masks and raster extent; they do not establish geographic accuracy. Browser receipts concern the private review, not production deployment.
+
+The deleted first 25 sheets' PDFs/JPEGs and all 33 active raster components were rebuilt byte for byte. Recorded water queries restored expected counts and all available page hashes. See [RECOVERY.md](RECOVERY.md) and [recovery-20260926.json](recovery-20260926.json) for the exact recovery scope, fresh browser smoke checks and irrecoverable original discovery artifacts.
+
+The private collection now resides outside disposable worktrees, with a separate copy of assessment records and rendering/review tools. All 138 sources and 157 active components were hash-verified there. The reviewer resolves its active files within durable storage. Original scans, reference extracts and rasters remain private; no scan redistribution, production activation or deployment is claimed.
