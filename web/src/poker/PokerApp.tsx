@@ -11,7 +11,7 @@ import { addressId, addressLabel, civicLabelPoints, searchableAddresses, deliver
 import { waterStyle, roadStyle } from './cartography';
 import { namedRoads } from './labels';
 import { PokerLabels } from './PokerLabels';
-import { offlineReady, saveOffline } from './offline';
+import { applyUpdate, offlineReady, saveOffline, watchForUpdate } from './offline';
 import 'leaflet/dist/leaflet.css';
 import './poker.css';
 const palette = atlasPalettes.day;
@@ -84,6 +84,9 @@ export function PokerApp() {
   const [aerialError, setAerialError] = useState(false);
   const [licenceDialog, setLicenceDialog] = useState(false);
   const [help, setHelp] = useState(false);
+  // A newer saved copy has downloaded while this page runs the older one.
+  const [update, setUpdate] = useState<'none' | 'ready' | 'reloading'>('none');
+  useEffect(() => watchForUpdate(() => setUpdate(value => value === 'none' ? 'ready' : value)), []);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [location, setLocation] = useState<BrowserLocation | null>(null);
   const [locating, setLocating] = useState(false);
@@ -227,6 +230,8 @@ export function PokerApp() {
       </button>
       {locationNotice && <p className="poker-location-notice" role="status">{locationNotice}</p>}
       {aerialError && <p className="poker-map-notice" role="status">Aerial imagery unavailable. Showing Atlas.</p>}
+      {update !== 'none' && <div className="poker-update" role="status"><span>Poker updated</span>
+        <button disabled={update === 'reloading'} onClick={() => { setUpdate('reloading'); void applyUpdate(); }}>{update === 'reloading' ? 'Reloading…' : 'Reload'}</button></div>}
     </section>
     <section className="poker-measurement" aria-label="Driveway measurement">
       <div className="poker-readout sr-only" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
@@ -254,6 +259,7 @@ export function PokerApp() {
       <p>Where numbers or road names would overlap, some wait for a closer zoom. Every address point keeps its dot.</p>
       <p>Return to <strong>kinnokilabs.com/poker</strong>. This browser remembers your search, map position and current trace. Selecting a different address starts a new trace. Nothing is uploaded.</p>
       <p>Open <strong>Map options</strong> and tap <strong>Save offline</strong> while connected. Then use your browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. Each browser or installed copy saves its own session. Clearing website data removes downloads and the saved trace.</p>
+      <p>While online, Poker checks for a newer version and downloads it in the background. When it is ready, <strong>Poker updated</strong> appears at the top of the map; tap <strong>Reload</strong> to use it. Your address, map view and trace are kept.</p>
       <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it.</p>
       <p><strong>Use my location</strong> below zoom asks your browser for a fresh position. The blue dot and circle show the last reading and its reported accuracy. Tap again to update it; this does not follow you or change your trace. Location stays in this browser and can work offline if your device can get a position.</p>
       <p>Typing a leading civic number such as 544 also suggests longer matching addresses, including 5447.</p>

@@ -341,3 +341,47 @@ test('a postal record with no provincial civic point opens at its own building c
   expect(session.center[1]).toBeCloseTo(record.mailing.coordinates[0], 3);
   expect(errors).toEqual([]);
 });
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 568 }]) {
+test(`a saved copy offers the next deploy and reloads into it, keeping the session at ${viewport.width}`, async ({ page }, info) => {
+  await page.setViewportSize(viewport);
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/poker');
+  const input = page.getByRole('searchbox', { name: 'Search civic address' });
+  await input.fill(`${record.mailing.number} ${record.mailing.street}`);
+  await page.locator('.poker-results li button').filter({ hasText: record.mailing.city }).filter({ hasText: record.mailing.number }).first().click();
+  const chosen = await input.inputValue();
+  await openOptions(page);
+  await page.getByRole('button', { name: 'Save offline', exact: true }).click();
+  await expect(page.locator('.poker-connection')).toContainText('Saved for offline use', { timeout: 45000 });
+  await closeOptions(page);
+  // Nothing newer yet: no notice.
+  await page.reload();
+  await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+  await expect(page.locator('.poker-update')).toHaveCount(0);
+  // The next deploy, as the browser meets it: a different worker for the same scope downloads
+  // and installs beside the running one, then waits. (Playwright cannot route the browser's own
+  // worker-script fetch, so a new script URL stands in for new script bytes.)
+  await page.evaluate(() => navigator.serviceWorker.register(new URL('poker-sw.js?deploy=next', document.baseURI), { scope: '/poker', updateViaCache: 'none' }));
+  const notice = page.locator('.poker-update');
+  await expect(notice).toContainText('Poker updated', { timeout: 45000 });
+  await expect(notice).toBeInViewport({ ratio: 1 });
+  const box = (await notice.boundingBox())!;
+  for (const control of ['.leaflet-control-zoom', '.poker-basemap', '.poker-searchbar', '.poker-options', '.poker-locate']) {
+    const other = (await page.locator(control).boundingBox())!;
+    expect(box.x + box.width <= other.x || other.x + other.width <= box.x || box.y + box.height <= other.y || other.y + other.height <= box.y, control).toBe(true);
+  }
+  await page.screenshot({ path: info.outputPath('poker-update-notice.png') });
+  // The saved copy is still the one serving the page until Reload.
+  expect(await page.evaluate(() => navigator.serviceWorker.controller?.scriptURL)).not.toContain('deploy=next');
+  const reloaded = page.waitForEvent('load', { timeout: 20000 });
+  await notice.getByRole('button', { name: 'Reload', exact: true }).click();
+  await reloaded;
+  expect(await page.evaluate(() => navigator.serviceWorker.controller?.scriptURL)).toContain('deploy=next');
+  await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+  await expect(page.locator('.poker-update')).toHaveCount(0);
+  await expect(input).toHaveValue(chosen);
+  expect(errors).toEqual([]);
+});
+}
