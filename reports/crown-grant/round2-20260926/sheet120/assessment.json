@@ -1,0 +1,429 @@
+{
+  "sheet": "120",
+  "baseline_report": "reports/crown-grant/batch2/sheet120",
+  "baseline_fit": "fit-main-affine-01.json",
+  "baseline_checks": "checks-main-affine-01.json",
+  "baseline_score": "scores-main-affine-01.json",
+  "source_sha256": "254ac6b8237bc3615d7ee797562257cd0d3a7731f6719733569da4a37c0a711c",
+  "reference_sha256": "11b3278f4b46d0f25190cfb7f5091fe74d73e9b98cff1a1ded4e98a95028327a",
+  "fit_sha256": "16b9064adaf058f38fe81514bd6c8561cec2955626f4a2ec806850c39e4f9301",
+  "checks_sha256": "26056233b98a69bb5a7affcfb6ecb97fd1f0a0afae35d628b7cbc828db0f778c",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 6,
+    "rms_ground_m": 248.9544224830488,
+    "median_ground_m": 169.26337803073224,
+    "p95_ground_m": 433.9869475093882,
+    "max_ground_m": 511.8277552380315,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 44.284763024110966,
+    "mean_north_ground_m": 51.4502771027987,
+    "points": [
+      {
+        "id": "MQ02",
+        "label": "Grand Etang upper lake southeastern hook",
+        "role": "check",
+        "pixel_xy": [
+          2363,
+          1647
+        ],
+        "lonlat": [
+          -61.018762915199595,
+          46.555966914482816
+        ],
+        "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+        "reference_objectid": 126294,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          2309.2722550937324,
+          1656.3312777942047
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+        "predicted_lonlat": [
+          -61.01824213726324,
+          46.55734325135192
+        ],
+        "error_ground_m": 158.1225724037566,
+        "east_ground_m": 39.93421781664159,
+        "north_ground_m": 152.99675209282802
+      },
+      {
+        "id": "MQ03",
+        "label": "Grand Etang narrow lake southwestern tip",
+        "role": "check",
+        "pixel_xy": [
+          2059,
+          1768
+        ],
+        "lonlat": [
+          -61.03508564256821,
+          46.54590424001836
+        ],
+        "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+        "reference_objectid": 134448,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          2013.4008495520102,
+          1768.7446399503388
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+        "predicted_lonlat": [
+          -61.034977324426634,
+          46.546739873767
+        ],
+        "error_ground_m": 93.26147091249362,
+        "east_ground_m": 8.307653711786333,
+        "north_ground_m": 92.89071453362244
+      },
+      {
+        "id": "MQ04",
+        "label": "St Joseph narrow cape northern apex",
+        "role": "check",
+        "pixel_xy": [
+          1420,
+          1933
+        ],
+        "lonlat": [
+          -61.072753178586595,
+          46.52800308182206
+        ],
+        "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+        "reference_objectid": 5154,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          1370.51679365983,
+          1924.2109058641363
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+        "predicted_lonlat": [
+          -61.07226350409569,
+          46.528411240728865
+        ],
+        "error_ground_m": 58.90696866611258,
+        "east_ground_m": 37.569100102080064,
+        "north_ground_m": 45.371727705149794
+      },
+      {
+        "id": "MQ05",
+        "label": "Pembroke western satellite pond northern tip",
+        "role": "check",
+        "pixel_xy": [
+          2149,
+          3022
+        ],
+        "lonlat": [
+          -61.005101716186665,
+          46.494882671664165
+        ],
+        "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+        "reference_objectid": 134550,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          2033.7238489814335,
+          2916.768803526531
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+        "predicted_lonlat": [
+          -60.99932770878742,
+          46.49258083610643
+        ],
+        "error_ground_m": 511.8277552380315,
+        "east_ground_m": 443.2880641071349,
+        "north_ground_m": -255.85805293590226
+      },
+      {
+        "id": "MQ07",
+        "label": "Park round pond northern tip",
+        "role": "check",
+        "pixel_xy": [
+          4817,
+          1828
+        ],
+        "lonlat": [
+          -60.85367620820673,
+          46.590313026322185
+        ],
+        "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+        "reference_objectid": 140151,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          4793.23278815113,
+          1830.1030884033535
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+        "predicted_lonlat": [
+          -60.85545142274926,
+          46.59137886808552
+        ],
+        "error_ground_m": 180.40418365770788,
+        "east_ground_m": -136.04160614122185,
+        "north_ground_m": 118.48354687348223
+      },
+      {
+        "id": "MQ08",
+        "label": "Park hooked lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          4753,
+          1958
+        ],
+        "lonlat": [
+          -60.854845495010466,
+          46.58311266106272
+        ],
+        "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+        "reference_objectid": 140148,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          4723.540527906618,
+          1964.5837914708536
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+        "predicted_lonlat": [
+          -60.85650706726704,
+          46.58450535488262
+        ],
+        "error_ground_m": 200.46452432345816,
+        "east_ground_m": -127.34885145175522,
+        "north_ground_m": 154.81697434761193
+      }
+    ]
+  },
+  "control_axis_ratio": 2.2709869785960333,
+  "affine_scale_ratio": 1.0163544512880462,
+  "metres_per_pixel_singular_values": [
+    5.327275958048058,
+    5.2415532310570345
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "MC01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.853987652666754,
+          2.0553153243856355
+        ],
+        [
+          1.8133257218235999,
+          -4.827870142113813
+        ],
+        [
+          637542.2147799835,
+          5160933.702974642
+        ]
+      ],
+      "diagnostic_rms_m": 242.7143665002216,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8972431787381385,
+          2.0342382273490167
+        ],
+        [
+          1.9452790992382287,
+          -4.8914628877359565
+        ],
+        [
+          637132.5146977094,
+          5161134.177412874
+        ]
+      ],
+      "diagnostic_rms_m": 249.74439770367817,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.90377346939239,
+          2.0266650194119564
+        ],
+        [
+          1.9507453665636842,
+          -4.892236007428709
+        ],
+        [
+          637090.9340224909,
+          5161169.887995769
+        ]
+      ],
+      "diagnostic_rms_m": 246.5839012855856,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.931726620021357,
+          2.0277766287272185
+        ],
+        [
+          2.154238020460459,
+          -4.933759993949131
+        ],
+        [
+          636766.1744487564,
+          5161203.2682725405
+        ]
+      ],
+      "diagnostic_rms_m": 367.27514418566227,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.872419639091087,
+          2.0285752687954686
+        ],
+        [
+          1.9484453815475784,
+          -4.890388222956197
+        ],
+        [
+          637161.0979300219,
+          5161139.498477444
+        ]
+      ],
+      "diagnostic_rms_m": 260.71284766231093,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.842554331607725,
+          2.0573031756277844
+        ],
+        [
+          1.9113046292895208,
+          -4.874874698195361
+        ],
+        [
+          637289.6224304881,
+          5161059.232598123
+        ]
+      ],
+      "diagnostic_rms_m": 289.7332784986913,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.974734590403843,
+          2.0285812492490276
+        ],
+        [
+          1.777059804951958,
+          -4.876079800404304
+        ],
+        [
+          637115.1404736256,
+          5161128.88124857
+        ]
+      ],
+      "diagnostic_rms_m": 188.01705760528662,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.913765851468606,
+        2.013753054496366
+      ],
+      [
+        2.013753054496366,
+        -4.913765851468606
+      ],
+      [
+        636954.2491579303,
+        5161229.537878815
+      ]
+    ],
+    "rms_ground_m": 263.23888643121614,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.264284+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "MQ05",
+    "MQ08",
+    "MQ07",
+    "MQ02"
+  ],
+  "reviewed_control_ids": [
+    "MC04",
+    "MC07"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Pembroke western satellite pond retains its relationship to large Delaney/Pembroke lake but historical north end is shorter and displaced. Park round/hooked ponds retain constellation yet modern network differs; Grand Etang hook is generalized. Several independent local inconsistencies remain; no higher-order model justified by these sparsely sampled objects.",
+  "baseline_limitations": [
+    "Main affine first result RMS 248.95 m, median 169.26 m, P95 433.99 m and maximum 511.83 m exceed the 100 m RMS ceiling and companion bounds; main geography is not accepted",
+    "The Pembroke/Delaney group has a substantial local mismatch; its control and independent satellite-pond check are retained, not discarded as outliers",
+    "Inset RMS 74.66 m uses only three nearby coastal checks and two controls; median 73.70 m exceeds the companion bound and the exact two-point control fit is not an accuracy result",
+    "Six main checks and three inset checks give sparse coverage; eastern/southern interiors, barrier shores and offshore fragments remain provisional"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "3ce431985a7a3e0807ff7549530baea858282218fe3bedb935bce2a6cc56b84e"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "8f9f5cafbdbede9f7dc6308b4f49916419cbc22ef855406b9e61a9acc71847ce"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "424c20fc8cc02bab2de1f953b526dd7a52e086f0ce2ea7fbda49d9eaee1cb4a6"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "6749c71a23ce6177f9cf3ab72f2c71945f76bef9b6ec559126e332c164572b73"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "16db505769d1fe35041205dc4afe60622a95eeb11051eb425f2be2ac2865aab4"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "49058fe9ed8329456a785a08347d386246d18ccc651c0005f6d01cd08f22058d"
+    }
+  ],
+  "control_findings": "Pembroke northern tip and Belle Cote notch are recognizable; the inland northern arm and satellite pond are displaced differently.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

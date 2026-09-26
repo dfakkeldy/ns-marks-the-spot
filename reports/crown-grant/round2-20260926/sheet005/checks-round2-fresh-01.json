@@ -1,0 +1,92 @@
+{
+  "status": "Three new peninsula checks frozen after native/reference crosshair audit and before any scoring. Fourth feature rejected before scoring: modern shoulder is not sharply definable.",
+  "created_at_utc": "2026-09-26T14:49:29.631702+00:00",
+  "reservation_sha256": "150f30b015d4a5b5888d2f5368a23ab04d443de9719103ba0f3bf015c8bcbf7a",
+  "reference_sha256": "913f9a8639556a7087f6f110656527e7e2af003695f2d13599468831eb5b43a5",
+  "points": [
+    {
+      "id": "R2V01",
+      "label": "East Ferry southeast shore shoulder east of peninsula tip",
+      "pixel_xy": [
+        1838,
+        2944
+      ],
+      "reference_guide_xy": [
+        1840,
+        2967
+      ],
+      "lonlat": [
+        -66.19017419082677,
+        44.386168104253464
+      ],
+      "reference_objectid": 5063,
+      "reference_feature_code": "WACO20",
+      "reference_selected_baseline_frame_xy": [
+        1839.6086791842827,
+        2966.0065100608626
+      ],
+      "vertex_distance_from_manual_guide_selection_px": 1.0677800522489826,
+      "source_uncertainty_px": 25,
+      "modern_uncertainty_m": 25,
+      "role": "check",
+      "identity_evidence": "Adjacent shoreline shape/sequence inspected in discovery and fresh-search native pairs; no fit-predicted coordinate used to select the modern shore vertex. Vertex is nearest to manually selected physical bend in reference panel, not nearest to transformed source point.",
+      "validation": "New feature definition not present in baseline point/proposal labels; coastal shape samples correlated, limited peninsula coverage."
+    },
+    {
+      "id": "R2V02",
+      "label": "North coast shoulder east of Tiddville cove at Peters Long frontage",
+      "pixel_xy": [
+        2690,
+        1991
+      ],
+      "reference_guide_xy": [
+        2680,
+        2000
+      ],
+      "lonlat": [
+        -66.16748432680656,
+        44.44366126511744
+      ],
+      "reference_objectid": 4854,
+      "reference_feature_code": "WACO20",
+      "reference_selected_baseline_frame_xy": [
+        2679.6843832520535,
+        1998.7165361795342
+      ],
+      "vertex_distance_from_manual_guide_selection_px": 1.3217009154983141,
+      "source_uncertainty_px": 25,
+      "modern_uncertainty_m": 25,
+      "role": "check",
+      "identity_evidence": "Adjacent shoreline shape/sequence inspected in discovery and fresh-search native pairs; no fit-predicted coordinate used to select the modern shore vertex. Vertex is nearest to manually selected physical bend in reference panel, not nearest to transformed source point.",
+      "validation": "New feature definition not present in baseline point/proposal labels; coastal shape samples correlated, limited peninsula coverage."
+    },
+    {
+      "id": "R2V03",
+      "label": "North coast step at Simeon frontage southwest of West Sandy Cove",
+      "pixel_xy": [
+        3617,
+        1502
+      ],
+      "reference_guide_xy": [
+        3643,
+        1490
+      ],
+      "lonlat": [
+        -66.12354213347874,
+        44.48412895870045
+      ],
+      "reference_objectid": 4407,
+      "reference_feature_code": "WACO20",
+      "reference_selected_baseline_frame_xy": [
+        3642.1605636817985,
+        1489.2974143351894
+      ],
+      "vertex_distance_from_manual_guide_selection_px": 1.09465974106707,
+      "source_uncertainty_px": 25,
+      "modern_uncertainty_m": 25,
+      "role": "check",
+      "identity_evidence": "Adjacent shoreline shape/sequence inspected in discovery and fresh-search native pairs; no fit-predicted coordinate used to select the modern shore vertex. Vertex is nearest to manually selected physical bend in reference panel, not nearest to transformed source point. Upper end of steep coast step, not its lower bend; original reference proposal chosen too far downshore was rejected before scoring.",
+      "validation": "New feature definition not present in baseline point/proposal labels; coastal shape samples correlated, limited peninsula coverage."
+    }
+  ]
+}

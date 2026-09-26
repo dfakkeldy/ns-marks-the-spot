@@ -1,0 +1,15 @@
+{
+ "sheet":"005",
+ "stage":"Reserved before choosing/finalizing revised candidate; neither baseline nor candidate fresh errors calculated",
+ "prior_trials_disclosure":"All-original-control similarity was computed as a diagnostic against known old checks before this reservation. Its lower old-check score is not fresh evidence.",
+ "reserved_features":[
+  {"id":"R2V01","label":"East Ferry southeast shore shoulder east of peninsula tip","pixel_xy":[1825,2945],"reference_guide_xy":[1840,2967]},
+  {"id":"R2V02","label":"North coast shoulder east of Tiddville cove at Peters Long frontage","pixel_xy":[2690,1991],"reference_guide_xy":[2680,2000]},
+  {"id":"R2V03","label":"North coast step at Simeon frontage southwest of West Sandy Cove","pixel_xy":[3617,1502],"reference_guide_xy":[3638,1535]},
+  {"id":"R2V04","label":"North coast shoulder at Jonathan frontage southwest of West Sandy Cove","pixel_xy":[3748,1434],"reference_guide_xy":[3770,1452]}
+ ],
+ "excluded_regions":"No fresh mainland, Long Island or inset validation; all four are peninsula coastal shape bends. Historical generalization and along-coast correlation limit claims.",
+ "roles":"All R2V features permanently excluded from every fitting input. No failed old check promoted to a control. Original rejected proposals not reused.",
+ "placement_policy":"Geometry and adjacent shoreline sequence determine location; crosshair audit may refine placement before scoring. No post-score relocation or deletion. Working source uncertainty 15 pixels and modern uncertainty 25 metres; not subtracted from errors.",
+ "gates":{"rms_ground_m":100,"median_ground_m":75,"p95_ground_m":150,"max_ground_m":200}
+}

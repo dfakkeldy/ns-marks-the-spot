@@ -1,0 +1,319 @@
+{
+  "sheet": "052",
+  "baseline_report": "reports/crown-grant/batch11/sheet052",
+  "baseline_fit": "fit-similarity-01.json",
+  "baseline_checks": "checks-similarity-01.json",
+  "baseline_score": "scores-similarity-01.json",
+  "source_sha256": "f9017b83739e3ead27097ca93c195ed33d60996615f2316f612a3956c3c32845",
+  "reference_sha256": "312689ebda22045c3756abc362e5650147798ed69872d4b32550bc33612e1210",
+  "fit_sha256": "a66c9a666e158119ab2cc0df726a67961c857c05bd6063fdc3c72b9ba5f3e3a6",
+  "checks_sha256": "40d622d15b77c7e7430356b34dd3a070ff037b9bfa75cb98534456cd0309c4b0",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 4,
+    "rms_ground_m": 141.3227388784321,
+    "median_ground_m": 101.6643026285746,
+    "p95_ground_m": 220.49334714303592,
+    "max_ground_m": 238.03821333510865,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -9.941553759805196,
+    "mean_north_ground_m": 61.48899107279256,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Medford upper eastern projecting head",
+        "role": "check",
+        "pixel_xy": [
+          913,
+          2273
+        ],
+        "lonlat": [
+          -64.35678854435643,
+          45.192211564236956
+        ],
+        "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+        "reference_objectid": 8702,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 8702,
+        "nearest_unfiltered_distance_guide_px": 1.9712977550073376,
+        "selected_distance_guide_px": 1.9712977550073376,
+        "guide_reference_pixel_xy": [
+          999.0662069631508,
+          2237.6172999483533
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+        "predicted_lonlat": [
+          -64.35802381768193,
+          45.19416725657778
+        ],
+        "error_ground_m": 238.03821333510865,
+        "east_ground_m": -97.06787239188151,
+        "north_ground_m": 217.34769186049368
+      },
+      {
+        "id": "Q02",
+        "label": "Split Rock northeastern shore corner",
+        "role": "check",
+        "pixel_xy": [
+          3550,
+          3483
+        ],
+        "lonlat": [
+          -64.16273486211554,
+          45.191551016042325
+        ],
+        "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+        "reference_objectid": 7993,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 7993,
+        "nearest_unfiltered_distance_guide_px": 1.126460966058646,
+        "selected_distance_guide_px": 1.126460966058646,
+        "guide_reference_pixel_xy": [
+          3626.0288707375294,
+          3406.1260909326375
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+        "predicted_lonlat": [
+          -64.16269377351507,
+          45.191170192629244
+        ],
+        "error_ground_m": 42.44599789779634,
+        "east_ground_m": 3.228914835024167,
+        "north_ground_m": -42.323006114026114
+      },
+      {
+        "id": "Q03",
+        "label": "Pembroke northeastern shore corner",
+        "role": "check",
+        "pixel_xy": [
+          5354,
+          3305
+        ],
+        "lonlat": [
+          -64.05499019013045,
+          45.232477917331934
+        ],
+        "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+        "reference_objectid": 8855,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 8855,
+        "nearest_unfiltered_distance_guide_px": 0.39479067846485,
+        "selected_distance_guide_px": 0.39479067846485,
+        "guide_reference_pixel_xy": [
+          5423.731072843017,
+          3263.2890291750664
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+        "predicted_lonlat": [
+          -64.05582051097527,
+          45.232929135510226
+        ],
+        "error_ground_m": 82.2561665358584,
+        "east_ground_m": -65.20236766279052,
+        "north_ground_m": 50.14706556062039
+      },
+      {
+        "id": "Q04",
+        "label": "Evangeline Beach northern projecting crest",
+        "role": "check",
+        "pixel_xy": [
+          837,
+          3567
+        ],
+        "lonlat": [
+          -64.32955489067972,
+          45.13602117105545
+        ],
+        "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+        "reference_objectid": 7559,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 7559,
+        "nearest_unfiltered_distance_guide_px": 1.1338724423975555,
+        "selected_distance_guide_px": 1.1338724423975555,
+        "guide_reference_pixel_xy": [
+          904.7684683408588,
+          3472.16625955794
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+        "predicted_lonlat": [
+          -64.32803854928147,
+          45.13620817964411
+        ],
+        "error_ground_m": 121.0724387212908,
+        "east_ground_m": 119.27511018042708,
+        "north_ground_m": 20.784212984082288
+      }
+    ]
+  },
+  "control_axis_ratio": 10.48902871317264,
+  "affine_scale_ratio": 1.0,
+  "metres_per_pixel_singular_values": [
+    5.290206689530938,
+    5.290206689530938
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.925823821000208,
+          2.0109210964079054
+        ],
+        [
+          2.0109210964079054,
+          -4.925823821000208
+        ],
+        [
+          384147.298547192,
+          5014872.196964025
+        ]
+      ],
+      "diagnostic_rms_m": 193.3265756159612,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.8863446700264825,
+          2.0269978441814676
+        ],
+        [
+          2.0269978441814676,
+          -4.8863446700264825
+        ],
+        [
+          384274.7436719219,
+          5014681.913871008
+        ]
+      ],
+      "diagnostic_rms_m": 146.38377406872948,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.8890967286403715,
+          2.0179789330642
+        ],
+        [
+          2.0179789330642,
+          -4.8890967286403715
+        ],
+        [
+          384282.536472003,
+          5014678.341469186
+        ]
+      ],
+      "diagnostic_rms_m": 135.94468587143209,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.875343319413794,
+          2.0383666142833774
+        ],
+        [
+          2.0383666142833774,
+          -4.875343319413794
+        ],
+        [
+          384243.30876505136,
+          5014614.19843805
+        ]
+      ],
+      "diagnostic_rms_m": 147.12885977974682,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.887129771711249,
+        2.0254010493811454
+      ],
+      [
+        2.0254010493811454,
+        -4.887129771711249
+      ],
+      [
+        384263.43588851375,
+        5014676.545880936
+      ]
+    ],
+    "rms_ground_m": 141.32273910993752,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "reflected similarity",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.679183+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q01",
+    "Q04",
+    "Q03",
+    "Q02"
+  ],
+  "reviewed_control_ids": [
+    "C03",
+    "C02"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Medford historical coastline reduces a complex modern shore and drainage to three rounded projections, with Paddy Island absent from modern coast detail. Evangeline crest is broad; Pembroke corner and Split Rock recess are clearer. Large Medford residual cannot alone identify a misplaced point. Sparse coastal validation does not justify affine freedom.",
+  "baseline_limitations": [
+    "First RMS 141.32 m, median 101.66 m, P95 220.49 m and maximum 238.04 m exceed their respective 100/75/150/200 m bounds. No fit change after scoring.",
+    "Four controls lie in the southern coastal band and Kingsport. Northern Scotsman Bay, Cape Blomidon and most open water lack independent validation.",
+    "Four checks include paired Split Rock/Pembroke segments plus separate Medford and Evangeline coast regions; sample remains small and spatially limited.",
+    "Source uncertainty 18 px; broad generalized curves were not forced into precise point matches.",
+    "Paddy Island has no unambiguous matching island outline in the downloaded reference. Its historical depiction remains retained, with no cause asserted.",
+    "Numerical assessment does not establish geographic or user acceptance."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "bed78fb45b4149fa988f8c8a7672e0ea8c5b4a940a9e81eac0db7cd0b9dcc157"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "32f83a4c59399cc2d284c1038ba3cb94e39c253c2e8b59176de18711d6d08152"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "d73bdd435dbd08f1f976d8b42859637fc3634bd11e8b57e2169346b474cb953b"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "5e47e247b4fcba1c09f8b583e4bbd418a01f98c5d95e382d4a03519cddaaadd0"
+    }
+  ],
+  "control_findings": "Starratt western projection and Split Rock northwest corner are plausible physical corners; sparse coast-only constraints do not support extra affine degrees of freedom.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

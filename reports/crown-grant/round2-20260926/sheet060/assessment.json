@@ -1,0 +1,301 @@
+{
+  "sheet": "060",
+  "baseline_report": "reports/crown-grant/batch9/sheet060",
+  "baseline_fit": "fit-similarity-01.json",
+  "baseline_checks": "checks-similarity-01.json",
+  "baseline_score": "scores-similarity-01.json",
+  "source_sha256": "359ddbcc28b8235c45602a49680d583cde1851eb27300193a58895097a67cd72",
+  "reference_sha256": "fbfb76f54c0b77fca1d2f8e722039186aa7e0e923508d3aafe6e79fc6093c1c8",
+  "fit_sha256": "fedc7437d726f011332af7b53d8acf415c57082ca533ae7bf6077705e456a38e",
+  "checks_sha256": "b939ef9ea619ee1ad6c47cdad0009d8c685fedbba1cbd395582294c099f15fec",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 4,
+    "rms_ground_m": 235.59208581379104,
+    "median_ground_m": 103.88919821527874,
+    "p95_ground_m": 396.3505526950802,
+    "max_ground_m": 445.64490930764657,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 123.62204299044436,
+    "mean_north_ground_m": 28.507221657970888,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Central upper pair of tributaries junction",
+        "role": "check",
+        "pixel_xy": [
+          3611,
+          1858
+        ],
+        "lonlat": [
+          -64.05592645909113,
+          45.68805426219272
+        ],
+        "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+        "reference_objectid": 224268,
+        "reference_feature_code": "WARV50",
+        "nearest_unfiltered_feature_code": "WARV50",
+        "nearest_unfiltered_objectid": 224268,
+        "nearest_unfiltered_distance_guide_px": 0.9047805162636218,
+        "selected_distance_guide_px": 0.9047805162636218,
+        "guide_reference_pixel_xy": [
+          3657.1159709295607,
+          1831.8973174054408
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations",
+        "predicted_lonlat": [
+          -64.055433275947,
+          45.6880277741388
+        ],
+        "error_ground_m": 38.53035965851154,
+        "east_ground_m": 38.41773098885448,
+        "north_ground_m": -2.9439023561021607
+      },
+      {
+        "id": "Q02",
+        "label": "Maccan River next southern tributary west of principal Mapleton fork",
+        "role": "check",
+        "pixel_xy": [
+          1918,
+          3344
+        ],
+        "lonlat": [
+          -64.12089421264885,
+          45.5900557926151
+        ],
+        "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+        "reference_objectid": 277715,
+        "reference_feature_code": "WARV50",
+        "nearest_unfiltered_feature_code": "WARV50",
+        "nearest_unfiltered_objectid": 277715,
+        "nearest_unfiltered_distance_guide_px": 2.36334199977979,
+        "selected_distance_guide_px": 2.36334199977979,
+        "guide_reference_pixel_xy": [
+          2003.8045311941532,
+          3336.35524464841
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations",
+        "predicted_lonlat": [
+          -64.12203770814443,
+          45.589906403619366
+        ],
+        "error_ground_m": 90.76253120668588,
+        "east_ground_m": -89.23104331235399,
+        "north_ground_m": -16.602950955581232
+      },
+      {
+        "id": "Q03",
+        "label": "Maccan River southern tributary at Stephen Mills parcel",
+        "role": "check",
+        "pixel_xy": [
+          1700,
+          3396
+        ],
+        "lonlat": [
+          -64.13997235969312,
+          45.58262243867099
+        ],
+        "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+        "reference_objectid": 157855,
+        "reference_feature_code": "WARV10",
+        "nearest_unfiltered_feature_code": "WARV10",
+        "nearest_unfiltered_objectid": 157855,
+        "nearest_unfiltered_distance_guide_px": 0.19845913084528485,
+        "selected_distance_guide_px": 0.19845913084528485,
+        "guide_reference_pixel_xy": [
+          1688.1856012496864,
+          3369.929727653158
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations",
+        "predicted_lonlat": [
+          -64.13438315369748,
+          45.58344361373833
+        ],
+        "error_ground_m": 445.64490930764657,
+        "east_ground_m": 436.1957852215869,
+        "north_ground_m": 91.28319750503778
+      },
+      {
+        "id": "Q04",
+        "label": "Little Forks River southern branch division",
+        "role": "check",
+        "pixel_xy": [
+          1609,
+          1121
+        ],
+        "lonlat": [
+          -64.20346151316365,
+          45.682112889903294
+        ],
+        "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+        "reference_objectid": 261017,
+        "reference_feature_code": "WARV50",
+        "nearest_unfiltered_feature_code": "WARV50",
+        "nearest_unfiltered_objectid": 261017,
+        "nearest_unfiltered_distance_guide_px": 0.9519074681265292,
+        "selected_distance_guide_px": 0.9519074681265292,
+        "guide_reference_pixel_xy": [
+          1631.2289125861134,
+          1108.0760265935678
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad branch connectivity and native paired crosshairs inspected before first fit and score; stream-junction abstraction and correlated regions retained as limitations",
+        "predicted_lonlat": [
+          -64.20206101957349,
+          45.682493397763125
+        ],
+        "error_ground_m": 117.0158652238716,
+        "east_ground_m": 109.10569906369003,
+        "north_ground_m": 42.292542438529175
+      }
+    ]
+  },
+  "control_axis_ratio": 1.2603270263894977,
+  "affine_scale_ratio": 1.0,
+  "metres_per_pixel_singular_values": [
+    5.360381513544408,
+    5.360381513544408
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.935794322407246,
+          2.049590447403328
+        ],
+        [
+          2.049590447403328,
+          -4.935794322407246
+        ],
+        [
+          396178.4902054361,
+          5061673.645150023
+        ]
+      ],
+      "diagnostic_rms_m": 248.18681544654163,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.961098491743427,
+          2.0643951178848785
+        ],
+        [
+          2.0643951178848785,
+          -4.961098491743427
+        ],
+        [
+          396079.91051952005,
+          5061729.279579512
+        ]
+      ],
+      "diagnostic_rms_m": 243.1171059483904,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.965118285413365,
+          2.0297108297815623
+        ],
+        [
+          2.0297108297815623,
+          -4.965118285413365
+        ],
+        [
+          396109.37464283325,
+          5061801.694154841
+        ]
+      ],
+      "diagnostic_rms_m": 214.90439264302518,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.952881014372197,
+        2.0500389340518503
+      ],
+      [
+        2.0500389340518503,
+        -4.952881014372197
+      ],
+      [
+        396123.5577232734,
+        5061727.603269813
+      ]
+    ],
+    "rms_ground_m": 235.5920857866288,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "reflected similarity",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.764444+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q03",
+    "Q04",
+    "Q02",
+    "Q01"
+  ],
+  "reviewed_control_ids": [
+    "C02",
+    "C01"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Maccan southern tributaries are ordered similarly, but Stephen Mills Q03 lies in a generalized reach whose modern channel and forks differ materially. Little Forks uses branch split with centreline/bank ambiguity. Q03 is 445.6 m while other checks are much smaller, insufficient evidence for global warp; investigate broad topology before accepting any identity correction. Broad Maccan context traced the principal Leamington/Mapleton fork and successive westward southern tributaries. The disputed Stephen Mills tributary is in the expected order but with strongly differing spacings. No secure alternative branch identity was established; retain the failure and uncertainty.",
+  "baseline_limitations": [
+    "First independent RMS 235.59 m exceeds the 100 m ceiling. Median 103.89 m, P95 396.35 m and maximum 445.64 m also exceed companion criteria. The failed first fit and all checks remain unchanged.",
+    "Only three stream-junction control regions support the constrained similarity. Four checks share those river systems, including one particularly close to a control.",
+    "Northern edge, far west and eastern and southern corners have no independent validation. Entire imagery is retained without geographic acceptance.",
+    "Generalized single-line historical rivers differ from modern bank and centreline representations; working source uncertainty is 18 px."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "549a085a916273aa93fbf7b1f94670d7a46162849afd3616bf42bafaf827fc41"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "dca512e390b155cd658778134edd0f43c7fae44e6ca9649b6d52a555c362dcb8"
+    },
+    {
+      "file": "maccan-context-0.jpg",
+      "sha256": "5db2da497bf57b2074dd36a21927900f1144a1c62c147acf9a416f460170945a"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "05997da1fcf408844e519b4e11c6d848d6086b8d192997eb16707b9a5a40cb21"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "d4372848a719177659ce6bc79aa3f28d0aa4d0bf4d8fc6e14ce3917903c3ea3a"
+    }
+  ],
+  "control_findings": "Central west-tributary junction and Little Forks northern tributary can be traced through their neighbouring branches. Bank/centreline representation differs.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

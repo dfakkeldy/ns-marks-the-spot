@@ -1,0 +1,552 @@
+{
+  "sheet": "112",
+  "baseline_report": "reports/crown-grant/batch4/sheet112",
+  "baseline_fit": "fit-main-affine-01.json",
+  "baseline_checks": "checks-main-affine-01.json",
+  "baseline_score": "scores-main-affine-01.json",
+  "source_sha256": "65402aac6c72e0f91a81fe08f2bbf9153cc5aaaf3e1171b792db776fc29c5622",
+  "reference_sha256": "bbb045d4a48d006c144d8c00faba93d2de4c6b66f99447e87deb891d2ee26f32",
+  "fit_sha256": "972f762eedd1e6565f9f32889510354ba7a8b161bc3506ef0f020d57e9b2e7a3",
+  "checks_sha256": "cd04f16af4b76c2df32f0962cefd07c5fc3d16ea0108c94fbf4863a01732cdf1",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 9,
+    "rms_ground_m": 105.23991735118904,
+    "median_ground_m": 83.3707928588667,
+    "p95_ground_m": 183.81395195073057,
+    "max_ground_m": 206.32172811342141,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 34.837776835713946,
+    "mean_north_ground_m": -23.72352547439344,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Jerseymans Island south tip",
+        "role": "check",
+        "pixel_xy": [
+          5225,
+          553
+        ],
+        "lonlat": [
+          -61.042424060759295,
+          45.49238182641732
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 17711,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          5194.349532370339,
+          542.7454091684194
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.04380861789731,
+          45.492073904634346
+        ],
+        "error_ground_m": 113.51106564965824,
+        "east_ground_m": -108.22948724252154,
+        "north_ground_m": -34.22192449500595
+      },
+      {
+        "id": "Q02",
+        "label": "Moyac Point northwest projection",
+        "role": "check",
+        "pixel_xy": [
+          5278,
+          1080
+        ],
+        "lonlat": [
+          -61.02848841104908,
+          45.471179060376215
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 6681,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          5235.70196973125,
+          1055.5352813630598
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.028326428852615,
+          45.47094211221498
+        ],
+        "error_ground_m": 29.222579195367988,
+        "east_ground_m": 12.666725382741573,
+        "north_ground_m": -26.334638841415014
+      },
+      {
+        "id": "Q03",
+        "label": "Grady Point southwest corner on northwestern coast fragment",
+        "role": "check",
+        "pixel_xy": [
+          1090,
+          230
+        ],
+        "lonlat": [
+          -61.296680926410716,
+          45.43981534654455
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 4226,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          1019.6782217074069,
+          228.77609262196347
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.296978392850576,
+          45.438481571269136
+        ],
+        "error_ground_m": 150.05228770669433,
+        "east_ground_m": -23.274706024074867,
+        "north_ground_m": -148.23622062608538
+      },
+      {
+        "id": "Q04",
+        "label": "Fox Island east tip",
+        "role": "check",
+        "pixel_xy": [
+          3505,
+          3135
+        ],
+        "lonlat": [
+          -61.08658379482764,
+          45.356555084329955
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 18449,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3481.670578444493,
+          3097.6899439616827
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.0855198329709,
+          45.35656112551004
+        ],
+        "error_ground_m": 83.3707928588667,
+        "east_ground_m": 83.36808485140284,
+        "north_ground_m": 0.6719599135009728
+      },
+      {
+        "id": "Q05",
+        "label": "Southwest Pond south tip",
+        "role": "check",
+        "pixel_xy": [
+          350,
+          3057
+        ],
+        "lonlat": [
+          -61.27460081926072,
+          45.30914384430436
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 141837,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          321.3120328116347,
+          3038.2216057920596
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.27427701853747,
+          45.30862276229212
+        ],
+        "error_ground_m": 63.23448638605706,
+        "east_ground_m": 25.393231395203276,
+        "north_ground_m": -57.91186465499188
+      },
+      {
+        "id": "Q06",
+        "label": "Small fish-shaped western pond east tip",
+        "role": "check",
+        "pixel_xy": [
+          289,
+          3405
+        ],
+        "lonlat": [
+          -61.26973125193873,
+          45.292972796236256
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 137506,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          266.70071882073535,
+          3397.7362055546837
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.26970811657524,
+          45.293126626794844
+        ],
+        "error_ground_m": 17.19239920406885,
+        "east_ground_m": 1.8148251426131834,
+        "north_ground_m": 17.096344641291196
+      },
+      {
+        "id": "Q07",
+        "label": "Tickle Island east tip",
+        "role": "check",
+        "pixel_xy": [
+          4330,
+          3527
+        ],
+        "lonlat": [
+          -61.03006574495929,
+          45.353592025387265
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 21923,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          4297.302663024922,
+          3468.485918562277
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.027433807698834,
+          45.35353967324738
+        ],
+        "error_ground_m": 206.32172811342141,
+        "east_ground_m": 206.2397670740633,
+        "north_ground_m": -5.814977983165118
+      },
+      {
+        "id": "Q08",
+        "label": "Hayden Lake east end",
+        "role": "check",
+        "pixel_xy": [
+          2915,
+          3450
+        ],
+        "lonlat": [
+          -61.11373235315492,
+          45.33396404945857
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 125010,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          2902.5861839798163,
+          3413.717453773017
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.11312787828758,
+          45.33387465217418
+        ],
+        "error_ground_m": 48.41372584747671,
+        "east_ground_m": 47.38331951135441,
+        "north_ground_m": -9.935284722620471
+      },
+      {
+        "id": "Q09",
+        "label": "Island in Second Lake east tip",
+        "role": "check",
+        "pixel_xy": [
+          1227,
+          3768
+        ],
+        "lonlat": [
+          -61.20653410933735,
+          45.292783460151895
+        ],
+        "guide_file": ".crown-grant-local/112-main-topology-guide.npy",
+        "reference_objectid": 150970,
+        "reference_feature_code": "WALKIS10",
+        "guide_reference_pixel_xy": [
+          1203.239251400577,
+          3750.4596734461375
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+        "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+        "predicted_lonlat": [
+          -61.2056649724818,
+          45.293243921366916
+        ],
+        "error_ground_m": 85.2475180169075,
+        "east_ground_m": 68.17823143064332,
+        "north_ground_m": 51.174877498950686
+      }
+    ]
+  },
+  "control_axis_ratio": 1.7908313835623846,
+  "affine_scale_ratio": 1.007340111070873,
+  "metres_per_pixel_singular_values": [
+    5.001092596867398,
+    4.964651503404234
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.582482220821676,
+          1.8973773384616623
+        ],
+        [
+          1.908638877373993,
+          -4.60782478744341
+        ],
+        [
+          627877.0623896872,
+          5032124.002963762
+        ]
+      ],
+      "diagnostic_rms_m": 85.17206219759306,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.597281480866899,
+          1.9022864417095744
+        ],
+        [
+          1.9516177611049743,
+          -4.579575651001964
+        ],
+        [
+          627714.2748982313,
+          5032027.457081985
+        ]
+      ],
+      "diagnostic_rms_m": 119.14692976365558,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.604692226015057,
+          1.9178114297592135
+        ],
+        [
+          1.941863699846125,
+          -4.591128919834645
+        ],
+        [
+          627729.7251971904,
+          5032035.633131325
+        ]
+      ],
+      "diagnostic_rms_m": 107.19576860959911,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.5985998462391535,
+          1.9035623139537425
+        ],
+        [
+          1.9354654314605868,
+          -4.598382356848835
+        ],
+        [
+          627748.0726289209,
+          5032066.861295177
+        ]
+      ],
+      "diagnostic_rms_m": 97.16167596222037,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.608493720004673,
+          1.909714759661894
+        ],
+        [
+          1.9402282280950742,
+          -4.591064180109035
+        ],
+        [
+          627709.335007832,
+          5032041.070171546
+        ]
+      ],
+      "diagnostic_rms_m": 102.99264874247257,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.603974664989623,
+          1.9081614742740272
+        ],
+        [
+          1.9498554736227542,
+          -4.58781423154779
+        ],
+        [
+          627722.497946639,
+          5032045.617052236
+        ]
+      ],
+      "diagnostic_rms_m": 116.77630109027413,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.60210616744058,
+          1.9065976800758135
+        ],
+        [
+          1.9413460663925506,
+          -4.588430818290773
+        ],
+        [
+          627733.2550335487,
+          5032050.101915897
+        ]
+      ],
+      "diagnostic_rms_m": 104.66575871114692,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C08",
+      "model": "affine",
+      "matrix": [
+        [
+          4.602488943371051,
+          1.907772158459014
+        ],
+        [
+          1.9443233205884576,
+          -4.589305421082836
+        ],
+        [
+          627731.8980881323,
+          5032048.515174217
+        ]
+      ],
+      "diagnostic_rms_m": 108.9566977062441,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.591837144889022,
+        1.9162015028377954
+      ],
+      [
+        1.9162015028377954,
+        -4.591837144889022
+      ],
+      [
+        627816.699900801,
+        5032028.958217669
+      ]
+    ],
+    "rms_ground_m": 90.34916165554776,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.114832+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q07",
+    "Q03",
+    "Q01",
+    "Q09"
+  ],
+  "reviewed_control_ids": [
+    "C04",
+    "C06"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Tickle Island is substantially enlarged on historical scan relative to modern small island, though relation to French Point supports identity. Grady Point shore/Goose Pond geometry and Jerseymans rounded south coast are recognizable. Similarity trial passes old RMS but this would be selection on known checks; no adoption without new physically separate validation.",
+  "baseline_limitations": [
+    "Main: eight controls and nine excluded checks give RMS 105.24 m, exceeding the 100 m ceiling. Median 83.37 m and P95 183.81 m also exceed suggested 75/150 m bounds; maximum 206.32 m. The failed first result is retained without tuning.",
+    "Petit-de-Grat inset: four controls and five checks give RMS 90.87 m, median 54.74 m, P95 154.43 m and maximum 175.14 m. RMS passes, while P95 exceeds the suggested 150 m companion bound.",
+    "Northwestern mainland fragment has one control and one check; Jerseymans, Fox and Green Island endpoint samples are correlated. Broad parcel interiors, engineered harbour details, many minor islands and urban areas remain insufficiently validated.",
+    "Working source uncertainty is 12 px, raised to 18 px for selected generalized/harbour shores. Main and inset counts are not pooled."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "b42e59cb608c0cc6c1f64e982cceeebc8b0bea60744d5c8784d186b293143bd3"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "a845384c52d5bde6c7366d02f0ad2821d8b4b96d06cf1b6bc65a010ce72ec837"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "3efacd77597b1323dbc2a06a111d93fc1da9d0bb3478711b888673841c8a16d0"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "01585c0b49f25dae0f0d8f38903f31c0908a2f5d66c1b9f2451baf82ffeadb16"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "325c34bc6cb4c1d26a37da5f68e0f35dbea2e3bcf93df000f9353b21917ef7f0"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "53bdb810f2e7d2541a26725ae8a40659ecd0f2492de8ff9df94fa87ed937e03e"
+    },
+    {
+      "file": "points-4.jpg",
+      "sha256": "2a33e2c4b307f6d130edcdebdf61f1de9bf534db6bfe8d1313125101e86ff9f3"
+    }
+  ],
+  "control_findings": "Fox west end and inland pond north roof have stable broad identities. Their residuals do not establish a physical need to change the already near-isotropic affine.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

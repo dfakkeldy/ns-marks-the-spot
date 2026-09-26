@@ -1,0 +1,454 @@
+{
+  "sheet": "056",
+  "baseline_report": "reports/crown-grant/batch10/sheet056",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "641dc452dc86ce4c1f2134762a7c62804bb8897f5c126b41447a05fcf7b73a51",
+  "reference_sha256": "2920792a3e89cac1f6a4bc714346803457901bacaf83d12c7ab5b6c136ef32d0",
+  "fit_sha256": "1c99b67ca5d8fca8dd0025baffd229110c044d1bb53b45e2efd403c7ea159bca",
+  "checks_sha256": "77fc284019bef3a87f1a2929923c46db854c85d5e529dd67869e8bfdb36f7407",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 6,
+    "rms_ground_m": 103.05652311467188,
+    "median_ground_m": 72.08571724122024,
+    "p95_ground_m": 168.21954994578763,
+    "max_ground_m": 184.23503174698467,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -0.6257907047115742,
+    "mean_north_ground_m": -24.25197563448752,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Shut In Island northern tip (lower in original scan)",
+        "role": "check",
+        "pixel_xy": [
+          4767,
+          1401
+        ],
+        "lonlat": [
+          -63.96115212395765,
+          44.552342241277756
+        ],
+        "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+        "reference_objectid": 22526,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 22526,
+        "nearest_unfiltered_distance_guide_px": 1.508019546741722,
+        "selected_distance_guide_px": 1.508019546741722,
+        "guide_reference_pixel_xy": [
+          4683.783928648103,
+          1571.891792251845
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained.",
+        "predicted_lonlat": [
+          -63.96184913441407,
+          44.5507609912858
+        ],
+        "error_ground_m": 184.23503174698467,
+        "east_ground_m": -55.38481836801693,
+        "north_ground_m": -175.7130297307352
+      },
+      {
+        "id": "Q02",
+        "label": "Croucher Island northern tip (lower in original scan)",
+        "role": "check",
+        "pixel_xy": [
+          3929,
+          3118
+        ],
+        "lonlat": [
+          -63.95756725841896,
+          44.642837123024115
+        ],
+        "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+        "reference_objectid": 21973,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 21973,
+        "nearest_unfiltered_distance_guide_px": 0.11963611921027352,
+        "selected_distance_guide_px": 0.11963611921027352,
+        "guide_reference_pixel_xy": [
+          3848.0873418489937,
+          3264.9182430282235
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained.",
+        "predicted_lonlat": [
+          -63.956790190625824,
+          44.64288428525138
+        ],
+        "error_ground_m": 61.87112911552874,
+        "east_ground_m": 61.64873542328033,
+        "north_ground_m": 5.241186768357857
+      },
+      {
+        "id": "Q03",
+        "label": "Middle Five Bridge Lake northern horn (lower in original scan)",
+        "role": "check",
+        "pixel_xy": [
+          2111,
+          1738
+        ],
+        "lonlat": [
+          -63.81066930833801,
+          44.613920417342584
+        ],
+        "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+        "reference_objectid": 136068,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WARV50",
+        "nearest_unfiltered_objectid": 254343,
+        "nearest_unfiltered_distance_guide_px": 3.386999386104123,
+        "selected_distance_guide_px": 5.71999505562928,
+        "guide_reference_pixel_xy": [
+          2075.480404080765,
+          1834.4607125150505
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained.",
+        "predicted_lonlat": [
+          -63.81069316407294,
+          44.614220012453266
+        ],
+        "error_ground_m": 33.34608269426466,
+        "east_ground_m": -1.8935283272806978,
+        "north_ground_m": 33.29227810658986
+      },
+      {
+        "id": "Q05",
+        "label": "Hatchet Lake northern tip (lower in original scan)",
+        "role": "check",
+        "pixel_xy": [
+          1262,
+          371
+        ],
+        "lonlat": [
+          -63.72265954003452,
+          44.56852704370414
+        ],
+        "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+        "reference_objectid": 137877,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 137877,
+        "nearest_unfiltered_distance_guide_px": 0.27444436420848395,
+        "selected_distance_guide_px": 0.27444436420848395,
+        "guide_reference_pixel_xy": [
+          1254.0481607673573,
+          446.2701855835039
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained.",
+        "predicted_lonlat": [
+          -63.723525245897434,
+          44.568399817945185
+        ],
+        "error_ground_m": 70.20680115185263,
+        "east_ground_m": -68.76866442926688,
+        "north_ground_m": -14.137387332554049
+      },
+      {
+        "id": "Q06",
+        "label": "Ash Lake northern tip (lower in original scan)",
+        "role": "check",
+        "pixel_xy": [
+          488,
+          2911
+        ],
+        "lonlat": [
+          -63.74499752745056,
+          44.69667270735547
+        ],
+        "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+        "reference_objectid": 129558,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 129558,
+        "nearest_unfiltered_distance_guide_px": 0.40581497458362426,
+        "selected_distance_guide_px": 0.40581497458362426,
+        "guide_reference_pixel_xy": [
+          455.3385016967659,
+          3010.776164357434
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained.",
+        "predicted_lonlat": [
+          -63.74361809750359,
+          44.696223927721874
+        ],
+        "error_ground_m": 120.17310454219655,
+        "east_ground_m": 109.33686075463439,
+        "north_ground_m": -49.87009059177044
+      },
+      {
+        "id": "Q07",
+        "label": "Grassy Lake northern horn (lower in original scan)",
+        "role": "check",
+        "pixel_xy": [
+          1794,
+          1522
+        ],
+        "lonlat": [
+          -63.78526816207158,
+          44.60980459420651
+        ],
+        "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+        "reference_objectid": 138238,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 138238,
+        "nearest_unfiltered_distance_guide_px": 4.351698323765168,
+        "selected_distance_guide_px": 4.351698323765168,
+        "guide_reference_pixel_xy": [
+          1760.9516249801381,
+          1604.1605419550324
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained.",
+        "predicted_lonlat": [
+          -63.78588158681674,
+          44.61030561043076
+        ],
+        "error_ground_m": 73.96463333058783,
+        "east_ground_m": -48.693329281619654,
+        "north_ground_m": 55.67518897318685
+      }
+    ]
+  },
+  "control_axis_ratio": 1.4813802521609656,
+  "affine_scale_ratio": 1.038877396788681,
+  "metres_per_pixel_singular_values": [
+    5.396217179015756,
+    5.194277203158175
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          -4.774318213649934,
+          -1.9903323986352455
+        ],
+        [
+          -2.0610778433511268,
+          5.0069119285173755
+        ],
+        [
+          449355.6449811293,
+          4935905.250140681
+        ]
+      ],
+      "diagnostic_rms_m": 118.10525502210145,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          -4.828356959841397,
+          -1.9711870918355214
+        ],
+        [
+          -2.0813435408683465,
+          4.9949675543055605
+        ],
+        [
+          449466.4170244438,
+          4935896.080271913
+        ]
+      ],
+      "diagnostic_rms_m": 105.04454511749904,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          -4.8062791924016555,
+          -1.9720937198184507
+        ],
+        [
+          -2.042559446640339,
+          4.993177793461836
+        ],
+        [
+          449379.4163229862,
+          4935912.407232089
+        ]
+      ],
+      "diagnostic_rms_m": 101.22795145708804,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          -4.807547525609404,
+          -1.9733634102302409
+        ],
+        [
+          -2.0374200853227635,
+          5.000340556686429
+        ],
+        [
+          449376.57364744216,
+          4935902.976775739
+        ]
+      ],
+      "diagnostic_rms_m": 105.67349591338782,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          -4.797611649932727,
+          -1.9704110888369057
+        ],
+        [
+          -2.010538079004359,
+          4.997827523810224
+        ],
+        [
+          449279.79046128667,
+          4935887.725689715
+        ]
+      ],
+      "diagnostic_rms_m": 122.61052146807683,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          -4.8195875428888835,
+          -1.9503314726090826
+        ],
+        [
+          -2.0243746688972504,
+          4.969040338762469
+        ],
+        [
+          449386.2163098848,
+          4935872.913245158
+        ]
+      ],
+      "diagnostic_rms_m": 119.59099967335571,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          -4.803084862416302,
+          -1.9695007612169113
+        ],
+        [
+          -2.037694713565307,
+          4.997415887977021
+        ],
+        [
+          449347.547956949,
+          4935881.682436699
+        ]
+      ],
+      "diagnostic_rms_m": 106.0510689696888,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        -4.867505881322727,
+        -1.9878769875752085
+      ],
+      [
+        -1.9878769875752085,
+        4.867505881322727
+      ],
+      [
+        449421.5904408977,
+        4936161.147688052
+      ]
+    ],
+    "rms_ground_m": 215.4980147473789,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.714883+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q01",
+    "Q06",
+    "Q07",
+    "Q05"
+  ],
+  "reviewed_control_ids": [
+    "C04",
+    "C02"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Scan is inverted relative to north, correctly documented; Shut In northern end is lower in pixel frame. Its historical island is narrower than modern. Ash lake outlet and Grassy northern horn have simplified water connections; Hatchet endpoint supported. No orientation or frame error found.",
+  "baseline_limitations": [
+    "First RMS 103.06 m exceeds the 100 m ceiling; P95 168.22 m also exceeds the 150 m companion bound. Shut In Island north check is 184.24 m and remains retained.",
+    "All six checks are paired with control islands or lakes; sample correlation and source generalization remain.",
+    "Western bay shoreline, northwestern mainland and much northern interior lack independent validation.",
+    "Source uncertainty 18 px; original scan is upside down, and all source coordinates retain that original unrotated pixel-edge frame.",
+    "Numerical assessment does not establish geographic or user acceptance."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "c3e561d1edb4ab71dbe6a8de4fca4e527c996497ee95fb5f1dd0a6c01f0a6dc9"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "f3c852dfdedc28cbed16416d1ea49a042df3c4eac557152b9989f066e6fcbccb"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "462224fd949cf7497a4b64816b34bf16f86ffe8f1f2ecc906b99dc0d38264e0b"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "f4eb989e1e75c05f5d2ba6d29d4f461714c85ea2d1b547962f1a17ffbb666cdf"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "2f67cf68c66e13edef64ff2b09a5df72225b6a894d56df9f52a8b57adfd21634"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "969900611f983cc898e09dba1c9efc08e24f8f29b44a8760a70e4f98599a3c68"
+    }
+  ],
+  "control_findings": "Upper Five Bridge Lake and Croucher Island controls respect the inverted source orientation. Historical lake/shore simplification remains.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

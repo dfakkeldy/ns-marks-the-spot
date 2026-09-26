@@ -1,0 +1,488 @@
+{
+  "sheet": "118",
+  "baseline_report": "reports/crown-grant/batch2/sheet118",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "aba3002c5e339f2a0f2e4595e149881530eb9d8c27d5e5e74be4d08b339d5855",
+  "reference_sha256": "ee4723a19107fa6e0851f0522aee71245ac6e7dfdde12684c88887d882d3d0ab",
+  "fit_sha256": "45be59e285bb47e99ff2b2dee8987f965867e7208b6f59d9d35a10f75450494c",
+  "checks_sha256": "07658e874465b62edc9a485206322096fd33275a0525a862bbc2119bbef0fe50",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 104.53576946596525,
+    "median_ground_m": 43.46117227557592,
+    "p95_ground_m": 205.37926525842363,
+    "max_ground_m": 229.41178669621345,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 23.820099144085905,
+    "mean_north_ground_m": 14.373208194273502,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Gregory Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          4813,
+          1378
+        ],
+        "lonlat": [
+          -60.78812672437857,
+          45.7062948215036
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 16571,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          4819.577523337735,
+          1297.941990156658
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.78838773035374,
+          45.70648837957476
+        ],
+        "error_ground_m": 29.595987518269652,
+        "east_ground_m": -20.32502221314674,
+        "north_ground_m": 21.51315758359671
+      },
+      {
+        "id": "Q02",
+        "label": "Ambrose Island eastern corner",
+        "role": "check",
+        "pixel_xy": [
+          5235,
+          1360
+        ],
+        "lonlat": [
+          -60.76356166276744,
+          45.71393636923044
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 23536,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          5242.110675534757,
+          1276.114240737632
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.763631310003454,
+          45.71398299578953
+        ],
+        "error_ground_m": 7.500923038216556,
+        "east_ground_m": -5.422835388730811,
+        "north_ground_m": 5.182345296482728
+      },
+      {
+        "id": "Q03",
+        "label": "Cape George southern tip",
+        "role": "check",
+        "pixel_xy": [
+          4630,
+          860
+        ],
+        "lonlat": [
+          -60.8115764757475,
+          45.725272366346594
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 4170,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          4624.567579415685,
+          781.0992615880677
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.811201129290744,
+          45.72529113427065
+        ],
+        "error_ground_m": 29.29349803404804,
+        "east_ground_m": 29.219127874714484,
+        "north_ground_m": 2.0860472937734094
+      },
+      {
+        "id": "Q04",
+        "label": "Tillard Point southern apex",
+        "role": "check",
+        "pixel_xy": [
+          2731,
+          2079
+        ],
+        "lonlat": [
+          -60.89647655956206,
+          45.64371484710814
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 313808,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          2725.5742101729265,
+          1983.0026276579592
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.89633625051262,
+          45.643765493520796
+        ],
+        "error_ground_m": 12.301778286994375,
+        "east_ground_m": 10.938340410889639,
+        "north_ground_m": 5.629072577064979
+      },
+      {
+        "id": "Q05",
+        "label": "Cordeau Point southern bend",
+        "role": "check",
+        "pixel_xy": [
+          1290,
+          2230
+        ],
+        "lonlat": [
+          -60.97890580687944,
+          45.61382320927614
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 3354,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          1272.0404416708625,
+          2139.6313313991996
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.978615810656954,
+          45.61429714521366
+        ],
+        "error_ground_m": 57.32635703288218,
+        "east_ground_m": 22.619638955124532,
+        "north_ground_m": 52.67507137348076
+      },
+      {
+        "id": "Q06",
+        "label": "Cascaret Island northern pointed apex",
+        "role": "check",
+        "pixel_xy": [
+          1285,
+          2284
+        ],
+        "lonlat": [
+          -60.978432452142606,
+          45.6118376554869
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 16828,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          1263.1834826517152,
+          2182.83539996983
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.97766769619964,
+          45.61195352556912
+        ],
+        "error_ground_m": 61.0276102851613,
+        "east_ground_m": 59.65327304322008,
+        "north_ground_m": 12.878518251280205
+      },
+      {
+        "id": "Q07",
+        "label": "St Peters Island northeastern cape",
+        "role": "check",
+        "pixel_xy": [
+          3716,
+          3378
+        ],
+        "lonlat": [
+          -60.806406792541694,
+          45.604033851006896
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 22481,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3739.172802386107,
+          3290.069329955615
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.80785347829148,
+          45.605063733536184
+        ],
+        "error_ground_m": 160.74743973109975,
+        "east_ground_m": -112.85967362263729,
+        "north_ground_m": 114.46586150418533
+      },
+      {
+        "id": "Q08",
+        "label": "Goulet Beach northern headland",
+        "role": "check",
+        "pixel_xy": [
+          1938,
+          3028
+        ],
+        "lonlat": [
+          -60.924334558993735,
+          45.59215205496538
+        ],
+        "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+        "reference_objectid": 21731,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          1904.3095281104906,
+          2883.9188859260175
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad shoreline/island identity and final native paired crosshair inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.92168514943498,
+          45.59125728410261
+        ],
+        "error_ground_m": 229.41178669621345,
+        "east_ground_m": 206.73794409325333,
+        "north_ground_m": -99.44440832567611
+      }
+    ]
+  },
+  "control_axis_ratio": 1.9868977798299625,
+  "affine_scale_ratio": 1.0044018078113297,
+  "metres_per_pixel_singular_values": [
+    4.993362409443617,
+    4.971478914722929
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.59540959116992,
+          1.9008065512043666
+        ],
+        [
+          1.905226825230807,
+          -4.599791232194573
+        ],
+        [
+          647430.6232781132,
+          5060983.6843556855
+        ]
+      ],
+      "diagnostic_rms_m": 105.76877466566489,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.589770189924697,
+          1.9068083060917451
+        ],
+        [
+          1.9169585019713775,
+          -4.612083107543575
+        ],
+        [
+          647409.7950044823,
+          5061005.32421095
+        ]
+      ],
+      "diagnostic_rms_m": 106.94934958723132,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.590910680886895,
+          1.9009522592180181
+        ],
+        [
+          1.9146449094640332,
+          -4.6123540904422535
+        ],
+        [
+          647417.5583130249,
+          5061021.904796445
+        ]
+      ],
+      "diagnostic_rms_m": 106.20074432432419,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.602391253752467,
+          1.9091510629329909
+        ],
+        [
+          1.9219538205252573,
+          -4.607177789347791
+        ],
+        [
+          647356.403645548,
+          5060978.152390297
+        ]
+      ],
+      "diagnostic_rms_m": 99.13482751730324,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.592977600139992,
+          1.9033371686263127
+        ],
+        [
+          1.9167356967202918,
+          -4.612946491566309
+        ],
+        [
+          647402.6360474234,
+          5061017.948566087
+        ]
+      ],
+      "diagnostic_rms_m": 104.83892243340463,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.5835982434401625,
+          1.8969488848024503
+        ],
+        [
+          1.89525660671687,
+          -4.625010613954649
+        ],
+        [
+          647471.4381398744,
+          5061053.363847939
+        ]
+      ],
+      "diagnostic_rms_m": 106.70123302377624,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.594186883987874,
+          1.903534051813806
+        ],
+        [
+          1.930347781626476,
+          -4.608781813688362
+        ],
+        [
+          647380.6405537991,
+          5061005.134443327
+        ]
+      ],
+      "diagnostic_rms_m": 107.60163782362704,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.59560349432863,
+        1.9111332492355384
+      ],
+      [
+        1.9111332492355384,
+        -4.59560349432863
+      ],
+      [
+        647409.0986178018,
+        5060950.913128803
+      ]
+    ],
+    "rms_ground_m": 105.33093401219338,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.214704+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q08",
+    "Q07",
+    "Q06",
+    "Q05"
+  ],
+  "reviewed_control_ids": [
+    "C07",
+    "C01"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Goulet northern promontory and enclosed pond match in shape but differ in width and position; St Peters long northeastern spit is narrower/longer on scan. Cascaret and Cordeau pair aligns much more closely. Regional differences argue against forcing a global correction or dropping Goulet.",
+  "baseline_limitations": [
+    "Independent RMS 104.54 m exceeds 100 m; median 43.46 m, P95 205.38 m and maximum 229.41 m exceed companion bounds",
+    "Eight checks and seven controls are coastal; northern and eastern interior drainage is insufficiently validated",
+    "Checks on opposite ends of Cascaret and St Peters islands are spatially correlated with controls; small unmeasured islands remain provisional"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "3796cd5ce83013a5718d8dedfb1d9115dad4b321519c7d9b89be072833ab2ded"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "005c0d9d1691dfb1587fa3138f431a7cd5f6d8d5d9915ae2793c6a8d6e1d22c6"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "28f9512c53635dd315ed43b05b8bbfb7fb93e1fe42a18f0b0e87fd95c0f1ed3e"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "486cd94ad42c5e9a1823ed379f8c62684c996d603a645779410f32bb9e57f0b3"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "1420203de274f84813801744d52bc7df352eeab76dbe7390aeab64f40a7c86a7"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "4820b6f7cb5a23874ca65fde015cc2e5675b1fd82795801a3303fe5d7840cde9"
+    }
+  ],
+  "control_findings": "Cape le Rond has a narrow historical spit; Cape George eastern coast is rounded with a barrier/lagoon. These definitions have uncertainty beyond a precise vector vertex.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

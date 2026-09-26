@@ -1,0 +1,431 @@
+{
+  "sheet": "044",
+  "baseline_report": "reports/crown-grant/batch12/sheet044",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "fe8fb448da91fc3259fde5a4bca71f28ae36ca102d45e778261fb10f37f356e4",
+  "reference_sha256": "7b1278b76e157ea6bde58f64ec7b1934ff0e797f1a1330f841f6e69fdff223f1",
+  "fit_sha256": "29b7eba5ae00b868303ab60d2d5308720837de444676a83040a06ef90862bb1c",
+  "checks_sha256": "0a8eee71c28a9b5000a727550a4a72494c2655745e29df93386057ad0ec683be",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 6,
+    "rms_ground_m": 103.25700421444355,
+    "median_ground_m": 86.15338345740838,
+    "p95_ground_m": 160.3875145864105,
+    "max_ground_m": 173.1162494137593,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -12.762465514408774,
+    "mean_north_ground_m": 5.087118967914364,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Gaspereau northwestern fingered island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1184,
+          1778
+        ],
+        "lonlat": [
+          -64.5974963453514,
+          44.958022027717014
+        ],
+        "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+        "reference_objectid": 310769,
+        "reference_feature_code": "WALKIS10",
+        "nearest_unfiltered_feature_code": "WALKIS10",
+        "nearest_unfiltered_objectid": 310769,
+        "nearest_unfiltered_distance_guide_px": 0.7255224748132599,
+        "selected_distance_guide_px": 0.7255224748132599,
+        "guide_reference_pixel_xy": [
+          1155.5407914555399,
+          1798.4836604832672
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+        "predicted_lonlat": [
+          -64.59766330989403,
+          44.9595752783419
+        ],
+        "error_ground_m": 173.1162494137593,
+        "east_ground_m": -13.173879496848276,
+        "north_ground_m": 172.6142656621678
+      },
+      {
+        "id": "Q02",
+        "label": "Gaspereau central star island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1393,
+          1760
+        ],
+        "lonlat": [
+          -64.58503286055743,
+          44.96348619266113
+        ],
+        "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+        "reference_objectid": 153249,
+        "reference_feature_code": "WALKIS10",
+        "nearest_unfiltered_feature_code": "WALKIS10",
+        "nearest_unfiltered_objectid": 153249,
+        "nearest_unfiltered_distance_guide_px": 0.5750368921002447,
+        "selected_distance_guide_px": 0.5750368921002447,
+        "guide_reference_pixel_xy": [
+          1370.4250825506751,
+          1769.6127374890493
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+        "predicted_lonlat": [
+          -64.58503581023896,
+          44.96431054272584
+        ],
+        "error_ground_m": 91.61120190970993,
+        "east_ground_m": -0.23271739064442595,
+        "north_ground_m": 91.61090632647257
+      },
+      {
+        "id": "Q03",
+        "label": "Gaspereau eastern heart island northeast horn",
+        "role": "check",
+        "pixel_xy": [
+          1938,
+          2077
+        ],
+        "lonlat": [
+          -64.54218590469806,
+          44.96124183899819
+        ],
+        "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+        "reference_objectid": 153462,
+        "reference_feature_code": "WALKIS10",
+        "nearest_unfiltered_feature_code": "WALKIS10",
+        "nearest_unfiltered_objectid": 153462,
+        "nearest_unfiltered_distance_guide_px": 0.5813149356771741,
+        "selected_distance_guide_px": 0.5813149356771741,
+        "guide_reference_pixel_xy": [
+          1934.4630329781794,
+          2070.7773040819447
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+        "predicted_lonlat": [
+          -64.54244833354741,
+          44.96092067105728
+        ],
+        "error_ground_m": 41.262868905527284,
+        "east_ground_m": -20.705744996706798,
+        "north_ground_m": -35.69168634914974
+      },
+      {
+        "id": "Q04",
+        "label": "River Lake large island southeast tip",
+        "role": "check",
+        "pixel_xy": [
+          3086,
+          2442
+        ],
+        "lonlat": [
+          -64.46013289319107,
+          44.966840506606154
+        ],
+        "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+        "reference_objectid": 154496,
+        "reference_feature_code": "WALKIS10",
+        "nearest_unfiltered_feature_code": "WALKIS10",
+        "nearest_unfiltered_objectid": 154496,
+        "nearest_unfiltered_distance_guide_px": 0.9649726490278202,
+        "selected_distance_guide_px": 0.9649726490278202,
+        "guide_reference_pixel_xy": [
+          3097.0357918738737,
+          2458.0384044643724
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+        "predicted_lonlat": [
+          -64.46076128508386,
+          44.96682051239734
+        ],
+        "error_ground_m": 49.625060570139524,
+        "east_ground_m": -49.57529928953316,
+        "north_ground_m": -2.221786880695149
+      },
+      {
+        "id": "Q05",
+        "label": "Morton Flowage northern large island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          3390,
+          3378
+        ],
+        "lonlat": [
+          -64.4166634073766,
+          44.932763727209824
+        ],
+        "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+        "reference_objectid": 147817,
+        "reference_feature_code": "WALKIS10",
+        "nearest_unfiltered_feature_code": "WALKIS10",
+        "nearest_unfiltered_objectid": 147817,
+        "nearest_unfiltered_distance_guide_px": 1.2816584268449394,
+        "selected_distance_guide_px": 1.2816584268449394,
+        "guide_reference_pixel_xy": [
+          3406.7189651511144,
+          3369.0399754805258
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+        "predicted_lonlat": [
+          -64.41695459384215,
+          44.93206767567354
+        ],
+        "error_ground_m": 80.69556500510683,
+        "east_ground_m": -22.986244885508516,
+        "north_ground_m": -77.35248384865774
+      },
+      {
+        "id": "Q07",
+        "label": "Moore Brook junction with Mill Brook east of North Alton",
+        "role": "check",
+        "pixel_xy": [
+          3091,
+          469
+        ],
+        "lonlat": [
+          -64.51309086602073,
+          45.05329217325981
+        ],
+        "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+        "reference_objectid": 272389,
+        "reference_feature_code": "WARV50",
+        "nearest_unfiltered_feature_code": "WARV50",
+        "nearest_unfiltered_objectid": 272389,
+        "nearest_unfiltered_distance_guide_px": 3.6261050316282235,
+        "selected_distance_guide_px": 3.6261050316282235,
+        "guide_reference_pixel_xy": [
+          3093.5520600440213,
+          491.7290453648893
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+        "predicted_lonlat": [
+          -64.51270877745249,
+          45.052226452220445
+        ],
+        "error_ground_m": 122.20131010436407,
+        "east_ground_m": 30.09909297278852,
+        "north_ground_m": -118.43650110265156
+      }
+    ]
+  },
+  "control_axis_ratio": 1.7394462644268578,
+  "affine_scale_ratio": 1.0277318707209664,
+  "metres_per_pixel_singular_values": [
+    5.379183704851529,
+    5.2340341465502735
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.947999017719368,
+          2.0384765833534617
+        ],
+        [
+          2.0099704323083407,
+          -4.850664677150477
+        ],
+        [
+          364617.8269474905,
+          4985863.296197482
+        ]
+      ],
+      "diagnostic_rms_m": 86.80356218855997,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          5.007847259725807,
+          1.9840370250857582
+        ],
+        [
+          1.993996830984837,
+          -4.836240963541167
+        ],
+        [
+          364480.6812072821,
+          4985988.74642979
+        ]
+      ],
+      "diagnostic_rms_m": 124.28106571147742,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.990618471216698,
+          2.00581616651703
+        ],
+        [
+          1.9961402042793044,
+          -4.8412895619011955
+        ],
+        [
+          364524.5583045081,
+          4985935.34701668
+        ]
+      ],
+      "diagnostic_rms_m": 104.72851901009349,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          5.0003973985400245,
+          2.0122497177686984
+        ],
+        [
+          1.99854727740064,
+          -4.8419537475572785
+        ],
+        [
+          364513.461138685,
+          4985926.16616112
+        ]
+      ],
+      "diagnostic_rms_m": 98.96916319373797,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.978256775936155,
+          1.9978655646088035
+        ],
+        [
+          1.9849561575453272,
+          -4.85601239302602
+        ],
+        [
+          364570.36127074726,
+          4985972.58166775
+        ]
+      ],
+      "diagnostic_rms_m": 115.0489397207476,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.951995818095079,
+          1.9668710803984206
+        ],
+        [
+          2.0547975332043404,
+          -4.778355336696203
+        ],
+        [
+          364481.26224917354,
+          4985876.100295335
+        ]
+      ],
+      "diagnostic_rms_m": 150.0999719636338,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.912344282872202,
+        2.0392250952040976
+      ],
+      [
+        2.0392250952040976,
+        -4.912344282872202
+      ],
+      [
+        364619.0702506695,
+        4986000.739435834
+      ]
+    ],
+    "rms_ground_m": 115.03136811831,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.632915+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q01",
+    "Q07",
+    "Q02",
+    "Q05"
+  ],
+  "reviewed_control_ids": [
+    "C01",
+    "C02"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Gaspereau northwestern fingered island is recognizable by western fingers and adjacent tiny southern island; central star island likewise has consistent neighbours. Their detailed modern outlines differ. Moore/Mill junction topology supported by nearby eastern tributary. Morton Flowage island is generalized. No pixel correction demonstrated.",
+  "baseline_limitations": [
+    "First RMS 103.26 m exceeds the 100 m ceiling; median 86.15 m and P95 160.39 m also exceed their 75/150 m companion bounds. Maximum 173.12 m is retained. No post-score adjustment.",
+    "Five checks pair with control islands; the sixth samples a separate Mill Brook tributary junction. These are correlated drainage/island samples, not independent regional validation.",
+    "Eastern third and northern corners lack independent checks.",
+    "Lake outlines are generalized and some nearby historical islands have different modern connectivity. Only matched features were adopted; no water-level or change-cause conclusion is asserted.",
+    "Source uncertainty24 px for lake islands and18 px for stream junctions; the fit is unweighted.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "29b02c8d585e1d217bffa165058c7dadf98d2c80ecd74e13f61fb665b342a262"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "a5aed67a17481704a7fae28fa2d20bb783e0d8017c451bec8dff8b5a08311bc4"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "aa01252050ba6297b05ac95856078f5ef6a79de8f01941216b256321ce89a6ed"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "36bac0d43d84aaf2345fb9680009d9b0a25a5fa9088f3286edb668529121c839"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "984401c98ab186c1632a5c649bdf762216a20632113a07c171e0e33e62961597"
+    }
+  ],
+  "control_findings": "Gaspereau fingered island north end and central star island east horn retain the correct neighbouring island constellation; fine shoreline geometry differs.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

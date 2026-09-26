@@ -1,0 +1,342 @@
+{
+  "sheet": "067",
+  "baseline_report": "reports/crown-grant/batch10/sheet067",
+  "baseline_fit": "fit-main-similarity-01.json",
+  "baseline_checks": "checks-main-similarity-01.json",
+  "baseline_score": "scores-main-similarity-01.json",
+  "source_sha256": "fbe0252fae6660327210793e44774d63186c407326a311a8dfb33f98ec5f2948",
+  "reference_sha256": "24738b92b5bffa369c7a4bf2e7886415b7cd5bd566d8944f1765f5388e889be1",
+  "fit_sha256": "e566ee26c230211fc0c52c7538334778385d288d865036d884d2b79473e3b71b",
+  "checks_sha256": "2ee7756a6de3953b4dcfe7756c612c11d4f7db74bc97ac0a6dc15e6c7803775d",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 4,
+    "rms_ground_m": 100.17459813305791,
+    "median_ground_m": 97.8420706642767,
+    "p95_ground_m": 131.2023603043518,
+    "max_ground_m": 135.9941525422729,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 46.38824849198753,
+    "mean_north_ground_m": 18.203458774697133,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Main map Lawlor Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          2520,
+          685
+        ],
+        "lonlat": [
+          -63.48836141501385,
+          44.59822729172521
+        ],
+        "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+        "reference_objectid": 18408,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 18408,
+        "nearest_unfiltered_distance_guide_px": 5.072925021658359,
+        "selected_distance_guide_px": 5.072925021658359,
+        "guide_reference_pixel_xy": [
+          2509.072557586187,
+          669.9582444977714
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+        "predicted_lonlat": [
+          -63.487945345039435,
+          44.59789899207602
+        ],
+        "error_ground_m": 49.21585715310687,
+        "east_ground_m": 33.0344429942699,
+        "north_ground_m": -36.481860854037485
+      },
+      {
+        "id": "Q02",
+        "label": "Main map Devil Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          2796,
+          1225
+        ],
+        "lonlat": [
+          -63.45911222697735,
+          44.579905855044785
+        ],
+        "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+        "reference_objectid": 16515,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 16515,
+        "nearest_unfiltered_distance_guide_px": 0.9728901162910674,
+        "selected_distance_guide_px": 0.9728901162910674,
+        "guide_reference_pixel_xy": [
+          2773.7434627053444,
+          1220.6275176365161
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+        "predicted_lonlat": [
+          -63.458207577538495,
+          44.580417685440715
+        ],
+        "error_ground_m": 91.63527037242116,
+        "east_ground_m": 71.84740795160558,
+        "north_ground_m": 56.87682082239031
+      },
+      {
+        "id": "Q03",
+        "label": "Main map Hartlen peninsula southwest corner",
+        "role": "check",
+        "pixel_xy": [
+          2963,
+          1102
+        ],
+        "lonlat": [
+          -63.452391433726454,
+          44.58929732881445
+        ],
+        "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+        "reference_objectid": 6563,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 6563,
+        "nearest_unfiltered_distance_guide_px": 7.847330458006831,
+        "selected_distance_guide_px": 7.847330458006831,
+        "guide_reference_pixel_xy": [
+          2952.767678604636,
+          1070.8483679888304
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+        "predicted_lonlat": [
+          -63.45159264238577,
+          44.588555107410144
+        ],
+        "error_ground_m": 104.04887095613225,
+        "east_ground_m": 63.43129084339085,
+        "north_ground_m": -82.47811157626623
+      },
+      {
+        "id": "Q05",
+        "label": "Main map Shut In Island northern extremity",
+        "role": "check",
+        "pixel_xy": [
+          5755,
+          1507
+        ],
+        "lonlat": [
+          -63.27885534570796,
+          44.62081081963568
+        ],
+        "guide_file": ".crown-grant-local/067-adjacent-guide.npy",
+        "reference_objectid": 20381,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20381,
+        "nearest_unfiltered_distance_guide_px": 2.246490222568766,
+        "selected_distance_guide_px": 2.246490222568766,
+        "guide_reference_pixel_xy": [
+          5741.806977902132,
+          1485.9034540344728
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Broad coastal identity and native paired crosshairs inspected before first fit and score; main-map frame",
+        "predicted_lonlat": [
+          -63.27863811925616,
+          44.622024747345336
+        ],
+        "error_ground_m": 135.9941525422729,
+        "east_ground_m": 17.239852178683797,
+        "north_ground_m": 134.89698670670194
+      }
+    ]
+  },
+  "control_axis_ratio": 4.83664203674304,
+  "affine_scale_ratio": 1.0,
+  "metres_per_pixel_singular_values": [
+    5.040194742128494,
+    5.040194742128494
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.669355700132558,
+          1.9920748102460828
+        ],
+        [
+          1.9920748102460828,
+          -4.669355700132558
+        ],
+        [
+          448063.443741182,
+          4936585.9459392205
+        ]
+      ],
+      "diagnostic_rms_m": 97.3594423592297,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.627957290422244,
+          1.9809375432732177
+        ],
+        [
+          1.9809375432732177,
+          -4.627957290422244
+        ],
+        [
+          448274.3191147683,
+          4936581.974495341
+        ]
+      ],
+      "diagnostic_rms_m": 109.75029479445571,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.635521398583688,
+          1.9804672406226989
+        ],
+        [
+          1.9804672406226989,
+          -4.635521398583688
+        ],
+        [
+          448254.1412885038,
+          4936586.478685959
+        ]
+      ],
+      "diagnostic_rms_m": 108.62765564270529,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.631020429810167,
+          1.9857728629226854
+        ],
+        [
+          1.9857728629226854,
+          -4.631020429810167
+        ],
+        [
+          448258.72388858563,
+          4936554.299775894
+        ]
+      ],
+      "diagnostic_rms_m": 110.44412359945275,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.524183214693453,
+          1.925882874743492
+        ],
+        [
+          1.925882874743492,
+          -4.524183214693453
+        ],
+        [
+          448600.0573229018,
+          4936647.9740329785
+        ]
+      ],
+      "diagnostic_rms_m": 189.03509190058966,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.634216200783691,
+        1.981818165938061
+      ],
+      [
+        1.981818165938061,
+        -4.634216200783691
+      ],
+      [
+        448238.63273078087,
+        4936579.691527102
+      ]
+    ],
+    "rms_ground_m": 100.17459833146606,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "reflected similarity",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.791227+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q05",
+    "Q03",
+    "Q02",
+    "Q01"
+  ],
+  "reviewed_control_ids": [
+    "C01",
+    "C03"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Shut In partial island at scan edge has a rounded northern crest versus several modern jagged crests; Hartlen southwest corner and Devil/Lawlor ends are physically plausible. Source edge black fill in crop is outside the original image, not a masked geographic omission. 0.17 m RMS exceedance retained without rounding.",
+  "baseline_limitations": [
+    "Main map first RMS 100.17 m exceeds the strict 100 m ceiling; median97.84 m also exceeds75 m. Four northern coastal checks do not validate the western coast or southern ocean.",
+    "Inset first RMS66.29 m passes100 m, with median17.40 m, P95114.11 m and maximum129.70 m. All three controls and four checks are on Lawlor Island; mainland streets, harbour and river remain unvalidated.",
+    "Both components use constrained similarities selected before scoring. Their Lawlor Island observations share modern reference geography; scores are not statistically independent and are not pooled.",
+    "Egg Island has no corresponding outline in the downloaded modern reference. Its historical depiction remains retained; no disappearance cause is asserted.",
+    "Main source uncertainty18 px; enlarged inset12 px. Full imagery retention is separate from geographic acceptance."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "5d9a7cb3ef01bbdd1fe18566fe82370ef3becd581cd1d836b725c6788d9c0fc5"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "5d01d5ebc529f2ca6a63aff931291a747781148179eae5a7e33d1f9564520d2a"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "b148d8b87796ba5ed595704a74ad3e3e3b493779ac384ebc85d6f8f0151e0f68"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "3d4740e4b87a62ebe070eee3c51fb16756220f17d9ad1caefd8a21275d42dd38"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "2e905e8d19be9d89a9b877df528c7776bf3871e8334ccb65f1ffdbb182691f44"
+    }
+  ],
+  "control_findings": "Lawlor north tip and Osborne south tip are broad rounded coasts. Built harbour features were not substituted as natural controls.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}
