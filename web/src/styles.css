@@ -7276,3 +7276,4 @@ a {
 .rhodena-visibility-legend { display: grid; gap: 0.15rem; }
 .rhodena-viewshed-raster { image-rendering: pixelated; }
 .rhodena-label { padding: 2px 4px; font-size: 11px; box-shadow: none; }
+.rhodena-visibility-summary { font-weight: 700; padding: 0.55rem; border: 2px solid currentColor; border-radius: 5px; }

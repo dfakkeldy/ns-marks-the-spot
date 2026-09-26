@@ -48,3 +48,24 @@ export function visibilityFromPoint(grid: TerrainGrid, observer: GeoPoint, turbi
   return {status,distanceM,requiredHeightM:required,hubPotential:HUB_HEIGHT_M>=required};
 }
 export const visibilityLabels: Record<VisibilityStatus,string> = {potential:'Potentially visible',blocked:'Terrain screens the 200 m tip',uncertain:'Near terrain threshold',outside:'Beyond 20 km screen', 'no-data':'Outside terrain coverage or no data'};
+
+/** Union of potential views, not stacked transparent images. Missing coverage
+ * cannot become an all-screened result. One positive result is sufficient even
+ * when another turbine cannot be assessed at this location. */
+export function combinedVisibility(statuses: readonly VisibilityStatus[]): VisibilityStatus {
+  if (statuses.includes('potential')) return 'potential';
+  if (statuses.length === 0 || statuses.includes('no-data')) return 'no-data';
+  if (statuses.includes('outside')) return 'outside';
+  if (statuses.includes('uncertain')) return 'uncertain';
+  return 'blocked';
+}
+
+export function viewpointSummary(results: readonly VisibilityResult[]): string {
+  const potential = results.filter(result => result.status === 'potential').length;
+  if (potential) return `${potential} of ${results.length} turbine tips potentially visible in the terrain model.`;
+  switch (combinedVisibility(results.map(result => result.status))) {
+    case 'blocked': return `Terrain model screens all ${results.length} maximum blade tips.`;
+    case 'uncertain': return 'Potential visibility is uncertain: at least one tip is near the terrain threshold.';
+    default: return 'This location cannot be fully assessed with the available terrain coverage and 20 km range.';
+  }
+}

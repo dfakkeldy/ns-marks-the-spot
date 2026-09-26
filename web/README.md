@@ -1685,8 +1685,11 @@ limits, two conflicting substation locations and unverified final geometry.
 The source report's 80 study-area PIDs retain their 2024 Crown/private categories;
 these do not establish current ownership or authorizations.
 
-**Rhodena · turbine visibility** enables a preliminary per-turbine bare-earth
-viewshed. Choose T1–T6 or choose a private viewpoint to compare all six. It uses
+**Rhodena · turbine visibility** enables a preliminary combined bare-earth
+viewshed for all six turbines. Green indicates potential visibility of at least
+one turbine; grey requires terrain screening of all six. Individual T1–T6 views
+remain available, and a private viewpoint gives a combined answer and details
+for all six. It uses
 fixed Mapzen elevation data, a 1.7 m observer and the maximum 200 m tip; a 118 m
 hub comparison remains explicitly tied to the 2024 model. Potential visibility,
 terrain screening, near-threshold and unassessed locations stay distinct. Trees,

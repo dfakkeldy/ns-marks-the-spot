@@ -14,11 +14,11 @@ const common = {
 } as const;
 export const rhodenaLayers = [
   { ...common, id: 'rhodena-visibility', name: 'Rhodena · turbine visibility',
-    webCaveat: 'Preliminary terrain-only viewsheds for T1–T6. Choose a viewpoint to compare all six; trees, buildings and final design are not modelled.',
+    webCaveat: 'Combined potential visibility from all six turbines, with individual T1–T6 views. Choose a viewpoint to compare all six; trees, buildings and final design are not modelled.',
     sourceUrl: 'https://registry.opendata.aws/terrain-tiles/', licenceUrl: 'https://github.com/tilezen/joerd/blob/master/docs/attribution.md', licence: 'canada-open',
     sourceDate: 'Mapzen terrain retrieved September 26, 2026; source acquisition dates vary',
     attribution: 'Mapzen terrain. Contains information licensed under the Open Government Licence – Canada. SRTM/GMTED2010: USGS. ETOPO1: NOAA.',
-    legend: [{label:'Potential tip visibility · green',color:'#177e70'},{label:'Terrain screened · grey',color:'#646971'},{label:'Near terrain threshold · amber',color:'#cd8b24'},{label:'Uncoloured: not assessed / outside range'}] },
+    legend: [{label:'At least one tip potentially visible · green',color:'#177e70'},{label:'All six tips terrain-screened · grey',color:'#646971'},{label:'Uncertain potential visibility · amber',color:'#cd8b24'},{label:'Uncoloured: not assessed / outside range'}] },
   { ...common, id: 'rhodena-turbines', name: 'Rhodena · six proposed turbines',
     webCaveat: 'T1–T6, 2024 assessment: up to 42 MW, up to 200 m above ground. Tap a point for its source and coordinates.',
     legend: [{label:'Published turbine coordinate',color:'#b24719'}] },

@@ -59,7 +59,11 @@ resolution, dates, vertical accuracy and datum have not been locally validated.
 It is independent of Judique's contour-derived display terrain.
 
 The same pure `visibilityFromPoint` algorithm powers selected viewpoint results
-and worker-generated per-turbine overlays. It bilinearly samples the terrain at
+and worker-generated combined/individual overlays. The default combines all six:
+green when any result is potentially visible; grey only when all six are
+terrain-screened; amber when at least one is near threshold and none is
+potentially visible. Missing coverage/range prevents an all-screened result.
+Known potential visibility remains useful even if another turbine is unassessed. It bilinearly samples the terrain at
 no more than one source pixel along the line, uses DEM ground at both endpoints,
 1.7 m observer height and a 200 m maximum turbine tip. Hub comparisons use the
 2024 model's 118 m hub. Curvature uses R=6,371,000 m and assumed refraction k=0.13.
@@ -74,7 +78,7 @@ weather and blade motion are excluded. The screen does not prove visibility or
 invisibility from a house. The fixed terrain files load from the app's own host;
 no selected coordinate is sent to an elevation provider, saved, or shared.
 The current turbine selection and viewpoint are session controls; a shared or
-custom layer setup reopens the viewshed at T1.
+custom layer setup reopens the combined view of all six turbines.
 
 Original assessment reports, cartography and imagery retain their rights and
 are not redistributed or assigned the code licence. The small factual extracts
