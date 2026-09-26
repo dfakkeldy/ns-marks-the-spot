@@ -68,6 +68,15 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-app:has(.poker-results) .poker-measurement { visibility: hidden; }
 .poker-footer { position: absolute; right: 8px; bottom: var(--poker-bottom); z-index: 700; display: flex; align-items: center; gap: 7px; background: var(--poker-surface); border-radius: 6px; padding: 0 6px; font-size: 10px; }
 .poker-footer button { border: 0; background: transparent; box-shadow: none; min-height: 28px; padding: 2px; font-size: 11px; font-weight: 500; }
+.poker-update { position: absolute; top: calc(var(--poker-top) + 56px); left: 50%; transform: translateX(-50%); z-index: 800; display: flex; align-items: center; gap: 8px; max-width: calc(100% - 152px); padding: 0 0 0 12px; background: #fffdf6f0; border: 1px solid var(--poker-border); border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: var(--poker-shadow); }
+.poker-update span { min-width: 0; }
+.poker-update button { flex: none; white-space: nowrap; }
+.poker-update button { border: 0; border-left: 1px solid var(--poker-border); border-radius: 0 10px 10px 0; background: transparent; box-shadow: none; color: #285c68; }
+/* Fits between the zoom buttons and the map-style button on the narrowest phones. */
+@media (max-width: 360px) {
+  .poker-update { gap: 4px; padding-left: 9px; font-size: 12px; }
+  .poker-update button { padding: 8px 9px; }
+}
 .poker-map-notice, .poker-storage-error { position: absolute; right: 8px; top: calc(var(--poker-top) + 108px); z-index: 800; max-width: min(300px, calc(100% - 64px)); padding: 7px 10px; background: #fffdf6f0; border-radius: 8px; font-size: 12px; box-shadow: var(--poker-shadow); }
 .poker-loading, .poker-load-error { position: absolute; z-index: 600; top: 35%; left: 50%; transform: translateX(-50%); width: min(360px, calc(100% - 32px)); padding: 16px; border-radius: 10px; background: #fffdf6f5; }
 .poker-load-error button { display: block; margin-top: 12px; }

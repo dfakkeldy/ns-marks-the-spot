@@ -1643,7 +1643,12 @@ and outside-pack coverage failures are reported separately.
 Save offline in Map options downloads Poker's dependency closure and the approximately 4.5 MB
 regional data pack. Its `/poker`-scoped service worker never caches aerial imagery,
 other remote services, or the general research map. It confirms every required
-file before reporting success and can repair missing cached files. The manifest
+file before reporting success and can repair missing cached files. A saved copy
+keeps serving Poker even online, so while online Poker asks for a newer deploy
+when it opens, when its tab comes back into view and when the connection
+returns. The new copy downloads in the background, and once it is complete a
+**Poker updated · Reload** notice appears; Reload switches to it and keeps the
+session. Poker never reloads by itself. The manifest
 opens `/poker`; browser storage availability/eviction and clearing website data
 still affect saved sessions. Installing or using another browser does not sync
 sessions. The offline map uses Atlas Day colours with open NSRN roads and NSTDB
