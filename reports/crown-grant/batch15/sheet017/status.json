@@ -1,0 +1,46 @@
+{
+  "sheet": "017",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical and browser assessment complete; not geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/017.pdf",
+    "pdf_sha256": "755416aff813fabc2fcb15fcd9d81813cf8bdd200af0992b7e9bf8c9d23a8975",
+    "jpeg_sha256": "2b191947e8364c4f65a36b1df3a834e43d1fc8ec409ca4761ab37dcca7a037c2",
+    "dimensions": [
+      5711,
+      3904
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 77.47311988039998,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "RMS passes 100 m, but median 78.54 m fails the 75 m companion limit.",
+    "Seven checks share control lakes or islands; Aspect supplies a separate waterbody. Shared historical cartography limits independence.",
+    "The southwestern quarter, far eastern edge and much of the river/lake interior remain independently unvalidated.",
+    "Generalized shores and small islands carry 24 px working source uncertainty.",
+    "Beech Hill northern and southern proposals were excluded before fitting because the modern stream/lake boundaries are not confidently equivalent to the historical endpoints."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 77.47 m, median 78.54 m, P95 113.21 m, maximum 114.14 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame retains all lakes, islands, river corridors and boundary continuations. Seven controls and eight excluded checks sample northern lakes and central/southern inland lakes; unsampled regions remain provisional."
+  }
+}

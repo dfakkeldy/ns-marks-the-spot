@@ -1,0 +1,221 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Westmore Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        370,
+        1447
+      ],
+      "lonlat": [
+        -65.58917318421298,
+        43.89753593395573
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 141044,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141044,
+      "nearest_unfiltered_distance_guide_px": 1.3432116895810589,
+      "selected_distance_guide_px": 1.3432116895810589,
+      "guide_reference_pixel_xy": [
+        365.14754429931054,
+        1449.6981115413364
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    },
+    {
+      "id": "Q02",
+      "label": "Johns Lake long island southeastern end",
+      "role": "check",
+      "pixel_xy": [
+        3602,
+        691
+      ],
+      "lonlat": [
+        -65.41475657634135,
+        43.995005657964924
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 145190,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 145190,
+      "nearest_unfiltered_distance_guide_px": 0.7295222677395294,
+      "selected_distance_guide_px": 0.7295222677395294,
+      "guide_reference_pixel_xy": [
+        3618.266604194767,
+        664.320938189514
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    },
+    {
+      "id": "Q03",
+      "label": "Upper Stave Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4829,
+        743
+      ],
+      "lonlat": [
+        -65.33950420000563,
+        44.015691365757505
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 139169,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139169,
+      "nearest_unfiltered_distance_guide_px": 2.879734684107621,
+      "selected_distance_guide_px": 2.879734684107621,
+      "guide_reference_pixel_xy": [
+        4836.256255971442,
+        727.8744944577338
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    },
+    {
+      "id": "Q04",
+      "label": "Eastern McKay Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        3153,
+        2269
+      ],
+      "lonlat": [
+        -65.39950667129595,
+        43.91647727542427
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 304536,
+      "reference_feature_code": "WARVLK20",
+      "nearest_unfiltered_feature_code": "WARVLK20",
+      "nearest_unfiltered_objectid": 304536,
+      "nearest_unfiltered_distance_guide_px": 0.630161540330374,
+      "selected_distance_guide_px": 0.630161540330374,
+      "guide_reference_pixel_xy": [
+        3152.4920255257166,
+        2244.606281256536
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    },
+    {
+      "id": "Q05",
+      "label": "Gold Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1780,
+        3378
+      ],
+      "lonlat": [
+        -65.4503060379105,
+        43.84115147881324
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 141197,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141197,
+      "nearest_unfiltered_distance_guide_px": 0.1730813841687141,
+      "selected_distance_guide_px": 0.1730813841687141,
+      "guide_reference_pixel_xy": [
+        1799.868435318116,
+        3363.112462882884
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    },
+    {
+      "id": "Q07",
+      "label": "Wentworth Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4338,
+        3688
+      ],
+      "lonlat": [
+        -65.28891798267502,
+        43.878348082219475
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 140270,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140270,
+      "nearest_unfiltered_distance_guide_px": 1.2344906804938076,
+      "selected_distance_guide_px": 1.2344906804938076,
+      "guide_reference_pixel_xy": [
+        4355.78048202768,
+        3637.1916850422276
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    },
+    {
+      "id": "Q08",
+      "label": "Rory Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1548,
+        1298
+      ],
+      "lonlat": [
+        -65.52258310958983,
+        43.92694552187446
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 304447,
+      "reference_feature_code": "WARVLK20",
+      "nearest_unfiltered_feature_code": "WARVLK20",
+      "nearest_unfiltered_objectid": 304447,
+      "nearest_unfiltered_distance_guide_px": 0.700415294091571,
+      "selected_distance_guide_px": 0.700415294091571,
+      "guide_reference_pixel_xy": [
+        1540.3800402625347,
+        1298.588345972239
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    },
+    {
+      "id": "Q09",
+      "label": "Aspect Lake small island southern end",
+      "role": "check",
+      "pixel_xy": [
+        4350,
+        859
+      ],
+      "lonlat": [
+        -65.3653731199299,
+        44.00202366998119
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 146422,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 146422,
+      "nearest_unfiltered_distance_guide_px": 0.4481799077442863,
+      "selected_distance_guide_px": 0.4481799077442863,
+      "guide_reference_pixel_xy": [
+        4361.15842159983,
+        830.4192467369139
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+    }
+  ]
+}

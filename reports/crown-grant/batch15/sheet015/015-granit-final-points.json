@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q01",
+    "label": "Granit Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3297,
+      558
+    ],
+    "lonlat": [
+      -65.63735792222884,
+      44.30987790989317
+    ],
+    "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+    "reference_objectid": 126491,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126491,
+    "nearest_unfiltered_distance_guide_px": 0.9228253132828586,
+    "selected_distance_guide_px": 0.9228253132828586,
+    "guide_reference_pixel_xy": [
+      3252.9258185384097,
+      581.9198389367666
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

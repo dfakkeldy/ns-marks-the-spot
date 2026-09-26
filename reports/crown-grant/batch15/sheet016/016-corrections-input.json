@@ -1,0 +1,54 @@
+[
+  [
+    "C01",
+    "Second Lake southern tip",
+    [
+      1583,
+      1008
+    ],
+    [
+      1593,
+      1007
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Little Stony Lake northeastern roof",
+    [
+      3934,
+      448
+    ],
+    [
+      3975,
+      436
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Muise Lake northern roof",
+    [
+      347,
+      2307
+    ],
+    [
+      386,
+      2310
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Crane Lake southern tip",
+    [
+      229,
+      3346
+    ],
+    [
+      276,
+      3373
+    ],
+    "WALK20"
+  ]
+]
