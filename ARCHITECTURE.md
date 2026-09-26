@@ -938,21 +938,3 @@ asset dependency closure, manifest, icons and regional data. The worker scope is
 rewrite both short-route spellings to the dedicated HTML. KinNoKi's sync step
 sets that shell's base URL to the pinned map directory. Aerial viewing keeps the
 provincial licence gate and is never written into the offline cache.
-
-### Rhodena web research theme
-
-`web/src/rhodena/` adds a web-only category through the existing context catalogue
-and theme/share-state contracts. Static factual GeoJSON is prepared from dated
-EA tables and explicitly approximate drawing traces. Original PDFs are not
-bundled; pixel inputs, source hashes and registration checks are retained in
-`web/scripts/rhodena/`. The substation drawing/model discrepancy is preserved.
-Sensitive wetland identities and species coordinates are not reconstructed.
-
-The optional terrain analysis loads a fixed, checksummed Mapzen DEM from the
-same origin. A worker computes the selected turbine's overview; local viewpoint
-checks use the same tested height-threshold algorithm. It samples unexaggerated
-source elevations, never Judique's display terrain, and does not send selected
-coordinates to an external service. Picking a viewpoint suspends parcel identify
-and measurement capture. Static geometry is supported in browser print;
-interactive visibility is named as omitted. All Rhodena additions remain outside
-the native presentation/parity fixtures.
