@@ -51,14 +51,14 @@ describe("PrintMap", () => {
       onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
 
     expect(mapCanvasProps.current?.contextLayers).toEqual(
-      Object.fromEntries(layerIds.map((id) => [id, true])),
+      Object.fromEntries(layerIds.map((id) => [id, id !== "rhodena-visibility"])),
     );
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "loading", renderedLayerIds: [], failedLayerIds: [], belowZoomLayerIds: [],
     });
     act(() => layerIds.forEach((id) => reportLayerStatus(id, { status: "ready" })));
     expect(onReadinessChange).toHaveBeenLastCalledWith({
-      status: "ready", renderedLayerIds: layerIds, belowZoomLayerIds: [],
+      status: "ready", renderedLayerIds: layerIds.filter(id => id !== "rhodena-visibility"), belowZoomLayerIds: [],
     });
   });
 

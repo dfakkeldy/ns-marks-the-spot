@@ -388,9 +388,9 @@ control, official source, delivery path and licence, including the open-data
 replacements, Sentinel-2 WMTS identifier, and the reproducible radon image
 and its source receipt.
 
-The six built-in map setups are **Explore Nova Scotia**,
+The eight built-in map setups are **Explore Nova Scotia**,
 **Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
-**Georeferencing**, and **Poker**. Applying a setup replaces the catalogue-layer configuration
+**Georeferencing**, **Poker**, **Electoral Districts**, and **Rhodena**. Applying a setup replaces the catalogue-layer configuration
 coherently; it does not remove or change imported maps or data.
 
 Across all built-in and custom setups, the footer presents source credits on
@@ -1672,3 +1672,35 @@ then `node scripts/buildPokerData.mjs <external-folder>` from `web/`. Raw source
 stay outside Git. The build checks the compressed pack against its receipt.
 Browser tests exercise real pack search, refresh, offline reload, civic numbers,
 trace persistence, and clearing the trace at phone and desktop widths.
+
+## Rhodena Wind Project
+
+Choose **Rhodena** or open `?theme=rhodena` for the 2024 assessed six-turbine
+proposal near Creignish, Craigmore, Long Point and Judique. The web-only setup
+adds published turbine coordinates, approximate infrastructure and study-area
+traces, dated anonymous receptors, optional illustrative 1 km rings, and
+existing Crown, protected-land, water, road and old-growth context. The Rhodena
+category explains the conditional approval, changing schedule, sensitive-data
+limits, two conflicting substation locations and unverified final geometry.
+The source report's 80 study-area PIDs retain their 2024 Crown/private categories;
+these do not establish current ownership or authorizations.
+
+**Rhodena · turbine visibility** enables a preliminary combined bare-earth
+viewshed for all six turbines. Green indicates potential visibility of at least
+one turbine; grey requires terrain screening of all six. Individual T1–T6 views
+remain available, and a private viewpoint gives a combined answer and details
+for all six. It uses
+fixed Mapzen elevation data, a 1.7 m observer and the maximum 200 m tip; a 118 m
+hub comparison remains explicitly tied to the 2024 model. Potential visibility,
+terrain screening, near-threshold and unassessed locations stay distinct. Trees,
+buildings, weather and final design are excluded. Terrain pixels are about
+27 m here and overview cells about 106 m; these are not survey accuracy claims.
+The selected viewpoint stays in memory and is neither saved nor shared.
+
+The reproducible preparation and accuracy receipt are described in
+[`scripts/rhodena/README.md`](scripts/rhodena/README.md). `npm run check:rhodena`
+checks generated facts and terrain hashes during prebuild. Browser printing
+renders the static Rhodena geometry with sources and approximation notes;
+interactive viewsheds/viewpoints are explicitly omitted. Generated PDF currently
+omits these source formats and lists them. Neither source merge nor checks
+publish the separately pinned KinNoKi production copy.

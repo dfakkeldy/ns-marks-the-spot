@@ -14,6 +14,7 @@ import {
 } from "../services/mapShareState";
 
 export type BuiltInMapThemeId =
+  | "rhodena"
   | "electoral-districts"
   | "explore-nova-scotia"
   | "tax-sale-research"
@@ -127,6 +128,7 @@ export const builtInMapThemes = [
     taxSaleEnabled: false,
     mapMode: "current",
   },
+  { id: "rhodena", kind: "built-in", name: "Rhodena", description: "The six-turbine 2024 proposal with land, water and community context.", layerIds: ["modern", "rhodena-turbines", "rhodena-infrastructure", "rhodena-study", "protected-conservation-areas", "water-features", "crown-lands", "roads", "old-growth-policy"], opacityOverrides: {}, preferredCategoryIds: ["rhodena-project"], taxSaleEnabled: false, mapMode: "current" },
   { id: "electoral-districts", kind: "built-in", name: "Electoral Districts", description: "Dated boundaries and election results, with each source on its own geometry.", layerIds: ["modern", "provincial-districts-2026", "federal-ridings-2025"], opacityOverrides: {}, preferredCategoryIds: ["elections-districts", "background-maps"], taxSaleEnabled: false, mapMode: "current" },
 ] as const satisfies readonly MapThemeDefinition[];
 
@@ -142,7 +144,7 @@ const nativeExcludedLayerIds = new Set<CategorizedLayerId>(
 export function buildMapPresentationFixture(): MapPresentationFixture {
   return {
     version: 1,
-    categories: layerCategories.filter(c => c.id !== "elections-districts").map(({ id, name }) => ({
+    categories: layerCategories.filter(c => c.id !== "elections-districts" && c.id !== "rhodena-project").map(({ id, name }) => ({
       id,
       name,
       layerIds: id === "tax-sale" || id === "my-maps"
@@ -152,7 +154,7 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
           ),
     })),
     // Poker is a web workflow; native has no driveway session controls.
-    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker" && theme.id !== "electoral-districts").map((theme) => ({
+    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker" && theme.id !== "electoral-districts" && theme.id !== "rhodena").map((theme) => ({
       id: theme.id,
       name: theme.name,
       description: theme.description,

@@ -6,7 +6,7 @@
   "scripts": {
     "predev": "npm run prepare:pdf-assets",
     "dev": "vite",
-    "prebuild": "npm run prepare:pdf-assets && npm run check:provincial-atlas && npm run check:crown-atlas && npm run check:electoral-boundaries",
+    "prebuild": "npm run prepare:pdf-assets && npm run check:provincial-atlas && npm run check:crown-atlas && npm run check:electoral-boundaries && npm run check:rhodena",
     "check:crown-atlas": "node scripts/checkCrownAtlas.mjs",
     "check:provincial-atlas": "node scripts/checkProvincialAtlas.mjs",
     "build": "tsc -b && vite build",
@@ -35,7 +35,8 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "test:browser": "playwright test",
-    "check:electoral-boundaries": "node scripts/checkElectoralBoundaries.mjs"
+    "check:electoral-boundaries": "node scripts/checkElectoralBoundaries.mjs",
+    "check:rhodena": "node scripts/buildRhodena.mjs --check && node scripts/buildRhodenaTerrain.mjs --check"
   },
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "2.20.0",

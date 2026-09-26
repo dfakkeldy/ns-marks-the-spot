@@ -7260,3 +7260,20 @@ a {
 .interface-appearance-control { margin-bottom: 12px; }
 
 .poker-mode .modern-map-error { top: max(210px, calc(env(safe-area-inset-top) + 198px)); }
+
+.rhodena-overview { font-size: 0.85rem; line-height: 1.5; margin: 0 0 1rem; }
+.rhodena-overview details { margin-block: 0.7rem; }
+.rhodena-overview summary { cursor: pointer; font-weight: 600; }
+.rhodena-parcels { max-height: 15rem; overflow: auto; }
+.rhodena-parcels table { width: 100%; text-align: left; }
+.rhodena-popup { line-height: 1.4; }
+.rhodena-popup p { margin-block: 0.65rem; }
+.rhodena-label { font-weight: 700; }
+.rhodena-visibility-control { width: 280px; max-width: calc(100vw - 90px); max-height: 45vh; overflow: auto; margin-bottom: 45px !important; padding: 0.7rem; border-radius: 8px; background: rgb(var(--surface-rgb)); color: var(--chart-ink); box-shadow: 0 2px 12px #0003; font-size: 12px; line-height: 1.4; }
+.rhodena-visibility-control button, .rhodena-visibility-control select { min-height: 34px; }
+.rhodena-visibility-control summary { cursor: pointer; font-weight: 700; }
+.rhodena-visibility-control p { margin-block: 0.6rem; }
+.rhodena-visibility-legend { display: grid; gap: 0.15rem; }
+.rhodena-viewshed-raster { image-rendering: pixelated; }
+.rhodena-label { padding: 2px 4px; font-size: 11px; box-shadow: none; }
+.rhodena-visibility-summary { font-weight: 700; padding: 0.55rem; border: 2px solid currentColor; border-radius: 5px; }

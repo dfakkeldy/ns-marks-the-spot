@@ -1557,7 +1557,7 @@ describe("NS Marks The Spot Online", () => {
     act(() => media.setMatches(true));
     expect(screen.queryByRole("button", { name: "Back to categories" }))
       .not.toBeInTheDocument();
-    expect(visibleLayerCategoryButtons()).toHaveLength(11);
+    expect(visibleLayerCategoryButtons()).toHaveLength(12);
     expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
 
     expect(media.listenerCount()).toBe(1);
@@ -1581,7 +1581,7 @@ describe("NS Marks The Spot Online", () => {
       expect(screen.getByRole("button", { name: /^Historical Maps/ }))
         .toHaveFocus();
     });
-    expect(visibleLayerCategoryButtons()).toHaveLength(11);
+    expect(visibleLayerCategoryButtons()).toHaveLength(12);
   });
 
   it("keeps the phone sheet and focused category open when a layer toggles", async () => {

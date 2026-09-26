@@ -1,0 +1,878 @@
+{
+  "checked": "2026-09-26",
+  "sources": {
+    "rwp-Part-1-EARD-to-Appendix-A-part-a-.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-1-EARD-to-Appendix-A-part-a-.pdf",
+      "sha256": "536c9c6589f277dfe58a366d8854eff4bef0d68ef93ce5c4be508d5596fd38f0"
+    },
+    "rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf",
+      "sha256": "854858e379162b17fe88080dad2143d0c4c41373dba3de8b24d62c0dc9f95031"
+    },
+    "appendix-j-m.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf",
+      "sha256": "0df93483d88efd52240ff6d58040944cd90c5b49375d7153d749c1ebc647acda"
+    },
+    "EA_Approval_RhodenaWind.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/EA_Approval_RhodenaWind.pdf",
+      "sha256": "45b265e1b44ad116818c4644c005b213a574e9ce8e7319659bcd5c6d13deca89"
+    },
+    "Comments_Part_1_Rhodena_Wind.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/Comments_Part_1_Rhodena_Wind.pdf",
+      "sha256": "f0fcdc7ae00a1f483886a23a4128d2bf0ef897db2c0da3b8e81b7847cd633557"
+    }
+  },
+  "turbines": [
+    [
+      1,
+      621160.911,
+      5069340.739,
+      45.767,
+      -61.441789,
+      228
+    ],
+    [
+      2,
+      621547.71,
+      5069634.039,
+      45.769571,
+      -61.436743,
+      236
+    ],
+    [
+      3,
+      622125.91,
+      5069842.039,
+      45.77134,
+      -61.429257,
+      234
+    ],
+    [
+      4,
+      622678.812,
+      5069775.179,
+      45.770641,
+      -61.422165,
+      252
+    ],
+    [
+      5,
+      622604.711,
+      5068398.939,
+      45.758272,
+      -61.423467,
+      202
+    ],
+    [
+      6,
+      623043.311,
+      5068557.339,
+      45.759619,
+      -61.417789,
+      217
+    ]
+  ],
+  "receptors": [
+    [
+      "A",
+      621528,
+      5067757,
+      "24 h 03 min/year; maximum 26 min/day"
+    ],
+    [
+      "B",
+      622564,
+      5065899,
+      "0 h/year"
+    ],
+    [
+      "C",
+      622622,
+      5065925,
+      "0 h/year"
+    ],
+    [
+      "D",
+      620476,
+      5074590,
+      "0 h/year"
+    ],
+    [
+      "E",
+      626031,
+      5066878,
+      "0 h/year"
+    ],
+    [
+      "F",
+      622865,
+      5066100,
+      "0 h/year"
+    ],
+    [
+      "G",
+      625288,
+      5066801,
+      "0 h/year"
+    ]
+  ],
+  "digitization": {
+    "coordinateSystem": "NAD83 / UTM zone 20N (EPSG:26920)",
+    "method": "Similarity fit in UTM from published turbine symbols. Pixels are measured in the full PDF page rendered to the stated width (top-left origin), not a cropped map. Lines and the study boundary are simplified project annotations, not survey data.",
+    "sheets": {
+      "2.2": {
+        "file": "rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf",
+        "page": 2,
+        "width": 1976,
+        "controls": [
+          [
+            1,
+            568,
+            591
+          ],
+          [
+            2,
+            603,
+            565
+          ],
+          [
+            3,
+            657,
+            546
+          ],
+          [
+            4,
+            707,
+            553
+          ],
+          [
+            5,
+            700,
+            678
+          ],
+          [
+            6,
+            741,
+            664
+          ]
+        ],
+        "maxResidualM": 25,
+        "maxLeaveOneOutM": 40
+      },
+      "2.3A": {
+        "file": "rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf",
+        "page": 3,
+        "width": 1978,
+        "controls": [
+          [
+            1,
+            397,
+            869
+          ],
+          [
+            2,
+            619,
+            699
+          ],
+          [
+            3,
+            951,
+            579
+          ],
+          [
+            4,
+            1268,
+            618
+          ]
+        ],
+        "maxResidualM": 8,
+        "maxLeaveOneOutM": 15
+      },
+      "2.3B": {
+        "file": "rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf",
+        "page": 4,
+        "width": 1978,
+        "controls": [
+          [
+            5,
+            870,
+            533
+          ],
+          [
+            6,
+            1121,
+            444
+          ]
+        ],
+        "maxResidualM": 1,
+        "maxLeaveOneOutM": null
+      }
+    },
+    "features": [
+      {
+        "id": "study",
+        "name": "Study area \u00b7 October 2024",
+        "sheet": "2.2",
+        "kind": "study",
+        "type": "Polygon",
+        "pixels": [
+          [
+            529,
+            100
+          ],
+          [
+            677,
+            74
+          ],
+          [
+            680,
+            88
+          ],
+          [
+            713,
+            96
+          ],
+          [
+            718,
+            110
+          ],
+          [
+            708,
+            165
+          ],
+          [
+            713,
+            200
+          ],
+          [
+            750,
+            226
+          ],
+          [
+            764,
+            257
+          ],
+          [
+            754,
+            288
+          ],
+          [
+            762,
+            314
+          ],
+          [
+            800,
+            333
+          ],
+          [
+            823,
+            356
+          ],
+          [
+            849,
+            382
+          ],
+          [
+            881,
+            405
+          ],
+          [
+            904,
+            426
+          ],
+          [
+            909,
+            440
+          ],
+          [
+            929,
+            444
+          ],
+          [
+            948,
+            415
+          ],
+          [
+            960,
+            414
+          ],
+          [
+            991,
+            441
+          ],
+          [
+            1033,
+            498
+          ],
+          [
+            1067,
+            520
+          ],
+          [
+            1008,
+            548
+          ],
+          [
+            1035,
+            554
+          ],
+          [
+            1048,
+            612
+          ],
+          [
+            1073,
+            655
+          ],
+          [
+            1089,
+            662
+          ],
+          [
+            1111,
+            697
+          ],
+          [
+            1130,
+            695
+          ],
+          [
+            1134,
+            714
+          ],
+          [
+            1128,
+            731
+          ],
+          [
+            1134,
+            743
+          ],
+          [
+            1122,
+            759
+          ],
+          [
+            1114,
+            756
+          ],
+          [
+            1095,
+            790
+          ],
+          [
+            1130,
+            861
+          ],
+          [
+            1020,
+            911
+          ],
+          [
+            1060,
+            933
+          ],
+          [
+            1004,
+            977
+          ],
+          [
+            1035,
+            1067
+          ],
+          [
+            1055,
+            1054
+          ],
+          [
+            1114,
+            1116
+          ],
+          [
+            1142,
+            1108
+          ],
+          [
+            1170,
+            1178
+          ],
+          [
+            1098,
+            1217
+          ],
+          [
+            1025,
+            1139
+          ],
+          [
+            974,
+            1058
+          ],
+          [
+            948,
+            1067
+          ],
+          [
+            902,
+            1014
+          ],
+          [
+            961,
+            957
+          ],
+          [
+            946,
+            934
+          ],
+          [
+            949,
+            920
+          ],
+          [
+            1025,
+            858
+          ],
+          [
+            1005,
+            780
+          ],
+          [
+            837,
+            838
+          ],
+          [
+            824,
+            839
+          ],
+          [
+            817,
+            804
+          ],
+          [
+            798,
+            774
+          ],
+          [
+            702,
+            810
+          ],
+          [
+            684,
+            771
+          ],
+          [
+            624,
+            793
+          ],
+          [
+            617,
+            784
+          ],
+          [
+            620,
+            754
+          ],
+          [
+            611,
+            720
+          ],
+          [
+            580,
+            726
+          ],
+          [
+            573,
+            711
+          ],
+          [
+            598,
+            701
+          ],
+          [
+            570,
+            634
+          ],
+          [
+            573,
+            607
+          ],
+          [
+            542,
+            618
+          ],
+          [
+            393,
+            229
+          ],
+          [
+            542,
+            175
+          ],
+          [
+            529,
+            100
+          ]
+        ],
+        "note": "Simplified trace of Drawing 2.2 at 1:50,000. Reported study area is 4,011 ha; this display outline is not a parcel boundary. Small holes and fine boundary detail are omitted. Do not use it for parcel inclusion or area calculations."
+      },
+      {
+        "id": "transmission",
+        "name": "Proposed transmission corridor \u00b7 overview",
+        "sheet": "2.2",
+        "kind": "transmission",
+        "type": "LineString",
+        "pixels": [
+          [
+            727,
+            667
+          ],
+          [
+            741,
+            664
+          ],
+          [
+            765,
+            677
+          ],
+          [
+            780,
+            718
+          ],
+          [
+            773,
+            739
+          ],
+          [
+            803,
+            757
+          ],
+          [
+            825,
+            752
+          ],
+          [
+            919,
+            736
+          ],
+          [
+            943,
+            739
+          ],
+          [
+            959,
+            759
+          ],
+          [
+            986,
+            747
+          ],
+          [
+            1009,
+            754
+          ],
+          [
+            1030,
+            750
+          ],
+          [
+            1049,
+            754
+          ],
+          [
+            1059,
+            861
+          ],
+          [
+            1034,
+            881
+          ],
+          [
+            1009,
+            886
+          ],
+          [
+            983,
+            932
+          ],
+          [
+            940,
+            1001
+          ],
+          [
+            1040,
+            1111
+          ],
+          [
+            1115,
+            1172
+          ],
+          [
+            1154,
+            1173
+          ]
+        ],
+        "note": "Approximate route from Drawing 2.2, classified against Drawings 2.3B\u2013G. The drawing connects toward existing electrical infrastructure; the final route, width and land authorizations are not verified."
+      },
+      {
+        "id": "access-upgrade",
+        "name": "Existing access road to be upgraded \u00b7 overview",
+        "sheet": "2.2",
+        "kind": "upgrade",
+        "type": "LineString",
+        "pixels": [
+          [
+            719,
+            583
+          ],
+          [
+            753,
+            580
+          ],
+          [
+            802,
+            557
+          ],
+          [
+            844,
+            538
+          ],
+          [
+            872,
+            529
+          ],
+          [
+            885,
+            556
+          ],
+          [
+            896,
+            592
+          ],
+          [
+            896,
+            622
+          ],
+          [
+            907,
+            656
+          ],
+          [
+            912,
+            684
+          ],
+          [
+            933,
+            723
+          ],
+          [
+            960,
+            755
+          ]
+        ],
+        "note": "Approximate centreline of the existing-road upgrade route shown in Drawings 2.3A and 2.3H. Does not depict the width of widening, temporary works or final engineering."
+      },
+      {
+        "id": "drawing-substation",
+        "name": "Substation \u00b7 infrastructure drawing",
+        "sheet": "2.3B",
+        "kind": "substation",
+        "type": "Point",
+        "pixels": [
+          1038,
+          468
+        ],
+        "note": "Approximate symbol position, Drawing 2.3B (October 2024). The August noise model places its substation elsewhere; these records have not been reconciled with a final design."
+      },
+      {
+        "id": "new-road-north",
+        "name": "Proposed new road \u00b7 T1\u2013T4",
+        "sheet": "2.3A",
+        "kind": "new-road",
+        "type": "LineString",
+        "pixels": [
+          [
+            251,
+            792
+          ],
+          [
+            619,
+            699
+          ],
+          [
+            668,
+            638
+          ],
+          [
+            951,
+            578
+          ],
+          [
+            1249,
+            566
+          ],
+          [
+            1268,
+            618
+          ]
+        ],
+        "note": "Centreline traced from the red dashed proposed-new-road symbol on Drawing 2.3A. Not a constructed road, public access grant or footprint."
+      },
+      {
+        "id": "new-road-t1",
+        "name": "Proposed new road \u00b7 T1 spur",
+        "sheet": "2.3A",
+        "kind": "new-road",
+        "type": "LineString",
+        "pixels": [
+          [
+            369,
+            764
+          ],
+          [
+            397,
+            869
+          ]
+        ],
+        "note": "Proposed T1 spur from Drawing 2.3A; approximate centreline only."
+      },
+      {
+        "id": "collector-north",
+        "name": "Proposed collector \u00b7 T1\u2013T4",
+        "sheet": "2.3A",
+        "kind": "collector",
+        "type": "LineString",
+        "pixels": [
+          [
+            397,
+            869
+          ],
+          [
+            369,
+            764
+          ],
+          [
+            619,
+            706
+          ],
+          [
+            668,
+            638
+          ],
+          [
+            951,
+            570
+          ],
+          [
+            1268,
+            618
+          ]
+        ],
+        "note": "Traced magenta collector route from Drawing 2.3A. Offset from the road on screen only as drawn by the source; no inferred easement or voltage capacity."
+      },
+      {
+        "id": "collector-link",
+        "name": "Proposed collector \u00b7 T4\u2013T6",
+        "sheet": "2.2",
+        "kind": "collector",
+        "type": "LineString",
+        "pixels": [
+          [
+            707,
+            553
+          ],
+          [
+            713,
+            572
+          ],
+          [
+            718,
+            583
+          ],
+          [
+            741,
+            664
+          ]
+        ],
+        "note": "Overview trace confirmed against Drawings 2.3A\u2013B. Detailed alignment and widths unverified."
+      },
+      {
+        "id": "new-road-south",
+        "name": "Proposed new road \u00b7 T5 approach",
+        "sheet": "2.3B",
+        "kind": "new-road",
+        "type": "LineString",
+        "pixels": [
+          [
+            248,
+            720
+          ],
+          [
+            565,
+            621
+          ],
+          [
+            717,
+            553
+          ],
+          [
+            772,
+            520
+          ],
+          [
+            841,
+            491
+          ],
+          [
+            870,
+            533
+          ]
+        ],
+        "note": "Proposed T5 access from Drawing 2.3B; approximate centreline only."
+      },
+      {
+        "id": "collector-south",
+        "name": "Proposed collector \u00b7 T5\u2013T6",
+        "sheet": "2.3B",
+        "kind": "collector",
+        "type": "LineString",
+        "pixels": [
+          [
+            870,
+            533
+          ],
+          [
+            1038,
+            468
+          ],
+          [
+            1121,
+            444
+          ]
+        ],
+        "note": "Collector route from Drawing 2.3B; approximate, not an authorization."
+      },
+      {
+        "id": "new-road-link",
+        "name": "Proposed new road \u00b7 T4\u2013T6 link",
+        "sheet": "2.2",
+        "kind": "new-road",
+        "type": "LineString",
+        "pixels": [
+          [
+            707,
+            553
+          ],
+          [
+            718,
+            583
+          ],
+          [
+            741,
+            664
+          ]
+        ],
+        "note": "Overview centreline confirmed against Drawings 2.3A\u2013B. Source shows a proposed new road; width and final engineering not extracted."
+      }
+    ]
+  }
+}

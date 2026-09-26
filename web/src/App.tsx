@@ -1,3 +1,5 @@
+import { RhodenaOverview } from "./rhodena/RhodenaOverview";
+import { RHODENA_POSITION } from "./rhodena/catalog";
 import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
 import { DistrictInspector } from "./components/DistrictInspector";
 import { initialElectoralModes, withElectoralMode, type ElectoralLayerId } from "./layers/electoralLayers";
@@ -1220,6 +1222,7 @@ export function App() {
         ? initialThemeMatch?.id ?? null
         : "explore-nova-scotia"),
   );
+  const [rhodenaFitRevision, setRhodenaFitRevision] = useState(0);
   const pokerMode = selectedThemeId === "poker";
   const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
   const [pokerRevision, setPokerRevision] = useState(0);
@@ -3010,6 +3013,7 @@ export function App() {
       setPokerRevision((value) => value + 1);
     }
     setSelectedThemeId(themeId);
+    if (themeId === "rhodena") setRhodenaFitRevision(value => value + 1);
     if (themeId === "poker") setMobileControlsOpen(false);
     applyResolvedTheme(resolveTheme(theme, {
       licenceAccepted,
@@ -3048,6 +3052,7 @@ export function App() {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
+        if (theme.id === "rhodena") setRhodenaFitRevision(value => value + 1);
         if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: true,
@@ -3082,6 +3087,7 @@ export function App() {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
+        if (theme.id === "rhodena") setRhodenaFitRevision(value => value + 1);
         if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: false,
@@ -4707,6 +4713,7 @@ export function App() {
                     }
                   }}
                 >
+                  {category.id === "rhodena-project" ? <RhodenaOverview onFit={() => { setRhodenaFitRevision(value => value + 1); setMobileControlsOpen(false); }} /> : null}
                   {layerCategoryByLayerId.modern === category.id ? (
                     <div className="layer-control">
                     <label className="layer-row">
@@ -5548,7 +5555,8 @@ export function App() {
               void identifyParcelAtPoint(latitude, longitude);
             }}
             focusRequest={parcelFocusRequest}
-            initialPosition={initialShareState.position}
+            rhodenaFitRevision={rhodenaFitRevision}
+            initialPosition={!hasSharedPosition && initialRequestedTheme?.id === "rhodena" ? RHODENA_POSITION : initialShareState.position}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onPositionChange={reportMapCentre}

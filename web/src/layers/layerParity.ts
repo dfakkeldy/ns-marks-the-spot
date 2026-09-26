@@ -337,7 +337,7 @@ export function buildLayerParityFixture(): LayerParityFixture {
   return {
     schemaVersion: LAYER_PARITY_SCHEMA_VERSION,
     groupOrder: GROUP_ORDER,
-    categories: layerCategories.filter(c => c.id !== "elections-districts").map(({ id, name, description }) => ({
+    categories: layerCategories.filter(c => c.id !== "elections-districts" && c.id !== "rhodena-project").map(({ id, name, description }) => ({
       id,
       name,
       description,
