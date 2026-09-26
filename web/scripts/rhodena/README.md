@@ -51,8 +51,10 @@ licence conditions; blank coverage is not absence.
 
 The terrain generator mosaics a fixed 49-tile Mapzen Terrarium z12 region.
 Each input tile hash and the output `terrain.bin` hash are recorded in
-`public/rhodena/terrain.json`. Cached input bytes make regeneration reproducible;
-changing the source set requires comparing receipts. It decodes Terrarium RGB
+`public/rhodena/terrain.json`. The generator enforces those input hashes, whether reading cached tiles or
+downloading them again. Changed tiles or coverage fail before outputs are
+replaced; a source refresh requires reviewing and updating the pinned hashes
+and source date. It decodes Terrarium RGB
 to signed little-endian int16 decimetres (rounding <=0.05 m), retains source
 pixel spacing (~27 m locally), and rejects unexpected missing cells. Terrain
 resolution, dates, vertical accuracy and datum have not been locally validated.
