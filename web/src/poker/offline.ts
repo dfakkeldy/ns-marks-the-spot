@@ -50,21 +50,31 @@ export function watchForUpdate(onUpdate: () => void): () => void {
     if (worker.state === 'installed' && registration?.active) report();
   });
   const found = () => watch(registration?.installing ?? null);
-  const check = () => {
-    if (registration && navigator.onLine && document.visibilityState === 'visible') registration.update().catch(() => {});
+  // Before the first Save offline there is nothing to watch; the save itself creates it, so
+  // this page keeps listening afterwards rather than only after its next reload.
+  let attaching = false;
+  const attach = () => {
+    if (registration || attaching || stopped) return;
+    attaching = true;
+    void container.getRegistration('/poker').then(existing => {
+      attaching = false;
+      if (!existing || registration || stopped) return;
+      registration = existing;
+      if (existing.waiting && existing.active) report();
+      watch(existing.installing);
+      existing.addEventListener('updatefound', found);
+      check();
+    }).catch(() => { attaching = false; });
   };
-  const changed = () => { if (controlled) report(); controlled = true; };
+  const check = () => {
+    if (!registration) { attach(); return; }
+    if (navigator.onLine && document.visibilityState === 'visible') registration.update().catch(() => {});
+  };
+  const changed = () => { if (controlled) report(); controlled = true; attach(); };
   container.addEventListener('controllerchange', changed);
   document.addEventListener('visibilitychange', check);
   window.addEventListener('online', check);
-  void container.getRegistration('/poker').then(existing => {
-    if (!existing || stopped) return;
-    registration = existing;
-    if (existing.waiting && existing.active) report();
-    watch(existing.installing);
-    existing.addEventListener('updatefound', found);
-    check();
-  }).catch(() => {});
+  attach();
   return () => {
     stopped = true;
     registration?.removeEventListener('updatefound', found);

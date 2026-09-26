@@ -385,3 +385,25 @@ test(`a saved copy offers the next deploy and reloads into it, keeping the sessi
   expect(errors).toEqual([]);
 });
 }
+
+test('the page that makes the first offline save still hears about the next deploy', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/poker');
+  await expect(page.locator('.poker-map .leaflet-container')).toBeVisible();
+  await openOptions(page);
+  await page.getByRole('button', { name: 'Save offline', exact: true }).click();
+  await expect(page.locator('.poker-connection')).toContainText('Saved for offline use', { timeout: 45000 });
+  await closeOptions(page);
+  // The first save is not an update, and this page is not reloaded before the next deploy.
+  await expect(page.locator('.poker-update')).toHaveCount(0);
+  await page.evaluate(() => navigator.serviceWorker.register(new URL('poker-sw.js?deploy=next', document.baseURI), { scope: '/poker', updateViaCache: 'none' }));
+  const notice = page.locator('.poker-update');
+  await expect(notice).toContainText('Poker updated', { timeout: 45000 });
+  const reloaded = page.waitForEvent('load', { timeout: 20000 });
+  await notice.getByRole('button', { name: 'Reload', exact: true }).click();
+  await reloaded;
+  expect(await page.evaluate(() => navigator.serviceWorker.controller?.scriptURL)).toContain('deploy=next');
+  expect(errors).toEqual([]);
+});

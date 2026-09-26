@@ -71,6 +71,43 @@ describe('Poker updates while a saved copy serves the app', () => {
     stop();
   });
 
+  it('keeps listening in the page that made the first offline save', async () => {
+    let saved = false;
+    container.getRegistration = async () => (saved ? registration : undefined);
+    const onUpdate = vi.fn();
+    const stop = watchForUpdate(onUpdate);
+    await flush();
+    document.dispatchEvent(new Event('visibilitychange'));
+    await flush();
+    expect(registration.update).not.toHaveBeenCalled();
+    // Save offline: the new worker takes over this page.
+    saved = true;
+    registration.active = container.controller = new FakeWorker('activated');
+    container.dispatchEvent(new Event('controllerchange'));
+    await flush();
+    expect(onUpdate).not.toHaveBeenCalled();
+    document.dispatchEvent(new Event('visibilitychange'));
+    expect(registration.update).toHaveBeenCalledTimes(2);
+    const next = registration.installing = new FakeWorker('installing');
+    registration.dispatchEvent(new Event('updatefound'));
+    next.become('installed');
+    expect(onUpdate).toHaveBeenCalledOnce();
+    stop();
+  });
+
+  it('retries finding the saved copy when the first look fails', async () => {
+    registration.active = container.controller = new FakeWorker('activated');
+    const found = container.getRegistration;
+    container.getRegistration = vi.fn().mockRejectedValueOnce(new Error('busy')).mockImplementation(found);
+    const stop = watchForUpdate(vi.fn());
+    await flush();
+    expect(registration.update).not.toHaveBeenCalled();
+    window.dispatchEvent(new Event('online'));
+    await flush();
+    expect(registration.update).toHaveBeenCalledOnce();
+    stop();
+  });
+
   it('asks again on returning to the tab and on reconnecting, never while hidden or offline', async () => {
     registration.active = container.controller = new FakeWorker('activated');
     const stop = watchForUpdate(vi.fn());

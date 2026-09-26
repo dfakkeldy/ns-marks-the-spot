@@ -231,7 +231,7 @@ export function PokerApp() {
       {locationNotice && <p className="poker-location-notice" role="status">{locationNotice}</p>}
       {aerialError && <p className="poker-map-notice" role="status">Aerial imagery unavailable. Showing Atlas.</p>}
       {update !== 'none' && <div className="poker-update" role="status"><span>Poker updated</span>
-        <button disabled={update === 'reloading'} onClick={() => { setUpdate('reloading'); void applyUpdate(); }}>{update === 'reloading' ? 'Reloading…' : 'Reload'}</button></div>}
+        <button disabled={update === 'reloading'} aria-busy={update === 'reloading'} onClick={() => { setUpdate('reloading'); void applyUpdate(); }}>Reload</button></div>}
     </section>
     <section className="poker-measurement" aria-label="Driveway measurement">
       <div className="poker-readout sr-only" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
