@@ -1,0 +1,386 @@
+{
+  "sheet": "114",
+  "baseline_report": "reports/crown-grant/batch2/sheet114",
+  "baseline_fit": "fit-main-affine-01.json",
+  "baseline_checks": "checks-main-affine-01.json",
+  "baseline_score": "scores-main-affine-01.json",
+  "source_sha256": "e1459819159ce55bae7f55aff2f228fb3b0192ed142c19906d6053cef1799033",
+  "reference_sha256": "d46ed1e93029652670094a82b9af252b48488357d49c61737522dd3544f5c5d0",
+  "fit_sha256": "33df3033db59623b0280e1ce8166b2340a73b70b4dbfde16004797473fea177d",
+  "checks_sha256": "fe3125e827561945029327fa28736c6b5a6ddc5df24b47c40a8817d928e99b7e",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 6,
+    "rms_ground_m": 168.84910065357266,
+    "median_ground_m": 161.2757934939262,
+    "p95_ground_m": 237.71804723171223,
+    "max_ground_m": 242.5902787130925,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -19.72286653453915,
+    "mean_north_ground_m": 78.17925846050447,
+    "points": [
+      {
+        "id": "MQ01",
+        "label": "Sea Wolf Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          3076,
+          759
+        ],
+        "lonlat": [
+          -61.26502397807037,
+          46.352357147545746
+        ],
+        "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+        "reference_objectid": 19024,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3056.0199430934736,
+          769.4000712329289
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -61.26698850686671,
+          46.35299604875222
+        ],
+        "error_ground_m": 167.05662293110183,
+        "east_ground_m": -151.20824869043642,
+        "north_ground_m": 71.0209883986098
+      },
+      {
+        "id": "MQ02",
+        "label": "Sea Wolf Island western corner",
+        "role": "check",
+        "pixel_xy": [
+          3027,
+          714
+        ],
+        "lonlat": [
+          -61.268610010238234,
+          46.35311625908472
+        ],
+        "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+        "reference_objectid": 19024,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3010.5992500081775,
+          733.8812578431098
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -61.271018955731364,
+          46.35423252835795
+        ],
+        "error_ground_m": 223.1013527875715,
+        "east_ground_m": -185.4104735278204,
+        "north_ground_m": 124.08533322610636
+      },
+      {
+        "id": "MQ03",
+        "label": "Inverness pond western lobe northern tip",
+        "role": "check",
+        "pixel_xy": [
+          1314,
+          3025
+        ],
+        "lonlat": [
+          -61.31664267308059,
+          46.22828377526824
+        ],
+        "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+        "reference_objectid": 5589,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          1330.318861026375,
+          3036.613184247748
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -61.31790080098612,
+          46.2285483146797
+        ],
+        "error_ground_m": 101.41354160376571,
+        "east_ground_m": -97.05669559710198,
+        "north_ground_m": 29.40585418569243
+      },
+      {
+        "id": "MQ04",
+        "label": "Inverness coastal inlet northern lip",
+        "role": "check",
+        "pixel_xy": [
+          1205,
+          2963
+        ],
+        "lonlat": [
+          -61.32602990125728,
+          46.22965412555183
+        ],
+        "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+        "reference_objectid": 13087,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          1203.639278376184,
+          2962.1703982247273
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -61.32592834170037,
+          46.22963810683041
+        ],
+        "error_ground_m": 8.034318552829989,
+        "east_ground_m": 7.834529288777015,
+        "north_ground_m": -1.7805688505764898
+      },
+      {
+        "id": "MQ05",
+        "label": "Southern Broad Cove Marsh headland",
+        "role": "check",
+        "pixel_xy": [
+          2505,
+          2131
+        ],
+        "lonlat": [
+          -61.269882403472096,
+          46.2842766906988
+        ],
+        "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+        "reference_objectid": 10586,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          2473.53227711661,
+          2135.6794755350566
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -61.26810810847076,
+          46.2849427723628
+        ],
+        "error_ground_m": 155.49496405675055,
+        "east_ground_m": 136.73551505577473,
+        "north_ground_m": 74.04108838639631
+      },
+      {
+        "id": "MQ06",
+        "label": "Dunvegan cove southern lip",
+        "role": "check",
+        "pixel_xy": [
+          2702,
+          2002
+        ],
+        "lonlat": [
+          -61.26162264596749,
+          46.29189773141374
+        ],
+        "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+        "reference_objectid": 13217,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          2656.848842011357,
+          2022.3865016731434
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -61.25940639645837,
+          46.29344779495678
+        ],
+        "error_ground_m": 242.5902787130925,
+        "east_ground_m": 170.76817426357218,
+        "north_ground_m": 172.30285541679845
+      }
+    ]
+  },
+  "control_axis_ratio": 5.075534354560119,
+  "affine_scale_ratio": 1.0634796151514516,
+  "metres_per_pixel_singular_values": [
+    5.194506047081577,
+    4.884443456249813
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "MC01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.81232924768723,
+          1.9671882393100624
+        ],
+        [
+          2.2347998917520884,
+          -4.515891186953538
+        ],
+        [
+          616520.0180633463,
+          5131782.701586074
+        ]
+      ],
+      "diagnostic_rms_m": 348.7623259941678,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.576153996415181,
+          1.730556226214064
+        ],
+        [
+          1.9543596230939357,
+          -4.796017038452186
+        ],
+        [
+          617843.7341973311,
+          5133076.911112898
+        ]
+      ],
+      "diagnostic_rms_m": 184.12857443531288,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.310248542300854,
+          1.777887210953292
+        ],
+        [
+          1.797308702096679,
+          -4.764094144573008
+        ],
+        [
+          618736.6241244437,
+          5132871.55229437
+        ]
+      ],
+      "diagnostic_rms_m": 154.3697718151242,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.606019252380695,
+          1.6950879385657986
+        ],
+        [
+          1.9743240528409252,
+          -4.8065522142439985
+        ],
+        [
+          617649.4510658669,
+          5133195.410597619
+        ]
+      ],
+      "diagnostic_rms_m": 195.77379948998967,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MC05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.5318610371209065,
+          1.6541895993144566
+        ],
+        [
+          1.8815484561751106,
+          -4.919153765944002
+        ],
+        [
+          618009.1278697101,
+          5133439.229099572
+        ]
+      ],
+      "diagnostic_rms_m": 161.60144645904407,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.583542646095248,
+        1.948709169306097
+      ],
+      [
+        1.948709169306097,
+        -4.583542646095248
+      ],
+      [
+        617774.7549960306,
+        5132040.770041842
+      ]
+    ],
+    "rms_ground_m": 170.5291604938741,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.153746+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "MQ06",
+    "MQ02",
+    "MQ01",
+    "MQ05"
+  ],
+  "reviewed_control_ids": [
+    "MC03",
+    "MC05"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Sea Wolf southern and western corners preserve distinct adjoining faces; historical hatching and rounded coast limit precision. Dunvegan cove lip and Broad Cove southern headland are identifiable through coast sequence. Errors differ between island and coast; constrained or more flexible refit is not independently supported.",
+  "baseline_limitations": [
+    "Main map RMS 168.85 m exceeds 100 m; six independent checks are limited to island/coastal features",
+    "Inset RMS 93.43 m passes 100 m, but four coast checks and only two controls leave its interior and far edges unsupported",
+    "Inset median/P95/maximum and main companion bounds exceed the retained criteria",
+    "Eastern main-sheet terrain and changing Margaree channel configurations are not independently validated",
+    "Two-point similarity fitting residuals are essentially zero by construction and are not accuracy evidence"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "e79d234c0ad81fdb1d098565d8ccfb8e15448101f6abef43b0054d5b27a58d4e"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "2523e0feeeb9d15c9341c588faefbacff958b7e86fa471f69d0a3ada569a4305"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "b1793236a075643059f2714a9d838ea4230fdc8c84155cd8ce0adb7ee6e7a9a7"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "1ad6be8ac624912f47d8df040c71737532cbb47b94aeac920729ea80e5b30f77"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "d826fc946f280f9b116f9d092b966ed6adacecc1cb999ec6e2ba0e85940c1ca2"
+    }
+  ],
+  "control_findings": "Marsh Point rounded northern lip and Deepdale tributary junction are plausible but have differing meander/shore detail. Preserve inset independence.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

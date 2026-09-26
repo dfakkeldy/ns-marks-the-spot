@@ -1,0 +1,330 @@
+{
+  "sheet": "103",
+  "baseline_report": "reports/crown-grant/batch4/sheet103",
+  "baseline_fit": "fit-main-affine-01.json",
+  "baseline_checks": "checks-main-affine-01.json",
+  "baseline_score": "scores-main-affine-01.json",
+  "source_sha256": "c85aaf6da0f79d8df12ec5ad3a11d6e6df000542060f81091aa96e152a84bb3e",
+  "reference_sha256": "4bdf246fe88cce6ffe45e43b916af4ebf6d3c79e34ad364671f977e994e665d9",
+  "fit_sha256": "75bc038a0157ed30e520f9d85b6fb0c493d3a8d8f8040b98a198761aa4cbcde7",
+  "checks_sha256": "10a9339176f17526418644adc9f137a4f8498e3f3430a76381eb0b03cf75eee9",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 4,
+    "rms_ground_m": 174.4338699571609,
+    "median_ground_m": 97.05326888507939,
+    "p95_ground_m": 285.4140682890866,
+    "max_ground_m": 311.2773481554522,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 49.75066665342527,
+    "mean_north_ground_m": 61.709275682695406,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Brook entering coast west of Creeping Head",
+        "role": "check",
+        "pixel_xy": [
+          2086,
+          661
+        ],
+        "lonlat": [
+          -61.897438782025894,
+          45.74681043405296
+        ],
+        "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+        "reference_objectid": 10288,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          2111.1527349438984,
+          602.8994195584673
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+        "review": "Audited before fit; all independent checks excluded from fitting.",
+        "predicted_lonlat": [
+          -61.89848939601974,
+          45.747820247883325
+        ],
+        "error_ground_m": 138.85548237968146,
+        "east_ground_m": -81.75295650961363,
+        "north_ground_m": 112.23769014386946
+      },
+      {
+        "id": "Q02",
+        "label": "Lakevale central stream mouth",
+        "role": "check",
+        "pixel_xy": [
+          3102,
+          842
+        ],
+        "lonlat": [
+          -61.91116943074405,
+          45.7929224554092
+        ],
+        "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+        "reference_objectid": 10043,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3114.2172893312527,
+          815.477349624387
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+        "review": "Audited before fit; all independent checks excluded from fitting.",
+        "predicted_lonlat": [
+          -61.911553740836666,
+          45.7932810688689
+        ],
+        "error_ground_m": 49.81554345363162,
+        "east_ground_m": -29.88059565164845,
+        "north_ground_m": 39.85898108435974
+      },
+      {
+        "id": "Q03",
+        "label": "Lakevale eastern stream mouth",
+        "role": "check",
+        "pixel_xy": [
+          3460,
+          916
+        ],
+        "lonlat": [
+          -61.91556738200901,
+          45.80897950447269
+        ],
+        "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+        "reference_objectid": 10077,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3461.1299299797975,
+          894.9178512663348
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+        "review": "Audited before fit; all independent checks excluded from fitting.",
+        "predicted_lonlat": [
+          -61.91554322140676,
+          45.80947631352871
+        ],
+        "error_ground_m": 55.251055390477326,
+        "east_ground_m": 1.8779731896675071,
+        "north_ground_m": 55.219130185656525
+      },
+      {
+        "id": "Q06",
+        "label": "Eastern Cape George creek mouth",
+        "role": "check",
+        "pixel_xy": [
+          5050,
+          1485
+        ],
+        "lonlat": [
+          -61.922698983433264,
+          45.88520914327224
+        ],
+        "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+        "reference_objectid": 4543,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          5023.735627272516,
+          1463.8346144232783
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Coast and adjoining stream/shore faces traced in broad context; native source/reference crosshair corrected and inspected before first fit or score.",
+        "review": "Audited before fit; all independent checks excluded from fitting.",
+        "predicted_lonlat": [
+          -61.91872131063152,
+          45.8855646442528
+        ],
+        "error_ground_m": 311.2773481554522,
+        "east_ground_m": 308.75824558529564,
+        "north_ground_m": 39.521301316895915
+      }
+    ]
+  },
+  "control_axis_ratio": 2.463801508150906,
+  "affine_scale_ratio": 1.0227779569903734,
+  "metres_per_pixel_singular_values": [
+    5.087850264566721,
+    4.974540397349029
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          -1.896403190392119,
+          4.610829577340273
+        ],
+        [
+          4.677988548713548,
+          1.9883053643190827
+        ],
+        [
+          586530.574161538,
+          5055667.792482115
+        ]
+      ],
+      "diagnostic_rms_m": 173.71496116289657,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          -1.9040971877905593,
+          4.600140792334722
+        ],
+        [
+          4.67463224758199,
+          1.9841858560001926
+        ],
+        [
+          586571.3263757278,
+          5055723.4092088435
+        ]
+      ],
+      "diagnostic_rms_m": 175.63026356261688,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          -1.9053544837492655,
+          4.602659700351937
+        ],
+        [
+          4.6545130322819785,
+          1.982464209528243
+        ],
+        [
+          586579.897832074,
+          5055708.214013414
+        ]
+      ],
+      "diagnostic_rms_m": 161.4965368894113,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          -1.865843897110854,
+          4.589645877282069
+        ],
+        [
+          4.590339661273227,
+          2.0213979553505217
+        ],
+        [
+          586531.2556553461,
+          5055711.2711561015
+        ]
+      ],
+      "diagnostic_rms_m": 186.0405819189808,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          -1.8966233880932601,
+          4.60438375209613
+        ],
+        [
+          4.72345310110453,
+          1.9958840711593204
+        ],
+        [
+          586504.1282572049,
+          5055693.432080997
+        ]
+      ],
+      "diagnostic_rms_m": 194.73568853117038,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        -1.9064961336599497,
+        4.625100695974389
+      ],
+      [
+        4.625100695974389,
+        1.9064961336599497
+      ],
+      [
+        586628.219461644,
+        5055703.42854039
+      ]
+    ],
+    "rms_ground_m": 156.1268999935418,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.997001+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q06",
+    "Q01",
+    "Q03",
+    "Q02"
+  ],
+  "reviewed_control_ids": [
+    "C03",
+    "C05"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Cape George Q06 creek reaches shore south of a curved coastal bend, but modern network has additional closely spaced mouths. Source thin creek tracing is plausible; 311 m error does not establish which neighbouring mouth is equivalent. Lakevale Q02/Q03 and Creeping Head-adjacent mouth are distinguishable. Retain failure pending secure coast-wide topology rather than shift a mouth.",
+  "baseline_limitations": [
+    "Main: five controls and only four independent coastal checks give RMS 174.43 m, failing the 100 m ceiling. Median 97.05 m, P95 285.41 m and maximum 311.28 m also exceed suggested companion bounds. Western Antigonish Harbour and interior lack secure local controls/checks.",
+    "Inset: two controls and only two independent southern-corridor checks give RMS 89.34 m, median 79.37 m, P95 116.29 m and maximum 120.39 m. RMS passes numerically, median exceeds suggested 75 m, and this extremely small sample does not establish whole-inset accuracy.",
+    "Doctors Brook/Malignant Cove northern inset, western main estuary, parcel interiors and harbour works remain unvalidated. Their complete imagery is retained as provisional extrapolation.",
+    "Near-zero inset fitting residual follows from the two-control similarity and provides no accuracy evidence. Two-point empirical P95 has little statistical support; no confidence interpretation is made.",
+    "Working source uncertainty is 12 px, raised to 18 px at generalized Creeping Head, Lakevale bank and Cape George corner."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "ffb88c8344a81a2a6b74d3f92b57fff0ed76d32653042a3e1e14b69f15241a40"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "73b295f80821a502e26cc6df03180051c36da9d06666d22f32168eaeb3a1cc57"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "a69a11f85aeab52d5d2541fdb2a6e068acc9b1a353f22effd4c0e544c4f17637"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "1dc780c644e29b9874fff5597f3ba86cda6fd33fef6bb86e77476fe1cc872f5c"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "8430bce2ef8ef475448bf6223293bc5e6a85ee3ce9ef5b208d7bb7115e2d461c"
+    }
+  ],
+  "control_findings": "Ballantyne-adjacent mouth and Cape George southwest corner are identifiable from coast sequence, but new mouths visible in modern data leave local check ambiguity.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

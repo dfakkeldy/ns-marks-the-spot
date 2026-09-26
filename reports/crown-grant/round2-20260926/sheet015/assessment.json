@@ -1,0 +1,580 @@
+{
+  "sheet": "015",
+  "baseline_report": "reports/crown-grant/batch15/sheet015",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "ddfe3e80e7381fe870649989a7b6fd06037566b4c39167d89ea8fe538df7bfa6",
+  "reference_sha256": "b32bdd5c1ea48ad834247d3314804fd75ea21a53ac229d4d78124e066be115e8",
+  "fit_sha256": "79e6a3b53fb3c33061b6f8271828f1e8b450c4d37f1e4bebd7dd6258baf12d8c",
+  "checks_sha256": "4fb899924419ccda1d087151a227d52eac978474cf5cce2ea4736803c0cf0960",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 9,
+    "rms_ground_m": 139.25205310372968,
+    "median_ground_m": 93.43924134349305,
+    "p95_ground_m": 251.92534409417178,
+    "max_ground_m": 284.9246435592622,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -0.9997516640486322,
+    "mean_north_ground_m": 24.956275825481768,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Granit Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          3297,
+          558
+        ],
+        "lonlat": [
+          -65.63735792222884,
+          44.30987790989317
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 126491,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 126491,
+        "nearest_unfiltered_distance_guide_px": 0.9228253132828586,
+        "selected_distance_guide_px": 0.9228253132828586,
+        "guide_reference_pixel_xy": [
+          3252.9258185384097,
+          581.9198389367666
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.63573800344597,
+          44.31051251589854
+        ],
+        "error_ground_m": 147.23374771295195,
+        "east_ground_m": 129.24798724369947,
+        "north_ground_m": 70.51761665749689
+      },
+      {
+        "id": "Q02",
+        "label": "Whitesand Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          5055,
+          450
+        ],
+        "lonlat": [
+          -65.52940195341783,
+          44.35093483043838
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 141251,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 141251,
+        "nearest_unfiltered_distance_guide_px": 0.2747502452068715,
+        "selected_distance_guide_px": 0.2747502452068715,
+        "guide_reference_pixel_xy": [
+          5087.975360130018,
+          486.72635684907436
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.53243045596996,
+          44.34957376197222
+        ],
+        "error_ground_m": 284.9246435592622,
+        "east_ground_m": -241.47393022436663,
+        "north_ground_m": -151.23621765096595
+      },
+      {
+        "id": "Q03",
+        "label": "Flagstaff Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          4126,
+          1768
+        ],
+        "lonlat": [
+          -65.55082425271036,
+          44.27291440254907
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 127410,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 127410,
+        "nearest_unfiltered_distance_guide_px": 1.3527694944638424,
+        "selected_distance_guide_px": 1.3527694944638424,
+        "guide_reference_pixel_xy": [
+          4116.97734962136,
+          1822.885534588946
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.55285158659048,
+          44.27400846171632
+        ],
+        "error_ground_m": 202.42639489653618,
+        "east_ground_m": -161.854522994557,
+        "north_ground_m": 121.5712085035467
+      },
+      {
+        "id": "Q04",
+        "label": "East Clearwater Lake southeastern lobe south",
+        "role": "check",
+        "pixel_xy": [
+          3498,
+          2699
+        ],
+        "lonlat": [
+          -65.56646238686201,
+          44.2211710148646
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 129120,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 129120,
+        "nearest_unfiltered_distance_guide_px": 0.8068699423471707,
+        "selected_distance_guide_px": 0.8068699423471707,
+        "guide_reference_pixel_xy": [
+          3453.002655387856,
+          2699.8068655729294
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.56554504858867,
+          44.22118034172811
+        ],
+        "error_ground_m": 73.30966183550055,
+        "east_ground_m": 73.30233017635655,
+        "north_ground_m": 1.03677825587446
+      },
+      {
+        "id": "Q05",
+        "label": "Lost Lake southwestern tip",
+        "role": "check",
+        "pixel_xy": [
+          4118,
+          2683
+        ],
+        "lonlat": [
+          -65.5295935278231,
+          44.23349780915221
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 131883,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 131883,
+        "nearest_unfiltered_distance_guide_px": 1.3298541214638955,
+        "selected_distance_guide_px": 1.3298541214638955,
+        "guide_reference_pixel_xy": [
+          4065.839632671734,
+          2699.3503388207173
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.52856652354168,
+          44.23398082307418
+        ],
+        "error_ground_m": 98.04311442121934,
+        "east_ground_m": 82.04769828575088,
+        "north_ground_m": 53.67147744773476
+      },
+      {
+        "id": "Q06",
+        "label": "Harlow Lake southern lobe south",
+        "role": "check",
+        "pixel_xy": [
+          655,
+          1750
+        ],
+        "lonlat": [
+          -65.76324443948575,
+          44.2065085192429
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 138375,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 138375,
+        "nearest_unfiltered_distance_guide_px": 0.3251139544231351,
+        "selected_distance_guide_px": 0.3251139544231351,
+        "guide_reference_pixel_xy": [
+          626.7316853363882,
+          1734.1835928229848
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.7626923405347,
+          44.20683230968364
+        ],
+        "error_ground_m": 56.935956459282956,
+        "east_ground_m": 44.12763338049263,
+        "north_ground_m": 35.97853679862755
+      },
+      {
+        "id": "Q07",
+        "label": "Barrios Lake northeastern island south",
+        "role": "check",
+        "pixel_xy": [
+          328,
+          1410
+        ],
+        "lonlat": [
+          -65.79216699122455,
+          44.2153927785409
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 145937,
+        "reference_feature_code": "WALKIS10",
+        "nearest_unfiltered_feature_code": "WALKIS10",
+        "nearest_unfiltered_objectid": 145937,
+        "nearest_unfiltered_distance_guide_px": 1.34068705673201,
+        "selected_distance_guide_px": 1.34068705673201,
+        "guide_reference_pixel_xy": [
+          307.95850335096475,
+          1383.8442313155392
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.79164619564061,
+          44.21520509183733
+        ],
+        "error_ground_m": 46.55247074135414,
+        "east_ground_m": 41.619751226968404,
+        "north_ground_m": -20.854947612734385
+      },
+      {
+        "id": "Q08",
+        "label": "Toad Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1323,
+          1525
+        ],
+        "lonlat": [
+          -65.7289765921491,
+          44.22954567731193
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 138915,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 138915,
+        "nearest_unfiltered_distance_guide_px": 0.5854366485977512,
+        "selected_distance_guide_px": 0.5854366485977512,
+        "guide_reference_pixel_xy": [
+          1297.5760917477892,
+          1517.1041842965642
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.72855808463244,
+          44.22973432560021
+        ],
+        "error_ground_m": 39.46451598461635,
+        "east_ground_m": 33.43710267594419,
+        "north_ground_m": 20.96206541680483
+      },
+      {
+        "id": "Q09",
+        "label": "Dugeau Lake eastern horn north",
+        "role": "check",
+        "pixel_xy": [
+          2238,
+          1825
+        ],
+        "lonlat": [
+          -65.66512077026727,
+          44.23377054247855
+        ],
+        "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+        "reference_objectid": 127750,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 127750,
+        "nearest_unfiltered_distance_guide_px": 0.8056246185775253,
+        "selected_distance_guide_px": 0.8056246185775253,
+        "guide_reference_pixel_xy": [
+          2209.6763063728577,
+          1840.7377353602787
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody/island context and every native paired crosshair inspected before first fit and score; Granit, Whitesand and East Clearwater source/reference corrections from physical image evidence.",
+        "predicted_lonlat": [
+          -65.66523908141274,
+          44.23460713915027
+        ],
+        "error_ground_m": 93.43924134349305,
+        "east_ground_m": -9.45181474672621,
+        "north_ground_m": 92.95996461295104
+      }
+    ]
+  },
+  "control_axis_ratio": 2.024172633954403,
+  "affine_scale_ratio": 1.004126768568989,
+  "metres_per_pixel_singular_values": [
+    5.3061427436838144,
+    5.2843355139767425
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.884625556374026,
+          2.0178442933934573
+        ],
+        [
+          1.971601395202468,
+          -4.925753047672258
+        ],
+        [
+          272654.2552954328,
+          4905871.058930546
+        ]
+      ],
+      "diagnostic_rms_m": 139.82530173035124,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8770511004516885,
+          2.0072570310513673
+        ],
+        [
+          2.031677344709383,
+          -4.882414157535892
+        ],
+        [
+          272524.83523436985,
+          4905790.314128121
+        ]
+      ],
+      "diagnostic_rms_m": 157.37715914604587,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.872958162987843,
+          2.0267188285654316
+        ],
+        [
+          2.005398245976687,
+          -4.903786750205582
+        ],
+        [
+          272571.0385893479,
+          4905811.562186454
+        ]
+      ],
+      "diagnostic_rms_m": 154.1510801232359,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.893606135119184,
+          2.018482440728275
+        ],
+        [
+          2.028220860892569,
+          -4.907904407127497
+        ],
+        [
+          272519.371922944,
+          4905824.209572783
+        ]
+      ],
+      "diagnostic_rms_m": 140.29024273635454,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.898366763494605,
+          2.012841847382299
+        ],
+        [
+          2.031865133758486,
+          -4.917684089066663
+        ],
+        [
+          272500.127318768,
+          4905849.051578322
+        ]
+      ],
+      "diagnostic_rms_m": 137.79010024052212,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8911244599850825,
+          2.026045604445912
+        ],
+        [
+          2.014285868382768,
+          -4.901942418671822
+        ],
+        [
+          272528.4620046196,
+          4905784.725970113
+        ]
+      ],
+      "diagnostic_rms_m": 136.5669874805795,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8904668699972085,
+          2.0183216654026066
+        ],
+        [
+          1.9954526501424694,
+          -4.90504747728359
+        ],
+        [
+          272557.8097128074,
+          4905821.873067274
+        ]
+      ],
+      "diagnostic_rms_m": 134.7930661214487,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C08",
+      "model": "affine",
+      "matrix": [
+        [
+          4.887114106666269,
+          2.018277662565955
+        ],
+        [
+          2.011568682654463,
+          -4.90763370114806
+        ],
+        [
+          272549.3637923495,
+          4905825.6372064855
+        ]
+      ],
+      "diagnostic_rms_m": 139.17693507400915,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.892575580511925,
+        2.0200039407337513
+      ],
+      [
+        2.0200039407337513,
+        -4.892575580511925
+      ],
+      [
+        272520.2941652391,
+        4905794.429144875
+      ]
+    ],
+    "rms_ground_m": 140.33089919108232,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.427220+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q02",
+    "Q03",
+    "Q01",
+    "Q05"
+  ],
+  "reviewed_control_ids": [
+    "C03",
+    "C01"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Whitesand southern shore generalized relative to two modern stream entries; Flagstaff outlet joins downstream network consistently. Granite historically isolated but modern outlet connection; Lost Lake southern end recognizable. Largest discrepancies are not evidence for deleting valid checks.",
+  "baseline_limitations": [
+    "RMS 139.25 m, median 93.44 m, P95 251.93 m and maximum 284.92 m exceed their respective 100/75/150/200 m criteria.",
+    "Seven checks share control lakes or islands; Toad and Dugeau add two separate waterbodies. Shared historical cartography limits independence.",
+    "The far southeastern and southern areas below Lost Lake are independently unvalidated. Solomon Churchill is a southwestern control without its own independent check.",
+    "Western Lake, Napier and several connected river-lake outlines differ from modern geometry and remain unadopted.",
+    "Generalized lake extremities, narrow connections and island tips carry 24 px working source uncertainty."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "7b79a9bb25634e97a1cdc1e4b45618bfff96235171cdc73e462fd448f5b9ecb3"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "cbb959c1b4c3f3db791367d4df7b4985902128a4f1cf60de32236a98ab8e182a"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "f8e3abd37d275df87a67f4b6911584c9e688c04c074a609e9b65ea97f829dffd"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "28047dfd26964cc3d7615f044adbd3a3b7e68d5e6e41cd0c32d8221172a400c8"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "495a3e81840ba92e7aa2460bceb1a0d305a23af96823511b054fa65dcbbbaade"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "71c3679aa8df0824500ac45fd0d34117dda02a5b75c4488136efc9a9784c6be8"
+    },
+    {
+      "file": "points-4.jpg",
+      "sha256": "63c89934fab39ce9549904d4d67138759a166b95500209cf29bcac27107f1075"
+    }
+  ],
+  "control_findings": "Flagstaff northern horn and Granite northern end are present; Granite modern reference continues into a stream. No defensible coordinate correction.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

@@ -1,0 +1,475 @@
+{
+  "sheet": "005",
+  "baseline_report": "reports/crown-grant/batch1/sheet005",
+  "baseline_fit": "fit-main-affine-01.json",
+  "baseline_checks": "checks-main-affine-01-audited.json",
+  "baseline_score": "scores-main-affine-01-audited.json",
+  "source_sha256": "d0444b73a17a459f812c6668154d3fcaf6cc5d784fa4ce2771bacd469a769c56",
+  "reference_sha256": "913f9a8639556a7087f6f110656527e7e2af003695f2d13599468831eb5b43a5",
+  "fit_sha256": "ff33da67fdf9fe7fc58ce6fdcd1d7c84505b9326ac4df9939911f165edad34fb",
+  "checks_sha256": "d62b04d615fc806ad266011aeca8344a278f75e292e91b77b55f3df62cc5942b",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 7,
+    "rms_ground_m": 123.45814689513249,
+    "median_ground_m": 62.89290815385633,
+    "p95_ground_m": 228.59533626307066,
+    "max_ground_m": 264.0167637879153,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 27.548479151590094,
+    "mean_north_ground_m": -31.91411073282713,
+    "points": [
+      {
+        "id": "MQ01",
+        "label": "Tiddville northern cove inner bend",
+        "role": "check",
+        "pixel_xy": [
+          2479,
+          2161
+        ],
+        "lonlat": [
+          -66.17436943289276,
+          44.43267049131143
+        ],
+        "reference_objectid": 11970,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          2485.2728694846155,
+          2167.996359572746
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "reference_service": "NSTDB water layer 4",
+        "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -66.17496379125865,
+          44.432844132178694
+        ],
+        "error_ground_m": 51.105779868933816,
+        "east_ground_m": -47.323286715009246,
+        "north_ground_m": 19.2952654944406
+      },
+      {
+        "id": "MQ02",
+        "label": "Tiddville southern shore headland",
+        "role": "check",
+        "pixel_xy": [
+          2820,
+          2512
+        ],
+        "lonlat": [
+          -66.1430786881584,
+          44.42454765621905
+        ],
+        "reference_objectid": 3967,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          2825.1540214469424,
+          2516.6558621685253
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "reference_service": "NSTDB water layer 4",
+        "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -66.14353427986829,
+          44.42464412459061
+        ],
+        "error_ground_m": 37.830214565471884,
+        "east_ground_m": -36.27964692100808,
+        "north_ground_m": 10.719717970013487
+      },
+      {
+        "id": "MQ06",
+        "label": "Mink Cove eastern lip",
+        "role": "check",
+        "pixel_xy": [
+          3741,
+          2046
+        ],
+        "lonlat": [
+          -66.10142484860896,
+          44.46283186557184
+        ],
+        "reference_objectid": 5470,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3736.8469808017253,
+          2035.0567073875573
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "reference_service": "NSTDB water layer 4",
+        "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -66.1008429230223,
+          44.4624489067262
+        ],
+        "error_ground_m": 62.89290815385633,
+        "east_ground_m": 46.30998192129906,
+        "north_ground_m": -42.55471149588917
+      },
+      {
+        "id": "MQ07",
+        "label": "East Sandy Cove inner head",
+        "role": "check",
+        "pixel_xy": [
+          4140,
+          1600
+        ],
+        "lonlat": [
+          -66.08839215742672,
+          44.49015774668318
+        ],
+        "reference_objectid": 4969,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          4165.405211774283,
+          1588.6621071142145
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "reference_service": "NSTDB water layer 4",
+        "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -66.08961653130608,
+          44.48917956885226
+        ],
+        "error_ground_m": 145.94533870510014,
+        "east_ground_m": -97.39192578109255,
+        "north_ground_m": -108.6961576248055
+      },
+      {
+        "id": "MQ08",
+        "label": "East Sandy Cove southeastern lip",
+        "role": "check",
+        "pixel_xy": [
+          4300,
+          1800
+        ],
+        "lonlat": [
+          -66.0742464505553,
+          44.48449545932629
+        ],
+        "reference_objectid": 5187,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          4300.413785398239,
+          1784.3722537830472
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "reference_service": "NSTDB water layer 4",
+        "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -66.07380563433205,
+          44.483824269354905
+        ],
+        "error_ground_m": 82.41639408576533,
+        "east_ground_m": 35.06761274887618,
+        "north_ground_m": -74.58367482361695
+      },
+      {
+        "id": "MQ09",
+        "label": "Little River Cove eastern lip",
+        "role": "check",
+        "pixel_xy": [
+          3250,
+          2240
+        ],
+        "lonlat": [
+          -66.12560207154603,
+          44.44466135756879
+        ],
+        "reference_objectid": 5028,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3245.632167156553,
+          2236.66031556495
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "reference_service": "NSTDB water layer 4",
+        "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+        "predicted_lonlat": [
+          -66.12523395212729,
+          44.444605250876144
+        ],
+        "error_ground_m": 29.95995681638041,
+        "east_ground_m": 29.30408252493487,
+        "north_ground_m": -6.234561717649916
+      },
+      {
+        "id": "MQ10",
+        "label": "Weymouth outer east-bank western corner",
+        "role": "check",
+        "pixel_xy": [
+          4783,
+          2892
+        ],
+        "lonlat": [
+          -66.01485830320958,
+          44.44711164770246
+        ],
+        "guide_file": ".crown-grant-local/005-main-frozen-guide.npy",
+        "reference_objectid": 9463,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          4740.828122116276,
+          2868.0734151734505
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Post-score source-placement audit: original point was on the northern sloping face, not the shared western corner. Corrected from native outline; fit unchanged, original score retained.",
+        "predicted_lonlat": [
+          -66.01155243675251,
+          44.446919515033294
+        ],
+        "error_ground_m": 264.0167637879153,
+        "east_ground_m": 263.1525362831304,
+        "north_ground_m": -21.344652932282447
+      }
+    ]
+  },
+  "control_axis_ratio": 2.056528250468598,
+  "affine_scale_ratio": 1.0517346470631534,
+  "metres_per_pixel_singular_values": [
+    5.450932757806448,
+    5.182802309525072
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "MA01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.98741181690241,
+          1.9584148343821617
+        ],
+        [
+          2.2052375643574575,
+          -4.824320746920379
+        ],
+        [
+          230149.24088667592,
+          4930482.458422399
+        ]
+      ],
+      "diagnostic_rms_m": 132.6621420401,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.956257581238818,
+          1.9828789591232683
+        ],
+        [
+          2.1951286988487446,
+          -4.8025351485688725
+        ],
+        [
+          230310.3638099457,
+          4930328.451407922
+        ]
+      ],
+      "diagnostic_rms_m": 121.38925361399131,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.981678273411782,
+          1.9967489958014188
+        ],
+        [
+          2.2458117231918613,
+          -4.752835516710978
+        ],
+        [
+          230039.57423375524,
+          4930112.900967425
+        ]
+      ],
+      "diagnostic_rms_m": 163.7070696246457,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA04",
+      "model": "affine",
+      "matrix": [
+        [
+          5.024700098943584,
+          2.0119882806652356
+        ],
+        [
+          2.0889435086598542,
+          -4.850783092579345
+        ],
+        [
+          230401.26417417303,
+          4930378.737658452
+        ]
+      ],
+      "diagnostic_rms_m": 192.3400289589467,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.900407274976697,
+          2.0164267955581217
+        ],
+        [
+          2.1020582240292764,
+          -4.767212633166638
+        ],
+        [
+          230637.98007066996,
+          4930148.091469529
+        ]
+      ],
+      "diagnostic_rms_m": 80.57241065854667,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA06",
+      "model": "affine",
+      "matrix": [
+        [
+          5.006788458687262,
+          1.9710993804537722
+        ],
+        [
+          2.2855077474057723,
+          -4.850370591904037
+        ],
+        [
+          229956.580091589,
+          4930447.8812579075
+        ]
+      ],
+      "diagnostic_rms_m": 180.32750779548084,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.860989421351012,
+        2.0137358719518454
+      ],
+      [
+        2.0137358719518454,
+        -4.860989421351012
+      ],
+      [
+        231047.4372966257,
+        4930354.649565288
+      ]
+    ],
+    "rms_ground_m": 61.30754121074885,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.303874+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "MQ10",
+    "MQ07",
+    "MQ08",
+    "MQ06"
+  ],
+  "reviewed_control_ids": [
+    "MA01",
+    "MA02",
+    "MA03",
+    "MA04",
+    "MA05",
+    "MA06"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Weymouth east-bank corner and East Sandy inner head match recognizable adjoining faces. Check residuals alone do not justify moving them. The all-original-control similarity strongly improves old checks, but the frozen candidate fails new peninsula validation; retain original affine.",
+  "baseline_limitations": [
+    "Main map fails the 100 m RMS gate; seven coastal checks do not establish interior/whole-sheet accuracy",
+    "Inset RMS and companion statistics pass, but its seven checks cover Brier/Peters Island only; Long Island is unvalidated",
+    "Main MQ10 source placement corrected after initial scoring; original 184.29 m result retained and fit unchanged",
+    "No pooled accuracy across independently positioned components"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 3,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "8fe2266f6c3fc857448b1fac3cd354e04884c2251c00c1d66248d767af33ea11"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "6c1b850658a1c7844dbfff96b2daf0baceee8404d38bad9720838bb4a5aa9f2e"
+    },
+    {
+      "file": "discovery-0.jpg",
+      "sha256": "9fc34d6a504b2756b15593a324811466c31b0ab31d8319802269cbe78c1027d7"
+    },
+    {
+      "file": "discovery-1.jpg",
+      "sha256": "d77937cfa2570c4a1bc509a435f6c8ec0c33bcbd0be2e22fc4c774e79898c241"
+    },
+    {
+      "file": "discovery-2.jpg",
+      "sha256": "0068fa2968cf986d0e00b113c1a6c74a7d4095b5b93fccaf1efef472a46ca59f"
+    },
+    {
+      "file": "fresh-crosshairs-before-score.jpg",
+      "sha256": "7c2e7ccbe713a247f9a99f68ccdb0904c723bdddfb3c6d7096f5a2dbb7221304"
+    },
+    {
+      "file": "fresh-crosshairs-initial-unscored.jpg",
+      "sha256": "411866a8fc85013899424b0a9d046a9db709507241901d25a56f9300f2ba65c3"
+    },
+    {
+      "file": "fresh-search-0.jpg",
+      "sha256": "3ae4f70c858e5ab0e9959b608837d747c0c50edbe5be0db60e039c19e4a19fd1"
+    },
+    {
+      "file": "fresh-search-1.jpg",
+      "sha256": "6998ea81c2f90a1ba0efd2427d5499f8e8c4a7a245ab22e2bd255d94b20ff04a"
+    },
+    {
+      "file": "fresh-search-2.jpg",
+      "sha256": "fb3bd66d72e375e4ced72a4b47362d0c6b332b6952936b9c04b88a7b580abe03"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "df4b39cfb82c9218a676126988b80adcefd8e9bedf836464c49214c618b75de7"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "c76f21b4efd5ad186bc748266a369a0ff46dce620721ae1350392af8c7409220"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "b23dfbb795fa02a8e4321b65fc6914b08e0188991122f98c04484c28d1bfad77"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "3030a9a0c84310ec50025fc01fedaffdbac99e4ef120c0254236f62bc998d245"
+    }
+  ],
+  "control_findings": "All six original coast controls reviewed. Sandy/Trout cove lips retain their sequence; New Edinburgh includes rectangular/possibly engineered detail and a generalized estuary bank. The 5.17% affine axis disparity is not proven paper distortion; a uniform-scale candidate was explicitly tested and rejected by fresh checks.",
+  "decision_basis": "Reject round2-main-similarity-01: fresh RMS 121.06 m and P95 182.71 m fail; original affine gives 115.37 m on identical three new checks. Known-check improvement alone does not justify replacement."
+}

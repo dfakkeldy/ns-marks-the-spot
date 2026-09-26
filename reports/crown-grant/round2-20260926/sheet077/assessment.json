@@ -1,0 +1,375 @@
+{
+  "sheet": "077",
+  "baseline_report": "reports/crown-grant/batch7/sheet077",
+  "baseline_fit": "fit-similarity-01.json",
+  "baseline_checks": "checks-similarity-01.json",
+  "baseline_score": "scores-similarity-01.json",
+  "source_sha256": "5e2c7594f20bc54211b925c513d6d26e35cfd1d6edf2ee8e45d26fd15e316fb1",
+  "reference_sha256": "cbdd12a00f4902297394c22023c5d6389caa5da66cc4aa44460c70679a0e694b",
+  "fit_sha256": "3fe584fde739016c0161e374f5711c7ae97530a034b6e196a3ae54d90e5a839e",
+  "checks_sha256": "31132ab6f76185332ad9a3824fdd44344adaf3b08a1a04e5c2e64855764159a7",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 5,
+    "rms_ground_m": 164.7098820520001,
+    "median_ground_m": 146.2041768873656,
+    "p95_ground_m": 251.61569887203254,
+    "max_ground_m": 265.41820101071295,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -85.0118609997693,
+    "mean_north_ground_m": 61.46547743276675,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Fox Harbour island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          2687,
+          2605
+        ],
+        "lonlat": [
+          -63.421878279375875,
+          45.84438184576077
+        ],
+        "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+        "reference_objectid": 18415,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 18415,
+        "nearest_unfiltered_distance_guide_px": 1.2278823497460716,
+        "selected_distance_guide_px": 1.2278823497460716,
+        "guide_reference_pixel_xy": [
+          2711.6226745092426,
+          2654.1684693144634
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+        "predicted_lonlat": [
+          -63.42436373155396,
+          45.84470614307624
+        ],
+        "error_ground_m": 196.4056903173109,
+        "east_ground_m": -193.06923663041192,
+        "north_ground_m": 36.04809365236172
+      },
+      {
+        "id": "Q02",
+        "label": "Oak Island southwest shore",
+        "role": "check",
+        "pixel_xy": [
+          2961,
+          2886
+        ],
+        "lonlat": [
+          -63.40231859352432,
+          45.837332876948956
+        ],
+        "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+        "reference_objectid": 20951,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20951,
+        "nearest_unfiltered_distance_guide_px": 1.8352333276130106,
+        "selected_distance_guide_px": 1.8352333276130106,
+        "guide_reference_pixel_xy": [
+          2929.2569558374234,
+          2915.5743504279526
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+        "predicted_lonlat": [
+          -63.401561813700646,
+          45.837072927732386
+        ],
+        "error_ground_m": 65.5101027030257,
+        "east_ground_m": 58.79448644473569,
+        "north_ground_m": -28.892592819973192
+      },
+      {
+        "id": "Q03",
+        "label": "Palmer Point southwest tip",
+        "role": "check",
+        "pixel_xy": [
+          2378,
+          3076
+        ],
+        "lonlat": [
+          -63.432813584071276,
+          45.819770025605536
+        ],
+        "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+        "reference_objectid": 8163,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 8163,
+        "nearest_unfiltered_distance_guide_px": 0.019956323096811335,
+        "selected_distance_guide_px": 0.019956323096811335,
+        "guide_reference_pixel_xy": [
+          2332.0178117714822,
+          3088.0089997571195
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+        "predicted_lonlat": [
+          -63.432603020709976,
+          45.82000630711697
+        ],
+        "error_ground_m": 30.94308833428262,
+        "east_ground_m": 16.363740588759033,
+        "north_ground_m": 26.262191637542696
+      },
+      {
+        "id": "Q04",
+        "label": "Canfield Point northern tip",
+        "role": "check",
+        "pixel_xy": [
+          2349,
+          3150
+        ],
+        "lonlat": [
+          -63.43127829716902,
+          45.81557970280134
+        ],
+        "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+        "reference_objectid": 3859,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 3859,
+        "nearest_unfiltered_distance_guide_px": 0.48259953781539183,
+        "selected_distance_guide_px": 0.48259953781539183,
+        "guide_reference_pixel_xy": [
+          2316.244571723044,
+          3182.416037241346
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+        "predicted_lonlat": [
+          -63.432715187494296,
+          45.81642869305414
+        ],
+        "error_ground_m": 146.2041768873656,
+        "east_ground_m": -111.67377945599527,
+        "north_ground_m": 94.36433818623335
+      },
+      {
+        "id": "Q05",
+        "label": "Lazy Bay northern promontory northwest tip",
+        "role": "check",
+        "pixel_xy": [
+          2186,
+          3184
+        ],
+        "lonlat": [
+          -63.439299133900896,
+          45.81084844093438
+        ],
+        "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+        "reference_objectid": 3859,
+        "reference_feature_code": "WACO20",
+        "nearest_unfiltered_feature_code": "WACO20",
+        "nearest_unfiltered_objectid": 3859,
+        "nearest_unfiltered_distance_guide_px": 0.1057849077470291,
+        "selected_distance_guide_px": 0.1057849077470291,
+        "guide_reference_pixel_xy": [
+          2158.1056534542004,
+          3229.994727967889
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+        "predicted_lonlat": [
+          -63.441814097671276,
+          45.812463790413226
+        ],
+        "error_ground_m": 265.41820101071295,
+        "east_ground_m": -195.474515945934,
+        "north_ground_m": 179.54535650766917
+      }
+    ]
+  },
+  "control_axis_ratio": 1.1459309295436433,
+  "affine_scale_ratio": 1.0,
+  "metres_per_pixel_singular_values": [
+    5.002365329409452,
+    5.002365329409452
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.76416998918044,
+          1.6952179089150778
+        ],
+        [
+          1.6952179089150778,
+          -4.76416998918044
+        ],
+        [
+          449833.425256117,
+          5084764.987490836
+        ]
+      ],
+      "diagnostic_rms_m": 175.29906065061525,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.694292942710723,
+          1.704360025288519
+        ],
+        [
+          1.704360025288519,
+          -4.694292942710723
+        ],
+        [
+          449997.77821252745,
+          5084519.121231692
+        ]
+      ],
+      "diagnostic_rms_m": 157.28262137293495,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.6620106575262845,
+          1.6473230094429665
+        ],
+        [
+          1.6473230094429665,
+          -4.6620106575262845
+        ],
+        [
+          450222.9019181489,
+          5084587.5890208855
+        ]
+      ],
+      "diagnostic_rms_m": 184.58113843229077,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.715321362899469,
+          1.6981001204447754
+        ],
+        [
+          1.6981001204447754,
+          -4.715321362899469
+        ],
+        [
+          449947.6942686899,
+          5084602.793525081
+        ]
+      ],
+      "diagnostic_rms_m": 168.72417025528975,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.6850266012968325,
+          1.7397655170418578
+        ],
+        [
+          1.7397655170418578,
+          -4.6850266012968325
+        ],
+        [
+          449940.8475936223,
+          5084404.413052741
+        ]
+      ],
+      "diagnostic_rms_m": 144.037145177016,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.705632272310063,
+        1.69725773478433
+      ],
+      [
+        1.69725773478433,
+        -4.705632272310063
+      ],
+      [
+        449983.34676740924,
+        5084578.70554795
+      ]
+    ],
+    "rms_ground_m": 164.70988076792787,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "reflected similarity",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.846170+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q05",
+    "Q01",
+    "Q04",
+    "Q02"
+  ],
+  "reviewed_control_ids": [
+    "C01",
+    "C04"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Lazy Point and Canfield are distinct prongs with the same intervening inlet; Lazy historical prong is wider. Fox Harbour island has reduced northern/southern geometry; Oak southwest hook recognizable. Persistent local west/north residuals could reflect coastline/cartographic generalization; no demonstrated swapped point or source-frame error.",
+  "baseline_limitations": [
+    "Five excluded checks give RMS164.71m, above100m. Median146.20m, P95251.62m and maximum265.42m also exceed companion bounds. All first check failures remain unchanged.",
+    "Five controls and five checks cluster around the central harbours. Northern coastline, western inland parcels and southern edge lack accepted validation.",
+    "Fox Harbour island and Oak Island checks share physical islands with controls and are spatially correlated. Ocean coverage is retained without implying independent regional accuracy.",
+    "Coastal source observations use18px working uncertainty. Engineered shores, evolving spits and marshes are unvalidated."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "f991a4467a940eda72473d18c1c8df05f293d7f448a4a7d071cf302647613b2e"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "2925bc7f252429ccd761c86fc142903b85ddc0d8fa7284d4856a15531f38443e"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "cddb90659c6cf894623089ffd00eb6e2a62af9044a4cb8bcf3bb494d3cb0ae7c"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "a49ca2927a78d78caacff17c9ea88b83d8ff0dc0334726c6acd81e752bd49d11"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "7e05ba17b982fd7c275c093a2ff46577b31e5c28fcca67067680708766406c91"
+    }
+  ],
+  "control_findings": "Smith Point eastern projection and Oak Island eastern tip have corresponding coast sequence; local north-south foreshore details are generalized.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

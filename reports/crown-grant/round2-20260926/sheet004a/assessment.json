@@ -1,0 +1,505 @@
+{
+  "sheet": "004a",
+  "baseline_report": "reports/crown-grant/batch1/sheet004a",
+  "baseline_fit": "fit-main-affine-01.json",
+  "baseline_checks": "checks-main-affine-01.json",
+  "baseline_score": "scores-main-affine-01.json",
+  "source_sha256": "0383f61be07cb70dc5cba2a57f17fbc21fc3347f17122bc30d7af512fd9b171a",
+  "reference_sha256": "ebe2519304129edcb2f411ef223d1f240a2a1129d43e630227e854d43470a37b",
+  "fit_sha256": "5ebc995fba7db6666ed2a16ed2bb5b61ae94f62b8c49c0dc6c62c19f1478fec6",
+  "checks_sha256": "5cca5814f510892c17e3efdce199eeae3efe165238c0dcd4050dba6b4e3d5c92",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 10,
+    "rms_ground_m": 101.95600982886253,
+    "median_ground_m": 77.3611298690249,
+    "p95_ground_m": 168.14209251196408,
+    "max_ground_m": 187.0723193971134,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 56.628930567290595,
+    "mean_north_ground_m": -46.450450134888946,
+    "points": [
+      {
+        "id": "MQ01",
+        "label": "Pease Island southern tip at sheet join",
+        "role": "check",
+        "pixel_xy": [
+          1058,
+          266
+        ],
+        "lonlat": [
+          -66.02636699279552,
+          43.62837807543749
+        ],
+        "reference_objectid": 20668,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          1065.933838656405,
+          264.63692577334587
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -66.02680971755677,
+          43.6281597593685
+        ],
+        "error_ground_m": 43.18567128974147,
+        "east_ground_m": -35.730282692527545,
+        "north_ground_m": -24.25590862980951
+      },
+      {
+        "id": "MQ02",
+        "label": "Little Half Bald Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          969,
+          377
+        ],
+        "lonlat": [
+          -66.02964670408413,
+          43.621844629620654
+        ],
+        "reference_objectid": 19306,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          965.3758834562032,
+          368.1789202587679
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -66.0291892925876,
+          43.62153205258403
+        ],
+        "error_ground_m": 50.68672430025142,
+        "east_ground_m": 36.91963757244077,
+        "north_ground_m": -34.728725600132776
+      },
+      {
+        "id": "MQ03",
+        "label": "Little Bald Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1007,
+          490
+        ],
+        "lonlat": [
+          -66.02425146255942,
+          43.61771274913187
+        ],
+        "reference_objectid": 19916,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          1004.346729352721,
+          480.6828885751311
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -66.02383938225164,
+          43.617359060530475
+        ],
+        "error_ground_m": 51.4843598777875,
+        "east_ground_m": 33.26306391555649,
+        "north_ground_m": -39.29641066274551
+      },
+      {
+        "id": "MQ04",
+        "label": "Inner Bald Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          960,
+          653
+        ],
+        "lonlat": [
+          -66.0229814666453,
+          43.60961082624629
+        ],
+        "reference_objectid": 17825,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          952.9409038629383,
+          642.6829096659785
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -66.02227620457106,
+          43.609301645970085
+        ],
+        "error_ground_m": 66.49613750646039,
+        "east_ground_m": 56.936255478784,
+        "north_ground_m": -34.351115197802926
+      },
+      {
+        "id": "MQ05",
+        "label": "Gull Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          2874,
+          389
+        ],
+        "lonlat": [
+          -65.91560881335705,
+          43.65999380579508
+        ],
+        "reference_objectid": 18039,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          2854.904130501498,
+          359.4636017184239
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -65.91365688756353,
+          43.659084543847804
+        ],
+        "error_ground_m": 187.0723193971134,
+        "east_ground_m": 157.4501819819904,
+        "north_ground_m": -101.02223952404599
+      },
+      {
+        "id": "MQ06",
+        "label": "Whitehead Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          3548,
+          637
+        ],
+        "lonlat": [
+          -65.86668061739977,
+          43.662533337237505
+        ],
+        "reference_objectid": 22079,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3548.251712188474,
+          617.8574324349174
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -65.86618039826088,
+          43.66169178165793
+        ],
+        "error_ground_m": 101.835546271738,
+        "east_ground_m": 40.34794081560782,
+        "north_ground_m": -93.50145537051014
+      },
+      {
+        "id": "MQ07",
+        "label": "St John Island northeastern tip",
+        "role": "check",
+        "pixel_xy": [
+          3601,
+          3157
+        ],
+        "lonlat": [
+          -65.79629402904887,
+          43.55236711710973
+        ],
+        "reference_objectid": 17834,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3584.6769665175816,
+          3154.819974164595
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -65.79524876990378,
+          43.55259653752927
+        ],
+        "error_ground_m": 88.2261222315894,
+        "east_ground_m": 84.46366904208288,
+        "north_ground_m": 25.489944212823247
+      },
+      {
+        "id": "MQ08",
+        "label": "Goodwins Island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          3530,
+          4198
+        ],
+        "lonlat": [
+          -65.7716723939105,
+          43.50580780377163
+        ],
+        "reference_objectid": 21411,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3530.6909756910172,
+          4195.111718290602
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -65.77163677932715,
+          43.50566776944885
+        ],
+        "error_ground_m": 15.822513552756993,
+        "east_ground_m": 2.880119754676236,
+        "north_ground_m": -15.558176156796222
+      },
+      {
+        "id": "MQ09",
+        "label": "Mutton group small western island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          3654,
+          4127
+        ],
+        "lonlat": [
+          -65.76782016675828,
+          43.5114292266463
+        ],
+        "reference_objectid": 18090,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3631.1848655292997,
+          4112.243627146352
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "predicted_lonlat": [
+          -65.76604637466987,
+          43.511237472830466
+        ],
+        "error_ground_m": 145.00514854122613,
+        "east_ground_m": 143.43180314361967,
+        "north_ground_m": -21.302839022838953
+      },
+      {
+        "id": "MQ11",
+        "label": "Bon Portage Island northern tip",
+        "role": "check",
+        "pixel_xy": [
+          3510,
+          4736
+        ],
+        "lonlat": [
+          -65.75901323012899,
+          43.48287769140908
+        ],
+        "reference_objectid": 21065,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3511.671907769807,
+          4710.831153160194
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 50,
+        "review": "Broad geometry and final native crosshair reviewed before first scoring; excluded from frozen main fit",
+        "limitation": "Northern spit differs from generalized historic headland; discrepancy includes possible shoreline change.",
+        "predicted_lonlat": [
+          -65.75844059329702,
+          43.481743800235094
+        ],
+        "error_ground_m": 134.22567828176435,
+        "east_ground_m": 46.32691666067523,
+        "north_ground_m": -125.9775753970307
+      }
+    ]
+  },
+  "control_axis_ratio": 2.1412515489786546,
+  "affine_scale_ratio": 1.009567752022161,
+  "metres_per_pixel_singular_values": [
+    5.367118474705304,
+    5.316253875933519
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "MA01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.957221220443187,
+          2.0421261323806474
+        ],
+        [
+          2.0033514652664373,
+          -4.929224356193243
+        ],
+        [
+          250036.00979542718,
+          4834186.703727626
+        ]
+      ],
+      "diagnostic_rms_m": 100.78004044984839,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.930350134634567,
+          1.9665169391969866
+        ],
+        [
+          2.0213812752138973,
+          -4.877127927156147
+        ],
+        [
+          250046.4234965025,
+          4834210.030554196
+        ]
+      ],
+      "diagnostic_rms_m": 156.65968832281186,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.960371644309308,
+          2.0527052223620625
+        ],
+        [
+          2.004585787132565,
+          -4.925496099885259
+        ],
+        [
+          250031.5591119996,
+          4834167.421681108
+        ]
+      ],
+      "diagnostic_rms_m": 100.0838033177159,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.959309576527478,
+          2.0496526775544277
+        ],
+        [
+          1.9939980317486774,
+          -4.954994839308302
+        ],
+        [
+          250039.1243005312,
+          4834188.559228379
+        ]
+      ],
+      "diagnostic_rms_m": 118.59890101602821,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "MA05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.958721579815169,
+          2.050035821821317
+        ],
+        [
+          2.0033718794137014,
+          -4.929024072073282
+        ],
+        [
+          250030.64960833333,
+          4834158.170654165
+        ]
+      ],
+      "diagnostic_rms_m": 103.74867511888101,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.926928445206836,
+        2.023851748175709
+      ],
+      [
+        2.023851748175709,
+        -4.926928445206836
+      ],
+      [
+        250067.47796314457,
+        4834223.090704395
+      ]
+    ],
+    "rms_ground_m": 103.57407172403195,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.273929+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "MQ05",
+    "MQ09",
+    "MQ11",
+    "MQ06"
+  ],
+  "reviewed_control_ids": [
+    "MA03",
+    "MA04"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Largest checks: Gull Island retains its two southern lobes, Mutton small western island retains relationship to curved southern island; these support identity but generalized outlines limit exact tip placement. Bon Portage northern reference requires a closer audit of small offshore/shore lines before any change. No source point moved. Focused Bon Portage audit confirms the reference is a continuous narrow northern spit, not an unrelated offshore rock. The old check already records this shoreline-shape limitation; the historical rounded head has no corresponding narrow spit. No correction justified.",
+  "baseline_limitations": [
+    "Main and Northern Seal components fail the 100 m RMS gate",
+    "Southern Seal component is control-only: all six proposed checks lacked sufficiently precise shared definitions",
+    "Small rock symbols and untested islands are not certified",
+    "No numerical pooling across independently positioned components",
+    "Original source notes explicitly displace two groups five miles east; a global transformation is invalid"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "bon-portage-audit-0.jpg",
+      "sha256": "4ddb296ad4d398ce8a5fd98ed8634dd3b29e030ea1c0d2415bb9c00af01e6a04"
+    },
+    {
+      "file": "context.jpg",
+      "sha256": "43b305b9b8d0774bbc6bc1a45d9589aad8e73421713220dbeaa5e5a4914e81fa"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "db25ef26e7308625838d621fdc8beb6a79fb221bad2cc3d12b1cd3d935965a12"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "2af5d11e9075c9dd3a081844344eb198e69608a075029247d939207ad9d14d97"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "ad9905e404db7b9078a147aeb4fcefaad955c6787eaf10ae091d3005caeb745d"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "771514e2a4f3827eb5c51f6b18474bec9429e6bf7cbbfdd64c385d18c8e84f7a"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "7eda3e896e5c4d7ee24aeff0bda706c1ac76d0c83058967247888fbd9cd3ee1e"
+    }
+  ],
+  "control_findings": "St John and Bon Portage southern ends are rounded and broadened on paper; no precise source crosshair error was observed.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

@@ -1,0 +1,468 @@
+{
+  "sheet": "011",
+  "baseline_report": "reports/crown-grant/batch16/sheet011",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "e9d131ba64b79f9a46ff8c87fa1408efcff71b66b5f098b47b8ac14b46ba76b4",
+  "reference_sha256": "d69f2f31d3be0e89327de5bffd021b868f0db2a8c40b5eadfa902bd245fa1e3f",
+  "fit_sha256": "cbcdc520a0ebf7a893b3540e0e76eb67fef88889ce92119c8d3274d4dc5073de",
+  "checks_sha256": "c34723833a96d8687a1fdfaeadfde9ef53aafc4c7ba179c0e792df181740c712",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 7,
+    "rms_ground_m": 142.86475263080376,
+    "median_ground_m": 133.59051973140464,
+    "p95_ground_m": 208.41668508552996,
+    "max_ground_m": 230.57403747983312,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -8.242508703489722,
+    "mean_north_ground_m": 10.26113655380705,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Squirrel Island southern shore",
+        "role": "check",
+        "pixel_xy": [
+          447,
+          215
+        ],
+        "lonlat": [
+          -65.74940657993247,
+          43.530988040581725
+        ],
+        "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+        "reference_objectid": 20221,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20221,
+        "nearest_unfiltered_distance_guide_px": 0.6332198984109538,
+        "selected_distance_guide_px": 0.6332198984109538,
+        "guide_reference_pixel_xy": [
+          428.3668769594515,
+          187.9889250160195
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.7491163453535,
+          43.530681521715444
+        ],
+        "error_ground_m": 41.35440484187266,
+        "east_ground_m": 23.461319212194,
+        "north_ground_m": -34.05515086809978
+      },
+      {
+        "id": "Q02",
+        "label": "Stoddard Island northeastern shoulder",
+        "role": "check",
+        "pixel_xy": [
+          471,
+          1485
+        ],
+        "lonlat": [
+          -65.71302143748723,
+          43.477308374024965
+        ],
+        "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+        "reference_objectid": 22040,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 22040,
+        "nearest_unfiltered_distance_guide_px": 1.4157060346516814,
+        "selected_distance_guide_px": 1.4157060346516814,
+        "guide_reference_pixel_xy": [
+          474.7364544006414,
+          1418.609040872776
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.7134308481794,
+          43.4761713183156
+        ],
+        "error_ground_m": 130.5997616411938,
+        "east_ground_m": -33.12479584157033,
+        "north_ground_m": -126.32911636353244
+      },
+      {
+        "id": "Q03",
+        "label": "Green Island southern shore",
+        "role": "check",
+        "pixel_xy": [
+          517,
+          2825
+        ],
+        "lonlat": [
+          -65.67645657924928,
+          43.418815612891926
+        ],
+        "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+        "reference_objectid": 18469,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 18469,
+        "nearest_unfiltered_distance_guide_px": 0.6443161514564841,
+        "selected_distance_guide_px": 0.6443161514564841,
+        "guide_reference_pixel_xy": [
+          483.56523015582934,
+          2740.4755191748263
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.67461716607336,
+          43.41904764229435
+        ],
+        "error_ground_m": 151.17859722645673,
+        "east_ground_m": 148.96423524498158,
+        "north_ground_m": 25.780319572049788
+      },
+      {
+        "id": "Q04",
+        "label": "John Island southern end",
+        "role": "check",
+        "pixel_xy": [
+          4552,
+          2552
+        ],
+        "lonlat": [
+          -65.44034995482463,
+          43.50843002431856
+        ],
+        "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+        "reference_objectid": 17787,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 17787,
+        "nearest_unfiltered_distance_guide_px": 1.1442432936843847,
+        "selected_distance_guide_px": 1.1442432936843847,
+        "guide_reference_pixel_xy": [
+          4529.692426917143,
+          2535.102130443207
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.44100783754904,
+          43.50975681777144
+        ],
+        "error_ground_m": 156.7161961654894,
+        "east_ground_m": -53.19880092706862,
+        "north_ground_m": 147.41049392937492
+      },
+      {
+        "id": "Q05",
+        "label": "Kirby Island southern end",
+        "role": "check",
+        "pixel_xy": [
+          2865,
+          840
+        ],
+        "lonlat": [
+          -65.58699343165107,
+          43.551353894486276
+        ],
+        "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+        "reference_objectid": 17408,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 17408,
+        "nearest_unfiltered_distance_guide_px": 0.3389266792800109,
+        "selected_distance_guide_px": 0.3389266792800109,
+        "guide_reference_pixel_xy": [
+          2856.8088736398495,
+          820.7201035756152
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.58780845413489,
+          43.55102410910566
+        ],
+        "error_ground_m": 75.36663815950303,
+        "east_ground_m": -65.86077665191178,
+        "north_ground_m": -36.63998152663904
+      },
+      {
+        "id": "Q06",
+        "label": "Blanche Island southern end",
+        "role": "check",
+        "pixel_xy": [
+          4799,
+          3618
+        ],
+        "lonlat": [
+          -65.39714821661518,
+          43.4663022390217
+        ],
+        "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+        "reference_objectid": 17084,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 17084,
+        "nearest_unfiltered_distance_guide_px": 0.7789888603350069,
+        "selected_distance_guide_px": 0.7789888603350069,
+        "guide_reference_pixel_xy": [
+          4773.647460414562,
+          3591.566850307514
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.39773217905415,
+          43.468333527301105
+        ],
+        "error_ground_m": 230.57403747983312,
+        "east_ground_m": -47.253618112773964,
+        "north_ground_m": 225.68004416652263
+      },
+      {
+        "id": "Q07",
+        "label": "Coesars Pond southern shore",
+        "role": "check",
+        "pixel_xy": [
+          3896,
+          1588
+        ],
+        "lonlat": [
+          -65.50569030721437,
+          43.53992755879854
+        ],
+        "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+        "reference_objectid": 125994,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 125994,
+        "nearest_unfiltered_distance_guide_px": 0.8712151278617803,
+        "selected_distance_guide_px": 0.8712151278617803,
+        "guide_reference_pixel_xy": [
+          3888.8688460406265,
+          1540.0642055815551
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.50606995647655,
+          43.53875730751072
+        ],
+        "error_ground_m": 133.59051973140464,
+        "east_ground_m": -30.685123848278952,
+        "north_ground_m": -130.01865303302674
+      }
+    ]
+  },
+  "control_axis_ratio": 2.133157770958712,
+  "affine_scale_ratio": 1.003261540346942,
+  "metres_per_pixel_singular_values": [
+    5.299019932776474,
+    5.281793151309277
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.898453807646354,
+          2.0256053655203003
+        ],
+        [
+          2.0316715977708255,
+          -4.859966115106674
+        ],
+        [
+          275206.0797977055,
+          4823505.458575381
+        ]
+      ],
+      "diagnostic_rms_m": 161.3087082413827,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8989302251507985,
+          2.0174247821578075
+        ],
+        [
+          2.0214360184357814,
+          -4.876687424637683
+        ],
+        [
+          275228.50805091177,
+          4823581.030130559
+        ]
+      ],
+      "diagnostic_rms_m": 140.45236818604658,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.885646332001373,
+          2.021691754372134
+        ],
+        [
+          2.0415012836844757,
+          -4.8782504107255305
+        ],
+        [
+          275238.84260937886,
+          4823566.283259176
+        ]
+      ],
+      "diagnostic_rms_m": 152.19927826716457,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.9060381316269,
+          2.030250025613359
+        ],
+        [
+          2.0187102938430486,
+          -4.88313698462008
+        ],
+        [
+          275232.82381655555,
+          4823565.05503364
+        ]
+      ],
+      "diagnostic_rms_m": 145.0469141940593,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8978530778461415,
+          2.0247676741677214
+        ],
+        [
+          2.0206105105885865,
+          -4.885337935447901
+        ],
+        [
+          275237.1736408111,
+          4823575.495284266
+        ]
+      ],
+      "diagnostic_rms_m": 140.84097276720752,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.889284553327689,
+          2.0151213992332893
+        ],
+        [
+          2.004353803476035,
+          -4.897451355664658
+        ],
+        [
+          275266.4574052235,
+          4823597.424621413
+        ]
+      ],
+      "diagnostic_rms_m": 134.62989128037356,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.892805357314771,
+        2.026051281303428
+      ],
+      [
+        2.026051281303428,
+        -4.892805357314771
+      ],
+      [
+        275237.20567851793,
+        4823581.883729085
+      ]
+    ],
+    "rms_ground_m": 140.3525397259078,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.395178+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q06",
+    "Q04",
+    "Q03",
+    "Q07"
+  ],
+  "reviewed_control_ids": [
+    "C06",
+    "C04"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Blanche is much narrower and shorter on the scan; John southern lobe retains hook and adjacent ledge; Green Island and Coesars Pond differ in detailed shape but endpoint identities remain plausible. No demonstrated transcription/placement mistake in largest four checks.",
+  "baseline_limitations": [
+    "RMS 142.86 m, median 133.59 m, P95 208.42 m and maximum 230.57 m fail all numerical limits.",
+    "Six checks pair with control islands; Coesars Pond provides a separate inland check. Shared historical cartography limits independence.",
+    "Northern/eastern mainland, Cape Sable sandbar, town harbours and much of the central coast remain independently unvalidated.",
+    "Tidal islands and generalized extrema carry 24 px working source uncertainty; island-size differences are visible.",
+    "Small offshore ledges, altered shore connections and unmatched sandbars remain included but were not forced into controls."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "00dfc58ef168ed4e8d8371df32afb0f7a83a265e299554148af190ea69757f2e"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "482071f716e5215d94243afd4740f99bb141f408829787ecfb328a5f1673addb"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "430d48c2c95fa1bcfef2c85f3c120c9e7874a1b39b20c5426361bcb547c52f0e"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "fc4707a3d638d52d48cdc7de58194b5d9638c261fc9bec458511b5a46aa7ace5"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "72f447a08a761a4e6b0a36709f9566c8d97bbfaf3983d0a952768c6392949011"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "c7f2a8aae893db2848f60addf1f80ef48564614ca88270e95b2ca086a5afc5a0"
+    }
+  ],
+  "control_findings": "Blanche northern end and John northern lobe support island identities, but widths and minor offshore rocks are drawn differently.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}
