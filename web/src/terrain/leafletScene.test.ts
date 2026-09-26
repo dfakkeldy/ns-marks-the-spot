@@ -47,6 +47,13 @@ describe('Leaflet sources in the terrain view', () => {
     restore();
     expect(m.getBounds).toBe(original); expect(m.getBounds().equals(before)).toBe(true); expect(m.options.zoomSnap).toBe(1);
   });
+  it('carries every Poker civic number into 3D, including one hidden in 2D for want of room', () => {
+    const m = makeMap();
+    for (const [number, className] of [['117', 'poker-civic-number'], ['119', 'poker-civic-number is-unplaced'], ['Note', 'other-label']]) {
+      L.circleMarker([45.835, -61.405], { radius: 2 }).bindTooltip(number, { permanent: true, className }).addTo(m);
+    }
+    expect(collectScene(m).paths.map(path => path.properties!.label)).toEqual(['117', '119', '']);
+  });
   it('keeps a regional image wash at its per-image z-index inside tilePane', () => {
     const m = makeMap();
     L.imageOverlay('data:image/png;base64,', [[45.8, -61.5], [45.9, -61.3]], { pane: 'tilePane', zIndex: 180 }).addTo(m);
