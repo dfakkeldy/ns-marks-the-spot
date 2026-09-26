@@ -148,3 +148,55 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     expect(parcelQueries).toEqual([]);
   });
 }
+
+test("Poker civic numbers in a crowded view never overlap each other or the map controls", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
+  // A 10 x 6 block of houses about 25 m apart, plus three units sharing one point and number.
+  const features = Array.from({ length: 60 }, (_, i) => ({ type: "Feature", geometry: { type: "Point", coordinates: [-61.414 + (i % 10 - 4.5) * 0.00032, 46.059 + (Math.floor(i / 10) - 2.5) * 0.000225] },
+    properties: { pntid: `grid-${i}`, civicnum: String(100 + i * 2), strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } }));
+  for (const unit of ["1", "2", "3"]) features.push({ type: "Feature", geometry: { type: "Point", coordinates: [-61.414, 46.0605] }, properties: { pntid: "shared", civicnum: "40", unit_num: unit, strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } } as typeof features[number]);
+  await page.addInitScript(() => localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted"));
+  await page.route("https://**/*", route => {
+    const url = route.request().url();
+    if (url.includes("tntn-er5g")) return route.fulfill({ json: { type: "FeatureCollection", features } });
+    if (url.includes("/query")) return route.fulfill({ json: { type: "FeatureCollection", features: [] } });
+    if (route.request().resourceType() === "image") return route.fulfill({ contentType: "image/svg+xml", body: tile });
+    return route.fulfill({ contentType: "text/css", body: "" });
+  });
+  await page.goto("/?basemap=osm&theme=poker&position=46.059,-61.414,16");
+  // Every number keeps a tooltip, so the 3D view can still place it; units sharing a point are one.
+  await expect(page.locator(".poker-civic-number")).toHaveCount(61);
+  await expect(page.locator(".poker-civic-number", { hasText: /^40$/ })).toHaveCount(1);
+  const shown = page.locator(".poker-civic-number:not(.is-unplaced)");
+  const hidden = page.locator(".poker-civic-number.is-unplaced");
+  const controls = page.locator(".poker-search, .mobile-map-chrome, .leaflet-control, .research-terrain-controls, .location-button, .poker-workspace, .display-scale-readout, .map-attribution");
+  const expectClear = async () => {
+    const boxes = await shown.evaluateAll(elements => elements.map(element => ({ text: element.textContent, ...element.getBoundingClientRect().toJSON() as DOMRect })));
+    const collisions = boxes.flatMap((a, i) => boxes.slice(i + 1).filter(b => a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5).map(b => `${a.text} × ${b.text}`));
+    expect(collisions).toEqual([]);
+    const rects = await controls.evaluateAll(elements => elements.map(element => ({ cls: element.className, ...element.getBoundingClientRect().toJSON() as DOMRect })).filter(r => r.width && r.height));
+    expect(boxes.flatMap(b => rects.filter(r => b.left < r.right && r.left < b.right && b.top < r.bottom && r.top < b.bottom).map(r => `${b.text} ${JSON.stringify([b.left, b.top, b.right, b.bottom])} under ${r.cls} ${JSON.stringify([r.left, r.top, r.right, r.bottom])}`))).toEqual([]);
+  };
+  // Houses about 15 px apart at zoom 16: the block's edge is labelled and the rest wait, dots kept.
+  await expect.poll(() => shown.count()).toBeGreaterThanOrEqual(12);
+  expect(await hidden.count()).toBeGreaterThan(0);
+  await page.screenshot({ path: testInfo.outputPath("poker-crowded-numbers.png") });
+  await expectClear();
+  // Two zoom steps closer there is room for every number.
+  const scale = page.locator(".leaflet-control-scale-line").first();
+  for (const metres of ["50 m", "30 m"]) {
+    await page.locator(".leaflet-control-zoom-in").click();
+    await expect(scale).toHaveText(metres);
+  }
+  await expect.poll(() => shown.count()).toBeGreaterThanOrEqual(50);
+  // Only a number whose dot is under a control or off the map is still waiting.
+  const rects = await controls.evaluateAll(elements => elements.map(element => element.getBoundingClientRect().toJSON() as DOMRect).filter(r => r.width && r.height));
+  const waiting = await hidden.evaluateAll(elements => elements.map(element => { const r = element.getBoundingClientRect(); return { text: element.textContent, x: (r.left + r.right) / 2, y: (r.top + r.bottom) / 2 }; }));
+  expect(waiting.filter(dot => dot.x > 0 && dot.y > 0 && dot.x < 390 && dot.y < 844 && !rects.some(r => dot.x >= r.left - 25 && dot.x <= r.right + 25 && dot.y >= r.top - 25 && dot.y <= r.bottom + 25)).map(dot => dot.text)).toEqual([]);
+  await page.screenshot({ path: testInfo.outputPath("poker-crowded-numbers-z18.png") });
+  await expectClear();
+  expect(errors).toEqual([]);
+});

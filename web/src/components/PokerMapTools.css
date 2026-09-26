@@ -1,5 +1,7 @@
 .poker-workspace { display: contents; }
 .poker-civic-number { padding: 1px 3px; font-weight: 700; color: #173a4a; border: 0; box-shadow: 0 1px 3px #0006; pointer-events: none; }
+/* Placed around its dot by PokerMapTools; one with no clear spot waits for a closer zoom. */
+.poker-civic-number.is-unplaced { visibility: hidden; }
 
 .poker-search {
   position: absolute;

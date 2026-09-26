@@ -412,7 +412,10 @@ the label on the last point. Tap the search
 field to replace the address; choosing another result clears the previous path.
 Quick successive taps keep every point. Parcel boundaries and parcel lookups are disabled in Poker so they cannot intercept measurement taps.
 Civic points may not sit on a house. They load at zoom 16 or closer, with a
-500-point viewport limit. The footer also shows its civic-source status and
+500-point viewport limit, once a pan or zoom has finished. Each number sits
+where it covers no other number, address dot or map control; one with no clear
+spot waits for a closer zoom while its dot stays, and the 3D view still places
+every number. Units sharing a provincial point and number show one label. The footer also shows its civic-source status and
 accuracy notes. Civic status is still announced to screen readers while the
 footer is folded. Poker sessions and measurements are not saved, shared,
 or copied into custom themes. The native theme parity fixture excludes this

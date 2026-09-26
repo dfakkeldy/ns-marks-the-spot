@@ -73,7 +73,8 @@ export function collectScene(map: L.Map): Scene {
         fillOpacity: options.fill === false ? 0 : options.fillOpacity ?? 0.2,
         radius: layer instanceof L.CircleMarker ? layer.getRadius() : 0,
         interactive: options.interactive !== false, dash,
-        label: layer.getTooltip()?.options.permanent && layer.getTooltip()?.options.className === 'poker-civic-number'
+        // Every Poker civic number, including one hidden in 2D for want of room: MapLibre places 3D labels itself.
+        label: layer.getTooltip()?.options.permanent && layer.getTooltip()?.options.className?.split(' ').includes('poker-civic-number')
           ? layer.getTooltip()?.getElement()?.textContent?.trim() ?? '' : '',
 
       } });
