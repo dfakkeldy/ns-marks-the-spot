@@ -1,0 +1,93 @@
+[
+  [
+    "C02",
+    "Courtney Lake northern shore",
+    [
+      2543,
+      405
+    ],
+    [
+      2542,
+      399
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Courtney Lake southern shore",
+    [
+      2531,
+      752
+    ],
+    [
+      2525,
+      750
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Dirty Creek Lake large island southern end",
+    [
+      355,
+      1570
+    ],
+    [
+      361,
+      1605
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C06",
+    "Church Over Lake island northern shore",
+    [
+      1410,
+      2537
+    ],
+    [
+      1400,
+      2561
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q06",
+    "Church Over Lake island southern end",
+    [
+      1406,
+      2564
+    ],
+    [
+      1411,
+      2597
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q08",
+    "Veitch Lake southern shore",
+    [
+      4978,
+      1078
+    ],
+    [
+      4950,
+      1064
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Morris Lake central large island northern shore",
+    [
+      815,
+      2020
+    ],
+    [
+      820,
+      2044
+    ],
+    "WALKIS10"
+  ]
+]

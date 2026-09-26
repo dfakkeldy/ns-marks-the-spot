@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5304 x 3672 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 41.71 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          110,
+          135
+        ],
+        [
+          5230,
+          155
+        ],
+        [
+          5210,
+          3550
+        ],
+        [
+          105,
+          3500
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full mapped frame retains Shelburne, Birchtown Bay, Jordan Bay, all inland lakes, islands, river corridors and southern boundary continuations. Eight controls and nine excluded checks sample lakes across the frame plus Enslow Point; the southern coastal third remains provisional."
+    }
+  ]
+}

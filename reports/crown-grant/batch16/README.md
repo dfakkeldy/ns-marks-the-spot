@@ -4,10 +4,10 @@ Final southwestern coast and western column of the official series. Continue the
 
 | Sheet | Main RMS (m) | Independent checks | Assessment |
 |---|---:|---:|---|
-| 018 | — | — | queued |
-| 019 | — | — | queued |
-| 011 | — | — | queued |
-| 010 | — | — | queued |
+| 018 | 41.71 | 9 | complete |
+| 019 | 103.44 | 8 | complete |
+| 011 | 142.86 | 7 | complete |
+| 010 | 101.26 | 8 | complete |
 | 009 | — | — | queued |
 | 008 | — | — | queued |
 | 007 | — | — | queued |

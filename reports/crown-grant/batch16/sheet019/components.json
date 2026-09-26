@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5693 x 3799 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 103.44 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          130,
+          130
+        ],
+        [
+          5585,
+          125
+        ],
+        [
+          5600,
+          3735
+        ],
+        [
+          135,
+          3730
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains all land, offshore islands and the full Atlantic water area. Seven controls and eight excluded checks cover Little/Dexter lakes, Pettits/Grey, Blue/Green, Blue Gull, both Gull Rocks and Cape Negro Island. McNutt, mainland coast and unsampled open-water regions remain provisional."
+    }
+  ]
+}

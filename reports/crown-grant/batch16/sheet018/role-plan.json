@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-26T02:58:25.226411+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Harper/Courtney north, Dirty/Morris west, George central, Veitch east and Church Over/Rodney south provide two-axis coverage.",
+  "corrections": [
+    "Courtney north/south and Church Over north/south reference extrema refined.",
+    "Dirty Creek large-island check initially snapped to the eastern small island; correct large island identified before fit.",
+    "Morris northern island source/reference and Veitch southern source refined."
+  ],
+  "unadopted": [
+    "Sandy Point, Pompey Point and Gunning Cove details inspected but unadopted because coastline detail/alteration was insufficiently reconciled."
+  ],
+  "limitations": [
+    "Eight checks share control lakes or islands; Enslow Point adds a coastal check. Shared historical cartography limits independence.",
+    "The southern third, Shelburne town, eastern river corridor and intervening coast remain sparsely checked.",
+    "Lake extrema, island outlines and generalized coast carry 24 px working source uncertainty.",
+    "Small islands and harbour shore alterations were not forced into matches."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-26T03:08:46.878373+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 6,
+  "checks": 7,
+  "reason": "Squirrel northwest, Stoddard/Green west, Kirby north-central, John east and Blanche southeast provide two-axis island distribution.",
+  "corrections": [
+    "John Island northern target initially selected a tiny neighbouring island; corrected to the large island physical northern shore before fitting."
+  ],
+  "unadopted": [
+    "Fish, Sherose, Split Point, Sheep Ledge and Southwest Rock details did not provide sufficiently confident equivalent outlines; excluded before fit."
+  ],
+  "limitations": [
+    "Six checks pair with control islands; Coesars Pond provides a separate inland check. Shared historical cartography limits independence.",
+    "Northern/eastern mainland, Cape Sable sandbar, town harbours and much of the central coast remain independently unvalidated.",
+    "Tidal islands and generalized extrema carry 24 px working source uncertainty; island-size differences are visible.",
+    "Small offshore ledges, altered shore connections and unmatched sandbars remain included but were not forced into controls."
+  ]
+}
