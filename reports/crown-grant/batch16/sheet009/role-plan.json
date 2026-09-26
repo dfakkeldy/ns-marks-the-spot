@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-26T03:25:41.740771+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 8,
+  "reason": "Western coastal/tidal islands, East Goose inland island, Gull/Nessisse northeast and South Clearwater southeast provide two-axis spread.",
+  "corrections": [
+    "Dyes initial coastal-island search failed guard; correct physical tidal-river island is WACORVIS10.",
+    "East Goose and Little Gooseberry source checks refined.",
+    "South Clearwater initial and intermediate northern source proposals inspected; intermediate landed above the island and was rejected. Final north/south crosshairs placed on observed island shores before fitting."
+  ],
+  "unadopted": [
+    "Turtle Pond, Moses Lake, Birch Island details inspected but not adopted."
+  ],
+  "limitations": [
+    "Six checks share control waterbodies; Big and Little Gooseberry supply separate islands. Small paired-island endpoints are close and share historical cartography.",
+    "The northwestern quarter, central inland lake complex and far southern/eastern inland areas lack distributed independent checks.",
+    "Generalized lake extrema and small island outlines carry 24 px source uncertainty.",
+    "Waterbody connectivity changes and unresolved small islands remain unvalidated."
+  ]
+}

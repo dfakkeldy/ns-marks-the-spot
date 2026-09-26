@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C06",
+    "label": "South Clearwater Lake island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4118,
+      2673
+    ],
+    "lonlat": [
+      -65.65464446694526,
+      43.81164532205391
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 144641,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144641,
+    "nearest_unfiltered_distance_guide_px": 3.103563653690013,
+    "selected_distance_guide_px": 3.103563653690013,
+    "guide_reference_pixel_xy": [
+      4148.057535279077,
+      2683.1030303002335
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "East Goose Lake upper large island southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1383,
+      2703
+    ],
+    "lonlat": [
+      -65.81926241609064,
+      43.756270989074395
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 146769,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 146769,
+    "nearest_unfiltered_distance_guide_px": 0.2668367800746205,
+    "selected_distance_guide_px": 0.2668367800746205,
+    "guide_reference_pixel_xy": [
+      1376.7335946432431,
+      2719.984832498827
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Little Gooseberry Island southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      398,
+      3517
+    ],
+    "lonlat": [
+      -65.85650125223229,
+      43.70222361911853
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 19257,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19257,
+    "nearest_unfiltered_distance_guide_px": 1.1318235447451412,
+    "selected_distance_guide_px": 1.1318235447451412,
+    "guide_reference_pixel_xy": [
+      385.66427971830126,
+      3507.916382557829
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

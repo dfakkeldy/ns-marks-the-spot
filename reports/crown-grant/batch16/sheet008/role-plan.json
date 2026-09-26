@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-26T03:33:14.366494+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 8,
+  "reason": "Brazil/Back northwestern, Snare/Nepsepek central/eastern, Spark southeast and unnamed/Paul Surette southern lakes provide two-axis spread.",
+  "unadopted": [
+    "Hooper, unnamed western pond, Little Nicky, Salter, Hibbert and Solomon details were inspected but not adopted; altered/complex boundaries were not forced."
+  ],
+  "limitations": [
+    "Seven checks share control lakes; Lilly Lake provides a separate waterbody. Shared historical cartography limits independence.",
+    "Western-central reservoirs, far northeastern edge and southeastern third remain independently unvalidated.",
+    "Generalized extrema and connected lake boundaries carry 24 px source uncertainty.",
+    "Some narrow lake ends meet streams; historical and modern shoreline generalization limits precision."
+  ]
+}

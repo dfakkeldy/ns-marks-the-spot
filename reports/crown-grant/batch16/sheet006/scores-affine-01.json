@@ -1,0 +1,312 @@
+{
+  "count": 9,
+  "rms_ground_m": 80.34155798349282,
+  "median_ground_m": 73.868662201648,
+  "p95_ground_m": 128.72998069505883,
+  "max_ground_m": 132.0069556440447,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -27.397205657623932,
+  "mean_north_ground_m": 40.97593438767207,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Bartlet Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        2814,
+        1039
+      ],
+      "lonlat": [
+        -66.0691769064114,
+        44.33181487052383
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 129766,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129766,
+      "nearest_unfiltered_distance_guide_px": 2.193389570433633,
+      "selected_distance_guide_px": 2.193389570433633,
+      "guide_reference_pixel_xy": [
+        2808.9064817489125,
+        1013.0026896469062
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -66.06967425008006,
+        44.33172333890115
+      ],
+      "error_ground_m": 40.95027114226838,
+      "east_ground_m": -39.667120109882,
+      "north_ground_m": -10.170756550694414
+    },
+    {
+      "id": "Q02",
+      "label": "Henriette Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        2765,
+        1875
+      ],
+      "lonlat": [
+        -66.04737600297064,
+        44.291422435105
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 138098,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138098,
+      "nearest_unfiltered_distance_guide_px": 0.3312704584762029,
+      "selected_distance_guide_px": 0.3312704584762029,
+      "guide_reference_pixel_xy": [
+        2761.3235975112766,
+        1860.0708855934208
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -66.04753533063439,
+        44.292189267785005
+      ],
+      "error_ground_m": 86.15250815663588,
+      "east_ground_m": -12.716184213492388,
+      "north_ground_m": 85.20888052737072
+    },
+    {
+      "id": "Q03",
+      "label": "Spectacle Lake island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        2264,
+        2320
+      ],
+      "lonlat": [
+        -66.0663704257933,
+        44.26071579450398
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 146189,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 146189,
+      "nearest_unfiltered_distance_guide_px": 1.245486909953774,
+      "selected_distance_guide_px": 1.245486909953774,
+      "guide_reference_pixel_xy": [
+        2267.2958498168737,
+        2296.0273315737722
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -66.06648410493683,
+        44.2607309909465
+      ],
+      "error_ground_m": 9.233464028638888,
+      "east_ground_m": -9.077747888568219,
+      "north_ground_m": 1.6885944568674627
+    },
+    {
+      "id": "Q04",
+      "label": "Ball Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3424,
+        1588
+      ],
+      "lonlat": [
+        -66.0129197326376,
+        44.31935262246514
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 141195,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141195,
+      "nearest_unfiltered_distance_guide_px": 0.6477704080787866,
+      "selected_distance_guide_px": 0.6477704080787866,
+      "guide_reference_pixel_xy": [
+        3431.5827950801468,
+        1563.7172343794955
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -66.0135552398395,
+        44.31983611511144
+      ],
+      "error_ground_m": 73.868662201648,
+      "east_ground_m": -50.69699983756438,
+      "north_ground_m": 53.72516601120165
+    },
+    {
+      "id": "Q05",
+      "label": "Comeau Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3153,
+        2998
+      ],
+      "lonlat": [
+        -65.9884224708326,
+        44.248851669111694
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 140886,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140886,
+      "nearest_unfiltered_distance_guide_px": 0.3167020232451525,
+      "selected_distance_guide_px": 0.3167020232451525,
+      "guide_reference_pixel_xy": [
+        3175.273684310436,
+        2963.1593645812245
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -65.98849069299784,
+        44.24901199854924
+      ],
+      "error_ground_m": 18.630004238342828,
+      "east_ground_m": -5.448902946397372,
+      "north_ground_m": 17.815344919518502
+    },
+    {
+      "id": "Q06",
+      "label": "Southwestern lake near Meteghan Station southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1191,
+        3348
+      ],
+      "lonlat": [
+        -66.10416814878525,
+        44.18886364877073
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 128613,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128613,
+      "nearest_unfiltered_distance_guide_px": 0.5313595589658004,
+      "selected_distance_guide_px": 0.5313595589658004,
+      "guide_reference_pixel_xy": [
+        1196.138999092509,
+        3354.5128569324734
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -66.10473506252042,
+        44.189900584521304
+      ],
+      "error_ground_m": 123.81451827158,
+      "east_ground_m": -45.32471281845574,
+      "north_ground_m": 115.22024710417841
+    },
+    {
+      "id": "Q07",
+      "label": "Phillip Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3615,
+        2147
+      ],
+      "lonlat": [
+        -65.98436920222441,
+        44.298271212114656
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 134854,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134854,
+      "nearest_unfiltered_distance_guide_px": 1.072014928900016,
+      "selected_distance_guide_px": 1.072014928900016,
+      "guide_reference_pixel_xy": [
+        3628.1517952506547,
+        2106.0612135551637
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -65.98428943710401,
+        44.29829236946184
+      ],
+      "error_ground_m": 6.785782767809503,
+      "east_ground_m": 6.365516769268933,
+      "north_ground_m": 2.350966616533804
+    },
+    {
+      "id": "Q08",
+      "label": "Peter Lake northern shore",
+      "role": "check",
+      "pixel_xy": [
+        2012,
+        2712
+      ],
+      "lonlat": [
+        -66.06927376938955,
+        44.23707750752057
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 133549,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133549,
+      "nearest_unfiltered_distance_guide_px": 1.1804823021476027,
+      "selected_distance_guide_px": 1.1804823021476027,
+      "guide_reference_pixel_xy": [
+        2037.828384438064,
+        2700.1444141292013
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -66.07092111987161,
+        44.23717067976636
+      ],
+      "error_ground_m": 132.0069556440447,
+      "east_ground_m": -131.60024400484406,
+      "north_ground_m": 10.354328383545248
+    },
+    {
+      "id": "Q09",
+      "label": "Gullhead Lake northeastern shore",
+      "role": "check",
+      "pixel_xy": [
+        3781,
+        2354
+      ],
+      "lonlat": [
+        -65.96781026534353,
+        44.291563847929645
+      ],
+      "guide_file": ".crown-grant-local/006-frozen-south-guide.npy",
+      "reference_objectid": 137944,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137944,
+      "nearest_unfiltered_distance_guide_px": 0.9894091174003458,
+      "selected_distance_guide_px": 0.9894091174003458,
+      "guide_reference_pixel_xy": [
+        3787.0365247742156,
+        2322.225046419422
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "predicted_lonlat": [
+        -65.9672891414892,
+        44.29239711124072
+      ],
+      "error_ground_m": 101.50311715546384,
+      "east_ground_m": 41.5915441313198,
+      "north_ground_m": 92.5906380205272
+    }
+  ],
+  "fit_sha256": "4d856c2f6e5f39d8844ef893ba8f322d1a1b7c48ef40796e3a0a9af9a9f77a4c",
+  "checks_sha256": "2a58ec9b5301121915bb89e4c20e95dfa449b41ab56e4635f3a40169402757df",
+  "status": "Reserved before first fit and score"
+}
