@@ -21,6 +21,11 @@ npm run build
 Tests don't prove layout or interaction. When a change affects what the map
 shows, check it in a browser, including at phone width.
 
+Local checkouts may be sparse and leave out the `.jpg` and `.png` images under
+`reports/`, except `reports/fletcher/feature-geography/`. New worktrees
+inherit this. Run `git sparse-checkout disable` before work that reads,
+hashes, renders, or commits those images.
+
 ## Evidence rules
 
 The map is a screening and research tool, not legal proof.
