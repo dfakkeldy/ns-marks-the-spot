@@ -938,3 +938,18 @@ asset dependency closure, manifest, icons and regional data. The worker scope is
 rewrite both short-route spellings to the dedicated HTML. KinNoKi's sync step
 sets that shell's base URL to the pinned map directory. Aerial viewing keeps the
 provincial licence gate and is never written into the offline cache.
+
+### Rhodena focused page
+
+`web/rhodena.html` is a dedicated HTML entry for `/rhodena`, not a separate
+pocket app like `/poker`. `web/src/rhodena/main.tsx` mounts the research map
+as `<App focus="rhodena" />`. The Rhodena setup is fixed.
+`web/src/rhodena/focus.ts` names the categories and layer ids the panel
+offers; tax sale, My Maps and the setup picker are absent. Shared links drop
+layers outside that set, keep tax sale off, and keep map mode current. A
+full-map link carries the current layers and position to the main research
+map. There is no service worker and no offline pack. The selected viewpoint
+stays in memory, as on the research-map Rhodena theme; it is not written to
+share URLs or storage. Short-URL rewrite (`/rhodena` onto this HTML) and
+asset-base stamping are KinNoKi site publishing concerns. Vite answers
+`/rhodena` locally. Neither proves a live map pin was updated.
