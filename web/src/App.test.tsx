@@ -196,7 +196,9 @@ vi.mock("./components/MapCanvas", () => ({
     userMapFitRequest,
     exportFrame,
     onExportFrameContinue,
+    backgroundSwitch,
   }: {
+    backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
     poker?: import("./components/PokerMapTools").PokerSession | null;
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -304,6 +306,10 @@ vi.mock("./components/MapCanvas", () => ({
 
     return (
     <div data-testid="map-canvas">
+      {backgroundSwitch ? <div role="group" aria-label="Background">
+        <button aria-pressed={!backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(false)}>Map</button>
+        <button aria-pressed={backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(true)}>Aerial</button>
+      </div> : null}
       {contextLayers?.['federal-ridings-2025'] ? <>
         <button data-testid="select-electoral-fixture" onClick={() => {
           onLayerStatusChange?.('federal-ridings-2025',{status:'ready'});
@@ -1008,6 +1014,32 @@ describe("NS Marks The Spot Online", () => {
       expect(url.searchParams.get("mode")).toBe("current");
     });
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("tax-sale layer: off");
+  });
+
+  it("asks for the Province licence before the Rhodena page shows aerial imagery", async () => {
+    const user = userEvent.setup();
+    window.history.replaceState(null, "", "/rhodena");
+
+    render(<App focus="rhodena" />);
+
+    const background = screen.getByRole("group", { name: "Background" });
+    await user.click(within(background).getByRole("button", { name: "Aerial" }));
+    const dialog = await screen.findByRole("dialog", { name: "Province data licence" });
+    expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).not.toContain("ns-aerial");
+    await user.click(within(dialog).getByRole("button", { name: "Accept and view map layers" }));
+
+    await waitFor(() => {
+      const layers = new URL(window.location.href).searchParams.get("layers")?.split(",");
+      expect(layers).toContain("ns-aerial");
+      expect(layers).not.toContain("modern");
+    });
+    expect(within(background).getByRole("button", { name: "Aerial" })).toHaveAttribute("aria-pressed", "true");
+    await user.click(within(background).getByRole("button", { name: "Map" }));
+    await waitFor(() => {
+      const layers = new URL(window.location.href).searchParams.get("layers")?.split(",");
+      expect(layers).toContain("modern");
+      expect(layers).not.toContain("ns-aerial");
+    });
   });
 
   it("turns the viewshed on and off from the Rhodena summary", async () => {

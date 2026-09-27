@@ -307,6 +307,8 @@ type LicenceIntent =
   | { kind: "snap" }
   /** "Data & licences" review — never a licence-state or layer-state change. */
   | { kind: "review" }
+  /** The map's Map/Aerial switch asked for the licensed aerial imagery. */
+  | { kind: "aerial" }
   | null;
 
 const EMPTY_FEATURES: NsprdFeatureCollection = {
@@ -3078,6 +3080,8 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
       void runSearch(licenceIntent.query, { licenceJustAccepted: true });
     } else if (licenceIntent?.kind === "layer") {
       setProvinceLayers(intendedInitialProvinceLayers);
+    } else if (licenceIntent?.kind === "aerial") {
+      showAerialBackground(true);
     } else if (licenceIntent?.kind === "snap") {
       // Acceptance completes the parcels toggle the edit panel refused to
       // flip before the licence; declining leaves snapping to own features.
@@ -3157,6 +3161,13 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
     },
     [],
   );
+
+  // The Rhodena page's Map/Aerial switch swaps the opaque background.
+  const showAerialBackground = useCallback((aerial: boolean) => {
+    setProvinceLayerVisibility("ns-aerial", aerial);
+    setShowModernMap(!aerial);
+    if (!aerial) setContextLayers((current) => ({ ...current, "ns-topographic": false, "sentinel-2": false }));
+  }, [setProvinceLayerVisibility]);
 
   const setResourceLayerVisibility = useCallback(
     (id: ResourceLayerId, visible: boolean) => {
@@ -4802,7 +4813,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
                       <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
                       <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
                     </p>}
-                    {basemapStyle === 'fletcher' ? <>
+                    {basemapStyle === 'fletcher' && !focus ? <>
                       <label className="fletcher-features-toggle">
                         <input type="checkbox" checked={fletcherFeaturesVisible} onChange={event => setFletcherFeaturesVisible(event.target.checked)} />
                         Reviewed Fletcher features
@@ -5583,7 +5594,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
             liveConditionsLayers={liveConditionsLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
             fletcherVisible={fletcherVisible}
-            fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode}
+            fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focus}
             onFletcherFeaturesStatus={setFletcherFeaturesStatus}
             fletcherOpacity={fletcherOpacity}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
@@ -5636,6 +5647,17 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
             }}
             focusRequest={parcelFocusRequest}
             rhodenaFitRevision={rhodenaFitRevision}
+            backgroundSwitch={focus ? {
+              aerial: licenceAccepted && provinceLayers["ns-aerial"],
+              onChange: (aerial) => {
+                if (aerial && !licenceAccepted) {
+                  setLicenceIntent({ kind: "aerial" });
+                  setLicenceDialogOpen(true);
+                  return;
+                }
+                showAerialBackground(aerial);
+              },
+            } : null}
             rhodenaPickPending={rhodenaPickPending}
             onRhodenaPickStarted={() => setRhodenaPickPending(false)}
             initialPosition={!hasSharedPosition && (focus || initialRequestedTheme?.id === "rhodena") ? RHODENA_POSITION : initialShareState.position}
@@ -5896,7 +5918,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
               <span key={id}>{attribution}</span>
             ))}
           {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
-          {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode ? <span>
+          {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focus ? <span>
             Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
           </span> : null}
           <span>Boundaries are not a survey</span>

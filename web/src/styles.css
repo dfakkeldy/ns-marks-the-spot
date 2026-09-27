@@ -7295,8 +7295,21 @@ a {
 .rhodena-visibility-summary[data-status="blocked"] { background: rgba(100, 105, 113, 0.14); border-left-color: #646971; }
 .rhodena-visibility-summary[data-status="uncertain"] { background: rgba(205, 139, 36, 0.15); border-left-color: #cd8b24; }
 .rhodena-viewpoint-results ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.rhodena-viewpoint-results li { position: relative; padding-left: 18px; }
+.rhodena-viewpoint-results li { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 7px 0 7px 18px; border-bottom: 1px solid var(--line); }
+.rhodena-viewpoint-results li:last-child { border-bottom: 0; }
+.rhodena-viewpoint-results li strong { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; }
+.rhodena-viewpoint-distance { color: var(--muted); font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rhodena-sightline-key { display: grid; gap: 5px; color: var(--muted); font-size: 0.72rem; }
+.rhodena-sightline-key span { display: flex; align-items: center; gap: 8px; }
+.rhodena-sightline-key svg { flex: none; width: 28px; height: 10px; }
+.leaflet-marker-icon.rhodena-ridge-marker { background: none; border: 0; }
+.rhodena-ridge-marker svg { display: block; width: 16px; height: 14px; filter: drop-shadow(0 1px 1px rgba(16, 49, 58, 0.45)); }
+.rhodena-picking, .rhodena-picking .leaflet-interactive { cursor: crosshair !important; }
+.rhodena-visibility-control p.rhodena-visibility-intro { color: var(--muted); }
+.rhodena-viewshed-raster { transition: opacity 0.3s ease; }
+.rhodena-has-viewpoint .rhodena-viewshed-raster { opacity: 0.4 !important; }
 .rhodena-viewpoint-results li::before, .rhodena-visibility-legend i { position: absolute; top: 0.38em; left: 0; width: 10px; height: 10px; content: ""; background: transparent; border: 1px solid var(--line); border-radius: 3px; }
+.rhodena-viewpoint-results li::before { top: calc(7px + 0.38em); }
 .rhodena-viewpoint-results li[data-status="potential"]::before, .rhodena-visibility-legend i[data-status="potential"] { background: #177e70; border-color: #177e70; }
 .rhodena-viewpoint-results li[data-status="blocked"]::before, .rhodena-visibility-legend i[data-status="blocked"] { background: #646971; border-color: #646971; }
 .rhodena-viewpoint-results li[data-status="uncertain"]::before, .rhodena-visibility-legend i[data-status="uncertain"] { background: #cd8b24; border-color: #cd8b24; }

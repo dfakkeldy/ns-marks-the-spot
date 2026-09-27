@@ -1706,7 +1706,9 @@ these do not establish current ownership or authorizations.
 
 `/rhodena` (`rhodena.html`) is the same research map opened as a single-project
 page: the Rhodena setup is fixed, the panel offers only the layers listed in
-`src/rhodena/focus.ts`, and tax sale, My Maps and the setup picker are absent.
+`src/rhodena/focus.ts`, and tax sale, My Maps, the setup picker and reviewed
+Fletcher features are absent. A Map/Aerial switch under the 3D control swaps the
+background; aerial imagery keeps its Province licence gate.
 The focus includes the shared research sources and existing forestry,
 source-water, geology, aquifer and flood-context controls. Primary through
 tertiary **Watersheds** were already integrated. The finer sub-tertiary source
@@ -1731,6 +1733,12 @@ terrain screening, near-threshold and unassessed locations stay distinct. Trees,
 buildings, weather and final design are excluded. Terrain pixels are about
 27 m here and overview cells about 106 m; these are not survey accuracy claims.
 The selected viewpoint stays in memory and is neither saved nor shared.
+A chosen viewpoint also draws a sight line from eye level to each assessed blade
+tip, coloured like the viewshed. Each line is solid while it clears bare earth;
+where the ground first rises into it, a ridge mark and a dotted remainder show the
+break, and the list gives that distance. While a viewpoint is being chosen, the
+map takes the tap before any overlay can, so historical features, parcels and
+other popups cannot swallow it.
 
 The reproducible preparation and accuracy receipt are described in
 [`scripts/rhodena/README.md`](scripts/rhodena/README.md). `npm run check:rhodena`
