@@ -953,6 +953,59 @@ describe("NS Marks The Spot Online", () => {
     expect(opener).toHaveFocus();
   });
 
+  it("opens the Rhodena page on its project with only the project's categories", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena");
+
+    render(<App focus="rhodena" />);
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Rhodena Wind — proposed turbine map");
+    expect(screen.getByRole("heading", { level: 2, name: "Rhodena Wind" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Explore Nova Scotia" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("combobox", { name: /Map setup/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^Rhodena Wind Project/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^Land & Property/ })).toBeInTheDocument();
+    for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/, /^Geology & Resources/]) {
+      expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
+    }
+    await waitFor(() => {
+      const url = new URL(window.location.href);
+      expect(url.pathname).toBe("/rhodena");
+      expect(url.searchParams.get("layers")?.split(",")).toContain("rhodena-turbines");
+    });
+    const fullMap = new URL(screen.getByRole("link", { name: /Open this view in the full NS Marks map/ }).getAttribute("href")!);
+    expect(fullMap.pathname).toBe("/");
+    expect(fullMap.searchParams.get("layers")?.split(",")).toContain("rhodena-turbines");
+  });
+
+  it("keeps a shared Rhodena link to the page's own layers and off tax sale", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena?layers=modern,rhodena-turbines,mineral-tenure,weather-radar&taxSale=on&mode=historical&position=45.78,-61.4,13");
+
+    render(<App focus="rhodena" />);
+
+    await waitFor(() => {
+      const url = new URL(window.location.href);
+      expect(url.searchParams.get("layers")?.split(",").sort()).toEqual(["modern", "rhodena-turbines"]);
+      expect(url.searchParams.get("taxSale")).toBe("off");
+      expect(url.searchParams.get("mode")).toBe("current");
+    });
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("tax-sale layer: off");
+  });
+
+  it("turns the viewshed on and off from the Rhodena summary", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena");
+
+    render(<App focus="rhodena" />);
+
+    await user.click(screen.getByRole("button", { name: "Show turbine visibility" }));
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).toContain("rhodena-visibility"));
+    await user.click(screen.getByRole("button", { name: "Hide turbine visibility" }));
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).not.toContain("rhodena-visibility"));
+  });
+
   it("keeps exactly one page heading, outside the parts a phone hides", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");

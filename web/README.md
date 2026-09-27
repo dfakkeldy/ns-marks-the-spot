@@ -1690,6 +1690,18 @@ limits, two conflicting substation locations and unverified final geometry.
 The source report's 80 study-area PIDs retain their 2024 Crown/private categories;
 these do not establish current ownership or authorizations.
 
+`/rhodena` (`rhodena.html`) is the same research map opened as a single-project
+page: the Rhodena setup is fixed, the panel offers only the layers listed in
+`src/rhodena/focus.ts`, and tax sale, My Maps and the setup picker are absent.
+Its summary card turns the viewshed on or starts choosing a viewpoint in one
+tap, and a fresh link on a phone opens on that summary. Shared links drop layers
+outside the page and keep tax sale off; **Open this view in the full NS Marks
+map** carries the current layers and position to the full map. Each layer keeps
+its own licence gate, source and caveats. The KinNoKi site rewrites `/rhodena` to
+this page and stamps its asset base, as it does for `/poker`; locally, Vite
+answers `/rhodena` too. `public/rhodena-social-card.png` is the link preview, an
+illustration rather than a map or visual simulation.
+
 **Rhodena · turbine visibility** enables a preliminary combined bare-earth
 viewshed for all six turbines. Green indicates potential visibility of at least
 one turbine; grey requires terrain screening of all six. Individual T1–T6 views

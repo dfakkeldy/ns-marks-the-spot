@@ -1,9 +1,12 @@
 import { RHODENA_SOURCE } from './catalog';
 import parcels from './parcels.json';
-export function RhodenaOverview({ onFit }: { onFit: () => void }) {
+/** `compact` drops the summary the /rhodena page already shows in its hero. */
+export function RhodenaOverview({ onFit, compact = false }: { onFit: () => void; compact?: boolean }) {
   return <div className="rhodena-overview">
-    <p><strong>Rhodena · 2024 assessed proposal</strong><br/>Up to six turbines · 42 MW · up to 200 m above ground.</p>
-    <button type="button" className="text-button" onClick={onFit}>Show Rhodena area</button>
+    {compact ? null : <>
+      <p><strong>Rhodena · 2024 assessed proposal</strong><br/>Up to six turbines · 42 MW · up to 200 m above ground.</p>
+      <button type="button" className="text-button" onClick={onFit}>Show Rhodena area</button>
+    </>}
     <p>Explore Creignish, Craigmore, Long Point and Judique. Use the map’s distance tool to measure between places. Dashed project lines are approximate traces; solid points use published coordinates.</p>
     <details><summary>Project status & evidence gaps</summary>
       <p>The <a href={`${RHODENA_SOURCE}EA_Approval_RhodenaWind.pdf`} target="_blank" rel="noreferrer">January 6, 2025 approval</a> is conditional. It does not establish that all permits or land authorizations have been obtained, or that construction has started.</p>
