@@ -37,9 +37,8 @@ for (const width of [1440, 390]) test(`the /rhodena page leads with the project 
   await expect(page.locator('.rhodena-viewpoint-results li')).toHaveCount(6);
   await expect(page.getByText(/This point stays in this browser/)).toBeVisible();
 
-  const url = new URL(page.url());
-  expect(url.pathname).toBe('/rhodena');
-  expect(url.searchParams.get('layers')?.split(',')).toContain('rhodena-visibility');
+  // The address bar is updated at most every 500 ms, so let it settle.
+  await expect(page).toHaveURL(/\/rhodena\?.*layers=[^&]*rhodena-visibility/);
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   expect(errors).toEqual([]);
 });
