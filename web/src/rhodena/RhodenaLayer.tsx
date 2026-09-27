@@ -27,9 +27,17 @@ export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, inter
     if(layer.id==='rhodena-distance-rings'){
       for(const f of features)if(f.geometry.type==='Point') L.circle([f.geometry.coordinates[1],f.geometry.coordinates[0]],{radius:1000,color:'#6d7480',weight:1.5,dashArray:'2 6',fill:false,pane:paneName,interactive:false,pmIgnore:true,snapIgnore:true} as L.CircleOptions).addTo(group);
     }else{
-      const style=(f?: GeoJSON.Feature):PathOptions=>({color:colors[f?.properties?.kind]??'#b24719',weight:f?.properties?.kind==='study'?2:3,fillOpacity:0.04,dashArray:f?.properties?.digitized?'7 5':undefined,pmIgnore:true,snapIgnore:true} as PathOptions);
+      // GeoJSON re-applies this to every layer, points included, so the
+      // markers' solid fill and pale rim must come from here too.
+      const style=(f?: GeoJSON.Feature):PathOptions=>(f?.geometry?.type==='Point'
+        ?{color:'#fffdf7',weight:2.5,fillColor:colors[f.properties?.kind]??'#b24719',fillOpacity:1,pmIgnore:true,snapIgnore:true}
+        :{color:colors[f?.properties?.kind]??'#b24719',weight:f?.properties?.kind==='study'?2:3,fillOpacity:0.04,dashArray:f?.properties?.digitized?'7 5':undefined,pmIgnore:true,snapIgnore:true}) as PathOptions;
+      // A pale casing under each traced line keeps the dashes legible on
+      // aerial imagery and dark basemaps alike.
+      const lines=features.filter(f=>f.geometry.type!=='Point');
+      if(lines.length)L.geoJSON({type:'FeatureCollection',features:lines} as FeatureCollection,{pane:paneName,interactive:false,style:f=>({color:'#fffdf7',weight:(f?.properties?.kind==='study'?2:3)+3,opacity:f?.properties?.kind==='study'?0.5:0.78,fill:false,lineCap:'round',lineJoin:'round',pmIgnore:true,snapIgnore:true} as PathOptions)}).addTo(group);
       L.geoJSON<Properties>({type:'FeatureCollection',features} as FeatureCollection<Geometry, Properties>,{pane:paneName,interactive:canInteract,style,
-        pointToLayer:(feature,latlng)=>L.circleMarker(latlng,{...style(feature),pane:paneName,radius:feature.properties.kind==='turbine'?7:6,fillOpacity:0.95,interactive:canInteract,bubblingMouseEvents:false}),
+        pointToLayer:(feature,latlng)=>L.circleMarker(latlng,{...style(feature),pane:paneName,radius:feature.properties.kind==='turbine'?7.5:6,interactive:canInteract,bubblingMouseEvents:false}),
         onEachFeature:(feature,featureLayer)=>{
           if(!canInteract)return;
           const p=feature.properties as Properties;
@@ -52,7 +60,7 @@ export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, inter
               if(key==='Enter'||key===' '){event.preventDefault();event.stopPropagation();featureLayer.openPopup();}
             });
           });
-          if(feature.geometry.type==='Point')featureLayer.bindTooltip(p.kind==='turbine'?String(feature.id):p.name,{permanent:p.kind==='turbine',direction:'top',className:'rhodena-label'});
+          if(feature.geometry.type==='Point')featureLayer.bindTooltip(p.kind==='turbine'?String(feature.id):p.name,{permanent:p.kind==='turbine',direction:'top',offset:[0,-6],className:'rhodena-label'});
         }
       }).addTo(group);
     }

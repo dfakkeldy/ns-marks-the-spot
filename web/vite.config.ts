@@ -7,6 +7,18 @@ import { resolve } from "node:path";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import provincialReceipt from "./public/atlas/provincial/source.json";
 
+/** The site serves rhodena.html at /rhodena; local servers answer the same path. */
+function rhodenaRoute(request: IncomingMessage, response: ServerResponse, next: () => void) {
+  const url = request.url ?? "";
+  if (/^\/rhodena\/(?:\?|$)/u.test(url)) {
+    response.writeHead(302, { Location: url.replace(/^\/rhodena\//u, "/rhodena") });
+    response.end();
+    return;
+  }
+  if (/^\/rhodena(?:\?|$)/u.test(url)) request.url = url.replace(/^\/rhodena/u, "/rhodena.html");
+  next();
+}
+
 function localArchiveHeaders(request: IncomingMessage, response: ServerResponse, next: () => void) {
   if ((request.url ?? "").split("?")[0]?.endsWith(".pmtiles")) {
     // Local ranged responses can fail in Chromium's HTTP cache despite valid bytes.
@@ -19,6 +31,10 @@ function localArchiveHeaders(request: IncomingMessage, response: ServerResponse,
 
 export default defineConfig(({ mode }) => ({
   plugins: [react(), pokerOfflinePlugin(), {
+    name: "rhodena-route",
+    configureServer(server: ViteDevServer) { server.middlewares.use(rhodenaRoute); },
+    configurePreviewServer(server: PreviewServer) { server.middlewares.use(rhodenaRoute); },
+  }, {
     name: "local-pmtiles-range-cache",
     configureServer(server: ViteDevServer) { server.middlewares.use(localArchiveHeaders); },
     configurePreviewServer(server: PreviewServer) { server.middlewares.use(localArchiveHeaders); },
@@ -44,7 +60,7 @@ export default defineConfig(({ mode }) => ({
     manifest: true,
     rollupOptions: {
       input: {
-        app: "index.html", poker: "poker.html", atlas: "atlas.html", terrain: "terrain.html",
+        app: "index.html", poker: "poker.html", rhodena: "rhodena.html", atlas: "atlas.html", terrain: "terrain.html",
         // Exercise print components in preview without shipping the synthetic fixture.
         ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html" } : {}),
       },

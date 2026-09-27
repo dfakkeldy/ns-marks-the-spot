@@ -1,4 +1,6 @@
 import { RhodenaOverview } from "./rhodena/RhodenaOverview";
+import { RhodenaHero, TurbineGlyph } from "./rhodena/RhodenaHero";
+import { inRhodenaFocus, rhodenaFocusCategoryIds } from "./rhodena/focus";
 import { RHODENA_POSITION } from "./rhodena/catalog";
 import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
 import { DistrictInspector } from "./components/DistrictInspector";
@@ -1106,7 +1108,11 @@ function DataSourcesDialog({
   );
 }
 
-export function App() {
+/**
+ * `focus` opens the map as a single-project page (/rhodena): its setup is
+ * fixed, and the panel offers only that project's layers.
+ */
+export function App({ focus }: { focus?: "rhodena" } = {}) {
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
     () => loadCustomThemes(reachableLocalStorage()),
@@ -1133,7 +1139,7 @@ export function App() {
    * tools. Explicit layer state still takes precedence over the named setup.
    */
   const requestedTheme = builtInMapThemes.find(
-    ({ id }) => id === initialShareState.themeId,
+    ({ id }) => id === (focus ?? initialShareState.themeId),
   );
   // A camera bookmark does not override the layers of a named setup.
   const hasSharedSetupState = requestedTheme
@@ -1141,13 +1147,13 @@ export function App() {
     : hasRecognizedShareState;
   const initialCatalogueLayerIds = useRef(new Set<ShareLayerId>(
     hasSharedSetupState
-      ? initialShareState.layerIds
+      ? initialShareState.layerIds.filter((id) => !focus || inRhodenaFocus(id))
       : requestedTheme?.layerIds ?? ["modern"],
   )).current;
-  const initialTaxSaleEnabled = hasSharedSetupState
+  const initialTaxSaleEnabled = hasSharedSetupState && !focus
     ? initialShareState.taxSaleEnabled
     : requestedTheme?.taxSaleEnabled ?? false;
-  const initialMapMode = hasSharedSetupState
+  const initialMapMode = focus ? "current" : hasSharedSetupState
     ? initialShareState.mode
     : requestedTheme?.mapMode ?? initialShareState.mode;
   const initialLicenceAccepted = useRef(isLicenceAccepted()).current;
@@ -1223,6 +1229,7 @@ export function App() {
         : "explore-nova-scotia"),
   );
   const [rhodenaFitRevision, setRhodenaFitRevision] = useState(0);
+  const [rhodenaPickPending, setRhodenaPickPending] = useState(false);
   const pokerMode = selectedThemeId === "poker";
   const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
   const [pokerRevision, setPokerRevision] = useState(0);
@@ -1248,7 +1255,12 @@ export function App() {
     [customThemes],
   );
   const mapSetupSelectRef = useRef<HTMLSelectElement>(null);
-  const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
+  // A fresh /rhodena link on a phone opens on the project summary; a shared
+  // view goes straight to its map.
+  const [mobileControlsOpen, setMobileControlsOpen] = useState(
+    () => Boolean(focus) && !hasRecognizedShareState
+      && (window.matchMedia?.("(max-width: 860px)").matches ?? false),
+  );
   const [phoneCategoryLayout, setPhoneCategoryLayout] = useState(
     () => window.matchMedia?.("(max-width: 860px)").matches ?? false,
   );
@@ -3182,6 +3194,7 @@ export function App() {
   const setContextLayerVisibility = useCallback(
     (id: ContextLayerId, visible: boolean) => {
     if (!visible) setElectoralSelection(current => current?.layer.id === id ? null : current);
+    if (!visible && id === "rhodena-visibility") setRhodenaPickPending(false);
     setContextLayers((current) => ({ ...current, [id]: visible }));
     if ((id === "ns-topographic" || id === "sentinel-2") && visible) {
       setContextLayers((current) => ({ ...current, "ns-topographic": id === "ns-topographic", "sentinel-2": id === "sentinel-2" }));
@@ -4550,16 +4563,49 @@ export function App() {
     </form>
   );
 
+  const appearanceControl = (
+    <label className="basemap-style-control interface-appearance-control">
+      Appearance
+      <select aria-label="Interface appearance" value={appearance} onChange={event => setAppearance(event.target.value as typeof appearance)}>
+        <option value="map">Match map</option>
+        <option value="system">System</option>
+        <option value="day">Light</option>
+        <option value="night">Dark</option>
+      </select>
+    </label>
+  );
+  // Deliberately NOT gated on `licenceAccepted`. Declining the Province
+  // licence runs `continueWithoutProvinceLayers`, which never sets that flag —
+  // so gating here locked the export out permanently for exactly the user the
+  // feature was written for: the one taking OSM + a Fletcher sheet into the
+  // field with live GPS, which needs no Province data at all. Province layers
+  // are already excluded from the export by the same mechanism that excludes
+  // them from `captureLayerIds` — they are only visible, and therefore only
+  // composited, once the licence is accepted.
+  const exportMapButton = (
+    <button
+      type="button"
+      className="secondary-action export-map-trigger"
+      onClick={() =>
+        setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
+    >
+      Export map (PDF)
+    </button>
+  );
+  const offered = (id: string) => !focus || inRhodenaFocus(id);
+
   return (
     <>
     <div
       className={`app-shell${
         editingMap ? " georeferencing" : ""
-      }`}
+      }${focus ? ` ${focus}-focus` : ""}`}
     >
       {/* Keep the page heading available to assistive technology. */}
       <h1 className="visually-hidden">
-        NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map
+        {focus
+          ? "Rhodena Wind — proposed turbine map"
+          : <>NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map</>}
       </h1>
       <main className="map-layout">
         <aside
@@ -4583,37 +4629,36 @@ export function App() {
               one names the controls rail, which is a part of the page, and
               the rail's own child-combinator rule carries its former h1
               typography over unchanged. */}
-          <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
+          {focus ? (
+            <RhodenaHero
+              visibilityOn={contextLayers["rhodena-visibility"]}
+              onToggleVisibility={() => {
+                const visible = !contextLayers["rhodena-visibility"];
+                setContextLayerVisibility("rhodena-visibility", visible);
+                if (visible) closeMobileControls();
+              }}
+              onCheckViewpoint={() => {
+                setContextLayerVisibility("rhodena-visibility", true);
+                setRhodenaPickPending(true);
+                closeMobileControls();
+              }}
+              onFit={() => {
+                setRhodenaFitRevision((value) => value + 1);
+                closeMobileControls();
+              }}
+            />
+          ) : (
+            <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
+          )}
           {!pokerMode && searchForm}
-          <label className="basemap-style-control interface-appearance-control">
-            Appearance
-            <select aria-label="Interface appearance" value={appearance} onChange={event => setAppearance(event.target.value as typeof appearance)}>
-              <option value="map">Match map</option>
-              <option value="system">System</option>
-              <option value="day">Light</option>
-              <option value="night">Dark</option>
-            </select>
-          </label>
+          {!focus ? (
+            <>
+              {appearanceControl}
+              {exportMapButton}
+            </>
+          ) : null}
 
-          {/* Deliberately NOT gated on `licenceAccepted`. Declining the
-              Province licence runs `continueWithoutProvinceLayers`, which
-              never sets that flag — so gating here locked the export out
-              permanently for exactly the user the feature was written for:
-              the one taking OSM + a Fletcher sheet into the field with live
-              GPS, which needs no Province data at all. Province layers are
-              already excluded from the export by the same mechanism that
-              excludes them from `captureLayerIds` — they are only visible,
-              and therefore only composited, once the licence is accepted. */}
-          <button
-            type="button"
-            className="secondary-action export-map-trigger"
-            onClick={() =>
-              setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
-          >
-            Export map (PDF)
-          </button>
-
-          <MapThemePicker
+          {!focus ? <MapThemePicker
             themes={mapThemes}
             activeThemeId={activeThemeId}
             status={themeStatus}
@@ -4625,7 +4670,7 @@ export function App() {
             onReset={() => {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
-          />
+          /> : null}
 
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
@@ -4644,45 +4689,48 @@ export function App() {
                 ? "layer-category-list layer-category-list--focused"
                 : "layer-category-list"
             }>
-            {layerCategories
+            {(focus
+              ? rhodenaFocusCategoryIds.map((id) =>
+                layerCategories.find((category) => category.id === id)!)
+              : layerCategories)
               .filter((category) =>
                 !phoneCategoryLayout || focusedCategoryId === null ||
                   category.id === focusedCategoryId)
               .map((category) => {
               const provinceCategoryLayers = provinceLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const zoningCategoryLayers = zoningLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const hydroCategoryLayers = hydroPilotLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const floodCategoryLayers = floodHazardLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const contextCategoryLayers = contextLayerCatalog.filter(
-                ({ category: assigned }) => assigned === category.id,
+                ({ id, category: assigned }) => assigned === category.id && offered(id),
               );
               const environmentalCategoryLayers =
                 environmentalHealthLayerCatalog.filter(
-                  ({ id }) => layerCategoryByLayerId[id] === category.id,
+                  ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
                 );
               const forestryCategoryLayers = forestryLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const resourceCategoryLayers = allResourceLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const wellCategoryLayers = wellLogLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const liveConditionsCategoryLayers =
                 liveConditionsLayerCatalog.filter(
-                  ({ id }) => layerCategoryByLayerId[id] === category.id,
+                  ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
                 );
               const churchCategoryLayers = churchLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
 
               return (
@@ -4713,7 +4761,7 @@ export function App() {
                     }
                   }}
                 >
-                  {category.id === "rhodena-project" ? <RhodenaOverview onFit={() => { setRhodenaFitRevision(value => value + 1); setMobileControlsOpen(false); }} /> : null}
+                  {category.id === "rhodena-project" ? <RhodenaOverview compact={Boolean(focus)} onFit={() => { setRhodenaFitRevision(value => value + 1); setMobileControlsOpen(false); }} /> : null}
                   {layerCategoryByLayerId.modern === category.id ? (
                     <div className="layer-control">
                     <label className="layer-row">
@@ -5444,6 +5492,24 @@ export function App() {
             </div>
           </section>
 
+          {focus ? (
+            <section className="rhodena-focus-footer" aria-label="Display, export and full map">
+              {appearanceControl}
+              {exportMapButton}
+              <a
+                className="rhodena-full-map-link"
+                href={new URL(`./${new URL(shareUrl).search}`, document.baseURI).href}
+              >
+                Open this view in the full NS Marks map
+                <span aria-hidden="true">→</span>
+              </a>
+              <p>
+                A screening and research map, not legal proof. Each layer keeps
+                its own source, date and caveats; an empty or failed layer is
+                not evidence of absence.
+              </p>
+            </section>
+          ) : null}
         </aside>
 
         <section
@@ -5453,14 +5519,28 @@ export function App() {
           aria-label="Map and parcel details"
         >
           <div className="mobile-map-chrome">
-            <a
-              className="mobile-map-brand"
-              href="../"
-              aria-label="NS Marks The Spot home"
-            >
-              <span aria-hidden="true">NS</span>
-              <strong>NS Marks</strong>
-            </a>
+            {focus ? (
+              <button
+                className="mobile-map-brand rhodena-brand"
+                type="button"
+                aria-label="Rhodena Wind — summary and layers"
+                aria-controls="map-controls"
+                aria-expanded={mobileControlsOpen}
+                onClick={() => setMobileControlsOpen(true)}
+              >
+                <span aria-hidden="true"><TurbineGlyph /></span>
+                <strong>Rhodena<span className="rhodena-brand-suffix"> Wind</span></strong>
+              </button>
+            ) : (
+              <a
+                className="mobile-map-brand"
+                href="../"
+                aria-label="NS Marks The Spot home"
+              >
+                <span aria-hidden="true">NS</span>
+                <strong>NS Marks</strong>
+              </a>
+            )}
             <button
               ref={mobileControlsTriggerRef}
               className="mobile-controls-trigger"
@@ -5508,9 +5588,9 @@ export function App() {
             fletcherOpacity={fletcherOpacity}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
-            userMaps={userMapsApi.visibleMaps}
+            userMaps={focus ? undefined : userMapsApi.visibleMaps}
             userMapFitRequest={userMapsApi.fitRequest}
-            userVectorLayers={readOnlyVectorLayers}
+            userVectorLayers={focus ? undefined : readOnlyVectorLayers}
             userVectorFitRequest={userVectorApi.fitRequest}
             userVectorPhotoUi={photoPopupUi}
             userVectorEdit={
@@ -5556,7 +5636,9 @@ export function App() {
             }}
             focusRequest={parcelFocusRequest}
             rhodenaFitRevision={rhodenaFitRevision}
-            initialPosition={!hasSharedPosition && initialRequestedTheme?.id === "rhodena" ? RHODENA_POSITION : initialShareState.position}
+            rhodenaPickPending={rhodenaPickPending}
+            onRhodenaPickStarted={() => setRhodenaPickPending(false)}
+            initialPosition={!hasSharedPosition && (focus || initialRequestedTheme?.id === "rhodena") ? RHODENA_POSITION : initialShareState.position}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onPositionChange={reportMapCentre}

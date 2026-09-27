@@ -207,6 +207,9 @@ const LOCATE_MIN_ZOOM = 14;
 
 type MapCanvasProps = {
   rhodenaFitRevision?: number;
+  /** A request to start choosing a viewpoint once the terrain is ready. */
+  rhodenaPickPending?: boolean;
+  onRhodenaPickStarted?: () => void;
   poker?: PokerSession | null;
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
@@ -1858,6 +1861,8 @@ function LocationControlIcon() {
 
 export function MapCanvas({
   rhodenaFitRevision = 0,
+  rhodenaPickPending = false,
+  onRhodenaPickStarted,
   poker = null,
   parcels,
   taxSalePids,
@@ -2636,7 +2641,7 @@ export function MapCanvas({
           ))}
         <RhodenaFocus revision={rhodenaFitRevision} />
         {contextLayerCatalog.map((layer) => layer.id === "rhodena-visibility" ? (
-          contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} /> : null
+          contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} pickPending={rhodenaPickPending} onPickStarted={onRhodenaPickStarted} /> : null
         ) : isRhodenaLayerId(layer.id) ? (
           <RhodenaLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
         ) : isElectoralLayerId(layer.id) ? (
