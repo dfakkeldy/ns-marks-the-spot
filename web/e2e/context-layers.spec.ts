@@ -30,7 +30,7 @@ for (const width of [390, 1440]) {
     const coal = page.getByRole("checkbox", { name: "Historical coal workings", exact: true });
     await coal.press("Space");
     await expect(page).toHaveURL(/historical-coal-workings/);
-    await expect(page.locator(".context-layer-control").filter({ has: coal })).toContainText("Ready");
+    await expect(page.locator(".context-layer-control").filter({ has: coal })).toContainText("Source returned no records");
     await coal.press("Space");
     await expect(page).not.toHaveURL(/historical-coal-workings/);
     await expect(page.locator("vite-error-overlay")).toHaveCount(0);

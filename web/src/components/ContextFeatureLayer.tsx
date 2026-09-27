@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import L, { type PathOptions } from "leaflet";
 import { useMap } from "react-leaflet";
 import type { ContextMapLayer } from "../layers/contextLayerCatalog";
-import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
+import { ContextAreaTooLargeError, ContextOutsideCoverageError, fetchContextFeatures } from "../services/contextVectorSource";
 import type { MapLayerId, MapLayerStatus, MapRenderMode } from "./MapCanvas";
 import { contextFeatureStyle, contextFeatureLabel } from "../services/contextFeatures";
 
@@ -41,14 +41,7 @@ export function ContextFeatureLayer({ layer, visible, onStatusChange, renderMode
       const timeout = window.setTimeout(() => activeController.abort(), 30_000);
       const bounds = map.getBounds();
       onStatusChange?.(layer.id, { status: "loading" });
-      void fetchArcGISFeatureOverlay<GeoJSON.Geometry>({
-        serviceUrl: layer.serviceUrl,
-        bounds: { west: bounds.getWest(), south: bounds.getSouth(), east: bounds.getEast(), north: bounds.getNorth() },
-        outFields: layer.outFields ?? [layer.idField ?? "OBJECTID"],
-        idField: layer.idField ?? "OBJECTID",
-        orderByFields: layer.idField ?? "OBJECTID",
-        signal: controller.signal,
-      }).then((collection) => {
+      void fetchContextFeatures(layer, { west: bounds.getWest(), south: bounds.getSouth(), east: bounds.getEast(), north: bounds.getNorth() }, controller.signal).then((collection) => {
         if (request !== generation) return;
         const style = (feature?: GeoJSON.Feature): PathOptions => ({
           ...contextFeatureStyle(layer, feature?.properties ?? {}, renderMode),
@@ -66,6 +59,19 @@ export function ContextFeatureLayer({ layer, visible, onStatusChange, renderMode
             const article = document.createElement("article");
             const title = document.createElement("strong");
             title.textContent = contextFeatureLabel(layer, feature.properties ?? {});
+            const details = document.createElement("dl");
+            details.className = "context-feature-details";
+            const properties = feature.properties ?? {};
+            const fields = [{ field: layer.idField ?? "OBJECTID", label: "Source record", values: undefined }, ...(layer.popupFields ?? [])];
+            for (const { field, label, values } of fields) {
+              const value = properties[field] ?? (field === layer.idField ? feature.id : undefined);
+              const term = document.createElement("dt"); term.textContent = label;
+              const definition = document.createElement("dd");
+              const scalar = typeof value === "string" || typeof value === "number" || typeof value === "boolean";
+              const sourceText = scalar ? String(value) : "Not supplied by source";
+              definition.textContent = scalar && values && Object.hasOwn(values, sourceText) ? `${values[sourceText]} (${sourceText})` : sourceText;
+              details.append(term, definition);
+            }
             const note = document.createElement("p");
             note.textContent = `${layer.sourceDate}. ${layer.webCaveat}`;
             const link = document.createElement("a");
@@ -73,13 +79,15 @@ export function ContextFeatureLayer({ layer, visible, onStatusChange, renderMode
             link.target = "_blank";
             link.rel = "noreferrer";
             link.textContent = "Official source";
-            article.append(title, note, link);
+            article.append(title, details, note, link);
             featureLayer.bindPopup(article);
           },
         }).addTo(map);
-        onStatusChange?.(layer.id, { status: "ready", count: collection.features.length });
-      }).catch(() => {
-        if (request === generation) onStatusChange?.(layer.id, { status: "error" });
+        onStatusChange?.(layer.id, collection.features.length ? { status: "ready", count: collection.features.length } : { status: "returned-empty" });
+      }).catch((error: unknown) => {
+        if (request === generation) onStatusChange?.(layer.id, error instanceof ContextOutsideCoverageError
+          ? { status: "outside-coverage" }
+          : error instanceof ContextAreaTooLargeError ? { status: "zoom", minZoom: Math.ceil(map.getZoom()) + 1 } : { status: "error" });
       }).finally(() => window.clearTimeout(timeout));
     };
     load();

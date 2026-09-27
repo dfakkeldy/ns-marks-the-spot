@@ -953,7 +953,7 @@ describe("NS Marks The Spot Online", () => {
     expect(opener).toHaveFocus();
   });
 
-  it("opens the Rhodena page on its project with only the project's categories", async () => {
+  it("opens the Rhodena page on its project with shared research categories", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/rhodena");
 
@@ -965,7 +965,8 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByRole("combobox", { name: /Map setup/ })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /^Rhodena Wind Project/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /^Land & Property/ })).toBeInTheDocument();
-    for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/, /^Geology & Resources/]) {
+    expect(screen.getByRole("button", { name: /^Geology & Resources/ })).toBeInTheDocument();
+    for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/]) {
       expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
     }
     await waitFor(() => {

@@ -7,6 +7,7 @@ const PAGE_SIZE = 5000;
 const MAX_FEATURES = 12_000;
 const MAX_RESPONSE_BYTES = 24 * 1024 * 1024;
 export class OpenDataAreaTooLargeError extends Error {}
+export class OpenDataOutsideCoverageError extends Error {}
 export type OpenDataCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry, Record<string, unknown>>;
 
 function validateBounds(bounds: MapEnvelope) {
@@ -47,6 +48,9 @@ const roadCache = new WeakMap<OpenDataSource, {
 export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal?: AbortSignal, zoom = 24): Promise<OpenDataCollection> {
   validateBounds(bounds);
   signal?.throwIfAborted();
+  if (source.coverageAreas && !source.coverageAreas.some(area => area.west <= bounds.east && area.east >= bounds.west && area.south <= bounds.north && area.north >= bounds.south)) {
+    throw new OpenDataOutsideCoverageError("Outside this source’s mapped coverage");
+  }
   const cached = roadCache.get(source);
   if (cached && cached.expires > Date.now() && cached.zoom === zoom &&
       bounds.west >= cached.bounds.west && bounds.east <= cached.bounds.east &&

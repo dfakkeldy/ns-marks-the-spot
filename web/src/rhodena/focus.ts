@@ -1,10 +1,11 @@
 import type { LayerCategoryId } from '../layers/layerCategories';
 import type { ShareLayerId } from '../services/mapShareState';
+import { contextLayerCatalog } from '../layers/contextLayerCatalog';
 
 /**
  * The /rhodena page is the research map with a shorter panel: the project
- * layers first, then the land, water, road and forest context a neighbour is
- * likely to ask about. Every layer keeps its own source, licence gate and
+ * layers first, then the shared land, water, ecology and resource sources.
+ * Every layer keeps its own source, licence gate and
  * caveats; this list only decides which rows the panel offers.
  */
 export const rhodenaFocusCategoryIds = [
@@ -15,6 +16,7 @@ export const rhodenaFocusCategoryIds = [
   'roads-places',
   'forestry-ecology',
   'environment-hazards',
+  'geology-resources',
 ] as const satisfies readonly LayerCategoryId[];
 
 export const rhodenaFocusLayerIds: ReadonlySet<ShareLayerId> = new Set<ShareLayerId>([
@@ -47,6 +49,18 @@ export const rhodenaFocusLayerIds: ReadonlySet<ShareLayerId> = new Set<ShareLaye
   'forest-height',
   'flood-risk',
   'ns-well-logs',
+  'waterfalls',
+  'published-river-flood-zones',
+  'coastal-flood-current',
+  'coastal-flood-2050',
+  'coastal-flood-2100',
+  'arsenic-risk-wells',
+  'uranium-risk-wells',
+  'manganese-risk-wells',
+  'surficial-aquifers',
+  ...contextLayerCatalog
+    .filter(({ category }) => rhodenaFocusCategoryIds.some(id => id === category))
+    .map(({ id }) => id),
 ]);
 
 export function inRhodenaFocus(id: string): boolean {

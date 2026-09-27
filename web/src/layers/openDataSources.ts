@@ -17,6 +17,8 @@ export type OpenDataSource = {
   labelMinZoom?: number;
   roads?: boolean;
   stroke?: boolean;
+  /** Conservative envelopes from the publisher's known, limited coverage. */
+  coverageAreas?: readonly { west: number; south: number; east: number; north: number }[];
 };
 export const openDatasetUrl = (id: string) => `https://data.novascotia.ca/d/${id}`;
 export const openDatasetApi = (id: string) => `https://data.novascotia.ca/resource/${id}.geojson`;

@@ -4,7 +4,7 @@ import { beforeEach, expect, it, vi } from "vitest";
 import { OpenDataLayer } from "./OpenDataLayer";
 import { renderOpenData } from "../services/renderOpenData";
 import { provinceLayerCatalog } from "../layers/layerCatalog";
-import { OpenDataAreaTooLargeError } from "../services/openDataOverlay";
+import { OpenDataAreaTooLargeError, OpenDataOutsideCoverageError } from "../services/openDataOverlay";
 const state = vi.hoisted(() => ({ move: undefined as (() => void) | undefined, images: [] as string[] }));
 vi.mock("../services/renderOpenData", () => ({ renderOpenData: vi.fn() }));
 vi.mock("react-leaflet", () => ({ useMap: () => map }));
@@ -44,6 +44,13 @@ it("asks for a smaller area when the complete download exceeds the budget", asyn
   const status = vi.fn();
   render(<OpenDataLayer layer={layer} visible zIndex={220} renderMode="interactive" onStatusChange={status} />);
   await waitFor(() => expect(status).toHaveBeenLastCalledWith("crown-lands", { status: "zoom", minZoom: 15 }));
+  expect(state.images).toEqual([]);
+});
+it("reports known outside coverage without drawing a blank success image", async () => {
+  vi.mocked(renderOpenData).mockRejectedValueOnce(new OpenDataOutsideCoverageError("outside coverage"));
+  const status = vi.fn();
+  render(<OpenDataLayer layer={layer} visible zIndex={220} renderMode="interactive" onStatusChange={status} />);
+  await waitFor(() => expect(status).toHaveBeenLastCalledWith("crown-lands", { status: "outside-coverage" }));
   expect(state.images).toEqual([]);
 });
 

@@ -338,7 +338,7 @@ movement, and deduplicates returned records. Occurrences begin at zoom 8; the
 denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
 
-`layers/contextLayerCatalog.ts` adds 38 default-off web-only research controls,
+The original GeoNova group in `layers/contextLayerCatalog.ts` adds 38 default-off web-only research controls,
 composed from the NSTDB infrastructure/place catalogue, the land/environment
 catalogues, and the EOX Sentinel-2 2016 mosaic. Fifteen infrastructure/place
 overlays now query identified OGL-NS open datasets for the viewport; the
@@ -352,6 +352,22 @@ catalogue participates in categories, share state, custom themes and browser
 print without extending the native parity/offline catalogue. See the
 [GeoNova source inventory](docs/geonova-layer-expansion.md) for all layers,
 licence distinctions, source checks and the radon reproduction receipt.
+
+The September 2026 expansion adds 21 descriptors from `biodiversityLayers`,
+`waterResearchLayers` and `communityResearchLayers` to both maps.
+`contextVectorSource` extends the feature renderer with bounded Socrata point
+tables, OGC paging and a cached public GeoJSON snapshot. Context ArcGIS
+responses have a 20 MB pre-parse budget. Snapshot/table loaders preserve source
+IDs and reject malformed, partial or duplicate records. Popups display declared
+scalar fields as text, with publisher code labels where supplied. No parcel
+join or species-presence inference is introduced. The 3,660 public provincial
+habitat polygons are simplified by 20 m for display and fetched only when
+selected; `buildCoreHabitatSnapshot.py` reproduces them from the hash-pinned
+public ZIP. The sub-tertiary layer checks conservative published polygon
+envelopes before querying; outside views and successful empty responses within
+the envelopes have distinct states. Source receipts and exclusions are in
+`docs/gis-biodiversity-sources.md`, `docs/gis-water-sources.md` and
+`docs/gis-community-sources.md`.
 
 `MineralProximityParcelLayer` is the only derived resource renderer. It asks
 `mineralProximity.ts` for occurrence points around the viewport and submits the

@@ -9,7 +9,7 @@ import { buildExportLayers, contextExportOmission } from "../print/pdf/exportLay
 const migrated = [...provinceLayerCatalog, ...contextLayerCatalog].filter((layer) => layer.openData);
 describe("open source replacements", () => {
   it("binds every migrated constituent to a verified OGL dataset and real schema", () => {
-    expect(migrated).toHaveLength(24);
+    expect(migrated).toHaveLength(26);
     for (const layer of migrated) {
       expect(layer.licence).toBe("province-open");
       expect(layer.serviceUrl).toMatch(/^https:\/\/data.novascotia.ca\/resource\//);

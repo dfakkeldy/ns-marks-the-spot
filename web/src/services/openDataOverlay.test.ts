@@ -6,6 +6,12 @@ const source = { parts: [{ dataset: "458x-dmz3", fields: ["feat_desc"], where: "
 const feature = (id: string) => ({ type: "Feature", geometry: { type: "Point", coordinates: [-61.45, 45.85] }, properties: { source_row_id: id, feat_desc: "Falls" } });
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 describe("open-government viewport downloads", () => {
+  it("does not query a view outside documented source coverage envelopes", async () => {
+    const fetcher = vi.fn(); vi.stubGlobal("fetch", fetcher);
+    const covered = { ...source, coverageAreas: [{ west: -65, east: -64, south: 44, north: 45 }] };
+    await expect(fetchOpenDataOverlay(covered, bounds)).rejects.toThrow(/outside.*coverage/i);
+    expect(fetcher).not.toHaveBeenCalled();
+  });
   it("queries only the requested bounds and source classes with stable row identifiers", async () => {
     const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ type: "FeatureCollection", features: [feature("one")] })));
     vi.stubGlobal("fetch", fetcher);

@@ -372,7 +372,7 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
 
-The web-only `contextLayerCatalog` adds 38 default-off research controls across
+The original GeoNova group in the web-only `contextLayerCatalog` adds 38 default-off research controls across
 these categories: provincial topography, 15 OGL-NS infrastructure and
 mapped-place overlays, water and forest context, geology, environmental
 screens, historical coal workings under **Historical Maps**, and the
@@ -387,6 +387,20 @@ image are omitted and named as not included). The
 control, official source, delivery path and licence, including the open-data
 replacements, Sentinel-2 WMTS identifier, and the reproducible radon image
 and its source receipt.
+
+The September 2026 expansion adds **21 further optional layers** to both maps:
+provincial core habitat, federal final/proposed critical habitat, aquatic and
+generalized species ranges, ecological units, national wetlands, eelgrass
+observations, stream spines, finer/coastal watersheds, coastal land use,
+hydrometric station locations, installed turbines, public structures, heritage,
+tourism, traffic-survey sections and 2024 NPRI facilities. Vector popups retain
+source IDs and declared attributes. New layers start off and participate in
+shared views. See the [biodiversity](../docs/gis-biodiversity-sources.md),
+[water](../docs/gis-water-sources.md) and [community](../docs/gis-community-sources.md)
+receipts for dates, terms, coverage and sources held back. Browser printing
+retains vector legends and attribution; the standalone generated-PDF path
+explicitly names unsupported vector formats as omitted. New image-service and
+Socrata geometry overlays use the existing generated-PDF rendering paths.
 
 The eight built-in map setups are **Explore Nova Scotia**,
 **Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
@@ -1693,6 +1707,10 @@ these do not establish current ownership or authorizations.
 `/rhodena` (`rhodena.html`) is the same research map opened as a single-project
 page: the Rhodena setup is fixed, the panel offers only the layers listed in
 `src/rhodena/focus.ts`, and tax sale, My Maps and the setup picker are absent.
+The focus includes the shared research sources and existing forestry,
+source-water, geology, aquifer and flood-context controls. Primary through
+tertiary **Watersheds** were already integrated. The finer sub-tertiary source
+is limited to six published basins and reports outside coverage at Rhodena.
 Its summary card turns the viewshed on or starts choosing a viewpoint in one
 tap, and a fresh link on a phone opens on that summary. Shared links drop layers
 outside the page and keep tax sale off; **Open this view in the full NS Marks
