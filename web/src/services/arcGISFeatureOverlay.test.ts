@@ -16,6 +16,13 @@ describe("ArcGIS feature overlays", () => {
     vi.unstubAllGlobals();
   });
 
+  it("enforces an optional byte budget before parsing large context responses", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ type: "FeatureCollection", features: [feature(1)] }))));
+    await expect(fetchArcGISFeatureOverlay({
+      serviceUrl: "https://example.test/FeatureServer/0", bounds: { west: -62, south: 45, east: -60, north: 47 }, outFields: ["geo_id"], responseLimitBytes: 10,
+    })).rejects.toThrow(/size limit/i);
+  });
+
   it("queries only the visible WGS84 map envelope and requested fields", async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(

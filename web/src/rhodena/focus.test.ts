@@ -3,6 +3,9 @@ import { layerCategoryByLayerId } from '../layers/layerCategories';
 import { isShareLayerId } from '../services/mapShareState';
 import { builtInMapThemes } from '../themes/mapThemes';
 import { rhodenaLayers } from './catalog';
+import { biodiversityLayers } from '../layers/biodiversityLayers';
+import { communityResearchLayers } from '../layers/communityResearchLayers';
+import { waterResearchLayers } from '../layers/waterResearchLayers';
 import { inRhodenaFocus, rhodenaFocusCategoryIds, rhodenaFocusLayerIds } from './focus';
 
 describe('Rhodena page layer focus', () => {
@@ -17,6 +20,11 @@ describe('Rhodena page layer focus', () => {
     for (const { id } of rhodenaLayers) expect(inRhodenaFocus(id), id).toBe(true);
     const theme = builtInMapThemes.find(({ id }) => id === 'rhodena')!;
     for (const id of theme.layerIds) expect(inRhodenaFocus(id), id).toBe(true);
+  });
+
+  it('offers the shared research sources and existing land/water context on Rhodena', () => {
+    for (const { id } of [...biodiversityLayers, ...communityResearchLayers, ...waterResearchLayers]) expect(inRhodenaFocus(id), id).toBe(true);
+    for (const id of ['crown-harvest-plans', 'forest-treatments', 'bedrock-geology', 'surficial-geology', 'source-water-well-field-protection']) expect(inRhodenaFocus(id), id).toBe(true);
   });
 
   it('leaves out research surfaces unrelated to the project', () => {

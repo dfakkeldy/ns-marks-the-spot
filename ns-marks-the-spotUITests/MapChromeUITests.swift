@@ -376,20 +376,23 @@ final class MapChromeUITests: XCTestCase {
         // anchored to the trailing edge and capped at 300 points, so the map
         // it leaves exposed is a strip down the leading edge as wide as the
         // screen allows.
-        let panel = app.scrollViews["layer-panel-scroll"]
-        XCTAssertTrue(panel.waitForExistence(timeout: timeout), "the panel has no scrolling region")
+        let panel = app.otherElements["layer-panel"]
+        XCTAssertTrue(panel.waitForExistence(timeout: timeout), "the layers panel is missing")
         // The panel slides in from the trailing edge. A tap taken from the
         // first hittable frame lands on the moving overlay, MapKit never
         // sees it, and the panel stays open.
         XCTAssertTrue(
-            panel.waitForStableFrame(in: app.windows.firstMatch, timeout: timeout),
+            panel.waitForStableFrame(in: app.windows.firstMatch, timeout: timeout, requiresHittable: false),
             "the layers panel was still moving"
         )
         let exposed = panel.frame.minX - app.windows.firstMatch.frame.minX
         try XCTSkipIf(exposed < 24, "no map is exposed beside the panel on this screen")
-        panel.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0.5))
-            .withOffset(CGVector(dx: -min(16, exposed / 2), dy: 0))
-            .tap()
+        // Aim halfway across the exposed map. The inner scrolling region has
+        // padding, so an offset from its edge can still hit the glass card.
+        app.tapMap(at: CGPoint(
+            x: app.windows.firstMatch.frame.minX + exposed / 2,
+            y: panel.frame.midY
+        ))
 
         XCTAssertTrue(
             waitForUI(timeout: 10) { !close.exists },

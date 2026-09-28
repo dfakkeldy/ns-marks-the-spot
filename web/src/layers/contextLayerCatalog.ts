@@ -4,6 +4,9 @@ import { sentinel2Layer } from "./sentinel2";
 import { openSourceMetadata } from "./openDataSources";
 import { infrastructureLayers } from "./infrastructureLayers";
 import { landContextLayers } from "./landContextLayers";
+import { biodiversityLayers } from "./biodiversityLayers";
+import { communityResearchLayers } from "./communityResearchLayers";
+import { waterResearchLayers } from "./waterResearchLayers";
 import type { ContextLayerDescriptor } from "./contextLayerTypes";
 
 export type ContextLayerId =
@@ -11,7 +14,10 @@ export type ContextLayerId =
   | (typeof electoralLayers)[number]["id"]
   | typeof sentinel2Layer.id
   | (typeof infrastructureLayers)[number]["id"]
-  | (typeof landContextLayers)[number]["id"];
+  | (typeof landContextLayers)[number]["id"]
+  | (typeof biodiversityLayers)[number]["id"]
+  | (typeof communityResearchLayers)[number]["id"]
+  | (typeof waterResearchLayers)[number]["id"];
 
 export type ContextMapLayer = ContextLayerDescriptor & { id: ContextLayerId };
 
@@ -19,6 +25,9 @@ export type ContextMapLayer = ContextLayerDescriptor & { id: ContextLayerId };
 export const contextLayerCatalog: readonly ContextMapLayer[] = [
   ...infrastructureLayers.map((layer) => openSourceMetadata(layer, "openData" in layer ? layer.openData : undefined)),
   ...landContextLayers,
+  ...biodiversityLayers,
+  ...communityResearchLayers,
+  ...waterResearchLayers,
   ...electoralLayers,
   ...rhodenaLayers,
   sentinel2Layer,

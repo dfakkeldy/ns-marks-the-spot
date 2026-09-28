@@ -4,6 +4,7 @@ import type L from "leaflet";
 import { contextLayerCatalog } from "../layers/contextLayerCatalog";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
 import { ContextFeatureLayer } from "./ContextFeatureLayer";
+import { ContextAreaTooLargeError, ContextOutsideCoverageError } from "../services/contextVectorSource";
 
 const mocks = vi.hoisted(() => ({
   handlers: new Map<string, () => void>(),
@@ -16,7 +17,7 @@ const mocks = vi.hoisted(() => ({
 }));
 vi.mock("react-leaflet", () => ({ useMap: () => mocks.map }));
 vi.mock("leaflet", () => ({ default: { geoJSON: mocks.geoJSON, circleMarker: mocks.circleMarker } }));
-vi.mock("../services/arcGISFeatureOverlay", () => ({ fetchArcGISFeatureOverlay: vi.fn() }));
+vi.mock("../services/arcGISFeatureOverlay", async (importOriginal) => ({ ...await importOriginal<typeof import("../services/arcGISFeatureOverlay")>(), fetchArcGISFeatureOverlay: vi.fn() }));
 const layer = contextLayerCatalog.find(({ id }) => id === "karst-risk")!;
 const feature: GeoJSON.Feature<GeoJSON.Point, Record<string, unknown>> = {
   type: "Feature", properties: { OBJECTID: 1, rank_1: "High Risk" },
@@ -73,6 +74,7 @@ describe("ContextFeatureLayer", () => {
     expect(fetchArcGISFeatureOverlay).toHaveBeenCalledWith({
       serviceUrl: layer.serviceUrl, bounds: { west: -62, south: 45, east: -61, north: 46 },
       outFields: layer.outFields, idField: layer.idField, orderByFields: layer.idField, signal: expect.any(AbortSignal),
+      responseLimitBytes: 20 * 1024 * 1024,
     });
     await waitFor(() => expect(status).toHaveBeenLastCalledWith(layer.id, { status: "ready", count: 1 }));
   });
@@ -80,7 +82,7 @@ describe("ContextFeatureLayer", () => {
   it("reports successful empty results separately from source errors", async () => {
     vi.mocked(fetchArcGISFeatureOverlay).mockResolvedValueOnce({ type: "FeatureCollection", features: [] });
     const empty = mount();
-    await waitFor(() => expect(empty.status).toHaveBeenLastCalledWith(layer.id, { status: "ready", count: 0 }));
+    await waitFor(() => expect(empty.status).toHaveBeenLastCalledWith(layer.id, { status: "returned-empty" }));
     empty.unmount(); vi.mocked(fetchArcGISFeatureOverlay).mockRejectedValueOnce(new Error("source unavailable"));
     const failed = mount();
     await waitFor(() => expect(failed.status).toHaveBeenLastCalledWith(layer.id, { status: "error" }));
@@ -142,5 +144,29 @@ describe("ContextFeatureLayer", () => {
     const options = geometryOptions(); expect(options.interactive).toBe(false); expect(options.onEachFeature).toBeUndefined();
     expect(pane.style.pointerEvents).toBe("none");
     expect((options.style as L.StyleFunction)(feature)).toMatchObject({ color: "#969696", snapIgnore: true, pmIgnore: true });
+  });
+
+  it("renders only declared scalar details, with source identifier and untrusted values as text", async () => {
+    const detailsLayer = { ...layer, labelField: "name", popupFields: [{ field: "surveyed", label: "Survey date" }, { field: "notes", label: "Source note" }, { field: "status", label: "Status", values: { "1": "Posted Final" } }] };
+    render(<ContextFeatureLayer layer={detailsLayer} visible renderMode="interactive" />);
+    await waitFor(() => expect(mocks.geoJSON).toHaveBeenCalledOnce());
+    const bindPopup = vi.fn();
+    geometryOptions().onEachFeature?.({ ...feature, properties: { OBJECTID: 123, name: "Wetland", surveyed: "2024", status: 1, notes: '<img src=x onerror="alert(1)">', hidden: "unrequested" } }, { bindPopup } as unknown as L.Layer);
+    const popup = bindPopup.mock.calls[0][0] as HTMLElement;
+    expect(popup.textContent).toContain("Wetland");
+    expect(popup.textContent).toContain("Source record123");
+    expect(popup.textContent).toContain("Survey date2024");
+    expect(popup.textContent).toContain("Posted Final (1)");
+    expect(popup.textContent).not.toContain("unrequested");
+    expect(popup.querySelector("img")).toBeNull();
+  });
+
+  it.each([
+    [new ContextOutsideCoverageError(), { status: "outside-coverage" }],
+    [new ContextAreaTooLargeError(), { status: "zoom", minZoom: 13 }],
+  ])("retains bounded source state instead of conflating it with a generic failure", async (error, expected) => {
+    vi.mocked(fetchArcGISFeatureOverlay).mockRejectedValueOnce(error);
+    const { status } = mount();
+    await waitFor(() => expect(status).toHaveBeenLastCalledWith(layer.id, expected));
   });
 });

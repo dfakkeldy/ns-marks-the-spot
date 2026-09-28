@@ -7171,6 +7171,9 @@ a {
 .context-layer-source p { margin: 0.45rem 0; }
 .context-layer-source ul { max-height: 16rem; overflow: auto; padding-left: 0.75rem; }
 .context-layer-control > .text-button { margin-left: 3rem; }
+.context-feature-details { margin: 0.6rem 0; max-height: 16rem; overflow: auto; overflow-wrap: anywhere; }
+.context-feature-details dt { font-weight: 600; margin-top: 0.4rem; }
+.context-feature-details dd { margin-left: 0; }
 
 /* Optional corrected-corridor review control; never shown without its tile host. */
 .fletcher-full-sheets-preview {

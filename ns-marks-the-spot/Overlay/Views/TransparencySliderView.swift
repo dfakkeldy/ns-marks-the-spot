@@ -144,6 +144,8 @@ struct TransparencySliderView: View {
         // stroke goes with it: glass draws its own edge, and a second one over
         // the top reads as a sticker.
         .mapChromeSurface(interactive: true, shadow: (0.15, 10, 4))
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("layer-panel")
         .sheet(isPresented: Binding(
             get: { viewModel.isShowingLicenceSheet },
             set: { if !$0 { viewModel.dismissLicenceSheet() } }

@@ -45,13 +45,23 @@ extension XCUIElement {
 
     /// Hittable can mean that only an edge of a scrolling button is exposed.
     /// Require the whole target, and let scrolling settle before aiming at it.
-    func waitForStableFrame(in container: XCUIElement, timeout: TimeInterval = 30) -> Bool {
+    func waitForStableFrame(
+        in container: XCUIElement,
+        timeout: TimeInterval = 30,
+        requiresHittable: Bool = true
+    ) -> Bool {
+        // A hosted runner can spend the entire timeout acquiring the first
+        // snapshot. Take the baseline first so stability always compares two
+        // observations. The containing window/rail is stationary at both call
+        // sites; avoid resolving it on every poll.
+        let containerFrame = container.frame
+        var previous = (try? snapshot())?.frame ?? .zero
         let deadline = Date().addingTimeInterval(timeout)
-        var previous = CGRect.zero
         var stableSince = Date()
         while Date() < deadline {
-            let current = exists ? frame : .zero
-            let visible = current != .zero && container.frame.contains(current) && isHittable
+            let current = (try? snapshot())?.frame ?? .zero
+            let visible = current != .zero && containerFrame.contains(current)
+                && (!requiresHittable || isHittable)
             if !visible || current != previous {
                 stableSince = Date()
             } else if Date().timeIntervalSince(stableSince) >= 0.5 {
