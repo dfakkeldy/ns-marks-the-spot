@@ -6,7 +6,9 @@ import type { OpenDataSource } from "../layers/openDataSources";
 import { renderOpenData } from "../services/renderOpenData";
 import type { MapLayerId, MapLayerStatus, MapRenderMode } from "./MapCanvas";
 
-export function OpenDataLayer({ layer, visible, zIndex, onStatusChange, renderMode, atlasRoads = false, roadsVisible = false, backgroundLabels = false, crownColor }: {
+export function OpenDataLayer({ layer, visible, zIndex, onStatusChange, renderMode, atlasRoads = false, roadsVisible = false, backgroundLabels = false, crownColor, imagery = false }: {
+  /** Aerial or satellite imagery is the background. */
+  imagery?: boolean;
   layer: { id: MapLayerId; openData?: OpenDataSource; minZoom: number; maxZoom: number; opacity: number };
   crownColor?: string;
   atlasRoads?: boolean; roadsVisible?: boolean; backgroundLabels?: boolean;
@@ -41,7 +43,7 @@ export function OpenDataLayer({ layer, visible, zIndex, onStatusChange, renderMo
       const timeout = window.setTimeout(() => active.abort(), 30_000);
       const b = map.getBounds(); const size = map.getSize();
       onStatusChange?.(layer.id, { status: "loading" });
-      void renderOpenData(source, { west: b.getWest(), east: b.getEast(), south: b.getSouth(), north: b.getNorth() }, { width: Math.max(1, Math.round(size.x)), height: Math.max(1, Math.round(size.y)) }, map.getZoom(), active.signal).then(({ canvas, count }) => {
+      void renderOpenData(source, { west: b.getWest(), east: b.getEast(), south: b.getSouth(), north: b.getNorth() }, { width: Math.max(1, Math.round(size.x)), height: Math.max(1, Math.round(size.y)) }, map.getZoom(), active.signal, { imagery }).then(({ canvas, count }) => {
         if (generation !== request) return;
         const paneName = `open-${layer.id}`;
         const pane = map.getPane(paneName) ?? map.createPane(paneName, map.getPane("tilePane"));
@@ -57,6 +59,6 @@ export function OpenDataLayer({ layer, visible, zIndex, onStatusChange, renderMo
     };
     load(); map.on("moveend", load);
     return () => { generation += 1; controller?.abort(); clearImages(); map.off("moveend", load); };
-  }, [layer, source, visible, zIndex, map, onStatusChange, renderMode, atlasRoads, roadsVisible]);
+  }, [layer, source, visible, zIndex, map, onStatusChange, renderMode, atlasRoads, roadsVisible, imagery]);
   return null;
 }

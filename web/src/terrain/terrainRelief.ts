@@ -3,6 +3,26 @@ import { reliefTileUrl, transformDemRgba, validateReliefSettings, type DemEncodi
 
 let registered = false;
 
+/**
+ * Phones on a weak signal drop the odd tile request. Retry dropped connections
+ * and server errors before the whole 3D view is reported as failed; a missing
+ * tile (4xx) and a cancelled request are answered at once.
+ */
+export async function fetchTerrainTile(url: URL, signal: AbortSignal, attempts = 3, delayMs = 500): Promise<Response> {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      const response = await fetch(url, { signal });
+      if (response.ok || attempt >= attempts || (response.status < 500 && response.status !== 429)) return response;
+    } catch (error) {
+      if (signal.aborted || attempt >= attempts) throw error;
+    }
+    await new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(resolve, delayMs * attempt);
+      signal.addEventListener('abort', () => { clearTimeout(timer); reject(signal.reason); }, { once: true });
+    });
+  }
+}
+
 /** Decode and rewrite a temporary tile; original sources are never modified. */
 export function registerTerrainReliefProtocol(): void {
   if (registered) return;
@@ -20,7 +40,7 @@ export function registerTerrainReliefProtocol(): void {
     const source = new URL(template.replaceAll('{z}', coordinates[1]).replaceAll('{x}', coordinates[2]).replaceAll('{y}', coordinates[3]), document.baseURI);
     if (!['http:', 'https:'].includes(source.protocol)) throw new Error('Relief tiles require an HTTP(S) source.');
     // Standard fetch preserves the browser's existing CORS boundary.
-    const response = await fetch(source, { signal });
+    const response = await fetchTerrainTile(source, signal);
     if (!response.ok) throw new Error(`Terrain tile HTTP ${response.status}`);
     const blob = await response.blob();
     signal.throwIfAborted();

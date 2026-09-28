@@ -142,3 +142,9 @@ it('does not retain large complete road responses in memory for reuse', async ()
   await fetchOpenDataOverlay(roads, bounds, undefined, 13);
   expect(fetcher).toHaveBeenCalledTimes(2);
 });
+it("draws a row once when two parts of one dataset both return it", async () => {
+  const tiered = { color: "#654735", parts: [{ dataset: "484g-adjn", fields: ["street"], where: "roadc_desc = 'Local'" }, { dataset: "484g-adjn", fields: ["street"], where: "roadc_desc <> 'Track'", minZoom: 13 }] };
+  vi.stubGlobal("fetch", vi.fn().mockImplementation(async () => new Response(JSON.stringify({ type: "FeatureCollection", features: [feature("shared")] }))));
+  const collection = await fetchOpenDataOverlay(tiered, bounds, undefined, 14);
+  expect(collection.features.map(({ id }) => id)).toEqual(["484g-adjn:shared"]);
+});

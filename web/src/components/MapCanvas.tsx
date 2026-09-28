@@ -2617,7 +2617,7 @@ export function MapCanvas({
           onStatusChange={reportFletcherStatus}
         />
         {provinceLayerCatalog.map((layer) => layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
         ) : (
           <ArcGISMapLayer
             key={layer.id}

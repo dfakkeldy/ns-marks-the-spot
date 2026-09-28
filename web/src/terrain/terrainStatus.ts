@@ -18,5 +18,7 @@ export function terrainFailureMessage(event: { error: unknown; sourceId?: unknow
   const name = layerName ?? (sourceId ? names[sourceId] : undefined) ?? inferred ?? (sourceId ? `Map source ${sourceId}` : 'A map source');
   const status = error && typeof error === 'object' && 'status' in error && typeof error.status === 'number'
     ? error.status : message.match(/HTTP\s+(\d{3})/i)?.[1];
-  return `${name} failed to load${status ? ` (HTTP ${status})` : ''}. View may be incomplete.`;
+  // A fetch that never got a response is a dropped connection, not a bad source.
+  const reason = status ? ` (HTTP ${status})` : error instanceof TypeError ? ' (connection interrupted)' : '';
+  return `${name} failed to load${reason}. View may be incomplete.`;
 }
