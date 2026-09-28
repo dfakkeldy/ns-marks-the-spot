@@ -7059,7 +7059,9 @@ describe("georeferencer", () => {
 
   it("chooses an embedded main frame without opening georeferencing", async () => {
     arrangeMultiFramePdf();
-    renderAppWithCategoriesOpen();
+    render(<App />);
+    // This tests PDF import, not the size of the optional source catalogue.
+    openLayerCategory("My Maps");
     await uploadPdf("USGS chooser main");
 
     const chooser = await screen.findByRole("dialog", {
@@ -7102,7 +7104,8 @@ describe("georeferencer", () => {
 
   it("persists the chosen inset rectangle and its own embedded GCPs", async () => {
     arrangeMultiFramePdf();
-    renderAppWithCategoriesOpen();
+    render(<App />);
+    openLayerCategory("My Maps");
     await uploadPdf("USGS chooser inset");
 
     const chooser = await screen.findByRole("dialog", {
