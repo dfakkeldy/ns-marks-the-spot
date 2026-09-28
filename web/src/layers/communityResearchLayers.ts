@@ -165,6 +165,7 @@ export const communityResearchLayers = [
     exportOptions: { transparent: true },
     delivery: "feature-query",
     idField: "OBJECTID_1",
+    featureWhere: "ReportYear = 2024",
     outFields: ["OBJECTID_1", "NpriID", "FacilityName", "CompanyName", "ReportYear", "SectorDescriptionEn"],
     labelField: "FacilityName",
     popupFields: [
