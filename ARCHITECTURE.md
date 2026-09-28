@@ -265,13 +265,14 @@ fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
 receipt discloses resampling. Source errors remain failures and require the
 existing incomplete-export consent; the renderer never substitutes another
 basemap. Legacy snapshots without a basemap style continue to use OSM.
-Browser print supports the static context layers (52 catalog entries, including
+Browser print supports the static context layers (73 catalog entries, including
 static Rhodena geometry) subject to fitted zoom and source readiness; the
 interactive Rhodena turbine viewshed and private viewpoint are omitted.
-Generated PDF supports their 33 MapServer, open-data and tile entries; the four
-feature-query entries, eight electoral feature entries, six Rhodena
-source-format layers, and static radon image are omitted and named as not
-included. It preserves the on-screen image order and selected-parcel authority.
+Generated PDF still uses the MapServer, open-data and tile path for supported
+entries; unsupported vector formats (including September 2026 GIS feature
+overlays), eight electoral feature entries, Rhodena source-format layers, and
+the static radon image are omitted and named as not included. It preserves the
+on-screen image order and selected-parcel authority.
 
 The exact receipt is derived only after the print map resolves. It uses the
 existing map-share format with the captured PID, mode and event IDs, the
@@ -341,10 +342,12 @@ movement, and deduplicates returned records. Occurrences begin at zoom 8; the
 denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
 
-`layers/contextLayerCatalog.ts` adds 52 default-off web-only research controls,
-composed from the NSTDB infrastructure/place catalogue (16), the
-land/environment catalogues (21), eight electoral layers, six Rhodena project
-layers, and the EOX Sentinel-2 2016 mosaic. Fifteen infrastructure/place
+`layers/contextLayerCatalog.ts` concatenates 73 default-off web-only research
+controls: the GeoNova land, infrastructure and Sentinel-2 subset (38), eight
+electoral layers, six Rhodena project layers, and the September 2026 GIS
+expansion (21). The original GeoNova group is composed from the NSTDB
+infrastructure/place catalogue, the land/environment catalogues, and the EOX
+Sentinel-2 2016 mosaic. Fifteen infrastructure/place
 overlays now query identified OGL-NS open datasets for the viewport; the
 complete provincial topographic cartography and sixteen land/environment image
 entries still reuse the ArcGIS image adapter; four use `ContextFeatureLayer`
