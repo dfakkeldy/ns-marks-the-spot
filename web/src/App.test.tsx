@@ -674,8 +674,22 @@ function openLayerCategories(...names: string[]): void {
 
 function renderAppWithCategoriesOpen() {
   const result = render(<App />);
-  for (const { name } of layerCategories) {
-    openLayerCategory(name);
+  // Resolve the disclosures before expanding the catalogue. Repeating global
+  // accessible-name queries as each section grows made unrelated App tests
+  // depend on how many optional layers the catalogue contains.
+  const disclosures = screen.getAllByRole("button").filter((button) =>
+    button.getAttribute("aria-controls")?.startsWith("layer-category-"),
+  );
+  expect(disclosures).toHaveLength(layerCategories.length);
+  act(() => {
+    for (const disclosure of disclosures) {
+      if (disclosure.getAttribute("aria-expanded") === "false") {
+        fireEvent.click(disclosure);
+      }
+    }
+  });
+  for (const disclosure of disclosures) {
+    expect(disclosure).toHaveAttribute("aria-expanded", "true");
   }
   return result;
 }
@@ -1715,19 +1729,10 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByRole("complementary", {name:"District inspector"})).not.toBeInTheDocument();
   });
 
-  it("renders every current catalogue entry in exactly one expected category region", async () => {
+  it("renders every current catalogue entry in exactly one expected category region", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?taxSale=off&layers=modern");
-    render(<App />);
-
-    for (const category of layerCategories) {
-      const disclosure = screen.getByRole("button", {
-        name: new RegExp(`^${category.name}`),
-      });
-      if (disclosure.getAttribute("aria-expanded") === "false") {
-        await userEvent.click(disclosure);
-      }
-    }
+    renderAppWithCategoriesOpen();
 
     expect([...currentCatalogueIds].sort()).toEqual(
       expectedCataloguePlacement.map(({ id }) => id).sort(),
@@ -1739,15 +1744,28 @@ describe("NS Marks The Spot Online", () => {
         screen.getByRole("region", { name: new RegExp(`^${name}`) }),
       ]),
     );
+    // Scan labels once, including hidden controls just as the individual
+    // label queries did. A node may match through both its label and aria-label;
+    // distinct nodes with the same name must still fail the uniqueness check.
+    const controlNames = new Set(expectedCataloguePlacement
+      .filter(({ kind }) => kind === "control").map(({ label }) => label));
+    const controlsByName = new Map<string, Set<Element>>();
+    screen.getAllByLabelText((name, element) => {
+      if (!element || !controlNames.has(name)) return false;
+      const controls = controlsByName.get(name) ?? new Set<Element>();
+      controls.add(element);
+      controlsByName.set(name, controls);
+      return true;
+    });
 
     for (const entry of expectedCataloguePlacement) {
       const expectedRegion = categoryRegions.get(entry.category);
       expect(expectedRegion).toBeDefined();
 
       if (entry.kind === "control") {
-        expect(within(expectedRegion as HTMLElement).getByLabelText(entry.label))
-          .toBeInTheDocument();
-        expect(screen.getAllByLabelText(entry.label)).toHaveLength(1);
+        const controls = [...(controlsByName.get(entry.label) ?? [])];
+        expect(controls, entry.label).toHaveLength(1);
+        expect(expectedRegion?.contains(controls[0]), entry.label).toBe(true);
       } else {
         expect(within(expectedRegion as HTMLElement).getByText(entry.label))
           .toBeInTheDocument();
@@ -3935,7 +3953,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
       type: "FeatureCollection", features: [parcelFeature("50251750")],
     });
-    renderAppWithCategoriesOpen();
+    render(<App />);
     const input = screen.getByLabelText("Search by PID or civic address");
     await user.type(input, "Main");
     const option = await screen.findByRole("option", { name: second.label });
@@ -3956,7 +3974,7 @@ describe("NS Marks The Spot Online", () => {
     vi.useFakeTimers();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     vi.mocked(searchCivicAddresses).mockResolvedValue([civicAddress("100", "12 Main St, Mabou")]);
-    const { unmount } = renderAppWithCategoriesOpen();
+    const { unmount } = render(<App />);
     const input = screen.getByLabelText("Search by PID or civic address");
     fireEvent.change(input, { target: { value: "Mai" } });
     await act(() => vi.advanceTimersByTimeAsync(200));
@@ -3980,14 +3998,14 @@ describe("NS Marks The Spot Online", () => {
 
   it("keeps suggestions behind the licence gate and leaves short text and PIDs for submission", async () => {
     vi.useFakeTimers();
-    const { unmount } = renderAppWithCategoriesOpen();
+    const { unmount } = render(<App />);
     fireEvent.change(screen.getByLabelText("Search by PID or civic address"), { target: { value: "Mabou" } });
     await act(() => vi.advanceTimersByTimeAsync(400));
     expect(searchCivicAddresses).not.toHaveBeenCalled();
     expect(screen.queryByRole("dialog", { name: "Province data licence" })).not.toBeInTheDocument();
     unmount();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    renderAppWithCategoriesOpen();
+    render(<App />);
     for (const value of ["Ma", "502", "50251750"]) {
       fireEvent.change(screen.getByLabelText("Search by PID or civic address"), { target: { value } });
       await act(() => vi.advanceTimersByTimeAsync(400));
@@ -4003,7 +4021,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(searchCivicAddresses)
       .mockImplementationOnce(() => new Promise((_, reject) => { rejectOld = reject; }))
       .mockResolvedValueOnce([civicAddress("100", "12 Main St, Mabou")]);
-    renderAppWithCategoriesOpen();
+    render(<App />);
     const input = screen.getByLabelText("Search by PID or civic address");
     fireEvent.change(input, { target: { value: "Main" } });
     await act(() => vi.advanceTimersByTimeAsync(350));
