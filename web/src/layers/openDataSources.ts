@@ -24,13 +24,29 @@ export const openDatasetUrl = (id: string) => `https://data.novascotia.ca/d/${id
 export const openDatasetApi = (id: string) => `https://data.novascotia.ca/resource/${id}.geojson`;
 const part = (dataset: string, fields: readonly string[] = ["feat_code", "feat_desc"], where?: string): OpenDataPart => ({ dataset, fields, where });
 
+/**
+ * NSRN road classes, drawn in disjoint tiers that add detail as the map zooms
+ * in. Together the tiers are exactly the network the layer has always drawn;
+ * at overview zooms the dense tracks and driveways would bury the through roads.
+ */
+const ROAD_FIELDS = ["roadsegid", "feat_desc", "street", "rte_no", "roadc_desc"] as const;
+const THROUGH_ROAD_CLASSES = "'Highway','Trans Canada','Arterial','Collector','Local','Local Arterial','Local Collector','Local Highway','Ramp'";
+const MINOR_ROAD_CLASSES = "'Track','Driveway','Trail'";
+const ROAD_FEATURES = "feat_desc <> 'WATER ACCESS'";
+export const ROAD_TIER_ZOOMS = { unpaved: 13, minor: 14 } as const;
+
 /** Web replacements. The native service catalogue remains independently licensed. */
 export const openProvinceSources: Readonly<Record<string, OpenDataSource>> = {
   "crown-lands": { parts: [part("3nka-59nz", ["dnr_id", "partialown", "symbol"])], color: "#268744", fillOpacity: 0.18, stroke: false },
   "flood-risk": { parts: [part("569x-2wnq", ["river", "primary_co"]), part("ynkv-x6rx", ["sec_name", "sec_code"]), part("6htv-yzkm", ["sec_name", "tert_code"])], color: "#487f9b", fillOpacity: 0 },
   "waterfalls": { parts: [part("458x-dmz3", ["feat_code", "feat_desc"], "feat_desc = 'Falls -  On a single line river point'")], color: "#0078ff" },
   "water-features": { parts: [part("h8jb-hzrm"), part("fpca-jrmt"), { ...part("458x-dmz3"), minZoom: 14 }], color: "#267cad", fillOpacity: 0.2 },
-  "roads": { parts: [part("484g-adjn", ["roadsegid", "feat_desc", "street", "rte_no", "roadc_desc"], "feat_desc <> 'WATER ACCESS'"), { ...part("62ap-bhwk"), minZoom: 15 }, { ...part("x8jw-yjc2"), minZoom: 16 }], color: "#654735", roads: true, labelField: "street", labelMinZoom: 14 },
+  "roads": { parts: [
+    part("484g-adjn", ROAD_FIELDS, `${ROAD_FEATURES} AND roadc_desc IN (${THROUGH_ROAD_CLASSES}) AND feat_desc NOT LIKE '%Unpaved%'`),
+    { ...part("484g-adjn", ROAD_FIELDS, `${ROAD_FEATURES} AND (roadc_desc IS NULL OR roadc_desc NOT IN (${THROUGH_ROAD_CLASSES},${MINOR_ROAD_CLASSES}) OR (roadc_desc IN (${THROUGH_ROAD_CLASSES}) AND feat_desc LIKE '%Unpaved%'))`), minZoom: ROAD_TIER_ZOOMS.unpaved },
+    { ...part("484g-adjn", ROAD_FIELDS, `${ROAD_FEATURES} AND roadc_desc IN (${MINOR_ROAD_CLASSES})`), minZoom: ROAD_TIER_ZOOMS.minor },
+    { ...part("62ap-bhwk"), minZoom: 15 }, { ...part("x8jw-yjc2"), minZoom: 16 },
+  ], color: "#654735", roads: true, labelField: "street", labelMinZoom: 14 },
   "main-roads": { parts: [part("484g-adjn", ["roadsegid", "feat_desc", "street", "roadc_desc"], "roadc_desc IN ('Highway','Trans Canada','Arterial','Collector','Local','Local Collector','Local Highway','Local Arterial') AND upper(feat_desc) NOT LIKE '%DRIVEWAY%'")], color: "#444444", roads: true, labelField: "street", labelMinZoom: 14 },
   "place-names": { parts: [part("xf3i-vxcb", ["cgndb_key", "geoname", "concise_ds", "status_ds"], "concise_ds IN ('Town','Village','Unincorporated area','Island','Cape','Bay','Lake','River')")], color: "#29332e", labelField: "geoname", labelMinZoom: 8 },
   "contours": { parts: [part("bhx9-mpui", ["feat_code", "feat_desc", "zvalue"], "feat_desc LIKE 'CONTOUR%'")], color: "#987849", fillOpacity: 0, labelField: "zvalue", labelMinZoom: 15 },
@@ -38,7 +54,7 @@ export const openProvinceSources: Readonly<Record<string, OpenDataSource>> = {
 };
 
 export function openDataSourceLinks(source: OpenDataSource) {
-  return source.parts.map(({ dataset }) => ({ url: openDatasetUrl(dataset), name: sourceReceipt.datasets.find(({ id }) => id === dataset)?.name ?? dataset }));
+  return [...new Set(source.parts.map(({ dataset }) => dataset))].map((dataset) => ({ url: openDatasetUrl(dataset), name: sourceReceipt.datasets.find(({ id }) => id === dataset)?.name ?? dataset }));
 }
 
 function geometryNote(source?: OpenDataSource) {

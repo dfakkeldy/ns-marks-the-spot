@@ -84,7 +84,10 @@ export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEn
 
 async function downloadOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal: AbortSignal | undefined, zoom: number) {
   const features: OpenDataCollection["features"] = [];
-  const seen = new Set<string>();
+  // Row id -> the part that returned it. A repeat within one part's pages
+  // means the pagination shifted; one part repeating another's row is simply
+  // drawn once.
+  const seen = new Map<string, OpenDataSource["parts"][number]>();
   let bytes = 0;
   for (const part of source.parts) {
     if (part.minZoom !== undefined && zoom < part.minZoom) continue;
@@ -113,8 +116,10 @@ async function downloadOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelo
       for (const f of data.features) {
         if (f.type !== "Feature" || !f.geometry || !f.properties?.source_row_id) throw new Error("Open data geometry or identifier missing");
         const id = `${part.dataset}:${f.properties.source_row_id}`;
-        if (seen.has(id)) throw new Error("Open data pagination changed; retry");
-        seen.add(id);
+        const earlier = seen.get(id);
+        if (earlier === part) throw new Error("Open data pagination changed; retry");
+        if (earlier) continue;
+        seen.set(id, part);
         features.push({ ...f, id, properties: { ...f.properties, source_dataset: part.dataset, source_color: part.color ?? source.color } });
         if (features.length > MAX_FEATURES) throw new OpenDataAreaTooLargeError("Open data area too large; zoom in");
       }

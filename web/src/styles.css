@@ -1724,6 +1724,12 @@ a {
   gap: 7px;
 }
 
+.road-legend .road-legend-note {
+  grid-column: 1 / -1;
+  display: block;
+  line-height: 1.4;
+}
+
 .road-swatch {
   display: inline-block;
   flex: 0 0 25px;
@@ -7210,6 +7216,11 @@ a {
 @media print { .mailing-addresses, .mailing-source { display: none !important; } }
 .road-swatch.open-road, .road-swatch.open-minor { border-color: #654735; border-top-width: 2px; }
 .road-swatch.open-minor { border-top-style: dashed; }
+/* Over imagery the map draws cream roads; show them on a photo-dark chip. */
+.road-legend.imagery .road-swatch { position: relative; height: 10px; border: 0; border-radius: 3px; background: #4b5d44; }
+.road-legend.imagery .road-swatch::after { position: absolute; top: 4px; right: 3px; left: 3px; content: ""; border-top: 2px solid #fff3dc; }
+.road-legend.imagery .road-swatch.open-road::after { box-shadow: 0 0 0 1px rgba(18, 24, 18, 0.45); }
+.road-legend.imagery .road-swatch.open-minor::after { border-top: 1.5px dashed rgba(255, 244, 222, 0.9); }
 
 .leaflet-control-attribution { max-width: min(540px, calc(100vw - 64px)); }
 

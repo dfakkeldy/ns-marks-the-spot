@@ -194,8 +194,9 @@ rotate, or slide two fingers up/down together to tilt. **Terrain height** opens
 the exaggeration settings. Touch-screen terrain rendering caps pixel density
 at 1.5 to reduce GPU work; interface text keeps the screen's native resolution.
 The settings body scrolls within a bounded panel, keeping both toolbar buttons
-reachable on short screens. Failed sources are named where available, with
-HTTP status codes and **Retry 3D** to reload the view at the current location
+reachable on short screens. Terrain tiles retry a dropped connection or server
+error twice before the view reports a failure. Failed sources are named where
+available, with HTTP status codes (or "connection interrupted") and **Retry 3D** to reload the view at the current location
 with its selected layers and height settings. Graphics failures have a separate
 message. An error remains visible until retry or returning to 2D; changing
 height settings cannot conceal it.
@@ -736,8 +737,12 @@ The layers a reader is most likely to ask about:
 - Water features combine open NSTDB polygons and lines from zoom 11, plus
   points at close range. Their blue display is project cartography, not the service renderer.
 - Roads use the open NSRN road network plus NSTDB line/point details at close
-  range. Minor tracks, trails, driveways and unpaved features use dashed lines;
-  mapped transport features do not establish access or passability.
+  range. Detail builds with zoom in disjoint tiers of the same network: paved
+  through and local roads from zoom 10, unpaved, resource and seasonal roads
+  from 13, and tracks, trails and driveways from 14. Minor tracks, trails,
+  driveways and unpaved features use dashed lines; over aerial or satellite
+  imagery roads switch to cream lines on a soft dark edge, with the legend to
+  match. Mapped transport features do not establish access or passability.
 - Buildings combine open NSTDB polygon footprints and close-range point records.
   They remain default-off and begin at zoom 13.
 - Contours use open NSTDB Landforms elevation lines from zoom 13. Elevations are

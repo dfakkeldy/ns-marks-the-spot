@@ -4834,7 +4834,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
                         onReviewLicence={reviewProvinceLicence}
                       />
                       {layer.id === "roads" && provinceLayers.roads ? (
-                        <RoadLegend />
+                        <RoadLegend imagery={provinceLayers["ns-aerial"] || contextLayers["sentinel-2"]} />
                       ) : null}
                     </div>
                   ))}

@@ -716,10 +716,11 @@ export function WellLogAccuracyLegend() {
   );
 }
 
-export function RoadLegend() {
-  return <ul className="road-legend" aria-label="Road type legend">
+export function RoadLegend({ imagery = false }: { imagery?: boolean }) {
+  return <ul className={`road-legend${imagery ? " imagery" : ""}`} aria-label="Road type legend">
     <li><span className="road-swatch open-road" />Mapped road or transport feature</li>
     <li><span className="road-swatch open-minor" />Trail, track, driveway or unpaved feature</li>
+    <li className="road-legend-note">Resource and seasonal roads appear from zoom 13; tracks, trails and driveways from zoom 14.</li>
   </ul>;
 }
 
