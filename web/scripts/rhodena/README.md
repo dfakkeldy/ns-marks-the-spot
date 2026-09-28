@@ -72,6 +72,9 @@ no more than one source pixel along the line, uses DEM ground at both endpoints,
 Overview cells span four DEM pixels (~106 m); point checks use the chosen
 coordinate without snapping it to the overview cell. Range is bounded to 20 km.
 No-data and outside-range cases remain unassessed, not screened.
+`visibilityFromPoint` can also return the first bare-earth `obstruction` from
+those same samples (used by the sight-line break); it is not a new terrain
+source.
 
 The target-height threshold is the maximum height needed to clear intervening
 terrain. Results within 20 m of the selected 200 m tip are labelled near the

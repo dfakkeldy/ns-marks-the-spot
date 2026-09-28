@@ -634,7 +634,15 @@ ids are `rhodena-visibility`, `rhodena-turbines`, `rhodena-infrastructure`,
 `rhodena-study`, `rhodena-receptors`, and `rhodena-distance-rings`. Combined
 and per-turbine bare-earth viewsheds run in `visibility.worker.ts` against a
 fixed Mapzen terrain extract (`public/rhodena/terrain.bin`). A chosen
-viewpoint stays in memory; it is not written to share URLs or storage.
+viewpoint draws a sight line from eye level (1.7 m) to each assessed 200 m
+blade tip, coloured like the viewshed. Each line is solid until bare-earth
+obstruction, then a ridge mark and a dotted remainder; the result list
+gives that distance. `visibilityFromPoint` also returns `obstruction` from
+the same terrain samples, curvature and refraction as the verdict. Evidence
+is bare earth only: trees, buildings and final design are excluded; the
+screen is the tip, not the hub; near-threshold stays amber; unassessed or
+out-of-range turbines get no line. The viewpoint stays in memory; it is
+not written to share URLs or storage.
 Browser print omits interactive `rhodena-visibility` and the private
 viewpoint; static Rhodena geometry can still print. Product and source-prep
 detail live in `web/README.md` and `web/scripts/rhodena/README.md`.
@@ -977,13 +985,18 @@ provincial licence gate and is never written into the offline cache.
 
 `web/rhodena.html` is a dedicated HTML entry for `/rhodena`, not a separate
 pocket app like `/poker`. `web/src/rhodena/main.tsx` mounts the research map
-as `<App focus="rhodena" />`. The Rhodena setup is fixed.
-`web/src/rhodena/focus.ts` names the categories and layer ids the panel
-offers; tax sale, My Maps and the setup picker are absent. Shared links drop
-layers outside that set, keep tax sale off, and keep map mode current. A
-full-map link carries the current layers and position to the main research
-map. There is no service worker and no offline pack. The selected viewpoint
-stays in memory, as on the research-map Rhodena theme; it is not written to
-share URLs or storage. Short-URL rewrite (`/rhodena` onto this HTML) and
-asset-base stamping are KinNoKi site publishing concerns. Vite answers
-`/rhodena` locally. Neither proves a live map pin was updated.
+as `<App focus="rhodena" />`. The Rhodena setup is fixed from
+`web/src/rhodena/focus.ts`, which names the categories and layer ids the
+panel offers. Tax sale, My Maps, the setup picker and reviewed Fletcher
+features are absent. A **Map | Aerial** switch under the 3D control swaps
+the opaque background; aerial imagery keeps the Province licence gate.
+Shared links drop layers outside that set, keep tax sale off, and keep map
+mode current. A full-map link carries the current layers and position to
+the main research map. There is no service worker and no offline pack. The
+selected viewpoint stays in memory, as on the research-map Rhodena theme;
+it is not written to share URLs or storage. While a viewpoint is being
+chosen, a capture-phase map picker takes the tap before any overlay can,
+so historical features, parcels and other popups cannot swallow it.
+Short-URL rewrite (`/rhodena` onto this HTML) and asset-base stamping are
+KinNoKi site publishing concerns. Vite answers `/rhodena` locally. Neither
+proves a live map pin was updated.
