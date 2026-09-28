@@ -145,7 +145,9 @@ dataset IDs, licence metadata and schemas are recorded in
 `openLayerSources.json` (checked 12 September 2026). Display geometry may be
 simplified within half a pixel, capped at 10 metres; this path does not supply
 parcel intersection, proximity, access or title evidence. Requests fail closed
-on missing geometry, repeated rows, failed constituents or size limits.
+on missing geometry, a row that repeats within one part's pages, failed
+constituents or size limits. A row returned by two parts of the same dataset
+is drawn once.
 
 The remaining 17 MapServer image entries (topographic cartography plus 16
 land/environment services) keep ArcGIS export. Sparse or scale-dependent

@@ -197,8 +197,11 @@ threshold t (20 or 100 m), positive source height h displays as
 `lowScale * min(h, t) + overallScale * max(0, h - t)`. Nonpositive elevations
 retain the overall scale. `terrain/terrainRelief.ts` rewrites temporary browser
 DEM tiles, normalized by the overall MapLibre exaggeration, preserving original
-sources and alpha/no-data. The same controls work with the main view's Terrarium
-tiles and Judique's Mapbox-encoded tiles. Editing, measurement,
+sources and alpha/no-data. Tile fetches retry a dropped connection or a 5xx/429
+twice with backoff; a 4xx or abort is answered at once.
+`terrain/terrainStatus.ts` reports a dropped connection as
+"(connection interrupted)" rather than as a bad source. The same controls work
+with the main view's Terrarium tiles and Judique's Mapbox-encoded tiles. Editing, measurement,
 print mode and export framing suspend terrain and use the 2D contracts below.
 
 Display stacking is distinct from terrain construction. Roads, bridges and
@@ -308,11 +311,17 @@ from the web's `provinceLayerCatalog`. `layerParity.ts` projects the native
 catalogue. `layers/openDataSources.ts` replaces nine provincial controls and
 15 NSTDB infrastructure controls with explicitly identified OGL-NS datasets.
 `services/openDataOverlay.ts` queries bounded viewport areas, paginates by source row
-ID and fails closed on missing geometry, repeated rows, failed constituents or
-size limits. `services/renderOpenData.ts` supplies the same project cartography
-to `OpenDataLayer` and the PDF compositor. Display geometry can be simplified
+ID and fails closed on missing geometry, failed constituents, size limits, or a
+row that repeats within one part's pages (pagination shifted). A row returned by
+two parts of the same dataset is drawn once. `services/renderOpenData.ts` supplies
+the same project cartography to `OpenDataLayer` and the PDF compositor. Over NS
+aerial or Sentinel-2 imagery, roads draw cream-on-dark-edge (hybrid); the legend
+notes the tier zooms and switches swatches. Display geometry can be simplified
 within half a pixel, capped at 10 metres and converted to geographic degrees
-for Socrata. NSRN roads retain original geometry at every zoom. Complete road
+for Socrata. NSRN roads query three disjoint tiers of the same dataset: paved
+through and local roads from zoom 10, unpaved/resource/seasonal from 13, and
+tracks/trails/driveways from 14. Together the tiers equal the former single
+query. Loaded NSRN rows retain original geometry. Complete road
 collections up to 8 MiB are cached per source in memory for 60 seconds with a
 10% viewport margin per edge; zoom changes invalidate reuse. If the margin
 exceeds download limits, the exact viewport is retried. Parcel evidence never
