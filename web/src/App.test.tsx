@@ -672,15 +672,17 @@ function openLayerCategories(...names: string[]): void {
   }
 }
 
-function renderAppWithCategoriesOpen() {
+function renderAppWithCategoriesOpen(...categoryIds: Array<(typeof layerCategories)[number]["id"]>) {
   const result = render(<App />);
   // Resolve the disclosures before expanding the catalogue. Repeating global
   // accessible-name queries as each section grows made unrelated App tests
   // depend on how many optional layers the catalogue contains.
+  const panelIds = new Set((categoryIds.length ? categoryIds : layerCategories.map(({ id }) => id))
+    .map((id) => `layer-category-${id}-panel`));
   const disclosures = screen.getAllByRole("button").filter((button) =>
-    button.getAttribute("aria-controls")?.startsWith("layer-category-"),
+    panelIds.has(button.getAttribute("aria-controls") ?? ""),
   );
-  expect(disclosures).toHaveLength(layerCategories.length);
+  expect(disclosures).toHaveLength(panelIds.size);
   act(() => {
     for (const disclosure of disclosures) {
       if (disclosure.getAttribute("aria-expanded") === "false") {
@@ -6771,7 +6773,7 @@ describe("georeferencer", () => {
 
   it("stays closed until a map is opened for georeferencing", async () => {
     await seedScan();
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     expect(
       await screen.findByRole("button", { name: /^Georeference / }),
     ).toBeInTheDocument();
@@ -6795,7 +6797,7 @@ describe("georeferencer", () => {
         "placed-1": { enabled: true, opacity: 0.7 },
       }),
     );
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await waitFor(() =>
       expect(screen.getByTestId("map-canvas")).toHaveTextContent(
         "saved user map layers: 1",
@@ -6827,7 +6829,7 @@ describe("georeferencer", () => {
     // its absence: the toggle would still persist, the panel would still show
     // it checked, and the drape would go on being an affine.
     await seedScan(TPS_COINCIDENT);
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", {
         name: "Georeference Church of Inverness 1888",
@@ -6848,7 +6850,7 @@ describe("georeferencer", () => {
   it("persists a warp switch made in the panel, all the way to IndexedDB", async () => {
     // Three points would be below the gate, so this fixture carries four.
     await seedScan(PLACED_FOUR);
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Four-point scan" }),
     );
@@ -6878,7 +6880,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await waitFor(() =>
       expect(screen.getByTestId("map-canvas")).toHaveTextContent(
         "saved user map layers: 1",
@@ -6897,7 +6899,7 @@ describe("georeferencer", () => {
 
   it("closes back to the map without leaving the draft behind", async () => {
     await seedScan();
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: /^Georeference / }),
     );
@@ -6917,7 +6919,7 @@ describe("georeferencer", () => {
     // The bug needs two maps to show, which is why no existing test sees it.
     await seedScan(PLACED);
     await seedScan(PLACED_B);
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -6951,7 +6953,7 @@ describe("georeferencer", () => {
     // tab — a leftover from a session about an entirely different scan.
     await seedScan(PLACED);
     await seedScan(PLACED_B);
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -6977,7 +6979,7 @@ describe("georeferencer", () => {
     // localStorage.setItem("ns-marks-the-spot:province-license:v1",
     // "accepted"), so rendering plain gives the un-accepted state.
     await seedScan();
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: /^Georeference / }),
     );
@@ -6998,7 +7000,7 @@ describe("georeferencer", () => {
       "/?taxSale=off&mode=current&layers=modern,nsprd",
     );
     await seedScan();
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: /^Georeference / }),
     );
@@ -7017,7 +7019,7 @@ describe("georeferencer", () => {
     // Spec: an imported scan opens the panel. `useUserMaps` consumes the
     // outcome flag (Task 5); this is the App-level proof that the flag
     // actually reaches the UI rather than being produced and dropped.
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     const input = await screen.findByLabelText("Add a map file");
     const magic = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     await userEvent.upload(
@@ -7169,7 +7171,7 @@ describe("georeferencer", () => {
 
   it("treats a live map click as the MAP side of a pending pair, not the scan side", async () => {
     await seedScan();
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     // The exact name, not the generic /^Georeference /: the previous test in
     // this file imports a scan with a random UUID that IndexedDB does not
     // reset between tests, so the loose pattern can match two rows here.
@@ -7204,7 +7206,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -7235,7 +7237,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -7268,7 +7270,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -7304,7 +7306,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    renderAppWithCategoriesOpen();
+    renderAppWithCategoriesOpen("my-maps");
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
