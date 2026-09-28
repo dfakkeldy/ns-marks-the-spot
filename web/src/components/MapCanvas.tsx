@@ -207,6 +207,8 @@ const LOCATE_MIN_ZOOM = 14;
 
 type MapCanvasProps = {
   rhodenaFitRevision?: number;
+  /** A two-way Map/Aerial background switch under the 3D control. */
+  backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
   /** A request to start choosing a viewpoint once the terrain is ready. */
   rhodenaPickPending?: boolean;
   onRhodenaPickStarted?: () => void;
@@ -1863,6 +1865,7 @@ export function MapCanvas({
   rhodenaFitRevision = 0,
   rhodenaPickPending = false,
   onRhodenaPickStarted,
+  backgroundSwitch = null,
   poker = null,
   parcels,
   taxSalePids,
@@ -2947,6 +2950,16 @@ export function MapCanvas({
           </button>
           {terrainActive ? <button type="button" aria-expanded={terrainSettingsOpen} aria-controls="terrain-settings" onClick={() => setTerrainSettingsOpen(value => !value)}>3D settings</button> : null}
         </div>
+        {backgroundSwitch ? <div className="background-switch" role="group" aria-label="Background">
+          <button type="button" aria-pressed={!backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(false)}>
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 5.2 7 3.5l6 2 4.5-1.7v11L13 16.5l-6-2-4.5 1.7Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /><path d="M7 3.5v11M13 5.5v11" stroke="currentColor" strokeWidth="1.6" /></svg>
+            Map
+          </button>
+          <button type="button" aria-pressed={backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(true)}>
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="2.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M2.8 13.5 7.5 9l3.2 3.2 2.3-2.2 4.2 3.8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="13.2" cy="6.8" r="1.5" fill="currentColor" /></svg>
+            Aerial
+          </button>
+        </div> : null}
         {terrainActive && terrainSettingsOpen ? <div id="terrain-settings" className="terrain-settings-body">
           {terrainMap ? <TerrainCameraControls map={terrainMap} /> : null}
           <details className="terrain-height-settings"><summary>Terrain height</summary><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /></details>

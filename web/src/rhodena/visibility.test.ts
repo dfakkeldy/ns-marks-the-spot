@@ -17,6 +17,15 @@ describe('terrain visibility geometry',()=>{
     expect(r.status).toBe('blocked');expect(r.hubPotential).toBe(false);
     expect(visibilityFromPoint(g,observer,turbine,r.requiredHeightM).status).toBe('uncertain');
   });
+  it('marks where the ground first rises into the eye-to-tip line',()=>{
+    const g=grid(),observer=pixelPoint(g.meta,10,64),turbine=pixelPoint(g.meta,115,64);
+    expect(visibilityFromPoint(g,observer,turbine).obstruction).toBeUndefined();
+    for(let y=0;y<128;y++)for(let x=58;x<70;x++)g.values[y*128+x]=5000;
+    const r=visibilityFromPoint(g,observer,turbine);
+    expect(r.status).toBe('blocked');
+    const [x,y]=terrainPixel(g.meta,r.obstruction!);
+    expect(x).toBeGreaterThan(56);expect(x).toBeLessThan(59);expect(y).toBeCloseTo(64,6);
+  });
   it('fails closed for a missing sample and bounds the analysis distance',()=>{
     const g=grid(),observer=pixelPoint(g.meta,10,64),turbine=pixelPoint(g.meta,115,64);
     for(let y=0;y<128;y++)g.values[y*128+64]=-32768;

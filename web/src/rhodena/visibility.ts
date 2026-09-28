@@ -2,7 +2,11 @@ import { distanceMetres, type GeoPoint } from '../services/geodesy';
 export interface TerrainMeta { zoom: number; originX: number; originY: number; width: number; height: number; sha256: string; bounds: number[][] }
 export interface TerrainGrid { meta: TerrainMeta; values: Int16Array }
 export type VisibilityStatus = 'potential' | 'blocked' | 'uncertain' | 'outside' | 'no-data';
-export interface VisibilityResult { status: VisibilityStatus; distanceM: number; requiredHeightM?: number; hubPotential?: boolean }
+export interface VisibilityResult {
+  status: VisibilityStatus; distanceM: number; requiredHeightM?: number; hubPotential?: boolean;
+  /** Where bare earth first rises above the eye-to-tip line, if it does. */
+  obstruction?: GeoPoint;
+}
 export const OBSERVER_HEIGHT_M=1.7;
 export const TIP_HEIGHT_M=200;
 export const HUB_HEIGHT_M=118;
@@ -37,15 +41,17 @@ export function visibilityFromPoint(grid: TerrainGrid, observer: GeoPoint, turbi
   const og=elevationAt(grid,ox,oy),tg=elevationAt(grid,tx,ty);
   if(og===null||tg===null)return {status:'no-data',distanceM};
   const steps=Math.max(2,Math.ceil(Math.hypot(tx-ox,ty-oy)));
-  let required=0;
+  let required=0,obstruction:GeoPoint|undefined;
   for(let i=1;i<steps;i++){
-    const t=i/steps,elevation=elevationAt(grid,ox+(tx-ox)*t,oy+(ty-oy)*t);
+    const t=i/steps,x=ox+(tx-ox)*t,y=oy+(ty-oy)*t,elevation=elevationAt(grid,x,y);
     if(elevation===null)return {status:'no-data',distanceM};
     const bulge=distanceM*distanceM*t*(1-t)/(2*EFFECTIVE_EARTH_RADIUS_M);
-    required=Math.max(required,(elevation+bulge-(og+observerHeight)*(1-t))/t-tg);
+    const sampleRequired=(elevation+bulge-(og+observerHeight)*(1-t))/t-tg;
+    if(!obstruction&&sampleRequired>tipHeight)obstruction=pixelPoint(grid.meta,x,y);
+    required=Math.max(required,sampleRequired);
   }
   const status=Math.abs(tipHeight-required)<=HEIGHT_SENSITIVITY_M?'uncertain':tipHeight>required?'potential':'blocked';
-  return {status,distanceM,requiredHeightM:required,hubPotential:HUB_HEIGHT_M>=required};
+  return {status,distanceM,requiredHeightM:required,hubPotential:HUB_HEIGHT_M>=required,...(obstruction?{obstruction}:{})};
 }
 export const visibilityLabels: Record<VisibilityStatus,string> = {potential:'Potentially visible',blocked:'Terrain screens the 200 m tip',uncertain:'Near terrain threshold',outside:'Beyond 20 km screen', 'no-data':'Outside terrain coverage or no data'};
 

@@ -36,6 +36,9 @@ for (const width of [1440, 390]) test(`the /rhodena page leads with the project 
   await map.click({ position: { x: bounds!.width * 0.4, y: bounds!.height * 0.35 } });
   await expect(page.locator('.rhodena-viewpoint-results li')).toHaveCount(6);
   await expect(page.getByText(/This point stays in this browser/)).toBeVisible();
+  // A cased sight line to each assessed blade tip, from one viewpoint marker.
+  expect(await page.locator('.leaflet-rhodena-sightlines-pane path').count()).toBeGreaterThanOrEqual(12);
+  await expect(page.locator('.rhodena-viewpoint-marker')).toHaveCount(1);
 
   // The address bar is updated at most every 500 ms, so let it settle.
   await expect(page).toHaveURL(/\/rhodena\?.*layers=[^&]*rhodena-visibility/);
@@ -56,4 +59,35 @@ test('a shared /rhodena view opens on its map and links back to the full map', a
   const full = new URL((await page.getByRole('link', { name: /Open this view in the full NS Marks map/ }).getAttribute('href'))!);
   expect(full.pathname).toBe('/');
   expect(full.searchParams.get('layers')).toBe('modern,rhodena-turbines');
+});
+
+test('the Rhodena page switches between the map and aerial imagery', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted'));
+  await isolateExternal(page);
+  await page.goto('/rhodena?basemap=osm&position=45.78,-61.4,13');
+  const background = page.getByRole('group', { name: 'Background' });
+  await background.getByRole('button', { name: 'Aerial' }).click();
+  await expect(background.getByRole('button', { name: 'Aerial' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page).toHaveURL(/layers=ns-aerial/);
+  await background.getByRole('button', { name: 'Map' }).click();
+  await expect(page).toHaveURL(/layers=modern/);
+});
+
+test('a historical feature under the tap cannot take the viewpoint pick', async ({ page }) => {
+  test.setTimeout(120000);
+  await page.setViewportSize({ width: 1280, height: 860 });
+  await page.addInitScript(() => {
+    localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted');
+    localStorage.setItem('ns-marks-the-spot:basemap', 'fletcher');
+  });
+  await isolateExternal(page);
+  // Centred on the reviewed Fletcher mill polygon F19-JUD-077 near Craigmore.
+  await page.goto('/?layers=modern,rhodena-visibility,rhodena-turbines&taxSale=off&position=45.8212,-61.44402,15');
+  await expect(page.locator('.leaflet-interactive[aria-label*="mill" i]').first()).toBeAttached({ timeout: 30000 });
+  await page.getByRole('button', { name: 'Choose a viewpoint', exact: true }).click({ timeout: 90000 });
+  const map = page.locator('.leaflet-container').first();
+  const bounds = await map.boundingBox();
+  await map.click({ position: { x: bounds!.width / 2, y: bounds!.height / 2 } });
+  await expect(page.locator('.rhodena-viewpoint-results li')).toHaveCount(6);
+  await expect(page.locator('.fletcher-feature-popup')).toHaveCount(0);
 });
