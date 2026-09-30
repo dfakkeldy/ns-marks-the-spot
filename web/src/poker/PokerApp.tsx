@@ -17,6 +17,13 @@ import './poker.css';
 const palette = atlasPalettes.day;
 const AERIAL = 'https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer/tile/{z}/{y}/{x}';
 const tileEvents = { tileerror: () => window.dispatchEvent(new Event('poker-aerial-error')) };
+// React-Leaflet applies a changed style to every feature. Keep these identities
+// stable when a query, trace or viewport changes.
+const waterFeatureStyle = (feature?: GeoJSON.Feature) => waterStyle(feature?.properties?.feat_desc ?? '');
+const roadCasingStyle = (feature?: GeoJSON.Feature) => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '', true);
+const roadFeatureStyle = (feature?: GeoJSON.Feature) => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '');
+const footprintStyle = { color: palette.mutedInk, weight: .6, fillColor: palette.building, fillOpacity: 1 };
+const buildingPoint = (_: GeoJSON.Feature, point: L.LatLng) => L.circleMarker(point, { radius: 2.5, color: palette.mutedInk, weight: 1, fillColor: palette.building, fillOpacity: 1, interactive: false });
 function MapContents({ data, state, setState, mapRef, aerial, addresses, postalOnly, location }: {
   data: PokerData; addresses: SearchAddress[]; postalOnly: PokerAddress[]; location: BrowserLocation | null; state: PokerState; setState: React.Dispatch<React.SetStateAction<PokerState>>; mapRef: React.RefObject<L.Map | null>; aerial: boolean;
 }) {
@@ -33,18 +40,18 @@ function MapContents({ data, state, setState, mapRef, aerial, addresses, postalO
   // Individual building dots only help once streets are legible; at regional
   // zoom they read as noise over the road network.
   const streetZoom = map.getZoom() >= 14;
-  const metres = pathDistanceMetres(state.points);
+  const metres = useMemo(() => pathDistanceMetres(state.points), [state.points]);
   const selected = addresses.find(a => addressId(a) === state.selectedId);
   const selectedPlace = selected ? placement(selected) : null;
   return <>
-    <GeoJSON data={data.water} interactive={false} style={feature => waterStyle(feature?.properties?.feat_desc ?? '')} />
-    <GeoJSON data={data.roads} style={feature => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '', true)} interactive={false} />
-    <GeoJSON data={data.roads} style={feature => roadStyle(feature?.properties?.roadc_desc ?? '', feature?.properties?.feat_desc ?? '')} onEachFeature={(feature, layer) => {
+    <GeoJSON data={data.water} interactive={false} style={waterFeatureStyle} />
+    <GeoJSON data={data.roads} style={roadCasingStyle} interactive={false} />
+    <GeoJSON data={data.roads} style={roadFeatureStyle} onEachFeature={(feature, layer) => {
       const name = feature.properties?.street;
       if (typeof name === 'string' && name) { const label = document.createElement('span'); label.textContent = name; layer.bindTooltip(label, { sticky: true }); }
     }} />
-    <GeoJSON data={data.footprints} interactive={false} style={{ color: palette.mutedInk, weight: .6, fillColor: palette.building, fillOpacity: 1 }} />
-    {streetZoom && <GeoJSON data={data.buildings} interactive={false} pointToLayer={(_, point) => L.circleMarker(point, { radius: 2.5, color: palette.mutedInk, weight: 1, fillColor: palette.building, fillOpacity: 1, interactive: false })} />}
+    <GeoJSON data={data.footprints} interactive={false} style={footprintStyle} />
+    {streetZoom && <GeoJSON data={data.buildings} interactive={false} pointToLayer={buildingPoint} />}
     {aerial && <TileLayer url={AERIAL} maxNativeZoom={19} maxZoom={21} zIndex={450} eventHandlers={tileEvents} />}
     <PokerLabels view={view} roads={roadNames} civic={labelPoints} postal={postalOnly} selected={selectedPlace?.coordinates ?? null} />
     {selectedPlace && <CircleMarker center={[selectedPlace.coordinates[1], selectedPlace.coordinates[0]]} radius={8} interactive={false} pathOptions={{ color: '#b73324', weight: 3, fillOpacity: 0, dashArray: selectedPlace.source === 'postal' ? '4 4' : undefined }} />}
@@ -105,6 +112,15 @@ export function PokerApp() {
   }, []);
   useEffect(() => {
     const controller = new AbortController();
+    let stopped = false;
+    let timedOut = false;
+    const timeout = setTimeout(() => {
+      timedOut = true;
+      // Digest verification cannot be aborted, so show recovery at the deadline
+      // even if the next promise never settles.
+      if (!stopped) setLoadError('Address download timed out. Check your connection and retry.');
+      controller.abort();
+    }, 30_000);
     setLoadError('');
     void (async () => {
       const [response, receiptResponse] = await Promise.all(['poker/data.json.gz','poker/source.json'].map(path => fetch(new URL(path, document.baseURI), { signal: controller.signal })));
@@ -117,13 +133,14 @@ export function PokerApp() {
       const value = JSON.parse(strFromU8(compressed ? gunzipSync(bytes) : bytes)) as PokerData;
       if (value.version !== 1 || value.addresses.length !== receipt.totalAddresses || !value.roads.features || !value.civic.length) throw Error('The address pack is incomplete. Reconnect and retry.');
       if (!controller.signal.aborted) { setData(value); setPackRevision(receipt.sha256); }
-    })().catch(error => { if (!controller.signal.aborted) setLoadError(error instanceof Error ? error.message : 'Address download failed.'); });
-    return () => controller.abort();
+    })().catch(error => { if (!stopped) setLoadError(timedOut ? 'Address download timed out. Check your connection and retry.' : error instanceof Error ? error.message : 'Address download failed.'); })
+      .finally(() => { clearTimeout(timeout); controller.abort(); });
+    return () => { stopped = true; clearTimeout(timeout); controller.abort(); };
   }, [retry]);
   const addresses = useMemo(() => data ? searchableAddresses(data) : [], [data]);
   const postalOnly = useMemo(() => data ? postalOnlyAddresses(data) : [], [data]);
   const matches = useMemo(() => searchAddresses(addresses, state.query, state.postalCode), [addresses, state.query, state.postalCode]);
-  const metres = pathDistanceMetres(state.points);
+  const metres = useMemo(() => pathDistanceMetres(state.points), [state.points]);
   const chooseAddress = (address: SearchAddress) => {
     locationRequest.current++;
     setLocating(false); setLocationNotice('');
