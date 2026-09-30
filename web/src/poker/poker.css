@@ -80,6 +80,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-map-notice, .poker-storage-error { position: absolute; right: 8px; top: calc(var(--poker-top) + 108px); z-index: 800; max-width: min(300px, calc(100% - 64px)); padding: 7px 10px; background: #fffdf6f0; border-radius: 8px; font-size: 12px; box-shadow: var(--poker-shadow); }
 .poker-loading, .poker-load-error { position: absolute; z-index: 600; top: 35%; left: 50%; transform: translateX(-50%); width: min(360px, calc(100% - 32px)); padding: 16px; border-radius: 10px; background: #fffdf6f5; }
 .poker-load-error button { display: block; margin-top: 12px; }
+.poker-fatal-error { width: min(480px, calc(100% - 32px)); margin: 15vh auto; padding: 20px; border-radius: 10px; background: #fffdf6; overflow-wrap: anywhere; }
 .poker-modal { border: 1px solid #a3b1a4; color: #304746; width: calc(100% - 32px); background: #fffdf6; border-radius: 14px; padding: 20px; max-width: 520px; max-height: 85dvh; overflow: auto; line-height: 1.5; }
 .poker-modal::backdrop { background: #173a4a50; }
 .poker-modal h2 { margin: 0; font-size: 22px; }

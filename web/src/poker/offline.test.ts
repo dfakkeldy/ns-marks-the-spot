@@ -156,4 +156,11 @@ describe('Poker updates while a saved copy serves the app', () => {
     await applyUpdate(reload);
     expect(reload).toHaveBeenCalledTimes(2);
   });
+
+  it('still reloads when the browser cannot look up its saved worker', async () => {
+    container.getRegistration = async () => { throw Error('storage unavailable'); };
+    const reload = vi.fn();
+    await applyUpdate(reload);
+    expect(reload).toHaveBeenCalledOnce();
+  });
 });

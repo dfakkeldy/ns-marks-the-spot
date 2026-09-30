@@ -85,15 +85,18 @@ export function watchForUpdate(onUpdate: () => void): () => void {
 }
 /** Hands Poker to the newer saved copy and reloads into it. The session is kept in this browser. */
 export async function applyUpdate(reload = () => window.location.reload()): Promise<void> {
-  const container = navigator.serviceWorker;
-  const waiting = (await container?.getRegistration('/poker'))?.waiting;
-  if (container && waiting) {
-    await new Promise<void>(resolve => {
-      // A worker that never takes over still gets a plain reload.
-      const timer = setTimeout(resolve, 5000);
-      container.addEventListener('controllerchange', () => { clearTimeout(timer); resolve(); }, { once: true });
-      waiting.postMessage('ACTIVATE');
-    });
-  }
-  reload();
+  try {
+    const container = navigator.serviceWorker;
+    const waiting = (await container?.getRegistration('/poker'))?.waiting;
+    if (container && waiting) {
+      await new Promise<void>(resolve => {
+        // A worker that never takes over still gets a plain reload.
+        const finish = () => { clearTimeout(timer); container.removeEventListener('controllerchange', finish); resolve(); };
+        const timer = setTimeout(finish, 5000);
+        container.addEventListener('controllerchange', finish, { once: true });
+        try { waiting.postMessage('ACTIVATE'); } catch { finish(); }
+      });
+    }
+  } catch { /* Worker lookup can fail when browser storage is unavailable. */ }
+  finally { reload(); }
 }

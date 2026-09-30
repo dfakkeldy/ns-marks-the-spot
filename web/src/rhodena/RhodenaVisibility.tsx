@@ -63,27 +63,32 @@ export function RhodenaVisibility({ onPickingChange, onStatusChange, pickPending
   useEffect(()=>{host?.classList.toggle('picking',picking);},[host,picking]);
   useEffect(()=>{if(pickPending&&gridReady){setPicking(true);onPickStarted?.();}},[pickPending,gridReady,onPickStarted]);
   useEffect(()=>{
-    let cancelled=false;let worker:Worker|undefined;let overlay:L.ImageOverlay|undefined;
+    let cancelled=false;let settled=false;let worker:Worker|undefined;let overlay:L.ImageOverlay|undefined;let watchdog:ReturnType<typeof setTimeout>|undefined;
     onStatusChange?.('rhodena-visibility',{status:'loading'});
     setMessage('Calculating terrain visibility…');
     void loadRhodenaTerrain().then(grid=>{
       if(cancelled)return;gridRef.current=grid;setGridReady(true);
       worker=new Worker(new URL('./visibility.worker.ts',import.meta.url),{type:'module'});
-      const fail=()=>{if(cancelled)return;setMessage('Visibility calculation unavailable. Retry to load the terrain again.');onStatusChange?.('rhodena-visibility',{status:'error'});};
-      worker.onerror=fail;
+      const fail=()=>{if(cancelled||settled)return;settled=true;clearTimeout(watchdog);worker?.terminate();overlay?.remove();setMessage('Visibility calculation unavailable. Retry to load the terrain again. A blank overlay is not evidence of invisibility.');onStatusChange?.('rhodena-visibility',{status:'error'});};
+      worker.onerror=fail;worker.onmessageerror=fail;
+      // A worker killed by the browser can stop without an error event.
+      watchdog=setTimeout(fail,120_000);
       worker.onmessage=event=>{
-        if(cancelled)return;if(typeof event.data.progress==='number'){setMessage(`Calculating ${selected==='all'?'all six turbines':selected} visibility… ${event.data.progress}%`);return;}if(event.data.error){fail();return;}
-        const {width,height,rgba}=event.data as {width:number;height:number;rgba:Uint8ClampedArray};
-        const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
-        const context=canvas.getContext('2d');if(!context){fail();return;}
-        const pixels=context.createImageData(width,height);pixels.data.set(rgba);context.putImageData(pixels,0,0);
-        const pane=map.getPane('rhodena-visibility')??map.createPane('rhodena-visibility',map.getPane('tilePane'));pane.style.zIndex='242';pane.style.pointerEvents='none';
-        overlay=L.imageOverlay(canvas.toDataURL(),grid.meta.bounds as L.LatLngBoundsExpression,{pane:'rhodena-visibility',interactive:false,className:'rhodena-viewshed-raster'}).addTo(map);
-        setMessage(selected==='all'?'All six turbines: combined potential visibility':`${selected}: preliminary 200 m blade-tip visibility`);onStatusChange?.('rhodena-visibility',{status:'ready'});worker?.terminate();
+        if(cancelled||settled)return;
+        try {
+          if(typeof event.data.progress==='number'){setMessage(`Calculating ${selected==='all'?'all six turbines':selected} visibility… ${event.data.progress}%`);return;}if(event.data.error){fail();return;}
+          const {width,height,rgba}=event.data as {width:number;height:number;rgba:Uint8ClampedArray};
+          const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+          const context=canvas.getContext('2d');if(!context){fail();return;}
+          const pixels=context.createImageData(width,height);pixels.data.set(rgba);context.putImageData(pixels,0,0);
+          const pane=map.getPane('rhodena-visibility')??map.createPane('rhodena-visibility',map.getPane('tilePane'));pane.style.zIndex='242';pane.style.pointerEvents='none';
+          overlay=L.imageOverlay(canvas.toDataURL(),grid.meta.bounds as L.LatLngBoundsExpression,{pane:'rhodena-visibility',interactive:false,className:'rhodena-viewshed-raster'}).addTo(map);
+          settled=true;clearTimeout(watchdog);setMessage(selected==='all'?'All six turbines: combined potential visibility':`${selected}: preliminary 200 m blade-tip visibility`);onStatusChange?.('rhodena-visibility',{status:'ready'});worker?.terminate();
+        } catch { fail(); }
       };
       worker.postMessage({grid,turbines:selected==='all'?turbines:turbines.filter(t=>t.id===selected)});
-    }).catch(()=>{if(!cancelled){setMessage('Terrain could not be loaded or verified. Retry; a blank overlay is not evidence of invisibility.');onStatusChange?.('rhodena-visibility',{status:'error'});}});
-    return()=>{cancelled=true;worker?.terminate();overlay?.remove();};
+    }).catch(()=>{clearTimeout(watchdog);worker?.terminate();if(!cancelled){setMessage('Terrain could not be loaded or verified. Retry; a blank overlay is not evidence of invisibility.');onStatusChange?.('rhodena-visibility',{status:'error'});}});
+    return()=>{cancelled=true;clearTimeout(watchdog);worker?.terminate();overlay?.remove();};
   },[map,selected,retry,onStatusChange]);
   useEffect(()=>{
     if(!picking)return;
