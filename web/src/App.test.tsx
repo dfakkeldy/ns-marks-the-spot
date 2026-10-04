@@ -797,41 +797,43 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(null, "", "/");
     observedInteractiveMapStates.length = 0;
     lastObservedInteractiveMapState.value = null;
-    vi.mocked(fetchParcels).mockResolvedValue({
+    // A timed-out case can leave mockResolvedValueOnce replies unconsumed.
+    // Clear those queues before setting the next case's default response.
+    vi.mocked(fetchParcels).mockReset().mockResolvedValue({
       type: "FeatureCollection",
       features: [],
     });
-    vi.mocked(fetchParcelAtPoint).mockResolvedValue({
+    vi.mocked(fetchParcelAtPoint).mockReset().mockResolvedValue({
       type: "FeatureCollection",
       features: [],
     });
-    vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
-    vi.mocked(fetchCivicAddresses).mockResolvedValue({ addresses: [], unreadableRows: 0 });
+    vi.mocked(fetchParcelContext).mockReset().mockResolvedValue({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockReset().mockResolvedValue({ addresses: [], unreadableRows: 0 });
     vi.mocked(searchCivicAddresses).mockReset().mockResolvedValue([]);
-    vi.mocked(fetchParcelResourceIntersections).mockResolvedValue({
+    vi.mocked(fetchParcelResourceIntersections).mockReset().mockResolvedValue({
       "mineral-occurrences": { status: "ready", intersections: [] },
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "ready", intersections: [] },
     });
-    vi.mocked(fetchPublishedRiverFloodEvidence).mockResolvedValue({
+    vi.mocked(fetchPublishedRiverFloodEvidence).mockReset().mockResolvedValue({
       status: "outside-published-layer-extents",
       aep: [],
     });
-    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValue([
+    vi.mocked(fetchCoastalFloodEvidence).mockReset().mockResolvedValue([
         { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
       ]);
-    vi.mocked(fetchParcelBuildingCount).mockResolvedValue({
+    vi.mocked(fetchParcelBuildingCount).mockReset().mockResolvedValue({
       count: 0,
       pointCount: 0,
       polygonCount: 0,
     });
-    vi.mocked(fetchParcelAssessments).mockResolvedValue({
+    vi.mocked(fetchParcelAssessments).mockReset().mockResolvedValue({
       matchMethod: "spatial",
       accounts: [],
     });
-    vi.mocked(fetchDwellingCharacteristics).mockResolvedValue([]);
+    vi.mocked(fetchDwellingCharacteristics).mockReset().mockResolvedValue([]);
     vi.mocked(buildEvidenceNote).mockClear();
     composeMapImageMock.mockReset().mockResolvedValue({
       canvas: (() => {

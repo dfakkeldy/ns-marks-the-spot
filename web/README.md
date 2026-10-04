@@ -1476,14 +1476,14 @@ exception PID to remain empty, so either provincial change triggers review.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 27 events—26
+The historical layer is visually distinct and off by default. Its 28 events—27
 with verified results and one notice-only event awaiting official results—span
 eleven municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Halifax | 8 | 97 | 104 | 85 | 5 | 0 | 0 | 7 |
-| Victoria County | 3 | 23 | 23 | 9 | 4 | 1 | 0 | 9 |
+| Victoria County | 4 | 23 | 23 | 9 | 4 | 1 | 0 | 9 |
 | CBRM | 2 | 140 | 133 | 71 | 0 | 0 | 1 | 68 |
 | Cumberland | 2 | 34 | 33 | 27 | 0 | 6 | 0 | 1 |
 | Lunenburg District | 6 | 145 | 125 | 69 | 21 | 37 | 0 | 18 |
@@ -1493,7 +1493,7 @@ eleven municipalities:
 | Clare | 1 | 16 | 16 | 12 | 1 | 0 | 2 | 1 |
 | Middleton | 1 | 2 | 2 | 0 | 2 | 0 | 0 | 0 |
 | Colchester | 1 | 7 | 7 | 0 | 0 | 0 | 0 | 7 |
-| **Total** | **27** | **504** | **483** | **298** | **35** | **57** | **3** | **111** |
+| **Total** | **28** | **504** | **483** | **298** | **35** | **57** | **3** | **111** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026
