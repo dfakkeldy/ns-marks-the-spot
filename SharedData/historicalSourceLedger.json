@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-09-24",
+  "retrievedOn": "2026-10-04",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -663,6 +663,25 @@
       "fieldsAvailable": ["notice AAN", "notice PID", "location", "Total Owing", "HST", "status", "redeemable", "Successful Bid"],
       "officialWinningBidsFound": true,
       "notes": "4 exact-PID notice rows were reconciled by unique official Total Owing and location prefix; 3 print SOLD and 1 print NOT SOLD. 4 REMOVED rows and 1 row with no printed status publish no Total Owing and remain outside the map dataset. The assessed-name column is absent from the result PDF and was never copied from the archived notice."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "September 15, 2026 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.halifax.ca/home-property/property-taxes/tax-sale",
+        "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept11.26.pdf",
+        "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf",
+        "https://www.halifax.ca/home-property/property-taxes/tax-sale/tax-sale-results",
+        "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf"
+      ],
+      "documentSha256": [
+        "bb9c732f93d1887a4c8a76e70f9a89d94e56fce2215e09cb38b3be8987d4196e",
+        "28ba29a327f875a0d07eb990288d124c49dcdb7a32e1e631095af90d2e658d0e"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "opening bid", "selling price", "redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "The dated official Halifax results PDF prints 4 rows: 3 numeric selling prices and 1 NO BIDS rows. Each result reconciles exactly with the retained Schedule A by AAN, PID, location, opening bid and redemption flag. 6 notice rows are absent from the result PDF and remain unknown. No assessed-owner or bidder fields are retained."
     }
   ]
 }

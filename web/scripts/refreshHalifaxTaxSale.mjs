@@ -5,6 +5,10 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { buildHalifaxHistoricalAddition, findHalifaxResultPdf, parseHalifaxResultText } from "./halifaxTaxSaleResults.mjs";
+import { fetchOfficial } from "./taxSaleWatch/fetchOfficial.mjs";
+import { formatDataset, formatLedger } from "./taxSaleWatch/dataset.mjs";
+import { updateHistoricalDatasetHash } from "./watchTaxSaleSources.mjs";
 
 const execFile = promisify(execFileCallback);
 const LANDING_PAGE_URL = "https://www.halifax.ca/home-property/property-taxes/tax-sale";
@@ -15,6 +19,10 @@ const CURRENT_EVENT_DATE = "2026-09-15";
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.snapshot.json");
 const MODEL_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.ts");
+const RESULT_SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSaleResults.snapshot.json");
+const HISTORICAL_DATASET_PATH = resolve(SCRIPT_DIR, "../src/data/historicalTaxSales.json");
+const HISTORICAL_LEDGER_PATH = resolve(SCRIPT_DIR, "../src/data/historicalSourceLedger.json");
+const HISTORICAL_MODEL_PATH = resolve(SCRIPT_DIR, "../src/data/historicalTaxSales.ts");
 const MONTHS = [
   "January", "February", "March", "April", "May", "June", "July",
   "August", "September", "October", "November", "December",
@@ -90,6 +98,13 @@ export function classifyLandingPage(html) {
   const closed = isClosedAwaitingResults(pageText);
   const { tenderNumbers, tenderUrls, scheduleUrls, taxSalePdfs } =
     currentNoticeDocuments(html);
+
+  if (/TAXSALE23 LIST\s+[–—-]\s+Tuesday,\s+September\s+15,\s*2026\s+RESULTS\b/iu.test(pageText)) {
+    if (tenderNumbers.length || tenderUrls.length || scheduleUrls.length || taxSalePdfs.length) {
+      throw new Error("Halifax landing page mixes published results with current tender documents; refusing to guess.");
+    }
+    return { kind: "published-results", tenderNumber: CURRENT_TENDER_NUMBER, eventDate: CURRENT_EVENT_DATE };
+  }
 
   if (closed) {
     if (
@@ -306,31 +321,77 @@ async function pdfText(pdfBytes) {
 }
 
 async function fetchBytes(url) {
-  const response = await fetch(url, {
-    headers: { Accept: "application/pdf", "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
-    signal: AbortSignal.timeout(30_000),
-  });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
+  const response = await fetchOfficial(url, { accept: "application/pdf" });
   return Buffer.from(await response.arrayBuffer());
 }
 
 async function fetchHtml(url) {
-  const response = await fetch(url, {
-    headers: { Accept: "text/html", "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
-    signal: AbortSignal.timeout(30_000),
-  });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
+  const response = await fetchOfficial(url);
   return response.text();
+}
+
+async function ingestResults(resultUrl) {
+  const [noticeSource, modelSource, resultBytes, datasetSource, ledgerSource, historicalModel, currentSource] = await Promise.all([
+    readFile(SNAPSHOT_PATH, "utf8"), readFile(MODEL_PATH, "utf8"), fetchBytes(resultUrl),
+    readFile(HISTORICAL_DATASET_PATH, "utf8"), readFile(HISTORICAL_LEDGER_PATH, "utf8"),
+    readFile(HISTORICAL_MODEL_PATH, "utf8"),
+    readFile(RESULT_SNAPSHOT_PATH, "utf8").catch((error) => {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    }),
+  ]);
+  const addition = buildHalifaxHistoricalAddition(
+    JSON.parse(noticeSource), parseHalifaxResultText(await pdfText(resultBytes)), resultUrl,
+    sha256(resultBytes), halifaxDate(), currentSource ? JSON.parse(currentSource) : null,
+  );
+  const dataset = JSON.parse(datasetSource);
+  const ledger = JSON.parse(ledgerSource);
+  const existing = dataset.events.find(({ id }) => id === addition.event.id);
+  if (existing) {
+    const records = dataset.records.filter(({ eventId }) => eventId === addition.event.id);
+    if (JSON.stringify(existing) !== JSON.stringify(addition.event) || JSON.stringify(records) !== JSON.stringify(addition.records)) {
+      throw new Error(`${addition.event.id} changed after ingestion; refusing to rewrite verified records.`);
+    }
+  } else {
+    if (dataset.records.some(({ eventId }) => eventId === addition.event.id)) {
+      throw new Error("Halifax historical records exist without their event; refusing to double-ingest.");
+    }
+    dataset.events.push(addition.event);
+    dataset.records.push(...addition.records);
+    ledger.retrievedOn = addition.snapshot.retrievedDate;
+    ledger.coverage.push(addition.ledgerEntry);
+  }
+  const resultSource = `${JSON.stringify(addition.snapshot, null, 2)}\n`;
+  const resultHashPattern = /(HALIFAX_TAX_SALE_RESULT_DATASET_SHA256\s*=\s*\n\s*")[a-f\d]{64}(";)/u;
+  if (!resultHashPattern.test(modelSource) || !/eventStatus: "(?:upcoming|historical)"/u.test(modelSource)) {
+    throw new Error("Could not find the Halifax result hash and lifecycle fields.");
+  }
+  const nextModel = modelSource.replace(resultHashPattern, `$1${sha256(resultSource)}$2`)
+    .replace(/eventStatus: "(?:upcoming|historical)"/u, 'eventStatus: "historical"');
+  const nextDataset = existing ? datasetSource : formatDataset(dataset);
+  const nextHistoricalModel = updateHistoricalDatasetHash(historicalModel, sha256(nextDataset));
+  await Promise.all([
+    writeFile(RESULT_SNAPSHOT_PATH, resultSource), writeFile(MODEL_PATH, nextModel),
+    writeFile(HISTORICAL_DATASET_PATH, nextDataset),
+    writeFile(HISTORICAL_LEDGER_PATH, existing ? ledgerSource : formatLedger(ledger)),
+    writeFile(HISTORICAL_MODEL_PATH, nextHistoricalModel),
+  ]);
+  console.log(`Halifax ${addition.event.saleDate}: ${addition.snapshot.resultRowCount} verified result rows; ${addition.snapshot.missingNoticeRowCount} missing notice rows remain unknown; result SHA-256 ${addition.snapshot.sourceDocumentSha256}.`);
 }
 
 async function main() {
   const landingHtml = await fetchHtml(LANDING_PAGE_URL);
   const landing = classifyLandingPage(landingHtml);
-  if (landing.kind === "closed-awaiting-results") {
-    assertHalifaxResultsStillHistorical(await fetchHtml(RESULTS_PAGE_URL));
-    console.log(
-      `Halifax ${landing.tenderNumber} (${landing.eventDate}) is closed pending official results; retaining the last verified Schedule A snapshot.`,
-    );
+  if (landing.kind !== "current-tender") {
+    const resultsHtml = await fetchHtml(RESULTS_PAGE_URL);
+    let resultUrl;
+    try { resultUrl = findHalifaxResultPdf(resultsHtml, landing.eventDate); } catch (error) {
+      if (landing.kind !== "closed-awaiting-results" || !/found 0\./u.test(error.message)) throw error;
+      assertHalifaxResultsStillHistorical(resultsHtml);
+      console.log(`Halifax ${landing.tenderNumber} (${landing.eventDate}) is closed pending official results; retaining the last verified Schedule A snapshot.`);
+      return;
+    }
+    await ingestResults(resultUrl);
     return;
   }
   const { tenderNumber, tenderUrl, scheduleUrl } = landing;

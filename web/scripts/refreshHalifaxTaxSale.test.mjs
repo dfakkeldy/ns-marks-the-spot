@@ -48,6 +48,13 @@ async function loadModule() {
 }
 
 describe("Halifax September 2026 tender refresh", () => {
+  it("recognizes the dated results landing page after tender documents are removed", async () => {
+    const { classifyLandingPage } = await loadModule();
+    expect(classifyLandingPage("<p>TAXSALE23 LIST – Tuesday, September 15,2026 RESULTS</p>")).toEqual({
+      kind: "published-results", tenderNumber: "HRM-TaxSale23", eventDate: "2026-09-15",
+    });
+    expect(() => classifyLandingPage(`${landingHtml}<p>TAXSALE23 LIST – Tuesday, September 15,2026 RESULTS</p>`)).toThrow(/mixes/);
+  });
   it("resolves the single current tender and Schedule A from the official landing page", async () => {
     const { parseLandingPage } = await loadModule();
     expect(parseLandingPage(landingHtml)).toEqual({

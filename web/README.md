@@ -1318,8 +1318,22 @@ sale as pending and retries next run, archiving first so evidence is never lost
 while ingestion waits. Any winning-bid cell that is not a money amount,
 `ADJORNED`, or `NOT COMPLETED` fails the run rather than being guessed. The
 manual workflow `.github/workflows/tax-sale-watch.yml` remains available as a
-diagnostic. The Codex tax-sale automation owns the recurring refresh,
-verification, publication, and exact-pin deployment path.
+diagnostic. The Codex tax-sale automation runs daily at 5:15 p.m. Atlantic and
+owns refresh, verification, and the source PR. The existing NS Marks web map
+deployment routine owns the subsequent exact-pin site publication.
+
+Transient transport and server failures receive at most three fetch attempts.
+An HTTP 307 JavaScript verification response remains a source error. Codex may
+open that official page in a normal browser and rerun the watcher with
+`--browser-receipts <JSON-file>` after capturing an owner-free rendered notice.
+Each receipt supplies `sourceKind: "owner-free-rendered-notice"`, the exact
+official `sourceUrl`, UTC `capturedAt`, `observedTableRowCount` including the
+header, and `html` containing the actual notice table with every mixed
+owner/location cell replaced by `[OMITTED]`. The watcher rejects receipts older
+than 20 minutes, incomplete or duplicate identifiers, unredacted cells, changed
+headers, mismatched row counts, and any results table. This fallback can only
+verify a pre-sale notice and retain existing results; it cannot ingest results
+or substitute for the archive requirements.
 
 ## CBRM July 21, 2026 source receipt
 
@@ -1422,12 +1436,15 @@ archive capture fails closed.
 ## Halifax September 2026 source receipt
 
 - Official landing page: [Halifax Tax Sale](https://www.halifax.ca/home-property/property-taxes/tax-sale).
-  Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. As of the
-  2026-09-16 refresh the landing page states that bidding for the TaxSale23
-  list is closed and to monitor that page for results. No TaxSale23 result PDF
-  is published yet on the landing page or the
-  [results page](https://www.halifax.ca/home-property/property-taxes/tax-sale/tax-sale-results),
-  so the last verified Schedule A remains the current owner-free snapshot.
+  Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. The October 4
+  refresh verified the dated official
+  [results PDF](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf)
+  linked from the official results page. Its SHA-256 is
+  `28ba29a327f875a0d07eb990288d124c49dcdb7a32e1e631095af90d2e658d0e`.
+  Three rows publish numeric selling prices and one prints `NO BIDS`; each
+  reconciles exactly by AAN, PID, opening bid, location and redemption flag.
+  The six retained notice rows absent from the results remain outcome unknown.
+  The event is now historical; the notice snapshot remains unchanged.
   The official
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
   have SHA-256
@@ -1447,25 +1464,26 @@ archive capture fails closed.
   `e325d369945024df438fb52a47731ec586a272b4e41c3ad9ac0983f1caacf826`.
 
 Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs, or
-to confirm the official closed/awaiting-results landing page and leave the last
-verified Schedule A in place. The refresh fails closed on a changed document
+to confirm an awaiting-results page or ingest the dated published results.
+The refresh fails closed on a changed document
 link, tender number, layout, identifier, amount, flag, row/PID count, a
 geometry-exception pin that does not match a live Schedule A row, a closed
-notice mixed with current tender documents, or published TaxSale23 results
-before an outcomes importer exists.
+notice or results page mixed with current tender documents, an unrecognized
+selling price, or results that no longer reconcile with the retained notice.
+Repeated ingestion preserves retrieval dates and rejects rewriting accepted outcomes.
 The live NSPRD test requires every mapped PID to resolve and every declared
 exception PID to remain empty, so either provincial change triggers review.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 26 events—25
+The historical layer is visually distinct and off by default. Its 27 events—26
 with verified results and one notice-only event awaiting official results—span
 eleven municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Halifax | 7 | 87 | 93 | 82 | 4 | 0 | 0 | 1 |
-| Victoria County | 3 | 19 | 19 | 6 | 3 | 1 | 0 | 9 |
+| Halifax | 8 | 97 | 104 | 85 | 5 | 0 | 0 | 7 |
+| Victoria County | 3 | 23 | 23 | 9 | 4 | 1 | 0 | 9 |
 | CBRM | 2 | 140 | 133 | 71 | 0 | 0 | 1 | 68 |
 | Cumberland | 2 | 34 | 33 | 27 | 0 | 6 | 0 | 1 |
 | Lunenburg District | 6 | 145 | 125 | 69 | 21 | 37 | 0 | 18 |
@@ -1475,7 +1493,7 @@ eleven municipalities:
 | Clare | 1 | 16 | 16 | 12 | 1 | 0 | 2 | 1 |
 | Middleton | 1 | 2 | 2 | 0 | 2 | 0 | 0 | 0 |
 | Colchester | 1 | 7 | 7 | 0 | 0 | 0 | 0 | 7 |
-| **Total** | **26** | **490** | **468** | **292** | **33** | **57** | **3** | **105** |
+| **Total** | **27** | **504** | **483** | **298** | **35** | **57** | **3** | **111** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026
@@ -1497,7 +1515,8 @@ claims. The row that prints `Sold` and $26,000.00 but also says the buyer
 forfeited remains outcome-unknown; the contradiction is preserved rather than
 collapsed into a completed sale.
 
-Every Halifax listing was reconciled between the official notice and result.
+Every published Halifax result row was reconciled with its official notice.
+Notice rows absent from the September 15, 2026 results remain unknown.
 The July 21, 2026 CBRM result rows were reconciled to the official notice by
 lien, AAN, PID, minimum bid, and redemption category. The Victoria County and
 July 22, 2025 CBRM records come from self-contained official result tables that

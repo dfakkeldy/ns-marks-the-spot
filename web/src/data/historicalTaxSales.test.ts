@@ -16,7 +16,7 @@ import {
 // Verified receipts must come from a municipality that published them or from an
 // archive replaying that municipality, never from an arbitrary host.
 const verifiedResultHost =
-  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|(?:www\.)?regionofqueens\.com|(?:www\.)?clarenovascotia\.com|web\.archive\.org)\//u;
+  /^https:\/\/(?:(?:(?:cdn|www)\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|(?:www\.)?regionofqueens\.com|(?:www\.)?clarenovascotia\.com|web\.archive\.org)\//u;
 const pendingResultHost =
   /^https:\/\/(?:cbrm\.ns\.ca|(?:www\.)?colchester\.ca)\//u;
 

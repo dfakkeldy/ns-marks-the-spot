@@ -3090,13 +3090,7 @@ describe("NS Marks The Spot Online", () => {
         { timeout: 10_000 },
       ),
     ).toBeInTheDocument();
-    expect(
-      await screen.findByText(
-        "10 advertised · 0 withdrawn · 11 active PIDs",
-        undefined,
-        { timeout: 10_000 },
-      ),
-    ).toBeInTheDocument();
+    expect(screen.queryByRole("checkbox", { name: /Halifax.*September 15, 2026/i })).not.toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
     ).not.toBeInTheDocument();
@@ -3127,8 +3121,8 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("Snapshot retrieved August 10, 2026"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Snapshot retrieved September 11, 2026"),
-    ).toBeInTheDocument();
+      screen.queryByText("Snapshot retrieved September 11, 2026"),
+    ).not.toBeInTheDocument();
   });
 
   it("makes current notices and historical records separate map modes", async () => {
@@ -3324,7 +3318,7 @@ describe("NS Marks The Spot Online", () => {
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
-    expect(screen.getByText("34 records · 28 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("35 records · 29 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
     expect(screen.getByText("10 records · 10 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
@@ -6413,18 +6407,15 @@ describe("NS Marks The Spot Online", () => {
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 39;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 28;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 12;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 1;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 11;");
-    await user.click(
-      screen.getByRole("checkbox", { name: /Halifax.*September 15, 2026/i }),
-    );
+    expect(screen.queryByRole("checkbox", { name: /Halifax.*September 15, 2026/i })).not.toBeInTheDocument();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 0;");
   });
 
