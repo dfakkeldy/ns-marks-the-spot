@@ -1,6 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { fetchOfficial } from "./taxSaleWatch/fetchOfficial.mjs";
 import {
   findHashableCapture,
   listCaptures,
@@ -56,15 +57,30 @@ function replayUrl(timestamp, url) {
 
 export async function runWatch(
   source,
-  { fetchImpl = fetch, now, snapshot, dataset, ledger },
+  { fetchImpl = fetch, now, snapshot, dataset, ledger, browserReceipt, nowInstant = new Date() },
 ) {
-  const response = await fetchImpl(source.landingPageUrl, {
-    headers: { "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
-  });
-  if (!response.ok) {
-    throw new Error(
-      `${response.status} ${response.statusText}: ${source.landingPageUrl}`,
-    );
+  let response;
+  try {
+    response = await fetchOfficial(source.landingPageUrl, { fetchImpl });
+  } catch (error) {
+    if (!browserReceipt || !/HTTP 307.*JavaScript verification/u.test(error.message)) throw error;
+    const age = nowInstant.getTime() - new Date(browserReceipt.capturedAt).getTime();
+    if (browserReceipt.sourceKind !== "owner-free-rendered-notice" ||
+        browserReceipt.sourceUrl !== source.landingPageUrl ||
+        !Number.isFinite(age) || age < 0 || age > 20 * 60_000 ||
+        typeof browserReceipt.html !== "string" || !snapshot.ingestedEventId ||
+        !source.ownerFreeNoticeRowCount?.(browserReceipt.html) ||
+        source.ownerFreeNoticeRowCount(browserReceipt.html) !== browserReceipt.observedTableRowCount ||
+        source.containsResultsTable(browserReceipt.html)) {
+      throw new Error(`${source.id}: invalid or stale browser receipt; results cannot be ingested through this fallback.`);
+    }
+    // A rendered, owner-free notice excerpt is derived evidence. It may prove
+    // this watcher has no new results, but never substitutes for the raw result
+    // bytes and verified archive required by the ingestion path below.
+    return {
+      status: "unchanged", snapshot,
+      summary: `${source.id}: normal browser verified a current pre-sale notice without results; retaining ingested ${snapshot.ingestedEventId}; rendered notice SHA-256 ${sha256(browserReceipt.html)}.`,
+    };
   }
   const html = await response.text();
   const livePageSha256 = sha256(html);
@@ -180,6 +196,18 @@ async function main() {
   let datasetText = await readFile(DATASET_PATH, "utf8");
   let ledgerText = await readFile(LEDGER_PATH, "utf8");
   let datasetChanged = false;
+  const receiptFlag = process.argv.indexOf("--browser-receipts");
+  let browserReceipts = [];
+  if (receiptFlag !== -1) {
+    const receiptPath = process.argv[receiptFlag + 1];
+    if (!receiptPath) throw new Error("--browser-receipts requires a JSON file path.");
+    browserReceipts = JSON.parse(await readFile(receiptPath, "utf8"));
+    if (!Array.isArray(browserReceipts)) throw new Error("Browser receipts must be a JSON array.");
+    const urls = browserReceipts.map((receipt) => receipt?.sourceUrl);
+    if (new Set(urls).size !== urls.length || urls.some((url) => !TAX_SALE_SOURCES.some((source) => source.landingPageUrl === url))) {
+      throw new Error("Browser receipt source URLs are duplicated or unrecognized.");
+    }
+  }
 
   for (const source of TAX_SALE_SOURCES) {
     const snapshotPath = resolve(DATA_DIR, source.snapshotPath);
@@ -190,6 +218,7 @@ async function main() {
       snapshot,
       dataset: datasetText,
       ledger: ledgerText,
+      browserReceipt: browserReceipts.find(({ sourceUrl }) => sourceUrl === source.landingPageUrl),
     });
 
     console.log(report.summary);

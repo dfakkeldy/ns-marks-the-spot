@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 import halifaxTaxSaleSnapshotSource from "./halifaxTaxSale.snapshot.json?raw";
 import halifaxTaxSaleSnapshot from "./halifaxTaxSale.snapshot.json";
+import halifaxResultSource from "./halifaxTaxSaleResults.snapshot.json?raw";
+import halifaxResultSnapshot from "./halifaxTaxSaleResults.snapshot.json";
+import { historicalTaxSaleRecords } from "./historicalTaxSales";
 import {
   HALIFAX_TAX_SALE_DATASET_SHA256,
+  HALIFAX_TAX_SALE_RESULT_DATASET_SHA256,
   halifaxListingsAndExceptions,
   halifaxOrphanedExceptionPids,
   halifaxTaxSaleEvent,
@@ -25,9 +29,9 @@ describe("the Halifax September 2026 tender dataset", () => {
     expect(halifaxTaxSaleSnapshot.notRedeemableCount).toBe(1);
   });
 
-  it("maps all 10 advertised rows after the sept11 Schedule A dropped one more advertised row", () => {
+  it("retains all 10 notice rows in historical mode after official results are ingested", () => {
     expect(halifaxTaxSaleEvent.eventType).toBe("sealed-tender");
-    expect(halifaxTaxSaleEvent.eventStatus).toBe("upcoming");
+    expect(halifaxTaxSaleEvent.eventStatus).toBe("historical");
     expect(halifaxTaxSaleEvent.saleStartsAt).toBe("2026-09-15T10:00:00-03:00");
     expect(halifaxTaxSaleEvent.listings).toHaveLength(10);
     const pids = halifaxTaxSaleEvent.listings.flatMap(({ pids }) => pids);
@@ -39,6 +43,18 @@ describe("the Halifax September 2026 tender dataset", () => {
     expect(pids).not.toContain("00535617");
     expect(pids).not.toContain("41274085");
     expect(halifaxTaxSaleEvent.geometryExceptions).toEqual([]);
+  });
+
+  it("pins the official results and preserves missing notice rows as unknown", async () => {
+    expect(await sha256Hex(halifaxResultSource)).toBe(HALIFAX_TAX_SALE_RESULT_DATASET_SHA256);
+    expect(halifaxResultSnapshot.ownerNamesExcluded).toBe(true);
+    expect(halifaxResultSnapshot.resultRowCount).toBe(4);
+    const records = historicalTaxSaleRecords.filter(({ eventId }) => eventId === halifaxTaxSaleEvent.id);
+    expect(records).toHaveLength(10);
+    expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(3);
+    expect(records.filter(({ outcome }) => outcome === "unsold")).toHaveLength(1);
+    expect(records.filter(({ outcome }) => outcome === "unknown")).toHaveLength(6);
+    expect(records.filter(({ outcome }) => outcome === "unknown").every(({ winningBidCents }) => winningBidCents === null)).toBe(true);
   });
 
   it("preserves opening-bid semantics and keeps public rows owner-free", () => {

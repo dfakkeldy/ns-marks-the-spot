@@ -109,6 +109,25 @@ export function isUpcomingNotice(html) {
   );
 }
 
+/** A browser excerpt must contain real notice rows with the mixed name cell omitted. */
+export function ownerFreeNoticeRowCount(html) {
+  if (!isUpcomingNotice(html)) return 0;
+  const rows = (html.match(/<tr[\s\S]*?<\/tr>/giu) ?? []).map(cellsOf);
+  if (JSON.stringify(rows[0]) !== JSON.stringify(NOTICE_HEADERS) || rows.length < 2) return 0;
+  const aans = new Set();
+  const pids = new Set();
+  for (const cells of rows.slice(1)) {
+    if (cells.length !== 6) return 0;
+    const [aan, pid, district, omitted, amount, redeemable] = cells;
+    if (!/^\d{8}$/u.test(aan) || !/^\d{8}$/u.test(pid) || !/^\d+$/u.test(district) ||
+        omitted !== "[OMITTED]" || !/^\$?(?:\d+|\d{1,3}(?:,\d{3})+)\.\d{2}(?:\s+HST appl)?$/iu.test(amount) ||
+        !/^(YES|NO)$/iu.test(redeemable) || aans.has(aan) || pids.has(pid)) return 0;
+    aans.add(aan);
+    pids.add(pid);
+  }
+  return rows.length;
+}
+
 function redemptionLabel(raw) {
   const value = raw.trim().toUpperCase();
   if (value === "6 MONTH") return "Redemption expiry - 6 month";
@@ -203,4 +222,5 @@ export const CUMBERLAND_SOURCE = {
   classifyOutcome,
   containsResultsTable,
   isUpcomingNotice,
+  ownerFreeNoticeRowCount,
 };

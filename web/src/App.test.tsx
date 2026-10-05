@@ -797,41 +797,43 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(null, "", "/");
     observedInteractiveMapStates.length = 0;
     lastObservedInteractiveMapState.value = null;
-    vi.mocked(fetchParcels).mockResolvedValue({
+    // A timed-out case can leave mockResolvedValueOnce replies unconsumed.
+    // Clear those queues before setting the next case's default response.
+    vi.mocked(fetchParcels).mockReset().mockResolvedValue({
       type: "FeatureCollection",
       features: [],
     });
-    vi.mocked(fetchParcelAtPoint).mockResolvedValue({
+    vi.mocked(fetchParcelAtPoint).mockReset().mockResolvedValue({
       type: "FeatureCollection",
       features: [],
     });
-    vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
-    vi.mocked(fetchCivicAddresses).mockResolvedValue({ addresses: [], unreadableRows: 0 });
+    vi.mocked(fetchParcelContext).mockReset().mockResolvedValue({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockReset().mockResolvedValue({ addresses: [], unreadableRows: 0 });
     vi.mocked(searchCivicAddresses).mockReset().mockResolvedValue([]);
-    vi.mocked(fetchParcelResourceIntersections).mockResolvedValue({
+    vi.mocked(fetchParcelResourceIntersections).mockReset().mockResolvedValue({
       "mineral-occurrences": { status: "ready", intersections: [] },
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "ready", intersections: [] },
     });
-    vi.mocked(fetchPublishedRiverFloodEvidence).mockResolvedValue({
+    vi.mocked(fetchPublishedRiverFloodEvidence).mockReset().mockResolvedValue({
       status: "outside-published-layer-extents",
       aep: [],
     });
-    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValue([
+    vi.mocked(fetchCoastalFloodEvidence).mockReset().mockResolvedValue([
         { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
       ]);
-    vi.mocked(fetchParcelBuildingCount).mockResolvedValue({
+    vi.mocked(fetchParcelBuildingCount).mockReset().mockResolvedValue({
       count: 0,
       pointCount: 0,
       polygonCount: 0,
     });
-    vi.mocked(fetchParcelAssessments).mockResolvedValue({
+    vi.mocked(fetchParcelAssessments).mockReset().mockResolvedValue({
       matchMethod: "spatial",
       accounts: [],
     });
-    vi.mocked(fetchDwellingCharacteristics).mockResolvedValue([]);
+    vi.mocked(fetchDwellingCharacteristics).mockReset().mockResolvedValue([]);
     vi.mocked(buildEvidenceNote).mockClear();
     composeMapImageMock.mockReset().mockResolvedValue({
       canvas: (() => {
@@ -3090,13 +3092,7 @@ describe("NS Marks The Spot Online", () => {
         { timeout: 10_000 },
       ),
     ).toBeInTheDocument();
-    expect(
-      await screen.findByText(
-        "10 advertised · 0 withdrawn · 11 active PIDs",
-        undefined,
-        { timeout: 10_000 },
-      ),
-    ).toBeInTheDocument();
+    expect(screen.queryByRole("checkbox", { name: /Halifax.*September 15, 2026/i })).not.toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
     ).not.toBeInTheDocument();
@@ -3127,8 +3123,8 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("Snapshot retrieved August 10, 2026"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Snapshot retrieved September 11, 2026"),
-    ).toBeInTheDocument();
+      screen.queryByText("Snapshot retrieved September 11, 2026"),
+    ).not.toBeInTheDocument();
   });
 
   it("makes current notices and historical records separate map modes", async () => {
@@ -3324,7 +3320,7 @@ describe("NS Marks The Spot Online", () => {
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
-    expect(screen.getByText("34 records · 28 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("35 records · 29 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
     expect(screen.getByText("10 records · 10 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
@@ -6413,18 +6409,15 @@ describe("NS Marks The Spot Online", () => {
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 39;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 28;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 12;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 1;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 11;");
-    await user.click(
-      screen.getByRole("checkbox", { name: /Halifax.*September 15, 2026/i }),
-    );
+    expect(screen.queryByRole("checkbox", { name: /Halifax.*September 15, 2026/i })).not.toBeInTheDocument();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 0;");
   });
 
