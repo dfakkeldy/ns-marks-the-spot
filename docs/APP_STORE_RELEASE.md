@@ -143,9 +143,9 @@ Restricted provincial layers load only after the user's explicit Province of Nov
 
 Imported maps, drawn layers and photos are local. Camera/Photos access is requested for the relevant action; the photo-map index is on device. Export/share is initiated by the user. Recently viewed tiles can be cached; named saved areas prepare supported Fletcher historical tiles. Other queried services need a connection.
 
-Location is optional When In Use. The location controls can show position, mark a point or record a track. Background location is held only during an active recording, with the iOS indicator; the app never requests Always permission. During recording, a Live Activity may show elapsed time/distance and Pause/Resume on the Lock Screen/Dynamic Island. Open the app to stop and save. A local checkpoint offers interrupted recordings at the next launch. No location is shown in the Live Activity and tracks leave the device only through the user's export/share.
+Location is optional When In Use. The location controls can show position, mark a point or record a track. Background location is held only during an active recording, with the iOS indicator; the app never requests Always permission. During recording, a Live Activity may show elapsed time/distance and Pause/Resume on the Lock Screen/Dynamic Island. Open the app to stop and save. A local checkpoint offers interrupted recordings at the next launch. No coordinates are shown in the Live Activity and tracks leave the device only through the user's export/share.
 
-The Fletcher tile host is configured for this source; confirm it is enabled and reachable in the selected release build. Historical map rights and attribution are separate from the software licence.
+The Fletcher historical overlay uses tiles.kinnokilabs.com. Historical map rights and attribution are separate from the software licence.
 ```
 
 Attach the final build/version, actual device/OS acceptance results, and exact
