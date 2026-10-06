@@ -8,20 +8,21 @@ submission, pricing, agreement acceptance, or legal declarations.
 ## Release decision
 
 **Hold public release.** A recent internal upload exists, but the current native
-test gate has a measurement failure, the app has no accessible privacy-policy
-link, and native/offline content rights remain unresolved. Complete those
+test gate now passes at the earlier documentation head and the native privacy
+link is implemented; native/offline rights and policy-content reconciliation
+remain unresolved. Complete those
 bounded items before choosing a final build. Keep existing features intact while
 resolving them; any alternative release scope needs an explicit decision.
 
 | Evidence | Verified state | Remaining gate |
 |---|---|---|
-| Nightly source | `af8a13750eda50423f599079c1f851eeb7ac7805` | Current-head native tests have not passed |
+| Nightly source | `af8a13750eda50423f599079c1f851eeb7ac7805` | Earlier documentation head `079da5ba` passed all native/UI/package tests; new privacy-link head needs its own CI |
 | Weekly source | `781d7b5b2206eee48cd20a00b2cfbcebea78d4d3` | 327 nightly commits are ahead; use a separate `nightly -> weekly` promotion |
 | Main source | `1859b08e08f4a50588e762a86e391f8b41db4356` | 827 weekly commits are ahead; use `weekly -> main` after external acceptance |
 | Latest real internal receipt | October 4: `1.0 (109)`, source `3e7fb58130b04bba69b402a57f3473c11703c26f`; uploaded, processed, distributed internally | Not the current source and not App Store approval |
 | Latest inspected real weekly receipt | September 28: `1.0 (103)`, weekly SHA above; uploaded, processed, Fastlane reported external distribution | Confirm the selected build's beta-review state, group eligibility and actual external acceptance in ASC |
 | October 5 native train | Source `37a5c6228fcf83e0e544cac87ae3248e3c0fba0f` compiled; tests failed; upload skipped | `MapChromeUITests.testMeasuringReportsADistanceForTapsOnTheMap`, line 103: badge tap did not update endpoint and card |
-| Current-head ordinary CI | Aggregate failed after cancelled classification; native and web jobs skipped | A skipped native job supplies no native test evidence |
+| Current preparation CI | [37398534029](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37398534029), head `079da5ba`: 961 native + 18 UI + 1,315 package tests passed | New source/link head requires its own exact-head CI; no promotion implied |
 | App Store Release workflow | Present on nightly; no runs returned by the live workflow query | No App Store upload/submission/approval/live outcome established |
 
 The October 5 failed train's native app, configuration, package, and metadata
@@ -95,14 +96,14 @@ Existing source fields are in `fastlane/metadata/`:
 | Copyright | Required in ASC; no `copyright.txt` is staged. Owner must confirm the exact line |
 | Price / territories / release timing | Unread in ASC; historical free/no-IAP intent is not a newly approved pricing or availability answer |
 
-The public URL requests from this audit were denied by the network environment
-(HTTP 403/tool internal error), so neither reachability nor failure of the sites
-is established. Open the exact URLs in a browser before submission and verify
-native background recording, photo handling, local storage/export and support
-contact disclosures. Checked-in `docs/privacy.html` and `docs/support.html`
-contain those topics, but those files are not proof of the current custom-domain
-pages. The current native InfoSheet links only GitHub and email; add an
-accessible privacy-policy link through normal native work before release.
+The existing privacy URL returned HTTP 200 on 6 Oct and now appears in native
+Map Info with an accessibility identifier and a 44-point target. Its global
+policy still claims only Apple-service traffic and no servers, which does not
+reconcile the app's provincial/OSM/hosted-tile requests. Reachability and a link
+are therefore verified separately from policy accuracy. Prepare factual native
+network/photo/location/export disclosures and verify retention before owner
+confirmation; no public policy or legal answer changed. Support/marketing
+browser reachability and actual native link opening remain candidate checks.
 
 The following replacement description is ready to copy once the selected
 build's journey and content clearance are verified. It corrects the existing
@@ -234,7 +235,7 @@ PRs. A separate existing provenance/rights workstream should remain intact.
 
 ## Finish before the ASC sitting
 
-Agent work: diagnose the measurement test with focused evidence; add the native
+Agent work: preserve the passing measurement evidence; verify the implemented native
 policy link through normal work; resolve the specified rights scopes with the
 available evidence; verify public URLs; validate and stage the corrected copy;
 capture the selected build's native core journey; inspect one final archive's
@@ -265,3 +266,11 @@ choices then; signing in is not required to complete independent preparation.
 - [OSMF tile policy](https://operations.osmfoundation.org/policies/tiles/)
 
 All references were re-checked during the October 6 release-preparation audit.
+
+## 6 October continuation
+
+The minimal Map Info privacy-link diff passed independent source review. All
+current phone/iPad draft captures are authentic native UI from an isolated
+simulator. They remain draft assets, with neutral status bars/candidate scope
+and content-rights review before upload. No measurement behavior, licence gate,
+source/provider, policy text, signing, pipeline or release action changed.

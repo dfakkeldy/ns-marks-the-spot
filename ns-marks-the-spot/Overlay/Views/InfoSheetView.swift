@@ -146,6 +146,12 @@ struct InfoSheetView: View {
                     .frame(minHeight: 44)
                     .contentShape(Rectangle())
             }
+            Link(destination: URL(string: "https://kinnokilabs.com/privacy")!) {
+                Text("Privacy Policy")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            .accessibilityIdentifier("map-info.privacy-policy")
             Link(destination: Self.feedbackMailURL) {
                 Text("Email the maker")
                     .frame(minHeight: 44)
