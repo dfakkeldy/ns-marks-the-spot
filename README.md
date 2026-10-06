@@ -4,8 +4,11 @@
 
 Open-source tools for overlaying georeferenced historical Nova Scotia maps and
 property evidence on modern maps. The browser map under `web/` is the current
-product focus. The native iOS app is a separate surface, currently in internal
-TestFlight with an App Store target of November 13, 2026.
+product focus. The native iOS app is a separate surface with internal TestFlight
+delivery. Its [App Store release packet](docs/APP_STORE_RELEASE.md), re-checked
+October 6, 2026, records the current native test, privacy and content-rights
+holds. The earlier November 13 planning target is not a verified store outcome
+or a newly confirmed release date.
 
 The live map is at [kinnokilabs.com/map](https://kinnokilabs.com/map)
 (canonical URL
@@ -163,9 +166,9 @@ This repository uses a one-way promotion ladder:
 
 - `main` remains the GitHub default branch and represents stable releases.
 - Feature work branches from `nightly`; feature PRs target `nightly`.
-- `nightly` is the integration branch and feeds daily TestFlight builds through the release train workflow.
-- `weekly` is promoted from `nightly` and feeds Monday beta TestFlight builds through the release train workflow.
-- `main` is promoted only from `weekly`; tagging `vX.Y.Z` on a commit with the App Store release workflow cuts the App Store release.
+- `nightly` is the integration branch and feeds internal TestFlight builds through the release train workflow.
+- `weekly` is promoted from `nightly` and feeds Monday external beta TestFlight builds through the release train workflow, subject to Apple's beta review and actual group acceptance.
+- `main` is promoted only from `weekly`; tagging `vX.Y.Z` on a commit with the App Store release workflow starts archive/test/upload. The lane uses `submit_for_review: false`; submission, approval and public availability remain separate steps.
 - Hotfix exception: branch from `main`, PR to `main`, then merge `main` back down into `weekly` and `nightly`.
 
 | Branch | Required Approvals | Required Check | Strict | Intended Source |

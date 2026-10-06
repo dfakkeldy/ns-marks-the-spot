@@ -1,9 +1,11 @@
 # App Store Screenshot Pack
 
-Captured July 3, 2026 from simulator builds of NS Marks The Spot using the
-existing UI-test mode. Raw screenshots are stored here so Fastlane can upload
-them directly. Captions below are the intended App Store story if the final
-set is framed or text-overlayed before submission.
+Re-checked October 6, 2026. The 12 PNGs here were captured July 3, 2026 from
+simulator builds using UI-test mode. They are preserved historical assets, not
+selected-final-build evidence. The first iPhone image shows the former Apple
+map without the current parcel search. Refresh the native core journey before
+submission. Fastlane currently detects these PNGs and can upload them, so their
+presence alone must not be treated as approval to use them.
 
 Apple screenshot reference:
 https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/
@@ -13,12 +15,41 @@ https://developer.apple.com/help/app-store-connect/reference/app-information/scr
 - iPhone 6.9-inch: `1320x2868` PNGs, captured on iPhone 17 Pro Max simulator.
 - iPad 13-inch: `2064x2752` PNGs, captured on iPad Pro 13-inch simulator.
 
-The app supports both iPhone and iPad, so keep both families populated in App
-Store Connect. Current Apple specs accept these sizes for the newest required
-iPhone and iPad families; 6.5-inch iPhone screenshots can be generated from this
-storyboard only if App Store Connect requests a separate legacy family.
+All 12 tracked screenshots are RGB PNGs without alpha. The app supports both
+iPhone and iPad. Apple's current required iPhone category is Dynamic Island
+medium, accepting portrait `1179x2556` or `1206x2622`. Existing larger images
+may qualify through a documented scaling fallback; actual acceptance in ASC
+remains unverified. The iPad `2064x2752` size is listed for the 13-inch category.
+Capture at the current required dimensions when refreshing rather than assuming
+an old family label completes the current store form.
 
-## Six-Shot Storyboard
+## Fresh selected-build storyboard
+
+Use actual native screens; no browser-map substitutes or invented results.
+Capture the same core story on iPhone and iPad. Keep source attribution visible
+and avoid personal imports, photos, tester identities or account details.
+
+1. **Find a Nova Scotia property**: search/parcel inspector showing a real
+   public record and its source; demonstrate the current native chrome.
+2. **Read dated tax-sale records**: notices and historical results visibly
+   separated, with source/date; do not imply an active offer from an old notice.
+3. **Measure and export with context**: distance/area and not-a-survey caveat,
+   or a native PDF preview with scale and attribution, after the test failure
+   is resolved.
+4. **Keep your maps on your device**: local imported map/drawing and a safe
+   sample photo attachment. Do not imply a public feed or cloud sync.
+5. **Prepare a supported historical area**: Fletcher download/storage flow
+   only after native/offline rights and the selected build's host are cleared;
+   explain that other live services require a connection.
+6. **See every source and privacy choice**: Map Info/licence controls and the
+   accessible privacy-policy path once implemented and verified.
+
+These are capture instructions, not new assets or validated behavior. The
+[native release packet](../../../docs/APP_STORE_RELEASE.md) records the exact
+build, rights, privacy and acceptance gates. No automated capture lane exists;
+schedule one selected-build simulator session after the native blockers clear.
+
+## Preserved July storyboard
 
 1. `01-map-home`
    - Caption: Compare Then And Now
