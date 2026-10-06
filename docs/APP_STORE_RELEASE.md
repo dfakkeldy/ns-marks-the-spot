@@ -16,27 +16,29 @@ resolving them; any alternative release scope needs an explicit decision.
 
 | Evidence | Verified state | Remaining gate |
 |---|---|---|
-| Nightly source | `af8a13750eda50423f599079c1f851eeb7ac7805` | Earlier documentation head `079da5ba` passed all native/UI/package tests; new privacy-link head needs its own CI |
+| Nightly source | `af8a13750eda50423f599079c1f851eeb7ac7805` | Privacy-link source head `1153d59c` passed all native/UI/package tests; selected signed-device acceptance remains separate |
 | Weekly source | `781d7b5b2206eee48cd20a00b2cfbcebea78d4d3` | 327 nightly commits are ahead; use a separate `nightly -> weekly` promotion |
 | Main source | `1859b08e08f4a50588e762a86e391f8b41db4356` | 827 weekly commits are ahead; use `weekly -> main` after external acceptance |
 | Latest real internal receipt | October 4: `1.0 (109)`, source `3e7fb58130b04bba69b402a57f3473c11703c26f`; uploaded, processed, distributed internally | Not the current source and not App Store approval |
 | Latest inspected real weekly receipt | September 28: `1.0 (103)`, weekly SHA above; uploaded, processed, Fastlane reported external distribution | Confirm the selected build's beta-review state, group eligibility and actual external acceptance in ASC |
 | October 5 native train | Source `37a5c6228fcf83e0e544cac87ae3248e3c0fba0f` compiled; tests failed; upload skipped | `MapChromeUITests.testMeasuringReportsADistanceForTapsOnTheMap`, line 103: badge tap did not update endpoint and card |
-| Current preparation CI | [37398534029](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37398534029), head `079da5ba`: 961 native + 18 UI + 1,315 package tests passed | New source/link head requires its own exact-head CI; no promotion implied |
+| Current source preparation CI | [37410821481](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37410821481), head `1153d59c`: native and all 18 UI tests + core package tests passed | Counts and source receipt recorded separately; no promotion or device acceptance implied |
 | App Store Release workflow | Present on nightly; no runs returned by the live workflow query | No App Store upload/submission/approval/live outcome established |
 
-The October 5 failed train's native app, configuration, package, and metadata
-files match the audited current head. Between build 109's source and current
-nightly, native changes are the historical-tax-sale JSON, its manifest, and its
-catalog test; this does not erase the later measurement failure. A repeatable
-failure needs diagnosis, rather than a claim that an older green run cleared it.
+The October 5 failure remains historical intermittent evidence. The October 6
+`079da5ba` native/UI rerun and the isolated local two-tap/endpoint-extension
+journey passed without a measurement-source change. Preserve that assertion and
+diagnose a future reproduced failure; the current evidence does not justify a
+speculative measurement repair. The privacy-link source patch `1153d59c` also passed its own native/UI gate
+in run 37410821481. These repeat passes leave the historical intermittent
+record intact and do not substitute for selected signed-device acceptance.
 
 Receipts:
 
 - [Internal upload, October 4](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37199904619)
 - [Weekly upload, September 28](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/36472512037)
 - [Native test failure, October 5](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37318150629)
-- [Current-head CI, October 5](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37371862671)
+- [Historical CI, October 5](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37371862671)
 
 ## Promotion and build contract
 
@@ -169,9 +171,10 @@ documented scaling fallback, but acceptance in the actual ASC category remains
 unverified. iPad 13-inch 2064×2752 is listed. See the
 [screenshot plan](../fastlane/screenshots/en-US/README.md) for a focused fresh
 native storyboard. No capture lane is implemented, and no new screenshot was
-fabricated from the web interface. A simulator capture of the selected native
-build is agent work after the release-blocking native fix, scheduled one build
-at a time.
+fabricated from the web interface. Four new authentic native draft captures are preserved locally: three phone
+and one iPad. They cover map, layer controls and measurement. Status/candidate
+cleanup, final category acceptance and content-rights review remain; no
+measurement repair is currently supported by the passing rerun and local journey.
 
 ## Privacy and conditional features
 
@@ -274,3 +277,8 @@ current phone/iPad draft captures are authentic native UI from an isolated
 simulator. They remain draft assets, with neutral status bars/candidate scope
 and content-rights review before upload. No measurement behavior, licence gate,
 source/provider, policy text, signing, pipeline or release action changed.
+
+Exact privacy-link source-head [CI 37410821481](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37410821481)
+completed successfully. All 18 native UI tests ran, including measurement;
+core and native unit suites passed. Web was correctly skipped for this native
+change. Documentation-only follow-ups do not change that source payload.
