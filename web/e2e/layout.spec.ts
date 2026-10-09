@@ -185,6 +185,15 @@ for (const width of [390, 1024]) {
   });
 }
 
+test("retained parcel capture mounts no printable map after its PID is cleared", async ({ page }) => {
+  await page.goto("/e2e/print.html?retained-property");
+  await expect(page.getByRole("dialog", { name: "Print / export", exact: true })).toBeVisible();
+  await expect(page.getByRole("alert")).toContainText(/permission.*not been confirmed/i);
+  await expect(page.locator(".print-preview-backdrop")).toHaveCount(0);
+  await page.emulateMedia({ media: "print" });
+  await expect(page.locator(".print-field-page, .print-research-summary")).toHaveCount(0);
+});
+
 for (const template of ["research", "field"]) {
   test(`${template} print stays within Letter bounds with visible attribution`, async ({ page }) => {
     await page.goto("/e2e/print.html");
