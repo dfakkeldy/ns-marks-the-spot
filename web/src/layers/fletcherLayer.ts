@@ -1,5 +1,5 @@
-// Frozen published input: reports/fletcher/retile-20260913/source.json.
-export const FLETCHER_TILE_REVISION = 'fletcher-full-sheets-20260913.1';
+// Frozen published input: reports/fletcher/seam-repair-20261009/inputs.json.
+export const FLETCHER_TILE_REVISION = 'fletcher-seams-20261009.2';
 export const FLETCHER_MAX_NATIVE_ZOOM = 15;
 
 export type FletcherSheet = { sheet: number; bounds: [[number, number], [number, number]] };

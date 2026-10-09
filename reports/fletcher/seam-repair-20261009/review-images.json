@@ -1,0 +1,38 @@
+[
+  {
+    "file": "mabou-before-1440.jpg",
+    "original_png": "/Users/dfakkeldy/Downloads/fletcher-seams-20261009-delivery/browser/mabou-before-1440.png",
+    "original_png_sha256": "e88a7e19370047a1ffebc81732d310c0fdc618ed2af685bc69119fb2e7f5476e",
+    "display": "JPEG review derivative; original PNG retained externally"
+  },
+  {
+    "file": "mabou-after-1440.jpg",
+    "original_png": "/Users/dfakkeldy/Downloads/fletcher-seams-20261009-delivery/browser/mabou-after-1440.png",
+    "original_png_sha256": "c42cb50f72fcdc25fc2851d920c4da05ea2e4b9aa1c833e07c668388fa04de4d",
+    "display": "JPEG review derivative; original PNG retained externally"
+  },
+  {
+    "file": "mabou-after-390.jpg",
+    "original_png": "/Users/dfakkeldy/Downloads/fletcher-seams-20261009-delivery/browser/mabou-after-390.png",
+    "original_png_sha256": "ab21e3fa0c3960586bfe5ebafa46682c09e7417683cef18944d61d9be7de421b",
+    "display": "JPEG review derivative; original PNG retained externally"
+  },
+  {
+    "file": "highlands.jpg",
+    "original_png": "/Users/dfakkeldy/Downloads/fletcher-seams-20261009-delivery/browser/highlands.png",
+    "original_png_sha256": "7a877a43e49ec83735aefe67b50326e7adaa255ee2053c2a745eea1a679993a2",
+    "display": "JPEG review derivative; original PNG retained externally"
+  },
+  {
+    "file": "judique-hawkesbury.jpg",
+    "original_png": "/Users/dfakkeldy/Downloads/fletcher-seams-20261009-delivery/browser/judique-hawkesbury.png",
+    "original_png_sha256": "828a8f3838b2585571f301e6046826e53c413f5505a2fadfaf1a126b73e3f567",
+    "display": "JPEG review derivative; original PNG retained externally"
+  },
+  {
+    "file": "north.jpg",
+    "original_png": "/Users/dfakkeldy/Downloads/fletcher-seams-20261009-delivery/browser/north.png",
+    "original_png_sha256": "98d6e54c5d098e45edb78d32009f78b43567e25d5ad69d0a0bbeb544ce525eaf",
+    "display": "JPEG review derivative; original PNG retained externally"
+  }
+]

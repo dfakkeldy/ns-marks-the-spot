@@ -146,7 +146,7 @@ and Port Hawkesbury bookmarks. Its WebGL historical preview requires tile-host C
 the research map uses ordinary image overlays instead. Fletcher uses the same
 `VITE_FLETCHER_TILE_BASE_URL`, mosaic revision, sheet footprints, and imagery
 terms on both surfaces. Builds default to `https://tiles.kinnokilabs.com`
-(revision `fletcher-full-sheets-20260913.1`); an explicit empty override
+(revision `fletcher-seams-20261009.2`); an explicit empty override
 disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
@@ -755,10 +755,10 @@ The layers a reader is most likely to ask about:
 - Fletcher has a real default-off control for the published 24-sheet mosaic.
   The browser fetches one precomposited XYZ pyramid
   (`{base}/{revision}/{z}/{x}/{y}.png`) from the immutable
-  `fletcher-full-sheets-20260913.1` revision at zooms 8–15, enlarging zoom 15
+  `fletcher-seams-20261009.2` revision at zooms 8–15, enlarging zoom 15
   at closer display scales. Sheet footprints remain coverage metadata; they
   do not cause the mosaic to be fetched or painted once per overlapping
-  sheet. Alignment is approximate, with gaps at some joins; geographic
+  sheet. Edges are adjusted for visual continuity; geographic
   acceptance findings are unchanged. Attribution remains David Rumsey Map
   Collection, David Rumsey Map Center, Stanford University Libraries and
   [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The
@@ -770,7 +770,9 @@ The layers a reader is most likely to ask about:
   is used.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
-  as disabled rows: no tiles have been produced for them yet. See
+  as disabled rows in **Historical Maps → A.F. Church county maps**. This
+  subsection starts collapsed; expand it for the county sheets and source
+  credits. No tiles have been produced for them yet. See
   [docs/CHURCH_MAPS.md](../docs/CHURCH_MAPS.md).
 
 ## Forestry policy
@@ -1635,7 +1637,7 @@ in-view, out-of-view, or no-location, and confirmed photos become a
 photos-source layer of points.
 The Fletcher web integration and published 24-sheet mosaic are implemented and
 default to `https://tiles.kinnokilabs.com` (revision
-`fletcher-full-sheets-20260913.1`). Tiles are fetched as
+`fletcher-seams-20261009.2`). Tiles are fetched as
 `{base}/{revision}/{z}/{x}/{y}.png`; the source receipt is
 `{base}/{revision}/source.json`. An explicit empty `VITE_FLETCHER_TILE_BASE_URL`
 disables the layer. Sheet footprints remain coverage metadata rather than
@@ -1647,18 +1649,19 @@ this web workflow does not change the native app.
 ### Fletcher full-sheets review preview
 
 `VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` / `FletcherFullSheetsPreview` optionally
-enables a separate local review overlay of the older partial revision
-`fletcher-full-sheets-20260909.3` (complete cropped Cape Mabou / Broad Cove (14),
-Judique (19), Mabou (16), and Hawkesbury (22) sheets). Example local host:
-`http://127.0.0.1:4198` (see `.env.example`). When the variable is absent or
-unset, the control is absent. This is not the published layer: published
-Fletcher is the `fletcher-full-sheets-20260913.1` 24-sheet mosaic, served through
-the main `VITE_FLETCHER_TILE_BASE_URL` host. Alignment is approximate, with gaps
-at some joins; this preview does not change geographic acceptance. It has its
-own visibility and opacity control and is excluded from map exports and print.
-Sheet 11 is a provisional draft and is not in the
-`fletcher-full-sheets-20260909.3` preview package. See
-[package and local preview instructions](../reports/fletcher/full-sheets/README.md).
+enables the cartographically adjusted 24-sheet review revision
+`fletcher-seams-20261009.2`. Example local host: `http://127.0.0.1:4198`.
+The control is absent without this setting. Narrow inter-sheet gaps are closed
+by stretching existing edge detail toward the midpoint, fading the adjustment
+inside each sheet. The preview identifies that adjustment; locations near joins
+are approximate. Original source scans, geographic fits and checks are retained.
+
+The normal published Fletcher layer uses the `fletcher-seams-20261009.2` mosaic through
+`VITE_FLETCHER_TILE_BASE_URL`. The review overlay has separate visibility and
+opacity controls and is excluded from map exports and print. Building or merging
+this preview does not publish the new tiles. See the
+[seam repair report](../reports/fletcher/seam-repair-20261009/README.md) for the
+recipe, comparison imagery, input hashes and remaining gaps.
 
 ## Poker pocket app
 

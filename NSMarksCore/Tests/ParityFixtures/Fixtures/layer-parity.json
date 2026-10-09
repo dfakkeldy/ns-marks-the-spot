@@ -984,17 +984,17 @@
       "name": "Fletcher",
       "nativeDefaultVisibility": true,
       "opacity": 0.72,
-      "scale": "Independently georeferenced · accuracy varies by sheet",
+      "scale": "Georeferenced with cartographic seam adjustments · accuracy varies",
       "serviceUrl": "",
       "sourceDate": "Hugh Fletcher · 1882–1884 source sheets",
       "uiOrder": 35,
       "webAvailability": "available",
-      "webCaveat": "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
+      "webCaveat": "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
       "webDefaultVisible": false
     }
   ],
   "fletcher": {
-    "tileRevision": "fletcher-full-sheets-20260913.1",
+    "tileRevision": "fletcher-seams-20261009.2",
     "sheets": [
       {
         "sheet": 1,

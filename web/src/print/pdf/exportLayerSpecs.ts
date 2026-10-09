@@ -9,6 +9,7 @@ import { arcGISExportUrlForBox } from "../../layers/arcGISExport";
 import { fletcherTileRegions, FLETCHER_MAX_NATIVE_ZOOM, fletcherTileUrl } from "../../layers/fletcherLayer";
 import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
 import type { ContextLayerDescriptor } from "../../layers/contextLayerTypes";
+import { forestryExclusionReason } from "../../layers/forestryExclusions";
 import type { ArcGISExportOptions } from "../../layers/layerCatalog";
 import type { PrintMapBounds } from "../../services/printSnapshot";
 import type { LatLngPoint } from "../../userMaps/transform/projection";
@@ -62,6 +63,8 @@ const OSM_TILE_URL = "https://tile.openstreetmap.org";
 
 /** Mirror visible source scale before requesting or crediting a context export. */
 export function contextExportOmission(layer: ContextLayerDescriptor, zoom: number): string | null {
+  const exclusion = forestryExclusionReason(layer.id);
+  if (exclusion) return exclusion;
   if (zoom < layer.minZoom) return `below display scale (zoom ${layer.minZoom} required)`;
   if (zoom > layer.maxZoom) return `above display scale (maximum zoom ${layer.maxZoom})`;
   if (layer.delivery !== undefined && layer.delivery !== "tile") return "PDF export does not support this source format";
@@ -164,6 +167,10 @@ function arcGisLayerZIndex(id: string): number {
 export function buildExportLayers(
   inputs: ExportLayerInputs,
 ): CompositorLayer[] {
+  for (const layer of inputs.arcgisLayers) {
+    const exclusion = forestryExclusionReason(layer.id);
+    if (exclusion) throw new Error(exclusion);
+  }
   assertReproductionAllowed([
     ...inputs.arcgisLayers.map(layer => ({ id: layer.id, openData: layer.openData })),
     ...(inputs.fletcher.visible ? ["fletcher"] : []),

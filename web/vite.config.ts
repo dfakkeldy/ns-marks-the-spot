@@ -56,13 +56,18 @@ export default defineConfig(({ mode }) => ({
     // fight over Vite's default 5173; unset PORT keeps the default.
     port: Number(process.env.PORT) || 5173,
   },
+  optimizeDeps: {
+    // The dependency scan does not follow `?worker&url` imports, so the PDF.js
+    // worker would otherwise be discovered mid-import, reloading the page.
+    include: ["pdfjs-dist/build/pdf.worker.mjs"],
+  },
   build: {
     manifest: true,
     rollupOptions: {
       input: {
         app: "index.html", poker: "poker.html", rhodena: "rhodena.html", atlas: "atlas.html", terrain: "terrain.html",
-        // Exercise print components in preview without shipping the synthetic fixture.
-        ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html" } : {}),
+        // Exercise browser fixtures in preview without shipping them in production.
+        ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html", tileCache: "e2e/tile-cache.html" } : {}),
       },
     },
   },

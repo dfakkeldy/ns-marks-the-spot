@@ -121,7 +121,7 @@ describe("web native-layer parity catalog", () => {
     expect(fletcherLayerCatalog.nativeDefaultVisibility).toBe(true);
     expect(fletcherLayerCatalog.webAvailability).toBe("available");
     expect(fletcherLayerCatalog.webCaveat).toBe(
-      "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
+      "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
     );
     expect(fletcherLayerCatalog.minZoom).toBe(8);
     // Display runs to the map maximum; the sheets' real tile depth stays 16

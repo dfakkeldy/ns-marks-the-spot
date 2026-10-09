@@ -122,7 +122,10 @@ def main():
         "bounds": bounds,
         "attribution": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
         "licence": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
-        "modifications": "Georeferenced, cropped and tiled; original printed colours preserved.",
+        "modifications": acceptance.get(
+            "modifications",
+            "Georeferenced, cropped and tiled; original printed colours preserved.",
+        ),
         "sourceRasterSha256": accepted["sha256"],
         "provenanceSha256": digest(a.inputs),
         "provenance": acceptance,

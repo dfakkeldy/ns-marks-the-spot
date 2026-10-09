@@ -37,8 +37,6 @@ export const rhodenaFocusLayerIds: ReadonlySet<ShareLayerId> = new Set<ShareLaye
   'water-features',
   'contours',
   'lidar-hillshade',
-  'wam-relative-wetness',
-  'wam-predicted-flow',
   'roads',
   'place-names',
   'transmission-lines',

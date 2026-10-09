@@ -5149,38 +5149,44 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
                     </p>
                   ) : null}
 
-                  {churchCategoryLayers.map((layer) => (
-                    <div className="layer-row unavailable" key={layer.id}>
-                      <span className="switch" aria-hidden="true" />
-                      <span>
-                        <strong>{layer.name}</strong>
-                        <small>{layer.webCaveat}</small>
-                        <LayerMetadata
-                          sourceDate={layer.sourceDate}
-                          scale={layer.scale}
-                          coverage={layer.coverage}
-                          minZoom={layer.minZoom}
-                          maxZoom={layer.maxZoom}
-                          checked={false}
-                          status={{ status: "idle" }}
-                        />
-                      </span>
-                    </div>
-                  ))}
                   {churchCategoryLayers.length > 0 ? (
-                    <p className="resource-source-note">
-                      A.F. Church topographical township maps name the residents
-                      of each building, and the occupations of prominent
-                      townsfolk. Scans courtesy of the {" "}
-                      <a
-                        href={RUMSEY_COLLECTION_TERMS_URL}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        David Rumsey Map Collection
-                      </a>
-                      . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
-                    </p>
+                    <details className="resource-layer-group">
+                      <summary>
+                        A.F. Church county maps
+                        <small>{churchCategoryLayers.length} maps · web tiles pending</small>
+                      </summary>
+                      {churchCategoryLayers.map((layer) => (
+                        <div className="layer-row unavailable" key={layer.id}>
+                          <span className="switch" aria-hidden="true" />
+                          <span>
+                            <strong>{layer.name}</strong>
+                            <small>{layer.webCaveat}</small>
+                            <LayerMetadata
+                              sourceDate={layer.sourceDate}
+                              scale={layer.scale}
+                              coverage={layer.coverage}
+                              minZoom={layer.minZoom}
+                              maxZoom={layer.maxZoom}
+                              checked={false}
+                              status={{ status: "idle" }}
+                            />
+                          </span>
+                        </div>
+                      ))}
+                      <p className="resource-source-note">
+                        A.F. Church topographical township maps name the residents
+                        of each building, and the occupations of prominent
+                        townsfolk. Scans courtesy of the {" "}
+                        <a
+                          href={RUMSEY_COLLECTION_TERMS_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          David Rumsey Map Collection
+                        </a>
+                        . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
+                      </p>
+                    </details>
                   ) : null}
 
                   {layerCategoryByLayerId.fletcher === category.id ? (
