@@ -522,9 +522,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "rumsey-reference",
     webAvailability: "available",
     webCaveat:
-      "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
+      "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
     sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
-    scale: "Independently georeferenced · accuracy varies by sheet",
+    scale: "Georeferenced with cartographic seam adjustments · accuracy varies",
     coverage: "Cape Breton Island · 24 source sheets in one mosaic",
   },
   {

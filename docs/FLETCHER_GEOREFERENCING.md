@@ -3,17 +3,23 @@
 
 ## Current hosted delivery
 
-The active revision is `fletcher-full-sheets-20260913.1` at
-`https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/{z}/{x}/{y}.png`.
+The active revision is `fletcher-seams-20261009.2` at
+`https://tiles.kinnokilabs.com/fletcher-seams-20261009.2/{z}/{x}/{y}.png`.
 It is one precomposited 24-sheet XYZ PNG mosaic at zooms 8–15. Clients enlarge
 zoom 15 at closer display scales. Source-sheet bounds remain coverage metadata;
 they must not cause the same mosaic to be fetched or painted repeatedly.
 
-The [published manifest](https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1/source.json)
-and `reports/fletcher/retile-20260913/` retain exact input provenance, pixel and
-coverage checks, and publication receipts. Activation is user-authorized for
-historical context; it does not change the recorded geographic acceptance,
-uneven accuracy, or gaps. Rumsey/Stanford attribution and CC BY-NC-SA 3.0 remain.
+The [published manifest](https://tiles.kinnokilabs.com/fletcher-seams-20261009.2/source.json)
+and [the seam-repair report](../reports/fletcher/seam-repair-20261009/README.md)
+retain the input hashes, complete raster/tile checks and before/after review.
+The user authorized aesthetic edge adjustments for visual continuity and
+publication. The original scans and all 24 geographic fits remain unchanged;
+this revision does not improve their recorded geographic accuracy. Small edge
+slivers and unsupported areas remain. Rumsey/Stanford attribution and
+CC BY-NC-SA 3.0 remain.
+
+The previous `fletcher-full-sheets-20260913.1` revision is retained for rollback.
+This publication does not delete any prior revision or alter source imagery.
 
 Native saved-area planning stops at zoom 15. Existing areas requesting higher
 display zooms download the closest available level, preserving their records. The existing revision migration

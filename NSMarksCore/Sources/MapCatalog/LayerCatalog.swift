@@ -898,9 +898,9 @@ public enum LayerCatalog {
             // The one layer the native app opens with. It is the reason the app
             // exists, and it is the only layer that needs no licence dialog.
             nativeDefaultVisible: true,
-            caveat: "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
+            caveat: "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
             sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
-            scale: "Independently georeferenced · accuracy varies by sheet",
+            scale: "Georeferenced with cartographic seam adjustments · accuracy varies",
             coverage: "Cape Breton Island · 24 source sheets in one mosaic"
         ),
     ]

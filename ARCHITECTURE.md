@@ -104,11 +104,11 @@ Both iOS build configurations default `FLETCHER_TILE_BASE_URL` to
 `FletcherTileBaseURL`; build overrides remain supported. An empty
 `FLETCHER_TILE_BASE_URL` or `VITE_FLETCHER_TILE_BASE_URL` override still
 disables hosting. Both surfaces pin the published 24-sheet mosaic revision
-`fletcher-full-sheets-20260913.1`, fetched as one precomposited XYZ pyramid
+`fletcher-seams-20261009.2`, fetched as one precomposited XYZ pyramid
 `{base}/{revision}/{z}/{x}/{y}.png` (zooms 8–15; overzoom past 15). The
 source receipt is `{base}/{revision}/source.json`. Sheet footprints remain
 coverage metadata rather than per-sheet fetches. Alignment is approximate,
-with gaps at some joins; geographic acceptance findings are unchanged.
+with cartographic edge adjustments for visual continuity; geographic acceptance findings are unchanged.
 Attribution remains David Rumsey Map Collection, David Rumsey Map Center,
 Stanford University Libraries and
 [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
@@ -523,10 +523,10 @@ and roads on, and fits the first loaded view once to the visible tax-sale
 parcel geometries. Fletcher remains the final row in the layer list. The web
 layer fetches one precomposited XYZ pyramid
 `{base}/{revision}/{z}/{x}/{y}.png` from the immutable
-`fletcher-full-sheets-20260913.1` revision at zooms 8–15, enlarging zoom 15
+`fletcher-seams-20261009.2` revision at zooms 8–15, enlarging zoom 15
 at closer display scales. Sheet footprints remain coverage metadata, not
-24 bounded per-sheet XYZ trees. Alignment is approximate, with gaps at some
-joins; geographic acceptance findings are unchanged. Attribution remains
+24 bounded per-sheet XYZ trees. Edges are adjusted for visual continuity. Alignment remains approximate;
+geographic acceptance findings are unchanged. Attribution remains
 David Rumsey Map Collection, David Rumsey Map Center, Stanford University
 Libraries and
 [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The
@@ -719,7 +719,7 @@ after the user activates the external link.
 The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is available to a configured web build
 only through the published 24-sheet mosaic revision
-`fletcher-full-sheets-20260913.1`; builds without an authorized tile host show
+`fletcher-seams-20261009.2`; builds without an authorized tile host show
 an honest disabled state. The scoped permission does not by itself clear
 native offline bundling, and this workflow does not change the existing
 native layer.
