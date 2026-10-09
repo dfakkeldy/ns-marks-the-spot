@@ -20,6 +20,23 @@ describe("official municipal source fetching", () => {
     expect(waits).toEqual([500]);
   });
 
+  it("retries Node timeout exceptions even when their numeric code is 23", async () => {
+    let attempts = 0;
+    const result = await fetchOfficial(url, {
+      fetchImpl: async () => {
+        attempts += 1;
+        if (attempts === 1) {
+          throw new DOMException("The operation was aborted due to timeout", "TimeoutError");
+        }
+        return new Response("Official notice");
+      },
+      sleep: async () => {},
+    });
+
+    expect(await result.text()).toBe("Official notice");
+    expect(attempts).toBe(2);
+  });
+
   it("stops after three transient failures", async () => {
     let attempts = 0;
     await expect(fetchOfficial(url, {
