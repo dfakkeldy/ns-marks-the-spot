@@ -16,7 +16,9 @@ export async function fetchOfficial(url, {
         signal: AbortSignal.timeout(30_000),
       });
     } catch (error) {
-      const code = error?.cause?.code ?? error?.code ?? error?.name;
+      const code = error?.name === "TimeoutError"
+        ? error.name
+        : error?.cause?.code ?? error?.code ?? error?.name;
       const transient = TRANSIENT_CODES.has(code) || code === "TimeoutError";
       if (!transient || attempt === 3) {
         throw new Error(`source-error: ${code} after ${attempt} attempts: ${url}`, { cause: error });
