@@ -19,3 +19,18 @@ promotion workflow and its generated `source.json` receipt.
 Rollback is a client pin change back to `fletcher-full-sheets-20260913.1` and a
 KinNoKi rebuild from the prior accepted source. No tile deletion is required.
 The scoped cache rules have no effect on the old revision or other map families.
+
+## R2 result
+
+Publication is complete. [Verification](verification.json) records 44,340 PNG
+objects plus both manifests, all matching the local file sizes and MD5 values.
+Forty-two public responses matched SHA-256, content type, immutable caching and
+CORS. The exact public manifest is retained as [source.json](source.json).
+
+The cf-only route uploaded the complete version. Of the PNGs, 5,572 differ from
+September 13 and 38,768 are byte-identical. The CLI currently has no server-side
+copy command; its REST API rate limit required paced uploads. No additional
+credentials were created, and no old tile objects were removed.
+
+Client activation is PR #584. KinNoKi publication and live-site acceptance are
+separate from this R2 transport receipt.
