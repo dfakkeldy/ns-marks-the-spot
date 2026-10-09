@@ -1,3 +1,6 @@
+// Installs Map upsert methods that PDF.js needs; keep it before PDF.js loads.
+import "./mapUpsertPolyfill";
+import PDF_WORKER_URL from "./pdfjsWorkerEntry?worker&url";
 import { UserMapImportError, type UserMapImportErrorCode } from "../errors";
 import { raceWithWatchdog } from "./workerWatchdog";
 import {
@@ -72,10 +75,6 @@ export type ParseGeoPdfAutoEnvironment = {
 
 const PDFJS_VERSION = "6.1.200";
 const IOS_PREVIEW_MAX_EDGE = 2048;
-const PDF_WORKER_URL = new URL(
-  "../../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url,
-).href;
 
 function createHtmlCanvas(
   pixelSize: { width: number; height: number },
