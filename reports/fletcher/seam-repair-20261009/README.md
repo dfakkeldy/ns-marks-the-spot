@@ -72,7 +72,9 @@ python tools/fletcher/tile_full_sheets.py \
 The optional local web preview uses `VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` and
 revision `fletcher-seams-20261009.2`. It explicitly identifies the aesthetic edge
 adjustment, retains source/licence links, and is excluded from print/export.
-The normal web and native layers keep their published September 13 revision.
+At the initial local-review checkpoint, the normal web and native layers still
+used September 13. Subsequent authorization and activation are recorded in the
+[publication report](publication/README.md).
 
 Historical imagery: David Rumsey Map Collection / David Rumsey Map Center,
 Stanford University Libraries, CC BY-NC-SA 3.0, with the existing project
@@ -96,7 +98,8 @@ cells. The finishing step includes vertical and horizontal cleanup around the
 - Geographic fits: [all 24 unchanged](fit-preservation.json). This is an aesthetic adjustment, not improved positional accuracy.
 - Browser: actual app/local tiles at 1440 and 390 pixels; opacity, keyboard toggle and reload pass, no overflow or console/page errors. Unrelated remote services were isolated with fixtures. See [browser receipt](browser-verification.json) and [review images](review-images.json).
 - Automated checks: 310 Fletcher tests; 2,489 web tests passed with one existing skip; lint and production build passed. See [checks](checks.json).
-- Publication plan: 5,572 changed tiles (537,431,970 bytes), 38,768 byte-identical tiles that can be copied from the existing immutable revision, and two new manifests. [Comparison](upload-comparison.json). No public upload or live pin change has been performed.
+- Publication plan: 5,572 changed tiles (537,431,970 bytes), 38,768 byte-identical tiles that can be copied from the existing immutable revision, and two new manifests. [Comparison](upload-comparison.json). No public upload or live pin change had been performed at this initial
+local-verification checkpoint; see the subsequent publication report.
 
 Remaining small corner/edge slivers are explicitly retained in
 [the post-repair audit](remaining-audit-final.json); it samples every 100
