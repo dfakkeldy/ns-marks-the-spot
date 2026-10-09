@@ -1,0 +1,19 @@
+{
+  "action": "rewrite",
+  "action_parameters": {
+    "headers": {
+      "Cache-Control": {
+        "operation": "set",
+        "value": "public, max-age=31536000, immutable"
+      },
+      "Vary": {
+        "operation": "add",
+        "value": "Origin"
+      }
+    }
+  },
+  "description": "Preserve immutable cache headers for successful Fletcher seam-repair objects",
+  "enabled": true,
+  "expression": "(http.host eq \"tiles.kinnokilabs.com\" and starts_with(http.request.uri.path, \"/fletcher-seams-20261009.2/\")) and http.response.code in {200 206}",
+  "ref": "fletcher_seams_20261009_2_headers"
+}
