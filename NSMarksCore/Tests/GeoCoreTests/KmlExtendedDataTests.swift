@@ -166,6 +166,17 @@ struct KmlExtendedDataTests {
         try VectorExport.requireOriginalReproduction(withPhoto, filename: "own.kmz")
     }
 
+    @Test func legacyGpxTraceNotesAreCheckedBeforeImportDropsFileMetadata() throws {
+        let plain = "<gpx version=\"1.1\"><wpt lat=\"44.6\" lon=\"-63.5\"/></gpx>"
+        let traced = plain.replacingOccurrences(of: "<wpt", with:
+            "<metadata><desc>\(VectorExport.tracedProvenanceNote)</desc></metadata><wpt")
+        #expect(!VectorExport.hasTracedFeatures(try GpxParse.parse(Data(traced.utf8))))
+        #expect(throws: VectorExport.ReproductionRefusal.self) {
+            try VectorExport.requireOriginalReproduction(Data(traced.utf8), filename: "legacy.gpx")
+        }
+        try VectorExport.requireOriginalReproduction(Data(plain.utf8), filename: "own.gpx")
+    }
+
     @Test(arguments: ["<Data name=\"nsmts:traced\"><value>nsprd-parcel</value></Data>",
                       "<SimpleData name=\"nsmts:traced\">nsprd-parcel</SimpleData>"])
     func originalProvenanceIsCheckedBeforeMalformedPlacemarkGeometryIsDropped(_ provenance: String) throws {

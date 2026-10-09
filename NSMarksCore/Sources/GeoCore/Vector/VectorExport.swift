@@ -187,6 +187,9 @@ public enum VectorExport {
             element.attributes["name"] == CaptureSpec.tracedKey ? element.trimmedText : nil
         }
         if values.contains(CaptureSpec.tracedParcelValue) { throw ReproductionRefusal() }
+        // Earlier app GPX exports carried the exact trace note at file level, without per-feature keys.
+        let descriptions = root.descendants(named: "desc") + root.descendants(named: "description")
+        if descriptions.contains(where: { $0.trimmedText == tracedProvenanceNote }) { throw ReproductionRefusal() }
     }
 
     /// The layer as a KML document.
