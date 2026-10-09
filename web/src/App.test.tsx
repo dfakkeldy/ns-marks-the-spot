@@ -3473,7 +3473,7 @@ describe("NS Marks The Spot Online", () => {
     for (const row of rows) expect(row).toHaveAttribute("aria-disabled", "true");
     for (const name of ["WAM relative wetness", "WAM predicted flow", "Recorded forest treatments"]) {
       expect(within(group).getByText(name)).toBeVisible();
-      expect(screen.queryByRole("checkbox", { name, exact: true })).not.toBeInTheDocument();
+      expect(screen.queryByRole("checkbox", { name })).not.toBeInTheDocument();
     }
     expect(within(group).getAllByText("Data-quality concerns")).toHaveLength(2);
     expect(within(group).getByText("Permission unavailable")).toBeVisible();

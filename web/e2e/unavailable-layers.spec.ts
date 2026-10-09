@@ -116,7 +116,8 @@ for (const width of [390, 1440]) {
       };
       await verifyTextContrast();
       if (width === 1440) {
-        await page.getByRole("combobox", { name: "Interface appearance", exact: true }).selectOption("dark");
+        await page.getByRole("combobox", { name: "Interface appearance", exact: true }).selectOption({ label: "Dark" });
+        await expect(page.locator("html")).toHaveAttribute("data-map-appearance", "night");
         await verifyTextContrast();
         await group.evaluate(element => element.scrollIntoView({ block: "end" }));
         await page.screenshot({ path: testInfo.outputPath(`unavailable-dark-${width}.png`) });
