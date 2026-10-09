@@ -224,7 +224,9 @@ export function printBoundsForTemplate(
   >,
   template: PrintTemplate,
 ): PrintMapBounds {
-  return template === "research"
+  // A permitted map-only capture has no parcel to frame. Reproduction
+  // permission is checked separately before mounting the preview/map.
+  return template === "research" && capture.selectedParcelGeometry.features.length > 0
     ? boundsForParcelGeometry(capture.selectedParcelGeometry)
     : { ...capture.viewport.bounds };
 }
