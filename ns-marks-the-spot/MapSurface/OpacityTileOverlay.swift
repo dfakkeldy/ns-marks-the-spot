@@ -366,7 +366,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     }
 
     /// Blank source PNGs are answered coverage, not imagery to credit in print.
-    private static func substance(of data: Data) -> TileSubstance {
+    static func substance(of data: Data) -> TileSubstance {
         // Server PNGs need not share our encoder's byte representation. Classify
         // actual alpha so blank mosaic tiles do not acquire a print credit just
         // because they came from R2 or survived an offline round trip.

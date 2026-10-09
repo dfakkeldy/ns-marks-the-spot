@@ -62,7 +62,8 @@ extension OverlayViewModel {
     var evidenceReproductionLockReason: String { LayerUse.provinceReproductionLockReason }
 
     var canExportEvidenceNote: Bool {
-        inspection.map(ParcelEvidenceExport.isReady) ?? false
+        LayerUse.propertyRecordsReproductionAllowed
+            && (inspection.map(ParcelEvidenceExport.isReady) ?? false)
     }
 
     /// The note for the open parcel, or `nil` when no parcel is open or a

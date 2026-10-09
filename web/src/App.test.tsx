@@ -3533,7 +3533,12 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
     openLayerCategory("Land & Property");
-    await user.click(screen.getByLabelText("Inverness County zoning"));
+    // Use a confirmed-open source: the four municipal sources awaiting
+    // permission cannot become visible and do not exercise omission credits.
+    const zoning = screen.getByLabelText("Halifax Regional Municipality zoning");
+    expect(zoning).toBeEnabled();
+    await user.click(zoning);
+    expect(zoning).toBeChecked();
 
     await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
     await user.click(
@@ -3543,7 +3548,11 @@ describe("NS Marks The Spot Online", () => {
     // test warmed its chunk resolves it a tick after the frame step.
     await user.click(
       within(
-        await screen.findByRole("dialog", { name: "Export georeferenced PDF" }),
+        await screen.findByRole(
+          "dialog",
+          { name: "Export georeferenced PDF" },
+          { timeout: 5_000 },
+        ),
       ).getByRole("button", { name: "Download PDF" }),
     );
 
@@ -3558,10 +3567,10 @@ describe("NS Marks The Spot Online", () => {
     // Zoning is visible (captured) but not exported — `buildExportLayers`
     // does not carry it, and the omission is already named separately in
     // `omittedLayerNames`. Crediting it here would assert a licence over
-    // data the PDF does not contain, which the EDPC attribution text (only
+    // data the PDF does not contain, which the HRM attribution text (only
     // this layer family uses it) makes easy to catch.
     expect(attributionText).not.toContain(
-      "Eastern District Planning Commission",
+      "Open Government Licence—Halifax",
     );
   });
 

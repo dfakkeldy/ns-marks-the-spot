@@ -21,7 +21,9 @@ struct ViewportFeaturePanelTests {
         }
 
         #expect(rows.count == OverlayZIndex.vectorLayers.count)
-        #expect(rows.count(where: { $0.isAvailable }) == rows.count)
+        let held: Set<LayerID> = [.zoningInverness, .zoningVictoria, .zoningRichmond, .zoningCumberland]
+        #expect(Set(rows.filter { !$0.isAvailable }.map(\.descriptor.id)) == held)
+        #expect(rows.count(where: { $0.isAvailable }) == rows.count - held.count)
     }
 
     @Test func theSectionsThoseLayersLiveInAreNoLongerEmpty() {
