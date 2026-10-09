@@ -56,6 +56,11 @@ export default defineConfig(({ mode }) => ({
     // fight over Vite's default 5173; unset PORT keeps the default.
     port: Number(process.env.PORT) || 5173,
   },
+  optimizeDeps: {
+    // The dependency scan does not follow `?worker&url` imports, so the PDF.js
+    // worker would otherwise be discovered mid-import, reloading the page.
+    include: ["pdfjs-dist/build/pdf.worker.mjs"],
+  },
   build: {
     manifest: true,
     rollupOptions: {

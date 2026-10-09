@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
 
+// Each test renders two PDFs, one in a second browser; leave CI headroom.
+test.describe.configure({ timeout: 60_000 });
+
 // A repository-owned GeoPDF fixture whose embedded registration places it
 // automatically once PDF.js has rendered its page. Rendering it reaches the
 // upsert calls in PDF.js's page-side display layer.
@@ -79,6 +82,14 @@ async function engineUpsertSupport(page: Page) {
   });
 }
 
+async function openMap(page: Page) {
+  // Basemap tiles play no part here; keep the test off the external server.
+  await page.route("https://*.tile.openstreetmap.org/**", (route) =>
+    route.abort(),
+  );
+  await page.goto("/?basemap=osm");
+}
+
 async function importPdf(page: Page, name: string, buffer: Buffer) {
   await page
     .getByLabel("Add a map file", { exact: true })
@@ -150,7 +161,7 @@ test("GeoPDF import works without Map upsert methods", async ({
       baseURL,
       viewport: { width: 1440, height: 1000 },
     });
-    await page.goto("/?basemap=osm");
+    await openMap(page);
     expect(await engineUpsertSupport(page)).toEqual({
       page: false,
       worker: false,
@@ -164,7 +175,7 @@ test("GeoPDF import works without Map upsert methods", async ({
 test("GeoPDF import works with native Map upsert methods", async ({
   page,
 }) => {
-  await page.goto("/?basemap=osm");
+  await openMap(page);
   expect(await engineUpsertSupport(page)).toEqual({
     page: true,
     worker: true,
