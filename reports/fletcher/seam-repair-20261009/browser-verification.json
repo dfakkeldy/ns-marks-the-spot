@@ -1,0 +1,24 @@
+{
+  "browser": "Playwright Chromium; Browser plugin not available",
+  "scope": "Actual application and local generated tiles, isolated from unrelated remote services; desktop/mobile, toggle, opacity and reload",
+  "checks": [
+    {
+      "width": 1440,
+      "reloaded": true,
+      "overflow": false,
+      "errors": [],
+      "failedTileRequests": [],
+      "tileResponses": 100,
+      "allTileResponses200": true
+    },
+    {
+      "width": 390,
+      "reloaded": true,
+      "overflow": false,
+      "errors": [],
+      "failedTileRequests": [],
+      "tileResponses": 48,
+      "allTileResponses200": true
+    }
+  ]
+}

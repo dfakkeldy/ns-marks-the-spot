@@ -21,6 +21,7 @@ describe('full sheets review control', () => {
   it('removes and restores tiles with its own toggle and cleans up for print', () => {
     vi.stubEnv('VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL', 'http://127.0.0.1:4198');
     const view = render(preview());
+    expect(screen.getByText(/Edges adjusted for visual continuity/)).toBeInTheDocument();
     const check = screen.getByRole('checkbox', {name:'Fletcher · full sheets'});
     expect(document.querySelector('.fletcher-full-sheets-tiles')).not.toBeNull();
     fireEvent.click(check);

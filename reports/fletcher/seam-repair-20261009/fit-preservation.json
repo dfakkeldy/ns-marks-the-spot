@@ -1,0 +1,149 @@
+{
+  "all_24_geographic_fits_unchanged": true,
+  "sheets": [
+    {
+      "sheet": "01",
+      "fit": "reports/fletcher/sheet01/refinement-20260912/reviewed-fit.json",
+      "sha256": "41f3defeab5ada5b71e1ec2493cb5955fb1f5787cf85969a32f28e586e8043b8",
+      "unchanged": true
+    },
+    {
+      "sheet": "02",
+      "fit": "reports/fletcher/sheet02/final-fit.json",
+      "sha256": "3094eec05b4adec75eaaea85a19c3349f2ab9d2d45963359533d7d86a2917c6a",
+      "unchanged": true
+    },
+    {
+      "sheet": "03",
+      "fit": "reports/fletcher/sheet03/final-fit.json",
+      "sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+      "unchanged": true
+    },
+    {
+      "sheet": "04",
+      "fit": "reports/fletcher/sheet04/final-fit.json",
+      "sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+      "unchanged": true
+    },
+    {
+      "sheet": "05",
+      "fit": "reports/fletcher/sheet05/refinement-20260912/repaired-fit.json",
+      "sha256": "89bdc06179cd60084608457911fe4e8db9a673b9e78071084b6ddde6af5838b8",
+      "unchanged": true
+    },
+    {
+      "sheet": "06",
+      "fit": "reports/fletcher/sheet06/repaired-fit.json",
+      "sha256": "007808040feca6310cf934bafcf3467f594bed43ba056c32faea45dc1758c54e",
+      "unchanged": true
+    },
+    {
+      "sheet": "07",
+      "fit": "reports/fletcher/sheet07/repaired-fit.json",
+      "sha256": "b36039ccc4f179f600c3136a3126b93efc4abd9a8917e3c4c9fa0426fcdd153a",
+      "unchanged": true
+    },
+    {
+      "sheet": "08",
+      "fit": "reports/fletcher/sheet08/repaired-fit.json",
+      "sha256": "ba667e84c9379252c3a444ae64c47a2ab209813dd4961eff17500bfee0a81ca3",
+      "unchanged": true
+    },
+    {
+      "sheet": "09",
+      "fit": "reports/fletcher/sheet09/refinement-20260912/repaired-fit.json",
+      "sha256": "3ca430d2f637410bec54e0381e0629d2c73e357d0ef981dc26f4f40842be82ec",
+      "unchanged": true
+    },
+    {
+      "sheet": "10",
+      "fit": "reports/fletcher/sheet10/repaired-fit.json",
+      "sha256": "684472b4fdbe8b6e6afe8c13de4d123c0b43144880dc3340a3f21f8585ac982d",
+      "unchanged": true
+    },
+    {
+      "sheet": "11",
+      "fit": "reports/fletcher/sheet11/refinement-20260912/30-control/repaired-fit.json",
+      "sha256": "00b50e12cca689d24748f570ddbc496dc5778f13d86fc9d2423837172b6eddfa",
+      "unchanged": true
+    },
+    {
+      "sheet": "12",
+      "fit": "reports/fletcher/sheet12/refinement-20260912/final-fit.json",
+      "sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+      "unchanged": true
+    },
+    {
+      "sheet": "13",
+      "fit": "reports/fletcher/sheet13/refinement-20260912/final-fit.json",
+      "sha256": "2ae5ef8d16c4ab1209367778466dc4720f04727e093768ffa1f716f4465277a1",
+      "unchanged": true
+    },
+    {
+      "sheet": "14",
+      "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-14/round-3-fit.json",
+      "sha256": "8b728530b33dfe5bf586a763f6b5fc835d9fc1645f3056729e198069f7fe3bbb",
+      "unchanged": true
+    },
+    {
+      "sheet": "15",
+      "fit": "reports/fletcher/sheet15/refinement-20260912/reviewed-fit.json",
+      "sha256": "f7081a2addfd19fd70fb9c33358274b22fab7621ffc9631ea87befe3194439d6",
+      "unchanged": true
+    },
+    {
+      "sheet": "16",
+      "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-16/round-3-fit.json",
+      "sha256": "93e429c37332b3cafbd501fced4d35c8dee210f04534c446367e8a9f95ceb494",
+      "unchanged": true
+    },
+    {
+      "sheet": "17",
+      "fit": "reports/fletcher/sheet17/regional-fit.json",
+      "sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+      "unchanged": true
+    },
+    {
+      "sheet": "18",
+      "fit": "reports/fletcher/sheet18/regional-fit.json",
+      "sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+      "unchanged": true
+    },
+    {
+      "sheet": "19",
+      "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-19/round-3-fit.json",
+      "sha256": "cea7bfa9048cf02c40fe90239b73f871d6d2eeb618157887a04f79458ae98dce",
+      "unchanged": true
+    },
+    {
+      "sheet": "20",
+      "fit": "reports/fletcher/sheet20/refinement-20260912/reviewed-fit.json",
+      "sha256": "4f661910ecdf4de6ac22cb6db3352375467f08b2287083e5d32e908c6f4b06b1",
+      "unchanged": true
+    },
+    {
+      "sheet": "21",
+      "fit": "reports/fletcher/sheet21/repaired-fit.json",
+      "sha256": "82e1c9490d3b0ea8ca239a17a0b012d9a9036c9fe2cf7018c891433ea9631618",
+      "unchanged": true
+    },
+    {
+      "sheet": "22",
+      "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-22/round-3-fit.json",
+      "sha256": "a40cbf8d45bbf03bd009f3ed852a16f8b1551dae50574b1baf1c8bee82996baf",
+      "unchanged": true
+    },
+    {
+      "sheet": "23",
+      "fit": "reports/fletcher/sheet23/repaired-fit.json",
+      "sha256": "d90713b109ed4e9032f1837357f9f2bf983f3db000e8dbb5cff1159ec7f1405e",
+      "unchanged": true
+    },
+    {
+      "sheet": "24",
+      "fit": "reports/fletcher/sheet24/repaired-fit.json",
+      "sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+      "unchanged": true
+    }
+  ]
+}

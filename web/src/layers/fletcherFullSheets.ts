@@ -1,9 +1,9 @@
 import { normalizeFletcherTileBaseUrl } from './fletcherLayer';
 
-export const FLETCHER_FULL_SHEETS_REVISION = 'fletcher-full-sheets-20260909.3';
+export const FLETCHER_FULL_SHEETS_REVISION = 'fletcher-seams-20261009.2';
 export const FLETCHER_FULL_SHEETS_BOUNDS: [[number, number], [number, number]] = [
-  [45.5706467, -61.6149513],
-  [46.2701678, -61.219468],
+  [45.37688026971942, -61.615265674701156],
+  [47.13031012425374, -60.0696243968451],
 ];
 
 /** A separate opt-in preview. Never substitutes for the published 24 sheets. */

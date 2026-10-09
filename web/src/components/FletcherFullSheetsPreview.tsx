@@ -17,7 +17,7 @@ export function FletcherFullSheetsPreview({ renderMode }: { renderMode: MapRende
       bounds, minZoom: 8, maxNativeZoom: 15, maxZoom: 23,
       noWrap: true, opacity: 0.85, keepBuffer: 1,
       zIndex: FLETCHER_LAYER_Z_INDEX + 1, className: 'fletcher-full-sheets-tiles',
-      attribution: '<a href="https://www.davidrumsey.com/">David Rumsey Map Collection / Stanford</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> · georeferenced, cropped',
+      attribution: '<a href="https://www.davidrumsey.com/">David Rumsey Map Collection / Stanford</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> · georeferenced, cropped; edges adjusted for visual continuity',
     });
     const control = new L.Control({ position: 'bottomleft' });
     const panel = L.DomUtil.create('section', 'fletcher-full-sheets-preview');
@@ -29,7 +29,7 @@ export function FletcherFullSheetsPreview({ renderMode }: { renderMode: MapRende
     enabled.type = 'checkbox'; enabled.checked = true;
     label.append(enabled, ' Fletcher · full sheets'); panel.append(label);
     const note = document.createElement('p');
-    note.textContent = 'Cape Mabou · Mabou · Judique · Hawkesbury. Complete sheets; approximate alignment and gaps at some joins.';
+    note.textContent = '24 historical sheets. Edges adjusted for visual continuity; locations near joins are approximate.';
     panel.append(note);
     const opacityLabel = document.createElement('label');
     opacityLabel.textContent = 'Opacity';
@@ -38,7 +38,7 @@ export function FletcherFullSheetsPreview({ renderMode }: { renderMode: MapRende
     opacityLabel.append(opacity); panel.append(opacityLabel);
     const status = document.createElement('p'); status.setAttribute('role', 'status'); panel.append(status);
     const source = document.createElement('a'); source.href = `${root}/source.json`;
-    source.textContent = 'Source and accuracy'; source.target = '_blank'; source.rel = 'noopener'; panel.append(source);
+    source.textContent = 'Sources and seam adjustments'; source.target = '_blank'; source.rel = 'noopener'; panel.append(source);
     const credits = document.createElement('p');
     credits.append('Rumsey Map Collection / Stanford · ');
     const licence = document.createElement('a');
