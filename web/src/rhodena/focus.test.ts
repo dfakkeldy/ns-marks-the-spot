@@ -24,7 +24,7 @@ describe('Rhodena page layer focus', () => {
 
   it('offers the shared research sources and existing land/water context on Rhodena', () => {
     for (const { id } of [...biodiversityLayers, ...communityResearchLayers, ...waterResearchLayers]) expect(inRhodenaFocus(id), id).toBe(true);
-    for (const id of ['crown-harvest-plans', 'forest-treatments', 'bedrock-geology', 'surficial-geology', 'source-water-well-field-protection']) expect(inRhodenaFocus(id), id).toBe(true);
+    for (const id of ['crown-harvest-plans', 'forest-height', 'forest-leading-species', 'bedrock-geology', 'surficial-geology', 'source-water-well-field-protection']) expect(inRhodenaFocus(id), id).toBe(true);
   });
 
   it('leaves out research surfaces unrelated to the project', () => {

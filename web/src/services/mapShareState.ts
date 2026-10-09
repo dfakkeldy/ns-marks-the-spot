@@ -1,5 +1,6 @@
 import { initialElectoralModes, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
 import { contextLayerCatalog, type ContextLayerId } from "../layers/contextLayerCatalog";
+import { forestryExclusionReason } from "../layers/forestryExclusions";
 import { isBasemapStyle, type BasemapStyle } from "../atlas/basemap";
 import { taxSaleEvents } from "../data/taxSaleCatalog";
 import { historicalTaxSaleEvents } from "../data/historicalTaxSales";
@@ -206,7 +207,7 @@ export function buildMapShareUrl(
   if (state.taxSaleEnabled && state.eventIds.length > 0) {
     url.searchParams.set("event", state.eventIds.join(","));
   }
-  url.searchParams.set("layers", state.layerIds.join(","));
+  url.searchParams.set("layers", state.layerIds.filter(id => forestryExclusionReason(id) === null).join(","));
   const modes = Object.entries(state.electoralModes ?? {}).filter(([id,mode]) => isElectoralLayerId(id) && state.layerIds.includes(id) && mode !== initialElectoralModes[id]);
   if (modes.length) url.searchParams.set("electoral", modes.map(([id,mode]) => `${id}:${mode}`).join(","));
   url.searchParams.set(
