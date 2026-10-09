@@ -97,8 +97,9 @@ export type ZoningLayerDescriptor = {
   /** The authoritative land use by-law this layer is a rendering of. */
   bylawUrl: string;
   bylawLabel: string;
+  availability?: "available" | "rights-pending";
   licence: "municipal-open" | "municipal-no-stated-licence";
-  /** Null when the publisher states no licence terms at all. */
+  /** No applicable app query/cache/export grant is recorded here when null. */
   licenceUrl: string | null;
   /**
    * "live-query-only" sources are rendered straight from the publisher's
@@ -1388,6 +1389,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
     bylawLabel: "Plan Inverness Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1418,6 +1420,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
     bylawLabel: "Plan Victoria Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1448,6 +1451,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
     bylawLabel: "Plan Richmond Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1479,6 +1483,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
     bylawLabel: "Cumberland Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution:

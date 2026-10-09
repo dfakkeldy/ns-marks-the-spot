@@ -1059,21 +1059,37 @@ describe("GPX export", () => {
 
   it("reports a missing raw recording distinctly instead of downloading", async () => {
     const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const store = await UserVectorStore.open(new IDBFactory());
+    vi.spyOn(store, "getOriginalBlob").mockResolvedValue(null);
     const { result } = renderHook(() =>
       useUserVectorLayers({
-        ...options(),
+        openStore: async () => store,
         download: (filename, blob) => downloads.push({ filename, blob }),
       }),
     );
-    // A drawn layer has no original file, standing in for a recorded layer
-    // whose original save failed.
     let id = "";
     await act(async () => {
-      id = await result.current.createDrawnLayer();
+      id = (await result.current.createRecordedLayer({
+        name: "Missing original",
+        collection: { type: "FeatureCollection", features: [] },
+        rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+        startedAt: "2026-08-29T14:00:00.000Z",
+        endedAt: "2026-08-29T14:20:00.000Z",
+      })).record.id;
     });
     await act(() => result.current.exportRawRecording(id));
     expect(downloads).toHaveLength(0);
     expect(result.current.storageError).toMatch(/raw recording/i);
+    store.close();
+  });
+
+  it("does not expose an imported original through the raw recording API", async () => {
+    const downloads = vi.fn();
+    const { result } = renderHook(() => useUserVectorLayers({ ...options(), download: downloads }));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    await act(() => result.current.exportRawRecording(result.current.records[0].id));
+    expect(downloads).not.toHaveBeenCalled();
+    expect(result.current.records).toHaveLength(1);
   });
 });
 

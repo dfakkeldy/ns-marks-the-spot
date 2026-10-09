@@ -581,6 +581,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Inverness Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
       "category": "land-property",
@@ -617,6 +618,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Victoria Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
       "category": "land-property",
@@ -653,6 +655,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Richmond Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
       "category": "land-property",
@@ -689,6 +692,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Municipality of the County of Cumberland's public map service. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Cumberland Land Use By-law",
       "bylawUrl": "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
       "category": "land-property",

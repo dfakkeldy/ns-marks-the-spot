@@ -1,3 +1,5 @@
+import { LicensingLockDialog } from "./components/LicensingLockDialog";
+import { PARCEL_REPRODUCTION_LOCK_REASON, PROPERTY_RECORD_REPRODUCTION_ALLOWED, reproductionLockReason } from "./licensing/layerUse";
 import { RhodenaOverview } from "./rhodena/RhodenaOverview";
 import { RhodenaHero, TurbineGlyph } from "./rhodena/RhodenaHero";
 import { inRhodenaFocus, rhodenaFocusCategoryIds } from "./rhodena/focus";
@@ -4040,6 +4042,9 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
     mapViewport.position.zoom,
     showModernMap,
   ]);
+  const exportReproductionLock = selectedPid || selectedParcelGeometry.features.length
+    ? PARCEL_REPRODUCTION_LOCK_REASON
+    : [...exportedLayerIds].map(id => reproductionLockReason(id, provinceLayerCatalog.find(layer => layer.id === id)?.openData)).find(reason => reason !== null) ?? null;
   /**
    * Everything on screen that the PDF will NOT contain, by name.
    *
@@ -4227,6 +4232,10 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
   }, [licenceAccepted, printCapture, selectedEvidenceRequest, selectedPid]);
 
   const exportEvidence = () => {
+    if (!PROPERTY_RECORD_REPRODUCTION_ALLOWED) {
+      setShareMessage(PARCEL_REPRODUCTION_LOCK_REASON);
+      return;
+    }
     const terminalResource =
       resourceIntersections.status === "ready" ||
       resourceIntersections.status === "error" ||
@@ -5973,7 +5982,9 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
         />
       </Suspense>
     ) : null}
-    {exportSession?.stage === "dialog" ? (
+    {exportSession?.stage === "dialog" && exportReproductionLock ? (
+      <LicensingLockDialog reason={exportReproductionLock} onClose={() => setExportSession(null)} />
+    ) : exportSession?.stage === "dialog" ? (
       <Suspense fallback={null}>
       <ExportDialog
         orientation={exportSession.orientation}

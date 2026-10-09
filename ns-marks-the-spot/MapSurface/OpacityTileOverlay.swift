@@ -119,7 +119,8 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     func exportTile(
         at path: MKTileOverlayPath
     ) async throws -> (Data, TileLoadOutcome, TileSubstance) {
-        try await tile(at: path)
+        try LayerUse.requireReproduction(configuration.reproductionSourceLayerID.map { [$0] } ?? [])
+        return try await tile(at: path)
     }
 
     /// The tile, whether producing it went the way it was supposed to, and what

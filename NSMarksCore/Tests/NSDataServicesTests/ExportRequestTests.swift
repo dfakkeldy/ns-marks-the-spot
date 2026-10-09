@@ -78,7 +78,7 @@ struct ExportRequestTests {
         let id = try #require(
             LayerCatalog.all.first {
                 $0.isRaster && $0.exportOptions != nil
-                    && $0.exportOverlayOptions == nil && $0.serviceURL != nil
+                    && $0.exportOverlayOptions == nil && $0.serviceURL != nil && !$0.requiresProvinceClearance
             }?.id
         )
 

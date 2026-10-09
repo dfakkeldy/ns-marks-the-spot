@@ -1,4 +1,4 @@
-import { act, render } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { MapLayerId, MapLayerStatus } from "../MapCanvas";
 import { PrintMap } from "./PrintMap";
@@ -17,7 +17,7 @@ vi.mock("../MapCanvas", () => ({
 }));
 
 const snapshot = {
-  pid: "01234567",
+  pid: "",
   mode: "current",
   template: "research",
   selectedParcelGeometry: { type: "FeatureCollection", features: [] },
@@ -28,7 +28,7 @@ const snapshot = {
     position: { latitude: 46.35, longitude: -61.15, zoom: 15 },
     bounds: { north: 46.4, east: -61.1, south: 46.3, west: -61.2 },
   },
-  layerIds: ["modern", "roads", "contours", "ns-aerial"],
+  layerIds: ["modern", "coastal-flood-current", "uranium-risk-wells"],
 } as unknown as PrintSnapshot;
 
 function reportLayerStatus(id: MapLayerId, status: MapLayerStatus) {
@@ -119,30 +119,12 @@ describe("PrintMap", () => {
     });
   });
 
-  it("restores a hosted Fletcher layer in the print map", () => {
-    vi.stubEnv(
-      "VITE_FLETCHER_TILE_BASE_URL",
-      "https://tiles.example.test/ns-marks",
-    );
-    const fletcherSnapshot = {
-      ...snapshot,
-      layerIds: ["modern", "fletcher"],
-    } as unknown as PrintSnapshot;
-
-    render(
-      <PrintMap
-        snapshot={fletcherSnapshot}
-        bounds={fletcherSnapshot.viewport.bounds}
-        includeAerial={false}
-        onReadinessChange={vi.fn()}
-        onResolvedPosition={vi.fn()}
-      />,
-    );
-
-    expect(mapCanvasProps.current?.fletcherVisible).toBe(true);
-    expect(mapCanvasProps.current?.fletcherTileBaseUrl).toBe(
-      "https://tiles.example.test/ns-marks",
-    );
+  it("refuses historical Fletcher reproduction before mounting a print map", () => {
+    mapCanvasProps.current = undefined;
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: ["modern", "fletcher"] } as PrintSnapshot}
+      bounds={snapshot.viewport.bounds} includeAerial={false} onReadinessChange={vi.fn()} onResolvedPosition={vi.fn()} />);
+    expect(screen.getByRole("alert")).toHaveTextContent(/Fletcher.*permission/i);
+    expect(mapCanvasProps.current).toBeUndefined();
   });
 
   it("keeps the position subscription stable when a layer status rerenders the map", () => {
@@ -176,16 +158,16 @@ describe("PrintMap", () => {
     });
     act(() => {
       reportLayerStatus("modern", { status: "ready" });
-      reportLayerStatus("roads", { status: "error" });
-      reportLayerStatus("contours", { status: "zoom", minZoom: 13 });
+      reportLayerStatus("coastal-flood-current", { status: "error" });
+      reportLayerStatus("uranium-risk-wells", { status: "zoom", minZoom: 13 });
       reportLayerStatus("ns-aerial", { status: "ready" });
     });
 
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "error",
       renderedLayerIds: ["modern"],
-      failedLayerIds: ["roads"],
-      belowZoomLayerIds: ["contours"],
+      failedLayerIds: ["coastal-flood-current"],
+      belowZoomLayerIds: ["uranium-risk-wells"],
       timedOutLayerIds: [],
     });
 
@@ -243,41 +225,21 @@ describe("PrintMap", () => {
     expect(mapCanvasProps.current).not.toHaveProperty("userMaps");
   });
 
-  it("renders and tracks a captured derived mineral-proximity layer", () => {
-    const onReadinessChange = vi.fn();
-    render(
-      <PrintMap
-        snapshot={{
-          ...snapshot,
-          layerIds: ["mineral-proximity-parcels"],
-        } as PrintSnapshot}
-        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
-        includeAerial={false}
-        onReadinessChange={onReadinessChange}
-        onResolvedPosition={vi.fn()}
-      />,
-    );
-
-    expect(
-      (mapCanvasProps.current?.resourceLayers as Record<string, boolean>)[
-        "mineral-proximity-parcels"
-      ],
-    ).toBe(true);
-    act(() => reportLayerStatus("mineral-proximity-parcels", { status: "ready", count: 1 }));
-    expect(onReadinessChange).toHaveBeenLastCalledWith({
-      status: "ready",
-      renderedLayerIds: ["mineral-proximity-parcels"],
-      belowZoomLayerIds: [],
-    });
+  it("refuses retained derived parcel reproduction before mounting a print map", () => {
+    mapCanvasProps.current = undefined;
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: ["mineral-proximity-parcels"] } as PrintSnapshot}
+      bounds={snapshot.viewport.bounds} includeAerial={false} onReadinessChange={vi.fn()} onResolvedPosition={vi.fn()} />);
+    expect(screen.getByRole("alert")).toHaveTextContent(/permission/i);
+    expect(mapCanvasProps.current).toBeUndefined();
   });
 
-  it("makes a captured zoning layer visible so print readiness can resolve", () => {
+  it("makes a captured open Halifax zoning layer visible so print readiness can resolve", () => {
     // A captured layer the print map never makes visible reports "idle"
     // forever, which is neither ready nor zoom, so the preview would hang.
     const onReadinessChange = vi.fn();
     render(
       <PrintMap
-        snapshot={{ ...snapshot, layerIds: ["zoning-inverness"] } as PrintSnapshot}
+        snapshot={{ ...snapshot, layerIds: ["zoning-halifax"] } as PrintSnapshot}
         bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
         includeAerial={false}
         onReadinessChange={onReadinessChange}
@@ -287,13 +249,13 @@ describe("PrintMap", () => {
 
     expect(
       (mapCanvasProps.current?.zoningLayers as Record<string, boolean>)[
-        "zoning-inverness"
+        "zoning-halifax"
       ],
     ).toBe(true);
-    act(() => reportLayerStatus("zoning-inverness", { status: "ready", count: 3 }));
+    act(() => reportLayerStatus("zoning-halifax", { status: "ready", count: 3 }));
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "ready",
-      renderedLayerIds: ["zoning-inverness"],
+      renderedLayerIds: ["zoning-halifax"],
       belowZoomLayerIds: [],
     });
   });
@@ -302,7 +264,7 @@ describe("PrintMap", () => {
     const onReadinessChange = vi.fn();
     render(
       <PrintMap
-        snapshot={{ ...snapshot, layerIds: ["modern", "roads", "contours"] } as PrintSnapshot}
+        snapshot={{ ...snapshot, layerIds: ["modern", "coastal-flood-current", "uranium-risk-wells"] } as PrintSnapshot}
         bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
         includeAerial={false}
         onReadinessChange={onReadinessChange}
@@ -312,13 +274,13 @@ describe("PrintMap", () => {
 
     act(() => {
       reportLayerStatus("modern", { status: "ready" });
-      reportLayerStatus("roads", { status: "error" });
+      reportLayerStatus("coastal-flood-current", { status: "error" });
     });
 
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "error",
       renderedLayerIds: ["modern"],
-      failedLayerIds: ["roads"],
+      failedLayerIds: ["coastal-flood-current"],
       belowZoomLayerIds: [],
       timedOutLayerIds: [],
     });
@@ -328,7 +290,7 @@ describe("PrintMap", () => {
     const onReadinessChange = vi.fn();
     render(
       <PrintMap
-        snapshot={{ ...snapshot, layerIds: ["roads"] } as PrintSnapshot}
+        snapshot={{ ...snapshot, layerIds: ["coastal-flood-current"] } as PrintSnapshot}
         bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
         includeAerial={false}
         onReadinessChange={onReadinessChange}
@@ -337,14 +299,14 @@ describe("PrintMap", () => {
     );
 
     act(() => {
-      reportLayerStatus("roads", { status: "error" });
-      reportLayerStatus("roads", { status: "ready", count: 9 });
+      reportLayerStatus("coastal-flood-current", { status: "error" });
+      reportLayerStatus("coastal-flood-current", { status: "ready", count: 9 });
     });
 
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "error",
       renderedLayerIds: [],
-      failedLayerIds: ["roads"],
+      failedLayerIds: ["coastal-flood-current"],
       belowZoomLayerIds: [],
       timedOutLayerIds: [],
     });

@@ -1,3 +1,6 @@
+// Local layout/readiness tests retain the original property fixture. The production permission boundary
+// is tested without mocks in licensing/printLocks.test.tsx and licensing/licensingLocks.test.ts.
+vi.mock("../../licensing/printUse", () => ({ printReproductionLockReason: () => null }));
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useEffect } from "react";
@@ -369,11 +372,11 @@ describe("PrintPreview", () => {
 
   it("uses only explicitly rendered layers for an incomplete document and its share QR", async () => {
     const partialCapture = capture();
-    partialCapture.layerIds = ["modern", "roads", "contours"];
+    partialCapture.layerIds = ["modern", "coastal-flood-current", "uranium-risk-wells"];
     partialCapture.layerSources = [
       { id: "modern", name: "Modern map", sourceUrl: "https://example.com/modern", sourceDate: "now", attribution: "OpenStreetMap", licenceUrl: "https://example.com/modern/licence" },
-      { id: "roads", name: "Roads", sourceUrl: "https://example.com/roads", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/roads/licence" },
-      { id: "contours", name: "Contours", sourceUrl: "https://example.com/contours", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/contours/licence" },
+      { id: "coastal-flood-current", name: "Roads", sourceUrl: "https://example.com/roads", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/roads/licence" },
+      { id: "uranium-risk-wells", name: "Contours", sourceUrl: "https://example.com/contours", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/contours/licence" },
     ];
     render(<PrintPreview capture={partialCapture} baseUrl="https://example.com/map/" onClose={onClose} />);
     act(() => {
@@ -381,7 +384,7 @@ describe("PrintPreview", () => {
       printMap.onReadinessChange?.(readiness({
         status: "error",
         renderedLayerIds: ["modern"],
-        failedLayerIds: ["roads"],
+        failedLayerIds: ["coastal-flood-current"],
         belowZoomLayerIds: [],
       }));
     });
@@ -417,10 +420,10 @@ describe("PrintPreview", () => {
   it("times out unresolved map layers within the current attempt", async () => {
     vi.useFakeTimers();
     const unresolvedCapture = capture();
-    unresolvedCapture.layerIds = ["modern", "roads"];
+    unresolvedCapture.layerIds = ["modern", "coastal-flood-current"];
     unresolvedCapture.layerSources = [
       { id: "modern", name: "Modern map", sourceUrl: "https://example.com/modern", sourceDate: "now", attribution: "OpenStreetMap", licenceUrl: "https://example.com/modern/licence" },
-      { id: "roads", name: "Roads", sourceUrl: "https://example.com/roads", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/roads/licence" },
+      { id: "coastal-flood-current", name: "Roads", sourceUrl: "https://example.com/roads", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/roads/licence" },
     ];
     render(<PrintPreview capture={unresolvedCapture} baseUrl="https://example.com/map/" onClose={onClose} />);
     act(() => {

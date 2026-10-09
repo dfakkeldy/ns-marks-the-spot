@@ -58,7 +58,7 @@ struct FeatureOverlayQueryTests {
     @Test("The parameters and their order match the web")
     func theURLMatchesTheWeb() throws {
         let plan = try FeatureOverlayQuery.plan(
-            for: .zoningInverness,
+            for: .zoningHalifax,
             bounds: viewport,
             outFields: ["Zone", "ZoneName"],
             orderByFields: "OBJECTID",
@@ -83,7 +83,7 @@ struct FeatureOverlayQueryTests {
                 "f=geojson",
             ].joined(separator: "&")
         )
-        #expect(url.path() == "/IRdatShZ61GuNjMZ/arcgis/rest/services/IN_Zoning/FeatureServer/708/query")
+        #expect(url.path() == "/11XBiaBYA9Ep0yNJ/arcgis/rest/services/ZoningBoundaries/FeatureServer/0/query")
     }
 
     @Test("A proximity query carries the distance in metres, next to the envelope")
@@ -103,7 +103,7 @@ struct FeatureOverlayQueryTests {
     @Test("Later pages move the offset by the page size")
     func pagesStepByThePageSize() throws {
         let plan = try FeatureOverlayQuery.plan(
-            for: .zoningInverness,
+            for: .zoningHalifax,
             bounds: viewport,
             outFields: ["Zone"],
             clearance: overlayNotCleared
@@ -259,7 +259,7 @@ struct FeatureOverlayResponseTests {
 struct FeatureOverlayFetcherTests {
     private func plan(idField: String = "OBJECTID") throws -> FeatureOverlayQuery.Plan {
         try FeatureOverlayQuery.plan(
-            for: .zoningInverness,
+            for: .zoningHalifax,
             bounds: viewport,
             outFields: ["Zone"],
             orderByFields: idField,
