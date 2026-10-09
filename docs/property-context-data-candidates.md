@@ -109,6 +109,10 @@ human drainage changes, and dates from 2005–2007 source work. Pair it with the
 Province wetland inventory when a stable web service and display terms are
 confirmed.
 
+Status: the web map withholds both Wet Areas Mapping layers from the map,
+saved and shared state, and PDF export (see
+[`forestryExclusions.ts`](../web/src/layers/forestryExclusions.ts)).
+
 - [Wet Areas Mapping description and downloads](https://novascotia.ca/natr/forestry/gis/wamdownload.asp)
 - [Wet Areas Mapping MapServer](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_WetAreasMapping_WM84/MapServer)
 - [Province wetland guidance](https://novascotia.ca/nse/wetland/)

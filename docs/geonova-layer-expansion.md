@@ -13,6 +13,14 @@ native/offline catalogue. The descriptors carry source dates, coverage, scale,
 licence links, legends and screening caveats; the check date is not a claim
 that every feature was observed that day.
 
+Three of the forest and water rows below are withheld from the web map:
+WAM relative wetness (`wam-relative-wetness`), WAM predicted flow
+(`wam-predicted-flow`) and recorded forest treatments (`forest-treatments`).
+[`forestryExclusions.ts`](../web/src/layers/forestryExclusions.ts) removes them
+from the main and Rhodena catalogues, saved and shared map state, rendering and
+PDF export, whether or not the Province viewing licence was acknowledged. Their
+source descriptors are kept for provenance only.
+
 ## Licence key
 
 - **R — acknowledged provincial service.** The app retains the existing
@@ -32,8 +40,9 @@ that every feature was observed that day.
   carry the OGL attribution. Known karst occurrences retain their DP494
   product provenance.
 - **F — [forestry digital-data terms](https://novascotia.ca/natr/forestry/gis/licence.asp).**
-  WAM and forest treatments retain acknowledgement and Natural Resources
-  attribution; they are not relabelled as OGL datasets.
+  WAM and forest treatments are withheld from the map and exports regardless
+  of acknowledgement. Their retained descriptors keep the Natural Resources
+  attribution and are not relabelled as OGL datasets.
 - **U — [Unrestricted Map Services licence](https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf).**
   Lidar hillshade carries that licence's three required notices, distinct from
   OGL, while retaining the app's acknowledgement gate. The descriptor's gate
@@ -92,8 +101,8 @@ selection on a remaining MapServer row is the publisher's layer ID.
 | Layer (control ID) | Official source and delivery | Selection | Terms |
 | --- | --- | --- | --- |
 | Wharves and coastal structures (`wharves-coastal-structures`) | [NSTDB Water (Poly)](https://data.novascotia.ca/d/h8jb-hzrm) · [NSTDB Water (Line)](https://data.novascotia.ca/d/fpca-jrmt) | Filtered Breakwater/Dry Dock/Slipway/Wharf polygons including ruin and under-construction classes; Breakwater line and Wharf - Single Line | O |
-| WAM relative wetness (`wam-relative-wetness`) | [Source](https://novascotia.ca/natr/forestry/gis/wamdownload.asp) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_WetAreasMapping_UT83/MapServer) | 1 | F |
-| WAM predicted flow (`wam-predicted-flow`) | [Source](https://novascotia.ca/natr/forestry/gis/wamdownload.asp) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_WetAreasMapping_UT83/MapServer) | 0 | F |
+| WAM relative wetness (`wam-relative-wetness`) | [Source](https://novascotia.ca/natr/forestry/gis/wamdownload.asp) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_WetAreasMapping_UT83/MapServer) | 1 | F (withheld) |
+| WAM predicted flow (`wam-predicted-flow`) | [Source](https://novascotia.ca/natr/forestry/gis/wamdownload.asp) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_WetAreasMapping_UT83/MapServer) | 0 | F (withheld) |
 | Lidar hillshade (`lidar-hillshade`) | [Source](https://nsgi.novascotia.ca/datalocator/elevation/) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/ELEV/ELEV_LIDAR_Projects_Hillshade_UT83/MapServer) | 0,1,2,3,4,5 | U |
 | Designated water supply areas (`designated-water-supply-areas`) | [Source](https://novaroc.novascotia.ca/) · [Service](https://novarocmaps.novascotia.ca/arcgis/rest/services/NovaRoc/MapServer) | 38 | R |
 | Municipal surface water supply areas (`municipal-surface-water-supply-areas`) | [Source](https://novaroc.novascotia.ca/) · [Service](https://novarocmaps.novascotia.ca/arcgis/rest/services/NovaRoc/MapServer) | 39 | R |
@@ -118,7 +127,7 @@ selection on a remaining MapServer row is the publisher's layer ID.
 | --- | --- | --- | --- |
 | Leading forest species (`forest-leading-species`) | [Source](https://data.novascotia.ca/d/c8ai-fjbt) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_ProvLandscapeViewer_UT83/MapServer) | 5 | O |
 | Forest stand height (`forest-height`) | [Source](https://data.novascotia.ca/d/c8ai-fjbt) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_ProvLandscapeViewer_UT83/MapServer) | 7 | O |
-| Recorded forest treatments (`forest-treatments`) | [Source](https://nsgi.novascotia.ca/plv/help/help.htm) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_ProvLandscapeViewer_UT83/MapServer) | 2,3 | F |
+| Recorded forest treatments (`forest-treatments`) | [Source](https://nsgi.novascotia.ca/plv/help/help.htm) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_ProvLandscapeViewer_UT83/MapServer) | 2,3 | F (withheld) |
 | Crown harvest plans (`crown-harvest-plans`) | [Source](https://data.novascotia.ca/d/ag3d-ztdm) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/PLAN/PLAN_CrownHarvestPlans_UT83/MapServer) | 0 | O |
 
 ### Geology & Resources
@@ -181,7 +190,8 @@ states remain distinct. Unknown seawater classes are **Not Evaluated**, never
 Low; other unexpected classes retain neutral styling. These thematic geometries
 are excluded from snapping and editing user material.
 
-Forest treatment layers 2/3 retain the publisher's overview/detail scale switch.
+Withheld forest treatment layers 2/3 recorded the publisher's overview/detail
+scale switch.
 Crown harvest uses layer 0 and excludes archived layer 1. Aggregate deposits and
 recorded pit/quarry points remain separate from NSTDB surface workings and from
 mineral tenure. None establishes reserves, ownership, current activity or access.
