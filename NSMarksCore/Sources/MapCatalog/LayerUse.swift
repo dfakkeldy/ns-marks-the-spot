@@ -1,4 +1,5 @@
 import Foundation
+import GeoCore
 
 /// Reversible product locks, independent of display acceptance and attribution.
 /// Keep the source metadata so a permission decision can reopen the exact use.
