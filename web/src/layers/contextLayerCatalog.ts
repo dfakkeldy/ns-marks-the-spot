@@ -8,6 +8,7 @@ import { biodiversityLayers } from "./biodiversityLayers";
 import { communityResearchLayers } from "./communityResearchLayers";
 import { waterResearchLayers } from "./waterResearchLayers";
 import type { ContextLayerDescriptor } from "./contextLayerTypes";
+import { forestryExclusionReason } from "./forestryExclusions";
 
 export type ContextLayerId =
   | (typeof rhodenaLayers)[number]["id"]
@@ -31,7 +32,7 @@ export const contextLayerCatalog: readonly ContextMapLayer[] = [
   ...electoralLayers,
   ...rhodenaLayers,
   sentinel2Layer,
-];
+].filter(({ id }) => forestryExclusionReason(id) === null);
 
 export const hiddenContextLayers = Object.fromEntries(
   contextLayerCatalog.map(({ id }) => [id, false]),
