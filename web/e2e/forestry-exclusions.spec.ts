@@ -50,7 +50,7 @@ for (const width of [390, 1440]) {
         }
         if (url.origin === new URL(testInfo.project.use.baseURL!).origin) return route.continue();
         const headers = { "access-control-allow-origin": "*" };
-        if (route.request().resourceType() === "image" || url.pathname.endsWith("/export")) {
+        if (route.request().resourceType() === "image" || url.pathname.endsWith(".png") || url.pathname.endsWith("/export")) {
           return route.fulfill({ contentType: "image/png", headers, body: pixel });
         }
         if (url.pathname.includes("/query") || url.pathname.endsWith(".geojson")) {
