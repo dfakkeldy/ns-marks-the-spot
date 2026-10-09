@@ -12,6 +12,7 @@ import userEvent from "@testing-library/user-event";
 import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
+import { RUMSEY_COLLECTION_TERMS_URL } from "./licensing/rumseyLicense";
 import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
@@ -3447,13 +3448,47 @@ describe("NS Marks The Spot Online", () => {
     expect(layerNames.at(-1)).toBe("Fletcher historical map");
   });
 
-  it("lists the Church county sheets as unavailable rows above Fletcher", () => {
+  it("keeps Church county maps collapsed by default without changing map state", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const historicalMaps = openLayerCategory("Historical Maps");
+    const summary = within(historicalMaps).getByText("A.F. Church county maps");
+    const group = summary.closest("details")!;
+    const mapState = screen.getByTestId("map-canvas").textContent;
+    const shareState = window.location.search;
+
+    expect(group).not.toHaveAttribute("open");
+    expect(within(group).getByText("Church — Inverness County")).not.toBeVisible();
+    expect(screen.getByLabelText("Fletcher historical map")).toBeVisible();
+    expect(within(group).queryByRole("checkbox", { hidden: true })).not.toBeInTheDocument();
+
+    await user.click(summary);
+    expect(group).toHaveAttribute("open");
+    for (const layer of churchLayerCatalog) {
+      const name = within(group).getByText(layer.name);
+      expect(name).toBeVisible();
+      const row = name.closest(".layer-row") as HTMLElement;
+      await user.click(within(row).getByText("Source & scale"));
+      expect(within(row).getByText(`Coverage: ${layer.coverage}`)).toBeVisible();
+    }
+    expect(within(group).getByRole("link", { name: "David Rumsey Map Collection" }))
+      .toHaveAttribute("href", RUMSEY_COLLECTION_TERMS_URL);
+    expect(within(group).getByText(/Web tiles are not produced yet/)).toBeVisible();
+
+    await user.click(summary);
+    expect(group).not.toHaveAttribute("open");
+    expect(screen.getByTestId("map-canvas").textContent).toBe(mapState);
+    expect(window.location.search).toBe(shareState);
+  });
+
+  it("lists the Church county sheets as unavailable rows above Fletcher when expanded", () => {
     vi.stubEnv("VITE_FLETCHER_TILE_BASE_URL", "");
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
     renderAppWithCategoriesOpen();
 
     const layerSection = openLayerCategory("Historical Maps");
+    fireEvent.click(within(layerSection).getByText("A.F. Church county maps"));
     const layerNames = Array.from(
       layerSection.querySelectorAll(".layer-row strong"),
       (element) => element.textContent,

@@ -770,7 +770,9 @@ The layers a reader is most likely to ask about:
   is used.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
-  as disabled rows: no tiles have been produced for them yet. See
+  as disabled rows in **Historical Maps → A.F. Church county maps**. This
+  subsection starts collapsed; expand it for the county sheets and source
+  credits. No tiles have been produced for them yet. See
   [docs/CHURCH_MAPS.md](../docs/CHURCH_MAPS.md).
 
 ## Forestry policy
