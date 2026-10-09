@@ -61,8 +61,8 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       input: {
         app: "index.html", poker: "poker.html", rhodena: "rhodena.html", atlas: "atlas.html", terrain: "terrain.html",
-        // Exercise print components in preview without shipping the synthetic fixture.
-        ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html" } : {}),
+        // Exercise browser fixtures in preview without shipping them in production.
+        ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html", tileCache: "e2e/tile-cache.html" } : {}),
       },
     },
   },
