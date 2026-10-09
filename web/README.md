@@ -1647,18 +1647,19 @@ this web workflow does not change the native app.
 ### Fletcher full-sheets review preview
 
 `VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` / `FletcherFullSheetsPreview` optionally
-enables a separate local review overlay of the older partial revision
-`fletcher-full-sheets-20260909.3` (complete cropped Cape Mabou / Broad Cove (14),
-Judique (19), Mabou (16), and Hawkesbury (22) sheets). Example local host:
-`http://127.0.0.1:4198` (see `.env.example`). When the variable is absent or
-unset, the control is absent. This is not the published layer: published
-Fletcher is the `fletcher-full-sheets-20260913.1` 24-sheet mosaic, served through
-the main `VITE_FLETCHER_TILE_BASE_URL` host. Alignment is approximate, with gaps
-at some joins; this preview does not change geographic acceptance. It has its
-own visibility and opacity control and is excluded from map exports and print.
-Sheet 11 is a provisional draft and is not in the
-`fletcher-full-sheets-20260909.3` preview package. See
-[package and local preview instructions](../reports/fletcher/full-sheets/README.md).
+enables the cartographically adjusted 24-sheet review revision
+`fletcher-seams-20261009.2`. Example local host: `http://127.0.0.1:4198`.
+The control is absent without this setting. Narrow inter-sheet gaps are closed
+by stretching existing edge detail toward the midpoint, fading the adjustment
+inside each sheet. The preview identifies that adjustment; locations near joins
+are approximate. Original source scans, geographic fits and checks are retained.
+
+Published Fletcher remains the `fletcher-full-sheets-20260913.1` mosaic through
+`VITE_FLETCHER_TILE_BASE_URL`. The review overlay has separate visibility and
+opacity controls and is excluded from map exports and print. Building or merging
+this preview does not publish the new tiles. See the
+[seam repair report](../reports/fletcher/seam-repair-20261009/README.md) for the
+recipe, comparison imagery, input hashes and remaining gaps.
 
 ## Poker pocket app
 

@@ -1,0 +1,583 @@
+{
+  "status": "cartographically adjusted local derivative; not geographic improvement or publication",
+  "input_sha256": "501749928dd3efd5b01017bf2b6906695c41248064d7a279d078b3d4f4c50324",
+  "inputs_sha256": "1f4c8dfbba0e235d2bae7e894765b6b005797cd7143e21165667e3fff8ce9882",
+  "pairs_sha256": "a81b985781f190f4e630a4040b985d87f998df48e0c8642f5d080ca0cc1d78c9",
+  "max_gap_projected_m": 3000,
+  "minimum_fade_projected_m": 3000,
+  "passes": [
+    {
+      "axis": "x",
+      "closed_gaps": 28589,
+      "closed_pixels": 3244347,
+      "moved_pixels": 44391012,
+      "max_shift_px": 300.49996909962465,
+      "min_source_step": 0.5038690906731063,
+      "pairs": {
+        "01-03": {
+          "scanline_gaps": 25,
+          "closed_pixels": 6854,
+          "max_gap_px": 579
+        },
+        "01-02": {
+          "scanline_gaps": 21,
+          "closed_pixels": 6312,
+          "max_gap_px": 592
+        },
+        "02-03": {
+          "scanline_gaps": 96,
+          "closed_pixels": 28523,
+          "max_gap_px": 596
+        },
+        "03-05": {
+          "scanline_gaps": 26,
+          "closed_pixels": 11212,
+          "max_gap_px": 600
+        },
+        "04-05": {
+          "scanline_gaps": 4729,
+          "closed_pixels": 250844,
+          "max_gap_px": 341
+        },
+        "03-06": {
+          "scanline_gaps": 13,
+          "closed_pixels": 3915,
+          "max_gap_px": 555
+        },
+        "05-06": {
+          "scanline_gaps": 3945,
+          "closed_pixels": 851780,
+          "max_gap_px": 583
+        },
+        "04-07": {
+          "scanline_gaps": 1,
+          "closed_pixels": 386,
+          "max_gap_px": 386
+        },
+        "05-07": {
+          "scanline_gaps": 106,
+          "closed_pixels": 54380,
+          "max_gap_px": 596
+        },
+        "06-09": {
+          "scanline_gaps": 12,
+          "closed_pixels": 1683,
+          "max_gap_px": 308
+        },
+        "07-08": {
+          "scanline_gaps": 2748,
+          "closed_pixels": 356831,
+          "max_gap_px": 595
+        },
+        "08-09": {
+          "scanline_gaps": 1450,
+          "closed_pixels": 433186,
+          "max_gap_px": 600
+        },
+        "10-11": {
+          "scanline_gaps": 1112,
+          "closed_pixels": 18458,
+          "max_gap_px": 600
+        },
+        "08-10": {
+          "scanline_gaps": 5,
+          "closed_pixels": 533,
+          "max_gap_px": 232
+        },
+        "11-13": {
+          "scanline_gaps": 63,
+          "closed_pixels": 6102,
+          "max_gap_px": 264
+        },
+        "13-14": {
+          "scanline_gaps": 6,
+          "closed_pixels": 1158,
+          "max_gap_px": 336
+        },
+        "12-13": {
+          "scanline_gaps": 1471,
+          "closed_pixels": 15991,
+          "max_gap_px": 16
+        },
+        "13-15": {
+          "scanline_gaps": 9,
+          "closed_pixels": 1971,
+          "max_gap_px": 546
+        },
+        "12-15": {
+          "scanline_gaps": 51,
+          "closed_pixels": 15285,
+          "max_gap_px": 595
+        },
+        "15-16": {
+          "scanline_gaps": 5127,
+          "closed_pixels": 775569,
+          "max_gap_px": 600
+        },
+        "18-19": {
+          "scanline_gaps": 44,
+          "closed_pixels": 14900,
+          "max_gap_px": 595
+        },
+        "19-22": {
+          "scanline_gaps": 90,
+          "closed_pixels": 16736,
+          "max_gap_px": 595
+        },
+        "18-21": {
+          "scanline_gaps": 1,
+          "closed_pixels": 5,
+          "max_gap_px": 5
+        },
+        "21-22": {
+          "scanline_gaps": 697,
+          "closed_pixels": 15581,
+          "max_gap_px": 46
+        },
+        "20-21": {
+          "scanline_gaps": 1210,
+          "closed_pixels": 62547,
+          "max_gap_px": 588
+        },
+        "23-24": {
+          "scanline_gaps": 5531,
+          "closed_pixels": 293605,
+          "max_gap_px": 493
+        }
+      },
+      "lost_opaque_cells": 0,
+      "raster_sha256": "c660c60c7ce0271554a108266224c84e975347dacfda5ed64bd171a8d80585bc"
+    },
+    {
+      "axis": "y",
+      "closed_gaps": 76948,
+      "closed_pixels": 8872904,
+      "moved_pixels": 117780786,
+      "max_shift_px": 297.0,
+      "min_source_step": 0.4936785073878127,
+      "pairs": {
+        "14-16": {
+          "scanline_gaps": 8305,
+          "closed_pixels": 1284474,
+          "max_gap_px": 278
+        },
+        "19-22": {
+          "scanline_gaps": 3436,
+          "closed_pixels": 86843,
+          "max_gap_px": 94
+        },
+        "22-24": {
+          "scanline_gaps": 917,
+          "closed_pixels": 5019,
+          "max_gap_px": 16
+        },
+        "16-19": {
+          "scanline_gaps": 2146,
+          "closed_pixels": 217053,
+          "max_gap_px": 542
+        },
+        "11-14": {
+          "scanline_gaps": 802,
+          "closed_pixels": 106610,
+          "max_gap_px": 183
+        },
+        "18-22": {
+          "scanline_gaps": 292,
+          "closed_pixels": 23374,
+          "max_gap_px": 135
+        },
+        "11-13": {
+          "scanline_gaps": 4402,
+          "closed_pixels": 208844,
+          "max_gap_px": 161
+        },
+        "13-14": {
+          "scanline_gaps": 4,
+          "closed_pixels": 63,
+          "max_gap_px": 30
+        },
+        "13-16": {
+          "scanline_gaps": 207,
+          "closed_pixels": 32164,
+          "max_gap_px": 156
+        },
+        "09-11": {
+          "scanline_gaps": 4307,
+          "closed_pixels": 444642,
+          "max_gap_px": 584
+        },
+        "18-21": {
+          "scanline_gaps": 3611,
+          "closed_pixels": 159959,
+          "max_gap_px": 135
+        },
+        "06-09": {
+          "scanline_gaps": 5587,
+          "closed_pixels": 269009,
+          "max_gap_px": 561
+        },
+        "22-23": {
+          "scanline_gaps": 2,
+          "closed_pixels": 22,
+          "max_gap_px": 16
+        },
+        "21-23": {
+          "scanline_gaps": 784,
+          "closed_pixels": 7627,
+          "max_gap_px": 49
+        },
+        "13-15": {
+          "scanline_gaps": 5815,
+          "closed_pixels": 470989,
+          "max_gap_px": 159
+        },
+        "15-18": {
+          "scanline_gaps": 3295,
+          "closed_pixels": 140859,
+          "max_gap_px": 69
+        },
+        "03-06": {
+          "scanline_gaps": 18,
+          "closed_pixels": 3538,
+          "max_gap_px": 269
+        },
+        "12-13": {
+          "scanline_gaps": 255,
+          "closed_pixels": 6100,
+          "max_gap_px": 34
+        },
+        "08-09": {
+          "scanline_gaps": 3,
+          "closed_pixels": 70,
+          "max_gap_px": 43
+        },
+        "06-08": {
+          "scanline_gaps": 425,
+          "closed_pixels": 101893,
+          "max_gap_px": 268
+        },
+        "03-05": {
+          "scanline_gaps": 7311,
+          "closed_pixels": 1323807,
+          "max_gap_px": 399
+        },
+        "11-12": {
+          "scanline_gaps": 53,
+          "closed_pixels": 13513,
+          "max_gap_px": 257
+        },
+        "10-12": {
+          "scanline_gaps": 2337,
+          "closed_pixels": 422703,
+          "max_gap_px": 336
+        },
+        "05-08": {
+          "scanline_gaps": 3486,
+          "closed_pixels": 458403,
+          "max_gap_px": 268
+        },
+        "01-03": {
+          "scanline_gaps": 4140,
+          "closed_pixels": 1396055,
+          "max_gap_px": 593
+        },
+        "08-10": {
+          "scanline_gaps": 3602,
+          "closed_pixels": 429854,
+          "max_gap_px": 189
+        },
+        "17-20": {
+          "scanline_gaps": 5073,
+          "closed_pixels": 617871,
+          "max_gap_px": 398
+        },
+        "02-05": {
+          "scanline_gaps": 482,
+          "closed_pixels": 126442,
+          "max_gap_px": 394
+        },
+        "04-05": {
+          "scanline_gaps": 274,
+          "closed_pixels": 13589,
+          "max_gap_px": 52
+        },
+        "05-07": {
+          "scanline_gaps": 3,
+          "closed_pixels": 72,
+          "max_gap_px": 24
+        },
+        "02-04": {
+          "scanline_gaps": 3139,
+          "closed_pixels": 398703,
+          "max_gap_px": 215
+        },
+        "04-07": {
+          "scanline_gaps": 977,
+          "closed_pixels": 32546,
+          "max_gap_px": 57
+        },
+        "07-08": {
+          "scanline_gaps": 15,
+          "closed_pixels": 899,
+          "max_gap_px": 112
+        },
+        "07-10": {
+          "scanline_gaps": 134,
+          "closed_pixels": 21368,
+          "max_gap_px": 361
+        },
+        "02-03": {
+          "scanline_gaps": 59,
+          "closed_pixels": 3540,
+          "max_gap_px": 64
+        },
+        "01-02": {
+          "scanline_gaps": 1250,
+          "closed_pixels": 44387,
+          "max_gap_px": 64
+        }
+      },
+      "lost_opaque_cells": 0,
+      "raster_sha256": "ce2d29d569d66ea8e15ee17e1cc46cd27467fe795a962350ed7e3ecdc3ec0de1"
+    },
+    {
+      "axis": "x",
+      "closed_gaps": 945,
+      "closed_pixels": 89294,
+      "moved_pixels": 1366312,
+      "max_shift_px": 300.49996909962283,
+      "min_source_step": 0.5541626359772636,
+      "pairs": {
+        "01-03": {
+          "scanline_gaps": 6,
+          "closed_pixels": 312,
+          "max_gap_px": 70
+        },
+        "03-05": {
+          "scanline_gaps": 4,
+          "closed_pixels": 524,
+          "max_gap_px": 176
+        },
+        "02-05": {
+          "scanline_gaps": 9,
+          "closed_pixels": 9,
+          "max_gap_px": 1
+        },
+        "02-04": {
+          "scanline_gaps": 1,
+          "closed_pixels": 21,
+          "max_gap_px": 21
+        },
+        "04-05": {
+          "scanline_gaps": 18,
+          "closed_pixels": 165,
+          "max_gap_px": 22
+        },
+        "03-06": {
+          "scanline_gaps": 135,
+          "closed_pixels": 37661,
+          "max_gap_px": 280
+        },
+        "05-06": {
+          "scanline_gaps": 232,
+          "closed_pixels": 37977,
+          "max_gap_px": 283
+        },
+        "04-07": {
+          "scanline_gaps": 2,
+          "closed_pixels": 56,
+          "max_gap_px": 28
+        },
+        "06-09": {
+          "scanline_gaps": 82,
+          "closed_pixels": 777,
+          "max_gap_px": 138
+        },
+        "06-08": {
+          "scanline_gaps": 37,
+          "closed_pixels": 148,
+          "max_gap_px": 4
+        },
+        "05-08": {
+          "scanline_gaps": 4,
+          "closed_pixels": 204,
+          "max_gap_px": 51
+        },
+        "08-09": {
+          "scanline_gaps": 71,
+          "closed_pixels": 387,
+          "max_gap_px": 6
+        },
+        "08-10": {
+          "scanline_gaps": 6,
+          "closed_pixels": 2749,
+          "max_gap_px": 597
+        },
+        "11-13": {
+          "scanline_gaps": 31,
+          "closed_pixels": 256,
+          "max_gap_px": 105
+        },
+        "10-11": {
+          "scanline_gaps": 5,
+          "closed_pixels": 20,
+          "max_gap_px": 4
+        },
+        "10-13": {
+          "scanline_gaps": 41,
+          "closed_pixels": 164,
+          "max_gap_px": 4
+        },
+        "12-13": {
+          "scanline_gaps": 92,
+          "closed_pixels": 230,
+          "max_gap_px": 4
+        },
+        "13-15": {
+          "scanline_gaps": 13,
+          "closed_pixels": 1680,
+          "max_gap_px": 171
+        },
+        "13-14": {
+          "scanline_gaps": 62,
+          "closed_pixels": 409,
+          "max_gap_px": 8
+        },
+        "14-16": {
+          "scanline_gaps": 46,
+          "closed_pixels": 158,
+          "max_gap_px": 7
+        },
+        "14-15": {
+          "scanline_gaps": 9,
+          "closed_pixels": 63,
+          "max_gap_px": 7
+        },
+        "15-16": {
+          "scanline_gaps": 18,
+          "closed_pixels": 126,
+          "max_gap_px": 7
+        },
+        "19-22": {
+          "scanline_gaps": 16,
+          "closed_pixels": 2826,
+          "max_gap_px": 291
+        },
+        "20-21": {
+          "scanline_gaps": 4,
+          "closed_pixels": 2349,
+          "max_gap_px": 600
+        },
+        "22-24": {
+          "scanline_gaps": 1,
+          "closed_pixels": 23,
+          "max_gap_px": 23
+        }
+      },
+      "lost_opaque_cells": 0,
+      "raster_sha256": "d8ca30dc859f71ebba2c732158e61842bbfbe323bd591dfffb1dd5135314d969"
+    }
+  ],
+  "output": "/Users/dfakkeldy/Downloads/fletcher-seams-20261009-delivery/fletcher-cartographic-mosaic.tif",
+  "output_sha256": "0ae2190cc5194eaaacdf1f2ca2c04a0fae80eecd4f5bb6c3603388b01f68a764",
+  "original_geographic_fits_changed": false,
+  "primary_repair_sha256": "d8ca30dc859f71ebba2c732158e61842bbfbe323bd591dfffb1dd5135314d969",
+  "wide_wedge": {
+    "sheets": [
+      "08",
+      "09"
+    ],
+    "max_gap_projected_m": 8000,
+    "native_window": [
+      7654,
+      16603,
+      18463,
+      11443
+    ],
+    "pass": {
+      "axis": "x",
+      "closed_gaps": 1845,
+      "closed_pixels": 1545530,
+      "moved_pixels": 13906423,
+      "max_shift_px": 504.0,
+      "min_source_step": 0.8310237037012485,
+      "pairs": {
+        "08-09": {
+          "scanline_gaps": 1845,
+          "closed_pixels": 1545530,
+          "max_gap_px": 1007
+        }
+      },
+      "lost_opaque_cells": 0,
+      "raster_sha256": "4d385182ade82da095ed05ab0dbf93887ace4341146321819365cd3e509c29b9"
+    },
+    "junction_passes": [
+      {
+        "axis": "y",
+        "closed_gaps": 757,
+        "closed_pixels": 250288,
+        "moved_pixels": 2254610,
+        "max_shift_px": 172.0,
+        "min_source_step": 0.5167561424877931,
+        "pairs": {
+          "09-11": {
+            "scanline_gaps": 154,
+            "closed_pixels": 45756,
+            "max_gap_px": 343
+          },
+          "09-10": {
+            "scanline_gaps": 350,
+            "closed_pixels": 119253,
+            "max_gap_px": 343
+          },
+          "08-09": {
+            "scanline_gaps": 3,
+            "closed_pixels": 63,
+            "max_gap_px": 21
+          },
+          "08-10": {
+            "scanline_gaps": 248,
+            "closed_pixels": 85064,
+            "max_gap_px": 343
+          },
+          "10-11": {
+            "scanline_gaps": 2,
+            "closed_pixels": 152,
+            "max_gap_px": 76
+          }
+        },
+        "lost_opaque_cells": 0,
+        "raster_sha256": "ebd58bbdbba3b806cebbacf482c014bb3b4e2f2b84cff70ca3d0149507eac35c"
+      },
+      {
+        "axis": "x",
+        "closed_gaps": 187,
+        "closed_pixels": 49321,
+        "moved_pixels": 456959,
+        "max_shift_px": 149.4999377107397,
+        "min_source_step": 0.8327987527627556,
+        "pairs": {
+          "08-09": {
+            "scanline_gaps": 11,
+            "closed_pixels": 33,
+            "max_gap_px": 3
+          },
+          "08-10": {
+            "scanline_gaps": 171,
+            "closed_pixels": 49278,
+            "max_gap_px": 298
+          },
+          "10-11": {
+            "scanline_gaps": 5,
+            "closed_pixels": 10,
+            "max_gap_px": 2
+          }
+        },
+        "lost_opaque_cells": 0,
+        "raster_sha256": "95ca326dd680271aac3da6a59c5ab8bb7f8c30edecf84496b62e14e46913b0a0"
+      }
+    ]
+  },
+  "builder_sha256": "0af674290ff673c864329c9e029df9d47aca1dc79a6974b09ddb31fca171dbe7",
+  "remapper_sha256": "41310297cdc8463188431a8632faa2aa9bd52dec3b99cf091db91d82d26bc4d9"
+}
