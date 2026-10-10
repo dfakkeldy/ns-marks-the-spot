@@ -209,6 +209,120 @@ struct MapSessionTests {
         #expect(loaded.view.layerIDs.contains(LayerID.nsAerial.rawValue) == false)
     }
 
+    private static var restrictedSession: MapSession {
+        MapSession(
+            view: MapShareState(
+                layerIDs: [LayerID.nsAerial.rawValue, LayerID.roads.rawValue, LayerID.fletcher.rawValue],
+                position: MapPosition(latitude: 46.1, longitude: -60.2, zoom: 15)
+            ),
+            background: .nsAerial
+        )
+    }
+
+    @Test func unansweredDisclosureAutosavesPreserveDormantChoicesWithoutDrawingThem() throws {
+        let store = MapSessionStore.forTesting()
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .roads, .fletcher], licence: .unknown, sessionStore: store
+        )
+        model.resume(Self.restrictedSession)
+        model.rememberSession()
+        model.dismissLicenceSheet()
+        model.rememberSession()
+
+        let saved = try #require(store.load())
+        #expect(Set(saved.view.layerIDs) == Set(Self.restrictedSession.view.layerIDs))
+        #expect(saved.background == .nsAerial)
+        #expect(model.baseMapType != .nsAerial)
+        #expect(model.rows.first { $0.id == LayerID.roads.rawValue }?.isVisible == false)
+        #expect(!model.shareState.layerIDs.contains(LayerID.roads.rawValue))
+        #expect(!model.shareState.layerIDs.contains(LayerID.nsAerial.rawValue))
+        #expect(!model.clearanceBox.clearance.allowsRestrictedLayers)
+
+        let next = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .roads, .fletcher], licence: .unknown, sessionStore: store
+        )
+        next.resume(saved)
+        next.rememberSession()
+        #expect(try #require(store.load()).background == .nsAerial)
+        #expect(next.baseMapType != .nsAerial)
+        #expect(!next.clearanceBox.clearance.allowsRestrictedLayers)
+    }
+
+    @Test func acceptanceRestoresOnlyTheDormantChoicesAndConsumesThem() {
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .roads, .water], licence: .unknown
+        )
+        model.resume(Self.restrictedSession)
+        model.acceptProvinceLicence()
+        #expect(model.baseMapType == .nsAerial)
+        #expect(model.rows.first { $0.id == LayerID.roads.rawValue }?.isVisible == true)
+        #expect(model.rows.first { $0.id == LayerID.water.rawValue }?.isVisible == false)
+        model.toggleVisibility(LayerID.roads.rawValue)
+        model.acceptProvinceLicence()
+        #expect(model.rows.first { $0.id == LayerID.roads.rawValue }?.isVisible == false)
+    }
+
+    @Test func choosingAnotherBackgroundReplacesOnlyTheDormantAerialChoice() throws {
+        let store = MapSessionStore.forTesting()
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .roads], licence: .unknown, sessionStore: store
+        )
+        model.resume(Self.restrictedSession)
+        model.setBaseMapType(.satellite)
+        model.rememberSession()
+        let saved = try #require(store.load())
+        #expect(saved.background == .satellite)
+        #expect(!saved.view.layerIDs.contains(LayerID.nsAerial.rawValue))
+        #expect(saved.view.layerIDs.contains(LayerID.roads.rawValue))
+        model.acceptProvinceLicence()
+        #expect(model.baseMapType == .satellite)
+        #expect(model.rows.first { $0.id == LayerID.roads.rawValue }?.isVisible == true)
+    }
+
+    @Test func aDeliberateLinkReplacesTheDormantSetup() throws {
+        let store = MapSessionStore.forTesting()
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .roads], licence: .unknown, sessionStore: store
+        )
+        model.resume(Self.restrictedSession)
+        model.restore(from: try #require(URL(
+            string: "https://kinnokilabs.com/apps/nsmarksthespot/map/?layers=modern&position=46.1,-60.2,15"
+        )))
+        model.acceptProvinceLicence()
+        model.rememberSession()
+        #expect(!model.shareState.layerIDs.contains(LayerID.roads.rawValue))
+        #expect(try #require(store.load()).background != .nsAerial)
+    }
+
+    @Test func decliningPersistsRemovalOfDormantChoicesImmediately() throws {
+        let store = MapSessionStore.forTesting()
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .roads], licence: .unknown, sessionStore: store
+        )
+        model.resume(Self.restrictedSession)
+        model.rememberSession()
+        model.declineProvinceLicence()
+        let saved = try #require(store.load())
+        #expect(!saved.view.layerIDs.contains(LayerID.roads.rawValue))
+        #expect(!saved.view.layerIDs.contains(LayerID.nsAerial.rawValue))
+        #expect(saved.background != .nsAerial)
+        model.acceptProvinceLicence()
+        #expect(model.baseMapType != .nsAerial)
+    }
+
+    @Test func revokingBeforeReacceptancePersistsRemovalOfDormantChoices() async throws {
+        let store = MapSessionStore.forTesting()
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .roads], licence: .unknown, sessionStore: store
+        )
+        model.resume(Self.restrictedSession)
+        model.rememberSession()
+        await model.revokeProvinceLicence()
+        let saved = try #require(store.load())
+        #expect(!saved.view.layerIDs.contains(LayerID.roads.rawValue))
+        #expect(saved.background != .nsAerial)
+    }
+
     /// The window between a launch and the map having a width is where this
     /// used to go wrong: `mapPosition` answered with the opening view, so a
     /// scene going inactive in that moment wrote the province over the ground
