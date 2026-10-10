@@ -250,13 +250,13 @@ struct MapSessionTests {
 
     @Test func acceptanceRestoresOnlyTheDormantChoicesAndConsumesThem() {
         let model = OverlayViewModel.forTesting(
-            installing: [.nsAerial, .roads, .water], licence: .unknown
+            installing: [.nsAerial, .roads, .waterFeatures], licence: .unknown
         )
         model.resume(Self.restrictedSession)
         model.acceptProvinceLicence()
         #expect(model.baseMapType == .nsAerial)
         #expect(model.rows.first { $0.id == LayerID.roads.rawValue }?.isVisible == true)
-        #expect(model.rows.first { $0.id == LayerID.water.rawValue }?.isVisible == false)
+        #expect(model.rows.first { $0.id == LayerID.waterFeatures.rawValue }?.isVisible == false)
         model.toggleVisibility(LayerID.roads.rawValue)
         model.acceptProvinceLicence()
         #expect(model.rows.first { $0.id == LayerID.roads.rawValue }?.isVisible == false)
