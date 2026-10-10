@@ -59,8 +59,11 @@ extension OverlayViewModel {
 
     /// Whether the open parcel has heard back from every source the note
     /// reports on.
+    var evidenceReproductionLockReason: String { LayerUse.provinceReproductionLockReason }
+
     var canExportEvidenceNote: Bool {
-        inspection.map(ParcelEvidenceExport.isReady) ?? false
+        LayerUse.propertyRecordsReproductionAllowed
+            && (inspection.map(ParcelEvidenceExport.isReady) ?? false)
     }
 
     /// The note for the open parcel, or `nil` when no parcel is open or a
@@ -82,6 +85,7 @@ extension OverlayViewModel {
         generatedAt: Date = Date(),
         includingSourcesStillOut: Bool = false
     ) -> EvidenceNote? {
+        guard LayerUse.propertyRecordsReproductionAllowed else { return nil }
         guard let inspection,
               includingSourcesStillOut || ParcelEvidenceExport.isReady(inspection),
               let shareURL else { return nil }
@@ -242,7 +246,8 @@ extension OverlayViewModel {
                 )
                 : [],
             disclosures: disclosures,
-            generatedAt: generatedAt
+            generatedAt: generatedAt,
+            includesPropertySourceRecords: inspection != nil
         )
     }
 

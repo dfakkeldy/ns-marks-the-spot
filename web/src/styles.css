@@ -5339,13 +5339,15 @@ a {
 }
 
 @media print {
-  body.print-preview-open .app-shell {
+  /* Bare browser print must never reproduce the live map/property UI.
+     Only the independently permission-checked sealed document may print. */
+  .app-shell {
     display: none !important;
   }
 
   /* The rule above cannot reach the georeferencer: App.tsx renders
      `<GeoreferencePanel>` OUTSIDE `.app-shell`, as a sibling of
-     `<PrintPreview>`, so `body.print-preview-open .app-shell` never matches
+     `<PrintPreview>`, so `.app-shell` never matches
      it and the overlay carries its `position: fixed; z-index: 1800` onto
      page 1 of the field sheet. Reachable in one pass: `.parcel-inspector` is
      at `right: 16px`, inside the 55% the panel leaves free, and clickable

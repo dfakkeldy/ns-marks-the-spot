@@ -28,7 +28,7 @@ import {
   type CivicAddress,
   CivicAddressGeometryError,
 } from "./services/civicAddresses";
-import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
+import { fetchParcelAtPoint, fetchParcels } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
 import {
@@ -1171,34 +1171,10 @@ describe("NS Marks The Spot Online", () => {
     });
     await waitFor(() => expect(exportButton).toBeEnabled());
     await userEvent.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenLastCalledWith(expect.objectContaining({
-      taxSaleEnabled: false,
-      events: [],
-    }));
-    const exportedNote = vi.mocked(buildEvidenceNote).mock.results.at(-1)?.value;
-    expect(exportedNote?.markdown).not.toContain("Mode: Current notices");
-    expect(exportedNote?.markdown).not.toContain("## Event");
-    expect(exportedNote?.markdown).not.toContain(
-      "Tax-sale notices and results are dated source records",
-    );
-    expect(exportedNote?.markdown).toContain("## PVSC assessment accounts");
-
-    await userEvent.click(within(inspector).getByRole("button", {
-      name: "Print / export",
-    }));
-    const printDialog = await screen.findByRole("dialog", {
-      name: "Print / export",
-    });
-    const appendix = within(printDialog).getByRole("region", {
-      name: "Evidence appendix",
-    });
-    expect(appendix).not.toHaveTextContent(/tax[- ]sale/i);
-    expect(within(appendix).getByRole("heading", {
-      name: "Mapped parcel area",
-    })).toBeInTheDocument();
-    expect(within(printDialog).getByText(/Map PID count: 0/))
-      .toHaveTextContent("historical PID count: 0");
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("uses ordinary parcel evidence rather than a notice AAN while Tax Sale is off", async () => {
@@ -2011,14 +1987,10 @@ describe("NS Marks The Spot Online", () => {
     });
     await waitFor(() => expect(exportButton).toBeEnabled());
     await userEvent.click(exportButton);
-    const note = vi.mocked(buildEvidenceNote).mock.results.at(-1)?.value;
-    expect(note?.markdown).toContain(
-      "Not evaluated — this PID's NSPRD geometry is unavailable.",
-    );
-    expect(note?.markdown).not.toContain(
-      "No mapped civic address point returned inside the parcel.",
-    );
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("lists every layer's source, date, and licence behind Data & licences", async () => {
@@ -3578,37 +3550,13 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
-  it("names a visible zoning layer as absent from the export instead of dropping it silently", async () => {
-    const user = userEvent.setup();
-    setRestrictedGeneralShareUrl();
+  it("locks municipal app use without hiding official source links", async () => {
     renderAppWithCategoriesOpen();
-
-    await user.click(
-      screen.getByRole("button", { name: "Continue without Province layers" }),
-    );
     openLayerCategory("Land & Property");
-    await user.click(screen.getByLabelText("Inverness County zoning"));
-
-    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
-    await user.click(
-      screen.getByRole("button", { name: "Continue export frame" }),
-    );
-
-    // `buildExportLayers` carries OSM, Fletcher, and Province layers only —
-    // zoning (and six other families MapCanvas renders) never reaches the
-    // compositor. Exporting used to produce a page with no zoning on it and
-    // nothing said about that.
-    // findBy: the export dialog is lazy-loaded, so it resolves a tick after
-    // the frame step continues.
-    const dialog = await screen.findByRole("dialog", {
-      name: "Export georeferenced PDF",
-    });
-    expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);
-    expect(dialog).toHaveTextContent("Inverness County zoning");
-    // A notice, not a gate.
-    expect(
-      within(dialog).getByRole("button", { name: "Download PDF" }),
-    ).toBeEnabled();
+    const toggle = screen.getByLabelText("Inverness County zoning");
+    expect(toggle).toBeDisabled();
+    expect(toggle.closest("label")).toHaveTextContent(/permission for app queries/i);
+    expect(toggle.closest("label")?.querySelector("a[href]"))?.toBeTruthy();
   });
 
   it("credits an exported layer but not a visible layer the export omits", async () => {
@@ -3620,7 +3568,12 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
     openLayerCategory("Land & Property");
-    await user.click(screen.getByLabelText("Inverness County zoning"));
+    // Use a confirmed-open source: the four municipal sources awaiting
+    // permission cannot become visible and do not exercise omission credits.
+    const zoning = screen.getByLabelText("Halifax Regional Municipality zoning");
+    expect(zoning).toBeEnabled();
+    await user.click(zoning);
+    expect(zoning).toBeChecked();
 
     await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
     await user.click(
@@ -3630,7 +3583,11 @@ describe("NS Marks The Spot Online", () => {
     // test warmed its chunk resolves it a tick after the frame step.
     await user.click(
       within(
-        await screen.findByRole("dialog", { name: "Export georeferenced PDF" }),
+        await screen.findByRole(
+          "dialog",
+          { name: "Export georeferenced PDF" },
+          { timeout: 5_000 },
+        ),
       ).getByRole("button", { name: "Download PDF" }),
     );
 
@@ -3645,10 +3602,10 @@ describe("NS Marks The Spot Online", () => {
     // Zoning is visible (captured) but not exported — `buildExportLayers`
     // does not carry it, and the omission is already named separately in
     // `omittedLayerNames`. Crediting it here would assert a licence over
-    // data the PDF does not contain, which the EDPC attribution text (only
+    // data the PDF does not contain, which the HRM attribution text (only
     // this layer family uses it) makes easy to catch.
     expect(attributionText).not.toContain(
-      "Eastern District Planning Commission",
+      "Open Government Licence—Halifax",
     );
   });
 
@@ -5813,36 +5770,10 @@ describe("NS Marks The Spot Online", () => {
     await screen.findByText("A01-001 · On parcel");
     await user.click(screen.getByRole("button", { name: "Export evidence note" }));
 
-    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
-      shareUrl: expect.stringContaining("mineral-proximity-parcels"),
-      activeLayers: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Mineral occurrences — derived proximity input",
-          sourceUrl: "https://novascotia.ca/natr/meb/download/dp002.asp",
-          sourceDate: "June 2024 · version 12",
-        }),
-        expect.objectContaining({
-          name: "NSPRD parcel geometry — derived proximity input",
-          sourceUrl: NSPRD_LAYER_URL,
-          sourceDate: "Live service · checked July 20, 2026",
-        }),
-      ]),
-      resourceResults: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Mineral occurrences",
-          results: [
-            "A01-001 · Exact occurrence · On parcel · Occurrence · Au, Ag",
-          ],
-          emptyMessage:
-            "No published mineral occurrence was returned on or within 1 km of this parcel.",
-        }),
-      ]),
-      assessmentEvidence: {
-        status: "ready",
-        result: { matchMethod: "spatial", accounts: [] },
-      },
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("does not export mineral empty evidence while selected-parcel resources are pending", async () => {
@@ -5888,15 +5819,10 @@ describe("NS Marks The Spot Online", () => {
 
     await waitFor(() => expect(exportButton).toBeEnabled());
     await user.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
-      resourceResults: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Mineral occurrences",
-          results: ["A01-002 · Nearby occurrence · Within 1 km · Placer · Au"],
-        }),
-      ]),
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("waits for assessment evidence before exporting the selected parcel", async () => {
@@ -5949,14 +5875,10 @@ describe("NS Marks The Spot Online", () => {
 
     await waitFor(() => expect(exportButton).toBeEnabled());
     await user.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
-      assessmentEvidence: expect.objectContaining({
-        status: "ready",
-        result: expect.objectContaining({ matchMethod: "spatial" }),
-      }),
-      dwellingEvidence: expect.objectContaining({ status: "ready" }),
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("lists every unique mapped civic address", async () => {
@@ -6508,10 +6430,8 @@ describe("NS Marks The Spot Online", () => {
     const exportButton = screen.getByRole("button", { name: "Export evidence note" });
     await waitFor(() => expect(exportButton).toBeEnabled());
     await user.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenLastCalledWith(expect.objectContaining({
-      pid: newerPid,
-      parcelGeometry: olderOutcome === "empty" ? "source-error" : "returned-empty",
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
   });
 
   it("ignores a geometry failure after closing its parcel", async () => {
@@ -6593,7 +6513,7 @@ describe("NS Marks The Spot Online", () => {
     expect(await screen.findByRole("button", { name: "Print / export" })).toBeInTheDocument();
   });
 
-  it("opens a privacy-safe print preview with a frozen parcel fit", async () => {
+  it("refuses property print output before mounting a restricted preview", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     vi.mocked(fetchParcels).mockResolvedValueOnce({
@@ -6609,26 +6529,10 @@ describe("NS Marks The Spot Online", () => {
     await user.click(screen.getByRole("button", { name: "Print / export" }));
     const dialog = await screen.findByRole("dialog", { name: "Print / export" });
 
-    expect(within(dialog).getAllByText("PID 01234567").length).toBeGreaterThan(0);
-    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("Parcel fit");
-    await waitFor(() =>
-      expect(within(dialog).getAllByText(PROVINCE_ATTRIBUTION).length)
-        .toBeGreaterThan(0),
-    );
-    // No assessment account was matched, so the dwelling dataset was never
-    // asked. Printing "0 accounts captured" claimed a capture that never ran.
-    expect(
-      await within(dialog).findByText(
-        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
-      ),
-    ).toBeInTheDocument();
-    expect(
-      within(dialog).queryByText("Dwelling characteristics: 0 accounts captured"),
-    ).not.toBeInTheDocument();
-    expect(within(dialog).queryByText("Your location is shown on the map.")).not.toBeInTheDocument();
-    expect(within(dialog).queryByText("46.25,-61.25,13")).not.toBeInTheDocument();
-
-    await user.click(within(dialog).getByRole("button", { name: "Close preview" }));
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission to reproduce NSPRD/i);
+    expect(within(dialog).queryByTestId("map-canvas")).toBeNull();
+    expect(within(dialog).queryByRole("button", { name: "Print / Save PDF" })).toBeNull();
+    await user.click(within(dialog).getByRole("button", { name: "Close export" }));
     expect(screen.getByRole("button", { name: "Print / export" })).toBeInTheDocument();
   });
 
@@ -6648,7 +6552,7 @@ describe("NS Marks The Spot Online", () => {
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
     await user.click(await screen.findByRole("button", { name: "Print / export" }));
     const dialog = await screen.findByRole("dialog", { name: "Print / export" });
-    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
 
     await act(async () => {
       resources.resolve({
@@ -6659,10 +6563,10 @@ describe("NS Marks The Spot Online", () => {
       await resources.promise;
     });
 
-    expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
-    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
+    expect(within(dialog).queryByTestId("map-canvas")).toBeNull();
     await user.click(screen.getByLabelText("Water features"));
-    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
+    expect(within(dialog).queryByTestId("map-canvas")).toBeNull();
   });
 
   it("does not let an older same-PID evidence request settle a reopened print capture", async () => {
@@ -6695,7 +6599,7 @@ describe("NS Marks The Spot Online", () => {
     ));
     await user.click(screen.getByRole("button", { name: "Print / export" }));
     const dialog = await screen.findByRole("dialog", { name: "Print / export" });
-    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
 
     await act(async () => {
       olderResources.resolve({
@@ -6705,7 +6609,7 @@ describe("NS Marks The Spot Online", () => {
       });
       await olderResources.promise;
     });
-    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
     expect(within(dialog).queryByText("Older completion")).not.toBeInTheDocument();
 
     await act(async () => {
@@ -6716,8 +6620,8 @@ describe("NS Marks The Spot Online", () => {
       });
       await currentResources.promise;
     });
-    expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
-    expect(within(dialog).getByText(/Current completion/)).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
+    expect(within(dialog).queryByText(/Current completion/)).toBeNull();
   });
 });
 

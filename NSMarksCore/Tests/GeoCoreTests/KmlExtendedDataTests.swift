@@ -15,8 +15,8 @@ struct KmlExtendedDataTests {
         ])
     }
 
-    @Test func propertiesRideExtendedDataExceptTheExcludedKeys() {
-        let kml = VectorExport.kml(
+    @Test func propertiesRideExtendedDataExceptTheExcludedKeys() throws {
+        let kml = VectorExport.kmlDocument(
             layerName: "Layer",
             parsed: feature(properties: [
                 "name": .string("Corner"),
@@ -25,7 +25,7 @@ struct KmlExtendedDataTests {
                 "coordinateProperties": .object(["times": .array([])]),
                 "nsmts:photos": .array([.object(["id": .string("p1")])]),
                 "nsmts:traced": .string("nsprd-parcel"),
-            ])
+            ]), photoMode: .omit
         )
         #expect(kml.contains("<Data name=\"species\"><value>red spruce</value></Data>"))
         // Provenance keys ARE written, so a traced feature keeps its caveat
@@ -41,8 +41,8 @@ struct KmlExtendedDataTests {
         #expect(kml.contains("<description>Iron pin</description>"))
     }
 
-    @Test func valuesStringifyTheWayTheContractSays() {
-        let kml = VectorExport.kml(
+    @Test func valuesStringifyTheWayTheContractSays() throws {
+        let kml = try VectorExport.kml(
             layerName: "Layer",
             parsed: feature(properties: [
                 "count": .number(42),
@@ -64,7 +64,7 @@ struct KmlExtendedDataTests {
     /// The ExtendedData a KML export writes reads back through KmlParse as
     /// string properties — the round trip the contract describes.
     @Test func extendedDataRoundTripsThroughKmlParse() throws {
-        let kml = VectorExport.kml(
+        let kml = try VectorExport.kml(
             layerName: "Layer",
             parsed: feature(properties: [
                 "species": .string("red spruce"),
@@ -81,14 +81,111 @@ struct KmlExtendedDataTests {
         )
     }
 
-    @Test func aTracedLayerCarriesTheProvenanceNoteOnTheDocument() {
-        let traced = VectorExport.kml(
-            layerName: "Layer",
-            parsed: feature(properties: ["nsmts:traced": .string("nsprd-parcel")])
-        )
-        #expect(traced.contains("Traced boundaries are not a survey."))
-        #expect(traced.contains("Nova Scotia Property"))
-        let plain = VectorExport.kml(layerName: "Layer", parsed: feature(properties: [:]))
+    @Test func tracedOutputIsLockedButLocalPersistenceKeepsTheProvenance() throws {
+        let traced = feature(properties: ["nsmts:traced": .string("nsprd-parcel")])
+        #expect(throws: VectorExport.ReproductionRefusal.self) { try VectorExport.kml(layerName: "Layer", parsed: traced) }
+        #expect(throws: VectorExport.ReproductionRefusal.self) { try VectorExport.geoJson(traced) }
+        #expect(VectorExport.kmz(layerName: "Layer", parsed: traced, photos: [:]) == nil)
+        let retained = try UserVectorParse.parseGeoJson(VectorExport.storageGeoJson(traced))
+        #expect(VectorExport.hasTracedFeatures(retained))
+        let plain = try VectorExport.kml(layerName: "Layer", parsed: feature(properties: [:]))
         #expect(!plain.contains("Traced boundaries"))
+    }
+
+    @Test func anEditedOrUntracedSiblingCannotExportTheOriginalsTracedCoordinates() throws {
+        let plain = feature(properties: ["name": .string("My own point")])
+        let traced = feature(properties: ["nsmts:traced": .string("nsprd-parcel")])
+        let shared = VectorEdit.recomputed(plain.features + traced.features)
+        let original = try VectorExport.storageGeoJson(shared)
+        // A row edited down to the plain feature remains plain; original bytes are independently locked.
+        try VectorExport.requireReproduction(plain)
+        #expect(throws: VectorExport.ReproductionRefusal.self) {
+            try VectorExport.requireOriginalReproduction(original, filename: "shared.geojson")
+        }
+        try VectorExport.requireOriginalReproduction(VectorExport.storageGeoJson(plain), filename: "own.geojson")
+        #expect(throws: VectorExport.OriginalProvenanceRefusal.self) {
+            try VectorExport.requireOriginalReproduction(Data("unreadable".utf8), filename: "unknown")
+        }
+        #expect(try VectorExport.storageGeoJson(shared) == original)
+    }
+
+    @Test(arguments: ["other.kml", "other.txt", "extensionless", "other.jpg"])
+    func secondaryKmzDocumentsAreCheckedIndependentlyOfTheMainDocument(_ secondaryName: String) throws {
+        let plain = Data(try VectorExport.kml(layerName: "Own", parsed: feature(properties: [:])).utf8)
+        let traced = Data(VectorExport.kmlDocument(layerName: "Trace", parsed: feature(properties: [
+            "nsmts:traced": .string("nsprd-parcel")
+        ]), photoMode: .omit).utf8)
+        let archive = try #require(ZipArchive.archive([
+            .init(name: "doc.kml", data: plain, compress: true),
+            .init(name: secondaryName, data: traced, compress: true)
+        ]))
+        #expect(!VectorExport.hasTracedFeatures(try KmzParse.parse(archive)))
+        #expect(throws: VectorExport.ReproductionRefusal.self) {
+            try VectorExport.requireOriginalReproduction(archive, filename: "shared.kmz")
+        }
+        let own = try #require(ZipArchive.archive([
+            .init(name: "doc.kml", data: plain, compress: true),
+            .init(name: secondaryName, data: plain, compress: true)
+        ]))
+        try VectorExport.requireOriginalReproduction(own, filename: "own.kmz")
+        let unreadable = try #require(ZipArchive.archive([
+            .init(name: "doc.kml", data: plain, compress: true),
+            .init(name: "other.kml", data: Data("unreadable".utf8), compress: true)
+        ]))
+        #expect(throws: VectorExport.OriginalProvenanceRefusal.self) {
+            try VectorExport.requireOriginalReproduction(unreadable, filename: "unreadable.kmz")
+        }
+    }
+
+    @Test func unverifiedArchiveAttachmentsFailClosed() throws {
+        let plain = Data(try VectorExport.kml(layerName: "Own", parsed: feature(properties: [:])).utf8)
+        let archive = try #require(ZipArchive.archive([
+            .init(name: "doc.kml", data: plain, compress: true),
+            .init(name: "unverified.txt", data: Data("unverified attachment".utf8), compress: true)
+        ]))
+        #expect(throws: VectorExport.OriginalProvenanceRefusal.self) {
+            try VectorExport.requireOriginalReproduction(archive, filename: "unverified.kmz")
+        }
+    }
+
+    @Test func contentRoutingChecksRenamedGeoJsonAndKeepsNormalPhotoAssets() throws {
+        let plain = Data(try VectorExport.kml(layerName: "Own", parsed: feature(properties: [:])).utf8)
+        let traced = try VectorExport.storageGeoJson(feature(properties: ["nsmts:traced": .string("nsprd-parcel")]))
+        let disguised = try #require(ZipArchive.archive([
+            .init(name: "doc.kml", data: plain, compress: true),
+            .init(name: "photo.jpg", data: traced, compress: true)
+        ]))
+        #expect(throws: VectorExport.ReproductionRefusal.self) {
+            try VectorExport.requireOriginalReproduction(disguised, filename: "disguised.kmz")
+        }
+        let png = try #require(Data(base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aTwAAAABJRU5ErkJggg=="))
+        let withPhoto = try #require(ZipArchive.archive([
+            .init(name: "doc.kml", data: plain, compress: true),
+            .init(name: "files/photo.png", data: png, compress: false)
+        ]))
+        try VectorExport.requireOriginalReproduction(withPhoto, filename: "own.kmz")
+    }
+
+    @Test func legacyGpxTraceNotesAreCheckedBeforeImportDropsFileMetadata() throws {
+        let plain = "<gpx version=\"1.1\"><wpt lat=\"44.6\" lon=\"-63.5\"/></gpx>"
+        let traced = plain.replacingOccurrences(of: "<wpt", with:
+            "<metadata><desc>\(VectorExport.tracedProvenanceNote)</desc></metadata><wpt")
+        #expect(!VectorExport.hasTracedFeatures(try GpxParse.parse(Data(traced.utf8))))
+        #expect(throws: VectorExport.ReproductionRefusal.self) {
+            try VectorExport.requireOriginalReproduction(Data(traced.utf8), filename: "legacy.gpx")
+        }
+        try VectorExport.requireOriginalReproduction(Data(plain.utf8), filename: "own.gpx")
+    }
+
+    @Test(arguments: ["<Data name=\"nsmts:traced\"><value>nsprd-parcel</value></Data>",
+                      "<SimpleData name=\"nsmts:traced\">nsprd-parcel</SimpleData>"])
+    func originalProvenanceIsCheckedBeforeMalformedPlacemarkGeometryIsDropped(_ provenance: String) throws {
+        let own = try VectorExport.kml(layerName: "Own", parsed: feature(properties: [:]))
+        let mixed = own.replacingOccurrences(of: "</Document>", with:
+            "<Placemark><ExtendedData>\(provenance)</ExtendedData><Point><coordinates>unreadable</coordinates></Point></Placemark></Document>")
+        #expect(!VectorExport.hasTracedFeatures(try KmlParse.parse(Data(mixed.utf8))))
+        #expect(throws: VectorExport.ReproductionRefusal.self) {
+            try VectorExport.requireOriginalReproduction(Data(mixed.utf8), filename: "mixed.kml")
+        }
     }
 }

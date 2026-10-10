@@ -54,7 +54,8 @@ struct SavedAreaRenderingTests {
     private static func overlay(
         host: String,
         store: TileStore,
-        migration: Task<Void, Never>? = nil
+        migration: Task<Void, Never>? = nil,
+        progress: LayerLoadProgressBox? = nil
     ) -> OpacityTileOverlay {
         let sessionConfiguration = URLSessionConfiguration.ephemeral
         sessionConfiguration.protocolClasses = [StubURLProtocol.self]
@@ -69,7 +70,8 @@ struct SavedAreaRenderingTests {
                 urlSession: URLSession(configuration: sessionConfiguration)
             ),
             tileStore: store,
-            fletcherMigration: migration
+            fletcherMigration: migration,
+            progress: progress
         )
     }
 
@@ -128,9 +130,8 @@ struct SavedAreaRenderingTests {
 
         // What the downloader saves where every covering sheet answered and
         // none of them had ink. The live path calls that square outside
-        // coverage, and a printed legend built from the saved copy has to say
-        // the same thing — otherwise saving an area would quietly turn blank
-        // ground into a source's answer.
+        // coverage. Probe the real viewing API, then classify its bytes without
+        // using the independently held reproduction API.
         let blank = try #require(TileComposite.transparent)
         try await store.store(
             blank,
@@ -139,10 +140,12 @@ struct SavedAreaRenderingTests {
             savedAreaID: "cape-breton"
         )
 
-        let (_, outcome, substance) = try await Self.overlay(host: host, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: host, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .outsideCoverage)
     }
 
@@ -161,10 +164,12 @@ struct SavedAreaRenderingTests {
             savedAreaID: "cape-breton"
         )
 
-        let (_, outcome, substance) = try await Self.overlay(host: host, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: host, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .source)
     }
 
@@ -235,10 +240,12 @@ struct SavedAreaRenderingTests {
         #expect(progress.succeeded == 1)
         #expect(progress.failed == 0)
 
-        let (_, outcome, substance) = try await Self.overlay(host: drawHost, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: drawHost, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .outsideCoverage)
         #expect(StubURLProtocol.requestCount(host: drawHost) == 0)
     }
@@ -272,11 +279,13 @@ struct SavedAreaRenderingTests {
                 layerID: LayerID.fletcher.rawValue
             )
         )
-        let (drawn, outcome, substance) = try await Self.overlay(host: drawHost, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: drawHost, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
         #expect(drawn == stored)
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .source)
         #expect(StubURLProtocol.requestCount(host: drawHost) == 0)
     }

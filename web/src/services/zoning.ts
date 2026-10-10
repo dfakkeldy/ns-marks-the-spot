@@ -1,3 +1,4 @@
+import { queryLockReason } from "../licensing/layerUse";
 import type { ZoningLayerDescriptor } from "../layers/layerCatalog";
 import {
   fetchArcGISFeatureOverlay,
@@ -94,6 +95,8 @@ export async function fetchZoningPolygons(
   bounds: MapEnvelope,
   signal?: AbortSignal,
 ): Promise<ZoningFeatureCollection> {
+  const lock = queryLockReason(descriptor.id);
+  if (lock) throw new Error(lock);
   return fetchArcGISFeatureOverlay<ZoningGeometry>({
     serviceUrl: descriptor.serviceUrl,
     bounds,

@@ -1,3 +1,4 @@
+import { queryLockReason } from "../licensing/layerUse";
 import { useEffect, useState } from "react";
 import L, { type PathOptions } from "leaflet";
 import { GeoJSON, useMap } from "react-leaflet";
@@ -125,6 +126,12 @@ export function ZoningLayer({
       requestNumber += 1;
       const currentRequest = requestNumber;
 
+      const lock = queryLockReason(layer.id);
+      if (lock) {
+        setCollection(EMPTY_ZONING_FEATURES);
+        onStatusChange?.(layer.id, { status: "licence-blocked", message: lock });
+        return;
+      }
       if (!visible) {
         setCollection(EMPTY_ZONING_FEATURES);
         onStatusChange?.(layer.id, { status: "idle" });
@@ -189,6 +196,7 @@ export function ZoningLayer({
     return null;
   }
 
+  if (queryLockReason(layer.id)) return null;
   return (
     <GeoJSON
       key={`${layer.id}:${collection.features

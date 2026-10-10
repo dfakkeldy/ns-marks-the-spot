@@ -1,3 +1,5 @@
+import { LicensingLockDialog } from "../LicensingLockDialog";
+import { printReproductionLockReason } from "../../licensing/printUse";
 import { useCallback, useEffect, useInsertionEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { MapPosition, ShareLayerId } from "../../services/mapShareState";
 import { buildPrintQr, type PrintQrResult } from "../../services/printQr";
@@ -44,7 +46,7 @@ function loadingMapReadiness(): Extract<
   };
 }
 
-export function PrintPreview({
+function PermittedPrintPreview({
   capture,
   baseUrl,
   onClose,
@@ -492,4 +494,10 @@ export function PrintPreview({
       </div>
     </div>
   );
+}
+
+export function PrintPreview(props: { capture: PrintCapture; baseUrl: string; onClose: () => void }) {
+  const reason = printReproductionLockReason(props.capture);
+  if (reason) return <LicensingLockDialog reason={reason} onClose={props.onClose} label="Print / export" />;
+  return <PermittedPrintPreview {...props} />;
 }

@@ -1,4 +1,5 @@
 import GeoCore
+import MapCatalog
 import MapKit
 import NSDataServices
 import UIKit
@@ -157,6 +158,10 @@ nonisolated struct PrintMapCompositor {
         /// other map under an Atlas credit.
         atlasBaseURL: URL? = AtlasRasterHost.configuredBaseURL
     ) async throws -> Output {
+        let sourceIDs = layers.filter { $0.effectiveAlpha > 0 }.compactMap {
+            $0.configuration.reproductionSourceLayerID
+        } + features.map(\.layer) + markers.map(\.layer)
+        try LayerUse.requireReproduction(sourceIDs, includesParcelGeometry: !parcels.isEmpty)
         let space = PrintOutputSpace(bounds: bounds, widthPx: widthPx, heightPx: heightPx)
         var outcomes = [LayerOutcome]()
 
@@ -877,6 +882,7 @@ nonisolated struct PrintMapCompositor {
     /// printed the answer.
     static func provider(overlays: [String: OpacityTileOverlay]) -> TileProvider {
         { configuration, path in
+            try LayerUse.requireReproduction(configuration.reproductionSourceLayerID.map { [$0] } ?? [])
             // The OpenStreetMap ground is not one of the panel's overlays — it
             // is the base — but it fetches through the same request the screen
             // uses, User-Agent and shared URL cache included, so the page and

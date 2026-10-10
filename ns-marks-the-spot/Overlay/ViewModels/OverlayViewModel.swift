@@ -54,7 +54,7 @@ nonisolated struct LayerRow: Identifiable, Equatable, Sendable {
 
     var id: String { descriptor.id.rawValue }
     var name: String { descriptor.name }
-    var isAvailable: Bool { installed != nil || feature != nil }
+    var isAvailable: Bool { descriptor.availability == .available && (installed != nil || feature != nil) }
 
     /// Whether this row's layer can be drawn at an opacity the user chooses.
     ///

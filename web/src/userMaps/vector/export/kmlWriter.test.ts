@@ -146,26 +146,11 @@ describe("kmlDocumentString", () => {
 });
 
 describe("traced provenance", () => {
-  it("writes the note into the Document description when a feature was traced", () => {
-    const kml = kmlDocumentString("Traced", {
-      type: "FeatureCollection",
-      features: [
-        {
-          type: "Feature",
-          id: "traced",
-          geometry: {
-            type: "LineString",
-            coordinates: [
-              [-61, 46],
-              [-61, 46.001],
-            ],
-          },
-          properties: { "nsmts:traced": "nsprd-parcel" },
-        },
-      ],
-    });
-    expect(kml).toContain("Traced boundaries are not a survey.");
-    expect(kml).toContain("Province of Nova Scotia");
+  it("refuses an outgoing document containing traced parcel coordinates", () => {
+    expect(() => kmlDocumentString("Traced", { type: "FeatureCollection", features: [{
+      type: "Feature", geometry: { type: "Point", coordinates: [-61, 46] },
+      properties: { "nsmts:traced": "nsprd-parcel" },
+    }] })).toThrow(/permission/i);
   });
 
   it("writes no note for an untraced layer", () => {
@@ -201,7 +186,7 @@ describe("ExtendedData", () => {
           metadata: { crew: "A" },
           skipped: null,
           coordinateProperties: { times: ["2026-08-30T00:00:00.000Z"] },
-          "nsmts:traced": "nsprd-parcel",
+          "nsmts:traced": "manual",
           "nsmts:photos": [{ id: "p1" }],
         },
       },
@@ -216,7 +201,7 @@ describe("ExtendedData", () => {
     // Objects ride as JSON text; GeoJSON stays the type-faithful format.
     expect(kml).toContain('<Data name="metadata"><value>{"crew":"A"}</value></Data>');
     // Provenance survives a KML round trip.
-    expect(kml).toContain('<Data name="nsmts:traced"><value>nsprd-parcel</value></Data>');
+    expect(kml).toContain('<Data name="nsmts:traced"><value>manual</value></Data>');
     // name/description have their own KML homes; times are GPX/GeoJSON-only;
     // photo references never dangle in a plain KML; nulls are skipped.
     expect(kml).not.toContain('<Data name="name"');

@@ -416,7 +416,7 @@ actor UserVectorStore {
     /// pull these files out of a backup and open them in anything.
     func writeGeometry(_ parsed: ParsedVector, id: String) throws {
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
-        try VectorExport.geoJson(parsed).write(to: geometryURL(for: id), options: .atomic)
+        try VectorExport.storageGeoJson(parsed).write(to: geometryURL(for: id), options: .atomic)
     }
 
     /// The bytes the user imported, if this build still has them.

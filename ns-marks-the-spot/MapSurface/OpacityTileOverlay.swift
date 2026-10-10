@@ -119,7 +119,8 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     func exportTile(
         at path: MKTileOverlayPath
     ) async throws -> (Data, TileLoadOutcome, TileSubstance) {
-        try await tile(at: path)
+        try LayerUse.requireReproduction(configuration.reproductionSourceLayerID.map { [$0] } ?? [])
+        return try await tile(at: path)
     }
 
     /// The tile, whether producing it went the way it was supposed to, and what
@@ -365,7 +366,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     }
 
     /// Blank source PNGs are answered coverage, not imagery to credit in print.
-    private static func substance(of data: Data) -> TileSubstance {
+    static func substance(of data: Data) -> TileSubstance {
         // Server PNGs need not share our encoder's byte representation. Classify
         // actual alpha so blank mosaic tiles do not acquire a print credit just
         // because they came from R2 or survived an offline round trip.

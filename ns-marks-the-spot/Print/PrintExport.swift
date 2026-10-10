@@ -58,6 +58,7 @@ nonisolated struct PrintExportRequest: Sendable {
     /// either.
     var disclosures: [String] = [PrintExport.screeningCaveat]
     var generatedAt: Date
+    var includesPropertySourceRecords: Bool = false
 }
 
 /// The map state a printed receipt links back to, before the export fills in
@@ -155,7 +156,7 @@ nonisolated enum PrintExport {
             .compactMap { id, status -> UndrawnFeatureLayer? in
                 switch status {
                 case .off, .ready: nil
-                case .zoomGated, .loading, .failed, .licenceBlocked:
+                case .zoomGated, .loading, .failed, .licenceBlocked, .rightsBlocked:
                     UndrawnFeatureLayer(id: id, status: status)
                 }
             }
@@ -235,6 +236,8 @@ nonisolated enum PrintExport {
             LayerID(rawValue: id).flatMap(LayerCatalog.descriptor(for:))
         }
     ) async throws -> Result {
+        // App evidence appendices reproduce property-source records. Attribution is not a grant.
+        if request.includesPropertySourceRecords || !request.appendix.isEmpty { throw LayerUse.Refusal(reason: LayerUse.provinceReproductionLockReason) }
         let template = request.template
         let bounds = PrintExportPlan.bounds(
             covering: request.visibleBounds, mapFrame: template.mapFrame

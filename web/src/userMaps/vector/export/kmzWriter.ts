@@ -1,3 +1,4 @@
+import { requireVectorReproduction } from "./tracedProvenance";
 import { strToU8, zipSync } from "fflate";
 import type { FeatureCollection } from "geojson";
 import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
@@ -24,6 +25,7 @@ export function buildKmzBlob(
   collection: FeatureCollection,
   photoBytes: ReadonlyMap<string, Uint8Array>,
 ): KmzExportResult {
+  requireVectorReproduction(collection);
   let photosMissing = 0;
   const writable: FeatureCollection = {
     type: "FeatureCollection",
