@@ -1,0 +1,29 @@
+{
+  "verified_at_utc": "2026-09-26T15:32:09.537262+00:00",
+  "assessment_source_commit": "91db91b8723e5c4d5c891821364c56b31178e1eb",
+  "scope": {
+    "sheets": 138,
+    "active_components": 157,
+    "main_rms_pass": 102,
+    "main_rms_fail": 36,
+    "main_all_numeric_limits_pass": 82
+  },
+  "verified_asset_files": 590,
+  "verified_asset_bytes": 9782770052,
+  "all_assets_match_committed_receipts": true,
+  "all_asset_paths_inside_durable_storage": true,
+  "licensing_state": "unresolved-modified-scan-redistribution",
+  "geographic_acceptance_changed": false,
+  "active_fits_changed": false,
+  "rejected_sheet005_candidate_excluded": true,
+  "tiles_generated": false,
+  "tiles_uploaded": false,
+  "production_deployment": false,
+  "live_source_receipt_url": "https://kinnokilabs.com/apps/nsmarksthespot/map/source.json",
+  "live_source_receipt": {
+    "repository": "https://github.com/dfakkeldy/ns-marks-the-spot",
+    "commit": "d2783ce8753d8921e3f1175aa7bb2538b3abfab3",
+    "publicPath": "/apps/nsmarksthespot/map/"
+  },
+  "deployment_inputs_sha256": "1df463d08a1ef83f0163e6d4514ab9620bd60a1aaa6b425fd5a3f9ad8e4ec47e"
+}
