@@ -1,4 +1,5 @@
 import SwiftUI
+import NSDataServices
 
 /// The Province of Nova Scotia restricted-licence decision.
 ///
@@ -67,30 +68,29 @@ struct ProvinceLicenceSheetView: View {
     /// main-actor-default isolation a computed property here is synchronous
     /// disk IO in the render path, and `body` read it twice per evaluation —
     /// once for the text, once for the Accept button's disabled state.
-    private let licenceText: String? = {
+    private let licenceDocument: ProvinceLicenceDocument? = {
         guard let url = Bundle(for: LayerResourceBundleToken.self)
             .url(forResource: "ProvinceRestrictedGeographicServicesLicense.md", withExtension: nil)
         else { return nil }
-        return try? String(contentsOf: url, encoding: .utf8)
+        return ProvinceLicenceDocument(text: try? String(contentsOf: url, encoding: .utf8))
     }()
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("“\(layerName)” is published by the Province of Nova Scotia under a restricted licence. Accept it once to use every Province layer in this app.")
+                    Text("Read the Province of Nova Scotia licence and map-service disclaimer below before turning on “\(layerName)”.")
                         .font(.subheadline)
 
-                    if let licenceText {
-                        Text(licenceText)
+                    if let licenceDocument {
+                        Text(licenceDocument.text)
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                             .textSelection(.enabled)
                     } else {
-                        // The bundled copy is the licence; without it there is
-                        // nothing to agree to, and saying so beats an Accept
-                        // button over an empty page.
-                        Text("The licence text could not be loaded from this build, so it cannot be shown for you to read. Province layers stay unavailable.")
+                        // Missing or incomplete required statements must not
+                        // offer an acceptance that could enable the service.
+                        Text("The required licence and disclaimer text could not be loaded completely from this build. Province layers stay unavailable.")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
@@ -112,7 +112,9 @@ struct ProvinceLicenceSheetView: View {
                         onAccept()
                         dismiss()
                     }
-                    .disabled(licenceText == nil)
+                    .accessibilityLabel("Accept licence and disclaimer")
+                    .accessibilityIdentifier("Accept")
+                    .disabled(licenceDocument == nil)
                 }
             }
         }
