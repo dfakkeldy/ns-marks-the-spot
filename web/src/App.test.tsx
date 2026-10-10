@@ -3448,6 +3448,44 @@ describe("NS Marks The Spot Online", () => {
     expect(layerNames.at(-1)).toBe("Fletcher historical map");
   });
 
+  it.each([
+    { surface: "main", focus: undefined, accepted: false },
+    { surface: "main", focus: undefined, accepted: true },
+    { surface: "Rhodena", focus: "rhodena" as const, accepted: false },
+    { surface: "Rhodena", focus: "rhodena" as const, accepted: true },
+  ])("keeps unavailable layers informational on $surface with viewing acknowledgement $accepted", async ({ focus, accepted }) => {
+    if (accepted) localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", `${focus ? "/rhodena" : "/"}?layers=modern,wam-relative-wetness,wam-predicted-flow,forest-treatments&taxSale=off`);
+    const user = userEvent.setup();
+    render(<App focus={focus} />);
+    const summary = screen.getByText("Unavailable layers");
+    const group = summary.closest("details")!;
+    expect(group).not.toHaveAttribute("open");
+    expect(within(group).getByText("WAM relative wetness")).not.toBeVisible();
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")).toBe("modern"));
+    const shareState = window.location.search;
+    const mapState = screen.getByTestId("map-canvas").textContent;
+
+    await user.click(summary);
+    expect(group).toHaveAttribute("open");
+    const rows = within(group).getAllByRole("listitem");
+    expect(rows).toHaveLength(3);
+    for (const row of rows) expect(row).toHaveAttribute("aria-disabled", "true");
+    for (const name of ["WAM relative wetness", "WAM predicted flow", "Recorded forest treatments"]) {
+      expect(within(group).getByText(name)).toBeVisible();
+      expect(screen.queryByRole("checkbox", { name })).not.toBeInTheDocument();
+    }
+    expect(within(group).getAllByText("Data-quality concerns")).toHaveLength(2);
+    expect(within(group).getByText("Permission unavailable")).toBeVisible();
+    expect(within(group).queryByText(/permission pending|permission not granted|refused/i)).not.toBeInTheDocument();
+    expect(group.querySelectorAll("input, button, select, textarea, a")).toHaveLength(0);
+    expect(screen.getByTestId("map-canvas").textContent).toBe(mapState);
+    expect(window.location.search).toBe(shareState);
+    expect(localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY)).toBe(accepted ? "accepted" : null);
+    await user.click(summary);
+    expect(group).not.toHaveAttribute("open");
+  });
+
   it("keeps Church county maps collapsed by default without changing map state", async () => {
     const user = userEvent.setup();
     render(<App />);
