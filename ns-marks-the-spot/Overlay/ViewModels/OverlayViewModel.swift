@@ -1280,7 +1280,20 @@ final class OverlayViewModel {
         // background inside that window wrote the session back without it, and
         // the reader returned to the right ground with the card gone.
         if view.pid == nil { view.pid = restoringPID }
-        sessionStore.save(MapSession(view: view, background: baseMapType))
+        // A licence gate changes what can be drawn, not what the reader had
+        // chosen. Retain only dormant preferences in storage; they never enter
+        // the live share state or acquire request clearance from this save.
+        var background = baseMapType
+        if licenceStore.state == .unknown {
+            for id in dormantRestrictedLayerIDs where !view.layerIDs.contains(id) {
+                view.layerIDs.append(id)
+            }
+            if let dormantRestrictedBackground {
+                background = dormantRestrictedBackground
+                view.layerIDs.removeAll { $0 == MapShareState.modernBaseLayerID }
+            }
+        }
+        sessionStore.save(MapSession(view: view, background: background))
     }
 
     /// The parcel a restored view named, until the reader names another one.
@@ -1315,6 +1328,7 @@ final class OverlayViewModel {
     /// in parsing, and a layer the Province licence still stands in front of
     /// stays off — a link cannot accept a licence on the reader's behalf.
     func restore(from url: URL) {
+        discardDormantRestrictedChoices()
         let state = MapShareState.parse(
             url.absoluteString,
             validEventIDs: Set(
@@ -1358,11 +1372,44 @@ final class OverlayViewModel {
     /// withdrew that permission themselves, and asking again every time the app
     /// opens would be arguing with them.
     func resume(_ session: MapSession) {
+        discardDormantRestrictedChoices()
         apply(
             session.view,
             background: session.background.flatMap(permittedBackground),
             arrivedFrom: .lastSession
         )
+        guard licenceStore.state == .unknown else { return }
+        // Capture after applying the permitted subset: its automatic fallback
+        // must not count as the reader choosing another background.
+        dormantRestrictedLayerIDs = session.view.layerIDs.filter {
+            guard let id = LayerID(rawValue: $0),
+                  let descriptor = LayerCatalog.descriptor(for: id) else { return false }
+            return descriptor.requiresProvinceClearance
+        }
+        if let background = session.background, permittedBackground(background) == nil {
+            dormantRestrictedBackground = background
+        }
+    }
+
+    @ObservationIgnored private var dormantRestrictedLayerIDs: [String] = []
+    @ObservationIgnored private var dormantRestrictedBackground: MapBaseType?
+
+    private func discardDormantRestrictedChoices() {
+        dormantRestrictedLayerIDs = []
+        dormantRestrictedBackground = nil
+    }
+
+    private func restoreDormantRestrictedChoicesIfAllowed() {
+        guard clearanceBox.clearance.allowsRestrictedLayers else { return }
+        let wanted = dormantRestrictedLayerIDs
+        let background = dormantRestrictedBackground
+        discardDormantRestrictedChoices()
+        for id in wanted {
+            guard let row = rows.first(where: { $0.id == id }),
+                  row.isAvailable, !row.isVisible else { continue }
+            toggleVisibility(id)
+        }
+        if let background { setBaseMapType(background) }
     }
 
     /// A background as far as the Province licence allows it, or `nil`.
@@ -1839,6 +1886,7 @@ final class OverlayViewModel {
     /// rather than left looking at a map missing the imagery it named.
     func selectTheme(_ id: String) {
         guard let theme = themes.theme(id) else { return }
+        discardDormantRestrictedChoices()
         let capabilities = themeCapabilities
 
         if !capabilities.licenceAccepted,
@@ -1879,6 +1927,7 @@ final class OverlayViewModel {
     }
 
     func apply(_ resolved: ResolvedTheme) {
+        discardDormantRestrictedChoices()
         themeApplications += 1
         let wanted = Set(resolved.target.layerIDs)
 
@@ -2113,9 +2162,18 @@ final class OverlayViewModel {
                 self?.mirrorClearanceIntoBox()
             }
         }
+        let previouslyAllowed = clearanceBox.clearance.allowsRestrictedLayers
         clearanceBox.update(clearance)
+        let withdrew = !clearance.allowsRestrictedLayers
+            && (licenceStore.state == .declined || previouslyAllowed)
+        if clearance.allowsRestrictedLayers {
+            restoreDormantRestrictedChoicesIfAllowed()
+        } else if withdrew {
+            discardDormantRestrictedChoices()
+        }
         hideRefusedLayers()
         dropRefusedParcelEvidence(clearance)
+        if withdrew { rememberSession() }
     }
 
     /// Province data already on screen when permission is withdrawn.
@@ -2182,6 +2240,7 @@ final class OverlayViewModel {
     func acceptProvinceLicence() {
         licenceStore.accept()
         clearanceBox.update(licenceStore.clearance)
+        restoreDormantRestrictedChoicesIfAllowed()
         // The layer the user was reaching for when the sheet appeared. Turning
         // it on here is what makes accepting read as an answer to the tap
         // rather than a dialog that dismissed and did nothing.
@@ -2233,6 +2292,7 @@ final class OverlayViewModel {
     }
 
     func declineProvinceLicence() {
+        discardDormantRestrictedChoices()
         licenceStore.decline()
         clearanceBox.update(licenceStore.clearance)
         licencePromptedLayerID = nil
@@ -2257,6 +2317,7 @@ final class OverlayViewModel {
             self.pendingThemeID = nil
             applyTheme(theme)
         }
+        rememberSession()
     }
 
     func dismissLicenceSheet() {
@@ -2313,6 +2374,7 @@ final class OverlayViewModel {
     /// Province layer. If a restricted layer ever becomes downloadable, this
     /// has to grow a second sweep — `TileStore`, not `TileCache`.
     func revokeProvinceLicence() async {
+        discardDormantRestrictedChoices()
         licenceSweepFailure = nil
         licenceStore.revoke()
         // Synchronously, as `decline` does: the mirror runs a hop later and the
@@ -2430,6 +2492,12 @@ final class OverlayViewModel {
             licencePromptedLayerID = layerID
             return
         }
+
+        // This path is an actual background choice (resume captures dormant
+        // choices afterwards). It supersedes the saved aerial preference only;
+        // unrelated dormant restricted layers remain the reader's choices.
+        dormantRestrictedBackground = nil
+        dormantRestrictedLayerIDs.removeAll { $0 == LayerID.nsAerial.rawValue }
 
         // A link cannot name satellite or hybrid, and a reader who picks one has
         // left the sender's view, so the background counts as a change like any

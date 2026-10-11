@@ -50,8 +50,9 @@ struct AttributionTests {
         )
         let licenseText = try String(contentsOf: bundled, encoding: .utf8)
         #expect(licenseText.contains("Indemnification"))
-        #expect(licenseText.contains("Termination of License for Non-Compliance"))
-        #expect(licenseText.contains("This is version 1.0 of the Province of Nova Scotia Restricted Geographic Services License."))
+        #expect(licenseText.contains("Termination of license for non-compliance"))
+        #expect(licenseText.contains("This is version 1.0 of the Province of Nova Scotia Restricted Geographic Services License (NSPRD)."))
+        #expect(ProvinceLicenceDocument(text: licenseText)?.text == licenseText)
     }
 
     /// The three coastal projections. They are `provinceOpen` like the layers
