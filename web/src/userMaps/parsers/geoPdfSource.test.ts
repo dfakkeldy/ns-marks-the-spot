@@ -106,7 +106,7 @@ function environment(
       release,
     })),
     extractMetadata,
-    assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
+    assetBaseUrl: "http://localhost/vendor/pdfjs/6.2.108/",
   };
   return {
     environment: parseEnvironment,
@@ -123,6 +123,20 @@ function environment(
 }
 
 describe("parseGeoPdf", () => {
+  it("requests default assets from the installed PDF.js version", async () => {
+    const seams = environment();
+    delete seams.environment.assetBaseUrl;
+
+    await parseGeoPdf(new ArrayBuffer(16), seams.environment);
+
+    expect(seams.environment.getDocument).toHaveBeenCalledWith(
+      expect.objectContaining({
+        cMapUrl: expect.stringContaining("/vendor/pdfjs/6.2.108/cmaps/"),
+        standardFontDataUrl: expect.stringContaining("/vendor/pdfjs/6.2.108/standard_fonts/"),
+      }),
+    );
+  });
+
   it("passes a finite PDF.js per-image resize budget matching the preview budget", async () => {
     const seams = environment();
     await parseGeoPdf(new ArrayBuffer(16), seams.environment);

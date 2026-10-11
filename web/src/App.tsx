@@ -2215,6 +2215,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
   }, []);
   const [currentTime, setCurrentTime] = useState(Date.now);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
+  const shareCopySequence = useRef(0);
   const printCaptureSequence = useRef(0);
   const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
   const [exportSession, setExportSession] =
@@ -3436,7 +3437,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
             : `${meeting} NSPRD also returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
       );
     } catch (error: unknown) {
-      if (error instanceof DOMException && error.name === "AbortError") {
+      if (controller.signal.aborted || (error instanceof DOMException && error.name === "AbortError")) {
         return;
       }
       setParcelLookupMessage(
@@ -4143,15 +4144,29 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
     return () => window.clearTimeout(timer);
   }, [shareUrl]);
 
-  const copyShareUrl = () => {
-    if (navigator.clipboard?.writeText) {
-      void navigator.clipboard.writeText(shareUrl).then(
-        () => setShareMessage("Share link copied."),
-        () => setShareMessage("Copy failed; use the exact map-state link below."),
-      );
-      return;
+  useEffect(() => {
+    // Feedback belongs to the state that was copied. Ignore a clipboard
+    // completion after the map changes or this view unmounts.
+    setShareMessage(null);
+    shareCopySequence.current += 1;
+    return () => { shareCopySequence.current += 1; };
+  }, [shareUrl]);
+
+  const copyShareUrl = async () => {
+    const sequence = ++shareCopySequence.current;
+    setShareMessage(null);
+    try {
+      if (!navigator.clipboard?.writeText) {
+        setShareMessage("Use the exact map-state link below.");
+        return;
+      }
+      await navigator.clipboard.writeText(shareUrl);
+      if (sequence === shareCopySequence.current) setShareMessage("Share link copied.");
+    } catch {
+      if (sequence === shareCopySequence.current) {
+        setShareMessage("Copy failed; use the exact map-state link below.");
+      }
     }
-    setShareMessage("Use the exact map-state link below.");
   };
 
   const openPrintExport = () => {

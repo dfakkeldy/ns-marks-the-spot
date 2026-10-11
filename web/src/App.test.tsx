@@ -4008,6 +4008,66 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("ignores a cancelled point lookup failure after a newer parcel is selected", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    let rejectOld!: (reason: Error) => void;
+    vi.mocked(fetchParcelAtPoint)
+      .mockImplementationOnce(() => new Promise((_resolve, reject) => { rejectOld = reject; }))
+      .mockResolvedValueOnce({ type: "FeatureCollection", features: [parcelFeature("50251750")] });
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    await screen.findByRole("complementary", { name: "Parcel 50251750 details" });
+    await act(async () => rejectOld(new TypeError("Connection closed during cancellation")));
+    expect(screen.queryByText("The Province parcel lookup is unavailable right now.")).not.toBeInTheDocument();
+    expect(screen.getByText("PID 50251750 selected.")).toBeInTheDocument();
+  });
+
+  it("does not report an old clipboard result for a newly selected parcel", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection", features: pids.map(parcelFeature),
+    }));
+    let finishCopy!: () => void;
+    const write = vi.spyOn(navigator.clipboard, "writeText")
+      .mockImplementationOnce(() => new Promise<void>(resolve => { finishCopy = resolve; }));
+    try {
+      render(<App />);
+      const input = screen.getByLabelText("Search by PID or civic address");
+      await user.type(input, "50251750{Enter}");
+      await user.click(await screen.findByRole("button", { name: "Copy share link" }));
+      expect(write.mock.calls[0][0]).toContain("pid=50251750");
+      await user.clear(input);
+      await user.type(input, "50334317{Enter}");
+      await screen.findByRole("complementary", { name: "Parcel 50334317 details" });
+      await act(async () => finishCopy());
+      expect(screen.queryByText("Share link copied.")).not.toBeInTheDocument();
+    } finally {
+      write.mockRestore();
+    }
+  });
+
+  it("offers the exact state link when clipboard access throws synchronously", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection", features: pids.map(parcelFeature),
+    }));
+    const write = vi.spyOn(navigator.clipboard, "writeText").mockImplementation(() => {
+      throw new DOMException("Clipboard access denied", "SecurityError");
+    });
+    try {
+      render(<App />);
+      await user.type(screen.getByLabelText("Search by PID or civic address"), "50251750{Enter}");
+      await user.click(await screen.findByRole("button", { name: "Copy share link" }));
+      expect(screen.getByText("Copy failed; use the exact map-state link below.")).toBeInTheDocument();
+    } finally {
+      write.mockRestore();
+    }
+  });
+
   it("suggests civic addresses while typing and selects with the keyboard", async () => {
     const user = userEvent.setup();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");

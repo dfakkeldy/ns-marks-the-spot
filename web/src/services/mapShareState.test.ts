@@ -205,6 +205,19 @@ describe("map share state", () => {
     expect(parsed.position).toEqual({ latitude: 47.5, longitude: -66.5, zoom: 23 });
   });
 
+  it.each([
+    ",,",
+    "46, -61,",
+    ", -61,12",
+    "46, ,12",
+    "46,-61,12,unexpected",
+  ])("uses the default view for a malformed position %j", (position) => {
+    const url = new URL("https://example.test/");
+    url.searchParams.set("position", position);
+
+    expect(parseMapShareState(url.href).position).toEqual(DEFAULT_MAP_POSITION);
+  });
+
   it("parses a printable URL with its resolved map state unchanged", () => {
     const snapshot = {
       taxSaleEnabled: true,

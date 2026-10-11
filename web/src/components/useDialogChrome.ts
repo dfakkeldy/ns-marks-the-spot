@@ -15,6 +15,25 @@ const FOCUSABLE = [
   '[tabindex]:not([tabindex="-1"]):not([disabled]):not([hidden])',
 ].join(", ");
 
+function focusStops(dialog: HTMLElement): HTMLElement[] {
+  return Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((element) => {
+    // Native controls can match the selector while being removed from Tab
+    // order, disabled by a fieldset, or hidden/inert through a parent.
+    if (element.tabIndex < 0 || element.matches(":disabled") || element.closest("[hidden], [inert]")) {
+      return false;
+    }
+    const visibility = window.getComputedStyle(element).visibility;
+    if (visibility === "hidden" || visibility === "collapse") return false;
+    for (let ancestor: HTMLElement | null = element; ancestor; ancestor = ancestor.parentElement) {
+      if (window.getComputedStyle(ancestor).display === "none") {
+        return false;
+      }
+      if (ancestor === dialog) break;
+    }
+    return true;
+  });
+}
+
 /**
  * The focus contract every dialog in this app claims with `aria-modal="true"`
  * and, until now, mostly did not keep: move focus in, keep Tab inside, and
@@ -74,14 +93,19 @@ export function useDialogChrome<T extends HTMLElement = HTMLElement>(
         ? document.activeElement
         : null;
     const dialog = dialogRef.current;
+    const focusContainer = () => {
+      if (!dialog) return;
+      if (!dialog.hasAttribute("tabindex")) dialog.tabIndex = -1;
+      dialog.focus();
+    };
     // A dialog that names its own first stop with tabIndex={-1} keeps it;
     // otherwise focus lands on the first control, which is what a reader
     // would reach with one Tab anyway.
-    const first = dialog?.querySelector<HTMLElement>(FOCUSABLE);
-    if (dialog?.hasAttribute("tabindex")) {
-      dialog.focus();
+    const first = dialog ? focusStops(dialog)[0] : null;
+    if (!first || dialog?.hasAttribute("tabindex")) {
+      focusContainer();
     } else {
-      (first ?? dialog)?.focus();
+      first.focus();
     }
     // Only the topmost dialog answers a key. Two of these can be open at once
     // — the phone's About button stays reachable beside a photo lightbox — and
@@ -113,8 +137,10 @@ export function useDialogChrome<T extends HTMLElement = HTMLElement>(
       // disappear as it is used — the export dialog disables Download while
       // it renders, the photo import grows a list — and a trap built from a
       // stale list sends focus to a control that is no longer there.
-      const stops = Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE));
+      const stops = focusStops(dialog);
       if (stops.length === 0) {
+        event.preventDefault();
+        focusContainer();
         return;
       }
       const active = document.activeElement;

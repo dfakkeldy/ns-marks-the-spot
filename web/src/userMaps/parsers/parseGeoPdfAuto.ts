@@ -73,7 +73,7 @@ export type ParseGeoPdfAutoEnvironment = {
   assetBaseUrl?: string;
 };
 
-const PDFJS_VERSION = "6.1.200";
+const PDFJS_VERSION = "6.2.108";
 const IOS_PREVIEW_MAX_EDGE = 2048;
 
 function createHtmlCanvas(
