@@ -13,10 +13,16 @@ for (const width of [390, 1440]) {
     }));
     await page.goto("/?basemap=osm&taxSale=off&layers=modern&position=45.81355,-61.47775,14");
     await expect(page).toHaveTitle(/NS Marks The Spot/);
-    await page.getByRole("button", { name: "Measure distance", exact: true }).click();
+    const measure = page.getByRole("button", { name: "Measure distance", exact: true });
+    await measure.click();
+    await expect(measure).toHaveAttribute("aria-pressed", "true");
     const map = page.locator(".map-canvas .leaflet-container");
-    await map.click({ position: { x: 180, y: 170 } });
-    await map.click({ position: { x: 240, y: 210 } });
+    // The desktop measurement buttons cover the upper-left map area. Place
+    // points below that dock so font metrics cannot turn a map tap into a
+    // click on Finish, and verify the first point before placing the second.
+    await map.click({ position: { x: 180, y: 320 } });
+    await expect(page.getByRole("button", { name: "Undo point", exact: true })).toBeEnabled();
+    await map.click({ position: { x: 270, y: 390 } });
     const finish = page.getByRole("button", { name: "Finish", exact: true });
     await expect(finish).toBeEnabled();
     await page.getByRole("button", { name: "Show licences", exact: true }).click();
