@@ -142,9 +142,10 @@ function MeasureCapture({
 
   useEffect(() => {
     if (suspended) return;
+    const doubleClickZoomWasEnabled = map.doubleClickZoom.enabled();
     map.doubleClickZoom.disable();
     return () => {
-      map.doubleClickZoom.enable();
+      if (doubleClickZoomWasEnabled) map.doubleClickZoom.enable();
     };
   }, [map, suspended]);
 
@@ -182,12 +183,13 @@ function MeasureCapture({
   useEffect(() => {
     if (suspended) return;
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented) return;
       const target = event.target;
       if (
         target instanceof HTMLElement &&
-        (target instanceof HTMLInputElement ||
-          target instanceof HTMLTextAreaElement ||
-          target.isContentEditable)
+        (target.isContentEditable || target.closest(
+          'input, textarea, select, button, summary, a[href], [role="dialog"], [role="alertdialog"], [contenteditable]:not([contenteditable="false"])',
+        ))
       ) {
         return;
       }

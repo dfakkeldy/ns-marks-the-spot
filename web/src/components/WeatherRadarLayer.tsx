@@ -40,8 +40,10 @@ export function WeatherRadarLayer({
     }
 
     let disposed = false;
+    let failed = false;
     let observedAt: string | undefined;
-    const controller = new AbortController();
+    let controller: AbortController | undefined;
+    let frameRequest = 0;
     onStatusChange?.(layer.id, { status: "loading" });
 
     const wmsLayer = L.tileLayer.wms(layer.serviceUrl, {
@@ -52,21 +54,28 @@ export function WeatherRadarLayer({
       opacity: layer.opacity,
       zIndex: WEATHER_RADAR_Z_INDEX,
     });
-    wmsLayer.on("loading", () =>
-      onStatusChange?.(layer.id, { status: "loading" }),
-    );
-    wmsLayer.on("load", () =>
-      onStatusChange?.(layer.id, { status: "ready", observedAt }),
-    );
-    wmsLayer.on("tileerror", () =>
-      onStatusChange?.(layer.id, { status: "error" }),
-    );
+    wmsLayer.on("loading", () => {
+      if (disposed) return;
+      failed = false;
+      onStatusChange?.(layer.id, { status: "loading" });
+    });
+    wmsLayer.on("load", () => {
+      if (!disposed && !failed) onStatusChange?.(layer.id, { status: "ready", observedAt });
+    });
+    wmsLayer.on("tileerror", () => {
+      if (disposed) return;
+      failed = true;
+      onStatusChange?.(layer.id, { status: "error" });
+    });
     wmsLayer.addTo(map);
 
     const applyLatestFrame = () => {
+      const request = ++frameRequest;
+      controller?.abort();
+      controller = new AbortController();
       fetchLatestRadarTime(layer, controller.signal)
         .then((time) => {
-          if (disposed || time === null || time === observedAt) {
+          if (disposed || request !== frameRequest || time === null || time === observedAt) {
             return;
           }
           observedAt = time;
@@ -74,8 +83,8 @@ export function WeatherRadarLayer({
           wmsLayer.setParams({ time } as unknown as L.WMSParams);
         })
         .catch(() => {
-          // A failed probe is not a tile failure: the layer keeps rendering
-          // the server-default latest frame, just without a stated time.
+          // A failed probe is not a tile failure: retain the current frame
+          // and its last known observation time, if any.
         });
     };
     applyLatestFrame();
@@ -86,9 +95,11 @@ export function WeatherRadarLayer({
 
     return () => {
       disposed = true;
-      controller.abort();
+      controller?.abort();
       window.clearInterval(timer);
+      // Leaflet's remove listener detaches the layer's map event handlers.
       wmsLayer.remove();
+      wmsLayer.off();
     };
   }, [layer, map, onStatusChange, shown]);
 

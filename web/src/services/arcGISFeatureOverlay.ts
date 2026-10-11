@@ -41,7 +41,7 @@ function featureKey<G extends GeoJSON.Geometry>(
   idField: string,
 ): string {
   const sourceId = feature.properties[idField];
-  return String(feature.id ?? sourceId ?? JSON.stringify(feature.geometry));
+  return String(sourceId ?? feature.id ?? JSON.stringify(feature.geometry));
 }
 
 export async function fetchArcGISFeatureOverlay<

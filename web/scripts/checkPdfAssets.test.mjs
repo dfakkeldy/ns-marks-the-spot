@@ -9,7 +9,7 @@ import {
   preparePdfAssets,
 } from "./preparePdfAssets.mjs";
 
-async function fakePackage(version = "6.1.200") {
+async function fakePackage(version = "6.2.108") {
   const root = await mkdtemp(join(tmpdir(), "pdfjs-assets-source-"));
   await writeFile(
     join(root, "package.json"),
@@ -27,7 +27,7 @@ async function fakePackage(version = "6.1.200") {
 test("prepares only the pinned local asset directories with stable hashes", async () => {
   const source = await fakePackage();
   const parent = await mkdtemp(join(tmpdir(), "pdfjs-assets-target-"));
-  const target = join(parent, "6.1.200");
+  const target = join(parent, "6.2.108");
   await mkdir(target);
   await writeFile(join(target, "stale.txt"), "stale");
   await writeFile(join(parent, "keep.txt"), "keep");
@@ -46,7 +46,7 @@ test("refuses any pdfjs-dist version other than the exact pin", async () => {
   const target = await mkdtemp(join(tmpdir(), "pdfjs-assets-refuse-"));
   await assert.rejects(
     preparePdfAssets({ source, target }),
-    /6\.1\.200/,
+    /6\.2\.108/,
   );
 });
 

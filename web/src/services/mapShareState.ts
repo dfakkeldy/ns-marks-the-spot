@@ -110,7 +110,13 @@ function clamp(value: number, minimum: number, maximum: number): number {
 }
 
 function parsePosition(value: string | null): MapPosition {
-  const [rawLatitude, rawLongitude, rawZoom] = (value ?? "").split(",");
+  const parts = (value ?? "").split(",");
+  // Number("") is zero: a missing coordinate must not turn into a real
+  // position at the edge of the province after clamping.
+  if (parts.length !== 3 || parts.some((part) => part.trim() === "")) {
+    return DEFAULT_MAP_POSITION;
+  }
+  const [rawLatitude, rawLongitude, rawZoom] = parts;
   const latitude = Number(rawLatitude);
   const longitude = Number(rawLongitude);
   const zoom = Number(rawZoom);

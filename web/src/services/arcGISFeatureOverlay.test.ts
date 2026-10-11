@@ -141,6 +141,22 @@ describe("ArcGIS feature overlays", () => {
     expect(requestUrl.searchParams.get("orderByFields")).toBe("geo_id");
   });
 
+  it("deduplicates by the declared source identifier before a response feature id", async () => {
+    const first = { ...feature(1), properties: { geo_id: "source-one" } };
+    const second = { ...feature(1), properties: { geo_id: "source-two" } };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      type: "FeatureCollection", features: [first, second],
+    }))));
+
+    const collection = await fetchArcGISFeatureOverlay({
+      serviceUrl: "https://example.test/FeatureServer/0",
+      bounds: { west: -62, south: 45, east: -60, north: 47 },
+      outFields: ["geo_id"],
+    });
+
+    expect(collection.features.map(({ properties }) => properties.geo_id)).toEqual(["source-one", "source-two"]);
+  });
+
   it("pages and deduplicates by a caller-supplied identifier for services without geo_id", async () => {
     const wellPage = Array.from({ length: 2_000 }, (_, index) => ({
       type: "Feature" as const,
