@@ -861,15 +861,15 @@
       "opacity": 0.92,
       "outFields": [
         "geo_id",
-        "ShaftID",
-        "Name",
-        "Opening_ty",
-        "Degree_Haz",
-        "Protection"
+        "shaftid",
+        "name",
+        "opening_ty",
+        "degree_haz",
+        "protection"
       ],
       "scale": "Approximate point inventory",
-      "serviceUrl": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
-      "sourceDate": "2024 · version 9",
+      "serviceUrl": "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
+      "sourceDate": "Version 9 · extract June 11, 2024",
       "sourceUrl": "https://novascotia.ca/natr/meb/download/dp010.asp",
       "uiOrder": 29,
       "webCaveat": "Provincial hazard inventory; locations and conditions may change",
