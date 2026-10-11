@@ -99,12 +99,12 @@ public enum ResourceIntersectionResponse {
                 relationship: relationship
             )
         case .abandonedMine:
-            let id = text(attributes["ShaftID"]) ?? text(attributes["geo_id"]) ?? "Unnumbered"
-            let hazard = trimmed(attributes["Degree_Haz"]).map { "Hazard: \($0)" }
+            let id = text(attributes["shaftid"]) ?? text(attributes["geo_id"]) ?? "Unnumbered"
+            let hazard = trimmed(attributes["degree_haz"]).map { "Hazard: \($0)" }
             return Intersection(
                 id: id,
-                name: trimmed(attributes["Name"]) ?? "Abandoned mine opening \(id)",
-                detail: [trimmed(attributes["Opening_ty"]), hazard]
+                name: trimmed(attributes["name"]) ?? "Abandoned mine opening \(id)",
+                detail: [trimmed(attributes["opening_ty"]), hazard]
                     .compactMap(\.self)
                     .joined(separator: " · "),
                 relationship: relationship

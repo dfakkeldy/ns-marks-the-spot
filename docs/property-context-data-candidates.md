@@ -97,7 +97,7 @@ inventory of published openings. No nearby point is not proof that no historical
 working exists.
 
 - [Official Abandoned Mine Openings database](https://novascotia.ca/natr/meb/download/dp010.asp)
-- [Degree-of-hazard FeatureServer](https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0)
+- [Degree-of-hazard FeatureServer, version 9](https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4) (the map's source since October 2026; see [the source check](research/2026-10-10-abandoned-mine-openings-v9.md))
 - [Abandoned-mine safety program](https://novascotia.ca/natr/meb/hazard-assessment/abandoned-mines.asp)
 
 ### 5. Wet ground, drainage, and wetlands

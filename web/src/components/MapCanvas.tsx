@@ -720,15 +720,17 @@ function resourceFeatureLabel(
   layerId: ResourceLayerId,
   properties: Record<string, unknown>,
 ): string {
-  const name = String(properties.Name ?? "").trim();
   if (layerId === "mineral-occurrences") {
+    const name = String(properties.Name ?? "").trim();
     const commodity = String(
       properties.Comm_list ?? properties.Comm_prim ?? "",
     ).trim();
     return [name || "Mineral occurrence", commodity].filter(Boolean).join(" · ");
   }
 
-  const hazard = String(properties.Degree_Haz ?? "").trim();
+  // The provincial abandoned-mine service publishes lower-case field names.
+  const name = String(properties.name ?? "").trim();
+  const hazard = String(properties.degree_haz ?? "").trim();
   return [name || "Abandoned mine opening", hazard && `Hazard: ${hazard}`]
     .filter(Boolean)
     .join(" · ");
