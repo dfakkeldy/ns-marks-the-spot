@@ -227,8 +227,11 @@ authorized-owner determination. Do not insert a guessed plist answer.
    verify whether the app's evidence/PDF/geometry exports fall within the
    permitted scope or need separate clearance. A user's acceptance is not a
    blanket publisher redistribution grant.
-4. **OSM and other credited sources.** Native OSM requests identify the app and
-   use HTTP caching; it is not included in named offline saved-area downloads.
+4. **OSM and other credited sources.** Native OSM, Atlas and provincial service
+   requests identify the app with
+   `NSMarksTheSpot/<version> iOS (+https://kinnokilabs.com/apps/nsmarksthespot/)`
+   (provincial requests since #600). OSM uses HTTP caching and is not included
+   in named offline saved-area downloads.
    Keep on-map/export attribution. Review current host policies and the Atlas
    raster's provincial/OpenFreeMap/OpenMapTiles/OSM derivative terms for final
    distribution. Do not interpret the repository MIT licence as a data licence.
