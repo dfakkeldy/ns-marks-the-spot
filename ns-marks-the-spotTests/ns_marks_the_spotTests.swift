@@ -431,6 +431,22 @@ struct TileStubbedSuites {
             }
         }
 
+        /// Every provincial map image comes through `imageData`, on screen,
+        /// in print and in saved areas, so the request it sends has to name
+        /// the app: that is how the Province tells the public's traffic from
+        /// bulk scraping.
+        @Test func imageRequestsIdentifyThisApp() async throws {
+            let png = try #require(Data(base64Encoded: Self.onePixelPNGBase64))
+            TileFetcherURLProtocol.reset(statusCode: 200, contentType: "image/png", data: png)
+            let fetcher = TileFetcher(urlSession: makeURLSession())
+            let url = try #require(URL(string: "https://example.com/arcgis/rest/services/layer/MapServer/export"))
+
+            _ = try await fetcher.imageData(from: url)
+
+            let request = try #require(TileFetcherURLProtocol.requests.first)
+            #expect(request.value(forHTTPHeaderField: "User-Agent") == ClientIdentity.userAgent)
+        }
+
         static let onePixelPNGBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII="
 
         private func makeTemporaryRoot() -> URL {
