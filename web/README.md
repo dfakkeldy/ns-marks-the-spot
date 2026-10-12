@@ -373,6 +373,18 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
 
+An **Unavailable layers** disclosure below the categories starts collapsed on
+both the main and Rhodena maps. Its three disabled informational entries explain
+the existing forestry exclusions: the two 2005–2007 WAM overlays have
+**Data-quality concerns**, and recorded forest treatments have **Permission
+unavailable**. These neutral labels do not claim a formal refusal. **Permission
+pending** is reserved for a verified request still under review; none of the
+current three exclusions is described that way. No private correspondence or
+call details are included. The display-only notices have no toggles, service
+URLs or export settings and do not change the production catalogue, shared/saved
+state sanitization, Province acknowledgement or PDF guards. Church's separate
+historical-map disclosure and all other categories are unchanged.
+
 The web-only `contextLayerCatalog` has 73 default-off research controls.
 The original GeoNova group is 38 of those, across these categories:
 provincial topography, 15 OGL-NS infrastructure and mapped-place overlays,
