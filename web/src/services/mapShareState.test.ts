@@ -252,3 +252,54 @@ describe("basemap style in shared links", () => {
     expect(parseMapShareState("https://example.test/?basemap=sepia").basemapStyle).toBeUndefined();
   });
 });
+
+describe("focus-page month and spot in shared links", () => {
+  const base: MapShareState = {
+    taxSaleEnabled: false,
+    mode: "current",
+    pid: null,
+    eventIds: [],
+    layerIds: ["modern", "fishing-spots"],
+    position: { latitude: 45.85, longitude: -61.35, zoom: 9 },
+  };
+
+  it("round-trips a month and a spot", () => {
+    const url = buildMapShareUrl("https://example.test/fishing", { ...base, month: 10, spot: "S04" });
+    expect(new URL(url).searchParams.get("month")).toBe("10");
+    expect(new URL(url).searchParams.get("spot")).toBe("S04");
+    expect(parseMapShareState(url)).toEqual({ ...base, month: 10, spot: "S04" });
+  });
+
+  it("leaves both out of a link that sets neither", () => {
+    const url = new URL(buildMapShareUrl("https://example.test/fishing", base));
+    expect(url.searchParams.has("month")).toBe(false);
+    expect(url.searchParams.has("spot")).toBe(false);
+    expect(parseMapShareState(url.href)).not.toHaveProperty("month");
+    expect(parseMapShareState(url.href)).not.toHaveProperty("spot");
+  });
+
+  it.each(["0", "13", "1.5", "01", "-3", "", "October", "1e1"])("rejects month=%s", (value) => {
+    expect(parseMapShareState(`https://example.test/fishing?month=${encodeURIComponent(value)}`)).not.toHaveProperty("month");
+  });
+
+  it.each(["1", "9", "12"])("accepts month=%s", (value) => {
+    expect(parseMapShareState(`https://example.test/fishing?month=${value}`).month).toBe(Number(value));
+  });
+
+  it.each(["s04", "S4", "S004", "X01", "S04;", "", "../S04"])("rejects spot=%s", (value) => {
+    expect(parseMapShareState(`https://example.test/fishing?spot=${encodeURIComponent(value)}`)).not.toHaveProperty("spot");
+  });
+
+  it("never writes an invalid month or spot handed to it", () => {
+    const url = new URL(buildMapShareUrl("https://example.test/fishing", { ...base, month: 13, spot: "nope" }));
+    expect(url.searchParams.has("month")).toBe(false);
+    expect(url.searchParams.has("spot")).toBe(false);
+  });
+
+  it("does not count a month or spot as shared map state", () => {
+    expect(hasRecognizedMapShareState("https://example.test/fishing?month=10")).toBe(false);
+    expect(hasRecognizedMapShareState("https://example.test/fishing?spot=S04")).toBe(false);
+    expect(hasRecognizedMapShareState("https://example.test/fishing?month=10&spot=S04&basemap=osm")).toBe(false);
+    expect(hasRecognizedMapShareState("https://example.test/fishing?month=10&layers=modern")).toBe(true);
+  });
+});

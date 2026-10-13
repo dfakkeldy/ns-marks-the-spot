@@ -12,6 +12,12 @@ export interface ContextLayerDescriptor {
   sourceUrl: string;
   licenceUrl: string;
   licence: "public-facts" | "province-open" | "province-restricted" | "province-unrestricted" | "cc-by" | "canada-open" | "halifax-open";
+  /**
+   * A layer this project compiled itself (its `sourceUrl` is the project's own
+   * receipt, not a publisher record). Its source links read "Project source",
+   * never "Official source".
+   */
+  provenance?: "project-derived";
   attribution?: string;
   sourceDate: string;
   scale: string;

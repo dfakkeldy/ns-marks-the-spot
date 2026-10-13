@@ -1,0 +1,42 @@
+{
+  "type": "FeatureCollection",
+  "fixtureNote": "Trimmed live response from the DFO Small Craft Harbours MapServer layer 1 (query where Province = 'NS', f=geojson), retrieved 2026-10-13. Contains information licensed under the Open Government Licence - Canada. Source: Fisheries and Oceans Canada, Small Craft Harbours Locations and Information. Test fixture only; the map queries the live service.",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 24,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.43519999999995,
+          45.64820000000003
+        ]
+      },
+      "properties": {
+        "OBJECTID": 24,
+        "Harbour_number": 1010,
+        "Harbour_Name": "Aulds Cove",
+        "Harbour_Type": "Non-Core Fishing",
+        "Managed_by": "Harbour Authority of Aulds Cove"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 894,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.07779999999997,
+          45.511720000000025
+        ]
+      },
+      "properties": {
+        "OBJECTID": 894,
+        "Harbour_number": 1339,
+        "Harbour_Name": "West Arichat",
+        "Harbour_Type": "Non-Core Fishing",
+        "Managed_by": "No harbour authority"
+      }
+    }
+  ]
+}

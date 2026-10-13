@@ -71,6 +71,8 @@ export type PrintLayerSource = {
   attribution: string;
   /** Null when the publisher states no licence terms for the source. */
   licenceUrl: string | null;
+  /** Set when `sourceUrl` is the project's own receipt, not a publisher record. */
+  provenance?: "project-derived";
 };
 
 export type PrintEvent = {

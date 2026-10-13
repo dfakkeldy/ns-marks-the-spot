@@ -1,0 +1,60 @@
+{
+  "type": "FeatureCollection",
+  "fixtureNote": "Trimmed live response from the DFO Small Craft Harbours MapServer layer 0 (query where Province = 'NS', f=geojson), retrieved 2026-10-13. Contains information licensed under the Open Government Licence - Canada. Source: Fisheries and Oceans Canada, Small Craft Harbours Locations and Information. Test fixture only; the map queries the live service.",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 342,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.52769999999998,
+          45.68880000000007
+        ]
+      },
+      "properties": {
+        "OBJECTID": 342,
+        "Harbour_number": 1124,
+        "Harbour_Name": "Havre Boucher",
+        "Harbour_Type": "Core Fishing",
+        "Managed_by": "Harbour Authority of Havre Boucher"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 394,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.503499999999974,
+          45.85800000000006
+        ]
+      },
+      "properties": {
+        "OBJECTID": 394,
+        "Harbour_number": 1139,
+        "Harbour_Name": "Judique (Baxters Cove)",
+        "Harbour_Type": "Core Fishing",
+        "Managed_by": "Harbour Authority of Judique Baxter's"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 622,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.960399999999936,
+          45.50580000000008
+        ]
+      },
+      "properties": {
+        "OBJECTID": 622,
+        "Harbour_number": 1408,
+        "Harbour_Name": "Petit-de-Grat",
+        "Harbour_Type": "Core Fishing",
+        "Managed_by": "Administration Portuaire de Petit de Grat"
+      }
+    }
+  ]
+}

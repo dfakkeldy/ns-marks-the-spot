@@ -137,6 +137,17 @@ describe("ContextFeatureLayer", () => {
     expect(popup.textContent).toContain(layer.sourceDate); expect(popup.textContent).toContain(layer.webCaveat);
     expect(popup.querySelector("a")).toHaveAttribute("href", layer.sourceUrl);
     expect(popup.querySelector("a")).toHaveAttribute("rel", "noreferrer");
+    expect(popup.querySelector("a")).toHaveTextContent("Official source");
+  });
+
+  it("names a project-compiled layer's popup link a project source", async () => {
+    render(<ContextFeatureLayer layer={{ ...layer, provenance: "project-derived" }} visible renderMode="interactive" />);
+    await waitFor(() => expect(mocks.geoJSON).toHaveBeenCalledOnce());
+    const bindPopup = vi.fn();
+    geometryOptions().onEachFeature?.(feature, { bindPopup } as unknown as L.Layer);
+    const link = (bindPopup.mock.calls[0][0] as HTMLElement).querySelector("a");
+    expect(link).toHaveTextContent("Project source");
+    expect(link).toHaveAttribute("href", layer.sourceUrl);
   });
 
   it("disables print interaction and popups while retaining snap exclusion", async () => {

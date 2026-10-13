@@ -78,7 +78,7 @@ export function ContextFeatureLayer({ layer, visible, onStatusChange, renderMode
             link.href = layer.sourceUrl;
             link.target = "_blank";
             link.rel = "noreferrer";
-            link.textContent = "Official source";
+            link.textContent = layer.provenance === "project-derived" ? "Project source" : "Official source";
             article.append(title, details, note, link);
             featureLayer.bindPopup(article);
           },

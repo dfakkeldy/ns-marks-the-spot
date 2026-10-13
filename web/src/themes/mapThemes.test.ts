@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
+import { contextLayerCatalog } from "../layers/contextLayerCatalog";
+import {
+  allResourceLayerCatalog,
+  environmentalHealthLayerCatalog,
+  floodHazardLayerCatalog,
+  provinceLayerCatalog,
+} from "../layers/layerCatalog";
+import type { ShareLayerId } from "../services/mapShareState";
 import {
   buildMapPresentationFixture,
   builtInMapThemes,
   validateMapTheme,
 } from "./mapThemes";
+import { matchTheme, resolveTheme } from "./themeState";
 
 /**
  * The fixture lives under the Swift package's test resources, beside
@@ -135,6 +144,85 @@ describe("built-in map themes", () => {
     await expect(
       `${JSON.stringify(buildMapPresentationFixture(), null, 2)}\n`,
     ).toMatchFileSnapshot(MAP_PRESENTATION_FIXTURE_PATH);
+  });
+});
+
+describe("Fishing setup", () => {
+  const fishing = builtInMapThemes.find(({ id }) => id === "fishing")!;
+  // The same restricted set App uses to decide whether a named setup needs the licence.
+  const restricted = new Set<ShareLayerId>([
+    ...provinceLayerCatalog.filter(({ licence }) => licence === "province-restricted").map(({ id }) => id),
+    ...allResourceLayerCatalog.filter((layer) => "requiresProvinceLicence" in layer && layer.requiresProvinceLicence).map(({ id }) => id),
+    ...floodHazardLayerCatalog.filter(({ licence }) => licence === "province-restricted").map(({ id }) => id),
+    ...environmentalHealthLayerCatalog.filter(({ licence }) => licence === "province-restricted").map(({ id }) => id),
+    ...contextLayerCatalog.filter(({ licence }) => licence === "province-restricted").map(({ id }) => id),
+  ]);
+
+  it("opens open water, access and fishing context on one modern background", () => {
+    expect(fishing).toMatchObject({
+      name: "Fishing",
+      layerIds: [
+        "modern",
+        "fishing-spots",
+        "stocked-waters",
+        "dfo-small-craft-harbours-core",
+        "dfo-small-craft-harbours-non-core",
+        "water-features",
+        "nshn-spines",
+        "wsc-hydrometric-stations",
+        "wharves-coastal-structures",
+        "protected-conservation-areas",
+        "roads",
+        "campgrounds",
+      ],
+      preferredCategoryIds: ["water-terrain", "roads-places", "land-property"],
+      taxSaleEnabled: false,
+      mapMode: "current",
+    });
+    expect(fishing.description).toBeTruthy();
+    expect(validateMapTheme(fishing)).toEqual([]);
+  });
+
+  it("needs no Province licence, so a first visit applies it exactly", () => {
+    expect(fishing.layerIds.filter((id) => restricted.has(id))).toEqual([]);
+    const resolved = resolveTheme(fishing, {
+      licenceAccepted: false,
+      availableLayerIds: new Set<ShareLayerId>(fishing.layerIds),
+      restrictedLayerIds: restricted,
+    });
+    expect(resolved).toMatchObject({ status: "exact", blockedLayerIds: [], unavailableLayerIds: [] });
+  });
+
+  it("leaves the DFO aquatic species-at-risk layers out of the setup", () => {
+    expect(contextLayerCatalog.map(({ id }) => id)).toEqual(expect.arrayContaining(["dfo-aquatic-critical-habitat", "dfo-aquatic-sar-range"]));
+    expect(fishing.layerIds).not.toContain("dfo-aquatic-critical-habitat");
+    expect(fishing.layerIds).not.toContain("dfo-aquatic-sar-range");
+  });
+
+  it("leaves out waterfalls, whose first appearance refits the map to the whole province", () => {
+    // MapCanvas's LayerZoomController fits WATERFALL_DISCOVERY_BOUNDS when the
+    // layer becomes visible, which would override the camera of a fishing link.
+    expect(fishing.layerIds).not.toContain("waterfalls");
+  });
+
+  it("leaves out the GeoNAMES place-name dots, which bury the spot pins at the opening zoom", () => {
+    expect(fishing.layerIds).not.toContain("place-names");
+  });
+
+  it("opens no province layer that would zoom the map in past the spot overview", () => {
+    // LayerZoomController zooms to the largest minZoom >= 12 among the visible
+    // province layers (property boundaries excepted), which would take a
+    // fishing link from the spot overview to a few kilometres of shore.
+    const detail = provinceLayerCatalog.filter(({ id, minZoom }) => id !== "nsprd" && minZoom >= 12).map(({ id }) => id);
+    expect(fishing.layerIds.filter((id) => detail.includes(id as never))).toEqual([]);
+    expect(fishing.layerIds).not.toContain("crown-lands");
+  });
+
+  it("is the setup its own layers identify, and stays outside the native presentation contract", () => {
+    expect(matchTheme(fishing, builtInMapThemes)?.id).toBe("fishing");
+    expect(buildMapPresentationFixture().builtInThemes.some(({ id }) => id === "fishing")).toBe(false);
+    const nativeLayerIds = buildMapPresentationFixture().builtInThemes.flatMap(({ layerIds }) => layerIds);
+    for (const { id } of contextLayerCatalog) expect(nativeLayerIds).not.toContain(id);
   });
 });
 
