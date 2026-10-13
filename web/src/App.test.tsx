@@ -9,9 +9,11 @@ import {
   within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { readFileSync } from "node:fs";
 import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
+import { resetFishingDataForTests } from "./fishing/data";
 import { RUMSEY_COLLECTION_TERMS_URL } from "./licensing/rumseyLicense";
 import {
   PROVINCE_ATTRIBUTION,
@@ -198,8 +200,14 @@ vi.mock("./components/MapCanvas", () => ({
     exportFrame,
     onExportFrameContinue,
     backgroundSwitch,
+    focusFit,
+    fishingSpots,
+    rhodenaPickPending,
   }: {
     backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
+    fishingSpots?: unknown;
+    focusFit?: { revision: number; bounds: [[number, number], [number, number]] | null };
+    rhodenaPickPending?: boolean;
     poker?: import("./components/PokerMapTools").PokerSession | null;
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -365,6 +373,9 @@ vi.mock("./components/MapCanvas", () => ({
         : "none"}
       ; export frame: {exportFrame ? "framing" : "none"}
       ; selected PID: {selectedPid ?? "none"}
+      ; focus fit: {focusFit?.revision ?? 0}; viewpoint pick: {rhodenaPickPending ? "pending" : "none"}
+      ; focus fit bounds: {focusFit?.bounds ? focusFit.bounds.flat().join(",") : "none"}
+      ; spots page state: {fishingSpots ? "page" : "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -1056,6 +1067,239 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).toContain("rhodena-visibility"));
     await user.click(screen.getByRole("button", { name: "Hide turbine visibility" }));
     await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).not.toContain("rhodena-visibility"));
+  });
+
+  it("opens the Rhodena page on the project camera unless the link carries a position", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena");
+
+    const first = render(<App focus="rhodena" />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.785,-61.405,11; preserve initial position: no");
+    expect(screen.getByRole("button", { name: "Rhodena Wind — summary and layers" })).toHaveClass("mobile-map-brand", "rhodena-brand");
+    expect(document.querySelector(".app-shell.rhodena-focus .rhodena-focus-footer .rhodena-full-map-link")).not.toBeNull();
+    first.unmount();
+
+    window.history.replaceState(null, "", "/rhodena?position=45.78,-61.4,13");
+    render(<App focus="rhodena" />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.78,-61.4,13; preserve initial position: yes");
+    // Rhodena has no spot cards, so the spots layer never takes its page state.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("spots page state: none");
+  });
+
+  it("opens the Rhodena setup on the full map at the project camera, with the full map's own chrome", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=rhodena");
+
+    render(<App />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.785,-61.405,11");
+    expect(screen.getByRole("combobox", { name: /Map setup/ })).toBeInTheDocument();
+    expect(screen.queryByRole("group", { name: "Background" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Open this view in the full NS Marks map/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "NS Marks The Spot home" })).toBeInTheDocument();
+    expect(document.querySelector(".app-shell")).not.toHaveClass("rhodena-focus");
+  });
+
+  it("zooms to the project and starts a viewpoint pick from the Rhodena summary", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena");
+
+    render(<App focus="rhodena" />);
+    const canvas = screen.getByTestId("map-canvas");
+    expect(canvas).toHaveTextContent("focus fit: 0; viewpoint pick: none");
+
+    await user.click(screen.getByRole("button", { name: "Zoom to the project area" }));
+    expect(canvas).toHaveTextContent("focus fit: 1; viewpoint pick: none");
+
+    await user.click(screen.getByRole("button", { name: "Check the view from a spot" }));
+    expect(canvas).toHaveTextContent("focus fit: 1; viewpoint pick: pending");
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).toContain("rhodena-visibility"));
+  });
+
+  it("zooms to Rhodena when its setup is chosen on the full map, and not for other setups", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+
+    render(<App />);
+    const canvas = screen.getByTestId("map-canvas");
+    const mapSetup = screen.getByRole("combobox", { name: /Map setup/ });
+
+    await userEvent.selectOptions(mapSetup, "historical-maps");
+    expect(canvas).toHaveTextContent("focus fit: 0");
+    await userEvent.selectOptions(mapSetup, "rhodena");
+    expect(canvas).toHaveTextContent("focus fit: 1");
+  });
+
+  it("leaves a setup with no focus page at the default camera", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=electoral-districts");
+
+    render(<App />);
+
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("initial position: 45.785,-61.405,11");
+  });
+
+  describe("the /fishing page", () => {
+    // The page reads its own files from public/fishing/, like the browser.
+    beforeEach(() => {
+      resetFishingDataForTests();
+      vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+        const name = String(input).match(/fishing\/(spots\.geojson|calendar\.json|rules\.json)$/u)?.[1];
+        return name
+          ? new Response(readFileSync(`public/fishing/${name}`, "utf8"), { status: 200 })
+          : new Response("", { status: 404 });
+      }));
+    });
+    afterEach(() => {
+      vi.unstubAllGlobals();
+      resetFishingDataForTests();
+    });
+
+    it("opens on its spots with its own summary, dedication and categories", async () => {
+      window.history.replaceState(null, "", "/fishing");
+
+      render(<App focus="fishing" />);
+
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Fishing spots — Cape Breton and the Strait of Canso");
+      expect(screen.getByRole("heading", { level: 2, name: "Fishing spots" })).toBeInTheDocument();
+      expect(screen.getByText("For Darrell, who never needed a reason to go fishing.")).toBeInTheDocument();
+      expect(screen.queryByRole("combobox", { name: /Map setup/ })).not.toBeInTheDocument();
+      // The Fishing setup needs no Province licence, on this page either.
+      expect(screen.queryByRole("dialog", { name: /province data licence/i })).not.toBeInTheDocument();
+      for (const name of [/^Water & Terrain/, /^Land & Property/, /^Roads & Places/, /^Background Maps/]) {
+        expect(screen.getByRole("button", { name })).toBeInTheDocument();
+      }
+      for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/, /^Forestry & Ecology/, /^Rhodena Wind Project/]) {
+        expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
+      }
+      expect(await screen.findByText("All 27 spots")).toBeInTheDocument();
+      expect(document.querySelectorAll(".fishing-spot")).toHaveLength(27);
+      // Either stamp, so this test does not turn red when the summary's date
+      // passes; rules.test.ts covers the gate on a fixed clock.
+      expect(await screen.findByText(/Rules summary for the 2026 licence year|The 2026 rules summary passed its date/)).toBeInTheDocument();
+      // Fitted to the spots, because the link carries no camera of its own.
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 1; viewpoint pick: none");
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit bounds: 45.3,-62.2,46.4,-60.5");
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("spots page state: page");
+      expect(document.querySelector(".app-shell.fishing-focus .fishing-focus-footer .fishing-full-map-link")).not.toBeNull();
+      // The KinNoKi site's /fishing/ is a separate static guide; the footer links to it.
+      const guide = screen.getByRole("link", { name: "Strait and Bras d'Or fishing map" });
+      expect(guide).toHaveAttribute("href", "https://kinnokilabs.com/fishing/");
+      expect(guide.closest(".fishing-focus-footer")).not.toBeNull();
+      expect(screen.getByRole("button", { name: "Fishing spots — summary and spot list" })).toHaveClass("mobile-map-brand", "fishing-brand");
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.pathname).toBe("/fishing");
+        expect(url.searchParams.get("layers")?.split(",")).toContain("fishing-spots");
+        expect(url.searchParams.has("month")).toBe(false);
+      });
+    });
+
+    it("carries its month and spot in its links, and leaves them off the full map", async () => {
+      const user = userEvent.setup();
+      window.history.replaceState(null, "", "/fishing?month=1&spot=S25");
+
+      render(<App focus="fishing" />);
+
+      expect(await screen.findByText("5 of 27 spots for January")).toBeInTheDocument();
+      expect(document.querySelector("#fishing-spot-S25 .fishing-spot-toggle")).toHaveAttribute("aria-expanded", "true");
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.searchParams.get("month")).toBe("1");
+        expect(url.searchParams.get("spot")).toBe("S25");
+      });
+      const fullMap = new URL(screen.getByRole("link", { name: /Open this view in the full NS Marks map/ }).getAttribute("href")!);
+      expect(fullMap.pathname).toBe("/");
+      expect(fullMap.searchParams.has("month")).toBe(false);
+      expect(fullMap.searchParams.has("spot")).toBe(false);
+      expect(fullMap.searchParams.get("layers")?.split(",")).toContain("fishing-spots");
+
+      // Gillis and Cameron lakes are not listed for August, so the card closes.
+      await user.selectOptions(screen.getByRole("combobox", { name: "Month" }), "8");
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.searchParams.get("month")).toBe("8");
+        expect(url.searchParams.has("spot")).toBe(false);
+      });
+      await user.click(screen.getByRole("button", { name: "Clear filters" }));
+      await waitFor(() => expect(new URL(window.location.href).searchParams.has("month")).toBe(false));
+    });
+
+    it("keeps the public short URL in its share link", async () => {
+      // The site serves the page at /fishmap, a rewrite onto the map's fishing page.
+      window.history.replaceState(null, "", "/fishmap?spot=S04");
+
+      render(<App focus="fishing" />);
+
+      expect(await screen.findByText("All 27 spots")).toBeInTheDocument();
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.pathname).toBe("/fishmap");
+        expect(url.searchParams.get("spot")).toBe("S04");
+        expect(url.searchParams.get("layers")?.split(",")).toContain("fishing-spots");
+      });
+    });
+
+    it("opens a shared camera as shared, with no fit", () => {
+      window.history.replaceState(null, "", "/fishing?position=45.6,-61,12");
+
+      render(<App focus="fishing" />);
+
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.6,-61,12; preserve initial position: yes");
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 0; viewpoint pick: none");
+    });
+
+    it("keeps the aquatic species-at-risk layers out of a shared fishing link", async () => {
+      window.history.replaceState(null, "", "/fishing?layers=modern,fishing-spots,dfo-aquatic-sar-range,dfo-aquatic-critical-habitat,mineral-tenure&taxSale=on");
+
+      render(<App focus="fishing" />);
+
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.searchParams.get("layers")?.split(",").sort()).toEqual(["fishing-spots", "modern"]);
+        expect(url.searchParams.get("taxSale")).toBe("off");
+      });
+    });
+
+    it("zooms to all spots from the summary", async () => {
+      const user = userEvent.setup();
+      window.history.replaceState(null, "", "/fishing");
+
+      render(<App focus="fishing" />);
+      await user.click(screen.getByRole("button", { name: "Zoom to all spots" }));
+
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 2; viewpoint pick: none");
+    });
+
+    it("ignores a month or spot on the full map", async () => {
+      localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+      window.history.replaceState(null, "", "/?month=10&spot=S04");
+
+      render(<App />);
+
+      await waitFor(() => expect(new URL(window.location.href).searchParams.has("layers")).toBe(true));
+      expect(new URL(window.location.href).searchParams.has("month")).toBe(false);
+      expect(new URL(window.location.href).searchParams.has("spot")).toBe(false);
+      expect(document.querySelector(".fishing-panel")).toBeNull();
+    });
+  });
+
+  it("keeps the fishing layers off the Rhodena page, in its panel and in shared links", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena?layers=modern,rhodena-turbines,fishing-spots,stocked-waters,dfo-small-craft-harbours-core&position=45.78,-61.4,13");
+    const user = userEvent.setup();
+
+    render(<App focus="rhodena" />);
+
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",").sort()).toEqual(["modern", "rhodena-turbines"]));
+    await user.click(screen.getByRole("button", { name: /^Water & Terrain/ }));
+    expect(screen.getByText("NSHN connected water spines")).toBeInTheDocument();
+    for (const name of ["Curated fishing spots", "Stocked waters (hatchery records)", "DFO small craft harbours · core fishing"]) {
+      expect(screen.queryByText(name)).not.toBeInTheDocument();
+    }
   });
 
   it("keeps exactly one page heading, outside the parts a phone hides", async () => {
@@ -2040,6 +2284,12 @@ describe("NS Marks The Spot Online", () => {
     expect(within(dialog).getByText("Provincial-first Atlas sources")).toBeInTheDocument();
     expect(within(dialog).getAllByRole("link", { name: "Official source" })
       .length).toBeGreaterThan(10);
+    // The curated spots link to the project's own receipt, never to a
+    // publisher record, so they read "Project source" as the popup does.
+    const spotsRow = within(dialog).getByText("Curated fishing spots").closest("li")!;
+    expect(within(spotsRow).getByRole("link", { name: "Project source" }))
+      .toHaveAttribute("href", expect.stringContaining("docs/gis-fishing-sources.md"));
+    expect(within(spotsRow).queryByRole("link", { name: "Official source" })).toBeNull();
     expect(
       within(dialog).getAllByRole("link", { name: "Licence" }).length,
     ).toBeGreaterThan(10);
@@ -4351,6 +4601,30 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByRole("button", { name: /accept/i })).toBeInTheDocument();
     expect(screen.getByTestId("map-canvas"))
       .toHaveTextContent("property boundaries: off");
+  });
+
+  it("opens the Fishing setup on a first visit without asking for the Province licence", async () => {
+    window.history.replaceState(null, "", "/?theme=fishing");
+
+    render(<App />);
+
+    expect(screen.queryByRole("dialog", { name: /province data licence/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /accept/i })).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Map setup")).toHaveValue("fishing");
+    expect(mapSetupStatus()).toHaveTextContent("Fishing");
+    // It borrows the /fishing camera, so it fits the spots as the page does.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 1");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit bounds: 45.3,-62.2,46.4,-60.5");
+    const fishing = builtInMapThemes.find(({ id }) => id === "fishing")!;
+    await waitFor(() => expect(
+      new URL(window.location.href).searchParams.get("layers")?.split(",").sort(),
+    ).toEqual([...fishing.layerIds].sort()));
+  });
+
+  it("keeps a shared camera on a Fishing setup link", () => {
+    window.history.replaceState(null, "", "/?theme=fishing&position=45.6,-61.3,13");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 0");
   });
 
   it("searches a civic address and opens its containing parcel", async () => {

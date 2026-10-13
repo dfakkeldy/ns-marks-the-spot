@@ -67,7 +67,25 @@ export type MapShareState = {
    * — a printed map's, say — names none.
    */
   themeId?: string;
+  /**
+   * A focus page's month filter (1-12) and selected spot (`S01`). Like
+   * `electoral`, they ride along with the map state without counting as
+   * shared map state: a month-only link is still a first visit.
+   */
+  month?: number;
+  spot?: string;
 };
+
+/** A spot id's shape; whether the spot exists is the page's call. */
+const SPOT_ID_PATTERN = /^S\d{2}$/u;
+
+export function parseShareMonth(value: string | null): number | undefined {
+  return value !== null && /^(?:[1-9]|1[0-2])$/u.test(value) ? Number(value) : undefined;
+}
+
+export function parseShareSpot(value: string | null): string | undefined {
+  return value !== null && SPOT_ID_PATTERN.test(value) ? value : undefined;
+}
 
 export const DEFAULT_MAP_POSITION: MapPosition = {
   latitude: 46.08,
@@ -157,6 +175,8 @@ export function parseMapShareState(value: string): MapShareState {
     if (isElectoralLayerId(id) && ["boundaries", "winner", "margin", "turnout"].includes(value)
         && (id === "provincial-results-2024" || id === "provincial-seats-2026" && ["boundaries", "winner"].includes(value))) electoralModes[id] = value as ElectoralMode;
   }
+  const month = parseShareMonth(url.searchParams.get("month"));
+  const spot = parseShareSpot(url.searchParams.get("spot"));
 
   return {
     ...(isBasemapStyle(basemap) ? { basemapStyle: basemap } : {}),
@@ -168,6 +188,8 @@ export function parseMapShareState(value: string): MapShareState {
     layerIds,
     position: parsePosition(url.searchParams.get("position")),
     ...(themeId ? { themeId } : {}),
+    ...(month !== undefined ? { month } : {}),
+    ...(spot !== undefined ? { spot } : {}),
   };
 }
 
@@ -176,7 +198,9 @@ export function parseMapShareState(value: string): MapShareState {
  * to restore instead of a first-visit default", and a link that names a setup
  * without any of them carries no layer list to restore — the named setup
  * supplies one. Listing `theme` here would restore an empty layer set and open
- * the map with nothing drawn.
+ * the map with nothing drawn. `month` and `spot` are absent for a similar
+ * reason: they filter and select a focus page's own list, so a link carrying
+ * only them still opens a phone on the page's summary.
  */
 const recognizedShareKeys = [
   "taxSale",
@@ -216,6 +240,10 @@ export function buildMapShareUrl(
   url.searchParams.set("layers", state.layerIds.filter(id => forestryExclusionReason(id) === null).join(","));
   const modes = Object.entries(state.electoralModes ?? {}).filter(([id,mode]) => isElectoralLayerId(id) && state.layerIds.includes(id) && mode !== initialElectoralModes[id]);
   if (modes.length) url.searchParams.set("electoral", modes.map(([id,mode]) => `${id}:${mode}`).join(","));
+  const month = parseShareMonth(state.month === undefined ? null : String(state.month));
+  if (month !== undefined) url.searchParams.set("month", String(month));
+  const spot = parseShareSpot(state.spot ?? null);
+  if (spot !== undefined) url.searchParams.set("spot", spot);
   url.searchParams.set(
     "position",
     [

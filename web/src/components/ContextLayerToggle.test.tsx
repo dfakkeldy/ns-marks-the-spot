@@ -25,4 +25,14 @@ describe("context layer control", () => {
     expect(screen.getByText("Source temporarily unavailable")).toBeInTheDocument();
     expect(screen.getByRole("list", { name: `${layer.name} legend` })).toBeInTheDocument();
   });
+  it("names a project-compiled layer's link a project source, not an official one", () => {
+    const spots = contextLayerCatalog.find(({ id }) => id === "fishing-spots")!;
+    render(<ContextLayerToggle layer={spots} checked={false} licenceAccepted={false}
+      status={{ status: "idle" }} onChange={vi.fn()} onReviewLicence={vi.fn()} />);
+    expect(screen.getByRole("checkbox", { name: spots.name })).toBeEnabled();
+    fireEvent.click(screen.getByText("Source & legend"));
+    expect(screen.getByRole("link", { name: "Project source" })).toHaveAttribute("href", spots.sourceUrl);
+    expect(screen.queryByRole("link", { name: "Official source" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Licence" })).toHaveAttribute("href", spots.licenceUrl);
+  });
 });

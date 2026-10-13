@@ -48,7 +48,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
             ))}
           </ul>
         ) : null}
-        <p><a href={layer.sourceUrl} target="_blank" rel="noreferrer">{layer.licence === "public-facts" ? "Assessment source" : "Official source"}</a>
+        <p><a href={layer.sourceUrl} target="_blank" rel="noreferrer">{layer.provenance === "project-derived" ? "Project source" : layer.licence === "public-facts" ? "Assessment source" : "Official source"}</a>
           {" · "}<a href={layer.licenceUrl} target="_blank" rel="noreferrer">{layer.licence === "public-facts" ? "Original source rights retained" : "Licence"}</a></p>
         <p>Mapped records and coverage may be incomplete. An empty map does not establish absence.</p>
       </details>
