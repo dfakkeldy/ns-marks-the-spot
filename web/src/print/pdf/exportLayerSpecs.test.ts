@@ -13,7 +13,7 @@ function inputs(overrides: Partial<ExportLayerInputs> = {}): ExportLayerInputs {
     bounds,
     showModernMap: true,
     fletcher: {
-      visible: true,
+      visible: false,
       opacity: 0.8,
       tileBaseUrl: "https://tiles.example",
       maxNativeZoom: 15,
@@ -47,26 +47,11 @@ describe("buildExportLayers", () => {
       expect(contextExportOmission(layer, layer.minZoom - 1)).toContain("below display scale");
     }
   });
-  it("keeps topographic imagery under aerial and Fletcher, and broad overlays under parcel lines", () => {
-    const layers = buildExportLayers(inputs({
-      arcgisLayers: [
-        { id: "nsprd", name: "Parcels", serviceUrl: "https://example.test/MapServer", exportOptions: { transparent: true }, opacity: 1 },
-        ...[...imageContextLayers].reverse(),
-        { id: "ns-aerial", name: "Aerial", serviceUrl: "https://example.test/MapServer", exportOptions: { transparent: false }, opacity: 1 },
-      ],
-    }));
-    const ids = layers.map(({ id }) => id);
-    expect(ids.indexOf("modern")).toBeLessThan(ids.indexOf("ns-topographic"));
-    expect(ids.indexOf("ns-topographic")).toBeLessThan(ids.indexOf("ns-aerial"));
-    expect(ids.indexOf("ns-aerial")).toBeLessThan(ids.findIndex((id) => id.startsWith("fletcher-")));
-    for (const layer of imageContextLayers.filter(({ zIndex }) => zIndex >= 165 && zIndex <= 195)) {
-      expect(ids.indexOf(layer.id)).toBeGreaterThan(ids.findIndex((id) => id.startsWith("fletcher-")));
-      expect(ids.indexOf(layer.id)).toBeLessThan(ids.indexOf("nsprd"));
-    }
-    for (const lower of imageContextLayers) {
-      for (const higher of imageContextLayers.filter(({ zIndex }) => zIndex > lower.zIndex)) {
-        expect(ids.indexOf(lower.id)).toBeLessThan(ids.indexOf(higher.id));
-      }
+  it("keeps confirmed open context imagery in its on-screen pane order", () => {
+    const layers = buildExportLayers(inputs({ arcgisLayers: [...imageContextLayers].reverse() }));
+    const ids = layers.map(layer => layer.id);
+    for (const lower of imageContextLayers) for (const higher of imageContextLayers.filter(layer => layer.zIndex > lower.zIndex)) {
+      expect(ids.indexOf(lower.id)).toBeLessThan(ids.indexOf(higher.id));
     }
   });
 
@@ -118,9 +103,9 @@ describe("buildExportLayers", () => {
       .toBe("1,1");
 
     const parcelLayer = buildExportLayers(inputs({ arcgisLayers: [{
-      id: "nsprd", name: "Parcels", serviceUrl: "https://example.test/MapServer",
+      id: "test-image", name: "Parcels", serviceUrl: "https://example.test/MapServer",
       exportOptions: { transparent: true }, opacity: 1,
-    }] })).find(({ id }) => id === "nsprd")!;
+    }] })).find(({ id }) => id === "test-image")!;
     if (parcelLayer.kind !== "image") throw new Error("Missing parcel export image");
     expect(new URL(parcelLayer.url({ bounds: closeBounds, widthPx: 3000, heightPx: 2000 })!).searchParams.get("size"))
       .toBe("3000,2000");
@@ -134,30 +119,12 @@ describe("buildExportLayers", () => {
     ).toBe(false);
   });
 
-  it("composites the Fletcher mosaic once at sheet overlaps", () => {
-    const layers = buildExportLayers(inputs());
-    const fletcher = layers.filter((l) => l.id.startsWith("fletcher-"));
-    // Bounds sit over Inverness sheets 11 and 13 (see fletcherSheets table);
-    // sheet 1 (Cape North) must not appear.
-    expect(fletcher).toHaveLength(1);
-    expect(fletcher[0].id).toBe("fletcher-mosaic");
-    expect(fletcher[0]).toMatchObject({ maxNativeZoom: 15 });
-    expect(fletcher.some((l) => l.id === "fletcher-01")).toBe(false);
+  it("locks Fletcher reproduction while preserving its source metadata", () => {
+    expect(() => buildExportLayers(inputs({ fletcher: { ...inputs().fletcher, visible: true } }))).toThrow(/Fletcher.*permission/i);
   });
 
-  it("a Fletcher sheet's url() is null for tiles outside the sheet", () => {
-    const layers = buildExportLayers(inputs());
-    const sheet = layers.find((l) => l.id.startsWith("fletcher-"));
-    expect(sheet?.kind).toBe("tile");
-    if (sheet?.kind !== "tile") return;
-    // z10 tile at the world's origin is nowhere near Nova Scotia.
-    expect(sheet.url({ z: 10, x: 0, y: 0 })).toBeNull();
-    // Verified against tileMath.tilesForBounds directly: the z12 tile
-    // covering (-61.2, 46.3) is {x: 1351, y: 1452}, not y=1442 — see the
-    // task report for the scratch check that established this.
-    expect(
-      sheet.url({ z: 12, x: 1351, y: 1452 }),
-    ).toMatch(/^https:\/\/tiles\.example\/.+\/12\/1351\/1452\.png$/u);
+  it("cannot reopen Fletcher reproduction by changing the tile host", () => {
+    expect(() => buildExportLayers(inputs({ fletcher: { ...inputs().fletcher, visible: true, tileBaseUrl: "https://other.example" } }))).toThrow(/permission/i);
   });
 
   it("asks an ArcGIS service for ONE frame-sized render, not a tile grid", () => {
@@ -167,14 +134,14 @@ describe("buildExportLayers", () => {
     // bbox export-image request per service at the exact output size".
     const layers = buildExportLayers(inputs({
       arcgisLayers: [{
-        id: "nsprd",
-        name: "Property boundaries",
+        id: "test-image",
+        name: "Test image",
         serviceUrl: "https://arcgis.example/rest/services/NSPRD/MapServer",
         exportOptions: { transparent: true, layers: "show:0" },
         opacity: 1,
       }],
     }));
-    const nsprd = layers.find((l) => l.id === "nsprd");
+    const nsprd = layers.find((l) => l.id === "test-image");
     expect(nsprd?.kind).toBe("image");
     if (nsprd?.kind !== "image") return;
 
@@ -203,8 +170,8 @@ describe("buildExportLayers", () => {
         visible: false, opacity: 1, tileBaseUrl: null, maxNativeZoom: 15,
       },
       arcgisLayers: [{
-        id: "nsprd",
-        name: "Property boundaries",
+        id: "test-image",
+        name: "Test image",
         serviceUrl: "https://arcgis.example/rest/services/NSPRD/MapServer",
         exportOptions: { transparent: true },
         opacity: 1,
@@ -225,14 +192,14 @@ describe("buildExportLayers", () => {
     );
 
     expect(statuses).toEqual([
-      { id: "nsprd", name: "Property boundaries", status: "rendered" },
+      { id: "test-image", name: "Test image", status: "rendered" },
     ]);
     // One. Not one per 256px tile of the frame.
     expect(requested).toHaveLength(1);
     expect(new URL(requested[0]).searchParams.get("size")).toBe("900,600");
   });
 
-  it("appends user maps and the parcel ring above tile layers", () => {
+  it("appends user maps above permitted tile layers", () => {
     const image = document.createElement("canvas");
     const layers = buildExportLayers(inputs({
       userMaps: [{
@@ -243,56 +210,18 @@ describe("buildExportLayers", () => {
         ],
         opacity: 0.7,
       }],
-      selectedParcelRings: [[
-        { lat: 46.3, lng: -61.2 }, { lat: 46.3, lng: -61.19 },
-        { lat: 46.29, lng: -61.19 }, { lat: 46.3, lng: -61.2 },
-      ]],
+
     }));
     const kinds = layers.map((l) => l.kind);
-    expect(kinds[kinds.length - 1]).toBe("parcel-ring");
-    expect(kinds[kinds.length - 2]).toBe("warped");
+    expect(kinds[kinds.length - 1]).toBe("warped");
   });
 
-  it("orders ns-aerial below Fletcher and user maps, matching mapPanes z-index (150 < 155 < 160)", () => {
-    const image = document.createElement("canvas");
-    const layers = buildExportLayers(inputs({
-      arcgisLayers: [{
-        id: "ns-aerial",
-        name: "NS Aerial",
-        serviceUrl: "https://arcgis.example/rest/services/AERIAL/MapServer",
-        exportOptions: { transparent: false },
-        opacity: 1,
-      }, {
-        id: "nsprd",
-        name: "Property boundaries",
-        serviceUrl: "https://arcgis.example/rest/services/NSPRD/MapServer",
-        exportOptions: { transparent: true },
-        opacity: 1,
-      }],
-      userMaps: [{
-        id: "um-1", name: "My scan", image, imageWidth: 100, imageHeight: 80,
-        latLngMesh: [
-          [{ lat: 46.3, lng: -61.2 }, { lat: 46.3, lng: -61.1 }],
-          [{ lat: 46.2, lng: -61.2 }, { lat: 46.2, lng: -61.1 }],
-        ],
-        opacity: 0.7,
-      }],
-    }));
-    const ids = layers.map((l) => l.id);
-    const modernIndex = ids.indexOf("modern");
-    const aerialIndex = ids.indexOf("ns-aerial");
-    const fletcherIndex = ids.findIndex((id) => id.startsWith("fletcher-"));
-    const userMapIndex = ids.indexOf("um-1");
-    const nsprdIndex = ids.indexOf("nsprd");
-    // On-screen z-index order: modern(100) < ns-aerial(150) < Fletcher(155)
-    // < user maps(160) < nsprd(200). ns-aerial is opaque, so drawing it above
-    // Fletcher/user maps in the export would hide them entirely — the export
-    // must match the screen, not group all ArcGIS layers as a single block.
-    expect(modernIndex).toBeLessThan(aerialIndex);
-    expect(aerialIndex).toBeLessThan(fletcherIndex);
-    expect(fletcherIndex).toBeLessThan(userMapIndex);
-    expect(userMapIndex).toBeLessThan(nsprdIndex);
+  it("locks restricted aerial and property-source output even without Fletcher", () => {
+    for (const id of ["ns-aerial", "nsprd"]) {
+      expect(() => buildExportLayers(inputs({ arcgisLayers: [{ id, name: id, serviceUrl: "https://example.test/MapServer", exportOptions: { transparent: true }, opacity: 1 }] }))).toThrow(/permission/i);
+    }
   });
+
 });
 
 it("captures atlas mode and preserves the legacy OSM default", () => {

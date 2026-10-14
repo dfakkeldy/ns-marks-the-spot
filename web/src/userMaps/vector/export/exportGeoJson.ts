@@ -1,3 +1,4 @@
+import { requireVectorReproduction } from "./tracedProvenance";
 import type { FeatureCollection } from "geojson";
 import { TRACED_PROVENANCE_NOTE, hasTracedFeatures } from "./tracedProvenance";
 
@@ -13,6 +14,7 @@ import { TRACED_PROVENANCE_NOTE, hasTracedFeatures } from "./tracedProvenance";
  * goes somewhere else.
  */
 export function geojsonExportBlob(collection: FeatureCollection): Blob {
+  requireVectorReproduction(collection);
   const output = hasTracedFeatures(collection)
     ? { ...collection, "nsmts:provenance": TRACED_PROVENANCE_NOTE }
     : collection;

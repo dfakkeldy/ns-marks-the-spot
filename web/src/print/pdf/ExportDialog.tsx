@@ -1,3 +1,4 @@
+import { assertReproductionAllowed } from "../../licensing/layerUse";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useDialogChrome } from "../../components/useDialogChrome";
 import { downloadFile } from "../../services/downloadFile";
@@ -154,6 +155,7 @@ export function ExportDialog(props: ExportDialogProps) {
     controller: AbortController,
   ) => {
     if (controller.signal.aborted) return;
+    assertReproductionAllowed(props.layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
     const generatedAt = new Date().toISOString();
     const input: ComposeInput = {
       template,
@@ -209,6 +211,7 @@ export function ExportDialog(props: ExportDialogProps) {
     exportAbortRef.current = controller;
     setPhase({ stage: "rendering", progress: null });
     try {
+      assertReproductionAllowed(props.layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
       const result = await composeImage((progress) => {
         // A stray progress tick that arrives after cancellation must not
         // resurrect the "rendering" phase on an export the user walked away

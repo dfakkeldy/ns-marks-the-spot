@@ -1,3 +1,4 @@
+import { requireVectorReproduction } from "./tracedProvenance";
 import type { Feature, FeatureCollection, Position } from "geojson";
 import { TRACED_PROVENANCE_NOTE, hasTracedFeatures } from "./tracedProvenance";
 
@@ -54,6 +55,7 @@ export function gpxDocumentString(
   layerName: string,
   collection: FeatureCollection,
 ): string {
+  requireVectorReproduction(collection);
   const doc = document.implementation.createDocument(GPX_NS, "gpx", null);
   const root = doc.documentElement;
   root.setAttribute("version", "1.1");

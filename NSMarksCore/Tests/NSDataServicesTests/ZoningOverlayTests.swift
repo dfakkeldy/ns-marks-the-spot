@@ -116,18 +116,18 @@ struct ZoningFetcherTests {
                 {"type":"FeatureCollection","features":[{"type":"Feature","id":"1",\
                 "geometry":{"type":"Polygon","coordinates":[[[-61.4,45.6],[-61.4,45.7],\
                 [-61.3,45.7],[-61.3,45.6],[-61.4,45.6]]]},\
-                "properties":{"Zone":"R1","ZONETYPE":"R1 Rural Residential","PLAN_":"Whycocomagh"}}]}
+                "properties":{"ZONE":"R1","DESCRIPTION":"Rural Residential"}}]}
                 """.utf8
             )
         )
         let result = try await ZoningFetcher(transport: service.transport).zones(
-            for: .zoningInverness,
+            for: .zoningHalifax,
             bounds: GeoBoundingBox(south: 45.6, west: -61.4, north: 45.7, east: -61.3),
             clearance: ProvinceLicenceClearance(allowsRestrictedLayers: false)
         )
 
         let query = await service.urls[0].query(percentEncoded: false)
-        #expect(query?.contains("outFields=OBJECTID,Zone,ZONETYPE,PLAN_") == true)
+        #expect(query?.contains("outFields=OBJECTID,ZONE,DESCRIPTION,BYLAW_ID") == true)
         #expect(query?.contains("orderByFields=OBJECTID") == true)
         #expect(result.zones.count == 1)
         #expect(result.zones[0].description.label == "R1 — Rural Residential")

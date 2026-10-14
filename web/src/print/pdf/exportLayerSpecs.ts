@@ -1,3 +1,4 @@
+import { assertReproductionAllowed } from "../../licensing/layerUse";
 import type { OpenDataSource } from "../../layers/openDataSources";
 import type { BasemapStyle } from "../../atlas/basemap";
 import {
@@ -170,6 +171,11 @@ export function buildExportLayers(
     const exclusion = forestryExclusionReason(layer.id);
     if (exclusion) throw new Error(exclusion);
   }
+  assertReproductionAllowed([
+    ...inputs.arcgisLayers.map(layer => ({ id: layer.id, openData: layer.openData })),
+    ...(inputs.fletcher.visible ? ["fletcher"] : []),
+    ...(inputs.selectedParcelRings.length ? ["selected-parcel"] : []),
+  ]);
   const layers: CompositorLayer[] = [];
   if (inputs.showModernMap && inputs.basemapStyle && inputs.basemapStyle !== "osm") {
     layers.push({ kind: "atlas", id: "modern", name: `Atlas ${inputs.basemapStyle} base map`, mode: inputs.basemapStyle });

@@ -397,6 +397,10 @@ struct PrintExportSheet: View {
 
     private func export() async {
         failure = nil
+        if kind == .researchSummary, overlayVM.inspection != nil {
+            failure = overlayVM.evidenceReproductionLockReason
+            return
+        }
         isWorking = true
         defer { isWorking = false }
 

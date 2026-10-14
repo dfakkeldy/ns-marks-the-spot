@@ -19,6 +19,7 @@ public enum TileRequestFactory {
         case unknownLayer(LayerID)
         /// The layer needs Province clearance the caller does not hold.
         case licenceNotAccepted(LayerID)
+        case reproductionPermissionPending(LayerID)
         /// The layer draws vectors, not tiles.
         case notARasterLayer(LayerID)
         /// The layer's address is runtime configuration that is not set.
@@ -115,6 +116,9 @@ public enum TileRequestFactory {
         // First, before anything constructs an address.
         guard clearance.allows(layer) else {
             throw .licenceNotAccepted(id)
+        }
+        guard LayerUse.reproductionLockReason(for: layer) == nil else {
+            throw .reproductionPermissionPending(id)
         }
         guard layer.isRaster else {
             throw .notARasterLayer(id)

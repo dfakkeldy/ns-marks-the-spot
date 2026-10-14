@@ -36,6 +36,14 @@ function renderDialog(overrides: Partial<ExportDialogProps> = {}) {
 }
 
 describe("ExportDialog", () => {
+  it("refuses a direct restricted-layer caller before an injected compositor or file writer runs", async () => {
+    const { props } = renderDialog({ layers: [{ kind: "image", id: "nsprd", name: "Property boundaries", opacity: 1, url: () => "https://example.invalid/image" }] });
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(/permission/i);
+    expect(props.composeImage).not.toHaveBeenCalled();
+    expect(props.composePdf).not.toHaveBeenCalled();
+    expect(props.saveFile).not.toHaveBeenCalled();
+  });
   it("prefills the title and lets the user edit fields", async () => {
     renderDialog();
     const title = screen.getByLabelText("Title");

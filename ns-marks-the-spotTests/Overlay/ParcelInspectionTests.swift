@@ -947,9 +947,9 @@ struct ParcelInspectionTests {
     /// hoped for: the address lookup is still in flight, and every export path
     /// is driven while it is.
     ///
-    /// Without the wait a reader whose fourth source hangs gets no dated
-    /// receipt at all, and nothing on screen says the wait will not end.
-    @Test func aPageMayBeMadeOnceTheSourcesHaveHadTheirTime() async throws {
+    /// The pure formatter still distinguishes a pending answer from no data.
+    /// Waiting must not authorize the independently held property-file exit.
+    @Test func sourceWaitingDoesNotOverrideReproductionPermission() async throws {
         let channel = #function
         let gate = HeldTransport()
         await gate.answer("-63.5", with: Self.addresses("Held Road"))
@@ -987,11 +987,28 @@ struct ParcelInspectionTests {
         #expect(viewModel.inspection?.civicAddresses == .looking)
         #expect(viewModel.canExportEvidenceNote == false)
 
-        // Before the wait is up, nothing comes out. This is the state the phone
-        // used to be stuck in for good.
+        // Neither readiness nor the early-write flag grants reproduction.
         #expect(viewModel.evidenceNote() == nil)
 
-        let note = try #require(viewModel.evidenceNote(includingSourcesStillOut: true))
+        #expect(viewModel.evidenceNote(includingSourcesStillOut: true) == nil)
+        #expect(viewModel.evidenceReproductionLockReason.contains("has not been confirmed"))
+
+        // The pure on-device formatter retains the source-state distinction.
+        // It cannot authorize the app's file/share boundary.
+        let inspection = try #require(viewModel.inspection)
+        let note = EvidenceNote.build(
+            ParcelEvidenceExport.input(
+                generatedAt: Date(),
+                inspection: inspection,
+                taxSaleEnabled: viewModel.showsTaxSale,
+                mode: viewModel.mapRecordMode == .historical ? .historical : .current,
+                shareURL: try #require(viewModel.shareURL),
+                position: viewModel.mapPosition,
+                activeLayers: viewModel.rows.filter(\.isVisible).map(\.descriptor),
+                baseMap: viewModel.controller.resolvedBaseMapType,
+                fletcherBaseURL: FletcherHost.configuredBaseURL
+            )
+        )
         #expect(
             note.markdown.contains("This source had not answered when the note was written.")
         )
@@ -1009,7 +1026,26 @@ struct ParcelInspectionTests {
                 frame: framed
             )
         )
-        #expect(named.appendix.isEmpty == false)
+        #expect(named.appendix.isEmpty)
+        #expect(named.includesPropertySourceRecords)
+        await #expect(throws: LayerUse.Refusal.self) {
+            try await PrintExport.build(
+                named,
+                physicalMemoryBytes: 4 * 1_024 * 1_024 * 1_024,
+                tileProvider: { _, _ in
+                    Issue.record("Held property records reached tile output")
+                    throw URLError(.unsupportedURL)
+                },
+                renderProvider: { _, _, _, _ in
+                    Issue.record("Held property records reached raster output")
+                    throw URLError(.unsupportedURL)
+                },
+                baseMapProvider: { _, _, _, _ in
+                    Issue.record("Held property records reached base-map output")
+                    throw URLError(.unsupportedURL)
+                }
+            )
+        }
         #expect(
             named.disclosures.contains {
                 $0.contains("Authoritative mapped civic points")
@@ -1017,8 +1053,8 @@ struct ParcelInspectionTests {
             }
         )
 
-        // The same page without the flag is the older behaviour: no appendix
-        // and no sentence about it, because the reader has not waited yet.
+        // Source-wait disclosure still follows its flag; both requests remain
+        // tagged as property records and neither may reach file composition.
         let early = try #require(
             viewModel.printExportRequest(
                 template: PdfTemplate.template(.portrait),
