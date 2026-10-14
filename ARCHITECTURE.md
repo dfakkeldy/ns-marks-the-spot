@@ -482,10 +482,11 @@ entirely. It does not establish development permission, lot-specific rules,
 variances, or non-conforming rights, and it is not the municipality's official
 copy.
 
-Zoning layers whose publisher states no licence are marked
-`redistribution: "live-query-only"` and are rendered straight from the
-publisher's public endpoint; their geometry is never extracted into project
-data. Only Halifax publishes an explicit open licence. Because coverage is
+Zoning layers whose publisher states no licence remain catalogued with official
+by-law links; app query, cached/retained display, and reproduction are held
+for Inverness, Victoria, Richmond, and Cumberland. Only Halifax publishes an
+explicit open licence, and Halifax/HRM zoning remains available. See
+[docs/licensing-locks.md](docs/licensing-locks.md). Because coverage is
 partial by nature, the group states that an area with no polygon is an area
 this map has no data for, not an area where no zoning applies, and that towns
 inside a county are separate zoning jurisdictions.
@@ -572,8 +573,12 @@ offline bundling. Geology & Resources is collapsed: its original
 three open source-backed overlays, separately licence-gated derived parcel row,
 and added context controls all start off. The Hydro terrain pilot is also collapsed and off by default.
 Forestry is collapsed and its open old-growth policy overlay starts off.
-Municipal zoning is collapsed and all five of its layers start off; it is not
-licence-gated because its sources are municipal rather than provincial.
+Municipal zoning is collapsed and starts off. App query, cached/retained
+display, and reproduction are held for Inverness, Victoria, Richmond, and
+Cumberland; Halifax/HRM zoning remains available. Official by-law links stay
+on the catalog rows. See [docs/licensing-locks.md](docs/licensing-locks.md).
+The group is not on the Province licence gate because its sources are municipal
+rather than provincial.
 The Groundwater well-log group is also collapsed and off by default; when
 switched on it starts on its surveyed-only accuracy filter.
 The one-time fit does not compete with later selected-parcel fitting or user

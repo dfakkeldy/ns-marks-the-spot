@@ -217,11 +217,11 @@ authorized-owner determination. Do not insert a guessed plist answer.
    App Store/offline/export scope against that permission or obtain the missing
    permission. Preserve Rumsey/Stanford, changes and CC BY-NC-SA 3.0 attribution.
    Free software alone does not establish the needed distribution rights.
-2. **Municipal zoning without stated terms.** `LayerCatalog` marks Inverness
-   Municipality, Village of Inverness, Richmond and Cumberland zoning
-   `municipalNoStatedLicence`. Native source names the limitation and does not
-   turn it into permission. Confirm the application display/export rights for
-   these specific services before the owner makes an all-content-rights answer.
+2. **Municipal zoning without stated terms.** [PR #582](https://github.com/dfakkeldy/ns-marks-the-spot/pull/582)
+   holds app query, cached/retained display, and reproduction for Inverness,
+   Victoria, Richmond, and Cumberland zoning. Halifax/HRM zoning remains
+   available. Catalog entries and official by-law links remain. This is not
+   App Store clearance. See [licensing-locks.md](licensing-locks.md).
 3. **Restricted provincial services.** The bundled licence permits viewing and
    directs other uses to the provider. Acceptance gates and attribution exist;
    verify whether the app's evidence/PDF/geometry exports fall within the
