@@ -32,9 +32,12 @@ screens group adds the province's relative arsenic, uranium, and manganese
 well-water risk zones and surficial aquifer extent, each shown with the
 province's own legend bands and its reminder that a zone describes bedrock, not
 a test result for any property. A collapsed, default-off
-Municipal zoning group renders unofficial zoning polygons live from five
-municipal ArcGIS services—Inverness, Victoria, Richmond, Cumberland, and
-Halifax—each linked to its authoritative land use by-law; Nova Scotia publishes
+Municipal zoning group keeps catalog entries and official land-use by-law links
+for five municipal sources—Inverness, Victoria, Richmond, Cumberland, and
+Halifax. App query, cached/retained display, and reproduction are held for the
+four counties with no stated licence; Halifax/HRM zoning remains available.
+The hold matrix is in
+[docs/licensing-locks.md](docs/licensing-locks.md). Nova Scotia publishes
 no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. A collapsed, default-off live-conditions
 family offers optional Highway cameras (511 Nova Scotia) and Weather radar

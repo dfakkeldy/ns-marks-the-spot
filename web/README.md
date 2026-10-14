@@ -860,10 +860,13 @@ remains licence-gated and off by default.
 
 ## Municipal zoning
 
-The collapsed **Municipal zoning** group renders zoning polygons live from five
-municipal ArcGIS services. Every layer is default-off, unofficial, and outside
-the Province licence gate, because these are municipal rather than provincial
-sources.
+The collapsed **Municipal zoning** group catalogs five municipal ArcGIS
+services. Every layer is default-off, unofficial, and outside the Province
+licence gate, because these are municipal rather than provincial sources.
+App query, cached/retained display, and reproduction are held for Inverness,
+Victoria, Richmond, and Cumberland (no stated licence). Halifax/HRM zoning
+remains available. Official by-law links stay on the catalog rows. See
+[docs/licensing-locks.md](../docs/licensing-locks.md).
 
 Nova Scotia publishes no provincial zoning layer (verified July 23, 2026), so
 zoning is necessarily per-municipality. Three consequences are carried in the
@@ -889,12 +892,12 @@ UI rather than left implicit:
 
 ### Zoning source receipt — July 23, 2026
 
-All five services were queried live on July 23, 2026. Every one returned an
-empty `copyrightText`, and only Halifax publishes a licence page. The four
-sources with no stated licence are marked `redistribution: "live-query-only"`
-in `web/src/layers/layerCatalog.ts`: they are rendered from the publisher's
-public endpoint and their geometry is **not** extracted or republished as
-project data. Doing so would need the publisher's permission first.
+All five services were queried live on July 23, 2026 as catalog evidence.
+Every one returned an empty `copyrightText`, and only Halifax publishes a
+licence page. The four sources with no stated licence remain catalogued with
+their official by-law links; app query, cached/retained display, and
+reproduction are held. Halifax/HRM zoning remains available. See
+[docs/licensing-locks.md](../docs/licensing-locks.md).
 
 - **Inverness County** — county-wide zoning in effect September 11, 2025. 1,125
   polygons. Authority: [Plan Inverness Land Use By-law](https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf).
@@ -1621,8 +1624,9 @@ This slice includes the day/night Atlas and OpenStreetMap basemaps, nine web-cle
 Province layers, three default-off open geoscience/resource source overlays,
 one default-off open old-growth policy overlay, one default-off licence-gated
 derived mineral-proximity parcel row,
-five default-off unofficial municipal zoning layers rendered live from
-municipal services and never republished as project data,
+five default-off unofficial municipal zoning catalog rows (Inverness,
+Victoria, Richmond, and Cumberland held for app query/cached display/reproduction;
+Halifax/HRM remains available; see [docs/licensing-locks.md](../docs/licensing-locks.md)),
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the
