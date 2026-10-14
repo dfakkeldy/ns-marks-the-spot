@@ -99,6 +99,21 @@ describe("bounded context vector sources", () => {
     expect(url.searchParams.get("outFields")).toBe("source_id,name");
   });
 
+  it.each([
+    [{ ...point("bad"), geometry: null }, /geometry/i],
+    [{ ...point("bad"), geometry: { type: "Point", coordinates: [500, 45.8] } }, /WGS84/i],
+    [{ ...point("bad"), properties: { name: "Missing source identity" } }, /identifier/i],
+  ])("validates ArcGIS context records before returning a renderable collection", async (invalid, expected) => {
+    mockFetch(collection([point("good"), invalid]));
+    await expect(fetchContextFeatures(base, bounds)).rejects.toThrow(expected);
+  });
+
+  it("applies the context feature budget to complete ArcGIS collections", async () => {
+    const page = (start: number, length: number) => collection(Array.from({ length }, (_, i) => point(String(start + i))));
+    mockFetch(...Array.from({ length: 5 }, (_, i) => page(i * 2000, 2000)), page(10000, 1));
+    await expect(fetchContextFeatures(base, bounds)).rejects.toBeInstanceOf(ContextAreaTooLargeError);
+  });
+
   it("pages OGC feature collections in the requested bbox and retains their original IDs", async () => {
     const ogc = { ...base, serviceUrl: "https://example.test/collections/stations/items", vectorSource: { kind: "ogc-features" as const } };
     const mock = mockFetch(

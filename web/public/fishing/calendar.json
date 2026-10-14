@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "checked": "2026-10-12",
+  "note": "Months describe fish biology and reported fishing quality, not open seasons. Seasons and limits are under each spot's rules. A species with no peak dot has no evidence for a peak.",
+  "species": {
+    "atlantic_mackerel": {
+      "label": "Atlantic mackerel",
+      "group": "saltwater",
+      "months_good": [6, 7, 8, 9, 10],
+      "months_peak": [8, 9],
+      "rules_only": false,
+      "notes": "DFO: mackerel feed across Atlantic Canada from late July into fall, and most landings are from June to October. The stock is in DFO's Critical Zone, so keep only what you will eat."
+    },
+    "striped_bass_maritimes": {
+      "label": "Striped bass (Atlantic and Bras d'Or side)",
+      "group": "saltwater",
+      "months_good": [7, 8, 9, 10, 11, 12],
+      "months_peak": [10, 11],
+      "rules_only": false,
+      "notes": "South and east of the Canso Causeway. The fall peak is a guide's report, not survey data. Use circle hooks and release big fish."
+    },
+    "striped_bass_gulf": {
+      "label": "Striped bass (Gulf side)",
+      "group": "saltwater",
+      "months_good": [5, 6, 7, 8, 9, 10],
+      "months_peak": [9, 10],
+      "rules_only": false,
+      "notes": "North of the Canso Causeway and along the Gulf shore. The fall peak is a guide's report, not survey data."
+    },
+    "rainbow_smelt": {
+      "label": "Rainbow smelt",
+      "group": "diadromous",
+      "months_good": [1, 2, 3, 4, 5, 10, 11, 12],
+      "months_peak": [4, 5],
+      "rules_only": false,
+      "notes": "Tidal shore and wharf fish. Winter months mean fishing through safe ice only. The spring spawning run after ice-out is the peak; its timing is inferred, with no Nova Scotia run data."
+    },
+    "gaspereau": {
+      "label": "Gaspereau (alewife)",
+      "group": "diadromous",
+      "months_good": [5, 6, 7],
+      "months_peak": [5, 6],
+      "rules_only": false,
+      "notes": "Spring spawning run from May to early July (regional DFO assessment)."
+    },
+    "american_eel": {
+      "label": "American eel",
+      "group": "diadromous",
+      "months_good": [],
+      "months_peak": [],
+      "rules_only": true,
+      "notes": "Assessed as Threatened by COSEWIC. This map does not promote eel fishing and encourages release."
+    },
+    "sea_run_brook_trout": {
+      "label": "Sea-run brook trout",
+      "group": "diadromous",
+      "months_good": [4, 5, 6],
+      "months_peak": [5],
+      "rules_only": false,
+      "notes": "A trophy fishery, not a numbers one: a few large fish in tidal water in spring."
+    },
+    "bras_dor_trout": {
+      "label": "Rainbow and brown trout (tidal Bras d'Or)",
+      "group": "diadromous",
+      "months_good": [1, 2, 3, 4, 5, 10, 11, 12],
+      "months_peak": [],
+      "rules_only": false,
+      "notes": "No evidence of abundance, so no peak months: the fishery once relied on fish escaping from aquaculture, which has declined."
+    },
+    "stocked_trout": {
+      "label": "Stocked trout (brook and rainbow)",
+      "group": "freshwater",
+      "months_good": [1, 2, 3, 4, 5, 6, 10, 11, 12],
+      "months_peak": [5, 6],
+      "rules_only": false,
+      "notes": "Abundance follows hatchery supply: fish the first weeks after a stocking. Winter months apply only to waters with extended seasons. Drought cut the 2026 stocking."
+    },
+    "wild_brook_trout": {
+      "label": "Brook trout (wild)",
+      "group": "freshwater",
+      "months_good": [4, 5, 6, 9],
+      "months_peak": [5, 6],
+      "rules_only": false,
+      "notes": "Best in cool water in late spring; warm midsummer water stresses trout, so fish mornings. Survey records are presence-only and mostly decades old. Brook trout spawn in fall."
+    },
+    "white_perch": {
+      "label": "White perch",
+      "group": "freshwater",
+      "months_good": [5, 6, 7, 8, 9],
+      "months_peak": [6, 7],
+      "rules_only": false,
+      "notes": "A warm-water fish recorded in many Richmond County lakes (survey presence records). Peak months are inferred."
+    },
+    "yellow_perch": {
+      "label": "Yellow perch",
+      "group": "freshwater",
+      "months_good": [1, 2, 3, 5, 6, 7, 8, 9],
+      "months_peak": [6, 7],
+      "rules_only": false,
+      "notes": "Recorded only on the mainland side of this region. Winter months mean ice fishing on waters open in winter, on safe ice only."
+    },
+    "smallmouth_bass": {
+      "label": "Smallmouth bass",
+      "group": "freshwater",
+      "months_good": [6, 7, 8, 9],
+      "months_peak": [7, 8],
+      "rules_only": false,
+      "notes": "Illegally introduced and spreading; it preys on native fish. Peak months are inferred. See the retention rule."
+    },
+    "chain_pickerel": {
+      "label": "Chain pickerel",
+      "group": "freshwater",
+      "months_good": [],
+      "months_peak": [],
+      "rules_only": true,
+      "notes": "An invasive predator, not promoted on this map. See the retention rule, and report new waters to the province."
+    },
+    "pollock": {
+      "label": "Pollock",
+      "group": "saltwater",
+      "months_good": [7, 8, 9],
+      "months_peak": [8],
+      "rules_only": false,
+      "notes": "Summer wharf and ledge fish (inferred; no local abundance data). A groundfish under the rules."
+    },
+    "cunner": {
+      "label": "Cunner",
+      "group": "saltwater",
+      "months_good": [6, 7, 8, 9],
+      "months_peak": [7, 8],
+      "rules_only": false,
+      "notes": "The classic wharf fish for children; no abundance data. In law it is a groundfish, so the groundfish rules apply."
+    },
+    "winter_flounder": {
+      "label": "Winter flounder",
+      "group": "saltwater",
+      "months_good": [5, 6, 7, 8, 9],
+      "months_peak": [6, 7],
+      "rules_only": false,
+      "notes": "Months are inferred; there is no Cape Breton abundance data. A groundfish under the rules; the southern Gulf stock is in DFO's Critical Zone."
+    },
+    "atlantic_salmon": {
+      "label": "Atlantic salmon",
+      "group": "diadromous",
+      "months_good": [],
+      "months_peak": [],
+      "rules_only": true,
+      "notes": "Populations in this region are assessed as Endangered. This map shows no salmon fishing months or places; most Cape Breton salmon waters are closed (see the rules)."
+    },
+    "landlocked_salmon": {
+      "label": "Landlocked salmon",
+      "group": "freshwater",
+      "months_good": [],
+      "months_peak": [],
+      "rules_only": true,
+      "notes": "Rare in Nova Scotia and not promoted on this map. See the rules."
+    }
+  }
+}

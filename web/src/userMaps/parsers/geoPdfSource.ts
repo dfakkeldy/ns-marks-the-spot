@@ -74,7 +74,7 @@ export type GeoPdfParseEnvironment = {
   previewMaxEdge?: number;
 };
 
-const PDFJS_VERSION = "6.1.200";
+const PDFJS_VERSION = "6.2.108";
 const DEFAULT_PREVIEW_MAX_EDGE = 4096;
 
 function defaultAssetBaseUrl(): string {

@@ -66,6 +66,53 @@ function Page({
 }
 
 describe("useDialogChrome", () => {
+  it("keeps focus on the dialog when all controls are disabled", async () => {
+    function EmptyDialog() {
+      const ref = useDialogChrome<HTMLDivElement>(null);
+      return (
+        <div ref={ref} role="dialog" aria-modal="true" aria-label="Working">
+          <button type="button" disabled>Saving</button>
+        </div>
+      );
+    }
+    const user = userEvent.setup();
+    render(<><button type="button">Behind</button><EmptyDialog /></>);
+    const dialog = screen.getByRole("dialog", { name: "Working" });
+
+    expect(dialog).toHaveFocus();
+    await user.tab();
+    expect(dialog).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(dialog).toHaveFocus();
+  });
+
+  it("wraps to visible enabled Tab stops instead of controls hidden by their ancestors", async () => {
+    function HiddenControlsDialog() {
+      const ref = useDialogChrome<HTMLDivElement>(null);
+      return (
+        <div ref={ref} role="dialog" aria-modal="true" aria-label="Visible controls">
+          <div hidden><button type="button">Hidden first</button></div>
+          <button type="button" tabIndex={-1}>Programmatic focus only</button>
+          <button type="button">Visible first</button>
+          <button type="button">Visible last</button>
+          <fieldset disabled><button type="button">Disabled by fieldset</button></fieldset>
+          <div style={{ display: "none" }}><button type="button">Hidden last</button></div>
+        </div>
+      );
+    }
+    const user = userEvent.setup();
+    render(<HiddenControlsDialog />);
+    const first = screen.getByRole("button", { name: "Visible first" });
+    const last = screen.getByRole("button", { name: "Visible last" });
+
+    expect(first).toHaveFocus();
+    last.focus();
+    await user.tab();
+    expect(first).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(last).toHaveFocus();
+  });
+
   it("moves focus into the dialog and back to whatever opened it", async () => {
     const user = userEvent.setup();
     const { rerender } = render(<Page open={false} />);

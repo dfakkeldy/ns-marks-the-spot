@@ -1,0 +1,687 @@
+{
+  "rulesYear": 2026,
+  "checked": "2026-10-12",
+  "validUntil": "2027-03-31",
+  "validUntilBasis": "The 2026 Anglers' Handbook covers the licence year April 1, 2026 to March 31, 2027 (annual licences run April 1 to March 31 under the Nova Scotia General Fishing Regulations s.4(1)). Non-standing entries are hidden after this date, or after their own earlier validUntil, until the next handbook and orders are checked.",
+  "display": "Show an entry only while validFrom <= today <= its validUntil, and, unless it is standing, only while today <= the file validUntil. Standing entries are regulations that do not change yearly; their validUntil is a review date. Never compute whether a season is open now.",
+  "notice": "Unofficial plain-language summary for screening, not the official text. Dated facts are paraphrased from the linked sources; check the current Anglers' Handbook and DFO notices before fishing.",
+  "publishedSources": [
+    {
+      "label": "Nova Scotia Anglers' Handbook 2026",
+      "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+      "note": "72 pages, created 2026-02-25; checked 2026-10-12"
+    },
+    {
+      "label": "Maritime Provinces Fishery Regulations (SOR/93-55)",
+      "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-93-55/FullText.html",
+      "note": "consolidated to 2026-02-18; checked 2026-10-12"
+    },
+    {
+      "label": "Fisheries Act",
+      "url": "https://laws-lois.justice.gc.ca/eng/acts/F-14/FullText.html",
+      "note": "checked 2026-10-12"
+    },
+    {
+      "label": "Nova Scotia General Fishing Regulations",
+      "url": "https://novascotia.ca/just/regulations/regs/wifish.htm",
+      "note": "checked 2026-10-12"
+    },
+    {
+      "label": "DFO Maritimes recreational fisheries",
+      "url": "https://www.dfo-mpo.gc.ca/fisheries-peches/recreational-recreative/maritimes/diadrom-eng.html",
+      "note": "modified 2026-04-07; checked 2026-10-12"
+    },
+    {
+      "label": "DFO Gulf recreational fisheries",
+      "url": "https://www.glf.dfo-mpo.gc.ca/en/striped-bass-recreational-fishery-southern-gulf-st-lawrence-2026",
+      "note": "checked 2026-10-12"
+    },
+    {
+      "label": "DFO Fishery Notices and variation orders",
+      "url": "https://www.inter.dfo-mpo.gc.ca/en/mar-var-2026-093",
+      "note": "checked 2026-10-12"
+    }
+  ],
+  "entries": [
+    {
+      "id": "bridges",
+      "scope": {
+        "spots": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "Angling from any bridge in Nova Scotia that spans inland or tidal waters is prohibited, and the offence is ticketable.",
+      "source": {
+        "label": "Maritime Provinces Fishery Regulations (SOR/93-55)",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-93-55/FullText.html",
+        "section": "s.15(a) with Schedule IV item 1"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "fishway-23m",
+      "scope": {
+        "spots": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "No fishing of any kind within 23 m downstream of the lower entrance to any fishway, obstruction or leap. This map reads dams, culverts and canal lock gates conservatively as obstructions.",
+      "source": {
+        "label": "Fisheries Act (R.S.C. 1985, c. F-14)",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/F-14/FullText.html",
+        "section": "s.34.3(4)(e)"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "sportfish-night",
+      "scope": {
+        "spots": ["S01", "S02", "S06", "S07", "S08", "S09", "S12", "S14", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "No angling for sport fish (trout, salmon, landlocked salmon and smallmouth bass) from two hours after sunset to two hours before sunrise.",
+      "source": {
+        "label": "Maritime Provinces Fishery Regulations (SOR/93-55)",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-93-55/FullText.html",
+        "section": "s.12(1); sport fish defined in s.2"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "inland-night",
+      "scope": {
+        "spots": ["S07", "S08", "S09", "S12", "S14", "S20", "S21", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "No angling of any kind in Nova Scotia inland waters from 22:00 to 06:00 the next day. The Anglers' Handbook does not mention this rule; this map follows the regulation as written.",
+      "source": {
+        "label": "Maritime Provinces Fishery Regulations (SOR/93-55)",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-93-55/FullText.html",
+        "section": "s.12(3) with Schedule IV item 1"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "tidal-sportfish-gear",
+      "scope": {
+        "spots": ["S01", "S02", "S06", "S22"],
+        "species": []
+      },
+      "text": "When angling for sport fish in tidal waters, use one line with no more than three hooks.",
+      "source": {
+        "label": "Maritime Provinces Fishery Regulations (SOR/93-55)",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-93-55/FullText.html",
+        "section": "s.11.1"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "inland-closed-without-sportfish-season",
+      "scope": {
+        "spots": ["S07", "S08", "S09", "S12", "S20", "S21", "S23", "S24"],
+        "species": []
+      },
+      "text": "Inland waters are closed to angling for every species unless a sport-fish season is open in those waters.",
+      "source": {
+        "label": "Maritime Provinces Fishery Regulations (SOR/93-55)",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-93-55/FullText.html",
+        "section": "s.10"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "licence-inland",
+      "scope": {
+        "spots": ["S02", "S06", "S07", "S08", "S09", "S12", "S14", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "Angling in inland waters needs a Nova Scotia General Fishing Licence (age 16 and over). Annual licences run from April 1 to March 31, so a 2026 licence is valid to March 31, 2027. The handbook groups the Bras d'Or Lakes with inland waters for trout seasons, so this map advises carrying a General licence there too.",
+      "source": {
+        "label": "Nova Scotia General Fishing Regulations",
+        "url": "https://novascotia.ca/just/regulations/regs/wifish.htm",
+        "section": "s.5(1) and s.6; licence term s.4(1)"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "licence-tidal-none",
+      "scope": {
+        "spots": ["S01", "S03", "S04", "S05", "S10", "S11", "S13", "S15", "S16", "S17", "S18", "S19"],
+        "species": []
+      },
+      "text": "No licence is needed to angle in tidal waters, but seasons and bag limits still apply.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "p.17"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "licence-free-days",
+      "scope": {
+        "spots": ["S07", "S08", "S09", "S12", "S14", "S20", "S21", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "Licence-free fishing days: the third Monday in February with the Saturday and Sunday before it, and the first Saturday and Sunday in June. Seasons and limits still apply on those days.",
+      "source": {
+        "label": "Nova Scotia General Fishing Regulations",
+        "url": "https://novascotia.ca/just/regulations/regs/wifish.htm",
+        "section": "s.10"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "trout-inland-2026",
+      "scope": {
+        "spots": ["S02", "S06", "S07", "S08", "S09", "S12", "S14", "S20", "S21", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "2026, RFA 1 and RFA 2 inland waters (and brook trout in the Bras d'Or Lakes): trout season April 1 to September 30; 5 trout a day, brook, brown and rainbow combined. From September 1 to 30 no brook trout may be kept and natural bait is banned for all trout, except in waters with extended trout seasons; natural bait is allowed all year in the Bras d'Or Lakes.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "RFA 1 p.23; RFA 2 p.29"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "trout-tidal-2026",
+      "scope": {
+        "spots": ["S01"],
+        "species": ["sea_run_brook_trout"]
+      },
+      "text": "2026, RFA 1 and RFA 2 tidal waters: sea-run trout season April 15 to September 30. From September 1 to 30 no brook trout may be kept and natural bait is banned for all trout.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "RFA 1 p.23; RFA 2 p.29"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "bras-dor-trout-2026",
+      "scope": {
+        "spots": ["S02", "S06"],
+        "species": ["bras_dor_trout"]
+      },
+      "text": "2026, tidal Bras d'Or Lakes: rainbow and brown trout open all year with any gear, outside the listed closed areas; 5 a day from April to September and 2 a day from October 1 to March 31; rainbow trout must be at least 35 cm. Brook trout follow the inland season (April 1 to September 30, none kept in September).",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "RFA 1 p.24"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "trout-close-dec-2026",
+      "scope": {
+        "spots": ["S02", "S06", "S14", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "Variation order MAR-VAR-2026-022 closed trout angling on December 30 and 31, 2026 in the tidal Bras d'Or Lakes, Eco-Trail Pond (Isle Madame), Cameron, Copper, Gillis and Stewart lakes, and Goose Harbour, McKeen, Goshen and Pringle lakes.",
+      "source": {
+        "label": "DFO variation order MAR-VAR-2026-022",
+        "url": "https://www.inter.dfo-mpo.gc.ca/en/mar-var-2026-022",
+        "section": "close times table"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2026-12-31",
+      "standing": false
+    },
+    {
+      "id": "extended-season-waters-2026",
+      "scope": {
+        "spots": ["S14", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "2026 extended trout seasons: Eco-Trail Pond (Isle Madame), Gillis, Cameron and Pringle lakes are open for trout all year, 2 trout a day from October 1 to March 31; Stewart Lake is open all year with a 2-trout daily limit. Natural bait is allowed in September in these waters. The handbook is unclear whether the September brook-trout release applies here, so this map advises releasing brook trout in September.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "p.24, p.29, p.30, winter list p.54"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "perch-rfa2-2026",
+      "scope": {
+        "spots": ["S25", "S27"],
+        "species": []
+      },
+      "text": "2026, RFA 2: Cameron, Gillis and Pringle lakes are among the lakes open all year for yellow and white perch.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "RFA 2 p.30"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "inland-limits-2026",
+      "scope": {
+        "spots": ["S07", "S08", "S09", "S12", "S23", "S25", "S27"],
+        "species": ["white_perch", "yellow_perch"]
+      },
+      "text": "2026 inland daily limits: white perch 10 (reduced from 25 in 2026), yellow perch 25, lake whitefish 2.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "p.3, p.10"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "river-denys-stma-2026",
+      "scope": {
+        "spots": ["S22"],
+        "species": []
+      },
+      "text": "2026, River Denys Special Trout Management Area: closed to trout from October 1 to March 31 and to all angling from April 1 to 30; 3 trout a day, only 1 over 35 cm. In September release every brook trout and, to be safe, use no natural bait.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "RFA 1 p.24, p.26"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "salmon-2026",
+      "scope": {
+        "spots": ["S03", "S22", "S23", "S24"],
+        "species": ["atlantic_salmon"]
+      },
+      "text": "The order sets 2026-27 salmon close times by Salmon Fishing Area, and they differ. Salmon Fishing Area 19, which covers most of Cape Breton, is closed to salmon angling all year except the rivers the order lists; Salmon Fishing Area 18 has its own close times. Check which area your water is in before fishing for salmon. This map asks you to release any salmon, parr or kelt at once.",
+      "source": {
+        "label": "DFO variation order MAR-VAR-2026-093",
+        "url": "https://www.inter.dfo-mpo.gc.ca/en/mar-var-2026-093",
+        "section": "SFA 18 and 19 close times (in force June 1, 2026 to May 31, 2027)"
+      },
+      "validFrom": "2026-06-01",
+      "validUntil": "2027-05-31",
+      "standing": false
+    },
+    {
+      "id": "landlocked-salmon-2026",
+      "scope": {
+        "spots": [],
+        "species": ["landlocked_salmon"]
+      },
+      "text": "2026: landlocked salmon may be fished only at Goose Harbour Lake (all year) and Gabarus Lake (April 15 to September 30); 2 a day, at least 35 cm fork length, and release any over 63 cm. Closed elsewhere.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "landlocked salmon, RFA listings"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "striped-bass-maritimes-2026",
+      "scope": {
+        "spots": ["S01", "S03", "S04", "S05", "S10", "S11", "S13", "S15", "S16"],
+        "species": ["striped_bass_maritimes"]
+      },
+      "text": "2026, Atlantic coast and Bras d'Or side of the Canso Causeway: striped bass 1 a day, 68 to 150 cm total length, angling only. Tidal waters close December 30 and 31 (MPFR s.91), and inland waters open only with the sport-fish season.",
+      "source": {
+        "label": "DFO Maritimes recreational diadromous fisheries",
+        "url": "https://www.dfo-mpo.gc.ca/fisheries-peches/recreational-recreative/maritimes/diadrom-eng.html",
+        "section": "striped bass"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "striped-bass-gulf-2026",
+      "scope": {
+        "spots": ["S17", "S18", "S19"],
+        "species": ["striped_bass_gulf"]
+      },
+      "text": "2026, southern Gulf (waters draining to the Gulf, including the north side of the Canso Causeway): tidal season April 15 to October 31; 4 a day and 4 in possession, 50 to 65 cm total length; single barbless hooks in tidal waters. Fishing hours: April 15 to June 30 from 2 hours before sunrise to 2 hours after sunset; July 1 to October 31 from 04:00 to 00:00.",
+      "source": {
+        "label": "DFO Gulf striped bass recreational fishery 2026",
+        "url": "https://www.glf.dfo-mpo.gc.ca/en/striped-bass-recreational-fishery-southern-gulf-st-lawrence-2026",
+        "section": "2026 notice"
+      },
+      "validFrom": "2026-04-15",
+      "validUntil": "2026-10-31",
+      "standing": false
+    },
+    {
+      "id": "mackerel-maritimes-2026",
+      "scope": {
+        "spots": ["S01", "S03", "S04", "S06", "S10", "S11", "S13", "S15", "S16"],
+        "species": ["atlantic_mackerel"]
+      },
+      "text": "2026, Maritimes tidal waters: Atlantic mackerel season April 1 to December 31; 20 a day and in possession. Variation orders MAR-VAR-2025-071 (no minimum size) and MAR-VAR-2025-102 (1 line with no more than 3 hooks) apply to the end of 2026; the base minimum in the Atlantic Fishery Regulations is 26.8 cm, nose to fork.",
+      "source": {
+        "label": "DFO Maritimes recreational pelagic fisheries",
+        "url": "https://www.dfo-mpo.gc.ca/fisheries-peches/recreational-recreative/maritimes/pelag-eng.html",
+        "section": "Atlantic mackerel; MAR-VAR-2025-071 and -102"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2026-12-31",
+      "standing": false
+    },
+    {
+      "id": "mackerel-gulf-2026",
+      "scope": {
+        "spots": ["S17", "S18", "S19"],
+        "species": []
+      },
+      "text": "2026, southern Gulf (Mackerel Fishing Area 16): 20 a day, no minimum size, and 1 line with no more than 3 hooks, under DFO's 2025-2026 decision.",
+      "source": {
+        "label": "DFO Gulf recreational mackerel fishery",
+        "url": "https://www.glf.dfo-mpo.gc.ca/en/node/316",
+        "section": "MFA 16"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2026-12-31",
+      "standing": false
+    },
+    {
+      "id": "groundfish-maritimes-2026",
+      "scope": {
+        "spots": ["S01", "S03", "S04", "S05", "S10", "S11", "S13", "S15", "S16"],
+        "species": ["cunner", "winter_flounder", "pollock"]
+      },
+      "text": "Atlantic coast from Hartlen Point east to Cape North, including the Bras d'Or Lakes: recreational groundfish open from the third Saturday in June to Labour Day (June 20 to September 7 in 2026); 5 groundfish a day in total; never keep halibut or northern or spotted wolffish. In law, cunner, sculpin and winter flounder are groundfish too, so this map treats them the same way.",
+      "source": {
+        "label": "DFO Maritimes recreational groundfish",
+        "url": "https://dfo-mpo.gc.ca/fisheries-peches/recreational-recreative/maritimes/groundfish-poisson-fond-eng.html",
+        "section": "season and limits (page modified 2023-07-31); AFR Schedule I Part II"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "groundfish-gulf-2026",
+      "scope": {
+        "spots": ["S17", "S18", "S19"],
+        "species": []
+      },
+      "text": "Order GVO-2026-011 (revoked January 1, 2027): within 50 m of the coast from the New Brunswick border to the Auld's Cove wharf and from the old Creignish wharf to Cape North, groundfish could be fished April 15 to July 31 and September 6 to October 1, 2026 (no cod, white hake, haddock, pollock, skate, halibut or wolffish kept), and August 1 to September 5, 2026 from sunrise to sunset (up to 5 cod or white hake); 15 groundfish a day in total. The shore between the Auld's Cove wharf and the Causeway is outside the zone.",
+      "source": {
+        "label": "DFO Gulf variation order GVO-2026-011",
+        "url": "https://www.inter.dfo-mpo.gc.ca/en/gvo-2026-011",
+        "section": "zone, periods and limits"
+      },
+      "validFrom": "2026-04-15",
+      "validUntil": "2026-12-31",
+      "standing": false
+    },
+    {
+      "id": "smelt-2026",
+      "scope": {
+        "spots": ["S01", "S02", "S03", "S06", "S16"],
+        "species": ["rainbow_smelt"]
+      },
+      "text": "2026, tidal waters: rainbow smelt angling August 1 to May 31 (closed June 1 to July 31); dip netting April 1 to June 15 except Fridays, Saturdays and Sundays; 60 in possession, no more than 30 of them taken by dip net. Inland, smelt may be angled only while a sport-fish season is open.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "p.12"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "eel-2026",
+      "scope": {
+        "spots": [],
+        "species": ["american_eel"]
+      },
+      "text": "2026: American eel has no closed season in tidal waters; Maritimes Region 10 a day, at least 35 cm; Gulf Region 5 a day, at least 53 cm. Elver harvest is limited to licensed commercial fisheries.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "p.12"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "gaspereau-2026",
+      "scope": {
+        "spots": ["S23"],
+        "species": ["gaspereau"]
+      },
+      "text": "2026: no closed season for angling gaspereau in tidal waters; inland only while a sport-fish season is open; 20 a day.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "p.12"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "smallmouth-bass-retention",
+      "scope": {
+        "spots": ["S23"],
+        "species": ["smallmouth_bass"]
+      },
+      "text": "Every smallmouth bass caught in RFA 1 and RFA 2 must be kept and humanely killed; never transport one alive or use it as bait. The bass season follows the trout season.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "RFA 1 p.24; RFA 2 p.30; retention area p.4"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "chain-pickerel-retention",
+      "scope": {
+        "spots": [],
+        "species": ["chain_pickerel"]
+      },
+      "text": "Every chain pickerel caught in Nova Scotia must be kept. Report new waters to the province (ReportAIS@novascotia.ca, 902-485-5056).",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "RFA 1 p.24; RFA 2 p.30"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "live-fish-and-bait",
+      "scope": {
+        "spots": ["S07", "S08", "S09", "S12", "S14", "S20", "S21", "S23", "S24", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "Possessing live fish is prohibited in Nova Scotia. Chain pickerel, smallmouth bass, yellow perch, white perch, goldfish, brown bullhead and any fish not taken from provincial waters may not be used as bait, and crayfish may not be used or possessed as bait.",
+      "source": {
+        "label": "Nova Scotia Anglers' Handbook 2026",
+        "url": "https://www.novascotia.ca/sites/default/files/documents/1-2412/anglers-handbook-en.pdf",
+        "section": "p.5 (Live Fish Possession Regulations; bait rules)"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "nature-reserves",
+      "scope": {
+        "spots": ["S05", "S11", "S15", "S22", "S25"],
+        "species": []
+      },
+      "text": "Fishing is not permitted in provincial nature reserves.",
+      "source": {
+        "label": "Nova Scotia protected areas: recreation",
+        "url": "https://novascotia.ca/nse/protectedareas/recreation.asp",
+        "section": "nature reserves"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "wilderness-areas",
+      "scope": {
+        "spots": ["S23", "S24"],
+        "species": []
+      },
+      "text": "Sport fishing is generally permitted in wilderness areas, but vehicle use is restricted.",
+      "source": {
+        "label": "Nova Scotia protected areas: recreation",
+        "url": "https://novascotia.ca/nse/protectedareas/recreation.asp",
+        "section": "wilderness areas"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "angling-act-banks",
+      "scope": {
+        "spots": ["S02", "S03", "S06", "S07", "S08", "S09", "S12", "S15", "S20", "S21", "S22", "S23", "S25", "S26", "S27"],
+        "species": []
+      },
+      "text": "Nova Scotia residents may go on foot along the banks of any river, stream or lake, and over uncultivated land and Crown land, to fish lawfully. The right is for residents only and does not cover cultivated, posted or fenced land; visitors should ask the owner.",
+      "source": {
+        "label": "Angling Act (Nova Scotia)",
+        "url": "https://nslegislature.ca/sites/default/files/legc/statutes/angling.pdf",
+        "section": "s.3; Handbook 2026 p.16"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "historic-canals",
+      "scope": {
+        "spots": ["S01"],
+        "species": []
+      },
+      "text": "In a historic canal, no fishing within 10 m of a lock or approach wharf, or from a bridge over a navigation channel. Schedule I lists the St. Peters Canal.",
+      "source": {
+        "label": "Historic Canals Regulations (SOR/93-220)",
+        "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-93-220/FullText.html",
+        "section": "s.7(e); Schedule I item 9"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "parks-canada-canals",
+      "scope": {
+        "spots": ["S01"],
+        "species": []
+      },
+      "text": "Parks Canada: magnet fishing is forbidden in its historic canals, and there is no swimming or diving in a navigation channel or within 40 m of a lock gate.",
+      "source": {
+        "label": "Parks Canada, St. Peters Canal safety",
+        "url": "https://www.parks.canada.ca/lhn-nhs/ns/stpeters/securite-safety",
+        "section": "safety page"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "battery-park-2026",
+      "scope": {
+        "spots": ["S01"],
+        "species": []
+      },
+      "text": "Battery Provincial Park's page says fishing in the park is permitted with a Nova Scotia sport fishing licence; it gives the 2026 operating season as June 5 to October 19.",
+      "source": {
+        "label": "Nova Scotia Provincial Parks: Battery",
+        "url": "https://parks.novascotia.ca/park/battery",
+        "section": "park page"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-03-31",
+      "standing": false
+    },
+    {
+      "id": "port-hawkesbury-watershed",
+      "scope": {
+        "spots": ["S20"],
+        "species": []
+      },
+      "text": "Fishing in the Port Hawkesbury Watershed protected water area is prohibited except from the shoreline of McIntyre Lake or from non-motorized boats on it; skating and motorized sleds on the ice are prohibited.",
+      "source": {
+        "label": "Port Hawkesbury Watershed Protected Water Area Regulations (N.S. Reg. 149/82)",
+        "url": "https://novascotia.ca/Just/regulations/regs/envpwphb.htm",
+        "section": "Section B"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "railway-crossing",
+      "scope": {
+        "spots": ["S16"],
+        "species": []
+      },
+      "text": "No one may enter land on which a railway line is situated without authorization; cross tracks only at a public crossing.",
+      "source": {
+        "label": "Railway Safety Act (R.S.C. 1985, c. 32 (4th Supp.))",
+        "url": "https://laws-lois.justice.gc.ca/eng/acts/R-4.2/FullText.html",
+        "section": "s.26.1"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2027-10-12",
+      "standing": true
+    },
+    {
+      "id": "lobster-seasons-2026",
+      "scope": {
+        "spots": ["S04", "S13", "S17", "S18", "S19"],
+        "species": []
+      },
+      "text": "Spring lobster seasons in 2026 ran from late April to early July, with dates set by lobster fishing area (for example LFA 29 April 20 to June 20, LFA 27 May 8 to July 8, and Gulf areas 26A and 26B from late April to early July). Wharves are busiest then.",
+      "source": {
+        "label": "DFO 2026 lobster fishing areas 27-32",
+        "url": "https://www.dfo-mpo.gc.ca/fisheries-peches/decisions/fm-2026-gp/atl-4-eng.html",
+        "section": "season dates"
+      },
+      "validFrom": "2026-04-01",
+      "validUntil": "2026-12-31",
+      "standing": false
+    }
+  ]
+}

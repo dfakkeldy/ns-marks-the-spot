@@ -1,0 +1,865 @@
+/* The /fishing page: the research map with a spots-first panel.
+   Only this entry loads this sheet (the pins' own sheet, fishingSpots.css,
+   loads with the map layer). The hero is drawn on its own deep-water ground in
+   both appearances, so its colours are fixed; everything below it keeps the
+   map's tokens and so follows Day and Night. Measured on #0f3a46: paper
+   #fbf6ea 11.6:1, dusk #efbb87 7.8:1, 80% paper 8.6:1. */
+.fishing-focus {
+  --fi-deep: #0f3a46;
+  --fi-dusk: #efbb87;
+  --fi-paper: #fbf6ea;
+  /* Month cells: peak and good differ in lightness, not only in hue. */
+  --fi-peak: #0a5a68;
+  --fi-peak-ink: #ffffff;
+  --fi-good: rgba(46, 165, 184, 0.26);
+  --fi-good-edge: rgba(10, 90, 104, 0.4);
+}
+
+:root[data-map-appearance="night"] .fishing-focus {
+  --fi-peak: #8fd3df;
+  --fi-peak-ink: #0d1f24;
+  --fi-good: rgba(143, 211, 223, 0.2);
+  --fi-good-edge: rgba(143, 211, 223, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) .fishing-focus {
+    --fi-peak: #8fd3df;
+    --fi-peak-ink: #0d1f24;
+    --fi-good: rgba(143, 211, 223, 0.2);
+    --fi-good-edge: rgba(143, 211, 223, 0.5);
+  }
+}
+
+.fishing-focus .map-layout {
+  grid-template-columns: minmax(320px, 388px) minmax(0, 1fr);
+}
+
+.fishing-focus .layer-rail {
+  padding-top: 0;
+}
+
+/* Hero -------------------------------------------------------------- */
+.fishing-hero {
+  margin: 0 -24px 22px;
+  overflow: hidden;
+  color: var(--fi-paper);
+  background: var(--fi-deep);
+}
+
+.fishing-hero-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 132;
+}
+
+.fishing-hero-body {
+  padding: 4px 24px 22px;
+}
+
+.fishing-hero-eyebrow {
+  margin: 0 0 6px;
+  color: var(--fi-dusk);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.fishing-focus .fishing-hero h2 {
+  margin: 0;
+  color: #fff8ec;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 2.15rem;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+
+.fishing-hero-lede {
+  margin: 10px 0 14px;
+  color: rgba(251, 246, 234, 0.82);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.fishing-hero-status {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 14px;
+  color: rgba(251, 246, 234, 0.8);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.fishing-hero-status > span:first-child {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  background: var(--fi-dusk);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(239, 187, 135, 0.18);
+}
+
+.fishing-hero-status p {
+  margin: 0;
+}
+
+.fishing-hero a {
+  color: var(--fi-dusk);
+  text-underline-offset: 2px;
+}
+
+.fishing-hero-links {
+  display: grid;
+  gap: 6px;
+  margin: -4px 0 16px 18px;
+  padding: 0;
+  font-size: 0.78rem;
+  list-style: none;
+}
+
+.fishing-hero-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.fishing-hero-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.fishing-hero-primary {
+  color: var(--fi-deep);
+  background: linear-gradient(180deg, #f7d3a8, #efbb87);
+  border: 0;
+  box-shadow: 0 8px 22px rgba(239, 187, 135, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.fishing-hero-actions .fishing-hero-link {
+  min-height: 40px;
+  padding-block: 6px;
+  color: var(--fi-dusk);
+  font-weight: 600;
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.fishing-hero :focus-visible {
+  outline: 2px solid var(--fi-dusk);
+  outline-offset: 3px;
+}
+
+.fishing-hero-dedication {
+  margin: 16px 0 0;
+  padding-top: 14px;
+  color: rgba(251, 246, 234, 0.86);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.4;
+  border-top: 1px solid rgba(251, 246, 234, 0.16);
+}
+
+/* Filters and list -------------------------------------------------- */
+.fishing-panel {
+  /* Holds the cards' and calendar's visually hidden text, which is
+     absolutely positioned: without a containing block inside the rail it
+     stretches the whole document and the page scrolls away from the map. */
+  position: relative;
+  display: grid;
+  /* One track no wider than the rail: the calendar's table scrolls inside
+     its own region instead of widening every card. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.fishing-panel h2 {
+  margin-bottom: 0;
+}
+
+.fishing-panel-status,
+.fishing-months-note,
+.fishing-rejected-note,
+.fishing-filter-result p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+div.fishing-panel-status {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+
+div.fishing-panel-status p {
+  margin: 0;
+}
+
+.fishing-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.fishing-filters label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fishing-filters select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px;
+  color: var(--chart-ink);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.fishing-filter-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.fishing-filter-result p {
+  color: var(--chart-ink);
+  font-weight: 700;
+}
+
+.fishing-clear-filters {
+  min-height: 36px;
+  padding: 6px 14px;
+  color: var(--deep-water);
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.fishing-spot-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fishing-spot {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  scroll-margin: 64px 0 12px;
+}
+
+.fishing-spot.is-selected {
+  border-color: var(--deep-water);
+  box-shadow: 0 0 0 1px var(--deep-water);
+}
+
+.fishing-spot-heading {
+  margin: 0;
+  font-size: inherit;
+}
+
+.fishing-spot-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 12px;
+  color: var(--chart-ink);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.fishing-spot-toggle:hover {
+  background: rgba(var(--fog-rgb), 0.7);
+}
+
+.fishing-spot-number {
+  display: grid;
+  flex: 0 0 30px;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.fishing-spot-title {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.fishing-spot-title strong {
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.fishing-spot-title small {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.fishing-spot-details {
+  display: grid;
+  gap: 12px;
+  padding: 0 14px 16px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.fishing-spot-details p {
+  margin: 0;
+}
+
+.fishing-spot-kind {
+  color: var(--muted);
+}
+
+.fishing-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fishing-chips li {
+  padding: 3px 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: rgba(var(--fog-rgb), 0.9);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.fishing-month-strip {
+  display: grid;
+  gap: 6px;
+}
+
+.fishing-month-strip > p:first-child {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fishing-month-strip ol {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fishing-month-strip li {
+  display: grid;
+  place-items: center;
+  height: 26px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+
+.fishing-month-strip li.is-good,
+.fishing-key.is-good,
+.fishing-calendar-table td.is-good {
+  color: var(--chart-ink);
+  background: var(--fi-good);
+  border-color: var(--fi-good-edge);
+}
+
+.fishing-calendar-table td.is-good {
+  box-shadow: inset 0 0 0 1px var(--fi-good-edge);
+}
+
+.fishing-month-strip li.is-peak,
+.fishing-key.is-peak,
+.fishing-calendar-table td.is-peak {
+  color: var(--fi-peak-ink);
+  background: var(--fi-peak);
+  border-color: var(--fi-peak);
+}
+
+.fishing-month-strip li.is-month {
+  outline: 2px solid var(--survey-blue);
+  outline-offset: 1px;
+}
+
+.fishing-month-note {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.fishing-key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  vertical-align: -1px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+.fishing-spot-facts {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.fishing-spot-facts dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fishing-spot-facts dt span {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+.fishing-spot-facts dd {
+  margin: 2px 0 0;
+}
+
+.fishing-spot-caution {
+  padding: 8px 10px;
+  background: rgba(var(--paper-rgb), 0.9);
+  border-left: 3px solid var(--survey-red);
+  border-radius: 4px;
+}
+
+.fishing-evidence {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 8px;
+  color: var(--deep-water);
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+
+.fishing-directions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.fishing-directions a,
+.fishing-show-on-map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.fishing-directions a {
+  color: var(--deep-water);
+  background: rgba(var(--fog-rgb), 0.9);
+  border: 1px solid var(--line);
+}
+
+.fishing-show-on-map {
+  width: 100%;
+  color: #ffffff;
+  background: #0a4f5c;
+  border: 0;
+  cursor: pointer;
+}
+
+.fishing-coordinates {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.fishing-coordinates-value {
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.76rem;
+  user-select: all;
+}
+
+.fishing-rules,
+.fishing-sources,
+.fishing-calendar-notes {
+  border-top: 1px solid var(--line);
+}
+
+.fishing-rules summary,
+.fishing-sources summary,
+.fishing-calendar-notes summary {
+  padding: 10px 0 4px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fishing-rules summary small {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.fishing-rules-notice,
+.fishing-rules-hidden {
+  margin: 4px 0 8px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.fishing-rules-hidden {
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  background: rgba(var(--paper-rgb), 0.9);
+  border-left: 3px solid var(--paper-peach);
+  border-radius: 4px;
+}
+
+.fishing-rule-list {
+  display: grid;
+  gap: 10px;
+  margin: 6px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fishing-rule-list li {
+  display: grid;
+  gap: 2px;
+}
+
+.fishing-rule-source {
+  color: var(--muted);
+  font-size: 0.74rem;
+  overflow-wrap: anywhere;
+}
+
+.fishing-official-links,
+.fishing-sources ul {
+  display: grid;
+  gap: 4px;
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.fishing-empty {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 14px;
+  color: var(--chart-ink);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  background: rgba(var(--fog-rgb), 0.9);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+
+.fishing-empty p {
+  margin: 0;
+}
+
+/* Species calendar -------------------------------------------------- */
+.fishing-calendar {
+  min-width: 0;
+  margin-top: 6px;
+  padding: 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.fishing-calendar > summary {
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.fishing-calendar > summary small {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.fishing-calendar-note,
+.fishing-calendar-key {
+  margin: 10px 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.fishing-calendar-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fishing-calendar-scroll:focus-visible {
+  outline: 2px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+.fishing-calendar-table {
+  width: 100%;
+  min-width: 320px;
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-size: 0.72rem;
+}
+
+.fishing-calendar-table thead th {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.fishing-calendar-table thead th abbr {
+  text-decoration: none;
+}
+
+.fishing-calendar-table th[scope="row"] {
+  min-width: 108px;
+  padding-right: 6px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.fishing-calendar-table td {
+  width: 18px;
+  height: 22px;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.fishing-calendar-table td.is-none {
+  background: rgba(var(--fog-rgb), 0.6);
+}
+
+.fishing-calendar-table th.is-month,
+.fishing-calendar-table td.is-month {
+  box-shadow: inset 0 0 0 2px var(--survey-blue);
+}
+
+.fishing-calendar-group th {
+  padding: 8px 0 2px;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.fishing-calendar-rules-only {
+  padding: 2px 6px;
+  color: var(--muted);
+  text-align: left !important;
+  background: repeating-linear-gradient(135deg, transparent 0 6px, rgba(var(--fog-rgb), 0.9) 6px 12px);
+}
+
+.fishing-calendar-rules-link {
+  padding: 0;
+  color: var(--survey-blue);
+  font: inherit;
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.fishing-calendar-rules {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.fishing-calendar-rules h4 {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.fishing-calendar-rules-species {
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.fishing-calendar-rules-species h5 {
+  margin: 0 0 2px;
+  font-size: 0.8rem;
+}
+
+.fishing-calendar-rules-species > p {
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+
+.fishing-calendar-notes dl {
+  display: grid;
+  gap: 8px;
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.fishing-calendar-notes dt {
+  font-weight: 700;
+}
+
+.fishing-calendar-notes dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Footer and phone chrome ------------------------------------------- */
+.fishing-focus-footer {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.fishing-focus-footer .export-map-trigger {
+  width: 100%;
+}
+
+.fishing-full-map-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  color: var(--chart-ink);
+  font-weight: 650;
+  text-decoration: none;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.fishing-full-map-link:hover {
+  border-color: var(--deep-water);
+}
+
+.fishing-full-map-link span {
+  color: var(--deep-water);
+  font-size: 1.1rem;
+}
+
+.fishing-focus-footer p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.fishing-brand {
+  font: inherit;
+  cursor: pointer;
+}
+
+.fishing-focus .fishing-brand > span {
+  color: var(--fi-dusk);
+  background: var(--fi-deep);
+}
+
+.fishing-brand svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 860px) {
+  /* Under the sticky sheet header, whose 12px bottom margin this takes back. */
+  .fishing-hero {
+    margin-top: -12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .fishing-hero {
+    margin-inline: -16px;
+  }
+
+  .fishing-hero-body {
+    padding-inline: 16px;
+  }
+
+  .fishing-focus .mobile-map-brand strong {
+    display: inline;
+  }
+
+  .fishing-brand-suffix {
+    display: none;
+  }
+}
+
+@media (max-width: 379px) {
+  .fishing-focus .mobile-map-brand strong {
+    display: none;
+  }
+
+  .fishing-filters,
+  .fishing-directions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

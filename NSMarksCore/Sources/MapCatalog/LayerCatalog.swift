@@ -760,14 +760,15 @@ public enum LayerCatalog {
             uiOrder: 29,
             licence: .provinceOpen,
             delivery: .featureQuery,
-            serviceURL: URL(string: "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0"),
+            // The Province's own DP ME 10 version 9 copy; lower-case fields only.
+            serviceURL: URL(string: "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4"),
             sourceURL: URL(string: "https://novascotia.ca/natr/meb/download/dp010.asp"),
             minZoom: 11,
             maxZoom: 23,
             opacity: 0.92,
             webDefaultVisible: false,
             caveat: "Provincial hazard inventory; locations and conditions may change",
-            sourceDate: "2024 · version 9",
+            sourceDate: "Version 9 · extract June 11, 2024",
             scale: "Approximate point inventory",
             coverage: "Nova Scotia · incomplete inventory"
         ),

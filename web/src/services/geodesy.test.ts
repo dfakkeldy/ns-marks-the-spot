@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   SQUARE_METRES_PER_ACRE,
+  distanceMetres,
   formatArea,
   formatDistance,
   pathDistanceMetres,
@@ -10,6 +11,15 @@ import {
 
 // One degree of arc on Leaflet's sphere (R = 6 371 000 m).
 const METRES_PER_DEGREE = (6_371_000 * Math.PI) / 180;
+
+describe("distanceMetres", () => {
+  it("keeps antipodal distances finite despite haversine rounding", () => {
+    // These valid positions round the haversine to 1.0000000000000002.
+    const metres = distanceMetres({ lat: 8, lng: 0 }, { lat: -8, lng: 180 });
+
+    expect(metres).toBeCloseTo(20_015_086.796, 2);
+  });
+});
 
 describe("pathDistanceMetres", () => {
   it("measures a degree of longitude along the equator", () => {

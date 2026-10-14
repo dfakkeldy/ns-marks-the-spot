@@ -1,9 +1,17 @@
 import { LicensingLockDialog } from "./components/LicensingLockDialog";
 import { PARCEL_REPRODUCTION_LOCK_REASON, PROPERTY_RECORD_REPRODUCTION_ALLOWED, reproductionLockReason } from "./licensing/layerUse";
 import { RhodenaOverview } from "./rhodena/RhodenaOverview";
-import { RhodenaHero, TurbineGlyph } from "./rhodena/RhodenaHero";
-import { inRhodenaFocus, rhodenaFocusCategoryIds } from "./rhodena/focus";
-import { RHODENA_POSITION } from "./rhodena/catalog";
+import {
+  EMPTY_FOCUS_PAGE_STATE,
+  filterFocusLayerIds,
+  focusHides,
+  focusOffersLayer,
+  type FocusChromeContext,
+  type FocusDefinition,
+  type FocusFitRequest,
+  type FocusPageState,
+} from "./focus/focusDefinition";
+import { focusDefinitions, focusForTheme, type FocusId } from "./focus/registry";
 import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
 import { DistrictInspector } from "./components/DistrictInspector";
 import { initialElectoralModes, withElectoralMode, type ElectoralLayerId } from "./layers/electoralLayers";
@@ -294,6 +302,18 @@ const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
  * this sits comfortably under that ceiling while still feeling immediate.
  */
 const SHARE_URL_WRITE_DELAY_MS = 500;
+
+/**
+ * The full map at the same view. A focus page's own filter and selection
+ * (`month`, `spot`) mean nothing there, so they are left behind.
+ */
+function fullMapUrl(shareUrl: string): string {
+  // Filtered as text so the rest of the query keeps its exact spelling.
+  const query = new URL(shareUrl).search.replace(/^\?/u, "").split("&")
+    .filter((part) => part !== "" && !/^(?:month|spot)=/u.test(part))
+    .join("&");
+  return new URL(`./${query ? `?${query}` : ""}`, document.baseURI).href;
+}
 
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
@@ -810,6 +830,7 @@ function printLayerSources(
     sourceDate: layer.sourceDate,
     attribution: `${layer.attribution ?? (layer.licence === "province-restricted" ? PROVINCE_ATTRIBUTION : OPEN_GOVERNMENT_ATTRIBUTION)} ${layer.scale}. ${layer.webCaveat}${openDataPrintCredit(layer.openData)}`,
     licenceUrl: layer.licenceUrl,
+    ...(layer.provenance ? { provenance: layer.provenance } : {}),
   }));
   forestryLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
@@ -1077,7 +1098,7 @@ function DataSourcesDialog({
               <span>{source.attribution}</span>
               <span>
                 <a href={source.sourceUrl} target="_blank" rel="noreferrer">
-                  Official source
+                  {source.provenance === "project-derived" ? "Project source" : "Official source"}
                 </a>
                 {source.licenceUrl ? (
                   <>
@@ -1113,10 +1134,12 @@ function DataSourcesDialog({
 }
 
 /**
- * `focus` opens the map as a single-project page (/rhodena): its setup is
- * fixed, and the panel offers only that project's layers.
+ * `focus` opens the map as a single-purpose page (/rhodena, /fishing): its setup is
+ * fixed, and the panel offers only the layers its definition names. Every
+ * page-specific choice comes from `focusDefinitions` (src/focus/registry.ts).
  */
-export function App({ focus }: { focus?: "rhodena" } = {}) {
+export function App({ focus }: { focus?: FocusId } = {}) {
+  const focusDef: FocusDefinition | undefined = focus ? focusDefinitions[focus] : undefined;
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
     () => loadCustomThemes(reachableLocalStorage()),
@@ -1143,7 +1166,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
    * tools. Explicit layer state still takes precedence over the named setup.
    */
   const requestedTheme = builtInMapThemes.find(
-    ({ id }) => id === (focus ?? initialShareState.themeId),
+    ({ id }) => id === (focusDef?.themeId ?? initialShareState.themeId),
   );
   // A camera bookmark does not override the layers of a named setup.
   const hasSharedSetupState = requestedTheme
@@ -1151,13 +1174,15 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
     : hasRecognizedShareState;
   const initialCatalogueLayerIds = useRef(new Set<ShareLayerId>(
     hasSharedSetupState
-      ? initialShareState.layerIds.filter((id) => !focus || inRhodenaFocus(id))
+      ? filterFocusLayerIds(focusDef, initialShareState.layerIds)
       : requestedTheme?.layerIds ?? ["modern"],
   )).current;
-  const initialTaxSaleEnabled = hasSharedSetupState && !focus
+  // A page without tax sale also keeps the current (not historical) mode.
+  const focusHidesTaxSale = focusHides(focusDef, "tax-sale");
+  const initialTaxSaleEnabled = hasSharedSetupState && !focusHidesTaxSale
     ? initialShareState.taxSaleEnabled
     : requestedTheme?.taxSaleEnabled ?? false;
-  const initialMapMode = focus ? "current" : hasSharedSetupState
+  const initialMapMode = focusHidesTaxSale ? "current" : hasSharedSetupState
     ? initialShareState.mode
     : requestedTheme?.mapMode ?? initialShareState.mode;
   const initialLicenceAccepted = useRef(isLicenceAccepted()).current;
@@ -1180,6 +1205,9 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
       ? requestedTheme
       : undefined,
   ).current;
+  // The camera a link without `position` opens on: the focus page's own, or
+  // on the full map, that of the focus page built on the requested setup.
+  const cameraFocus = focusDef ?? focusForTheme(initialRequestedTheme?.id);
   const fletcherTileConfiguration = useMemo(() => {
     try {
       return {
@@ -1232,7 +1260,26 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
         ? initialThemeMatch?.id ?? null
         : "explore-nova-scotia"),
   );
-  const [rhodenaFitRevision, setRhodenaFitRevision] = useState(0);
+  // A page whose area is wider than its opening zoom shows on a phone fits
+  // that area on open, unless the link brings its own camera. The full map
+  // opening that page's setup borrows its camera, so it fits the same way.
+  const [focusFit, setFocusFit] = useState<FocusFitRequest>(() =>
+    cameraFocus?.fitOnOpen && !hasSharedPosition
+      ? { revision: 1, bounds: cameraFocus.fitBounds }
+      : { revision: 0, bounds: null });
+  const requestFocusFit = useCallback((definition: FocusDefinition) => {
+    setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds }));
+  }, []);
+  // A focus page's own filter and selection; only the parameters the page
+  // shares are read from, and written back to, its links.
+  const [focusPage, setFocusPage] = useState<FocusPageState>(() => ({
+    ...EMPTY_FOCUS_PAGE_STATE,
+    month: focusDef?.shareParams?.has("month") ? initialShareState.month ?? null : null,
+    spotId: focusDef?.shareParams?.has("spot") ? initialShareState.spot ?? null : null,
+  }));
+  const updateFocusPage = useCallback((update: Partial<FocusPageState>) => {
+    setFocusPage((current) => ({ ...current, ...update }));
+  }, []);
   const [rhodenaPickPending, setRhodenaPickPending] = useState(false);
   const pokerMode = selectedThemeId === "poker";
   const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
@@ -1259,10 +1306,10 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
     [customThemes],
   );
   const mapSetupSelectRef = useRef<HTMLSelectElement>(null);
-  // A fresh /rhodena link on a phone opens on the project summary; a shared
+  // A fresh focus-page link on a phone opens on the page's summary; a shared
   // view goes straight to its map.
   const [mobileControlsOpen, setMobileControlsOpen] = useState(
-    () => Boolean(focus) && !hasRecognizedShareState
+    () => Boolean(focusDef) && !hasRecognizedShareState
       && (window.matchMedia?.("(max-width: 860px)").matches ?? false),
   );
   const [phoneCategoryLayout, setPhoneCategoryLayout] = useState(
@@ -1338,6 +1385,18 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
     setMobileControlsOpen(false);
     if (returnFocus) mobileControlsTriggerRef.current?.focus();
   }, []);
+  // Above the sheet's breakpoint the rail is always on screen, and an "open"
+  // sheet there would be one nobody can see or close, so this does nothing.
+  const openMobileControls = useCallback(() => {
+    if (window.matchMedia?.("(max-width: 860px)").matches) setMobileControlsOpen(true);
+  }, []);
+  const selectFocusSpot = useCallback((spotId: string | null) => {
+    setFocusPage((current) => current.spotId === spotId ? current : { ...current, spotId });
+  }, []);
+  const openFocusSpotCard = useCallback((spotId: string) => {
+    setFocusPage((current) => ({ ...current, spotId, panelReveal: current.panelReveal + 1 }));
+    openMobileControls();
+  }, [openMobileControls]);
   // Choosing a parcel from inside the sheet closes it too, and focus cannot
   // go back to the trigger: the parcel is what the screen is now about. It
   // goes where the parcel panel's own close hands it, the map region that
@@ -2217,6 +2276,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
   }, []);
   const [currentTime, setCurrentTime] = useState(Date.now);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
+  const shareCopySequence = useRef(0);
   const printCaptureSequence = useRef(0);
   const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
   const [exportSession, setExportSession] =
@@ -3029,14 +3089,15 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
       setPokerRevision((value) => value + 1);
     }
     setSelectedThemeId(themeId);
-    if (themeId === "rhodena") setRhodenaFitRevision(value => value + 1);
+    const themeFocus = focusForTheme(themeId);
+    if (themeFocus) requestFocusFit(themeFocus);
     if (themeId === "poker") setMobileControlsOpen(false);
     applyResolvedTheme(resolveTheme(theme, {
       licenceAccepted,
       availableLayerIds: availableThemeLayerIds,
       restrictedLayerIds: restrictedThemeLayerIds,
     }));
-  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes, selectedThemeId]);
+  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes, requestFocusFit, selectedThemeId]);
 
   const reviewProvinceLicence = useCallback(() => {
     setLicenceIntent({ kind: "review" });
@@ -3068,7 +3129,8 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
-        if (theme.id === "rhodena") setRhodenaFitRevision(value => value + 1);
+        const themeFocus = focusForTheme(theme.id);
+        if (themeFocus) requestFocusFit(themeFocus);
         if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: true,
@@ -3105,7 +3167,8 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
-        if (theme.id === "rhodena") setRhodenaFitRevision(value => value + 1);
+        const themeFocus = focusForTheme(theme.id);
+        if (themeFocus) requestFocusFit(themeFocus);
         if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: false,
@@ -3438,7 +3501,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
             : `${meeting} NSPRD also returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
       );
     } catch (error: unknown) {
-      if (error instanceof DOMException && error.name === "AbortError") {
+      if (controller.signal.aborted || (error instanceof DOMException && error.name === "AbortError")) {
         return;
       }
       setParcelLookupMessage(
@@ -4097,11 +4160,16 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
       layerIds: activeLayerIds,
       position: mapViewport.position,
       themeId: shareThemeId,
+      ...(focusDef?.shareParams?.has("month") && focusPage.month !== null ? { month: focusPage.month } : {}),
+      ...(focusDef?.shareParams?.has("spot") && focusPage.spotId !== null ? { spot: focusPage.spotId } : {}),
     }),
     [
       activeLayerIds,
       basemapStyle,
       electoralModes,
+      focusDef,
+      focusPage.month,
+      focusPage.spotId,
       mapMode,
       mapViewport.position,
       selectedEventIds,
@@ -4148,15 +4216,29 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
     return () => window.clearTimeout(timer);
   }, [shareUrl]);
 
-  const copyShareUrl = () => {
-    if (navigator.clipboard?.writeText) {
-      void navigator.clipboard.writeText(shareUrl).then(
-        () => setShareMessage("Share link copied."),
-        () => setShareMessage("Copy failed; use the exact map-state link below."),
-      );
-      return;
+  useEffect(() => {
+    // Feedback belongs to the state that was copied. Ignore a clipboard
+    // completion after the map changes or this view unmounts.
+    setShareMessage(null);
+    shareCopySequence.current += 1;
+    return () => { shareCopySequence.current += 1; };
+  }, [shareUrl]);
+
+  const copyShareUrl = async () => {
+    const sequence = ++shareCopySequence.current;
+    setShareMessage(null);
+    try {
+      if (!navigator.clipboard?.writeText) {
+        setShareMessage("Use the exact map-state link below.");
+        return;
+      }
+      await navigator.clipboard.writeText(shareUrl);
+      if (sequence === shareCopySequence.current) setShareMessage("Share link copied.");
+    } catch {
+      if (sequence === shareCopySequence.current) {
+        setShareMessage("Copy failed; use the exact map-state link below.");
+      }
     }
-    setShareMessage("Use the exact map-state link below.");
   };
 
   const openPrintExport = () => {
@@ -4612,19 +4694,30 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
       Export map (PDF)
     </button>
   );
-  const offered = (id: string) => !focus || inRhodenaFocus(id);
+  const offered = (id: string) => focusOffersLayer(focusDef, id);
+  const focusChromeContext: FocusChromeContext = {
+    contextLayers,
+    setContextLayerVisibility,
+    pageState: focusPage,
+    setPageState: updateFocusPage,
+    openMobileControls,
+    closeMobileControls,
+    fitToFocus: () => { if (focusDef) requestFocusFit(focusDef); },
+    startViewpointPick: () => setRhodenaPickPending(true),
+  };
+  const FocusPanel = focusDef?.chrome.Panel;
 
   return (
     <>
     <div
       className={`app-shell${
         editingMap ? " georeferencing" : ""
-      }${focus ? ` ${focus}-focus` : ""}`}
+      }${focusDef ? ` ${focusDef.id}-focus` : ""}`}
     >
       {/* Keep the page heading available to assistive technology. */}
       <h1 className="visually-hidden">
-        {focus
-          ? "Rhodena Wind — proposed turbine map"
+        {focusDef
+          ? focusDef.pageTitle
           : <>NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map</>}
       </h1>
       <main className="map-layout">
@@ -4649,36 +4742,21 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
               one names the controls rail, which is a part of the page, and
               the rail's own child-combinator rule carries its former h1
               typography over unchanged. */}
-          {focus ? (
-            <RhodenaHero
-              visibilityOn={contextLayers["rhodena-visibility"]}
-              onToggleVisibility={() => {
-                const visible = !contextLayers["rhodena-visibility"];
-                setContextLayerVisibility("rhodena-visibility", visible);
-                if (visible) closeMobileControls();
-              }}
-              onCheckViewpoint={() => {
-                setContextLayerVisibility("rhodena-visibility", true);
-                setRhodenaPickPending(true);
-                closeMobileControls();
-              }}
-              onFit={() => {
-                setRhodenaFitRevision((value) => value + 1);
-                closeMobileControls();
-              }}
-            />
+          {focusDef ? (
+            <focusDef.chrome.Hero {...focusChromeContext} />
           ) : (
             <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
           )}
           {!pokerMode && searchForm}
-          {!focus ? (
+          {/* A focus page carries these in its footer instead. */}
+          {!focusDef ? (
             <>
               {appearanceControl}
               {exportMapButton}
             </>
           ) : null}
 
-          {!focus ? <MapThemePicker
+          {!focusHides(focusDef, "setup-picker") ? <MapThemePicker
             themes={mapThemes}
             activeThemeId={activeThemeId}
             status={themeStatus}
@@ -4691,6 +4769,8 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
           /> : null}
+
+          {FocusPanel ? <FocusPanel {...focusChromeContext} /> : null}
 
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
@@ -4709,8 +4789,8 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
                 ? "layer-category-list layer-category-list--focused"
                 : "layer-category-list"
             }>
-            {(focus
-              ? rhodenaFocusCategoryIds.map((id) =>
+            {(focusDef
+              ? focusDef.categoryIds.map((id) =>
                 layerCategories.find((category) => category.id === id)!)
               : layerCategories)
               .filter((category) =>
@@ -4781,7 +4861,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
                     }
                   }}
                 >
-                  {category.id === "rhodena-project" ? <RhodenaOverview compact={Boolean(focus)} onFit={() => { setRhodenaFitRevision(value => value + 1); setMobileControlsOpen(false); }} /> : null}
+                  {category.id === "rhodena-project" ? <RhodenaOverview compact={Boolean(focusDef)} onFit={() => { requestFocusFit(focusDefinitions.rhodena); setMobileControlsOpen(false); }} /> : null}
                   {layerCategoryByLayerId.modern === category.id ? (
                     <div className="layer-control">
                     <label className="layer-row">
@@ -4822,7 +4902,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
                       <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
                       <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
                     </p>}
-                    {basemapStyle === 'fletcher' && !focus ? <>
+                    {basemapStyle === 'fletcher' && !focusDef ? <>
                       <label className="fletcher-features-toggle">
                         <input type="checkbox" checked={fletcherFeaturesVisible} onChange={event => setFletcherFeaturesVisible(event.target.checked)} />
                         Reviewed Fletcher features
@@ -5518,22 +5598,18 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
             </div>
           </section>
 
-          {focus ? (
-            <section className="rhodena-focus-footer" aria-label="Display, export and full map">
+          {focusDef ? (
+            <section className={`${focusDef.id}-focus-footer`} aria-label="Display, export and full map">
               {appearanceControl}
               {exportMapButton}
               <a
-                className="rhodena-full-map-link"
-                href={new URL(`./${new URL(shareUrl).search}`, document.baseURI).href}
+                className={`${focusDef.id}-full-map-link`}
+                href={fullMapUrl(shareUrl)}
               >
                 Open this view in the full NS Marks map
                 <span aria-hidden="true">→</span>
               </a>
-              <p>
-                A screening and research map, not legal proof. Each layer keeps
-                its own source, date and caveats; an empty or failed layer is
-                not evidence of absence.
-              </p>
+              <focusDef.chrome.FooterNote />
             </section>
           ) : null}
         </aside>
@@ -5545,17 +5621,16 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
           aria-label="Map and parcel details"
         >
           <div className="mobile-map-chrome">
-            {focus ? (
+            {focusDef ? (
               <button
-                className="mobile-map-brand rhodena-brand"
+                className={`mobile-map-brand ${focusDef.id}-brand`}
                 type="button"
-                aria-label="Rhodena Wind — summary and layers"
+                aria-label={focusDef.chrome.brand.label}
                 aria-controls="map-controls"
                 aria-expanded={mobileControlsOpen}
                 onClick={() => setMobileControlsOpen(true)}
               >
-                <span aria-hidden="true"><TurbineGlyph /></span>
-                <strong>Rhodena<span className="rhodena-brand-suffix"> Wind</span></strong>
+                <focusDef.chrome.brand.Mark />
               </button>
             ) : (
               <a
@@ -5609,14 +5684,14 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
             liveConditionsLayers={liveConditionsLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
             fletcherVisible={fletcherVisible}
-            fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focus}
+            fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef}
             onFletcherFeaturesStatus={setFletcherFeaturesStatus}
             fletcherOpacity={fletcherOpacity}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
-            userMaps={focus ? undefined : userMapsApi.visibleMaps}
+            userMaps={focusHides(focusDef, "my-maps") ? undefined : userMapsApi.visibleMaps}
             userMapFitRequest={userMapsApi.fitRequest}
-            userVectorLayers={focus ? undefined : readOnlyVectorLayers}
+            userVectorLayers={focusHides(focusDef, "my-maps") ? undefined : readOnlyVectorLayers}
             userVectorFitRequest={userVectorApi.fitRequest}
             userVectorPhotoUi={photoPopupUi}
             userVectorEdit={
@@ -5661,8 +5736,18 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
               void identifyParcelAtPoint(latitude, longitude);
             }}
             focusRequest={parcelFocusRequest}
-            rhodenaFitRevision={rhodenaFitRevision}
-            backgroundSwitch={focus ? {
+            focusFit={focusFit}
+            // Only a page whose state carries a spot drives the spots layer;
+            // anywhere else the layer keeps its own selection.
+            fishingSpots={focusDef?.shareParams?.has("spot") ? {
+              month: focusPage.month,
+              species: focusPage.species,
+              selectedId: focusPage.spotId,
+              mapReveal: focusPage.mapReveal,
+              onSelect: selectFocusSpot,
+              onOpenCard: openFocusSpotCard,
+            } : undefined}
+            backgroundSwitch={focusDef?.backgroundSwitch ? {
               aerial: licenceAccepted && provinceLayers["ns-aerial"],
               onChange: (aerial) => {
                 if (aerial && !licenceAccepted) {
@@ -5675,7 +5760,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
             } : null}
             rhodenaPickPending={rhodenaPickPending}
             onRhodenaPickStarted={() => setRhodenaPickPending(false)}
-            initialPosition={!hasSharedPosition && (focus || initialRequestedTheme?.id === "rhodena") ? RHODENA_POSITION : initialShareState.position}
+            initialPosition={!hasSharedPosition && cameraFocus ? cameraFocus.initialPosition : initialShareState.position}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onPositionChange={reportMapCentre}
@@ -5933,7 +6018,7 @@ export function App({ focus }: { focus?: "rhodena" } = {}) {
               <span key={id}>{attribution}</span>
             ))}
           {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
-          {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focus ? <span>
+          {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef ? <span>
             Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
           </span> : null}
           <span>Boundaries are not a survey</span>

@@ -1,0 +1,71 @@
+/* Curated fishing-spot pins and their popup, on the full map and /fishing.
+   The pin colour is the water type's (fishingLayers.ts), set per marker as
+   --fishing-spot-color; each holds at least 5:1 under the white numeral. */
+.leaflet-marker-icon.fishing-spot-marker {
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  line-height: 1;
+  background: var(--fishing-spot-color, #555555);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(13, 31, 36, 0.45);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.leaflet-marker-icon.fishing-spot-marker:focus-visible {
+  /* The app's focus token: light on the night map, where #1e66cc is too dark. */
+  outline: 3px solid var(--survey-blue, #1e66cc);
+  outline-offset: 2px;
+}
+
+.leaflet-marker-icon.fishing-spot-marker.is-selected {
+  transform-origin: center;
+  box-shadow: 0 0 0 3px #12343b, 0 0 0 6px #ffffff, 0 2px 10px rgba(13, 31, 36, 0.5);
+}
+
+.fishing-spot-popup .leaflet-popup-content {
+  margin: 12px 14px;
+}
+
+.fishing-spot-popup-body {
+  display: grid;
+  gap: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.fishing-spot-popup-body strong {
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.fishing-spot-popup-body p {
+  margin: 0;
+}
+
+/* Above Leaflet's own `.leaflet-container a` colour, which would put its
+   link blue on this button's teal when it is a link (on the full map). */
+.leaflet-container .fishing-spot-popup-body .fishing-spot-popup-card {
+  justify-self: start;
+  min-height: 36px;
+  padding: 7px 14px;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  background: #0a4f5c;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.fishing-spot-popup-body .fishing-spot-popup-note {
+  color: rgba(18, 52, 59, 0.75);
+  font-size: 0.74rem;
+}

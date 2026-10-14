@@ -6,7 +6,9 @@ import { rhodenaLayers } from './catalog';
 import { biodiversityLayers } from '../layers/biodiversityLayers';
 import { communityResearchLayers } from '../layers/communityResearchLayers';
 import { waterResearchLayers } from '../layers/waterResearchLayers';
+import { focusOffersLayer } from '../focus/focusDefinition';
 import { inRhodenaFocus, rhodenaFocusCategoryIds, rhodenaFocusLayerIds } from './focus';
+import { rhodenaFocusDefinition } from './focusDefinition';
 
 describe('Rhodena page layer focus', () => {
   it('offers only real layers, each in a category the page shows', () => {
@@ -34,5 +36,13 @@ describe('Rhodena page layer focus', () => {
     expect(rhodenaFocusCategoryIds).not.toContain('tax-sale');
     expect(rhodenaFocusCategoryIds).not.toContain('my-maps');
     expect(rhodenaFocusCategoryIds[0]).toBe('rhodena-project');
+  });
+
+  it('answers as the page does for the fishing layers its Water & Terrain sweep allows but the page denies', () => {
+    for (const id of ['fishing-spots', 'stocked-waters', 'dfo-small-craft-harbours-core', 'dfo-small-craft-harbours-non-core']) {
+      expect(rhodenaFocusLayerIds.has(id as never), id).toBe(true);
+      expect(inRhodenaFocus(id), id).toBe(false);
+      expect(focusOffersLayer(rhodenaFocusDefinition, id), id).toBe(false);
+    }
   });
 });

@@ -39,6 +39,18 @@ describe("parseLatestRadarTime", () => {
     expect(parseLatestRadarTime(capabilitiesXml)).toBe("2026-08-29T15:54:00Z");
   });
 
+  it("reads the frame from a namespace-prefixed WMS time dimension", () => {
+    const prefixedXml = `<?xml version="1.0"?>
+      <wms:WMS_Capabilities xmlns:wms="http://www.opengis.net/wms">
+        <wms:Capability><wms:Layer>
+          <wms:Name>RADAR_1KM_RRAI</wms:Name>
+          <wms:Dimension name="time" default="2026-08-29T15:54:00Z" />
+        </wms:Layer></wms:Capability>
+      </wms:WMS_Capabilities>`;
+
+    expect(parseLatestRadarTime(prefixedXml)).toBe("2026-08-29T15:54:00Z");
+  });
+
   it("returns null when the document has no time dimension", () => {
     const withoutTime = capabilitiesXml.replace('name="time"', 'name="elevation"');
     expect(parseLatestRadarTime(withoutTime)).toBeNull();

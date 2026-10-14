@@ -36,11 +36,17 @@ export class ErrorBoundary extends Component<
 > {
   state: ErrorBoundaryState = { error: null };
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { error };
+  static getDerivedStateFromError(error: unknown): ErrorBoundaryState {
+    // JavaScript can throw null, undefined, or strings. Keep recovery state
+    // truthy so those values cannot render the failing children again.
+    return {
+      error: error instanceof Error
+        ? error
+        : new Error(typeof error === "string" ? error : "An unexpected application error occurred."),
+    };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo): void {
+  componentDidCatch(error: unknown, info: ErrorInfo): void {
     // The console is the only reporting channel this app has: it ships no
     // telemetry, and user-loaded material must not leave the browser.
     console.error("Unhandled application error", error, info.componentStack);

@@ -1289,8 +1289,11 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
   {
     id: "abandoned-mines",
     name: "Abandoned mine openings",
+    // The Province's own copy of DP ME 10 version 9 (extract 2024-06-11,
+    // 8,564 openings). The older ArcGIS Online copy is version 8 (2020).
+    // This service only accepts lower-case field names.
     serviceUrl:
-      "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
+      "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
     sourceUrl:
       "https://novascotia.ca/natr/meb/download/dp010.asp",
     minZoom: 11,
@@ -1300,15 +1303,15 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
     delivery: "feature-query",
     outFields: [
       "geo_id",
-      "ShaftID",
-      "Name",
-      "Opening_ty",
-      "Degree_Haz",
-      "Protection",
+      "shaftid",
+      "name",
+      "opening_ty",
+      "degree_haz",
+      "protection",
     ],
     markerColor: "#d1495b",
     webCaveat: "Provincial hazard inventory; locations and conditions may change",
-    sourceDate: "2024 · version 9",
+    sourceDate: "Version 9 · extract June 11, 2024",
     scale: "Approximate point inventory",
     coverage: "Nova Scotia · incomplete inventory",
   },

@@ -68,6 +68,24 @@ function workerThat(
 }
 
 describe("parseGeoPdfAuto", () => {
+  it("gives the worker default assets from the installed PDF.js version", async () => {
+    const worker = workerThat({ ok: true, kind: "parsed", parsed });
+
+    await parseGeoPdfAuto(new ArrayBuffer(8), {
+      supportsWorker: true,
+      supportsWorkerCanvas: true,
+      createWorker: () => worker,
+      parseOnMain: vi.fn(),
+    });
+
+    expect(worker.postMessage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        assetBaseUrl: expect.stringContaining("/vendor/pdfjs/6.2.108/"),
+      }),
+      expect.any(Array),
+    );
+  });
+
   it("transfers the buffer to the preferred feature worker", async () => {
     const buffer = new ArrayBuffer(8);
     const worker = workerThat({ ok: true, kind: "parsed", parsed });
@@ -76,7 +94,7 @@ describe("parseGeoPdfAuto", () => {
         supportsWorker: true,
         supportsWorkerCanvas: true,
         createWorker: () => worker,
-        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.2.108/",
         parseOnMain: vi.fn(),
       }),
     ).resolves.toEqual(parsed);
@@ -84,7 +102,7 @@ describe("parseGeoPdfAuto", () => {
       {
         type: "parse",
         buffer,
-        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.2.108/",
       },
       [buffer],
     );
@@ -199,7 +217,7 @@ describe("parseGeoPdfAuto", () => {
         supportsWorker: true,
         supportsWorkerCanvas: true,
         createWorker,
-        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.2.108/",
         parseOnMain,
       }),
     ).resolves.toEqual(parsed);
@@ -241,7 +259,7 @@ describe("parseGeoPdfAuto", () => {
         supportsWorker: true,
         supportsWorkerCanvas: true,
         createWorker,
-        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.2.108/",
         parseOnMain,
       }),
     ).resolves.toEqual(parsed);
@@ -268,7 +286,7 @@ describe("parseGeoPdfAuto", () => {
         supportsWorker: true,
         supportsWorkerCanvas: true,
         createWorker: () => worker,
-        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.2.108/",
         parseOnMain,
       }),
     ).rejects.toMatchObject({

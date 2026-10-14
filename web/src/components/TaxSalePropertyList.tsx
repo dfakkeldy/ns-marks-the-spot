@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { TaxSaleListing } from "../data/taxSaleCatalog";
 import type { TaxSaleGeometryException } from "../data/taxSaleTypes";
 
@@ -48,6 +48,7 @@ export function TaxSalePropertyList({
     selectedPid,
   });
   const open = openState.open && openState.selectedPid === selectedPid;
+  const summaryRef = useRef<HTMLElement>(null);
 
   return (
     <details
@@ -57,7 +58,7 @@ export function TaxSalePropertyList({
         setOpenState({ open: event.currentTarget.open, selectedPid })
       }
     >
-      <summary>
+      <summary ref={summaryRef}>
         <span>Browse properties</span>
         <small>
           {unavailableCount > 0
@@ -81,6 +82,9 @@ export function TaxSalePropertyList({
                       aria-label={`${propertyLabel(listing)}, lien ${listing.lien ?? "not listed"}, PID ${pid}`}
                       disabled={disabled}
                       onClick={() => {
+                        // The selected row is about to be hidden by its
+                        // disclosure; keep the keyboard on its visible opener.
+                        summaryRef.current?.focus();
                         setOpenState({ open: false, selectedPid: pid });
                         onSelectPid(eventId, pid);
                       }}
