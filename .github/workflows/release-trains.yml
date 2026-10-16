@@ -32,6 +32,11 @@ on:
         required: false
         type: boolean
         default: false
+      force:
+        description: Rebuild unchanged inputs intentionally, with all existing gates
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -41,6 +46,11 @@ env:
   SCHEME: ns-marks-the-spot
   DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
   TRAIN_TIMEZONE: America/Halifax
+
+concurrency:
+  group: release-trains
+  cancel-in-progress: false
+  queue: max
 
 jobs:
   resolve:
@@ -119,20 +129,66 @@ jobs:
             echo "dry_run=false"
           } >> "$GITHUB_OUTPUT"
 
-  ship:
-    name: Build and ship ${{ needs.resolve.outputs.channel }}
+  changes:
+    name: Compare delivered build inputs
     needs: resolve
     if: needs.resolve.outputs.should_run == 'true'
-    runs-on: macos-26
-    concurrency:
-      group: release-trains-${{ needs.resolve.outputs.channel }}
-      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      should_run: ${{ steps.changes.outputs.should_run }}
+      source_sha: ${{ steps.changes.outputs.source_sha }}
+      plan: ${{ steps.changes.outputs.plan }}
+      ios: ${{ steps.changes.outputs.ios }}
+      fingerprint_ios: ${{ steps.changes.outputs.fingerprint_ios }}
+    steps:
+      - name: Inspect train source tree
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.branch }}
+          sparse-checkout: .github
 
+      - name: Check out delivery guard from controller
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .release-control
+          sparse-checkout: .github
+
+      - name: Compare successful deliveries
+        id: changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE_RELEASE: ${{ inputs.force || inputs.dry_run || false }}
+        run: >-
+          python3 .release-control/.github/scripts/release_delivery.py plan
+          --controller .release-control
+          --channel "${{ needs.resolve.outputs.channel }}"
+          --force "$FORCE_RELEASE"
+
+  ship:
+    name: Build and ship ${{ needs.resolve.outputs.channel }}
+    needs: [resolve, changes]
+    if: needs.changes.outputs.should_run == 'true'
+    runs-on: macos-26
+
+    env:
+      RELEASE_PLAN: ${{ needs.changes.outputs.plan }}
+      RELEASE_CONTROL_SCRIPT: ${{ github.workspace }}/.release-control/.github/scripts/release_delivery.py
     steps:
       - name: Check out train branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.resolve.outputs.branch }}
+          ref: ${{ needs.changes.outputs.source_sha }}
+
+      - name: Check out delivery recorder from controller
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .release-control
+          sparse-checkout: .github
 
       - name: Select Xcode 26.5
         uses: maxim-lobanov/setup-xcode@v1
@@ -229,6 +285,7 @@ jobs:
           echo "::notice::Dry run requested; compile and tests passed, and no TestFlight upload was attempted."
 
       - name: Upload TestFlight build when secrets are configured
+        id: delivery
         if: needs.resolve.outputs.dry_run != 'true'
         env:
           APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
@@ -253,6 +310,17 @@ jobs:
           fi
 
           bundle exec fastlane beta channel:"$CHANNEL"
+          python3 "$RELEASE_CONTROL_SCRIPT" record --platform ios
+
+      - name: Retain successful ${{ needs.resolve.outputs.channel }} ios delivery receipt
+        if: success() && steps.delivery.outputs.ios_delivered == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-delivery-v1-${{ needs.resolve.outputs.channel }}-ios-${{ github.run_attempt }}-${{ needs.changes.outputs.fingerprint_ios }}
+          path: ${{ runner.temp }}/release-receipts/ios.json
+          retention-days: 90
+          if-no-files-found: error
+
 
   signing-check:
     name: Inspect signing records
