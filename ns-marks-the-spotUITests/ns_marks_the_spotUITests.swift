@@ -97,7 +97,7 @@ final class ns_marks_the_spotUITests: XCTestCase {
             XCTAssertTrue(app.buttons["Close layers menu"].waitForHittable(timeout: timeout))
 
             let panel = app.scrollRegion("layer-panel-scroll")
-            let historical = app.buttons["layer-section-historical-maps"].firstMatch
+            let historical = app.buttons.matching(identifier: "layer-section-historical-maps").firstMatch
             XCTAssertTrue(historical.waitForExistence(timeout: timeout))
             XCTAssertTrue(app.scroll(historical, into: panel, fullyVisible: true))
             XCTAssertTrue(historical.waitForStableFrame(in: panel, timeout: timeout))
