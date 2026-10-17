@@ -83,6 +83,49 @@ final class ns_marks_the_spotUITests: XCTestCase {
         )
     }
 
+    /// Compare a settled header's centre with its disclosure indicator. The
+    /// indicator probe is diagnostic only: it never makes the centre assertion
+    /// pass, and every cycle begins with a fresh app launch and one centre tap.
+    @MainActor
+    func testHistoricalSectionAcceptsACentreTap() throws {
+        for cycle in 1...5 {
+            let app = XCUIApplication.launchedForUITests()
+            defer { app.terminate() }
+            let layers = app.buttons["toggle-layers-menu"]
+            XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+            layers.tap()
+            XCTAssertTrue(app.buttons["Close layers menu"].waitForHittable(timeout: timeout))
+
+            let panel = app.scrollRegion("layer-panel-scroll")
+            let historical = app.buttons["layer-section-historical-maps"].firstMatch
+            XCTAssertTrue(historical.waitForExistence(timeout: timeout))
+            XCTAssertTrue(app.scroll(historical, into: panel, fullyVisible: true))
+            XCTAssertTrue(historical.waitForStableFrame(in: panel, timeout: timeout))
+            let frame = historical.frame
+            historical.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+            let fletcher = app.switches["Fletcher visibility"]
+            let centreOpened = fletcher.waitForExistence(timeout: timeout)
+            var indicatorOpened: Bool?
+            if !centreOpened {
+                let beforeProbe = XCTAttachment(string: app.debugDescription)
+                beforeProbe.name = "Centre tap failed, cycle \(cycle)"
+                beforeProbe.lifetime = .keepAlways
+                add(beforeProbe)
+                let screenshot = XCTAttachment(screenshot: app.screenshot())
+                screenshot.lifetime = .keepAlways
+                add(screenshot)
+                historical.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tap()
+                indicatorOpened = fletcher.waitForExistence(timeout: timeout)
+            }
+            let observation = "cycle=\(cycle) frame=\(frame) centreOpened=\(centreOpened) indicatorOpened=\(String(describing: indicatorOpened))"
+            let receipt = XCTAttachment(string: observation)
+            receipt.name = "Historical section tap comparison"
+            receipt.lifetime = .keepAlways
+            add(receipt)
+            XCTAssertTrue(centreOpened, observation)
+        }
+    }
+
     @MainActor
     func testLaunchPerformance() throws {
         // Launched once and checked before anything is timed. A launch that
