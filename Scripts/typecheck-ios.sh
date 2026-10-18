@@ -29,7 +29,6 @@ WHAT=${1:-all}
 SCRATCH=${TMPDIR:-/tmp}/ns-marks-typecheck
 SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
 DEV=$(xcode-select -p)
-MODULES=$SCRATCH/packages/arm64-apple-ios-simulator/debug/Modules
 
 # The flags the app target builds with. The triple carries the project's
 # `IPHONEOS_DEPLOYMENT_TARGET`, because availability and obsoletion are checked
@@ -59,7 +58,22 @@ swift build --package-path NSMarksCore \
   -Xswiftc -sdk -Xswiftc "$SDK" \
   --scratch-path "$SCRATCH/packages" >/dev/null
 
-APP=("${(@f)$(find ns-marks-the-spot -name '*.swift' | sort)}")
+# Found rather than assumed. SwiftPM's scratch layout is the toolchain's to
+# choose -- it has been `<triple>/debug/Modules` and it is
+# `out/Products/Debug-iphonesimulator` here -- and a hard-coded path that stops
+# matching fails as "no such module 'GeoCore'", which reads like a project
+# problem rather than a path this script guessed.
+GEOCORE=$(find "$SCRATCH/packages" -maxdepth 6 -name 'GeoCore.swiftmodule' | head -1)
+if [[ -z $GEOCORE ]]; then
+  print -u2 "could not find GeoCore.swiftmodule under $SCRATCH/packages"
+  exit 1
+fi
+MODULES=${GEOCORE:h}
+
+# `SharedActivity/` too: it is its own synchronized folder listed by the app
+# target as well as the widget extension, so the app the gated build compiles
+# includes it, and an app checked here without it is a different app.
+APP=("${(@f)$(find ns-marks-the-spot SharedActivity -name '*.swift' | sort)}")
 
 if [[ $WHAT == app ]]; then
   print "type-checking ${#APP} app sources"

@@ -1,0 +1,177 @@
+{
+  "sheet": "122",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.59693099170929,
+      1.9023998117573337
+    ],
+    [
+      1.9455056720382482,
+      -4.642153132139411
+    ],
+    [
+      651898.0501618078,
+      5125706.197350608
+    ]
+  ],
+  "source_sha256": "ee068a531cbb70fbb25177eddcc7599ac325d8b95fcb61cf61bfab889746e4fd",
+  "source_dimensions": [
+    5977,
+    4143
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C03",
+      "label": "Baddeck Forks northern bank wedge",
+      "role": "control",
+      "pixel_xy": [
+        2935,
+        3310
+      ],
+      "lonlat": [
+        -60.77359468852859,
+        46.17504888908316
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 159474,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        2955.138922495127,
+        3299.7593763869954
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "definition": "Northern outer bank, not channel centreline; paired bend or fork context inspected",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "North Baddeck eastern of two adjacent confluences",
+      "role": "control",
+      "pixel_xy": [
+        3186,
+        1804
+      ],
+      "lonlat": [
+        -60.794626734972184,
+        46.24303020299266
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 184743,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3188.71611487848,
+        1775.6738101114752
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Central southern pond western end",
+      "role": "control",
+      "pixel_xy": [
+        3486,
+        1154
+      ],
+      "lonlat": [
+        -60.79179191002291,
+        46.27566350308159
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 56288,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3488.072432147048,
+        1114.1381222860655
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Northeastern compact pond western corner",
+      "role": "control",
+      "pixel_xy": [
+        4660,
+        650
+      ],
+      "lonlat": [
+        -60.73223400210959,
+        46.315001450381715
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 135979,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4660.181632993685,
+        619.9849054663209
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Northeastern tall lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        4880,
+        688
+      ],
+      "lonlat": [
+        -60.71800588026679,
+        46.31665956898551
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 136086,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4878.932047914306,
+        662.3645417190855
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Upper Middle River western large loop northern bank crest",
+      "role": "control",
+      "pixel_xy": [
+        1599,
+        974
+      ],
+      "lonlat": [
+        -60.90909641078532,
+        46.252243518599684
+      ],
+      "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+      "reference_objectid": 159910,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        1606.2898832078208,
+        963.4364554618951
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 25,
+      "definition": "Northern outer bank, not channel centreline; paired bend or fork context inspected",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    26.704382971522016,
+    43.109290966532505,
+    73.77603425310839,
+    14.838584595770852,
+    38.16886734375043,
+    34.964172687949464
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

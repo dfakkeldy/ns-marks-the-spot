@@ -1,0 +1,50 @@
+[
+  {
+    "name": "western-interior",
+    "lonlat_bounds": [
+      -61.185,
+      45.6,
+      -61.125,
+      45.655
+    ],
+    "raster": "/Users/dfakkeldy/Downloads/church-refinement-04/rendered/richmond-refined-v4-tps-5m.tif",
+    "reference": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+    "geotransform": [
+      -6811085.0,
+      6.680000000000001,
+      0.0,
+      5725235.0,
+      0.0,
+      -6.678108314263921
+    ],
+    "window_size": [
+      1000,
+      1311
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "pringle-lake",
+    "lonlat_bounds": [
+      -60.98,
+      45.715,
+      -60.93,
+      45.75
+    ],
+    "raster": "/Users/dfakkeldy/Downloads/church-refinement-04/rendered/richmond-refined-v4-tps-5m.tif",
+    "reference": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+    "geotransform": [
+      -6788265.0,
+      5.5649999999999995,
+      0.0,
+      5740380.0,
+      0.0,
+      -5.563310069790628
+    ],
+    "window_size": [
+      1000,
+      1003
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  }
+]

@@ -1,0 +1,260 @@
+{
+  "count": 7,
+  "rms_ground_m": 107.25976787432812,
+  "median_ground_m": 83.43515899724407,
+  "p95_ground_m": 171.94807976779393,
+  "max_ground_m": 197.31409131310403,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -58.226564100862525,
+  "mean_north_ground_m": -8.282278342647826,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Pictou Island northern prominence",
+      "role": "check",
+      "pixel_xy": [
+        2998,
+        317
+      ],
+      "lonlat": [
+        -62.57598777878811,
+        45.82328990308975
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 20936,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20936,
+      "nearest_unfiltered_distance_guide_px": 0.2275703415455418,
+      "selected_distance_guide_px": 0.2275703415455418,
+      "guide_reference_pixel_xy": [
+        3086.896842109214,
+        355.20284651813563
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Image-based corrections preceded fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -62.577101839572855,
+        45.82283667424211
+      ],
+      "error_ground_m": 100.16312183372435,
+      "east_ground_m": -86.57383629598591,
+      "north_ground_m": -50.3748135924426
+    },
+    {
+      "id": "Q02",
+      "label": "Pictou Island southeast shore corner",
+      "role": "check",
+      "pixel_xy": [
+        3844,
+        849
+      ],
+      "lonlat": [
+        -62.51293904843407,
+        45.814760654743935
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 20971,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20971,
+      "nearest_unfiltered_distance_guide_px": 1.1881905763439786,
+      "selected_distance_guide_px": 1.1881905763439786,
+      "guide_reference_pixel_xy": [
+        3925.5179324573255,
+        898.9306343864882
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Image-based corrections preceded fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -62.51332426452144,
+        45.81495901350736
+      ],
+      "error_ground_m": 37.18128279996894,
+      "east_ground_m": -29.939423539514664,
+      "north_ground_m": 22.047192763996545
+    },
+    {
+      "id": "Q03",
+      "label": "Pictou Island southwest broad corner",
+      "role": "check",
+      "pixel_xy": [
+        3092,
+        818
+      ],
+      "lonlat": [
+        -62.55754782579594,
+        45.802298881121175
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 20907,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20907,
+      "nearest_unfiltered_distance_guide_px": 8.252736784270235,
+      "selected_distance_guide_px": 8.252736784270235,
+      "guide_reference_pixel_xy": [
+        3177.7675034505082,
+        895.9747525824932
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Image-based corrections preceded fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -62.55936699577652,
+        45.80353687376768
+      ],
+      "error_ground_m": 197.31409131310403,
+      "east_ground_m": -141.41682013544707,
+      "north_ground_m": 137.60135760047777
+    },
+    {
+      "id": "Q04",
+      "label": "Johns Point northern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        413,
+        724
+      ],
+      "lonlat": [
+        -62.72240240396633,
+        45.76268856204544
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 4296,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4296,
+      "nearest_unfiltered_distance_guide_px": 2.289495950864561,
+      "selected_distance_guide_px": 2.289495950864561,
+      "guide_reference_pixel_xy": [
+        467.23671006644145,
+        748.0732566541992
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Image-based corrections preceded fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -62.722844323323436,
+        45.76200929787694
+      ],
+      "error_ground_m": 82.95687073528912,
+      "east_ground_m": -34.37900072748315,
+      "north_ground_m": -75.49785898402139
+    },
+    {
+      "id": "Q05",
+      "label": "Doctor Island northwest tip",
+      "role": "check",
+      "pixel_xy": [
+        876,
+        1280
+      ],
+      "lonlat": [
+        -62.680748882794084,
+        45.74622344942026
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 8055,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8055,
+      "nearest_unfiltered_distance_guide_px": 2.0451451793073168,
+      "selected_distance_guide_px": 2.0451451793073168,
+      "guide_reference_pixel_xy": [
+        930.4830924979178,
+        1331.9787433989113
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Image-based corrections preceded fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -62.68156573600573,
+        45.74670970970608
+      ],
+      "error_ground_m": 83.43515899724407,
+      "east_ground_m": -63.56424883335681,
+      "north_ground_m": 54.0463877344869
+    },
+    {
+      "id": "Q06",
+      "label": "Roaring Bull Point northern nub",
+      "role": "check",
+      "pixel_xy": [
+        1784,
+        3255
+      ],
+      "lonlat": [
+        -62.579624538069346,
+        45.68029503268834
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 11069,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 11069,
+      "nearest_unfiltered_distance_guide_px": 0.8622491979718595,
+      "selected_distance_guide_px": 0.8622491979718595,
+      "guide_reference_pixel_xy": [
+        1840.401437555498,
+        3284.3793578491313
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Image-based corrections preceded fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -62.579390042479204,
+        45.679778756470434
+      ],
+      "error_ground_m": 60.219658037309436,
+      "east_ground_m": 18.269303618317373,
+      "north_ground_m": -57.381528033263656
+    },
+    {
+      "id": "Q07",
+      "label": "Logan Point east shoulder",
+      "role": "check",
+      "pixel_xy": [
+        1204,
+        2197
+      ],
+      "lonlat": [
+        -62.63882092994172,
+        45.71485285916993
+      ],
+      "guide_file": ".crown-grant-local/092-index-guide.npy",
+      "reference_objectid": 7429,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7429,
+      "nearest_unfiltered_distance_guide_px": 0.9116878515510124,
+      "selected_distance_guide_px": 0.9116878515510124,
+      "guide_reference_pixel_xy": [
+        1273.484781610372,
+        2224.7721149713034
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Island and mainland shore shapes traced broadly; original native and modern crosshairs inspected before first fit and score.",
+      "review": "Image-based corrections preceded fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -62.63971973169543,
+        45.71405735338383
+      ],
+      "error_ground_m": 112.76071949540393,
+      "east_ground_m": -69.98192279256746,
+      "north_ground_m": -88.41668588776835
+    }
+  ],
+  "fit_sha256": "230fb7ede8f34356217d1d3f8fb8cb911b23323bca250543fa48ea6e1de4c59d",
+  "checks_sha256": "8d1122d87614024512b41a9c12de415c6cd0fb9783e9820d7aca81f8ae6c4084",
+  "status": "Seven independent physical check observations reserved and audited before first whole-frame affine fit and score; three checks on Pictou Island with its endpoints used as controls"
+}

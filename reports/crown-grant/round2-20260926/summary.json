@@ -1,0 +1,350 @@
+{
+  "version": "second-round-20260926",
+  "completed_at_utc": "2026-09-26T14:57:19.891039+00:00",
+  "baseline_merge_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "task_base_sha": "d2783ce8753d8921e3f1175aa7bb2538b3abfab3",
+  "requested_sheets": 36,
+  "assessed_sheets": 36,
+  "accepted_improvements": 0,
+  "retained_failures": 36,
+  "frozen_revised_candidates": 1,
+  "rejected_revised_candidates": 1,
+  "fresh_checks": 3,
+  "active_fits_changed": 0,
+  "geographic_acceptances": 0,
+  "production_activation": false,
+  "thresholds_m": {
+    "rms": 100,
+    "median": 75,
+    "empirical_p95": 150,
+    "maximum": 200
+  },
+  "private_artifacts": "/Users/dfakkeldy/Documents/NS Marks The Spot/Crown Grant/round2-20260926",
+  "private_independent_copy": "/Users/dfakkeldy/Documents/NS Marks The Spot/Crown Grant/round2-20260926-copy",
+  "rows": [
+    {
+      "sheet": "004a",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 101.95600982886253,
+      "original_fit": "fit-main-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet004a/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "005",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 123.45814689513249,
+      "original_fit": "fit-main-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet005/assessment.json",
+      "new_fresh_checks": 3
+    },
+    {
+      "sheet": "008",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 136.55326733516887,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet008/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "010",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 101.25945336625703,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet010/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "011",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 142.86475263080376,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet011/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "015",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 139.25205310372968,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet015/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "019",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 103.4403508678554,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet019/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "022",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 101.95968066477984,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet022/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "024",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 155.1936308224329,
+      "original_fit": "fit-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet024/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "026",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 103.52941962631171,
+      "original_fit": "fit-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet026/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "031",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 130.8870923964516,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet031/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "043",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 129.31830269537113,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet043/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "044",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 103.25700421444355,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet044/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "049",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 424.2597356082433,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet049/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "052",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 141.3227388784321,
+      "original_fit": "fit-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet052/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "056",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 103.05652311467188,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet056/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "058",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 106.17997510793715,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet058/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "060",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 235.59208581379104,
+      "original_fit": "fit-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet060/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "067",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 100.17459813305791,
+      "original_fit": "fit-main-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet067/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "076",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 131.8263871369466,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet076/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "077",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 164.7098820520001,
+      "original_fit": "fit-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet077/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "087",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 117.04764688698587,
+      "original_fit": "fit-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet087/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "090",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 105.24248474377777,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet090/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "092",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 107.25976787432812,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet092/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "097",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 107.9189301421114,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet097/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "103",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 174.4338699571609,
+      "original_fit": "fit-main-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet103/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "109",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 141.1876082582987,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet109/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "111",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 175.20614129354308,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet111/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "112",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 105.23991735118904,
+      "original_fit": "fit-main-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet112/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "114",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 168.84910065357266,
+      "original_fit": "fit-main-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet114/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "117",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 106.78540876468259,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet117/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "118",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 104.53576946596525,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet118/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "119",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 128.15367108852973,
+      "original_fit": "fit-similarity-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet119/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "120",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 248.9544224830488,
+      "original_fit": "fit-main-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet120/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "130",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 110.15749385625024,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet130/assessment.json",
+      "new_fresh_checks": 0
+    },
+    {
+      "sheet": "131",
+      "outcome": "retained-failure",
+      "baseline_rms_ground_m": 158.1710764742942,
+      "original_fit": "fit-affine-01.json",
+      "new_active_fit": false,
+      "assessment": "sheet131/assessment.json",
+      "new_fresh_checks": 0
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "purpose": "Discovery only; no label or name coordinate becomes an adopted observation",
+  "source": "https://geonames.nrcan.gc.ca/search-place-names/unique?id=CBDFE",
+  "name": "Peggys Point, historical spelling record",
+  "status": "Previously Official",
+  "approximate_lonlat": [
+    -63.918874,
+    44.491508
+  ],
+  "approximate_original_pixel_xy": [
+    270,
+    2935
+  ],
+  "linear_basis": "Provisional same-scale/orientation as main discovery guide; physical coast geometry must confirm or revise before fitting",
+  "note": "Name point is coarse scale1:1000000 and not a shore control; independent shoreline vertices will supply all adopted reference coordinates."
+}

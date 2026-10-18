@@ -70,6 +70,52 @@ describe("GeoPdfFrameChooser", () => {
     expect(onUseFrame).toHaveBeenCalledWith("main", undefined);
   });
 
+  it("re-applies the current frame of an adjusted registration with consent, not a dead button", async () => {
+    const onUseFrame = vi.fn(async () => undefined);
+    const confirmSpy = vi
+      .spyOn(window, "confirm")
+      .mockReturnValue(true);
+    const baseRegistration = map.record.pdf!.registration;
+    if (baseRegistration.status === "manual") {
+      throw new Error("fixture must carry candidates");
+    }
+    const adjusted = {
+      ...map.record,
+      pdf: {
+        ...map.record.pdf!,
+        registration: {
+          status: "embedded" as const,
+          flavor: "measure" as const,
+          selection: { kind: "user" as const },
+          selectedFrameId: "main",
+          selectedLabel: "Map Layers",
+          adjusted: true,
+          candidates: baseRegistration.candidates,
+        },
+      },
+    };
+    render(
+      <GeoPdfFrameChooser
+        map={{ ...map, record: adjusted }}
+        onCancel={vi.fn()}
+        onUseFrame={onUseFrame}
+      />,
+    );
+    await userEvent.click(screen.getByRole("radio", { name: /Map Layers/ }));
+    await userEvent.click(screen.getByRole("button", { name: /Use this frame/ }));
+
+    // selectPdfFrame refuses ANY apply on an adjusted registration without
+    // explicit consent; the old same-frame carve-out sent the unconsented
+    // call anyway and its rejection went unhandled.
+    expect(confirmSpy).toHaveBeenCalledWith(
+      expect.stringMatching(/Re-applying this frame/),
+    );
+    expect(onUseFrame).toHaveBeenCalledWith("main", {
+      replaceAdjustedPoints: true,
+    });
+    confirmSpy.mockRestore();
+  });
+
   it("closes on Escape", async () => {
     const onCancel = vi.fn();
     render(

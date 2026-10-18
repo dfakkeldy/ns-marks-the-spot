@@ -1,0 +1,16 @@
+{
+  "fit_sha256": "2b4a15579de38102ce6950f95f954c401e6d4b1f4266d2516e6757c8a671a997",
+  "frozen_at": "2026-09-11T17:55:00.494126+00:00",
+  "promotions": [
+    {
+      "from_id": "Q01",
+      "to_id": "C14"
+    },
+    {
+      "from_id": "Q05",
+      "to_id": "C15"
+    }
+  ],
+  "initial_twelve_unchanged": true,
+  "fresh_validation_collected_after_freeze": true
+}

@@ -27,6 +27,7 @@ struct InfoSheetView: View {
                     linksSection
                     licenceSection
                     dataSourcesSection
+                    versionFooter
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 24)
@@ -82,10 +83,8 @@ struct InfoSheetView: View {
     /// deciding how much this map is claiming, and the answer has to be
     /// somewhere they can find it.
     ///
-    /// The location sentence is the one that had to be rewritten rather than
-    /// copied. The browser promises location never leaves the browser; here
-    /// the promise is about the device, which is the same promise in the only
-    /// words that are true of an app.
+    /// Following the device's position can request tiles and layers around
+    /// it. Explain those provider requests alongside the local track files.
     private var methodSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("How It Treats Data")
@@ -108,7 +107,8 @@ struct InfoSheetView: View {
         "Every tax-sale notice ships inside the app with the SHA-256 of the file it was built from, so a dataset cannot change without its receipt changing.",
         "Unknown outcomes stay unknown. A result is never inferred, so a dated record cannot read as a current offering.",
         "An empty answer and a failed source are reported differently. Absence of evidence is never shown as evidence of absence.",
-        "No assessed-owner name is ingested. Your location, your saved areas and the maps you import stay on this device.",
+        "No assessed-owner name is ingested. Saved areas, imported maps and recorded tracks are stored locally. System backups may include saved library files, depending on your device settings.",
+        "Location access is optional. When the map follows your position, map and layer requests can disclose the surrounding viewed area to the selected providers. You choose any export or sharing destination.",
     ]
 
     /// Who made the map, which is part of what a reader is judging when they
@@ -140,20 +140,77 @@ struct InfoSheetView: View {
     /// cannot carry a screenshot or a PID, and it cannot be replied to.
     private var linksSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Link(
-                "Source on GitHub",
-                destination: URL(string: "https://github.com/dfakkeldy/ns-marks-the-spot")!
-            )
-            Link(
-                "Email the maker",
-                destination: URL(
-                    string: "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot"
-                )!
-            )
+            Link(destination: URL(string: "https://github.com/dfakkeldy/ns-marks-the-spot")!) {
+                Text("Source on GitHub")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            Link(destination: URL(string: "https://dfakkeldy.github.io/ns-marks-the-spot/privacy.html")!) {
+                Text("Privacy Policy")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            .accessibilityIdentifier("map-info.privacy-policy")
+            Link(destination: Self.feedbackMailURL) {
+                Text("Email the maker")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
         }
         .font(.subheadline)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+    /// Which build the reader is holding, in the marketing-plus-build form
+    /// beta feedback needs: two TestFlight builds share a marketing version
+    /// and differ only in the bracketed build number.
+    ///
+    /// Rendered from the bundle rather than hard-coded, so it cannot drift
+    /// from what was actually installed. When the bundle carries no version —
+    /// previews, bare test hosts — the row disappears instead of reading
+    /// "Version  ()".
+    @ViewBuilder private var versionFooter: some View {
+        if let version = Self.appVersion {
+            Text("Version \(version)")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    /// "1.0 (7)", or just "1.0" without a build number, or nil when the
+    /// bundle reports no marketing version at all.
+    static func versionDescription(shortVersion: String?, build: String?) -> String? {
+        guard let shortVersion, !shortVersion.isEmpty else { return nil }
+        guard let build, !build.isEmpty else { return shortVersion }
+        return "\(shortVersion) (\(build))"
+    }
+
+    /// The subject line a feedback email arrives under. Carrying the version
+    /// means a beta report identifies its build even when the sender never
+    /// thinks to mention it.
+    static func feedbackSubject(version: String?) -> String {
+        guard let version else { return "NS Marks The Spot" }
+        return "NS Marks The Spot \(version)"
+    }
+
+    private static let appVersion = versionDescription(
+        shortVersion: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+            as? String,
+        build: Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+    )
+
+    /// Built with `URLComponents` so the subject's spaces and brackets are
+    /// percent-encoded correctly rather than by hand.
+    private static let feedbackMailURL: URL = {
+        var components = URLComponents()
+        components.scheme = "mailto"
+        components.path = "map@kinnokilabs.com"
+        components.queryItems = [
+            URLQueryItem(name: "subject", value: feedbackSubject(version: appVersion))
+        ]
+        return components.url ?? URL(string: "mailto:map@kinnokilabs.com")!
+    }()
 
     /// The way back out of an accepted Province licence.
     ///
@@ -210,11 +267,43 @@ struct InfoSheetView: View {
             // The ground itself, first: the attribution strip's credit line
             // sends readers here for the rest, and the OpenStreetMap base is
             // the one source the catalogue's rows do not answer for.
+            atlasRow
             openStreetMapRow
 
             ForEach(layers) { layer in
                 LayerAttributionRow(layer: layer)
             }
+        }
+    }
+
+    /// The rendered Atlas: the ground the map opens on, and the other source
+    /// the catalogue's rows do not answer for. Both of its credits, and the
+    /// Fletcher sentence, because the sheet describes every style at once.
+    private var atlasRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("NS Marks Atlas base map")
+                .font(.subheadline)
+                .bold()
+
+            ForEach(ActiveAttribution.baseCredits(for: .atlas)) { credit in
+                Text(credit.copyright ?? credit.provider)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                if let licenseTitle = credit.licenseTitle, let licenseURL = credit.licenseURL {
+                    Link(licenseTitle, destination: licenseURL)
+                        .font(.caption)
+                        .accessibilityIdentifier("source-licence-atlas-\(licenseTitle)")
+                }
+
+                Text(credit.disclaimer)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Text(AtlasRaster.fletcherStyleNote)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 

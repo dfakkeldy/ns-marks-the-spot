@@ -1,0 +1,51 @@
+{
+  "sheet": "sheet-10",
+  "source_sha256": "492a7b5b6cf6e0b33576c5b9489bc9bd91bc43d8f0f63a125c44225929fcab46",
+  "ring_pixel_xy": [
+    [
+      1465,
+      1105
+    ],
+    [
+      10190,
+      1120
+    ],
+    [
+      10190,
+      2140
+    ],
+    [
+      9650,
+      2140
+    ],
+    [
+      9650,
+      6580
+    ],
+    [
+      7160,
+      6580
+    ],
+    [
+      7160,
+      6650
+    ],
+    [
+      6790,
+      6650
+    ],
+    [
+      6790,
+      6580
+    ],
+    [
+      1465,
+      6565
+    ],
+    [
+      1465,
+      1105
+    ]
+  ],
+  "method": "Complete native mapped frame with connected northeast notch for Bentinck Point and full Bentinck/Plaster Cove labels, and small southern St Anns peninsula extension. Whitespace and incidental marginal text retained. One continuous warp, no land or control-hull clipping."
+}

@@ -1,0 +1,45 @@
+{
+  "sheet": "108",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "RMS PASSES; COVERAGE PROVISIONAL",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/108.pdf",
+    "pdf_sha256": "f0011d9ed8b85b3b70b789048d5a63d86a79ae6dcb844ea6929c18b440e101f9",
+    "jpeg_sha256": "46652c54904d45c69bb25e594d0045a34a1346ba5ca2a7b0ca5a52ad48eaab03",
+    "dimensions": [
+      6065,
+      4103
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 13,
+      "rms_ground_m": 52.24499514948199,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Median 46.67 m exceeds the retained 40 m companion bound; RMS/P95/maximum pass their bounds",
+    "Thirteen checks cover shores and ponds; inland/eastern terrain has no independent check coverage comparable to the coast",
+    "Henry Island has two checks and Port Hood Island three; these small samples do not establish island-wide accuracy",
+    "One Harbour View pond corner was rejected for incompatible historical/modern shoreline definitions"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "13 independent checks: RMS 52.24 m, median 46.67 m, P95 79.00 m, maximum 79.57 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped frame includes Port Hood Island and Henry Island at their printed geographic placements. One affine covers all three land areas; no separately displaced inset is present. Regional island check results are recorded separately."
+  }
+}

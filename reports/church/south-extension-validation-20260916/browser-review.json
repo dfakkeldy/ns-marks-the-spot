@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-09-16T02:58:56.782552+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active at 70% opacity. IS47 inspected in 2D and 10× terrain, 50° tilt, north up, zoom 15, with Modern map enabled. Terrain supplies valley context; coordinates remain from original scan and vector geometry. No new import or fit change.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/browser/IS47-2d.png",
+      "sha256": "a2ca8e50a74e083cfab2958f054d8687e6c41fe33f5b100c9ce1ac12c8873dee"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/browser/IS47-terrain10x.png",
+      "sha256": "f299521e14000708274cc63d455472834fc9e75d9be04d010ef6c118eb5870cd"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/browser/IS47-import-state.txt",
+      "sha256": "f799400a966eef5e6498ac10e2d0ef58698ed80e270f64f6480be7649b4bc09c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/browser/IS47-terrain10x-state.txt",
+      "sha256": "a91a9f25a34bb458c591337ff4d049f0e807694ccedaadb98187319a3ae43fb4"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

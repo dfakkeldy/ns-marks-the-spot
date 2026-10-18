@@ -1,0 +1,41 @@
+[
+  {
+    "name": "north",
+    "native_box": [
+      1190,
+      980,
+      4650,
+      3400
+    ],
+    "source_image": "north-grid.jpg",
+    "modern_image": "north-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight Cartesian crossings reconstructed from prior meridian/parallel coordinates; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      1190,
+      3000,
+      4350,
+      5100
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight Cartesian crossings reconstructed from prior meridian/parallel coordinates; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "south",
+    "native_box": [
+      1190,
+      4800,
+      4350,
+      6480
+    ],
+    "source_image": "south-grid.jpg",
+    "modern_image": "south-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight Cartesian crossings reconstructed from prior meridian/parallel coordinates; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]

@@ -1,0 +1,522 @@
+{
+  "sheet": "010",
+  "baseline_report": "reports/crown-grant/batch16/sheet010",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "a831f1f12239e9c1e2edaa5a46c75183b250151bd76d97bde793b85c12674892",
+  "reference_sha256": "11c4392466db0ff6793af91de7cf5b6e7e1e24ae420fec0d0eeb2e3cfa3a1940",
+  "fit_sha256": "b351afd855c7a0b7258cd014051ba55e7a0c4c5bdb882e5691d023a3986ec6cf",
+  "checks_sha256": "6e24a08be982ea5c048ca2a2688811ec6fb13951d94e08c5d8e5c9cc16578a5e",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 101.25945336625703,
+    "median_ground_m": 91.42812019159106,
+    "p95_ground_m": 143.54071734133225,
+    "max_ground_m": 159.75951835161945,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 4.5653342772935055,
+    "mean_north_ground_m": 17.766966167436188,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Peggy Island southern end",
+        "role": "check",
+        "pixel_xy": [
+          624,
+          369
+        ],
+        "lonlat": [
+          -65.82949649287708,
+          43.685556036073436
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 20669,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20669,
+        "nearest_unfiltered_distance_guide_px": 0.5371214684180879,
+        "selected_distance_guide_px": 0.5371214684180879,
+        "guide_reference_pixel_xy": [
+          650.528873559786,
+          290.0937668896513
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.83084376445402,
+          43.685262467036765
+        ],
+        "error_ground_m": 113.42008689365606,
+        "east_ground_m": -108.62911520154074,
+        "north_ground_m": -32.6164290120007
+      },
+      {
+        "id": "Q02",
+        "label": "Pig-Yoke Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          2676,
+          909
+        ],
+        "lonlat": [
+          -65.69189773703631,
+          43.70031446407491
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 132688,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 132688,
+        "nearest_unfiltered_distance_guide_px": 9.767758572295193,
+        "selected_distance_guide_px": 9.767758572295193,
+        "guide_reference_pixel_xy": [
+          2685.259858208883,
+          873.266007210128
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.69342026620016,
+          43.70123500839426
+        ],
+        "error_ground_m": 159.75951835161945,
+        "east_ground_m": -122.72737672996357,
+        "north_ground_m": 102.27949308108163
+      },
+      {
+        "id": "Q03",
+        "label": "Wabi Lake southwestern lobe southern end",
+        "role": "check",
+        "pixel_xy": [
+          4164,
+          1433
+        ],
+        "lonlat": [
+          -65.59100591622857,
+          43.70647139697029
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 141107,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 141107,
+        "nearest_unfiltered_distance_guide_px": 1.2716309444838922,
+        "selected_distance_guide_px": 1.2716309444838922,
+        "guide_reference_pixel_xy": [
+          4137.165352766286,
+          1388.040620380547
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.59006041340334,
+          43.70686183711009
+        ],
+        "error_ground_m": 87.6897507607746,
+        "east_ground_m": 76.20755733700643,
+        "north_ground_m": 43.38087819781484
+      },
+      {
+        "id": "Q04",
+        "label": "Second Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          3192,
+          2220
+        ],
+        "lonlat": [
+          -65.62636881131728,
+          43.65408323593292
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 142837,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 142837,
+        "nearest_unfiltered_distance_guide_px": 0.3162666519245079,
+        "selected_distance_guide_px": 0.3162666519245079,
+        "guide_reference_pixel_xy": [
+          3194.2519616331556,
+          2171.1911542061716
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.62636811608188,
+          43.65329423466032
+        ],
+        "error_ground_m": 87.6623849532844,
+        "east_ground_m": 0.05608587140686926,
+        "north_ground_m": -87.66236701157945
+      },
+      {
+        "id": "Q05",
+        "label": "First Lake southwestern shore",
+        "role": "check",
+        "pixel_xy": [
+          3206,
+          2523
+        ],
+        "lonlat": [
+          -65.61739363984448,
+          43.64067757187458
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 126808,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 126808,
+        "nearest_unfiltered_distance_guide_px": 2.5768783801928734,
+        "selected_distance_guide_px": 2.5768783801928734,
+        "guide_reference_pixel_xy": [
+          3203.006850433012,
+          2484.6221951039042
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.61716721995774,
+          43.64017373773579
+        ],
+        "error_ground_m": 58.88448194006716,
+        "east_ground_m": 18.269669504239758,
+        "north_ground_m": -55.97857973864599
+      },
+      {
+        "id": "Q06",
+        "label": "East Lake northeastern shore",
+        "role": "check",
+        "pixel_xy": [
+          1335,
+          3309
+        ],
+        "lonlat": [
+          -65.70773192132664,
+          43.5692241957539
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 128251,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 128251,
+        "nearest_unfiltered_distance_guide_px": 0.195137240920311,
+        "selected_distance_guide_px": 0.195137240920311,
+        "guide_reference_pixel_xy": [
+          1330.8082479836885,
+          3286.9638101252494
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.70701073516722,
+          43.56923852240717
+        ],
+        "error_ground_m": 58.28219401926056,
+        "east_ground_m": 58.26044695519788,
+        "north_ground_m": 1.591998831439811
+      },
+      {
+        "id": "Q07",
+        "label": "West Lake southwestern shore",
+        "role": "check",
+        "pixel_xy": [
+          1071,
+          3360
+        ],
+        "lonlat": [
+          -65.72200430261177,
+          43.561169780731746
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 140943,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 140943,
+        "nearest_unfiltered_distance_guide_px": 1.530078941636953,
+        "selected_distance_guide_px": 1.530078941636953,
+        "guide_reference_pixel_xy": [
+          1062.815974498808,
+          3351.4810279191006
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.72132641773165,
+          43.56187026672744
+        ],
+        "error_ground_m": 95.16648962240754,
+        "east_ground_m": 54.76906291324312,
+        "north_ground_m": 77.8267980496244
+      },
+      {
+        "id": "Q08",
+        "label": "Rat Island northern end",
+        "role": "check",
+        "pixel_xy": [
+          1245,
+          850
+        ],
+        "lonlat": [
+          -65.78120052700214,
+          43.675251964041664
+        ],
+        "guide_file": ".crown-grant-local/010-frozen-south-guide.npy",
+        "reference_objectid": 20816,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20816,
+        "nearest_unfiltered_distance_guide_px": 0.32628439049565666,
+        "selected_distance_guide_px": 0.32628439049565666,
+        "guide_reference_pixel_xy": [
+          1230.3199563846574,
+          791.9360514628934
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Four broad/twelve detail pairs, fifteen initial native crosshairs and corrected Rat Island source inspected before first fit and score.",
+        "predicted_lonlat": [
+          -65.78045256805352,
+          43.67609182633086
+        ],
+        "error_ground_m": 111.11054013492289,
+        "east_ground_m": 60.3163435687583,
+        "north_ground_m": 93.31393694175495
+      }
+    ]
+  },
+  "control_axis_ratio": 1.2141308276249088,
+  "affine_scale_ratio": 1.0236262139952292,
+  "metres_per_pixel_singular_values": [
+    5.395000688194994,
+    5.270479218325429
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.85738685941287,
+          2.0631512010545863
+        ],
+        [
+          2.0463760832269093,
+          -4.905697109096112
+        ],
+        [
+          268146.7603335078,
+          4841060.72000141
+        ]
+      ],
+      "diagnostic_rms_m": 138.01840442137933,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8799899805536695,
+          1.9966620406465259
+        ],
+        [
+          2.0820374152477448,
+          -5.0003135698082986
+        ],
+        [
+          267999.8920907635,
+          4841462.716506583
+        ]
+      ],
+      "diagnostic_rms_m": 117.36205687319807,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.909217944182254,
+          2.0016083632763606
+        ],
+        [
+          2.06414613921403,
+          -4.980728970928577
+        ],
+        [
+          268000.9856234289,
+          4841397.150109619
+        ]
+      ],
+      "diagnostic_rms_m": 110.75910882527168,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8732870768814704,
+          1.9871961969293697
+        ],
+        [
+          2.068904565805745,
+          -4.9817028721341075
+        ],
+        [
+          268038.9036752987,
+          4841414.0020448705
+        ]
+      ],
+      "diagnostic_rms_m": 100.43141706615415,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.87864889127729,
+          1.9861166742478789
+        ],
+        [
+          2.070076497044763,
+          -4.984966793329437
+        ],
+        [
+          268033.6941260055,
+          4841423.181166732
+        ]
+      ],
+      "diagnostic_rms_m": 102.11410322394099,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.878430996017022,
+          1.9862428014649307
+        ],
+        [
+          2.076355888571982,
+          -4.96177677734273
+        ],
+        [
+          268029.88505181606,
+          4841407.478578411
+        ]
+      ],
+      "diagnostic_rms_m": 108.7229237548485,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.878639702568357,
+          1.9949122318271912
+        ],
+        [
+          2.0747252233518885,
+          -4.978968302954056
+        ],
+        [
+          268031.50327280525,
+          4841403.725101944
+        ]
+      ],
+      "diagnostic_rms_m": 102.71054059805977,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.920292048332068,
+        2.0403024579359674
+      ],
+      [
+        2.0403024579359674,
+        -4.920292048332068
+      ],
+      [
+        267995.7099200241,
+        4841189.468575982
+      ]
+    ],
+    "rms_ground_m": 123.52798891668157,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.368698+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q02",
+    "Q01",
+    "Q08",
+    "Q07"
+  ],
+  "reviewed_control_ids": [
+    "C02",
+    "C04"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Pig-Yoke southern lobe and adjoining islands corroborate shared endpoint; Peggy and Rat outlines show simplification/size discrepancy; West Lake southwest narrows into modern outlet. Crosshairs on intended ends. A 1.26 m RMS exceedance does not justify point nudging.",
+  "baseline_limitations": [
+    "RMS 101.26 m exceeds 100 m and median 91.43 m exceeds 75 m.",
+    "Seven checks pair with control lakes/islands; Rat Island is a separate feature. Shared historical cartography limits independence.",
+    "The eastern third, Barrington/Clyde river corridors and much of Pubnico shoreline remain independently unvalidated.",
+    "Generalized shore extrema, connected lake boundaries and small islands carry 24 px working source uncertainty.",
+    "Cranberry, Third and Oak Park detail show connectivity/shape differences and were not forced into control."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "f1f3abe56143a64c3e12e9d59d87982b7694ad0af64bac4977aeb58e02b1b268"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "7c6be7ebede9bd30e38bba3c5b5334e9b9c78a7c082c7da0adad44ec1f5d0342"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "01b03e80be1a6fbaffc440bec5a9e0ed9ec7a4555d66112fc235331a7f673f5e"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "39c3b339043410f65f26cd4baa1c38a8d0dd531c2c9388cb658d7bd0b01ee8f2"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "da5771943ed0172a46b8fd518e870b85cf95b60a41079680622af722eb5a6f8f"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "d44bac841d878b0f91a5ac7c01287bfb8d4f5d6f5ef8936511b72c21eb5873de"
+    }
+  ],
+  "control_findings": "Pig-Yoke northern horn enters a stream; Second Lake northern roof has a small notch and feeder that are generalized differently.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

@@ -1,6 +1,7 @@
 import GeoCore
 import MapCatalog
 import NSDataServices
+import PhotosUI
 import SwiftUI
 import UIKit
 
@@ -18,11 +19,58 @@ struct MapContainerView: View {
     /// this view needs them, and they never leave the device.
     @State private var userMapsVM = UserMapsViewModel()
     @State private var userVectorsVM = UserVectorsViewModel()
+    @State private var photoMapVM = PhotoMapViewModel()
+    @State private var bulkPlacement: BulkPlacementDraft?
     /// One open editing session, or none. Its own object so the layer list
     /// stays a list: editing is a mode the rest of the panel does not need to
     /// know about.
     @State private var editSession: VectorEditSession?
+    /// Which mark toast is up, so only its own timer takes it down.
+    @State private var markOutcomeGeneration = 0
+    /// Failed marks from attempts a later tap overtook. The newer tap owns the
+    /// message, but a mark that was not kept stays unkept whoever tapped next,
+    /// so they are carried here and said alongside the newer answer.
+    ///
+    /// A list, not one: three taps can overlap, and two of them can fail. A
+    /// single slot reported one unsaved mark where there were two.
+    @State private var overtakenMarkFailures: [String] = []
+    /// Counts Edit taps on layers still loading, so a load that returns
+    /// after a newer tap does not open a session over the newer one.
+    @State private var editLoadGeneration = 0
+    @State private var parcelSnapTask: Task<Void, Never>?
+    /// The recording HUD's measured height while it is up, so the notice
+    /// stack sits below it rather than under it.
+    @State private var hudHeight: CGFloat = 0
+    /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
+    /// cannot write its answer, or its failure, over the current viewport's.
+    @State private var parcelSnapGeneration = 0
     @State private var vectorCallout: UserVectorCalloutItem?
+    /// The GPS track recorder, owned by `AppContainer` for the life of the
+    /// process and lent here.
+    ///
+    /// It used to be `@State`, built by this view. A `LiveActivityIntent`
+    /// launches the app **without opening it**, so the Lock Screen's buttons
+    /// could reach a process whose map view had never appeared and therefore
+    /// had no recorder at all. A `let` rather than `@State` because ownership
+    /// is the container's; observation does not need the wrapper.
+    private let recorder: TrackRecorder
+    /// The walk that was on disk at launch, consumed once. See
+    /// `restoreCheckpointedWalk`.
+    private let restoredWalk: TrackCheckpointStore.Found
+    /// One-tap mark-my-location, with its own one-shot fix request.
+    @State private var markLocation = MarkLocation()
+    /// A finished recording waiting in the save dialog. Identifiable so the
+    /// sheet can present it; the recording is the only copy of the walk, so
+    /// the sheet cannot be swiped away.
+    @State private var saveTrack: SaveTrackPayload?
+    /// Why the last save attempt failed, shown inside the sheet — which
+    /// stays up on failure, holding the only copy of the walk.
+    @State private var saveTrackError: String?
+    /// A checkpoint that was there at launch and could not be read as a walk.
+    /// Raised as an alert rather than a passing notice: it is the app saying
+    /// something may have been recorded and it cannot show it, which is not a
+    /// thing to let scroll past.
+    @State private var unreadableCheckpoint: String?
     /// The measurement in progress, or none. Not persisted anywhere: a measured
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
@@ -36,9 +84,20 @@ struct MapContainerView: View {
     /// the screen actually has rather than at a number chosen for a shorter
     /// list. Ten sections do not fit any fixed height worth hard-coding.
     @State private var mapHeight: CGFloat = 0
+    /// And how wide, which is what decides whether the layers panel opens
+    /// beside the search column or on top of it. Measured rather than taken
+    /// from the device: an iPad sharing its screen is as narrow as a phone,
+    /// and a phone held sideways is wider than either.
+    @State private var mapWidth: CGFloat = 0
     /// How tall the right-hand controls are, so the column can be given
     /// exactly that height and no more. Zero until the first layout.
     @State private var controlsHeight: CGFloat = 0
+    /// How wide that rail is, so the layers panel can be floated clear of it.
+    /// Measured rather than allowed for: the rail's icons are scaled metrics,
+    /// and at an accessibility text size a fixed allowance puts the panel
+    /// under the buttons it is meant to sit beside. Starts at the rail's own
+    /// unscaled width so the first layout is already clear of it.
+    @State private var controlsWidth: CGFloat = 44
 
     /// How much of the rail the area-selection controls are holding, so the
     /// scrolling part below them gives up the same amount.
@@ -108,10 +167,14 @@ struct MapContainerView: View {
         historicalViewModel: HistoricalTaxSaleViewModel = HistoricalTaxSaleViewModel(),
         navigationModel: NavigationModel,
         offlineAreasViewModel: OfflineAreasViewModel,
+        recorder: TrackRecorder,
+        restoredWalk: TrackCheckpointStore.Found = .none,
     ) {
         self.controller = controller
         self.navigationModel = navigationModel
         self.offlineVM = offlineAreasViewModel
+        self.recorder = recorder
+        self.restoredWalk = restoredWalk
         // Supplied rather than built here: it needs the licence store and the
         // clearance the tile path reads, and a second store built in a view
         // would be a second answer to the same question.
@@ -121,7 +184,7 @@ struct MapContainerView: View {
         _historicalVM = State(initialValue: historicalViewModel)
     }
 
-    var body: some View {
+    private var surfaceAndSheets: some View {
         @Bindable var navigationModel = navigationModel
 
         return lifecycle(mapStack)
@@ -169,6 +232,56 @@ struct MapContainerView: View {
             .sheet(item: $share) { payload in
                 ShareSheet(items: payload.items)
             }
+            .sheet(item: $saveTrack) { payload in
+                SaveTrackSheet(
+                    result: payload.result, saveError: saveTrackError,
+                    stoppedWhileRefused: payload.stoppedWhileRefused,
+                    restoredNote: payload.restoredNote
+                ) {
+                    name, toleranceM in
+                    saveRecordedTrack(payload, name: name, toleranceM: toleranceM)
+                } onDiscard: {
+                    // The reader's answer, and one of the only two things that
+                    // may remove a checkpoint. Until this the walk is on disk.
+                    recorder.clearCheckpoint()
+                    saveTrackError = nil
+                    saveTrack = nil
+                }
+                // Save or Discard, said out loud: the stopped recording is
+                // the only copy of the walk, and a sheet swiped away would
+                // throw it out without asking.
+                .interactiveDismissDisabled()
+            }
+            .alert(
+                TrackRestoreNotice.unreadableTitle,
+                isPresented: Binding(
+                    get: { unreadableCheckpoint != nil },
+                    set: { if !$0 { unreadableCheckpoint = nil } }
+                )
+            ) {
+                Button("OK", role: .cancel) { unreadableCheckpoint = nil }
+            } message: {
+                Text(unreadableCheckpoint ?? "")
+            }
+            .sheet(item: $bulkPlacement) { draft in
+                BulkPhotoPlacementSheet(
+                    rows: draft.rows,
+                    names: draft.names,
+                    onCancel: { bulkPlacement = nil },
+                    onPlace: { ids in
+                        let placements = ids.compactMap { draft.payloads[$0] }
+                        bulkPlacement = nil
+                        Task {
+                            guard let row = await userVectorsVM.addPhotosLayer(
+                                placements: placements
+                            ) else { return }
+                            if let box = row.record.bbox {
+                                controller.frame(box)
+                            }
+                        }
+                    }
+                )
+            }
             .alert(
                 "The evidence note could not be written.",
                 isPresented: .init(
@@ -215,79 +328,215 @@ struct MapContainerView: View {
             VStack {
                 HStack(alignment: .top, spacing: 12) {
                     if !isSelectingSaveArea {
-                        ParcelSearchBar(viewModel: overlayVM, availableHeight: mapHeight)
-                            .frame(maxWidth: 260, alignment: .leading)
-                            .padding(.leading, 12)
-                            .padding(.top, 60)
+                        ParcelSearchBar(
+                            viewModel: overlayVM,
+                            availableHeight: mapHeight,
+                            coveredByPanel: isLayersMenuExpanded
+                                && Self.layersPanelCoversSearch(
+                                    mapWidth: mapWidth, railWidth: controlsWidth
+                                )
+                        )
+                        .frame(maxWidth: Self.searchColumnWidth, alignment: .leading)
+                        .padding(.leading, Self.searchColumnLeading)
+                        .padding(.top, 16)
                     }
 
                     Spacer()
-
-                    if isLayersMenuExpanded {
-                        TransparencySliderView(
-                            viewModel: overlayVM,
-                            userMaps: userMapsVM,
-                            userVectors: userVectorsVM,
-                            onZoomToLayer: { controller.frame($0) },
-                            onEditLayer: { row in
-                                beginEditing(row)
-                            },
-                            onNewDrawingLayer: {
-                                Task {
-                                    guard let row = await userVectorsVM.newDrawingLayer() else {
-                                        return
-                                    }
-                                    beginEditing(row)
-                                }
-                            },
-                            isExpanded: $isLayersMenuExpanded,
-                            expandedCategories: $openLayerSections
-                        )
-                            .frame(width: 300)
-                            .frame(maxHeight: max(320, mapHeight - 132))
-                            .transition(.asymmetric(
-                                insertion: .move(edge: .trailing).combined(with: .opacity),
-                                removal: .move(edge: .trailing).combined(with: .opacity)
-                            ))
-                            .padding(.top, 60)
-                    }
 
                     // Not while a page is being framed: the framing toolbar
                     // owns the screen, every one of these controls is inert in
                     // that mode, and a rail left at full brightness over the
                     // dimmed map competed with the one task the mode is for.
+                    // Sixteen points below the safe area, not sixty: the
+                    // stack already respects the safe area, and the extra
+                    // pushed a rail of nine buttons down into the bottom
+                    // cards' zone on a 6.1-inch phone.
                     if printFrame == nil {
                         controlColumn
                             .padding(.trailing, 12)
-                            .padding(.top, 60)
+                            .padding(.top, 16)
                     }
                 }
                 Spacer()
             }
-            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+            // Both dimensions from the one reader. The height caps the panel
+            // and the search card; the width decides whether the panel that
+            // opens on the trailing edge lands on that card or beside it.
+            .onGeometryChange(for: CGSize.self) { $0.size } action: { size in
+                mapWidth = size.width
+                let height = size.height
                 mapHeight = height
             }
 
-            // Top-centre, clear of the search bar. The location button sits on
-            // the right with nothing under it, so a refusal reported down at
-            // the bottom would land under whichever card happens to be open.
-            if let locationMessage = controller.locationMessage {
-                VStack {
-                    Text(locationMessage.rawValue)
+            // Floated over the map rather than laid out in the row above.
+            //
+            // The panel is 300 points wide, the search column asks for up to
+            // 260, and the control rail takes the rest; on a phone the three
+            // together are wider than the screen. A row that cannot fit does
+            // not shrink — it overflows, and an overflowing row grows the
+            // stack it sits in. That took every other thing drawn over the
+            // map with it: the parcel card was laid out hundreds of points
+            // wider than the phone and centred, so its title, its figures and
+            // the attribution strip all hung off both edges.
+            //
+            // Anchored to the trailing edge and capped at 300, it keeps the
+            // place it had beside the rail on a screen with room for both, and
+            // on a phone it covers the search field instead of shoving it off
+            // the screen. The outer flexible frame is what holds the line: it
+            // reports the size it was offered, so nothing in here can grow the
+            // stack again.
+            if isLayersMenuExpanded {
+                layersPanel
+                    .frame(maxWidth: Self.layersPanelWidth)
+                    .frame(maxHeight: Self.layersPanelHeight(mapHeight: mapHeight))
+                    // Attached to the panel itself rather than to the frame
+                    // that positions it, so the slide is the width of the
+                    // panel and not the width of the screen.
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .trailing).combined(with: .opacity)
+                    ))
+                    .padding(.top, Self.layersPanelTopInset)
+                    // Clear of the rail at any text size: its icons are
+                    // scaled metrics, so a fixed allowance would slide the
+                    // panel under them at an accessibility size.
+                    .padding(.trailing, Self.layersPanelRailGap + controlsWidth)
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .topTrailing
+                    )
+            }
+
+            // Top-centre, clear of the search bar, one notice above another:
+            // the location button and the mark button sit on the right with
+            // nothing under them, so an answer reported down at the bottom
+            // would land under whichever card happens to be open — and two
+            // answers at one spot covered each other's buttons.
+            VStack(spacing: 8) {
+                if let locationMessage = controller.locationMessage {
+                    // Settings helps only with this app's own settings: its
+                    // permission and its Precise Location switch. Neither a
+                    // device restriction nor the device-wide Location Services
+                    // switch lives on that page. A message that asks for a
+                    // decision stays until the reader makes one or waves it
+                    // away; a timer took the button down before a VoiceOver
+                    // reader reached it.
+                    let isRefusal = MapController.staysUntilDismissed(locationMessage)
+                    VStack(spacing: 6) {
+                        Text(locationMessage.rawValue)
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                        if isRefusal {
+                            HStack(spacing: 16) {
+                                if MapController.offersSettings(locationMessage) {
+                                    // Opening Settings is not dismissal: the
+                                    // notice stays until the state changes or
+                                    // the reader waves it away.
+                                    OpenSettingsButton()
+                                }
+                                DismissNoticeButton { controller.dismissLocationMessage() }
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .mapChromeSurface(cornerRadius: 8, shadow: nil)
+                    // The message describes the map; it must not take taps
+                    // from it. The one exception is the button a refusal
+                    // carries.
+                    .allowsHitTesting(isRefusal)
+                    .accessibilityElement(children: isRefusal ? .contain : .combine)
+                }
+
+                if let outcome = markLocation.outcome {
+                    let isRefusal = Self.markOutcomeStaysUntilDismissed(outcome)
+                    VStack(spacing: 6) {
+                        Text(outcome.message)
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                        if isRefusal {
+                            HStack(spacing: 16) {
+                                if outcome == .denied {
+                                    OpenSettingsButton()
+                                }
+                                DismissNoticeButton { markLocation.clearOutcome() }
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .mapChromeSurface(cornerRadius: 8, shadow: nil)
+                    .allowsHitTesting(isRefusal)
+                    .accessibilityElement(children: isRefusal ? .contain : .combine)
+                } else if markLocation.isAcquiring {
+                    // While the fix is being requested. The rail button is
+                    // only dimmed meanwhile, and up to ten silent seconds
+                    // after a tap read as a button that did nothing.
+                    Text(MarkLocation.acquiringMessage)
                         .font(.footnote)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 10)
-                        .background(.regularMaterial)
-                        .clipShape(.rect(cornerRadius: 8))
+                        .mapChromeSurface(cornerRadius: 8, shadow: nil)
+                        .allowsHitTesting(false)
+                        .accessibilityElement(children: .combine)
+                }
+            }
+            .padding(.horizontal, 16)
+            // Below the recording HUD while it is up, measured rather than
+            // guessed: the HUD grows with Dynamic Type.
+            .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+
+            // The photo map's cap, on the map: the row that also says it is
+            // behind the closed layers panel while the pins are looked at.
+            // It shares the top slot with the location and mark notices and
+            // yields to them: the answer to the tap just made comes first,
+            // and the cap is still there when it has gone.
+            if let note = photoMapVM.truncationNote, printFrame == nil,
+               controller.locationMessage == nil, markLocation.outcome == nil,
+               !markLocation.isAcquiring
+            {
+                VStack {
+                    Text(note)
+                        .font(.footnote)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .mapChromeSurface(cornerRadius: 8, shadow: nil)
                         .padding(.horizontal, 16)
-                        .padding(.top, 116)
+                        // Under the recording HUD when there is one, as the
+                        // notices it shares the slot with are.
+                        .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
 
                     Spacer()
                 }
-                // The message describes the map; it must not take taps from it.
                 .allowsHitTesting(false)
                 .accessibilityElement(children: .combine)
+            }
+
+            // The recording HUD, top-centre: the bottom belongs to the edit
+            // panel and callout cards, and recording during an edit (marking
+            // culverts along a walked line) is a supported combination.
+            // Because the reader asked to record, not because the device
+            // switch is off. The authorization delegate fires at cold launch,
+            // so a refusal read there would otherwise open the map with a
+            // "Recording not started" card and displaced controls for someone
+            // who never touched Record.
+            if recorder.isShowingRecorder, printFrame == nil {
+                VStack {
+                    TrackRecordingHUD(recorder: recorder) { stopRecording() }
+                    .frame(maxWidth: 420)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { hudHeight = $0 }
+                    .padding(.horizontal, 16)
+                    // Clear of the rail, as the cards are: on a phone the HUD
+                    // reached under Current Location and Mark My Location.
+                    .clearOfRail(controlsWidth)
+                    .padding(.top, 60)
+
+                    Spacer()
+                }
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
@@ -319,29 +568,138 @@ struct MapContainerView: View {
                         .frame(maxHeight: min(360, proxy.size.height * 0.45))
                         .padding(.horizontal, 12)
                         .padding(.bottom, 12 + attributionHeight)
+                        .clearOfRail(controlsWidth)
+                        .coversMapBottom(.parcel, on: controller)
                     }
                 }
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+        .overlay {
+            // The crosshair, over the middle of the uncovered map, with the
+            // ground under it and a button that places there. Ignoring the
+            // safe area so its coordinates are the map view's.
+            if let editSession, !editSession.isEnding, case .drawing(let shape) = editSession.tool,
+               let point = controller.reticlePoint, let ground = controller.reticleCoordinate,
+               let room = controller.reticleRoom
+            {
+                // The snap is resolved here, before the readout, and the same
+                // resolution is what the button commits: the coordinate shown
+                // is the coordinate placed.
+                let hit = snapHit(at: ground.lat, longitude: ground.lng)
+                PlacementReticle(
+                    point: point,
+                    room: room,
+                    shape: shape,
+                    ground: ground,
+                    snapped: hit?.point,
+                    snappedPoint: hit.flatMap { controller.screenPoint(for: $0.point) },
+                    snapNote: hit.map {
+                        VectorEditSession.snapNoticeText(
+                            source: $0.source, kind: $0.kind,
+                            pointToolArmed: shape == .point
+                        ).replacingOccurrences(of: "Snapped", with: "Snaps")
+                    },
+                    finishesArea: Self.reticleFinishesArea(
+                        shape: shape, draft: editSession.draft, candidate: hit?.point ?? ground
+                    ),
+                    onPlace: {
+                        placeAtReticle(session: editSession, shape: shape, ground: ground, hit: hit)
+                    }
+                )
+                .ignoresSafeArea()
+            }
+        }
         .overlay(alignment: .bottom) {
             if let editSession {
-                VectorEditPanel(session: editSession) {
-                    Task {
-                        // Only closed once the last edit is on disk. A session
-                        // dismissed over a failed write would take the only
-                        // copy of the shape with it.
-                        guard await editSession.end() else { return }
-                        self.editSession = nil
-                        controller.setVectorDraft(nil)
-                        controller.setVectorHandles(nil)
-                        controller.setVectorMoveHandle(nil)
-                        pushUserVectors()
+                let placing: VectorEditShape? = {
+                    if case .drawing(let shape) = editSession.tool { return shape }
+                    return nil
+                }()
+                let reticleGround = controller.reticleCoordinate
+                VectorEditPanel(
+                    session: editSession,
+                    // Above the part of the panel that scrolls. Not a card on
+                    // the map: the panel is bottom-anchored and grows upward
+                    // past the top notice slot, so a card there is covered by
+                    // the very thing whose session the reading belongs to.
+                    walkToLine: printFrame == nil ? walkToLineReading : nil,
+                    onDone: {
+                        // Done outranks any Edit tap still loading its layer.
+                        editLoadGeneration += 1
+                        Task {
+                            // Only closed once the last edit is on disk. A
+                            // session dismissed over a failed write would take
+                            // the only copy of the shape with it.
+                            guard await editSession.end() else { return }
+                            self.editSession = nil
+                            controller.setVectorDraft(nil)
+                            controller.setVectorHandles(nil)
+                            controller.setVectorMoveHandle(nil)
+                            pushUserVectors()
+                        }
+                    },
+                    mapCentre: {
+                        controller.visibleCentre().map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) }
+                    },
+                    showCorner: { position in
+                        // Without animation: the reader may tap "Move corner to
+                        // map centre" straight after stepping, and a centre read
+                        // mid-flight would move the corner somewhere between.
+                        // It also honours Reduce Motion by construction.
+                        controller.pan(to: GeoPoint(lat: position.lat, lng: position.lng), animated: false)
+                    },
+                    snapCentre: { centre, featureID in
+                        // The same resolution as a drag's release. No tick
+                        // here, though: this only works out where the corner
+                        // WOULD go, and a move the session then refuses would
+                        // have confirmed a coordinate that never landed. The
+                        // panel taps once the write has taken.
+                        guard let hit = snapHit(
+                            at: centre.lat, longitude: centre.lng, excludingFeatureID: featureID
+                        ) else {
+                            return VectorEditPanel.CentreTarget(position: centre)
+                        }
+                        return VectorEditPanel.CentreTarget(
+                            position: GeoJsonPosition(lng: hit.point.lng, lat: hit.point.lat),
+                            parcelSnap: hit.source == .parcel,
+                            note: VectorEditSession.snapNoticeText(
+                                source: hit.source, kind: hit.kind, pointToolArmed: false
+                            )
+                        )
+                    },
+                    // The crosshair's placement, from the panel as well: with
+                    // the map covered down to a sliver the crosshair's own
+                    // button has no room, and this one is always on screen.
+                    // Nil — shown disabled, with the reason — while the
+                    // middle of the map is above the horizon.
+                    placeAtCentre: placing != nil && reticleGround != nil
+                        ? { placeAtCentreFromPanel(editSession) } : nil,
+                    placeAtCentreValue: {
+                        guard let ground = controller.reticleCoordinate else { return nil }
+                        let hit = snapHit(at: ground.lat, longitude: ground.lng)
+                        let effective = hit?.point ?? ground
+                        let note = hit.map {
+                            VectorEditSession.snapNoticeText(
+                                source: $0.source, kind: $0.kind, pointToolArmed: placing == .point
+                            ).replacingOccurrences(of: "Snapped", with: "Snaps")
+                        }
+                        return String(format: "%.5f, %.5f", effective.lat, effective.lng)
+                            + (note.map { ". \($0)" } ?? "")
+                    },
+                    placeAtCentreFinishesArea: {
+                        guard let shape = placing, let ground = controller.reticleCoordinate else { return false }
+                        let hit = snapHit(at: ground.lat, longitude: ground.lng)
+                        return Self.reticleFinishesArea(
+                            shape: shape, draft: editSession.draft, candidate: hit?.point ?? ground
+                        )
                     }
-                }
+                )
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
+                .coversMapBottom(.editPanel, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -447,6 +805,8 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
+                .coversMapBottom(.measure, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
                     measurePanelHeight = $0
@@ -458,13 +818,33 @@ struct MapContainerView: View {
             if let vectorCallout, editSession == nil {
                 UserVectorCalloutCard(
                     callout: vectorCallout.callout,
-                    layerName: vectorCallout.layerName
+                    layerName: vectorCallout.layerName,
+                    photos: vectorCallout.photos,
+                    loadPhoto: { photoID, thumb in
+                        // The photo map's points are library assets, loaded
+                        // through PhotoKit; every other layer's photos are
+                        // the store's own files.
+                        if vectorCallout.layerID == PhotoMapViewModel.layerID {
+                            return await photoMapVM.imageData(assetID: photoID, thumb: thumb)
+                        }
+                        return await userVectorsVM.photoData(
+                            layerID: vectorCallout.layerID, photoID: photoID, thumb: thumb
+                        )
+                    },
+                    loadProgress: { photoID in photoMapVM.downloadProgress[photoID] }
                 ) {
                     self.vectorCallout = nil
                 }
                 .frame(maxWidth: 420)
+                // Bounded like the layers panel, and for the same reason: at
+                // an accessibility text size this card is taller than a phone
+                // in landscape, and an unbounded one puts its own Close
+                // control above the top of the screen.
+                .frame(maxHeight: calloutMaxHeight)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
+                .coversMapBottom(.vectorCallout, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -482,8 +862,10 @@ struct MapContainerView: View {
                     // OpenStreetMap ground the frame carries the credit the
                     // tiles behind it require. Apple's maps carry their own
                     // marks and need nothing here.
-                    credit: overlayVM.baseMapType == .openStreetMap
-                        ? OpenStreetMapBase.credit : nil,
+                    credit: overlayVM.baseMapType.isAtlas
+                        ? AtlasRasterBase.frameCredit
+                        : overlayVM.baseMapType == .openStreetMap
+                            ? OpenStreetMapBase.credit : nil,
                     onCancel: {
                         printFrame = nil
                         controller.endPrintFraming()
@@ -525,8 +907,11 @@ struct MapContainerView: View {
                     onClose: { featureVM.clearSelection() }
                 )
                 .frame(maxWidth: 420)
+                .frame(maxHeight: calloutMaxHeight)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
+                .coversMapBottom(.featureCallout, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -544,8 +929,7 @@ struct MapContainerView: View {
                 .font(.subheadline)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .background(.regularMaterial)
-                .clipShape(.rect(cornerRadius: 16))
+                .mapChromeSurface(shadow: nil)
 
             Button("Use Visible Map") {
                 saveVisibleMapArea()
@@ -567,6 +951,116 @@ struct MapContainerView: View {
         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
             saveAreaHeight = height
         }
+    }
+
+    /// The layers panel, without the placement that floats it over the map.
+    private var layersPanel: some View {
+        TransparencySliderView(
+            viewModel: overlayVM,
+            userMaps: userMapsVM,
+            userVectors: userVectorsVM,
+            onZoomToLayer: { controller.frame($0) },
+            onEditLayer: { row in
+                requestEdit(row)
+            },
+            onNewDrawingLayer: {
+                // An intent like any other Edit tap: a newer intent, or a
+                // session begun meanwhile, outranks the layer when it arrives.
+                editLoadGeneration += 1
+                let mine = editLoadGeneration
+                Task {
+                    guard let row = await userVectorsVM.newDrawingLayer() else {
+                        // Refused — a sealed library, a full disk. The layers
+                        // panel shows the refusal; VoiceOver hears it too,
+                        // since a Draw tap that did nothing reads as a
+                        // button that is broken.
+                        if let refusal = userVectorsVM.lastRefusal {
+                            AccessibilityNotification.Announcement(refusal.userMessage).post()
+                        }
+                        return
+                    }
+                    guard mine == editLoadGeneration, editSession == nil else {
+                        // Overtaken: the empty layer it made is not left in
+                        // the list for the reader to wonder about.
+                        await userVectorsVM.delete(id: row.id)
+                        return
+                    }
+                    beginEditing(row)
+                }
+            },
+            photoMap: photoMapVM,
+            onPlacePhotos: { items in
+                Task { await beginBulkPlacement(from: items) }
+            },
+            isExpanded: $isLayersMenuExpanded,
+            expandedCategories: $openLayerSections
+        )
+    }
+
+    /// The numbers the layers panel is placed by.
+    ///
+    /// Named because two questions have to be answered from the same ones: how
+    /// tall the panel may be, and whether it is standing on the card under the
+    /// search field. Answering the second from numbers that had drifted from
+    /// the first is how a panel comes to cover something it reports it does
+    /// not.
+    static let layersPanelWidth: CGFloat = 300
+    static let layersPanelRailGap: CGFloat = 24
+    static let layersPanelTopInset: CGFloat = 60
+    static let layersPanelBottomClearance: CGFloat = 72
+    static let searchColumnWidth: CGFloat = 260
+    static let searchColumnLeading: CGFloat = 12
+
+    /// The height to open at before the map has reported a size.
+    static let layersPanelUnmeasuredHeight: CGFloat = 320
+
+    /// The tallest the layers panel may be over a map this tall.
+    ///
+    /// The room between the inset it hangs from and the clearance it keeps at
+    /// the bottom is the answer. It used to be the larger of that room and
+    /// three hundred and twenty points, and a floor that outranks the screen
+    /// is not a floor: a phone held sideways gives this stack about three
+    /// hundred and seventy points, so the panel opened three hundred and
+    /// eighty tall and put its last sections, and the bottom of the region
+    /// that scrolls them, below the edge of the screen where no gesture
+    /// reached them.
+    ///
+    /// The room is the answer whenever there is any. The old floor was kept
+    /// at first for the case it was doing real work in — a map so short that
+    /// the subtraction leaves nothing — but a floor that can outrank the room
+    /// is the same bug in a smaller costume: at three hundred and seventy-two
+    /// points it takes three hundred and twelve and spends the bottom
+    /// clearance that keeps the panel off the source strip and the cards. So
+    /// it applies only where there is no room at all, and even then it cannot
+    /// reach past the inset it hangs from.
+    static func layersPanelHeight(mapHeight: CGFloat) -> CGFloat {
+        guard mapHeight > 0 else { return layersPanelUnmeasuredHeight }
+        let room = mapHeight - layersPanelTopInset - layersPanelBottomClearance
+        guard room <= 0 else { return room }
+        return min(layersPanelUnmeasuredHeight, max(0, mapHeight - layersPanelTopInset))
+    }
+
+    /// Whether the open panel is standing on the card under the search field.
+    ///
+    /// The panel hangs from the trailing edge clear of the rail; the search
+    /// column starts at the leading edge, and its card — the addresses and the
+    /// sentence saying which kind of nothing was found — runs down the screen
+    /// from just below the field, which is where the panel is. So the question
+    /// is horizontal: do the two claim the same points across?
+    ///
+    /// The field itself is not part of this. It sits above where the panel
+    /// begins and stays reachable, which is why only the card is taken out of
+    /// the accessibility tree.
+    ///
+    /// Worked out from the width the map was actually given rather than from
+    /// the device, because an iPad sharing its screen is as narrow as a phone
+    /// and a phone held sideways is not.
+    static func layersPanelCoversSearch(mapWidth: CGFloat, railWidth: CGFloat) -> Bool {
+        // An unmeasured width is not a narrow one. Nothing is known to be
+        // covered until the map has reported a size.
+        guard mapWidth > 0 else { return false }
+        let panelLeadingEdge = mapWidth - layersPanelRailGap - railWidth - layersPanelWidth
+        return panelLeadingEdge < searchColumnLeading + searchColumnWidth
     }
 
     /// The right-hand rail.
@@ -604,13 +1098,92 @@ struct MapContainerView: View {
                     .disabled(isSelectingSaveArea)
 
                 Button {
+                    // The panel covers the ground the dot is about to be put
+                    // on, as it would cover a shape being drawn.
+                    if isLayersMenuExpanded {
+                        withAnimation(
+                            .spring(response: 0.35, dampingFraction: 0.85)
+                                .unlessReduced(reduceMotion)
+                        ) {
+                            isLayersMenuExpanded = false
+                        }
+                    }
+                    controller.animatesLocate = !reduceMotion
                     controller.showsUserLocation = true
                     controller.centerOnUserLocation()
                 } label: {
-                    MapControlIcon(systemName: "location.fill")
+                    LocationButtonIcon(controller: controller)
                 }
                 .accessibilityLabel("Current Location")
                 .disabled(isSelectingSaveArea)
+
+                Button {
+                    // Registered with the session on the tap itself, before
+                    // the task that finds the fix has run: a scene change
+                    // between the two would otherwise drain nothing and let
+                    // the mark run unowned while the app is away.
+                    let destination = editSession
+                    let operation = destination?.beginOperation()
+                    // And, session or not, the mark holds a background
+                    // assertion from the tap: a fix can take ten seconds, and
+                    // a Field-notes write put away with the app was lost.
+                    let application = UIApplication.shared
+                    final class TokenBox: @unchecked Sendable { var value = UIBackgroundTaskIdentifier.invalid }
+                    let box = TokenBox()
+                    box.value = application.beginBackgroundTask(withName: "mark-my-location") {
+                        application.endBackgroundTask(box.value)
+                        box.value = .invalid
+                    }
+                    Task {
+                        await markMyLocation(destination: destination, operation: operation)
+                        if box.value != .invalid {
+                            application.endBackgroundTask(box.value)
+                            box.value = .invalid
+                        }
+                    }
+                } label: {
+                    MapControlIcon(systemName: "mappin.and.ellipse")
+                }
+                .accessibilityLabel("Mark My Location")
+                .accessibilityIdentifier("mark-my-location")
+                // Off while Done is saving: the session takes no mark then,
+                // and "the layer changed" would not be what happened.
+                .disabled(isSelectingSaveArea || markLocation.isAcquiring || editSession?.isEnding == true)
+
+                Button {
+                    controller.showsUserLocation = true
+                    // Said on every attempt, not on a value changing: the
+                    // second refused tap is a second answer. A first prompt's
+                    // answer arrives later, through the recorder's own
+                    // announcement.
+                    if let refusal = recorder.start() {
+                        MapHaptics.refused()
+                        AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
+                    } else if recorder.isActive {
+                        // Only once the recording has actually begun: a tap
+                        // that raised the system prompt has started nothing
+                        // yet, and its answer comes back below.
+                        MapHaptics.modeChanged()
+                        AccessibilityNotification.Announcement("Recording started").post()
+                    }
+                } label: {
+                    MapControlIcon(
+                        systemName: recorder.isActive ? "record.circle.fill" : "record.circle",
+                        tint: .red,
+                        isActive: recorder.isActive
+                    )
+                }
+                .accessibilityLabel("Record a Track")
+                .accessibilityIdentifier("record-track")
+                // While a recording runs, the HUD owns pause and stop; the
+                // rail button just shows the mode is on — in the value as much
+                // as the fill. Dimmed is not a state, and a paused recorder is
+                // not recording, so the value says what the HUD says. It says
+                // the same for a start that was refused: the HUD is on screen
+                // reading "Recording not started" while the button, still
+                // enabled, would otherwise have nothing to say at all.
+                .accessibilityValue(recorderState)
+                .disabled(isSelectingSaveArea || recorder.isActive)
 
                 // Two buttons rather than one with a mode, as on the
                 // web: distance and area are different questions, and a
@@ -643,6 +1216,7 @@ struct MapContainerView: View {
                     MapControlIcon(systemName: "externaldrive")
                 }
                 .accessibilityLabel("Offline Maps")
+                .disabled(isSelectingSaveArea)
 
                 // One list at a time, as the web renders one panel at a
                 // time. Both on screen at once would let a reader pick a
@@ -717,7 +1291,12 @@ struct MapContainerView: View {
                     )
                 }
                 .accessibilityLabel("Save Area")
-                .disabled(isSelectingSaveArea)
+                // Dimmed by the mode it just started, which on its own reads
+                // as a broken control rather than an armed one.
+                .accessibilityValue(isSelectingSaveArea ? "Selecting an area" : "")
+                // Not over an edit: the selection and the crosshair both
+                // claim the map, as Layers and Measure already know.
+                .disabled(isSelectingSaveArea || editSession != nil)
 
                 Button {
                     withAnimation(
@@ -733,11 +1312,24 @@ struct MapContainerView: View {
                         isActive: isLayersMenuExpanded
                     )
                 }
-                .accessibilityLabel("Toggle Layers Menu")
-                .disabled(isSelectingSaveArea)
+                .accessibilityLabel("Layers")
+                .accessibilityIdentifier("toggle-layers-menu")
+                // The control is named and the panel's state is the value.
+                // "Toggle Layers Menu" named the gesture and the menu rather
+                // than the thing, and open and closed sounded identical when
+                // the fill was the only state. Identified so a later change of
+                // wording does not move the tests' handle on it.
+                .accessibilityValue(isLayersMenuExpanded ? "Open" : "Closed")
+                // Not while editing, as the measure buttons are not: the
+                // panel's first map tap closes it instead of drawing, and its
+                // Edit rows would end the session under the reader's feet.
+                .disabled(isSelectingSaveArea || editSession != nil)
             }
             .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
                 controlsHeight = height
+            }
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
+                controlsWidth = width
             }
         }
         // The indicator is left visible. It appears only while the column is
@@ -753,6 +1345,16 @@ struct MapContainerView: View {
         // session over controls that are no longer there.
         .frame(height: controlsHeight > 0
             ? min(controlsHeight, max(88, mapHeight - 132 - shownSaveAreaHeight)) : nil)
+        // And no wider than those buttons. A scroll view takes the width it is
+        // offered, and in this row that is a share of whatever the search field
+        // leaves, split with the spacer beside it — so the rail can be laid out
+        // as a broad strip with its buttons floating in the middle of it. Every
+        // card along the bottom, and the layers panel, is held clear of the
+        // rail by the width measured above, which is the width of the buttons
+        // alone: when the strip is wider than that, a card drawn up to that
+        // edge lands on Layers, Save Area and More, and the rest of the strip
+        // takes the map's vertical drags beside them.
+        .fixedSize(horizontal: true, vertical: false)
     }
 
     /// The ground the frame covers as the map stands right now.
@@ -799,6 +1401,15 @@ struct MapContainerView: View {
                         break
                     case .annotationSelected(let annotationID):
                         if annotationID.hasPrefix(MapController.parcelOverviewPrefix) {
+                            // Measuring, editing and choosing a save area own
+                            // the map's taps, as they do for the markers
+                            // below. This branch does more than open a card:
+                            // `selectOverviewMarker` claims the camera, takes
+                            // it to the parcel and rewrites the search field,
+                            // off the shape being drawn or the bounds being
+                            // dragged, and leaves its card under the panel for
+                            // the rest of the session.
+                            guard annotationTapOpensWhatItNames else { break }
                             // The parcel answers, so nothing else may still be
                             // answering: two cards about different ground,
                             // stacked, read as one card about one place.
@@ -814,8 +1425,13 @@ struct MapContainerView: View {
                             break
                         }
                         // A marker of the user's own says so, in the same card
-                        // every other geometry type of theirs uses.
-                        if let item = userVectorsVM.feature(annotationID: annotationID) {
+                        // every other geometry type of theirs uses — unless
+                        // the reader is measuring or editing, which own the
+                        // map the same way they do for a tap.
+                        if let item = userVectorsVM.feature(annotationID: annotationID)
+                            ?? photoMapVM.callout(annotationID: annotationID)
+                        {
+                            guard annotationTapOpensWhatItNames else { break }
                             vectorCallout = item
                             featureVM.clearSelection()
                             overlayVM.clearParcelSelection()
@@ -827,26 +1443,83 @@ struct MapContainerView: View {
                             // corner must not open a card over their work, and
                             // one selected mid-edit must not be waiting for them
                             // when they finish.
-                            guard measure == nil, editSession?.isEditing != true else { break }
+                            guard annotationTapOpensWhatItNames else { break }
                             selectFeature(found)
                             break
                         }
                     case .boundsSelected(let bounds):
                         finishBoundsSelection(with: bounds)
                     case .vertexMoved(let featureID, let ring, let vertex, let latitude, let longitude):
-                        editSession?.moveVertex(
-                            featureID: featureID, ring: ring, vertex: vertex,
-                            latitude: latitude, longitude: longitude
+                        let hit = snapHit(
+                            at: latitude, longitude: longitude,
+                            excludingFeatureID: featureID
                         )
+                        let outcome = editSession?.moveVertex(
+                            featureID: featureID, ring: ring, vertex: vertex,
+                            latitude: hit?.point.lat ?? latitude,
+                            longitude: hit?.point.lng ?? longitude,
+                            parcelSnap: hit?.source == .parcel
+                        )
+                        // The tick and the words only for a snap that took:
+                        // a session on its way out refuses the move, and
+                        // "Snapped to a parcel corner" over a handle that
+                        // sprang back would be a lie.
+                        if let hit, outcome != .refused {
+                            MapHaptics.placed()
+                            // In words as well as the tick, as a drawing tap
+                            // is: the caption names what was snapped to, and
+                            // VoiceOver hears it.
+                            editSession?.noteSnap(hit)
+                        }
+                        // A snap back onto the stored coordinate changes no
+                        // geometry, so nothing rebuilds the handles, and the
+                        // dragged one would stay where the finger let go.
+                        if outcome != .moved {
+                            controller.reinstallVectorHandles()
+                        }
+                        if outcome == .refused {
+                            editSession?.noteMoveRefused()
+                        }
                     case .featureMoved(let featureID, let latitudeDelta, let longitudeDelta):
-                        editSession?.moveFeature(
+                        let outcome = editSession?.moveFeature(
                             featureID: featureID,
                             latitudeDelta: latitudeDelta,
                             longitudeDelta: longitudeDelta
                         )
+                        // A refused or empty move leaves the arrows where the
+                        // finger let go unless they are put back.
+                        if outcome != .moved {
+                            controller.reinstallVectorHandles()
+                        }
+                        if outcome == .refused {
+                            editSession?.noteMoveRefused()
+                        }
 
+                    case .clusterSelected(let ids):
+                        // Several photos from one spot: one card with all of
+                        // them, from the photo map or from one of the
+                        // reader's own photo layers. Clusters never span
+                        // layers, so one of the two answers. Not over
+                        // measuring or editing, as for any other annotation.
+                        guard annotationTapOpensWhatItNames else { break }
+                        if let item = photoMapVM.callout(clusterMemberIDs: ids)
+                            ?? userVectorsVM.callout(clusterMemberIDs: ids)
+                        {
+                            vectorCallout = item
+                            featureVM.clearSelection()
+                            overlayVM.clearParcelSelection()
+                            // MapKit deselects the cluster at once and the card
+                            // arrives below: said, so the double-tap has a
+                            // spoken result wherever focus was left.
+                            AccessibilityNotification.Announcement(item.callout.title).post()
+                        }
                     case .visibleRegionSettled:
-                        mapPosition = overlayVM.mapPosition
+                        // The readout says where the map is, following or not.
+                        mapPosition = overlayVM.currentPosition
+                        // What is written down is the view the reader chose:
+                        // a followed position is not remembered, shared or
+                        // printed.
+                        overlayVM.notePositionSettled()
                         // Leaflet rewrites its address bar on every move. This
                         // is the same act: the view the reader stopped on is
                         // the one the next launch opens.
@@ -857,7 +1530,40 @@ struct MapContainerView: View {
                         // services what is in the view the user actually stopped
                         // on, not the ones they panned through.
                         featureVM.refreshAll()
+                        refreshParcelSnap()
+                        refreshPhotoMap()
+                    case .mapLongPressed(let latitude, let longitude):
+                        // Only while a drawing tool is armed: the other way to
+                        // drop a point, through the same tap handler, snap and
+                        // haptic as a tap. At any other time a press-and-hold
+                        // means nothing here.
+                        if let editSession, editSession.isEditing, !editSession.isEnding,
+                           case .drawing = editSession.tool
+                        {
+                            handleEditTap(session: editSession, latitude: latitude, longitude: longitude)
+                        }
                     case .mapTapped(let latitude, let longitude):
+                        // An open layers panel takes the first tap on the map
+                        // and spends it on closing itself.
+                        //
+                        // The panel covers most of a phone screen, so a tap on
+                        // what is left of the map is far more often a reader
+                        // reaching past the panel than one asking about the
+                        // ground under their finger — and the answer used to
+                        // be a parcel card opened behind the panel, about a
+                        // parcel nobody was aiming at. Only the tap is taken:
+                        // panning and zooming still reach the map, so the
+                        // panel can be left up while the view is moved under
+                        // it.
+                        if isLayersMenuExpanded {
+                            withAnimation(
+                                .spring(response: 0.35, dampingFraction: 0.85)
+                                    .unlessReduced(reduceMotion)
+                            ) {
+                                isLayersMenuExpanded = false
+                            }
+                            break
+                        }
                         // Measuring owns the tap, as the web's capture layer
                         // does: a tap placing a corner must not also identify
                         // the parcel under it and open a card over the shape.
@@ -871,6 +1577,8 @@ struct MapContainerView: View {
                             // While editing, a tap belongs to the layer being
                             // edited: identifying a parcel under the shape the user
                             // is tracing would open a panel over their own work.
+                            // While the session is ending, it belongs to nobody.
+                            guard !editSession.isEnding else { break }
                             handleEditTap(
                                 session: editSession, latitude: latitude, longitude: longitude
                             )
@@ -933,6 +1641,37 @@ struct MapContainerView: View {
                 // panel would otherwise see a map with no tax sales on it.
                 overlayVM.loadListedParcels()
             }
+    }
+
+    // The surface and its observation wiring are separate declarations, not
+    // one expression: the single chain grew past what the type checker will
+    // solve in reasonable time, so the modifiers are grouped into wiring
+    // functions of a size it can.
+    /// How tall a bottom callout card may be. The floor keeps a very short
+    /// window from collapsing the card to nothing; the subtraction leaves the
+    /// map's own furniture — the attribution strip and the card's insets —
+    /// visible under it.
+    private var calloutMaxHeight: CGFloat { max(240, mapHeight - 132) }
+
+    /// What the recorder is doing, in the HUD's own words. One reading of the
+    /// whole state rather than one of `isActive`, so a refusal and a wait for
+    /// permission are not both silence.
+    private var recorderState: String {
+        if recorder.isActive {
+            return recorder.status == .paused ? "Recording paused" : "Recording"
+        }
+        if recorder.refusal != nil {
+            return "Recording not started"
+        }
+        return recorder.isWaitingForPermission ? "Waiting for location permission" : ""
+    }
+
+    var body: some View {
+        sceneWiring(editWiring(snapWiring(contentWiring(surfaceAndSheets))))
+    }
+
+    private func contentWiring(_ content: some View) -> some View {
+        content
             .task {
                 // Concurrently: the two libraries touch different actors and
                 // different files, and awaiting the raster previews before the
@@ -941,6 +1680,10 @@ struct MapContainerView: View {
                 async let maps: Void = userMapsVM.load()
                 async let vectors: Void = userVectorsVM.load()
                 _ = await (maps, vectors)
+                // After the vector library, and not before: whether a restored
+                // walk has already been saved is a question only the library can
+                // answer.
+                restoreCheckpointedWalk()
             }
             // Spoken as well as drawn, which is what the web's polite live
             // region does. A reader using VoiceOver taps a button and needs to
@@ -948,6 +1691,49 @@ struct MapContainerView: View {
             .onChange(of: controller.locationMessage) { _, message in
                 guard let message else { return }
                 AccessibilityNotification.Announcement(message.rawValue).post()
+            }
+            // The first prompt's answer, and a start granted from Settings:
+            // neither comes back through the button that asked.
+            .onChange(of: recorder.announcementGeneration) { _, _ in
+                switch recorder.announcement {
+                case .refused(let refusal)?:
+                    MapHaptics.refused()
+                    AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
+                case .started?:
+                    MapHaptics.modeChanged()
+                    AccessibilityNotification.Announcement("Recording started").post()
+                case nil:
+                    break
+                }
+            }
+            .onChange(of: markLocation.outcome) { _, outcome in
+                guard let outcome else { return }
+                // The one place the app knows how a mark ended: the outcome is
+                // reported after the write, so a success can be felt as one.
+                // Everything else is a mark that was not kept — a refusal, a
+                // fix the rule turned down, a layer that could not take it, a
+                // destination that changed — and none of those may reach a
+                // pocket feeling like a saved point. Which of them it was is
+                // the message's job, not the buzz's.
+                // Both of the outcomes that kept a mark feel like one. The
+                // layer that did not switch on is a message, not a loss.
+                if !outcome.isFailure {
+                    MapHaptics.saved()
+                } else {
+                    MapHaptics.refused()
+                }
+                AccessibilityNotification.Announcement(outcome.message).post()
+            }
+            // The wait is said too: up to ten silent seconds after a tap read
+            // as a button that did nothing.
+            .onAppear { MapHaptics.warmUp() }
+            .onChange(of: markLocation.isAcquiring) { _, acquiring in
+                guard acquiring else { return }
+                AccessibilityNotification.Announcement(MarkLocation.acquiringMessage).post()
+            }
+            // The live trace follows the fixes as they arrive.
+            .onChange(of: recorder.recording.liveSegments) { _, _ in
+                pushUserVectors()
             }
             // The view model owns the rows; the map only ever draws what they
             // currently say. Pushed on change rather than on a timer so a slider
@@ -958,6 +1744,53 @@ struct MapContainerView: View {
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
             }
+            .onChange(of: photoMapVM.isVisible) { _, visible in
+                refreshPhotoMap()
+                // The layer off, access gone, or a read failed: a card about
+                // one of its photos closes with its pin.
+                if !visible, vectorCallout?.layerID == PhotoMapViewModel.layerID {
+                    vectorCallout = nil
+                }
+            }
+            // On the snapshot itself, not on the falling edge of an indexing
+            // flag: a second read finishing early cleared the flag before the
+            // first had written its snapshot, and the pins waited for a pan.
+            .onChange(of: photoMapVM.snapshotGeneration) { _, _ in
+                refreshPhotoMap()
+                reconcilePhotoMapCallout()
+            }
+    }
+
+
+    /// The snapping observers, apart from the rest so the type checker can
+    /// take each chain in reasonable time.
+    private func snapWiring(_ content: some View) -> some View {
+        content
+            .onChange(of: editSession?.snapParcels) { _, armed in
+                // The one moment the licence sheet may be raised: the user
+                // just threw the parcel switch.
+                refreshParcelSnap(promptLicence: armed == true)
+            }
+            .onChange(of: editSession?.snapEnabled) { _, _ in
+                refreshParcelSnap()
+            }
+            // Both ways: withdrawing the licence must drop the parcel targets
+            // as surely as accepting it mounts them.
+            .onChange(of: overlayVM.hasAcceptedProvinceLicence) { _, _ in
+                refreshParcelSnap()
+            }
+            // The sheet closed without acceptance: the switch goes back to
+            // off, as the web's does, rather than reading On for a capability
+            // that is blocked.
+            .onChange(of: overlayVM.isShowingLicenceSheet) { _, showing in
+                if !showing, !overlayVM.hasAcceptedProvinceLicence, editSession?.snapParcels == true {
+                    editSession?.snapParcels = false
+                }
+            }
+    }
+
+    private func editWiring(_ content: some View) -> some View {
+        content
             // An import brings the map to what was imported, the way the
             // browser does. Taken rather than read, so a later toggle cannot
             // fire the same journey a second time.
@@ -987,20 +1820,79 @@ struct MapContainerView: View {
                 pushUserVectors()
                 controller.setVectorHandles(selectionHandles())
                 controller.setVectorMoveHandle(moveHandle())
+                pushDraftPreview()
             }
-            .onChange(of: editSession?.draft) { _, draft in
-                controller.setVectorDraft(draftPreview(draft))
+            .onChange(of: editSession?.draft) { _, _ in
+                pushDraftPreview()
+            }
+            // The reticle is up exactly while a drawing tool is armed and
+            // the session is not on its way out: recognized while Done is
+            // in flight, the press-and-hold would take the pan from MapKit
+            // and place nothing.
+            .onChange(of: editSession?.tool) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
+            }
+            .onChange(of: editSession == nil) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
+            }
+            .onChange(of: editSession?.isEnding) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
+            }
+            .onChange(of: isSelectingSaveArea) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
+            }
+            // The just-committed halo coming on and, a moment later, off.
+            .onChange(of: editSession?.recentlyCommittedFeatureID) { _, _ in
+                pushUserVectors()
+            }
+            // The connect-the-dots order, drawn while the convert section is
+            // open so the stored order is seen before it is committed.
+            .onChange(of: editSession?.isPreviewingConversion) { _, _ in
+                pushDraftPreview()
             }
             .onChange(of: editSession?.selectedFeatureID) { _, _ in
                 controller.setVectorHandles(selectionHandles())
                 controller.setVectorMoveHandle(moveHandle())
             }
+            // Done draining takes the handles down with the panel's controls,
+            // so a drag cannot be attempted and refused; they come back if
+            // Done fails and the session stays open.
+            .onChange(of: editSession?.isEnding) { _, ending in
+                if ending == true {
+                    controller.setVectorHandles(nil)
+                    controller.setVectorMoveHandle(nil)
+                } else if ending == false {
+                    controller.setVectorHandles(selectionHandles())
+                    controller.setVectorMoveHandle(moveHandle())
+                }
+            }
+    }
+
+    private func sceneWiring(_ content: some View) -> some View {
+        content
             .onChange(of: navigationModel.activeSheet) { _, newValue in
                 if newValue != nil {
                     cancelBoundsSelection()
                 }
             }
             .onChange(of: scenePhase) { _, newPhase in
+                // Recording is not foreground-only any more (decision 3,
+                // reopened 2026-09-04): the walk carries on. What this
+                // reconciles is the idle timer, which is still a foreground
+                // matter — and the start a grant given in Settings promised,
+                // which waits for the app to come back so its clock begins
+                // when the fixes do.
+                recorder.scenePhaseChanged(isActive: newPhase == .active)
+                if newPhase == .active {
+                    // The session takes work again only once the scene is
+                    // back, not when its suspension flush returns.
+                    editSession?.endSuspension()
+                    refreshPhotoMapAfterReturning()
+                    // A refusal notice may describe a cause changed in
+                    // Settings while the app was away.
+                    controller.reconcileLocationNotice()
+                    markLocation.reconcileOutcome()
+                }
                 if newPhase != .active {
                     cancelBoundsSelection()
                     // A switch thrown without moving the map never settles the
@@ -1010,18 +1902,122 @@ struct MapContainerView: View {
                     overlayVM.rememberSession()
                     // The debounce cannot outlive the app. A pending edit that was
                     // still waiting for its timer when the user switched away would
-                    // never be written at all.
+                    // never be written at all. A draft is finished only on the
+                    // way to the background: `.inactive` is Control Center or
+                    // an incoming call, and a line the reader was still drawing
+                    // must not be committed under them for that.
                     if let editSession {
-                        flushProtectedFromSuspension(editSession)
+                        flushProtectedFromSuspension(
+                            editSession, settlingDraft: newPhase == .background
+                        )
                     }
                 }
             }
             .onDisappear {
                 cancelBoundsSelection()
                 if let editSession {
-                    flushProtectedFromSuspension(editSession)
+                    flushProtectedFromSuspension(editSession, settlingDraft: true)
                 }
             }
+    }
+
+    /// Puts a checkpointed walk in front of the reader, once, at launch.
+    ///
+    /// Three answers, and the difference between them is the whole point of
+    /// having written the walk down at all.
+    ///
+    /// **A walk.** It goes into the same save sheet a walk stopped on this
+    /// screen goes into, carrying a note that says how it got here — still
+    /// recording when the app closed, or stopped and never saved. It is not
+    /// resumed: fixes did not arrive while the process was gone, and joining
+    /// what was recorded before to whatever is recorded next would draw a line
+    /// across ground nobody walked.
+    ///
+    /// **A walk already saved.** A process ended between the layer landing and
+    /// the checkpoint being cleared leaves the journal behind for a walk that
+    /// is already in the library. Offering it again would write the same walk
+    /// as a second layer; the library holding a layer under the walk's own id
+    /// is how that is known, and the checkpoint is simply cleared.
+    ///
+    /// **Something unreadable.** Said out loud, and the bytes kept. An empty or
+    /// damaged checkpoint means a walk may have existed, which is not the same
+    /// as knowing none did.
+    private func restoreCheckpointedWalk() {
+        switch restoredWalk {
+        case .none:
+            return
+        case .unreadable(let keptAt):
+            unreadableCheckpoint = TrackRestoreNotice.unreadableMessage(keptAt: keptAt)
+        case .walk(let restored):
+            guard !userVectorsVM.rows.contains(where: { $0.id == restored.id.uuidString }) else {
+                recorder.clearCheckpoint()
+                return
+            }
+            // Not over a walk in progress. A recorder started from a Lock
+            // Screen intent before this view ever appeared owns the checkpoint
+            // now, and the walk read at launch has already been set aside by
+            // the start that replaced it.
+            guard !recorder.isActive, saveTrack == nil else { return }
+            saveTrack = SaveTrackPayload(
+                id: restored.id,
+                result: restored.result,
+                // The refusal is not knowable from the journal — it records
+                // what the recorder was handed, not why it was handed nothing —
+                // so the sheet's empty-result wording falls back to the general
+                // one rather than claiming a refusal that may not have happened.
+                stoppedWhileRefused: false,
+                restoredNote: TrackRestoreNotice.text(for: restored)
+            )
+        }
+    }
+
+    /// Saves the stopped recording as a layer. The sheet stays up until the
+    /// write lands: the recording is the only copy of the walk, and
+    /// dismissing before a failed save would throw it out while telling the
+    /// user to try again.
+    private func saveRecordedTrack(
+        _ payload: SaveTrackPayload, name: String, toleranceM: Double
+    ) {
+        Task {
+            guard let row = await userVectorsVM.addRecordedLayer(
+                payload.result,
+                // The walk's own id, so the layer written for it is the same
+                // layer however many times this runs.
+                id: payload.id.uuidString,
+                name: name,
+                simplifyToleranceM: toleranceM
+            ) else {
+                saveTrackError = "This track could not be saved to your "
+                    + "device. Free some space and save again, or discard it."
+                return
+            }
+            // Only now. The checkpoint is the walk's only copy until the layer
+            // is on disk, and clearing it before the write landed is how the
+            // first attempt at this lost a walk to a failed save.
+            recorder.clearCheckpoint()
+            saveTrackError = nil
+            saveTrack = nil
+            if let box = row.record.bbox {
+                controller.frame(box)
+            }
+        }
+    }
+
+    /// Photos change while the app is away — deletions, new shots, a limited
+    /// selection edited through the photo-map row's own Manage button — and a
+    /// pin for a deleted photo is a location claim about nothing. Runs on
+    /// return to the foreground while the photo map is on: setVisible
+    /// re-checks access and applies persistent changes; an unchanged token
+    /// returns without a rebuild.
+    private func refreshPhotoMapAfterReturning() {
+        // Access is re-read whether or not the layer is on: it changes in
+        // Settings, and a revocation does not relaunch the app.
+        photoMapVM.refreshAccess()
+        guard photoMapVM.isOn else { return }
+        Task {
+            await photoMapVM.refreshIndex()
+            refreshPhotoMap()
+        }
     }
 
     /// Writes the session's pending edit under a background-task assertion.
@@ -1032,7 +2028,39 @@ struct MapContainerView: View {
     /// the flush exists to prevent. The assertion keeps the process alive
     /// until the write lands (or the system calls time, which is minutes —
     /// this write is milliseconds).
-    private func flushProtectedFromSuspension(_ session: VectorEditSession) {
+    /// What the parcel-snap fetch came to, in words that keep an empty answer
+    /// apart from parcels that came back without a readable boundary: a
+    /// boundary the service did not supply, or one this app could not read,
+    /// is not "no parcels here".
+    static func parcelSnapNote(
+        shapes: Int, notSupplied: Int, unreadable: Int, unidentified: Int = 0
+    ) -> String? {
+        var parts: [String] = []
+        if unidentified > 0 {
+            parts.append("\(unidentified) parcel result\(unidentified == 1 ? "" : "s") could not be identified")
+        }
+        if notSupplied > 0 {
+            parts.append("\(notSupplied) parcel\(notSupplied == 1 ? "" : "s") returned without a boundary")
+        }
+        if unreadable > 0 {
+            parts.append("\(unreadable) parcel boundar\(unreadable == 1 ? "y" : "ies") could not be read")
+        }
+        if shapes == 0 {
+            if parts.isEmpty { return "0 parcels snappable in this view." }
+            return parts.joined(separator: "; ") + "; nothing here to snap to."
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: "; ") + "."
+    }
+
+    private func flushProtectedFromSuspension(_ session: VectorEditSession, settlingDraft: Bool) {
+        // Closed now, synchronously: a task the last tap started has not run
+        // yet, and must find the gate shut when it does.
+        session.beginSuspension()
+        // A draft that is already a shape is committed before the flush when
+        // the app is being put away: the flush writes only what was
+        // committed, and a line placed and left unfinished was gone if iOS
+        // ended the process. A partial draft stays a draft; nobody can be
+        // asked.
         let application = UIApplication.shared
         final class TokenBox: @unchecked Sendable { var value = UIBackgroundTaskIdentifier.invalid }
         let box = TokenBox()
@@ -1041,7 +2069,11 @@ struct MapContainerView: View {
             box.value = .invalid
         }
         Task {
-            await session.flush()
+            // Everything Done would wait for — attachments, operations, the
+            // flush, a hidden layer switched on — under the one assertion, so
+            // a photo accepted a moment before the app was put away is not
+            // lost with the process.
+            await session.prepareForSuspension(settlingDraft: settlingDraft)
             if box.value != .invalid {
                 application.endBackgroundTask(box.value)
                 box.value = .invalid
@@ -1067,6 +2099,10 @@ struct MapContainerView: View {
     /// note carries a generation time and a reader has no way to tell a stale
     /// stamp from a fresh one.
     private func exportEvidenceNote() {
+        guard LayerUse.propertyRecordsReproductionAllowed else {
+            exportFailure = overlayVM.evidenceReproductionLockReason
+            return
+        }
         guard let note = overlayVM.evidenceNote(
             includingSourcesStillOut: sourcesHaveHadTheirTime
         ) else {
@@ -1106,7 +2142,8 @@ struct MapContainerView: View {
     private func pushUserVectors() {
         var drawings = userVectorsVM.drawings
         if let session = editSession, let record = session.record, let parsed = session.parsed {
-            let live = UserVectorDrawing(record: record, parsed: parsed)
+            var live = UserVectorDrawing(record: record, parsed: parsed)
+            live.highlightedFeatureID = session.recentlyCommittedFeatureID
             if let index = drawings.firstIndex(where: { $0.id == record.id }) {
                 drawings[index] = live
             } else {
@@ -1115,7 +2152,902 @@ struct MapContainerView: View {
                 drawings.append(live)
             }
         }
+        if let trace = liveTraceDrawing() {
+            drawings.append(trace)
+        }
+        if let snap = parcelSnapDrawing() {
+            drawings.append(snap)
+        }
+        if let photos = photoMapVM.drawing() {
+            drawings.append(photos)
+        }
         controller.setUserVectors(drawings)
+    }
+
+    /// The recording's accepted vertices as a transient drawing — the live
+    /// trace. Not a stored layer: it exists only while the recorder runs, is
+    /// never hit-tested (it is not in the view model's rows), and the saved
+    /// layer replaces it at stop time.
+    private func liveTraceDrawing() -> UserVectorDrawing? {
+        guard recorder.isActive else { return nil }
+        let segments = recorder.recording.liveSegments.filter { $0.count >= 2 }
+        guard !segments.isEmpty else { return nil }
+        let geometry: GeoJsonGeometry =
+            segments.count == 1 ? .lineString(segments[0]) : .multiLineString(segments)
+        // Fixed dates so successive pushes compare equal in the state diff.
+        let epoch = Date(timeIntervalSince1970: 0)
+        let record = UserVectorLayerRecord(
+            id: "recording-live-trace",
+            name: "Recording",
+            source: .recorded,
+            origin: .recorded(startedAt: epoch, endedAt: epoch),
+            createdAt: epoch,
+            colorHex: "#0072b2",
+            featureCount: 1,
+            bbox: nil
+        )
+        return UserVectorDrawing(
+            record: record,
+            parsed: ParsedVector(
+                features: [GeoJsonFeature(id: "recording-live-trace", geometry: geometry)],
+                bbox: nil
+            )
+        )
+    }
+
+    /// Faint parcel rings currently armed for snapping. Not a stored layer,
+    /// not hit-tested, cleared when parcels are disarmed.
+    private func parcelSnapDrawing() -> UserVectorDrawing? {
+        // Not drawn without the licence, whatever the rings still hold: the
+        // faint boundaries are restricted data too.
+        guard let session = editSession, session.snapEnabled, session.snapParcels,
+              overlayVM.hasAcceptedProvinceLicence, !session.parcelSnapRings.isEmpty
+        else { return nil }
+        let epoch = Date(timeIntervalSince1970: 0)
+        let record = UserVectorLayerRecord(
+            id: "snap-parcel-targets",
+            name: "Parcel snap",
+            source: .drawn,
+            origin: .drawn(createdAt: epoch),
+            createdAt: epoch,
+            colorHex: "#64748b",
+            featureCount: session.parcelSnapRings.count,
+            bbox: nil
+        )
+        let features = session.parcelSnapRings.enumerated().map { index, rings in
+            GeoJsonFeature(
+                id: "snap-parcel-\(index)",
+                geometry: .polygon(rings),
+                properties: ["fill-opacity": .number(0.05), "stroke-opacity": .number(0.55)]
+            )
+        }
+        return UserVectorDrawing(
+            record: record,
+            parsed: ParsedVector(features: features, bbox: nil)
+        )
+    }
+
+    /// Which of the two fixes to measure from: the freshest one still inside
+    /// the window, or none.
+    ///
+    /// Not `recorder.lastFix ?? map` — that is what this was, and it is wrong
+    /// in a way a reader cannot see. `pause()` stops the updates but keeps the
+    /// last fix; only `stop()` clears it. So a walk paused at the gate and
+    /// resumed half a mile down the boundary went on measuring from the gate,
+    /// outranking a MapKit fix taken seconds ago, with nothing on screen
+    /// saying which position the number was from.
+    ///
+    /// The window is the map's own: `MapController.locateMaxFixAge`, with the
+    /// same tolerance for a clock that runs ahead. A fix outside it is not
+    /// shown at all, because "12 m to the boundary" is a claim about where the
+    /// reader is standing now.
+    ///
+    /// Evaluated when the view is, which is honest but worth stating: a
+    /// reading can outlive its window until something re-renders. Fixes are
+    /// what usually do that, and their absence is itself reported — the map
+    /// raises `signalLost`, which re-renders this.
+    static func walkToLineFix(recorder: TrackFix?, map: TrackFix?, now: Date) -> TrackFix? {
+        func usable(_ fix: TrackFix?) -> TrackFix? {
+            guard let fix else { return nil }
+            let age = now.timeIntervalSince(fix.timestamp)
+            guard age <= MapController.locateMaxFixAge,
+                  age >= -MapController.locateClockTolerance
+            else { return nil }
+            return fix
+        }
+        return [usable(recorder), usable(map)]
+            .compactMap { $0 }
+            .max { $0.timestamp < $1.timestamp }
+    }
+
+    /// Stopping the walk, from the HUD's own button — which is still the only
+    /// place a walk can be stopped from.
+    ///
+    /// The doc comment here used to describe a Lock Screen Stop performing in
+    /// this process. There is none: `SharedActivity/TrackActivityIntents.swift`
+    /// ships Pause and Resume only. What kept Stop off the Lock Screen was that
+    /// it produces a walk which has to survive a process iOS can end before the
+    /// save sheet can be shown, and that is what the checkpoint now does — the
+    /// walk is on disk from the moment it stops, and a sheet the reader never
+    /// saw is offered again at the next launch. Adding `StopTrackIntent` is its
+    /// own change.
+    @discardableResult
+    private func stopRecording() -> Bool {
+        guard let stopped = recorder.stop() else { return false }
+        // The recorder changed mode, which is all this says. Whether the
+        // walk is worth keeping is the save sheet's question, and it opens
+        // with it — here, where the reader is looking at it. The walk itself is
+        // no longer waiting on that: it is on disk from the moment it stopped,
+        // and stays there until this sheet is answered.
+        MapHaptics.modeChanged()
+        saveTrack = SaveTrackPayload(
+            id: stopped.id,
+            result: stopped.result,
+            stoppedWhileRefused: stopped.stoppedWhileRefused
+        )
+        // The live trace is drawn from the recorder, which just went idle.
+        pushUserVectors()
+        return true
+    }
+
+    /// The reading the chip shows, or nil when there is nothing to measure.
+    ///
+    /// Offered only where the geometry is already on screen and already
+    /// licence-gated: a feature the reader has selected, or the parcel rings
+    /// the session fetched when parcel snapping was armed. Nothing is fetched
+    /// for this, and no boundary is asked for that the map was not already
+    /// showing.
+    private var walkToLineReading: WalkToLine.Reading? {
+        guard let session = editSession, session.isEditing else { return nil }
+        guard let fix = Self.walkToLineFix(
+            recorder: recorder.lastFix, map: controller.lastUserFix, now: Date()
+        ) else { return nil }
+
+        var targets: [SnapEngine.Target] = []
+        // The same gate the snap itself passes through, not merely the toggle.
+        // The rings are cached, and the licence going away is observed before
+        // the cleanup that clears them runs — so for one evaluation the
+        // restricted geometry is off the map and still in hand. A distance to
+        // it is a disclosure of it.
+        if session.snapParcels, overlayVM.hasAcceptedProvinceLicence {
+            targets.append(contentsOf: session.parcelSnapTargets)
+        }
+        // The selected feature as it is, whatever tool is armed. The Point
+        // tool's exclusion exists so a new point does not snap onto an
+        // existing one and become an invisible duplicate; measuring a distance
+        // to a point is a perfectly good question.
+        if let geometry = session.selectedFeature?.geometry {
+            targets.append(.ownFeature(geometry))
+        }
+        guard !targets.isEmpty else { return nil }
+
+        return WalkToLine.reading(
+            from: GeoPoint(lat: fix.latitude, lng: fix.longitude),
+            accuracyMetres: fix.accuracyM,
+            to: targets
+        )
+    }
+
+    /// `excludingFeatureID` is the feature a drag is editing: its own
+    /// pre-drag geometry is still in `session.parsed`, and offering it as a
+    /// target would snap the dragged vertex back to where it started — the
+    /// web's Geoman snapping excludes the dragged layer the same way.
+    private func snapHit(
+        at latitude: Double, longitude: Double, excludingFeatureID: String? = nil
+    ) -> SnapEngine.Hit? {
+        guard let session = editSession, session.snapEnabled else { return nil }
+        let point = GeoPoint(lat: latitude, lng: longitude)
+        var targets: [SnapEngine.Target] = []
+        if session.snapOwnFeatures, let parsed = session.parsed {
+            for feature in parsed.features
+            where excludingFeatureID == nil || feature.id != excludingFeatureID {
+                // With the Point tool armed, the layer's own points are not
+                // targets: a new point snapped onto one was an invisible
+                // duplicate at the same coordinate.
+                if let geometry = feature.geometry,
+                   let target = VectorEditSession.snapTargetGeometry(geometry, tool: session.tool)
+                {
+                    targets.append(.ownFeature(target))
+                }
+            }
+            if let draft = session.draft, draft.vertices.count >= 1 {
+                let points = draft.vertices.map(\.point)
+                var segments: [(GeoPoint, GeoPoint)] = []
+                if points.count >= 2 {
+                    for index in 1..<points.count {
+                        segments.append((points[index - 1], points[index]))
+                    }
+                }
+                targets.append(
+                    SnapEngine.Target(source: .ownFeature, vertices: points, segments: segments)
+                )
+            }
+        }
+        // Checked at the tap as well as at the mount: targets fetched under a
+        // licence since withdrawn are not offered.
+        if session.snapParcels, overlayVM.hasAcceptedProvinceLicence {
+            targets.append(contentsOf: session.parcelSnapTargets)
+        }
+        let metresPerPoint = controller.groundMetresPerPoint() ?? 1
+        let tolerance = CaptureSpec.Snap.toleranceScreenUnits * metresPerPoint
+        return SnapEngine.nearest(to: point, among: targets, toleranceMetres: tolerance)
+    }
+
+    /// `promptLicence` is true only when the user just armed parcel
+    /// snapping: the licence sheet is an answer to that gesture, and raising
+    /// it again on every region settle would re-present a sheet the user
+    /// swiped away to think about.
+    private func refreshParcelSnap(promptLicence: Bool = false) {
+        // Whatever the early exit below, a fetch still in flight must not
+        // land afterwards: it was made under a licence or a setting that
+        // this refresh is here to withdraw.
+        parcelSnapTask?.cancel()
+        parcelSnapTask = nil
+        parcelSnapGeneration += 1
+        let generation = parcelSnapGeneration
+        guard let session = editSession, session.snapEnabled, session.snapParcels else {
+            editSession?.parcelSnapTargets = []
+            editSession?.parcelSnapRings = []
+            editSession?.parcelSnapNote = nil
+            pushUserVectors()
+            return
+        }
+        if !overlayVM.hasAcceptedProvinceLicence {
+            session.parcelSnapTargets = []
+            session.parcelSnapRings = []
+            session.parcelSnapNote = "Accept the Province licence to snap to parcels."
+            if promptLicence {
+                overlayVM.promptProvinceLicence(for: .nsprd)
+            }
+            pushUserVectors()
+            return
+        }
+        // The licence first, then the zoom: the reader asked for restricted
+        // data, and the answer to that is the gate, not "zoom in".
+        if controller.zoomLevel < CaptureSpec.Snap.minZoom {
+            session.parcelSnapTargets = []
+            session.parcelSnapRings = []
+            session.parcelSnapNote = "Zoom in to snap to parcels."
+            pushUserVectors()
+            return
+        }
+        guard let bounds = controller.currentVisibleBounds() else { return }
+        let box = GeoBoundingBox(
+            south: bounds.minLatitude, west: bounds.minLongitude,
+            north: bounds.maxLatitude, east: bounds.maxLongitude
+        )
+        session.parcelSnapNote = nil
+        parcelSnapTask = Task {
+            let clearance = overlayVM.clearanceBox.clearance
+            do {
+                let collection = try await ParcelFetcher().parcels(in: box, clearance: clearance)
+                // Re-checked after the wait, not only before it: the licence
+                // can be withdrawn, and the toggles thrown, while the request
+                // is out; and a later refresh may have taken over.
+                guard parcelSnapStillWanted(session, generation: generation),
+                      overlayVM.hasAcceptedProvinceLicence
+                else { return }
+                var targets: [SnapEngine.Target] = []
+                var rings: [[[GeoJsonPosition]]] = []
+                var notSupplied = 0
+                var unreadable = 0
+                for feature in collection.identifiedFeatures {
+                    switch feature.boundary {
+                    case .shape(let parts):
+                        for part in parts {
+                            targets.append(.parcel(rings: part))
+                            rings.append(
+                                part.map { ring in
+                                    ring.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) }
+                                }
+                            )
+                        }
+                    case .notSupplied:
+                        notSupplied += 1
+                    case .unreadable:
+                        unreadable += 1
+                    }
+                }
+                session.parcelSnapTargets = targets
+                session.parcelSnapRings = rings
+                session.parcelSnapNote = Self.parcelSnapNote(
+                    shapes: rings.count, notSupplied: notSupplied, unreadable: unreadable,
+                    unidentified: collection.unidentifiedFeatureCount
+                )
+                pushUserVectors()
+            } catch ParcelLookupFailure.tooManyParcels(count: _) {
+                // A failure is as stale as an answer: the dense viewport that
+                // threw this may be two pans behind the one on screen.
+                guard parcelSnapStillWanted(session, generation: generation) else { return }
+                session.parcelSnapTargets = []
+                session.parcelSnapRings = []
+                session.parcelSnapNote = "Too many parcels here, zoom in."
+                pushUserVectors()
+            } catch ParcelLookupFailure.cancelled {
+                return
+            } catch ParcelLookupFailure.refused(.licenceNotAccepted) {
+                guard parcelSnapStillWanted(session, generation: generation, requiringLicence: false)
+                else { return }
+                session.parcelSnapTargets = []
+                session.parcelSnapRings = []
+                session.parcelSnapNote = "Accept the Province licence to snap to parcels."
+                pushUserVectors()
+            } catch {
+                guard parcelSnapStillWanted(session, generation: generation) else { return }
+                session.parcelSnapTargets = []
+                session.parcelSnapRings = []
+                session.parcelSnapNote = "Parcel boundaries could not be loaded."
+                pushUserVectors()
+            }
+        }
+    }
+
+    /// Whether a parcel fetch's answer is still for the session and the
+    /// refresh that asked. A fetch cancelled or overtaken by a later refresh
+    /// must not write its rings, or its failure, over the current ones — a
+    /// licence withdrawn while it was out would otherwise be answered with
+    /// "too many parcels".
+    private func parcelSnapStillWanted(
+        _ session: VectorEditSession, generation: Int, requiringLicence: Bool = true
+    ) -> Bool {
+        // The licence too: withdrawn while a fetch was out, its failure must
+        // not be published as "too many parcels" over the blocked state.
+        !Task.isCancelled && generation == parcelSnapGeneration
+            && session === editSession && session.snapEnabled && session.snapParcels
+            && (!requiringLicence || overlayVM.hasAcceptedProvinceLicence)
+    }
+
+    /// A card about a photo the library no longer shows — deleted, or no
+    /// longer in a limited selection — is closed, or replaced with what the
+    /// index says now.
+    private func reconcilePhotoMapCallout() {
+        guard let open = vectorCallout, open.layerID == PhotoMapViewModel.layerID else { return }
+        vectorCallout = photoMapVM.callout(matching: open)
+    }
+
+    private func refreshPhotoMap() {
+        photoMapVM.refreshViewport(bounds: visibleGeoBox())
+        pushUserVectors()
+    }
+
+    private func visibleGeoBox() -> GeoBoundingBox? {
+        guard let bounds = controller.currentVisibleBounds() else { return nil }
+        return GeoBoundingBox(
+            south: bounds.minLatitude, west: bounds.minLongitude,
+            north: bounds.maxLatitude, east: bounds.maxLongitude
+        )
+    }
+
+    /// Why a pick placed nothing, in terms of what was actually found out:
+    /// photos that were read and had no location, and photos that could not
+    /// be read at all, whose location is unknown rather than absent.
+    static func nothingPlacedMessage(untagged: Int, notInspected: Int, refused: Int = 0) -> String {
+        if notInspected == 0, refused == 0 {
+            return "No selected photos had a location, so none were added."
+        }
+        if untagged == 0, refused == 0 {
+            return notInspected == 1
+                ? "The selected photo couldn't be read, so it wasn't added."
+                : "None of the \(notInspected) selected photos could be read, so none were added."
+        }
+        if untagged == 0, notInspected == 0 {
+            return refused == 1
+                ? "The selected photo was refused for its size or format, so it wasn't added."
+                : "All \(refused) selected photos were refused for size or format, so none were added."
+        }
+        var parts: [String] = []
+        if untagged > 0 { parts.append("\(untagged) had no location") }
+        if notInspected > 0 { parts.append("\(notInspected) couldn't be read") }
+        if refused > 0 { parts.append("\(refused) \(refused == 1 ? "was" : "were") refused for size or format") }
+        return "Of the selected photos, " + parts.joined(separator: ", ") + ", so none were added."
+    }
+
+    private func beginBulkPlacement(from items: [PhotosPickerItem]) async {
+        var candidates: [BulkPhotoPlacement.Candidate] = []
+        var names: [String: String] = [:]
+        var payloads: [String: UserVectorsViewModel.PhotoPlacement] = [:]
+        // Photos that could not be read at all, and photos that were read
+        // and refused for size or format, are counted apart from the ones
+        // that were read and had no location: "none had a location" is a
+        // claim about the photos, and it is only made about photos that
+        // were read.
+        var notInspected = 0
+        var refused = 0
+        for (index, item) in items.enumerated() {
+            let id = item.itemIdentifier ?? "picked-\(index)"
+            let name = "Photo \(index + 1)"
+            names[id] = name
+            guard let data = try? await item.loadTransferable(type: Data.self) else {
+                userVectorsVM.reportExportShortfall(
+                    layerName: name,
+                    message: "This photo couldn't be read. It wasn't added."
+                )
+                notInspected += 1
+                candidates.append(.init(id: id, gps: nil, capturedAt: nil, unplaceable: .unreadable))
+                continue
+            }
+            // Detached, like the edit session's attach path: the decode and
+            // two JPEG re-encodes are CPU work with no business on the main
+            // actor, and a hundred-photo pick would freeze the map for the
+            // whole batch. Untagged photos are never processed at all —
+            // they cannot be placed, so re-encoding them buys nothing.
+            let outcome = await Task.detached(priority: .userInitiated) {
+                () -> (
+                    claims: PhotoPipeline.CaptureClaims,
+                    processed: Result<PhotoPipeline.Processed, PhotoPipeline.Refusal>?
+                ) in
+                let claims = PhotoPipeline.captureClaims(data)
+                guard claims.location != nil else { return (claims, nil) }
+                do throws(PhotoPipeline.Refusal) {
+                    return (claims, .success(try PhotoPipeline.process(data)))
+                } catch {
+                    return (claims, .failure(error))
+                }
+            }.value
+            switch outcome.processed {
+            case .success(let processed)?:
+                if let gps = outcome.claims.location {
+                    payloads[id] = .init(
+                        gps: gps,
+                        capturedAt: outcome.claims.capturedAt,
+                        sourceName: name,
+                        processed: processed
+                    )
+                }
+                candidates.append(
+                    .init(
+                        id: id, gps: outcome.claims.location,
+                        capturedAt: outcome.claims.capturedAt
+                    )
+                )
+            case .failure(let refusal)?:
+                userVectorsVM.reportExportShortfall(
+                    layerName: name, message: refusal.userMessage
+                )
+                refused += 1
+                candidates.append(
+                    .init(id: id, gps: nil, capturedAt: nil, unplaceable: .refused(refusal.userMessage))
+                )
+            case nil:
+                candidates.append(
+                    .init(id: id, gps: nil, capturedAt: outcome.claims.capturedAt)
+                )
+            }
+        }
+        let rows = BulkPhotoPlacement.classify(candidates, bounds: visibleGeoBox())
+        guard rows.contains(where: \.isPlaceable) else {
+            // Nothing to place is an answer, not silence: the picker closed
+            // and the reader is told why nothing appeared.
+            let message = Self.nothingPlacedMessage(
+                untagged: candidates.count - notInspected - refused,
+                notInspected: notInspected, refused: refused
+            )
+            userVectorsVM.reportExportShortfall(layerName: "Add photos to map", message: message)
+            AccessibilityNotification.Announcement(message).post()
+            return
+        }
+        bulkPlacement = BulkPlacementDraft(rows: rows, names: names, payloads: payloads)
+    }
+
+    private var annotationTapOpensWhatItNames: Bool {
+        Self.annotationTapOpensCard(
+            measuring: measure != nil,
+            editing: editSession?.isEditing == true,
+            selectingBounds: isSelectingSaveArea
+        )
+    }
+
+    /// Whether a tap on a map annotation opens what it names.
+    ///
+    /// Measuring, editing and choosing a save area each own the map's taps and
+    /// each give a tap its own meaning, so a card that opened underneath one of
+    /// them is read as an answer to something the reader never asked. Three of
+    /// the four annotation branches already refused during measuring and
+    /// editing; the tax-sale overview marker refused during neither, and it
+    /// does more than open a card — it claims the camera, takes it to the
+    /// parcel and rewrites the search field. Save-area selection is added to
+    /// all four for the same reason, rather than to one of them.
+    static func annotationTapOpensCard(
+        measuring: Bool, editing: Bool, selectingBounds: Bool
+    ) -> Bool {
+        !measuring && !editing && !selectingBounds
+    }
+
+    private var reticleShouldArm: Bool {
+        Self.reticleShouldArm(
+            isEditing: editSession?.isEditing ?? false,
+            isEnding: editSession?.isEnding ?? false,
+            tool: editSession?.tool,
+            selectingBounds: isSelectingSaveArea
+        )
+    }
+
+    /// Whether placing at `candidate` closes the area being drawn: the same
+    /// test the tap handler applies — three corners down and the candidate
+    /// on the first of them, which a snap onto it makes exact.
+    static func reticleFinishesArea(shape: VectorEditShape, draft: VectorDraft?, candidate: GeoPoint) -> Bool {
+        guard shape == .area, let draft, draft.canFinish, let first = draft.vertices.first else {
+            return false
+        }
+        return first.lat == candidate.lat && first.lng == candidate.lng
+    }
+
+    /// Placement is available while a drawing tool is armed in a session
+    /// that is not ending, and no save-area selection has the map.
+    static func reticleShouldArm(
+        isEditing: Bool, isEnding: Bool, tool: VectorEditSession.Tool?, selectingBounds: Bool = false
+    ) -> Bool {
+        guard isEditing, !isEnding, !selectingBounds, let tool else { return false }
+        if case .drawing = tool { return true }
+        return false
+    }
+
+    /// Places at the candidate that was on screen: the ground under the
+    /// crosshair and the snap resolved for it when the frame was drawn, not
+    /// a second resolution against targets that may have changed since. A
+    /// parcel target whose licence has gone meanwhile places nothing and
+    /// says so.
+    /// The panel's placement: the same act as the crosshair's button, with
+    /// the candidate resolved now.
+    private func placeAtCentreFromPanel(_ session: VectorEditSession) {
+        guard case .drawing(let shape) = session.tool, let ground = controller.reticleCoordinate else {
+            return
+        }
+        placeAtReticle(
+            session: session, shape: shape, ground: ground,
+            hit: snapHit(at: ground.lat, longitude: ground.lng)
+        )
+    }
+
+    private func placeAtReticle(
+        session: VectorEditSession, shape: VectorEditShape, ground: GeoPoint, hit: SnapEngine.Hit?
+    ) {
+        // Checked again at the tap, against the session as it is now: the
+        // tool, the snap switches and the licence can all change between the
+        // frame that drew the readout and the finger reaching the button,
+        // and the coordinate placed must be one the reader would still be
+        // shown. Anything that no longer holds places nothing, and says so.
+        guard session.tool == .drawing(shape), !isSelectingSaveArea else { return }
+        // And resolved again now, against the targets as they are: a parcel
+        // fetch landing, or an own feature moved, while the finger was on
+        // the button would otherwise place a snap the map no longer shows
+        // — and stamp its provenance. The crosshair must still be where the
+        // readout said, too.
+        guard controller.reticleCoordinate == ground else {
+            session.notePlacementChanged()
+            return
+        }
+        // The licence first, when that is what changed: a parcel corner the
+        // reader was shown, under a licence withdrawn while their finger was
+        // on the button, is a licence message, not "snapping changed".
+        if hit?.source == .parcel, !overlayVM.hasAcceptedProvinceLicence {
+            session.noteParcelSnapLicenceWithdrawn()
+            return
+        }
+        let current = snapHit(at: ground.lat, longitude: ground.lng)
+        guard current?.point == hit?.point, current?.source == hit?.source else {
+            session.notePlacementChanged()
+            return
+        }
+        if let hit {
+            guard session.snapEnabled else {
+                session.notePlacementChanged()
+                return
+            }
+            if hit.source == .parcel {
+                guard session.snapParcels else {
+                    session.notePlacementChanged()
+                    return
+                }
+                guard overlayVM.hasAcceptedProvinceLicence else {
+                    session.noteParcelSnapLicenceWithdrawn()
+                    return
+                }
+            } else {
+                guard session.snapOwnFeatures else {
+                    session.notePlacementChanged()
+                    return
+                }
+            }
+        }
+        if let hit {
+            session.noteSnap(hit)
+        }
+        placeVertex(
+            in: session,
+            latitude: hit?.point.lat ?? ground.lat,
+            longitude: hit?.point.lng ?? ground.lng,
+            parcelSnap: hit?.source == .parcel
+        )
+    }
+
+    /// What the rubber-band overlay should draw: the conversion preview when
+    /// the convert section is open, else the shape being drawn.
+    private func pushDraftPreview() {
+        // Measuring owns the overlay while it runs; recording and editing
+        // cannot start while a measurement is up.
+        guard measure == nil else { return }
+        if let preview = conversionPreview() {
+            controller.setVectorDraft(preview)
+        } else {
+            controller.setVectorDraft(draftPreview(editSession?.draft))
+        }
+    }
+
+    /// The connect-the-dots order as a dashed amber path — the measure
+    /// colour, so a preview is never mistaken for a saved line.
+    private func conversionPreview() -> VectorDraftPreview? {
+        guard let session = editSession, session.isPreviewingConversion,
+              let plan = session.convertPlanLine, plan.positions.count >= 2
+        else { return nil }
+        return VectorDraftPreview(
+            shape: .line, vertices: plan.positions, colorHex: "#d97706"
+        )
+    }
+
+    /// One-tap mark: the recorder's fix when fresh and tight (the contract's
+    /// 10 s / 50 m rule), else one requested fix. Marks into the open edit
+    /// session, else the "Field notes" layer.
+    /// `destination` and `operation` are decided at the tap, not after the
+    /// wait: a session begun or ended while the fix was being found must
+    /// not redirect the mark somewhere the reader did not aim it, and the
+    /// session owns the mark from the tap, so Done and a suspension wait
+    /// for it. A session already closing, or suspended, takes no mark.
+    private func markMyLocation(destination: VectorEditSession?, operation: UUID?) async {
+        // The attempt is counted first: a timer left by the last outcome
+        // must not take this attempt's answer down, and the number counted
+        // here is what later says whether this tap is still the one the
+        // reader is waiting on.
+        let attempt = beginMarkAttempt()
+        if destination != nil, operation == nil {
+            finishMark(attempt, with: .destinationChanged)
+            return
+        }
+        defer { if let operation { destination?.endOperation(operation) } }
+        // The recorder's fix first, then the one behind the map's own blue
+        // dot: a position already on screen is used before CoreLocation is
+        // asked for another.
+        guard let fix = await markLocation.acquireFix(
+            preferring: [recorder.lastFix, controller.userLocationFix()]
+        ) else {
+            // Two questions, and both have to be asked. Whether this tap is
+            // still the newest is the first: a mark can be overtaken by a
+            // second tap, and the answer to a tap the reader has already
+            // replaced is not the answer to the one they are waiting on.
+            // Whether the outcome is empty is the second: the acquisition
+            // records its own outcome when it knows why it failed, and a
+            // refusal, a fix the rule turned down, or a network failure must
+            // not be written over with "couldn't be found".
+            guard markOutcomeGeneration == attempt else { return }
+            if markLocation.outcome == nil {
+                finishMark(attempt, with: .unavailable)
+            } else {
+                // The acquisition already wrote this attempt's own diagnosis.
+                // It is a failure like the carried one, so the carried one is
+                // let go rather than left to attach itself to a later tap.
+                overtakenMarkFailures = []
+                scheduleMarkOutcomeDismissal()
+            }
+            return
+        }
+        let feature = MarkFeature.buildGpsMarkFeature(fix)
+        guard destination === editSession else {
+            finishMark(attempt, with: .destinationChanged)
+            return
+        }
+        if let session = editSession, session.isEditing {
+            // Refused once Done has begun: the session is closing, and the
+            // mark would race its final write.
+            guard session.appendMark(feature, holding: operation) else {
+                finishMark(attempt, with: .destinationChanged)
+                return
+            }
+            // The layer's name is read now, before any wait, so a session
+            // closing meanwhile cannot turn it into "this layer".
+            let layerName = session.record?.name ?? "this layer"
+            // Said only once the mark is on disk: the session's own write is
+            // debounced, and "Marked in" before it lands was a promise.
+            guard await session.flush() else {
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
+                        session.storageError ?? MarkLocation.storageFallbackMessage
+                    )
+                )
+                return
+            }
+            // A mark asks to be seen; a layer switched off is switched on,
+            // and said to be only once the library has it.
+            let layerShown = session.layerIsHidden
+            if layerShown, await !session.showLayer() {
+                finishMark(
+                    attempt,
+                    with: .markedLayerNotShown(
+                        layerName: layerName, accuracyM: fix.accuracyM
+                    )
+                )
+                return
+            }
+            finishMark(
+                attempt,
+                with: .marked(
+                    layerName: layerName,
+                    accuracyM: fix.accuracyM,
+                    layerShown: layerShown
+                )
+            )
+        } else {
+            guard let row = await userVectorsVM.fieldNotesRow(),
+                  await userVectorsVM.appendFeature(feature, to: row.id)
+            else {
+                // A fix was had; the layer refused it. Said in the store's
+                // words — a storage failure reported as a GPS failure sent
+                // the reader outdoors to fix a full disk.
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
+                        userVectorsVM.lastRefusal?.userMessage
+                            ?? MarkLocation.storageFallbackMessage
+                    )
+                )
+                return
+            }
+            // Read again after the write: the reader may have renamed the
+            // layer, switched it off, or deleted it while the append was in
+            // flight. A deleted layer took the mark with it, and Field notes
+            // switched off would be a success toast over a map with no new
+            // pin on it.
+            guard let current = userVectorsVM.rows.first(where: { $0.id == row.id }) else {
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
+                        "\(row.record.name) was deleted while the mark was being saved, "
+                            + "so the mark was not kept."
+                    )
+                )
+                return
+            }
+            let layerShown = !current.isVisible
+            if layerShown, await !userVectorsVM.showLayer(id: row.id) {
+                finishMark(
+                    attempt,
+                    with: .markedLayerNotShown(
+                        layerName: current.record.name, accuracyM: fix.accuracyM
+                    )
+                )
+                return
+            }
+            finishMark(
+                attempt,
+                with: .marked(
+                    layerName: current.record.name, accuracyM: fix.accuracyM, layerShown: layerShown
+                )
+            )
+        }
+    }
+
+    /// The mark outcomes that stay up until the reader takes them down: a
+    /// refusal is a decision to make in Settings, and a five-second timer
+    /// took the button away before an assistive-technology reader reached
+    /// it. Every other outcome describes a finished attempt, and expires.
+    static func markOutcomeStaysUntilDismissed(_ outcome: MarkLocation.Outcome) -> Bool {
+        switch outcome {
+        case .denied, .restricted, .servicesOff: true
+        default: false
+        }
+    }
+
+    /// Called when an attempt begins, and hands back that attempt's own
+    /// number. The number does two jobs: a timer set by the last outcome must
+    /// not take this attempt's down, however the two interleave, and an
+    /// attempt a later tap has overtaken must not answer for the one the
+    /// reader is now waiting on.
+    private func beginMarkAttempt() -> Int {
+        // A failure held over from a burst that has since answered belongs to
+        // no attempt now, and the one starting here is not it.
+        if markLocation.outcome != nil {
+            overtakenMarkFailures = []
+        }
+        markOutcomeGeneration += 1
+        return markOutcomeGeneration
+    }
+
+    /// What an attempt's answer becomes: said, carried, or dropped.
+    enum MarkReport: Equatable {
+        /// Say this, and forget whatever an earlier attempt left carried.
+        case say(MarkLocation.Outcome)
+        /// Say nothing now, and hand this failure to whichever attempt
+        /// answers next.
+        case carry(String)
+        /// Say nothing and carry nothing.
+        case silent
+    }
+
+    /// The rule, kept out of the view so it can be tested.
+    ///
+    /// Two taps can overlap for the whole of the first attempt, not merely its
+    /// write: when a usable cached fix is to hand, `acquireFix` returns before
+    /// `isAcquiring` is ever set, so the rail button is never disabled and a
+    /// second tap can begin at any moment. Only a CoreLocation request
+    /// disables it.
+    ///
+    /// Whichever tap began last owns the message: an older tap's answer left
+    /// on screen is read as the answer to the newer one — a saved point over a
+    /// mark that was never saved. But an overtaken FAILURE is not merely
+    /// stale. A mark that was not kept stays unkept whoever tapped next, so it
+    /// is carried and said alongside the newer answer rather than dropped,
+    /// which would be this finding's own symptom in the mirror direction.
+    ///
+    /// It is folded in only when the newer answer is a success. When the newer
+    /// answer is itself a failure it already tells the reader a mark was not
+    /// kept, and rewrapping it would take the Settings button off a refusal.
+    static func markReport(
+        attempt: Int,
+        newest: Int,
+        outcome: MarkLocation.Outcome,
+        carried: [String]
+    ) -> MarkReport {
+        guard attempt == newest else {
+            return outcome.isFailure ? .carry(outcome.message) : .silent
+        }
+        guard !carried.isEmpty else { return .say(outcome) }
+        // Whether the newest tap saved or not: an unsaved mark from a tap
+        // that has been overtaken is still an unsaved mark, and a newer
+        // failure does not stand in for an older one.
+        let earlier = carried.count == 1
+            ? "An earlier tap was not saved: \(carried[0])"
+            : "\(carried.count) earlier taps were not saved: \(carried.joined(separator: " "))"
+        return .say(.storageFailed("\(outcome.message) \(earlier)"))
+    }
+
+    /// The answer to one attempt, applied. The dismissal is scheduled only
+    /// when something was said, because scheduling counts a generation and
+    /// would leave the newest attempt unable to recognise itself.
+    private func finishMark(_ attempt: Int, with outcome: MarkLocation.Outcome) {
+        switch Self.markReport(
+            attempt: attempt,
+            newest: markOutcomeGeneration,
+            outcome: outcome,
+            carried: overtakenMarkFailures
+        ) {
+        case .say(let said):
+            overtakenMarkFailures = []
+            markLocation.report(said)
+            scheduleMarkOutcomeDismissal()
+        case .carry(let message):
+            // Carried only while there is something to carry it to. If the tap
+            // that overtook this one has already answered, there is no message
+            // left to say it alongside, and holding it for whatever tap comes
+            // next — a minute later, about a different place — would turn that
+            // reader's successful mark into a failure over an attempt they had
+            // forgotten. Said now instead, named as the older one.
+            if markLocation.outcome == nil {
+                overtakenMarkFailures.append(message)
+            } else {
+                markLocation.report(
+                    .storageFailed("An earlier tap was not saved: \(message)")
+                )
+                scheduleMarkOutcomeDismissal()
+            }
+        case .silent:
+            break
+        }
+    }
+
+    private func scheduleMarkOutcomeDismissal() {
+        // Counted rather than compared: two equal outcomes five seconds apart
+        // would let the first timer take the second one down early.
+        markOutcomeGeneration += 1
+        let mine = markOutcomeGeneration
+        if let outcome = markLocation.outcome, Self.markOutcomeStaysUntilDismissed(outcome) {
+            return
+        }
+        Task {
+            try? await Task.sleep(for: .seconds(5))
+            if markOutcomeGeneration == mine {
+                markLocation.clearOutcome()
+            }
+        }
     }
 
     /// The finger's reach in degrees of longitude at this zoom, so a line stays
@@ -1201,16 +3133,33 @@ struct MapContainerView: View {
             controller.setVectorDraft(nil)
             return
         }
-        controller.setVectorDraft(
-            VectorDraftPreview(
-                shape: measure.mode == .distance ? .line : .area,
-                vertices: measure.points.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) },
-                colorHex: "#d97706"
-            )
-        )
+        controller.setVectorDraft(VectorDraftPreview(measuring: measure))
+    }
+
+    /// An Edit tap. Every intent advances the generation, so a layer that
+    /// finishes loading after a newer tap, or after Done, does not open.
+    private func requestEdit(_ row: UserVectorsViewModel.Row) {
+        editLoadGeneration += 1
+        let mine = editLoadGeneration
+        // A layer whose geometry has not loaded yet is loaded first: a
+        // session begun on an empty working copy would persist that
+        // emptiness over the stored features on its first commit.
+        guard row.parsed == nil else {
+            beginEditing(row)
+            return
+        }
+        Task {
+            guard let loaded = await userVectorsVM.loadedRow(id: row.id) else { return }
+            // A newer intent, or a session begun meanwhile, outranks this
+            // load: ending that session from here would drop its partial
+            // draft without the alert the panel gives.
+            guard mine == editLoadGeneration, editSession == nil else { return }
+            beginEditing(loaded)
+        }
     }
 
     private func beginEditing(_ row: UserVectorsViewModel.Row) {
+        guard row.parsed != nil || row.record.featureCount == 0 else { return }
         // Editing and measuring both claim the map's taps. Beginning an edit
         // ends the measurement rather than leaving a live readout no tap will
         // ever reach.
@@ -1236,6 +3185,7 @@ struct MapContainerView: View {
         let session = VectorEditSession(viewModel: userVectorsVM)
         session.begin(row)
         editSession = session
+        refreshParcelSnap()
         // A callout and an editing panel would be two cards over the same map.
         vectorCallout = nil
         // The layer panel would cover the ground being drawn on.
@@ -1244,14 +3194,22 @@ struct MapContainerView: View {
 
     /// The handles for whichever feature is selected, or none.
     private func selectionHandles() -> VectorSelectionHandles? {
-        guard let session = editSession, let feature = session.selectedFeature else { return nil }
+        // None while Done drains: an attachment landing meanwhile changes the
+        // geometry, and that observer must not put the handles back over a
+        // session that refuses every move. They return if Done fails.
+        guard let session = editSession, !session.isEnding, let feature = session.selectedFeature
+        else { return nil }
         return VectorSelectionHandles(
             feature: feature, colorHex: session.record?.colorHex ?? "#d55e00"
         )
     }
 
     private func moveHandle() -> VectorMoveHandle? {
-        guard let session = editSession, let feature = session.selectedFeature else { return nil }
+        guard let session = editSession, !session.isEnding, let feature = session.selectedFeature
+        else { return nil }
+        // A lone point has one handle, its own: a second one on the same
+        // spot hid the first and, being the move handle, skipped snapping.
+        guard VectorSelectionHandles.corners(of: feature).count != 1 else { return nil }
         return VectorMoveHandle(
             feature: feature, colorHex: session.record?.colorHex ?? "#d55e00"
         )
@@ -1266,13 +3224,42 @@ struct MapContainerView: View {
         )
     }
 
+    /// Places a corner through the session, and ticks only if one landed.
+    ///
+    /// Every way of placing one comes through here — a tap, a press and hold,
+    /// the crosshair's button — so they cannot drift apart again. The vertex
+    /// count is what decides: a tap the session refused, such as a second
+    /// corner on top of the last one, added nothing to confirm, and the tap
+    /// that finishes a shape empties the draft and is answered by the commit's
+    /// own weightier tap rather than by two in a row.
+    private func placeVertex(
+        in session: VectorEditSession, latitude: Double, longitude: Double, parcelSnap: Bool
+    ) {
+        let placed = session.draft?.vertices.count ?? 0
+        session.handleTap(latitude: latitude, longitude: longitude, parcelSnap: parcelSnap)
+        if (session.draft?.vertices.count ?? 0) > placed {
+            MapHaptics.placed()
+        }
+    }
+
     /// A tap while editing: a vertex when a drawing tool is up, otherwise the
     /// feature under the finger.
     private func handleEditTap(
         session: VectorEditSession, latitude: Double, longitude: Double
     ) {
         if case .drawing = session.tool {
-            session.handleTap(latitude: latitude, longitude: longitude)
+            let hit = snapHit(at: latitude, longitude: longitude)
+            if let hit {
+                // In words as well as the tick: a snap onto an existing point
+                // otherwise looked like a tap that did nothing.
+                session.noteSnap(hit)
+            }
+            placeVertex(
+                in: session,
+                latitude: hit?.point.lat ?? latitude,
+                longitude: hit?.point.lng ?? longitude,
+                parcelSnap: hit?.source == .parcel
+            )
             return
         }
         guard let parsed = session.parsed else { return }
@@ -1284,7 +3271,11 @@ struct MapContainerView: View {
         if session.tool == .erasing {
             // A tap on open ground erases nothing. Nearest-feature would put
             // the eraser on shapes the finger never covered.
-            if let id = hit?.id { session.erase(featureID: id) }
+            if let id = hit?.id {
+                session.erase(featureID: id)
+            } else {
+                session.noteEraseMiss()
+            }
             return
         }
         session.select(featureID: hit?.id)
@@ -1303,6 +3294,30 @@ struct MapContainerView: View {
     }
 }
 
+/// A finished recording on its way into the save dialog.
+///
+/// `id` is the walk's own identifier — the one on the first line of its
+/// journal — which does double duty here: it identifies the sheet for
+/// `.sheet(item:)`, and it is the id the saved layer is written under, so the
+/// same walk offered twice cannot become two layers.
+private struct SaveTrackPayload: Identifiable {
+    let id: UUID
+    let result: TrackRecording.StopResult
+    var stoppedWhileRefused = false
+    /// What happened to a walk that was read back off disk, or nil for one the
+    /// reader has just stopped.
+    var restoredNote: String?
+}
+
+/// Photos the user picked for bulk EXIF placement, waiting on the confirm
+/// sheet. Identifiable for `.sheet(item:)`.
+private struct BulkPlacementDraft: Identifiable {
+    let id = UUID()
+    var rows: [BulkPhotoPlacement.Row]
+    var names: [String: String]
+    var payloads: [String: UserVectorsViewModel.PhotoPlacement]
+}
+
 /// The one visual identity for the map control rail.
 ///
 /// Extracted because ten hand-copies of the same nine-modifier chain made any
@@ -1313,22 +3328,300 @@ private struct MapControlIcon: View {
     let systemName: String
     var tint: Color = .blue
     var isActive = false
+    /// A spinner in place of the glyph, for the span between a tap and its
+    /// answer.
+    var isBusy = false
 
     /// Scaled with the reader's type size, capped by the metric's own curve:
     /// the control grows enough to match large text without the rail
     /// swallowing the map.
     @ScaledMetric(relativeTo: .title3) private var glyphSize: CGFloat = 18
-    @ScaledMetric(relativeTo: .title3) private var diameter: CGFloat = 44
+    @ScaledMetric(relativeTo: .title3) private var scaledDiameter: CGFloat = 44
+
+    /// Scales up with large text, never down: 44 points is the floor for a
+    /// control, whatever the text size.
+    private var diameter: CGFloat { max(44, scaledDiameter) }
 
     var body: some View {
         Image(systemName: systemName)
             .font(.system(size: glyphSize, weight: .semibold))
             .foregroundStyle(isActive ? Color.white : tint)
+            .opacity(isBusy ? 0 : 1)
+            .overlay {
+                if isBusy {
+                    ProgressView()
+                        .tint(isActive ? Color.white : tint)
+                }
+            }
             .frame(width: diameter, height: diameter)
-            .background(isActive ? Color.blue : Color.primary.opacity(0.001))
-            .background(.regularMaterial)
-            .clipShape(Circle())
-            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+            // The active fill stays under the surface either way: it is what
+            // says the tool is armed, and glass is a treatment for the pane
+            // rather than a replacement for what the pane is saying.
+            //
+            // Shaped, not a rectangle. The pre-26 branch clips the whole
+            // result to a circle so a square fill never showed; `glassEffect`
+            // draws a shaped layer BEHIND the view and clips nothing, so on
+            // iOS 26 the blue would have sat square behind a round pane.
+            .background(
+                Circle().fill(isActive ? Color.blue : Color.primary.opacity(0.001))
+            )
+            // Interactive, and round: these are the controls the reader
+            // actually presses, and the shape is the shape.
+            .mapChromeSurface(
+                shape: .circle,
+                interactive: true,
+                shadow: (0.15, 4, 2)
+            )
+    }
+}
+
+/// The crosshair a drawing tool aims with, and the button that places there.
+///
+/// Placement was a bare finger tap, which lands under the fingertip with no
+/// preview; the reticle shows the exact spot before it is placed and reads
+/// out the coordinate, which is also the accessible way to place a point
+/// without aiming a finger. What it places is a drawn point: it goes through
+/// the same tap handler as a tap, with the snap and the haptic, and carries
+/// no GPS provenance, because it is not a fix.
+private struct PlacementReticle: View {
+    let point: CGPoint
+    /// The uncovered map: the controls stay inside it, above the crosshair
+    /// when there is no room below, so the edit panel never covers them.
+    let room: CGRect
+    let shape: VectorEditShape
+    let ground: GeoPoint
+    /// Where a placement would actually land, when a snap target is within
+    /// reach of the crosshair; the readout shows this, not the raw ground,
+    /// and a second ring marks it on the map.
+    let snapped: GeoPoint?
+    let snappedPoint: CGPoint?
+    let snapNote: String?
+    /// Whether this placement closes the area: three corners down and the
+    /// crosshair on the first of them.
+    let finishesArea: Bool
+    let onPlace: () -> Void
+
+    /// Measured, not assumed: both grow with Dynamic Type. The readout's
+    /// last measurement stands while it is hidden, so hiding it cannot
+    /// change the number that hid it — the decision settles in one step.
+    /// A change of text size starts the measurements over, since a hidden
+    /// control cannot report that it would now fit.
+    @State private var buttonHeight: CGFloat = 44
+    @State private var buttonWidth: CGFloat = 160
+    @State private var readoutHeight: CGFloat = 40
+    @State private var controlsWidth: CGFloat = 160
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    private var effective: GeoPoint { snapped ?? ground }
+
+    private var placeLabel: String {
+        switch shape {
+        case .point: "Place point here"
+        case .line: "Add line point here"
+        case .area: finishesArea ? "Finish area here" : "Add area corner here"
+        }
+    }
+
+    private var readoutText: String {
+        String(format: "%.5f, %.5f", effective.lat, effective.lng)
+    }
+
+    private var readoutView: some View {
+        VStack(spacing: 2) {
+            Text(readoutText)
+                .font(.caption.monospacedDigit())
+            if let snapNote {
+                Text(snapNote)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(.regularMaterial)
+        .clipShape(.rect(cornerRadius: 6))
+    }
+
+    /// Whether the readout fits with the button inside the uncovered map;
+    /// when it does not, only the button is shown, carrying the coordinate
+    /// as its value so VoiceOver still hears where it places.
+    private var showsReadout: Bool { room.height >= buttonHeight + 6 + readoutHeight + 16 }
+
+    /// Whether even the button fits, both ways. When it does not — a card
+    /// and the panel between them leave a sliver, or a narrow window — the
+    /// crosshair alone is shown, rather than a button clamped into a space
+    /// that cannot hold it; the edit panel carries the same action.
+    private var showsControls: Bool {
+        room.height >= buttonHeight + 16 && room.width >= buttonWidth + 16
+    }
+
+    /// The controls' centre across: on the crosshair, clamped inside the
+    /// uncovered map by the stack's measured width.
+    private var controlsCentreX: CGFloat {
+        let half = min(controlsWidth, room.width) / 2
+        return min(max(room.minX + half, point.x), room.maxX - half)
+    }
+
+    private var controlsHeight: CGFloat {
+        showsReadout ? buttonHeight + 6 + readoutHeight : buttonHeight
+    }
+
+    /// The controls' centre: 72 points below the crosshair when their whole
+    /// height fits there, else above it, else clamped inside the uncovered
+    /// map — which `showsControls` guarantees can hold them, so the clamp is
+    /// never inverted. Never under the edit panel, which is drawn on top.
+    private var controlsCentreY: CGFloat {
+        let half = controlsHeight / 2
+        let below = point.y + 72
+        if below + half <= room.maxY { return below }
+        let above = point.y - 72
+        if above - half >= room.minY { return above }
+        return min(max(room.minY + half, point.y), room.maxY - half)
+    }
+
+    var body: some View {
+        GeometryReader { _ in
+            ZStack {
+                Circle()
+                    .stroke(Color.accentColor, lineWidth: 2)
+                    .frame(width: 28, height: 28)
+                Circle()
+                    .stroke(Color.white.opacity(0.9), lineWidth: 1)
+                    .frame(width: 32, height: 32)
+                Rectangle().fill(Color.accentColor).frame(width: 1.5, height: 44)
+                Rectangle().fill(Color.accentColor).frame(width: 44, height: 1.5)
+                Circle().fill(Color.accentColor).frame(width: 4, height: 4)
+            }
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+            .position(point)
+
+            // Where the placement lands when it snaps: a second ring at the
+            // target, joined to the crosshair, so the map shows the same
+            // spot the readout names.
+            if let snappedPoint {
+                Path { path in
+                    path.move(to: point)
+                    path.addLine(to: snappedPoint)
+                }
+                .stroke(Color.accentColor.opacity(0.7), style: StrokeStyle(lineWidth: 1.5, dash: [3, 3]))
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
+                Circle()
+                    .stroke(Color.accentColor, lineWidth: 2)
+                    .background(Circle().fill(Color.white.opacity(0.85)))
+                    .frame(width: 18, height: 18)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+                    .position(snappedPoint)
+            }
+
+            if showsControls {
+                VStack(spacing: 6) {
+                    Button(action: onPlace) {
+                        Label(placeLabel, systemImage: "scope")
+                            .font(.subheadline.weight(.semibold))
+                            .frame(minHeight: 44)
+                            .padding(.horizontal, 6)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .onGeometryChange(for: CGSize.self) { $0.size } action: {
+                        buttonHeight = $0.height
+                        buttonWidth = $0.width
+                    }
+                    // The readout is measured whether or not it is shown — a
+                    // hidden copy, laid out at its natural size behind the
+                    // button — so a note that wrapped and then went away
+                    // lets the readout come back.
+                    .background(alignment: .top) {
+                        readoutView
+                            .fixedSize()
+                            .hidden()
+                            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                                readoutHeight = $0
+                            }
+                    }
+                    // The coordinate is the button's value as well as the
+                    // readout's text: with the readout hidden for room, the
+                    // button still says where it places.
+                    .accessibilityValue(readoutText + (snapNote.map { ". \($0)" } ?? ""))
+                    .accessibilityHint(
+                        finishesArea
+                            ? "Closes the area at its first corner."
+                            : snapped == nil
+                                ? "Places at the crosshair in the middle of the map."
+                                : "Places at the snap target marked next to the crosshair."
+                    )
+
+                    if showsReadout {
+                        readoutView
+                            // Said once, by the button.
+                            .accessibilityHidden(true)
+                    }
+                }
+                .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { controlsWidth = $0 }
+                .position(x: controlsCentreX, y: controlsCentreY)
+            }
+        }
+        .onChange(of: dynamicTypeSize) { _, _ in
+            buttonHeight = 44
+            buttonWidth = 160
+            readoutHeight = 40
+            controlsWidth = 160
+        }
+    }
+}
+
+/// The location button's glyph: idle, searching, following, heading-up.
+///
+/// The states Maps taught every iPhone user, so the same button reads the
+/// same way here. Its own leaf view so the container's body is not
+/// re-evaluated for a state only this glyph draws.
+private struct LocationButtonIcon: View {
+    let controller: MapController
+
+    var body: some View {
+        switch controller.userTrackingState {
+        case .idle:
+            // "Not following" rather than "Off": after a pan the dot is still
+            // on the map and still updating; only the following stopped.
+            MapControlIcon(systemName: "location")
+                .accessibilityValue("Not following")
+        case .searching:
+            MapControlIcon(systemName: "location", isBusy: true)
+                .accessibilityValue("Finding your location")
+        case .following:
+            MapControlIcon(systemName: "location.fill", isActive: true)
+                .accessibilityValue("Following")
+        case .heading:
+            MapControlIcon(systemName: "location.north.line.fill", isActive: true)
+                .accessibilityValue("Following, heading up")
+        }
+    }
+}
+
+private extension View {
+    /// Keeps a bottom card clear of the right-hand rail, as the layers panel
+    /// is kept: a card drawn under the rail's lower buttons covered Layers,
+    /// Save Area and More on a phone, exactly the controls a reader with a
+    /// parcel open wants next.
+    func clearOfRail(_ controlsWidth: CGFloat) -> some View {
+        padding(.trailing, controlsWidth + 12)
+    }
+
+    /// Reports how much of the bottom of the map this card covers, so the
+    /// location button centres the dot in the part of the map the reader can
+    /// see. Applied outside the padding above the source strip, because the
+    /// strip is covered ground too.
+    func coversMapBottom(
+        _ card: MapController.BottomCard, on controller: MapController
+    ) -> some View {
+        self
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                controller.setBottomCardHeight($0, for: card)
+            }
+            .onDisappear { controller.setBottomCardHeight(0, for: card) }
     }
 }
 
@@ -1345,6 +3638,7 @@ private struct CompassResetButton: View {
     var body: some View {
         if controller.mapHeading != 0 {
             Button {
+                controller.animatesLocate = !reduceMotion
                 withAnimation(
                     .spring(response: 0.4, dampingFraction: 0.8)
                         .unlessReduced(reduceMotion)

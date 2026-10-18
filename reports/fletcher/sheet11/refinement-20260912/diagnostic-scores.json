@@ -1,0 +1,91 @@
+{
+  "fit_sha256": "4f05ff0c0d63c823d31e664a72e02c221c1fd03d9c1f8e025364c7f861e4ec2a",
+  "checks_sha256": "06524915f0005515c6ca7daccbcbea791770f3deacc0a15d2b3597990b8bc699",
+  "control_count": 28,
+  "method": "GDAL TPS in EPSG:3857",
+  "error_units": "Approximate spherical ground metres",
+  "median_ground_m": 100.15020343376776,
+  "worst_ground_m": 398.9338617906044,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 118.10547834775387,
+      "predicted_lonlat": [
+        -61.02782043885921,
+        46.35985872415522
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 35.84710353490382,
+      "predicted_lonlat": [
+        -60.89817169083537,
+        46.30718189169483
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 42.42589311446392,
+      "predicted_lonlat": [
+        -61.124775899120905,
+        46.41787791203712
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 95.67283433087408,
+      "predicted_lonlat": [
+        -61.12995992395948,
+        46.28256934030248
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 92.08117915802006,
+      "predicted_lonlat": [
+        -60.87160695291798,
+        46.4322965573771
+      ]
+    },
+    {
+      "id": "Q08",
+      "error_ground_m": 104.62757253666142,
+      "predicted_lonlat": [
+        -61.04455310932946,
+        46.43855062309621
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 142.294756964421,
+      "predicted_lonlat": [
+        -61.17669917567356,
+        46.29372832718079
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 114.87075677234934,
+      "predicted_lonlat": [
+        -60.858355760933286,
+        46.4017047701428
+      ]
+    },
+    {
+      "id": "V04",
+      "error_ground_m": 93.87120008716296,
+      "predicted_lonlat": [
+        -61.062521845554315,
+        46.35384642200857
+      ]
+    },
+    {
+      "id": "V07",
+      "error_ground_m": 398.9338617906044,
+      "predicted_lonlat": [
+        -61.07534682080417,
+        46.369948867261556
+      ]
+    }
+  ]
+}

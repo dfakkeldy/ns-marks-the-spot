@@ -16,6 +16,7 @@ import type {
   PdfRegistrationCandidate,
 } from "./types";
 import {
+  DEFAULT_OPACITY,
   needsFrameSelection,
   needsGeoreferencing,
   useUserMaps,
@@ -483,6 +484,72 @@ describe("useUserMaps", () => {
     }
   });
 
+  // What the session is showing is the truth; storage only writes it down.
+  // Rebuilding the record from a store that refused every write dropped every
+  // map switched on before the current one, off the map and out of its row,
+  // with nothing said.
+  it("keeps a map already switched on when the write is refused", async () => {
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserMaps(options()));
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("first.tif")]);
+      });
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("second.tif")]);
+      });
+
+      await waitFor(() => expect(result.current.records).toHaveLength(2));
+      expect(result.current.visibleMaps).toHaveLength(2);
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
+  it("keeps a map already switched on when the write is refused", async () => {
+    // The other half of the promise above: the write that failed must not
+    // cost a map that is already on the map. State is what the session is
+    // showing; storage is only where it is written down.
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserMaps(options()));
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("first.tif")]);
+      });
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("second.tif")]);
+      });
+      await waitFor(() => expect(result.current.records).toHaveLength(2));
+      const [first, second] = result.current.records.map(({ id }) => id);
+      await waitFor(() =>
+        expect(result.current.visibleMaps.map(({ record }) => record.id)).toEqual([
+          first,
+          second,
+        ]),
+      );
+
+      act(() => result.current.setOpacity(second, 0.4));
+      expect(result.current.uiState[first]).toEqual({
+        enabled: true,
+        opacity: DEFAULT_OPACITY,
+      });
+      expect(result.current.visibleMaps.map(({ record }) => record.id)).toEqual([
+        first,
+        second,
+      ]);
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
   it("surfaces a storage error when the database cannot open", async () => {
     const { result } = renderHook(() =>
       useUserMaps(
@@ -517,6 +584,132 @@ describe("useUserMaps", () => {
       localStorage.getItem("user-map-ui-state-v1") ?? "{}",
     ) as Record<string, { enabled: boolean; opacity: number }>;
     expect(stored[id]).toEqual({ enabled: false, opacity: 0.4 });
+  });
+
+  it("starts from nothing when the stored display state is not an object", async () => {
+    // The app never writes this, but a corrupt or tampered value parses
+    // without throwing and is then indexed — in the render path once a
+    // record loads, and in setOpacity, which re-reads storage every call.
+    localStorage.setItem("user-map-ui-state-v1", "null");
+    const { result } = renderHook(() => useUserMaps(options()));
+    expect(result.current.uiState).toEqual({});
+
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const id = result.current.records[0].id;
+
+    act(() => result.current.setOpacity(id, 0.4));
+    expect(result.current.uiState[id]).toEqual({ enabled: true, opacity: 0.4 });
+  });
+
+  it("takes another tab's display change instead of writing over it", async () => {
+    // The tab that writes never receives its own `storage` event, so this is
+    // the only way a second tab hears the first one's toggle. Before the
+    // listener, this tab kept computing from the record it loaded and put the
+    // other tab's choice straight back the way it was.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const id = result.current.records[0].id;
+    act(() => result.current.setEnabled(id, false));
+    expect(result.current.visibleMaps).toHaveLength(0);
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: JSON.stringify({
+            [id]: { enabled: true, opacity: 0.4 },
+            "other-tab-map": { enabled: true, opacity: 0.5 },
+          }),
+        }),
+      );
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
+
+    act(() => result.current.setOpacity(id, 0.6));
+    const stored = JSON.parse(
+      localStorage.getItem("user-map-ui-state-v1") ?? "{}",
+    ) as Record<string, { enabled: boolean; opacity: number }>;
+    expect(stored[id]).toEqual({ enabled: true, opacity: 0.6 });
+    expect(stored["other-tab-map"]).toEqual({ enabled: true, opacity: 0.5 });
+  });
+
+  // Agreeing on screen is not enough: whichever tab wrote last is what the
+  // next load reads, so a merge that only lives in memory loses the other
+  // tab's map anyway.
+  it("writes the merge back so the other tab's map survives a reload", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const id = result.current.records[0].id;
+
+    // The other tab never saw this map, so its record has no entry for it.
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: JSON.stringify({ "other-tab-map": { enabled: true, opacity: 0.5 } }),
+        }),
+      );
+    });
+
+    expect(
+      JSON.parse(localStorage.getItem("user-map-ui-state-v1") ?? "{}"),
+    ).toEqual({
+      [id]: { enabled: true, opacity: DEFAULT_OPACITY },
+      "other-tab-map": { enabled: true, opacity: 0.5 },
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
+  });
+
+  it("keeps the maps it is showing when another tab clears or corrupts the record", async () => {
+    // A value this tab cannot read and a removed key are both silence, not an
+    // instruction to switch every map off. Acting on either would take a map
+    // the user never touched off this tab's map, with nothing said.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.visibleMaps).toHaveLength(1));
+    const id = result.current.records[0].id;
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: "not json",
+        }),
+      );
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: null,
+        }),
+      );
+    });
+
+    expect(result.current.uiState[id]).toEqual({
+      enabled: true,
+      opacity: DEFAULT_OPACITY,
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
   });
 
   it("removes a map everywhere and revokes its preview URL", async () => {

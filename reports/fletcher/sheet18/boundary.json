@@ -1,0 +1,48 @@
+{
+  "sheet": "sheet-18",
+  "source_sha256": "82de26909fee8671007efe39ef86b90099fad303aecfe9e74e2578a1b552a890",
+  "source_dimensions": [
+    10832,
+    7683
+  ],
+  "ring_pixel_xy": [
+    [
+      1534,
+      1093
+    ],
+    [
+      9750,
+      1139
+    ],
+    [
+      9755,
+      6450
+    ],
+    [
+      9803,
+      6450
+    ],
+    [
+      9803,
+      6494
+    ],
+    [
+      9755,
+      6494
+    ],
+    [
+      9756,
+      6607
+    ],
+    [
+      1545,
+      6573
+    ],
+    [
+      1534,
+      1093
+    ]
+  ],
+  "scope": "Complete mapped inner neatline including all visible Bras d\u2019Or islands and south-bank land. Small eastern notch retains the Macrae Point label that crosses the neatline; no mapped island or land extension otherwise visible outside it.",
+  "review": "Full native overview, four original-resolution corners and enlarged eastern Macrae Point annotation inspected before boundary selection."
+}

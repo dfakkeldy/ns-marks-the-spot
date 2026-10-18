@@ -1,0 +1,23 @@
+[
+  {
+    "id": "MQ10",
+    "label": "Weymouth outer east-bank western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4783,
+      2892
+    ],
+    "lonlat": [
+      -66.13283887541111,
+      44.264868982332125
+    ],
+    "reference_objectid": 10110,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4079.700139601133,
+      2525.9827311999397
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.3665856,
+        46.8231981
+      ],
+      "source_guide_xy": [
+        3448.5081593994983,
+        5477.380358740222
+      ],
+      "objectids": [
+        179002,
+        285078,
+        285079
+      ],
+      "id": "R02",
+      "modern_node_id": "J0305",
+      "role": "control",
+      "pixel_xy": [
+        3527,
+        5250
+      ],
+      "identity_evidence": "Last northern tributary on Rachel Brook before the downstream Neils Brook confluence. Trace main channel east then southeast to that major southern junction; north tributary connects upstream without another intervening north fork. Modern tributary extends much farther northwest to a lake than the short historical twig; this limits broad topology inference but does not change immediate junction order.",
+      "source_uncertainty_px": 25,
+      "status": "Corrected exact crosshair awaits close/wide review before fit.",
+      "original_pixel_xy": [
+        3510,
+        5250
+      ],
+      "correction": "Move east 17 native pixels onto the northern branch confluence, from upstream main channel. Image correction before fitting or scoring."
+    }
+  ]
+}

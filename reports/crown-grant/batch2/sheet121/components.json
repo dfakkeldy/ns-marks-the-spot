@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5621 x 3874 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 97.04 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          45,
+          105
+        ],
+        [
+          5570,
+          105
+        ],
+        [
+          5570,
+          3760
+        ],
+        [
+          45,
+          3760
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full mapped rectangle retains the Margaree valley, upland stream networks and southeastern lakes, including the original western river fringe and all interior land. No displaced inset identified."
+    }
+  ]
+}

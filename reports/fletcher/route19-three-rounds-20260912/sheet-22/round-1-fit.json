@@ -1,0 +1,826 @@
+{
+  "sheet": "sheet-22",
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "source_dimensions": [
+    10790,
+    7687
+  ],
+  "parent_fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+  "points": [
+    {
+      "id": "gcp-2",
+      "role": "control",
+      "pixel_xy": [
+        6366.0,
+        5362.999522408426
+      ],
+      "lonlat": [
+        -61.370658874511726,
+        45.607913248188815
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6366",
+        "pixel_y": "5362.999522408426",
+        "lon": "-61.370658874511726",
+        "lat": "45.607913248188815"
+      }
+    },
+    {
+      "id": "gcp-3",
+      "role": "control",
+      "pixel_xy": [
+        5307.0009765625,
+        3429.3918809432435
+      ],
+      "lonlat": [
+        -61.42224311828614,
+        45.66960445277262
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "5307.0009765625",
+        "pixel_y": "3429.3918809432435",
+        "lon": "-61.42224311828614",
+        "lat": "45.66960445277262"
+      }
+    },
+    {
+      "id": "gcp-4",
+      "role": "control",
+      "pixel_xy": [
+        6013.0009765625,
+        3358.895074836894
+      ],
+      "lonlat": [
+        -61.38936996459962,
+        45.67290314089456
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6013.0009765625",
+        "pixel_y": "3358.895074836894",
+        "lon": "-61.38936996459962",
+        "lat": "45.67290314089456"
+      }
+    },
+    {
+      "id": "gcp-5",
+      "role": "control",
+      "pixel_xy": [
+        4823.0009765625,
+        1552.396447912669
+      ],
+      "lonlat": [
+        -61.44464492797852,
+        45.729610457300396
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "4823.0009765625",
+        "pixel_y": "1552.396447912669",
+        "lon": "-61.44464492797852",
+        "lat": "45.729610457300396"
+      }
+    },
+    {
+      "id": "gcp-6",
+      "role": "control",
+      "pixel_xy": [
+        6271.0009765625,
+        2903.3955225789946
+      ],
+      "lonlat": [
+        -61.376903057098396,
+        45.68746023970692
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6271.0009765625",
+        "pixel_y": "2903.3955225789946",
+        "lon": "-61.376903057098396",
+        "lat": "45.68746023970692"
+      }
+    },
+    {
+      "id": "gcp-7",
+      "role": "control",
+      "pixel_xy": [
+        7431.5009765625,
+        3092.3988060210654
+      ],
+      "lonlat": [
+        -61.32336616516114,
+        45.682498396363584
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "7431.5009765625",
+        "pixel_y": "3092.3988060210654",
+        "lon": "-61.32336616516114",
+        "lat": "45.682498396363584"
+      }
+    },
+    {
+      "id": "gcp-8",
+      "role": "control",
+      "pixel_xy": [
+        8701.597747421249,
+        1779.1695892057853
+      ],
+      "lonlat": [
+        -61.26525878906251,
+        45.72445763678592
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "8701.597747421249",
+        "pixel_y": "1779.1695892057853",
+        "lon": "-61.26525878906251",
+        "lat": "45.72445763678592"
+      }
+    },
+    {
+      "id": "gcp-9",
+      "role": "control",
+      "pixel_xy": [
+        9357.852523290701,
+        1600.027547285177
+      ],
+      "lonlat": [
+        -61.23629093170167,
+        45.729670359431836
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "9357.852523290701",
+        "pixel_y": "1600.027547285177",
+        "lon": "-61.23629093170167",
+        "lat": "45.729670359431836"
+      }
+    },
+    {
+      "id": "gcp-10",
+      "role": "control",
+      "pixel_xy": [
+        9540.5009765625,
+        1167.916864952454
+      ],
+      "lonlat": [
+        -61.22920989990235,
+        45.74437719124025
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "9540.5009765625",
+        "pixel_y": "1167.916864952454",
+        "lon": "-61.22920989990235",
+        "lat": "45.74437719124025"
+      }
+    },
+    {
+      "id": "gcp-11",
+      "role": "control",
+      "pixel_xy": [
+        5145.0009765625,
+        1054.8980896337043
+      ],
+      "lonlat": [
+        -61.43056869506837,
+        45.74608427426337
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "5145.0009765625",
+        "pixel_y": "1054.8980896337043",
+        "lon": "-61.43056869506837",
+        "lat": "45.74608427426337"
+      }
+    },
+    {
+      "id": "gcp-12",
+      "role": "control",
+      "pixel_xy": [
+        5850.5009765625,
+        2236.886388640143
+      ],
+      "lonlat": [
+        -61.396880149841316,
+        45.70698851311449
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "5850.5009765625",
+        "pixel_y": "2236.886388640143",
+        "lon": "-61.396880149841316",
+        "lat": "45.70698851311449"
+      }
+    },
+    {
+      "id": "gcp-13",
+      "role": "control",
+      "pixel_xy": [
+        4799.5009765625,
+        2266.384120080167
+      ],
+      "lonlat": [
+        -61.444344520568855,
+        45.70492049970628
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "4799.5009765625",
+        "pixel_y": "2266.384120080167",
+        "lon": "-61.444344520568855",
+        "lat": "45.70492049970628"
+      }
+    },
+    {
+      "id": "gcp-14",
+      "role": "control",
+      "pixel_xy": [
+        4520.0009765625,
+        1554.3885676516993
+      ],
+      "lonlat": [
+        -61.45876407623292,
+        45.72999978681681
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "4520.0009765625",
+        "pixel_y": "1554.3885676516993",
+        "lon": "-61.45876407623292",
+        "lat": "45.72999978681681"
+      }
+    },
+    {
+      "id": "gcp-16",
+      "role": "control",
+      "pixel_xy": [
+        6093.499579944089,
+        6138.366506736395
+      ],
+      "lonlat": [
+        -61.38387680053712,
+        45.58274911297632
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6093.499579944089",
+        "pixel_y": "6138.366506736395",
+        "lon": "-61.38387680053712",
+        "lat": "45.58274911297632"
+      }
+    },
+    {
+      "id": "gcp-17",
+      "role": "control",
+      "pixel_xy": [
+        2813.5009765625,
+        2968.367822267707
+      ],
+      "lonlat": [
+        -61.53910160064698,
+        45.6809993109188
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "2813.5009765625",
+        "pixel_y": "2968.367822267707",
+        "lon": "-61.53910160064698",
+        "lat": "45.6809993109188"
+      }
+    },
+    {
+      "id": "gcp-18",
+      "role": "control",
+      "pixel_xy": [
+        1582.5077384313572,
+        3960.8658563453396
+      ],
+      "lonlat": [
+        -61.59528851509095,
+        45.647370866133784
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "1582.5077384313572",
+        "pixel_y": "3960.8658563453396",
+        "lon": "-61.59528851509095",
+        "lat": "45.647370866133784"
+      }
+    },
+    {
+      "id": "gcp-19",
+      "role": "control",
+      "pixel_xy": [
+        1639.0009765625,
+        6141.878777024434
+      ],
+      "lonlat": [
+        -61.589205265045166,
+        45.57834866534863
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "1639.0009765625",
+        "pixel_y": "6141.878777024434",
+        "lon": "-61.589205265045166",
+        "lat": "45.57834866534863"
+      }
+    },
+    {
+      "id": "N01",
+      "role": "control",
+      "pixel_xy": [
+        4429,
+        1093
+      ],
+      "lonlat": [
+        -61.4638454,
+        45.7442922
+      ],
+      "label": "Craignish northern creek mouth",
+      "identity_evidence": "East-flowing headwater bends west and reaches the straight north-south shore just south of the sheet border, north of the Craig\u00adnish Road turn; road crosses immediately inland.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0111",
+        "objectids": [
+          10129,
+          10130,
+          212377
+        ]
+      },
+      "uncertainty_native_px": 10,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4329,
+          1013,
+          4529,
+          1173
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "origin_diagnostic_check": "C01"
+    },
+    {
+      "id": "N02",
+      "role": "control",
+      "pixel_xy": [
+        4849,
+        2821
+      ],
+      "lonlat": [
+        -61.4423751,
+        45.6888631
+      ],
+      "label": "Troy northern creek mouth",
+      "identity_evidence": "East tributary reaches the coast north of the narrow coastal pond; its inland road crossing and the next southern creek distinguish it.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0277",
+        "objectids": [
+          12935,
+          12936,
+          211914
+        ]
+      },
+      "uncertainty_native_px": 10,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4749,
+          2741,
+          4949,
+          2901
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "origin_diagnostic_check": "C02"
+    },
+    {
+      "id": "Q01",
+      "role": "control",
+      "pixel_xy": [
+        5396,
+        1175
+      ],
+      "lonlat": [
+        -61.4205103,
+        45.743667
+      ],
+      "label": "Northern Queensville fork",
+      "identity_evidence": "North tributary joins northwest stem immediately below road crossing; main continues southeast.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          270728,
+          270729,
+          316146
+        ],
+        "node": "J0114"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5256,
+          1085,
+          5536,
+          1265
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "consumed_from": "../sheet22/observations.json",
+      "review_full_sheet": "Prior native/modern evidence re-audited; road/tributary order supports unchanged correspondence. Consumed diagnostic, not a check."
+    },
+    {
+      "id": "Q04",
+      "role": "control",
+      "pixel_xy": [
+        2507,
+        4254
+      ],
+      "lonlat": [
+        -61.5485589,
+        45.638176
+      ],
+      "label": "West inland eastern tributary",
+      "identity_evidence": "East tributary crosses the road and joins the north-south stem south of the northern crossing; modern upstream sliver is a separate bank junction.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211788,
+          211789,
+          286897
+        ],
+        "node": "J0603"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          2367,
+          4164,
+          2647,
+          4344
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "consumed_from": "../sheet22/observations.json",
+      "review_full_sheet": "Prior native/modern evidence re-audited; road/tributary order supports unchanged correspondence. Consumed diagnostic, not a check."
+    },
+    {
+      "id": "H01",
+      "role": "control",
+      "pixel_xy": [
+        8997,
+        3206
+      ],
+      "lonlat": [
+        -61.2526379,
+        45.6800346
+      ],
+      "modern_node": "J0333",
+      "modern_objectids": [
+        161493,
+        161640,
+        267434
+      ],
+      "identity_evidence": "Black Brook enters the western bank of double-line River Inhabitants east of road crossing. Match is bank intersection, not main river centreline: modern WARV10 bank segments 161493/161640 meet single-line Black Brook 267434.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8907,
+          3126,
+          9087,
+          3286
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native crosshair and broad feature topology before fit evaluation; not user audited.",
+      "native_audit": {
+        "preliminary_xy": [
+          9000,
+          3207
+        ],
+        "final_xy": [
+          8997,
+          3206
+        ],
+        "reason": "Shift from water interior to western-bank intersection seen on enlarged crop before evaluation."
+      }
+    },
+    {
+      "id": "H02",
+      "role": "control",
+      "pixel_xy": [
+        9174,
+        4929
+      ],
+      "lonlat": [
+        -61.2445026,
+        45.6239926
+      ],
+      "modern_node": "J0668",
+      "modern_objectids": [
+        25958,
+        25959,
+        196717
+      ],
+      "identity_evidence": "Macmillan Creek reaches western apex of narrow tidal inlet below road crossing. Northern headland, Brule Point opposite and island southeast confirm shoreline topology. Modern bank-node definition matches native mouth.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9084,
+          4849,
+          9264,
+          5009
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native crosshair and broad feature topology before fit evaluation; not user audited."
+    },
+    {
+      "id": "H03",
+      "role": "control",
+      "pixel_xy": [
+        8664,
+        6343
+      ],
+      "lonlat": [
+        -61.266713425498494,
+        45.577644284503236
+      ],
+      "modern_objectids": [
+        4293
+      ],
+      "identity_evidence": "Southernmost coast apex of Carleton Head between western bay and east channel, beneath mapped settlement plots. Modern WACO20 coast southernmost vertex on this headland, identified using coast geometry and an affine search guide, not TPS residual. Broad historical shoreline and possible coastal change limit precision.",
+      "source_uncertainty_px": 20,
+      "source_crop": {
+        "native_box": [
+          8574,
+          6263,
+          8754,
+          6423
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native crosshair and broad feature topology before fit evaluation; not user audited."
+    },
+    {
+      "id": "Q03",
+      "role": "control",
+      "pixel_xy": [
+        2594,
+        5707
+      ],
+      "lonlat": [
+        -61.54611119916507,
+        45.592056057710515
+      ],
+      "label": "North Branch Tracadie fork",
+      "identity_evidence": "Historical northwest stem rounds the mill bend and joins eastern and southern arms before the southern arm crosses the road. Modern 264843 connects the former target (a lake outlet, WALK20 121129/121130) to the actual downstream three-way junction of southern 264842 and eastern 212484. The outlet has two shore edges, not two tributaries. Native junction pixel remains unchanged.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          212484,
+          264842,
+          264843
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "review": "2026-09-12 agent feature-type and explicit downstream connectivity audit; before new scoring.",
+      "source_crop": {
+        "native_box": [
+          2454,
+          5617,
+          2734,
+          5797
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "crosshair_audit": {
+        "initial_pixel_xy": [
+          2589,
+          5705
+        ],
+        "reason": "Small correction to centre of visible junction before any scoring."
+      },
+      "consumed_from": "../sheet22/observations.json",
+      "revision_reason": "Retained native/modern evidence re-audited. Adding eastern and mainland controls exposed nonlocal TPS drift here; add physical constraint without moving the correspondence. This observation no longer validates the fit.",
+      "supersedes": {
+        "id": "Q03",
+        "role": "control",
+        "pixel_xy": [
+          2594,
+          5707
+        ],
+        "lonlat": [
+          -61.5475419,
+          45.5933497
+        ],
+        "label": "North Branch Tracadie fork",
+        "identity_evidence": "South branch joins east-west main just beyond the mill and road bend.",
+        "modern_reference": {
+          "layer": "water-lines",
+          "objectids": [
+            121129,
+            121130,
+            264843
+          ],
+          "node": "J0956"
+        },
+        "native_uncertainty_px": 5,
+        "review": "agent topology and native crosshair; not user-reviewed",
+        "source_crop": {
+          "native_box": [
+            2454,
+            5617,
+            2734,
+            5797
+          ],
+          "display_size": [
+            560,
+            360
+          ],
+          "rotation_degrees": 0,
+          "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+        },
+        "crosshair_audit": {
+          "initial_pixel_xy": [
+            2589,
+            5705
+          ],
+          "reason": "Small correction to centre of visible junction before any scoring."
+        },
+        "consumed_from": "../sheet22/observations.json",
+        "revision_reason": "Retained native/modern evidence re-audited. Adding eastern and mainland controls exposed nonlocal TPS drift here; add physical constraint without moving the correspondence. This observation no longer validates the fit."
+      }
+    },
+    {
+      "id": "Q06",
+      "role": "control",
+      "pixel_xy": [
+        2517,
+        3978
+      ],
+      "lonlat": [
+        -61.55143,
+        45.6495464
+      ],
+      "label": "West inland southern tributary",
+      "identity_evidence": "South tributary joins the winding west-east stem before the next southern tributary.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211503,
+          273684,
+          273685
+        ],
+        "node": "J0520"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          2377,
+          3888,
+          2657,
+          4068
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "consumed_from": "../sheet22/observations.json",
+      "revision_reason": "Retained native/modern evidence re-audited. Adding eastern and mainland controls exposed nonlocal TPS drift here; add physical constraint without moving the correspondence. This observation no longer validates the fit."
+    },
+    {
+      "id": "Q07",
+      "role": "control",
+      "pixel_xy": [
+        2147,
+        2602
+      ],
+      "lonlat": [
+        -61.56867557413942,
+        45.69216901220799
+      ],
+      "label": "Cape Jack northern tip",
+      "identity_evidence": "Northernmost shore apex of the rounded headland, west of Cape Pond and its coastal embayment.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          10781
+        ],
+        "part": 0,
+        "vertex": 19
+      },
+      "native_uncertainty_px": 10,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          2007,
+          2512,
+          2287,
+          2692
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "consumed_from": "../sheet22/observations.json",
+      "revision_reason": "Retained native/modern evidence re-audited. Adding eastern and mainland controls exposed nonlocal TPS drift here; add physical constraint without moving the correspondence. This observation no longer validates the fit."
+    },
+    {
+      "id": "J22-C01",
+      "role": "control",
+      "pixel_xy": [
+        7692,
+        1140
+      ],
+      "lonlat": [
+        -61.3133425,
+        45.7436686
+      ],
+      "modern_objectids": [
+        161946,
+        161947,
+        279105
+      ],
+      "modern_node": "J0113",
+      "source_uncertainty_px": 10,
+      "identity_evidence": "Southern tributary joins Lamey Brook west of the north\u2013south road; upstream main has tight westward loop, downstream main crosses road then bends northeast to River Inhabitants. Historical thick single waterline compared with modern bank junction introduces bank/centreline uncertainty. Separate modern eastern tributary J0121 is east of this point and not this western fork.",
+      "source_crop": {
+        "native_box": [
+          7620,
+          1080,
+          7760,
+          1230
+        ],
+        "display_size": [
+          560,
+          600
+        ],
+        "rotation_degrees": 0
+      },
+      "review": "Native crosshair inspected at 4x before scoring; agent reviewed.",
+      "consumed_from": "../full-sheets/boundary-matching/hawkesbury-central-checks.json"
+    }
+  ],
+  "scope": "Complete neatline 27-control TPS. All 17 hand controls preserved. Constrain mainland Cape Jack, inland tributaries and southwestern fork as well as northern/eastern/southern geography. Prior failed 24-control scores retained.",
+  "status": "Complete-sheet candidate after physical boundary matching; gaps are retained and not a seamless accuracy claim.",
+  "parent_candidate_sha256": "aa0a526403f7234a2ec8096af3638cf6fb4c9015fb7f805d8a7062ae6ad81270",
+  "parent_revision_sha256": "02b0579756a05ab4ccb73ed44db327518b9d1182c59deca0ae5b7aa8a0430a12",
+  "parent_boundary_revision_sha256": "d19f28006254479a15efb976e438e15230bb29dfbf94b1202419ca2f56e4cb91",
+  "round19_audit": "2026-09-12: same-agent diagnostics; source, boundary and existing controls retained"
+}

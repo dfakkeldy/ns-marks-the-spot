@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Palmer Lake northern horn",
+    [
+      1117,
+      1461
+    ],
+    [
+      1128,
+      1519
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Murphy Lake eastern horn",
+    [
+      558,
+      2641
+    ],
+    [
+      587,
+      2698
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Shady Lake eastern tip",
+    [
+      2402,
+      3073
+    ],
+    [
+      2440,
+      3094
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "King Lake northern tip",
+    [
+      3732,
+      2717
+    ],
+    [
+      3776,
+      2750
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Cochran Lake northern tip",
+    [
+      4644,
+      2756
+    ],
+    [
+      4700,
+      2770
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Pigott Lake northeastern horn",
+    [
+      5417,
+      2822
+    ],
+    [
+      5460,
+      2831
+    ],
+    "WALK20"
+  ]
+]

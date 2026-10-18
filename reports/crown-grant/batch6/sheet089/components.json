@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6031 x 4076 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 83.46 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          35,
+          90
+        ],
+        [
+          5940,
+          90
+        ],
+        [
+          5940,
+          3985
+        ],
+        [
+          35,
+          3985
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Little Seven Mile and Bog Island lakes, Governor Lake, the western and eastern inland lake districts, Bruin Lake and its islands, Rush Lake, Ecumo Seco Lake, the Liscomb Game Sanctuary region, Cameron Settlement and all southern lake and parcel regions. No displaced inset identified."
+    }
+  ]
+}

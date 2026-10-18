@@ -1,16 +1,13 @@
-NS Marks the Spot helps you explore Nova Scotia through historical maps layered over a modern map.
+Explore Nova Scotia with historical maps, public reference layers and tools for field notes.
 
-Turn the Fletcher historical map overlay on and off, adjust transparency, and compare old place names, shorelines, roads, and land features with today's geography. Optional Nova Scotia reference layers add context such as Crown lands, aerial imagery, provincial geographic services, and waterfall points of interest.
+NS Marks the Spot brings Fletcher historical imagery together with modern map backgrounds and public property information. Search by PID or civic address, inspect a selected parcel, and follow each record back to its source. Municipal tax-sale notices are dated public records, with their source identified; they are not listings or offers.
 
-Built for field research, local history, genealogy, land curiosity, and anyone who likes seeing how a place has changed over time.
+Compare available layers, measure distance and area, import your own maps, and draw your own features. Save Fletcher tiles for an offline area. Recently viewed tiles can redraw from the limited local cache; provincial reference layers and property lookups still need a connection.
 
-Features:
-- Georeferenced historical map overlays
-- Adjustable transparency for side-by-side comparison
-- Modern map, satellite, and hybrid basemaps
-- Optional Nova Scotia reference layers
-- Offline support for viewed tiles and prepared Fletcher map areas
-- User location support when you choose to enable it
-- iPhone and iPad support
+With optional location permission, show your position, place a mark or record a track. An active recording can continue off screen when iOS permits it. Tracks and imported files are stored locally. System backups may include them, depending on your device settings. You choose any export or sharing destination. Map services receive separate requests for the area you view.
 
-Location access is optional and used only to show your current position on the map. Historical maps and provincial reference layers are for context only; do not use them for legal, property, flood, or route-guidance decisions.
+Every layer identifies its source and licence. Some provincial features require acceptance of the Province of Nova Scotia's viewing terms, which you can withdraw in the app. Sources and export types with unconfirmed permissions remain locked.
+
+This is a screening and research tool. Parcel outlines are representations of records, not surveyed boundaries. Empty results and failed sources are distinguished. Nothing here establishes title, access rights, site conditions or flood risk. Not for navigation or emergency use.
+
+No NS Marks account is required.

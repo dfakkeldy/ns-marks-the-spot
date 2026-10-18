@@ -1,0 +1,16 @@
+{
+  "promoted_unchanged": "VN15",
+  "observation_sha256": "f2940c595725ebad4eef1a3b4262db193e812c50db199cfcdbfbd548bad9b205",
+  "preserved_first": "../distributed-trial/VN15-first.json",
+  "excluded_aliases": [
+    "VN15",
+    "withheld VN10"
+  ],
+  "diagnostics": [
+    "VN16 alias supply-04",
+    "VN17 alias supply-06",
+    "VN11",
+    "VN14"
+  ],
+  "original_North_Pond_points": "Unchanged in all predecessor files and first trial comparisons; audited versions used only in this new comparison."
+}

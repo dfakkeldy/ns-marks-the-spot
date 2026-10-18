@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Small lake east of New Germany northern roof",
+    [
+      1530,
+      1292
+    ],
+    [
+      1560,
+      1307
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Sunken Lake northern tip",
+    [
+      4122,
+      1034
+    ],
+    [
+      4178,
+      1055
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Rocky Lake near Walden southern tip",
+    [
+      4173,
+      1762
+    ],
+    [
+      4210,
+      1767
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Sherbrooke Lake Kill Dog Cove southern shore",
+    [
+      3676,
+      378
+    ],
+    [
+      3706,
+      404
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Western Rocky Lake northern tip",
+    [
+      753,
+      2747
+    ],
+    [
+      798,
+      2751
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Rhodenizer Lake southern tip",
+    [
+      770,
+      3685
+    ],
+    [
+      819,
+      3692
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Church Lake northern of two central islands northern tip",
+    [
+      3042,
+      2426
+    ],
+    [
+      3085,
+      2445
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C08",
+    "Spenado Lake northern tip",
+    [
+      4710,
+      3427
+    ],
+    [
+      4768,
+      3434
+    ],
+    "WALK20"
+  ]
+]

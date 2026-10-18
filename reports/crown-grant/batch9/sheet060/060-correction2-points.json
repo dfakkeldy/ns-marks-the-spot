@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C02",
+    "label": "Central western tributary joins north-south stream east of Springhill Junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3643,
+      1897
+    ],
+    "lonlat": [
+      -64.05245097593682,
+      45.686698500703756
+    ],
+    "guide_file": ".crown-grant-local/060-adjacent-guide.npy",
+    "reference_objectid": 283843,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 283843,
+    "nearest_unfiltered_distance_guide_px": 0.4984651691338133,
+    "selected_distance_guide_px": 0.4984651691338133,
+    "guide_reference_pixel_xy": [
+      3692.9419527717982,
+      1877.4950737764593
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

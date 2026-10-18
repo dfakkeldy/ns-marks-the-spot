@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6052 x 4138 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 117.05 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          40,
+          115
+        ],
+        [
+          5950,
+          115
+        ],
+        [
+          5950,
+          4015
+        ],
+        [
+          40,
+          4015
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains Mount Thom and Lower Mount Thom, Salt Springs, Limerock, Greenhill, Alma, Westville, Stellarton and New Glasgow, Millbrook, New Gairloch, Rocklin, Concord Mills, Hopewell, Eureka, Lansdowne, Glengarry, Lorne, Springville and every inland parcel/river region. No displaced inset identified."
+    }
+  ]
+}

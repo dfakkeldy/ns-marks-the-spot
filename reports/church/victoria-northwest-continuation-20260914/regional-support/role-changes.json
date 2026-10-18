@@ -1,0 +1,23 @@
+{
+  "promoted_unchanged": [
+    "VN20",
+    "VN21",
+    "VN22"
+  ],
+  "preserved_first_files": [
+    "../north-pond-support/VN20-first.json",
+    "../north-pond-support/VN21-first.json",
+    "../north-pond-support/VN22-first.json"
+  ],
+  "excluded_aliases": [
+    "VN20 upper Halfway confluence",
+    "VN21 Middle Head tip",
+    "VN22 Mary Ann mouth centre"
+  ],
+  "observation_sha256": {
+    "VN20": "fa492131c6fee86b67ddfdd4d94706f026201950ac35273c231d374082b1c338",
+    "VN21": "d8d95da018f1928ae238612479950fe3b3a10af2db3228322ac417ae43264f71",
+    "VN22": "2813905e14d20c7ba05a7d4bf04787dc7ea720b373b3e1be18f63f512864eeed"
+  },
+  "geographic_acceptance": false
+}

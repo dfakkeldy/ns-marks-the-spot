@@ -1,0 +1,132 @@
+[
+  [
+    "Q01",
+    "Small pond west of Eddy Cove north tip",
+    [
+      1465,
+      2371
+    ],
+    [
+      1478,
+      2381
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "Pond southwest of Eddy Cove south tip",
+    [
+      1940,
+      2425
+    ],
+    [
+      1940,
+      2430
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Marys Lake south tip",
+    [
+      2009,
+      2635
+    ],
+    [
+      2015,
+      2648
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Birch Island southeast corner",
+    [
+      3330,
+      590
+    ],
+    [
+      3350,
+      618
+    ],
+    "WA"
+  ],
+  [
+    "Q05",
+    "McNamara Island southeast tip",
+    [
+      3285,
+      1697
+    ],
+    [
+      3316,
+      1731
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q06",
+    "McLeod Island northwest corner",
+    [
+      3215,
+      1375
+    ],
+    [
+      3220,
+      1380
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q07",
+    "Bumbo Island north tip",
+    [
+      3305,
+      1265
+    ],
+    [
+      3315,
+      1282
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q08",
+    "Thomas Head northwest corner on Janvrin Island",
+    [
+      3110,
+      2355
+    ],
+    [
+      3140,
+      2294
+    ],
+    "WACO"
+  ],
+  [
+    "Q09",
+    "Delorier Island south tip",
+    [
+      3620,
+      2980
+    ],
+    [
+      3650,
+      2940
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q10",
+    "Cranberry Lake southwest tip",
+    [
+      1415,
+      2740
+    ],
+    [
+      1403,
+      2755
+    ],
+    "WALK"
+  ]
+]

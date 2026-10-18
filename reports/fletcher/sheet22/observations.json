@@ -1,0 +1,698 @@
+{
+  "sheet": "sheet-22",
+  "rumsey_id": "RUMSEY~8~1~2647~290015",
+  "source_dimensions": [
+    10790,
+    7687
+  ],
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "saved_controls_sha256": "2d9654ee10414e2e8862fae7d7eae44d1f75a1db15f461e017bd10dfd7fa5d19",
+  "frozen_utc": "2026-09-06T13:50:42.287654+00:00",
+  "fit_candidates": [
+    "affine",
+    "TPS"
+  ],
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "points": [
+    {
+      "id": "gcp-2",
+      "role": "control",
+      "pixel_xy": [
+        6366.0,
+        5362.999522408426
+      ],
+      "lonlat": [
+        -61.370658874511726,
+        45.607913248188815
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6366",
+        "pixel_y": "5362.999522408426",
+        "lon": "-61.370658874511726",
+        "lat": "45.607913248188815"
+      }
+    },
+    {
+      "id": "gcp-3",
+      "role": "control",
+      "pixel_xy": [
+        5307.0009765625,
+        3429.3918809432435
+      ],
+      "lonlat": [
+        -61.42224311828614,
+        45.66960445277262
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "5307.0009765625",
+        "pixel_y": "3429.3918809432435",
+        "lon": "-61.42224311828614",
+        "lat": "45.66960445277262"
+      }
+    },
+    {
+      "id": "gcp-4",
+      "role": "control",
+      "pixel_xy": [
+        6013.0009765625,
+        3358.895074836894
+      ],
+      "lonlat": [
+        -61.38936996459962,
+        45.67290314089456
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6013.0009765625",
+        "pixel_y": "3358.895074836894",
+        "lon": "-61.38936996459962",
+        "lat": "45.67290314089456"
+      }
+    },
+    {
+      "id": "gcp-5",
+      "role": "control",
+      "pixel_xy": [
+        4823.0009765625,
+        1552.396447912669
+      ],
+      "lonlat": [
+        -61.44464492797852,
+        45.729610457300396
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "4823.0009765625",
+        "pixel_y": "1552.396447912669",
+        "lon": "-61.44464492797852",
+        "lat": "45.729610457300396"
+      }
+    },
+    {
+      "id": "gcp-6",
+      "role": "control",
+      "pixel_xy": [
+        6271.0009765625,
+        2903.3955225789946
+      ],
+      "lonlat": [
+        -61.376903057098396,
+        45.68746023970692
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6271.0009765625",
+        "pixel_y": "2903.3955225789946",
+        "lon": "-61.376903057098396",
+        "lat": "45.68746023970692"
+      }
+    },
+    {
+      "id": "gcp-7",
+      "role": "control",
+      "pixel_xy": [
+        7431.5009765625,
+        3092.3988060210654
+      ],
+      "lonlat": [
+        -61.32336616516114,
+        45.682498396363584
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "7431.5009765625",
+        "pixel_y": "3092.3988060210654",
+        "lon": "-61.32336616516114",
+        "lat": "45.682498396363584"
+      }
+    },
+    {
+      "id": "gcp-8",
+      "role": "control",
+      "pixel_xy": [
+        8701.597747421249,
+        1779.1695892057853
+      ],
+      "lonlat": [
+        -61.26525878906251,
+        45.72445763678592
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "8701.597747421249",
+        "pixel_y": "1779.1695892057853",
+        "lon": "-61.26525878906251",
+        "lat": "45.72445763678592"
+      }
+    },
+    {
+      "id": "gcp-9",
+      "role": "control",
+      "pixel_xy": [
+        9357.852523290701,
+        1600.027547285177
+      ],
+      "lonlat": [
+        -61.23629093170167,
+        45.729670359431836
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "9357.852523290701",
+        "pixel_y": "1600.027547285177",
+        "lon": "-61.23629093170167",
+        "lat": "45.729670359431836"
+      }
+    },
+    {
+      "id": "gcp-10",
+      "role": "control",
+      "pixel_xy": [
+        9540.5009765625,
+        1167.916864952454
+      ],
+      "lonlat": [
+        -61.22920989990235,
+        45.74437719124025
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "9540.5009765625",
+        "pixel_y": "1167.916864952454",
+        "lon": "-61.22920989990235",
+        "lat": "45.74437719124025"
+      }
+    },
+    {
+      "id": "gcp-11",
+      "role": "control",
+      "pixel_xy": [
+        5145.0009765625,
+        1054.8980896337043
+      ],
+      "lonlat": [
+        -61.43056869506837,
+        45.74608427426337
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "5145.0009765625",
+        "pixel_y": "1054.8980896337043",
+        "lon": "-61.43056869506837",
+        "lat": "45.74608427426337"
+      }
+    },
+    {
+      "id": "gcp-12",
+      "role": "control",
+      "pixel_xy": [
+        5850.5009765625,
+        2236.886388640143
+      ],
+      "lonlat": [
+        -61.396880149841316,
+        45.70698851311449
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "5850.5009765625",
+        "pixel_y": "2236.886388640143",
+        "lon": "-61.396880149841316",
+        "lat": "45.70698851311449"
+      }
+    },
+    {
+      "id": "gcp-13",
+      "role": "control",
+      "pixel_xy": [
+        4799.5009765625,
+        2266.384120080167
+      ],
+      "lonlat": [
+        -61.444344520568855,
+        45.70492049970628
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "4799.5009765625",
+        "pixel_y": "2266.384120080167",
+        "lon": "-61.444344520568855",
+        "lat": "45.70492049970628"
+      }
+    },
+    {
+      "id": "gcp-14",
+      "role": "control",
+      "pixel_xy": [
+        4520.0009765625,
+        1554.3885676516993
+      ],
+      "lonlat": [
+        -61.45876407623292,
+        45.72999978681681
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "4520.0009765625",
+        "pixel_y": "1554.3885676516993",
+        "lon": "-61.45876407623292",
+        "lat": "45.72999978681681"
+      }
+    },
+    {
+      "id": "gcp-16",
+      "role": "control",
+      "pixel_xy": [
+        6093.499579944089,
+        6138.366506736395
+      ],
+      "lonlat": [
+        -61.38387680053712,
+        45.58274911297632
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "6093.499579944089",
+        "pixel_y": "6138.366506736395",
+        "lon": "-61.38387680053712",
+        "lat": "45.58274911297632"
+      }
+    },
+    {
+      "id": "gcp-17",
+      "role": "control",
+      "pixel_xy": [
+        2813.5009765625,
+        2968.367822267707
+      ],
+      "lonlat": [
+        -61.53910160064698,
+        45.6809993109188
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "2813.5009765625",
+        "pixel_y": "2968.367822267707",
+        "lon": "-61.53910160064698",
+        "lat": "45.6809993109188"
+      }
+    },
+    {
+      "id": "gcp-18",
+      "role": "control",
+      "pixel_xy": [
+        1582.5077384313572,
+        3960.8658563453396
+      ],
+      "lonlat": [
+        -61.59528851509095,
+        45.647370866133784
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "1582.5077384313572",
+        "pixel_y": "3960.8658563453396",
+        "lon": "-61.59528851509095",
+        "lat": "45.647370866133784"
+      }
+    },
+    {
+      "id": "gcp-19",
+      "role": "control",
+      "pixel_xy": [
+        1639.0009765625,
+        6141.878777024434
+      ],
+      "lonlat": [
+        -61.589205265045166,
+        45.57834866534863
+      ],
+      "review": "preserved-user-export",
+      "original_numeric_strings": {
+        "pixel_x": "1639.0009765625",
+        "pixel_y": "6141.878777024434",
+        "lon": "-61.589205265045166",
+        "lat": "45.57834866534863"
+      }
+    },
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        5396,
+        1175
+      ],
+      "lonlat": [
+        -61.4205103,
+        45.743667
+      ],
+      "label": "Northern Queensville fork",
+      "identity_evidence": "North tributary joins northwest stem immediately below road crossing; main continues southeast.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          270728,
+          270729,
+          316146
+        ],
+        "node": "J0114"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5256,
+          1085,
+          5536,
+          1265
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        8711,
+        1907
+      ],
+      "lonlat": [
+        -61.2646434,
+        45.7205251
+      ],
+      "label": "Askilton fork",
+      "identity_evidence": "Northwest tributary joins east-west main stream before the southwest bend, south of school/road crossing.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          197910,
+          269271,
+          269378
+        ],
+        "node": "J0175"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          8571,
+          1817,
+          8851,
+          1997
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "crosshair_audit": {
+        "initial_pixel_xy": [
+          8703,
+          1910
+        ],
+        "reason": "Small correction to centre of visible junction before any scoring."
+      }
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        2594,
+        5707
+      ],
+      "lonlat": [
+        -61.5475419,
+        45.5933497
+      ],
+      "label": "North Branch Tracadie fork",
+      "identity_evidence": "South branch joins east-west main just beyond the mill and road bend.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          121129,
+          121130,
+          264843
+        ],
+        "node": "J0956"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          2454,
+          5617,
+          2734,
+          5797
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "crosshair_audit": {
+        "initial_pixel_xy": [
+          2589,
+          5705
+        ],
+        "reason": "Small correction to centre of visible junction before any scoring."
+      }
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        2507,
+        4254
+      ],
+      "lonlat": [
+        -61.5485589,
+        45.638176
+      ],
+      "label": "West inland eastern tributary",
+      "identity_evidence": "East tributary crosses the road and joins the north-south stem south of the northern crossing; modern upstream sliver is a separate bank junction.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211788,
+          211789,
+          286897
+        ],
+        "node": "J0603"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          2367,
+          4164,
+          2647,
+          4344
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        6995,
+        2522
+      ],
+      "lonlat": [
+        -61.3447544,
+        45.7006944
+      ],
+      "label": "Sugar Camp Brook upper fork",
+      "identity_evidence": "Northwest and southwest arms join the eastbound stream, followed by the downstream road crossing.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          195335,
+          295461,
+          295610
+        ],
+        "node": "J0217"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6855,
+          2432,
+          7135,
+          2612
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        2517,
+        3978
+      ],
+      "lonlat": [
+        -61.55143,
+        45.6495464
+      ],
+      "label": "West inland southern tributary",
+      "identity_evidence": "South tributary joins the winding west-east stem before the next southern tributary.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211503,
+          273684,
+          273685
+        ],
+        "node": "J0520"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          2377,
+          3888,
+          2657,
+          4068
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    },
+    {
+      "id": "Q07",
+      "role": "check",
+      "pixel_xy": [
+        2147,
+        2602
+      ],
+      "lonlat": [
+        -61.56867557413942,
+        45.69216901220799
+      ],
+      "label": "Cape Jack northern tip",
+      "identity_evidence": "Northernmost shore apex of the rounded headland, west of Cape Pond and its coastal embayment.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          10781
+        ],
+        "part": 0,
+        "vertex": 19
+      },
+      "native_uncertainty_px": 10,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          2007,
+          2512,
+          2287,
+          2692
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    },
+    {
+      "id": "Q08",
+      "role": "check",
+      "pixel_xy": [
+        3234,
+        2923
+      ],
+      "lonlat": [
+        -61.51721218413218,
+        45.683684452946956
+      ],
+      "label": "Havre Boucher harbour island",
+      "identity_evidence": "Northernmost apex of the isolated triangular island inside the harbour, west of the east mainland shore.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          16884
+        ],
+        "part": 0,
+        "vertex": 62
+      },
+      "native_uncertainty_px": 10,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          3094,
+          2833,
+          3374,
+          3013
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    }
+  ],
+  "excluded_saved_rows": [
+    {
+      "id": "corner-se",
+      "reason": "Remaining corner placeholder has no identified physical feature; original export remains intact."
+    }
+  ],
+  "limitations": [
+    "Same-agent visual annotation, not independent survey.",
+    "Checks may support model selection and later diagnosis; retain scores before any revisions.",
+    "Q04 and Q06 share a western drainage network; coastal checks share northern mainland region.",
+    "Southern/eastern area outside the saved control hull remains sparsely checked."
+  ],
+  "rejected_searches": [
+    {
+      "feature": "Historical McIntyre mill lake",
+      "reason": "Large historical outline not represented the same way in modern water data; ambiguous changed impoundment."
+    },
+    {
+      "feature": "Beaver Dam Lake southern edge",
+      "reason": "Source outlet was not identifiable; avoid assuming shoreline extremum equals modern outlet."
+    },
+    {
+      "feature": "Horton/Browns Brook candidate tributaries",
+      "reason": "Small tributary directions/visibility did not establish a confident match."
+    },
+    {
+      "feature": "Little River spring junction",
+      "reason": "Road, mill/rail hatching and tributary confluence overlap obscured placement."
+    }
+  ]
+}

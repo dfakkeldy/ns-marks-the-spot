@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Six controls span three inland lakes/ponds, the southwest mainland cape, central coastal island and southeastern offshore island.",
+  "corrections": [
+    "Cape Sharp check source/reference, Partridge southeast source and smaller Two Brothers southwest source refined to actual shore tips before fitting."
+  ],
+  "not_adopted": [
+    "Generalized Cranberry/Jeffers main lake configurations and Clarke Head were not forced into matches.",
+    "Cape Split control is on the mainland tip; separate modern offshore stacks are not assumed to be represented in the historical single cape outline."
+  ],
+  "limitations": [
+    "Five checks share control lakes or islands; Cape Sharp and the smaller Two Brothers island are separate check features.",
+    "Northwestern Port Greville/Fox River/Diligent River and broad northern inland areas lack independent validation.",
+    "Source uncertainty18 px; shoreline generalization remains."
+  ]
+}

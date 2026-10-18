@@ -1,0 +1,22 @@
+{
+  "fit_sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+  "frozen_at": "2026-09-11T17:19:59.480660+00:00",
+  "control_ids": [
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "C10",
+    "C11",
+    "C12",
+    "C13",
+    "C14",
+    "C15",
+    "C16"
+  ],
+  "promoted": "Q05 to C16, exact coordinates unchanged",
+  "fresh_checks_collected_after_freeze": true
+}

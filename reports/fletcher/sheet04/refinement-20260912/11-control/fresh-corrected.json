@@ -1,0 +1,31 @@
+{
+  "sheet": "sheet-04",
+  "points": [
+    {
+      "lonlat": [
+        -60.3407161,
+        46.7682226
+      ],
+      "source_guide_xy": [
+        3953.794368959265,
+        1755.3001272003166
+      ],
+      "objectids": [
+        156654,
+        156656,
+        181057
+      ],
+      "id": "F09",
+      "modern_node_id": "J0245",
+      "role": "check",
+      "pixel_xy": [
+        4250,
+        1457
+      ],
+      "identity_evidence": "Black Brook southwestern tributary upstream of the separate southeastern branch near the mouth",
+      "source_uncertainty_px": 20,
+      "status": "Corrected before first score, awaiting exact native/modern review.",
+      "review_note": "Original J0244 was the separate southeastern tributary; corrected to J0245 southwestern bank tributary, and native crosshair moved from land onto southern-bank junction. Modern extra SE tributary is not clearly shown historically."
+    }
+  ]
+}

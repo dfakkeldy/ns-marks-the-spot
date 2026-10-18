@@ -1,4 +1,7 @@
+import { assertReproductionAllowed } from "../../licensing/layerUse";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useDialogChrome } from "../../components/useDialogChrome";
+import { downloadFile } from "../../services/downloadFile";
 import type { PrintMapBounds } from "../../services/printSnapshot";
 import { buildScaleBar } from "./scaleBar";
 import { buildExportQrPng } from "./exportQr";
@@ -30,8 +33,9 @@ export type ExportDialogProps = {
    * Names of layers that are visible on screen but will NOT be in this
    * export — the seven layer families the compositor does not carry yet
    * (resources, hydro pilot, flood hazard, environmental health, forestry,
-   * zoning, well logs), any Province layer without export options, and
-   * user-imported maps. Shown with the same treatment as failed layers so
+   * zoning, well logs), context layers served only as features, any Province
+   * layer without export options, and user-imported maps.
+   * Shown with the same treatment as failed layers so
    * the omission is never silent. It does not block Download: the user is
    * told what the page will be missing and decides.
    */
@@ -61,18 +65,23 @@ function slugify(title: string): string {
 }
 
 function defaultSaveFile(bytes: Uint8Array, filename: string): void {
+  // Through the app's one save-to-device primitive rather than a second copy
+  // of the sequence. This copy clicked a DETACHED anchor and revoked the
+  // object URL synchronously — the pair of Safari failures `downloadFile` was
+  // extracted to prevent, each of which yields a zero-byte or missing file
+  // with no error anywhere, here after a multi-second render.
+  //
+  // The adapter survives because the prop contract is `(bytes, filename)` and
+  // the primitive takes `(filename, blob)`.
+  //
   // `new Uint8Array(bytes)` (rather than `bytes` itself) guarantees a plain
   // `ArrayBuffer`-backed view, which is what `BlobPart` requires — `bytes`'s
   // type from pdf-lib is backed by `ArrayBufferLike`, which TS also allows
   // to be a `SharedArrayBuffer`.
-  const url = URL.createObjectURL(
+  downloadFile(
+    filename,
     new Blob([new Uint8Array(bytes)], { type: "application/pdf" }),
   );
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.click();
-  URL.revokeObjectURL(url);
 }
 
 function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
@@ -121,17 +130,14 @@ export function ExportDialog(props: ExportDialogProps) {
     exportAbortRef.current?.abort();
     onClose();
   };
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        exportAbortRef.current?.abort();
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [onClose]);
+  // Escape goes through the shared chrome, which also keeps Tab inside the
+  // dialog and hands focus back to whatever opened it — neither of which this
+  // one did. The abort stays here: cancelling the export is this dialog's
+  // business, not the chrome's.
+  const dialogRef = useDialogChrome<HTMLDivElement>(() => {
+    exportAbortRef.current?.abort();
+    onClose();
+  });
   // Belt-and-suspenders: if the dialog unmounts through some path other than
   // the Cancel button or Escape key, still abort any in-flight tile fetches.
   useEffect(() => () => exportAbortRef.current?.abort(), []);
@@ -149,6 +155,7 @@ export function ExportDialog(props: ExportDialogProps) {
     controller: AbortController,
   ) => {
     if (controller.signal.aborted) return;
+    assertReproductionAllowed(props.layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
     const generatedAt = new Date().toISOString();
     const input: ComposeInput = {
       template,
@@ -162,7 +169,8 @@ export function ExportDialog(props: ExportDialogProps) {
       legend: legendOn
         ? props.layers.map(({ name }) => ({ name, swatchColor: null }))
         : null,
-      attributionLines: props.attributionLines,
+      attributionLines: [...props.attributionLines, ...result.statuses.flatMap((status) =>
+        status.status === "rendered" && status.detail ? [`${status.name}: ${status.detail}`] : [])],
       qrPngBytes: await buildExportQrPng(props.shareUrl),
       scaleBar: buildScaleBar(
         props.bounds, template.mapFrame, template.scaleBar.maxWidth,
@@ -176,11 +184,34 @@ export function ExportDialog(props: ExportDialogProps) {
     props.onClose();
   };
 
+  /**
+   * "Download anyway" runs the same pipeline as the happy path, so it can
+   * fail the same ways (JPEG encode, QR build, PDF compose). Unguarded it
+   * rejected into nothing and the dialog sat in confirm-failures with a
+   * silently dead button; the failure now lands in the error phase exactly
+   * like a first-pass failure.
+   */
+  const finishExportOrReportError = async (
+    result: CompositorResult,
+    controller: AbortController,
+  ) => {
+    try {
+      await finishExport(result, controller);
+    } catch (error) {
+      if (controller.signal.aborted) return;
+      setPhase({
+        stage: "error",
+        message: error instanceof Error ? error.message : "Export failed.",
+      });
+    }
+  };
+
   const startExport = async () => {
     const controller = new AbortController();
     exportAbortRef.current = controller;
     setPhase({ stage: "rendering", progress: null });
     try {
+      assertReproductionAllowed(props.layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
       const result = await composeImage((progress) => {
         // A stray progress tick that arrives after cancellation must not
         // resurrect the "rendering" phase on an export the user walked away
@@ -215,10 +246,16 @@ export function ExportDialog(props: ExportDialogProps) {
   return (
     <div className="export-dialog-backdrop" role="presentation">
       <div
+        ref={dialogRef}
         className="export-dialog"
         role="dialog"
         aria-modal="true"
         aria-label="Export georeferenced PDF"
+        // Escape belongs to this dialog while it is open. Both this handler
+        // and the parcel panel's listen on the document, where
+        // stopPropagation does not reach a sibling listener, so without this
+        // one keypress cancelled the export AND closed the panel behind it.
+        data-owns-escape=""
       >
         <h2>Export georeferenced PDF</h2>
         <p className="field-help">
@@ -254,7 +291,7 @@ export function ExportDialog(props: ExportDialogProps) {
                 </li>
               ))}
             </ul>
-            <p>PDF export doesn&rsquo;t support them yet.</p>
+            <p>The PDF will omit the layers listed above.</p>
           </div>
         ) : null}
 
@@ -293,7 +330,8 @@ export function ExportDialog(props: ExportDialogProps) {
           </button>
           {phase.stage === "confirm-failures" ? (
             <button type="button" className="primary-action"
-              onClick={() => void finishExport(phase.result, phase.controller)}>
+              onClick={() =>
+                void finishExportOrReportError(phase.result, phase.controller)}>
               Download anyway
             </button>
           ) : (

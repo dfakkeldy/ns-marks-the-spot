@@ -1,3 +1,24 @@
+import { LicensingLockDialog } from "./components/LicensingLockDialog";
+import { PARCEL_REPRODUCTION_LOCK_REASON, PROPERTY_RECORD_REPRODUCTION_ALLOWED, reproductionLockReason } from "./licensing/layerUse";
+import { RhodenaOverview } from "./rhodena/RhodenaOverview";
+import {
+  EMPTY_FOCUS_PAGE_STATE,
+  filterFocusLayerIds,
+  focusHides,
+  focusOffersLayer,
+  type FocusChromeContext,
+  type FocusDefinition,
+  type FocusFitRequest,
+  type FocusPageState,
+} from "./focus/focusDefinition";
+import { focusDefinitions, focusForTheme, type FocusId } from "./focus/registry";
+import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
+import { DistrictInspector } from "./components/DistrictInspector";
+import { initialElectoralModes, withElectoralMode, type ElectoralLayerId } from "./layers/electoralLayers";
+import type { ElectoralSelection } from "./elections/electoralData";
+import { openDataPrintCredit } from "./layers/openDataSources";
+import { contextLayerCatalog, type ContextLayerId } from "./layers/contextLayerCatalog";
+import { ContextLayerToggle } from "./components/ContextLayerToggle";
 import {
   lazy,
   Suspense,
@@ -8,7 +29,6 @@ import {
   useState,
   type FormEvent,
 } from "react";
-import appIconUrl from "../../docs/assets/app-icon.svg";
 import { useStablePerIdCallback } from "./components/useStablePerIdCallback";
 import {
   MapCanvas,
@@ -35,6 +55,7 @@ import {
   FletcherLayerControl,
   LayerMetadata,
   LayerToggle,
+  LiveConditionsLayerToggle,
   ResourceLayerToggle,
   RoadLegend,
 } from "./components/LayerRows";
@@ -43,10 +64,11 @@ import {
   type AssessmentState,
   type BuildingCountState,
   type CivicAddressState,
+  type CoastalFloodState,
   type DwellingState,
-  type FloodHazardState,
   type ParcelContextState,
   type ParcelResourceState,
+  type RiverFloodState,
 } from "./components/ParcelInspector";
 // Print preview and PDF export ride behind React.lazy: qrcode plus the print
 // components on one, pdf-lib (~150 KB gzip, the largest dependency after the
@@ -89,6 +111,7 @@ import {
 import {
   COASTAL_HAZARD_ATTRIBUTION,
   COASTAL_HAZARD_LICENCE_URL,
+  COASTAL_HAZARD_NOTICES,
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -96,6 +119,7 @@ import {
   floodHazardLayerCatalog,
   fletcherLayerCatalog,
   hydroPilotLayerCatalog,
+  liveConditionsLayerCatalog,
   wellLogLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
@@ -104,6 +128,7 @@ import {
   type EnvironmentalHealthLayerId,
   type ForestryLayerId,
   type FloodHazardLayerId,
+  type LiveConditionsLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
   type ZoningLayerId,
@@ -124,13 +149,18 @@ import {
   CIVIC_ADDRESS_DATASET_URL,
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
+  CivicAddressGeometryError,
   fetchCivicAddresses,
-  searchCivicAddresses,
   type CivicAddress,
+  type CivicAddressReading,
 } from "./services/civicAddresses";
+import { searchAddressesWithMailing, mailingLabel, type MailingCivicAddress } from "./services/mailingAddresses";
+import { MailingSource } from "./components/MailingAddressDetails";
 import {
   fetchParcelAtPoint,
   fetchParcels,
+  hasQueryablePolygon,
+  identifyParcelsAtPoint,
   normalizePid,
   NSPRD_LAYER_URL,
   type NsprdFeatureCollection,
@@ -141,7 +171,10 @@ import {
   type ParcelContext,
 } from "./services/parcelContext";
 import { buildEvidenceNote } from "./services/evidenceNote";
-import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
+import {
+  fetchCoastalFloodEvidence,
+  fetchPublishedRiverFloodEvidence,
+} from "./services/floodHazard";
 import {
   buildMapShareUrl,
   hasRecognizedMapShareState,
@@ -209,7 +242,12 @@ const ExportDialog = lazy(() =>
   })),
 );
 import { exportAttributionLines } from "./print/pdf/attributionLines";
-import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
+import { buildExportLayers, contextExportOmission } from "./print/pdf/exportLayerSpecs";
+import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
+import { atlasPalettes } from "./atlas/palette";
+import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceiptUrl } from "./atlas/crown";
+import { provincialReceipt, provincialReceiptUrl, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
+import { useBasemapPreference } from "./atlas/useBasemapPreference";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
 import type { PdfTemplateId } from "./print/pdf/templates/types";
 import { useUserMaps } from "./userMaps/useUserMaps";
@@ -220,9 +258,33 @@ import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
 import { UserVectorControls } from "./userMaps/vector/components/UserVectorRows";
 import { useVectorEditSession } from "./userMaps/vector/edit/useVectorEditSession";
 import {
+  browserLocationFailure,
+  getBrowserLocation,
+  type BrowserLocation,
+} from "./services/browserLocation";
+import { buildGpsMarkFeature } from "./location/markFeature";
+import { FIELD_NOTES_LAYER_NAME } from "./location/captureSpec";
+import {
+  formatAccuracyM,
+  markFailureMessage,
+  oneShotMarkFix,
+} from "./location/markFix";
+import type { LiveFix } from "./location/liveLocation";
+import {
   VectorEditPanel,
   type EditMode,
 } from "./userMaps/vector/edit/VectorEditPanel";
+// Type-only, so the Geoman bundle behind EditableVectorLayer stays lazy.
+import type { VectorSnapTargets } from "./userMaps/vector/edit/EditableVectorLayer";
+import type { ParcelSnapStatus } from "./userMaps/vector/edit/ParcelSnapTargetsLayer";
+import {
+  planPointsToPath,
+  type ConvertShape,
+} from "./userMaps/vector/convert/pointsToPath";
+import { usePhotoManager } from "./userMaps/vector/photos/usePhotoManager";
+import { PhotoLightbox } from "./userMaps/vector/photos/PhotoLightbox";
+import { BulkPhotoImportDialog } from "./userMaps/vector/photos/BulkPhotoImportDialog";
+import type { FeaturePhotoDescriptor } from "./userMaps/vector/photos/types";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
@@ -241,6 +303,18 @@ const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
  */
 const SHARE_URL_WRITE_DELAY_MS = 500;
 
+/**
+ * The full map at the same view. A focus page's own filter and selection
+ * (`month`, `spot`) mean nothing there, so they are left behind.
+ */
+function fullMapUrl(shareUrl: string): string {
+  // Filtered as text so the rest of the query keeps its exact spelling.
+  const query = new URL(shareUrl).search.replace(/^\?/u, "").split("&")
+    .filter((part) => part !== "" && !/^(?:month|spot)=/u.test(part))
+    .join("&");
+  return new URL(`./${query ? `?${query}` : ""}`, document.baseURI).href;
+}
+
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
 
@@ -251,13 +325,24 @@ type LicenceIntent =
   | { kind: "layer" }
   /** Parcel/civic search asked for licensed data before acceptance. */
   | { kind: "search"; query: string }
+  /** The edit panel's parcel-snap toggle asked before acceptance. */
+  | { kind: "snap" }
   /** "Data & licences" review — never a licence-state or layer-state change. */
   | { kind: "review" }
+  /** The map's Map/Aerial switch asked for the licensed aerial imagery. */
+  | { kind: "aerial" }
   | null;
 
 const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
   features: [],
+};
+
+/** Each edit session re-arms snapping from here (field-capture contract). */
+const DEFAULT_SNAP_TARGETS: VectorSnapTargets = {
+  enabled: true,
+  myFeatures: true,
+  parcels: false,
 };
 const EMPTY_PID_SET = new Set<string>();
 
@@ -281,6 +366,8 @@ type GeoPdfExportSession =
   | { stage: "framing"; frame: FrameState }
   | { stage: "dialog"; bounds: PrintMapBounds; orientation: PdfTemplateId };
 
+import { useDialogChrome } from "./components/useDialogChrome";
+
 function isCurrentEvidenceRequest(
   current: SelectedEvidenceRequest | null,
   expected: SelectedEvidenceRequest,
@@ -289,7 +376,12 @@ function isCurrentEvidenceRequest(
 }
 
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
-const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
+// A lookup that has not answered carries no addresses and no shortfall: zero
+// unreadable rows here is the absence of a claim, not a claim of completeness.
+const EMPTY_CIVIC_ADDRESSES: CivicAddressReading = {
+  addresses: [],
+  unreadableRows: 0,
+};
 const EMPTY_RESOURCE_INTERSECTIONS: ParcelResourceIntersections = {
   "mineral-occurrences": { status: "ready", intersections: [] },
   "mineral-tenure": { status: "ready", intersections: [] },
@@ -304,13 +396,15 @@ const allMapLayerIds: MapLayerId[] = [
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),
   ...environmentalHealthLayerCatalog.map(({ id }) => id),
+  ...contextLayerCatalog.map(({ id }) => id),
   ...forestryLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
+  ...liveConditionsLayerCatalog.map(({ id }) => id),
 ];
 
 const restrictedThemeLayerIds = new Set<ShareLayerId>([
-  ...provinceLayerCatalog.map(({ id }) => id),
+  ...provinceLayerCatalog.filter(({ licence }) => licence === "province-restricted").map(({ id }) => id),
   ...allResourceLayerCatalog
     .filter(
       (layer) =>
@@ -323,6 +417,9 @@ const restrictedThemeLayerIds = new Set<ShareLayerId>([
   ...environmentalHealthLayerCatalog
     .filter(({ licence }) => licence === "province-restricted")
     .map(({ id }) => id),
+  ...contextLayerCatalog
+    .filter(({ licence }) => licence === "province-restricted")
+    .map(({ id }) => id),
 ]);
 
 const themeLayerNames = new Map<ShareLayerId, string>([
@@ -333,9 +430,11 @@ const themeLayerNames = new Map<ShareLayerId, string>([
   ...hydroPilotLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...floodHazardLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...environmentalHealthLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...contextLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...forestryLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...zoningLayerCatalog.map(({ id, name }) => [id, `${name} zoning`] as const),
   ...wellLogLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...liveConditionsLayerCatalog.map(({ id, name }) => [id, name] as const),
 ]);
 
 function themeResolutionNotice(resolved: ResolvedTheme): string | null {
@@ -363,11 +462,6 @@ function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
   ) as Record<MapLayerId, MapLayerStatus>;
 }
 
-function disabledProvinceLayers(): Record<ProvinceLayerId, boolean> {
-  return Object.fromEntries(
-    provinceLayerCatalog.map(({ id }) => [id, false]),
-  ) as Record<ProvinceLayerId, boolean>;
-}
 
 const upcomingTaxSaleEvents = eventsForStatus("upcoming");
 const upcomingTaxSalePids = advertisedPidsForEvents(upcomingTaxSaleEvents);
@@ -439,6 +533,29 @@ function isLicenceAccepted(): boolean {
   }
 }
 
+/**
+ * The same guard as above, one step earlier.
+ *
+ * `loadCustomThemes` and `saveCustomThemes` catch whatever their `getItem` and
+ * `setItem` throw, but `window.localStorage` passed as an argument is
+ * evaluated at the CALL SITE, outside that try — and in the browsers named
+ * above the property access is itself what throws. Unguarded, the theme
+ * library's first read threw out of App's render on every load, so those
+ * readers met "The map stopped responding" and a Reload button that
+ * reproduced it.
+ *
+ * A store that cannot be reached is reported as a store that could not be
+ * read, never as an empty library: "you have saved nothing" and "your saved
+ * setups could not be read" are different sentences to the reader.
+ */
+function reachableLocalStorage(): Storage | null {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
 // Exported for its focused test: the identity contract below is what keeps
 // the evidence effects quiet through no-op merges, and only a test that holds
 // both references can pin it.
@@ -465,7 +582,9 @@ export function mergeFeatureCollections(
       }
       for (const inner of coords) visit(inner);
     };
-    visit((feature.geometry as { coordinates?: unknown }).coordinates);
+    // Optional: NSPRD can send "geometry": null, and the declared type says
+    // what a stored parcel may be assumed to carry, not what the wire sends.
+    visit((feature.geometry as { coordinates?: unknown } | null)?.coordinates);
     const head = positions.slice(0, 2).join(",");
     const tail = positions.slice(-2).join(",");
     return `${feature.properties.PID}:${positions.length}:${head}:${tail}`;
@@ -507,9 +626,10 @@ function printState<T>(
   }
   if (state.status === "geometry-unavailable") {
     // Unreachable while canPrintExport requires resolved geometry, but the
-    // honest message costs nothing if that gate ever loosens.
+    // honest state costs nothing if that gate ever loosens: nothing was asked
+    // of the source, so the receipt must not call it unavailable.
     return {
-      status: "error",
+      status: "not-asked",
       message: "Not evaluated — this PID's NSPRD geometry is unavailable.",
     };
   }
@@ -532,6 +652,7 @@ function printStateForRequest<T>(
 function printDwellingStateForRequest(
   state: DwellingState,
   request: SelectedEvidenceRequest | null,
+  assessmentReady: boolean,
 ): PrintLoadState<PvscDwellingAccount[]> {
   if (!request || !isCurrentEvidenceRequest(state.request, request)) {
     return { status: "pending" };
@@ -539,11 +660,35 @@ function printDwellingStateForRequest(
   if (state.status === "ready") {
     return { status: "ready", value: state.value };
   }
+  // Three ways the dwelling dataset goes unasked, and none of them is the
+  // source failing. Printing them as errors put "unavailable" on the receipt
+  // for a lookup that was never run.
   if (state.status === "blocked") {
     return {
-      status: "error",
+      status: "not-asked",
       message:
         "Dwelling lookup was not run because assessment account evidence was unavailable.",
+    };
+  }
+  if (state.status === "no-account") {
+    return {
+      status: "not-asked",
+      message:
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    };
+  }
+  if (state.status === "no-record-for-notice-aan") {
+    return {
+      status: "not-asked",
+      message:
+        "The municipal notice supplied an AAN, but PVSC returned no assessment record for it, so the dwelling dataset was not asked.",
+    };
+  }
+  if (state.status === "geometry-unavailable") {
+    return {
+      status: "not-asked",
+      message:
+        "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
     };
   }
   if (state.status === "error") {
@@ -552,7 +697,17 @@ function printDwellingStateForRequest(
       message: "PVSC dwelling source unavailable at export time.",
     };
   }
-  return { status: "pending" };
+  // Idle or loading. The dwelling request cannot start until the assessment
+  // lookup supplies an account number, so while that is still out this slot
+  // is not a source going quiet, and a capture that times out here must not
+  // print it as one.
+  return assessmentReady
+    ? { status: "pending" }
+    : {
+        status: "pending",
+        message:
+          "The PVSC dwelling lookup had not started when this page was made: the assessment account lookup had not answered, so there was no account to ask with.",
+      };
 }
 
 function printEventForCurrent(event: TaxSaleEvent, now: number): PrintEvent {
@@ -601,16 +756,10 @@ function printEventForHistorical(
 
 function printLayerSources(
   fletcherTileBaseUrl: string | null,
+  basemapStyle: BasemapStyle = "osm",
 ): Map<ShareLayerId, PrintLayerSource> {
   const sources = new Map<ShareLayerId, PrintLayerSource>();
-  sources.set("modern", {
-    id: "modern",
-    name: "Modern map",
-    sourceUrl: "https://www.openstreetmap.org/copyright",
-    sourceDate: "Live OpenStreetMap tiles",
-    attribution: "© OpenStreetMap contributors",
-    licenceUrl: "https://www.openstreetmap.org/copyright",
-  });
+  sources.set("modern", basemapSource(basemapStyle));
   sources.set("fletcher", {
     id: "fletcher",
     name: fletcherLayerCatalog.name,
@@ -624,10 +773,10 @@ function printLayerSources(
   provinceLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
     name: layer.name,
-    sourceUrl: layer.serviceUrl,
+    sourceUrl: layer.sourceUrl ?? layer.serviceUrl,
     sourceDate: layer.sourceDate,
-    attribution: PROVINCE_ATTRIBUTION,
-    licenceUrl: PROVINCE_LICENSE_URL,
+    attribution: (layer.attribution ?? PROVINCE_ATTRIBUTION) + openDataPrintCredit(layer.openData),
+    licenceUrl: layer.licenceUrl ?? PROVINCE_LICENSE_URL,
   }));
   allResourceLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
@@ -674,6 +823,15 @@ function printLayerSources(
       : OPEN_GOVERNMENT_ATTRIBUTION,
     licenceUrl: layer.licenceUrl,
   }));
+  contextLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: `${layer.attribution ?? (layer.licence === "province-restricted" ? PROVINCE_ATTRIBUTION : OPEN_GOVERNMENT_ATTRIBUTION)} ${layer.scale}. ${layer.webCaveat}${openDataPrintCredit(layer.openData)}`,
+    licenceUrl: layer.licenceUrl,
+    ...(layer.provenance ? { provenance: layer.provenance } : {}),
+  }));
   forestryLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
     name: layer.name,
@@ -698,9 +856,27 @@ function printLayerSources(
     attribution: OPEN_GOVERNMENT_ATTRIBUTION,
     licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
   }));
+  // Listed for the Data & licences inventory; never captured into a print —
+  // captureLayerIds excludes the live overlays, so these entries cannot reach
+  // a sealed PDF.
+  liveConditionsLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.attribution,
+    licenceUrl: layer.licenceUrl,
+  }));
   return sources;
 }
 
+/**
+ * Focus and keyboard chrome shared by the app-level dialogs, matching
+ * ThemeManagerDialog: focus the dialog on mount, dismiss on Escape, and hand
+ * focus back to the opener on unmount. The dismiss handler lives in a ref so
+ * inline-arrow props don't re-run the mount effect (which would bounce focus
+ * on every parent render).
+ */
 function LicenceDialog({
   onAccept,
   onContinueWithout,
@@ -715,9 +891,14 @@ function LicenceDialog({
    */
   onClose?: () => void;
 }) {
+  // While acceptance is pending there is no close affordance, so Escape maps
+  // to the explicit decline — never to a silent accept.
+  const dialogRef = useDialogChrome(onClose ?? onContinueWithout);
   return (
     <div className="dialog-backdrop">
       <section
+        ref={dialogRef}
+        tabIndex={-1}
         className="licence-dialog"
         role="dialog"
         aria-modal="true"
@@ -728,10 +909,10 @@ function LicenceDialog({
         </div>
         <h2 id="licence-title">Province data licence</h2>
         <p>
-          Aerial imagery, property boundaries, Crown lands, flood-risk areas,
-          waterfalls, water features, and transportation features come from
-          Province map services. Accept the Province’s restricted geographic
-          services licence before these layers are loaded.
+          NS Aerial, property boundaries and other marked provincial services
+          require acceptance of the Province’s restricted geographic services
+          licence. Open-data layers, including Crown Land and Sentinel-2,
+          remain available without this agreement.
         </p>
         <blockquote>{PROVINCE_ATTRIBUTION}</blockquote>
         <p className="licence-caveat">
@@ -763,9 +944,12 @@ function LicenceDialog({
 }
 
 function AboutDialog({ onClose }: { onClose: () => void }) {
+  const dialogRef = useDialogChrome(onClose);
   return (
     <div className="dialog-backdrop">
       <section
+        ref={dialogRef}
+        tabIndex={-1}
         className="licence-dialog about-dialog"
         role="dialog"
         aria-modal="true"
@@ -780,6 +964,14 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           or civic address, see municipal tax-sale notices on live parcel
           geometry, and read the mapped evidence for any property. It is the
           online companion to a native iPhone app in development.
+        </p>
+        <h3>Nova Scotia’s public data, made useful</h3>
+        <p>
+          Atlas puts provincial roads, official place names, water features,
+          woodland and municipal boundaries together in one readable map.
+          It gives the public data we fund a practical home. OpenStreetMap
+          supplies supplemental ocean context, land use and building footprints.
+          Source dates and licences are available under Data &amp; licences.
         </p>
         <h3>How it treats data</h3>
         <ul className="about-method">
@@ -827,6 +1019,8 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
             Source on GitHub
           </a>
           {" · "}
+          <a href={BETA_SIGNUP_URL}>Get launch updates</a>
+          {" · "}
           <a href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot">
             Email the maker
           </a>
@@ -841,10 +1035,114 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
-export function App() {
+/**
+ * The full per-layer source inventory, rendered from the same receipts the
+ * print pipeline stamps on exported maps. Read-only by design: reviewing
+ * sources never changes licence acceptance or layer state — the Province
+ * licence itself opens through its own review path.
+ */
+function DataSourcesDialog({
+  sources,
+  onReviewProvinceLicence,
+  onClose,
+}: {
+  sources: PrintLayerSource[];
+  onReviewProvinceLicence: () => void;
+  onClose: () => void;
+}) {
+  const dialogRef = useDialogChrome(onClose);
+  return (
+    <div className="dialog-backdrop">
+      <section
+        ref={dialogRef}
+        tabIndex={-1}
+        className="licence-dialog about-dialog data-sources-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="data-sources-title"
+      >
+        <div className="licence-mark" aria-hidden="true">
+          NS
+        </div>
+        <h2 id="data-sources-title">Data &amp; licences</h2>
+        <p>
+          Every layer names its source, its published date, and its licence —
+          the same receipts a printed export carries. Reviewing them changes
+          nothing about what the map shows.
+        </p>
+        <details>
+          <summary>Provincial-first Atlas sources</summary>
+          <p>{provincialReceipt.supplemental}</p>
+          <p>Coverage: Nova Scotia. Use the OpenStreetMap basemap for worldwide detail.
+            Release dates describe these downloads, not when every feature was surveyed.
+            Provincial buildings remain an optional overlay; smaller buildings in that source are points.
+            Woodland is generalized to at most two metres, and more coarsely below zoom 12.
+            Source polygons with invalid rings are repaired and counted in the tile receipt.
+            Records with missing source geometry are omitted and identified there too.</p>
+          <ul>
+            {provincialReceipt.sources.map(source => (
+              <li key={source.id}>
+                <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
+                {` — ${source.released.slice(0, 10)}; ${source.frequency === 'Annually' ? 'annual' : source.frequency?.toLowerCase()} releases`}
+              </li>
+            ))}
+          </ul>
+          <p>{PROVINCIAL_ATTRIBUTION}. <a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Open-data licence</a>
+            {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Generated tile receipt</a></p>
+        </details>
+        <ul className="data-sources-list">
+          {sources.map((source) => (
+            <li key={source.id}>
+              <strong>{source.name}</strong>
+              <span>{source.sourceDate}</span>
+              <span>{source.attribution}</span>
+              <span>
+                <a href={source.sourceUrl} target="_blank" rel="noreferrer">
+                  {source.provenance === "project-derived" ? "Project source" : "Official source"}
+                </a>
+                {source.licenceUrl ? (
+                  <>
+                    {" · "}
+                    <a
+                      href={source.licenceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Licence
+                    </a>
+                  </>
+                ) : null}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div className="dialog-actions">
+          <button
+            className="secondary-action"
+            type="button"
+            onClick={onReviewProvinceLicence}
+          >
+            Review the Province licence
+          </button>
+          <button className="primary-action" type="button" onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/**
+ * `focus` opens the map as a single-purpose page (/rhodena, /fishing): its setup is
+ * fixed, and the panel offers only the layers its definition names. Every
+ * page-specific choice comes from `focusDefinitions` (src/focus/registry.ts).
+ */
+export function App({ focus }: { focus?: FocusId } = {}) {
+  const focusDef: FocusDefinition | undefined = focus ? focusDefinitions[focus] : undefined;
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
-    () => loadCustomThemes(window.localStorage),
+    () => loadCustomThemes(reachableLocalStorage()),
   );
   const [initialCustomThemes] = useState<CustomMapThemeDefinition[]>(
     () => initialCustomThemeLibrary.themes.filter(
@@ -857,28 +1155,59 @@ export function App() {
   const initialShareState = useRef(
     parseMapShareState(initialUrl.toString()),
   ).current;
+  const { preference: basemapPreference, setPreference: setBasemapPreference, style: basemapStyle, appearance, setAppearance } =
+    useBasemapPreference(initialShareState.basemapStyle);
   const hasRecognizedShareState = hasRecognizedMapShareState(initialUrl.href);
   const hasSharedLayers = initialUrl.searchParams.has("layers");
   const hasSharedEvents = initialUrl.searchParams.has("event");
   const hasSharedPosition = initialUrl.searchParams.has("position");
+  /**
+   * `?theme=` opens a built-in setup directly, including Poker's driveway
+   * tools. Explicit layer state still takes precedence over the named setup.
+   */
+  const requestedTheme = builtInMapThemes.find(
+    ({ id }) => id === (focusDef?.themeId ?? initialShareState.themeId),
+  );
+  // A camera bookmark does not override the layers of a named setup.
+  const hasSharedSetupState = requestedTheme
+    ? ["layers", "taxSale", "mode", "event"].some(key => initialUrl.searchParams.has(key))
+    : hasRecognizedShareState;
   const initialCatalogueLayerIds = useRef(new Set<ShareLayerId>(
-    hasRecognizedShareState ? initialShareState.layerIds : ["modern"],
+    hasSharedSetupState
+      ? filterFocusLayerIds(focusDef, initialShareState.layerIds)
+      : requestedTheme?.layerIds ?? ["modern"],
   )).current;
-  const initialTaxSaleEnabled = hasRecognizedShareState
+  // A page without tax sale also keeps the current (not historical) mode.
+  const focusHidesTaxSale = focusHides(focusDef, "tax-sale");
+  const initialTaxSaleEnabled = hasSharedSetupState && !focusHidesTaxSale
     ? initialShareState.taxSaleEnabled
-    : false;
+    : requestedTheme?.taxSaleEnabled ?? false;
+  const initialMapMode = focusHidesTaxSale ? "current" : hasSharedSetupState
+    ? initialShareState.mode
+    : requestedTheme?.mapMode ?? initialShareState.mode;
   const initialLicenceAccepted = useRef(isLicenceAccepted()).current;
-  const initialNeedsLicence = hasRecognizedShareState
+  const initialNeedsLicence = (hasRecognizedShareState || requestedTheme !== undefined)
     && !initialLicenceAccepted
     && [...initialCatalogueLayerIds].some((id) =>
       restrictedThemeLayerIds.has(id),
     );
-  const initialThemeMatch = useRef(matchTheme({
+  const initialComparableState: ThemeComparableState = {
     layerIds: [...initialCatalogueLayerIds],
     opacityOverrides: {},
     taxSaleEnabled: initialTaxSaleEnabled,
-    mapMode: initialShareState.mode,
-  }, initialMapThemes)).current;
+    mapMode: initialMapMode,
+  };
+  const initialThemeMatch = useRef(
+    matchTheme(initialComparableState, initialMapThemes),
+  ).current;
+  const initialRequestedTheme = useRef(
+    requestedTheme && themeStatesMatch(initialComparableState, requestedTheme)
+      ? requestedTheme
+      : undefined,
+  ).current;
+  // The camera a link without `position` opens on: the focus page's own, or
+  // on the full map, that of the focus page built on the requested setup.
+  const cameraFocus = focusDef ?? focusForTheme(initialRequestedTheme?.id);
   const fletcherTileConfiguration = useMemo(() => {
     try {
       return {
@@ -895,6 +1224,10 @@ export function App() {
       };
     }
   }, []);
+  const sourceInventory = useMemo(
+    () => [...printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle).values()],
+    [fletcherTileConfiguration.baseUrl, basemapStyle],
+  );
   const availableThemeLayerIds = useMemo(() => {
     const ids = new Set<ShareLayerId>([
       "modern",
@@ -904,9 +1237,11 @@ export function App() {
       ...hydroPilotLayerCatalog.map(({ id }) => id),
       ...floodHazardLayerCatalog.map(({ id }) => id),
       ...environmentalHealthLayerCatalog.map(({ id }) => id),
+      ...contextLayerCatalog.map(({ id }) => id),
       ...forestryLayerCatalog.map(({ id }) => id),
       ...zoningLayerCatalog.map(({ id }) => id),
       ...wellLogLayerCatalog.map(({ id }) => id),
+      ...liveConditionsLayerCatalog.map(({ id }) => id),
     ]);
     if (!fletcherTileConfiguration.baseUrl) {
       ids.delete("fletcher");
@@ -920,10 +1255,38 @@ export function App() {
     initialNeedsLicence ? { kind: "layer" } : null,
   );
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(
-    hasRecognizedShareState
-      ? initialThemeMatch?.id ?? null
-      : "explore-nova-scotia",
+    initialRequestedTheme?.id
+      ?? (hasRecognizedShareState
+        ? initialThemeMatch?.id ?? null
+        : "explore-nova-scotia"),
   );
+  // A page whose area is wider than its opening zoom shows on a phone fits
+  // that area on open, unless the link brings its own camera. The full map
+  // opening that page's setup borrows its camera, so it fits the same way.
+  const [focusFit, setFocusFit] = useState<FocusFitRequest>(() =>
+    cameraFocus?.fitOnOpen && !hasSharedPosition
+      ? { revision: 1, bounds: cameraFocus.fitBounds }
+      : { revision: 0, bounds: null });
+  const requestFocusFit = useCallback((definition: FocusDefinition) => {
+    setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds }));
+  }, []);
+  // A focus page's own filter and selection; only the parameters the page
+  // shares are read from, and written back to, its links.
+  const [focusPage, setFocusPage] = useState<FocusPageState>(() => ({
+    ...EMPTY_FOCUS_PAGE_STATE,
+    month: focusDef?.shareParams?.has("month") ? initialShareState.month ?? null : null,
+    spotId: focusDef?.shareParams?.has("spot") ? initialShareState.spot ?? null : null,
+  }));
+  const updateFocusPage = useCallback((update: Partial<FocusPageState>) => {
+    setFocusPage((current) => ({ ...current, ...update }));
+  }, []);
+  const [rhodenaPickPending, setRhodenaPickPending] = useState(false);
+  const pokerMode = selectedThemeId === "poker";
+  const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
+  const [pokerRevision, setPokerRevision] = useState(0);
+  const [pokerCivicStatus, setPokerCivicStatus] = useState("Zoom in to see civic numbers.");
+  const pokerSearchRef = useRef<HTMLInputElement>(null);
+  const selectPokerQueryOnClick = useRef(false);
   const [themeResult, setThemeResult] = useState<ResolvedTheme | null>(null);
   const [customThemes, setCustomThemes] = useState<CustomMapThemeDefinition[]>(
     initialCustomThemes,
@@ -943,10 +1306,12 @@ export function App() {
     [customThemes],
   );
   const mapSetupSelectRef = useRef<HTMLSelectElement>(null);
-  const [headerCollapsed, setHeaderCollapsed] = useState(
-    () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
+  // A fresh focus-page link on a phone opens on the page's summary; a shared
+  // view goes straight to its map.
+  const [mobileControlsOpen, setMobileControlsOpen] = useState(
+    () => Boolean(focusDef) && !hasRecognizedShareState
+      && (window.matchMedia?.("(max-width: 860px)").matches ?? false),
   );
-  const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
   const [phoneCategoryLayout, setPhoneCategoryLayout] = useState(
     () => window.matchMedia?.("(max-width: 860px)").matches ?? false,
   );
@@ -964,6 +1329,15 @@ export function App() {
       setPhoneCategoryLayout(query.matches);
       if (!query.matches) {
         setFocusedCategoryId(null);
+        // The sheet and its trigger are display:none above this width, so a
+        // sheet left open is an open dialog nobody can see or close, holding
+        // focus on a hidden button. Closing it here also means the opening
+        // effect runs again — and hands focus over again — if the reader
+        // comes back below the breakpoint.
+        if (mobileControlsRef.current?.contains(document.activeElement)) {
+          mapRegionRef.current?.focus({ preventScroll: true });
+        }
+        setMobileControlsOpen(false);
       }
     };
     update();
@@ -980,24 +1354,172 @@ export function App() {
     initialNeedsLicence,
   );
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
+  // The sheet is a disclosure, not a dialog: the trigger carries
+  // aria-controls and aria-expanded, the rail keeps its complementary role and
+  // its "Map controls" name at every width, nothing behind it is inerted, and
+  // the attribution strip is deliberately left reachable while it is open. So
+  // focus travels with the sheet and is never trapped inside it.
+  const mobileControlsRef = useRef<HTMLElement | null>(null);
+  const mobileControlsTriggerRef = useRef<HTMLButtonElement>(null);
+  const mobileSheetCloseRef = useRef<HTMLButtonElement>(null);
+  // Opening the sheet without moving focus leaves a keyboard reader behind it,
+  // with the next Tab restarting at the top of the document, and leaves a
+  // screen reader on the map the sheet now covers. The Close button is the
+  // first control inside and the way back out, so it is where focus lands; the
+  // sheet header is sticky, so landing there scrolls nothing.
+  useEffect(() => {
+    if (!mobileControlsOpen) return;
+    mobileSheetCloseRef.current?.focus({ preventScroll: true });
+  }, [mobileControlsOpen]);
+  const closeMobileControls = useCallback(() => {
+    // Only reclaim focus that was still inside the sheet, and read that before
+    // the state change, because closing is what takes the sheet off screen. A
+    // close that came from elsewhere has already put focus where it belongs.
+    // Above the sheet's 860px breakpoint CSS alone stops rendering the rail as
+    // a sheet and hides the trigger again, and nothing here closes the sheet
+    // for a viewport change, so a window that grows past that breakpoint
+    // leaves the reader's focus exactly where it was.
+    const returnFocus =
+      mobileControlsRef.current?.contains(document.activeElement) ?? false;
+    setMobileControlsOpen(false);
+    if (returnFocus) mobileControlsTriggerRef.current?.focus();
+  }, []);
+  // Above the sheet's breakpoint the rail is always on screen, and an "open"
+  // sheet there would be one nobody can see or close, so this does nothing.
+  const openMobileControls = useCallback(() => {
+    if (window.matchMedia?.("(max-width: 860px)").matches) setMobileControlsOpen(true);
+  }, []);
+  const selectFocusSpot = useCallback((spotId: string | null) => {
+    setFocusPage((current) => current.spotId === spotId ? current : { ...current, spotId });
+  }, []);
+  const openFocusSpotCard = useCallback((spotId: string) => {
+    setFocusPage((current) => ({ ...current, spotId, panelReveal: current.panelReveal + 1 }));
+    openMobileControls();
+  }, [openMobileControls]);
+  // Choosing a parcel from inside the sheet closes it too, and focus cannot
+  // go back to the trigger: the parcel is what the screen is now about. It
+  // goes where the parcel panel's own close hands it, the map region that
+  // contains the panel and the map both.
+  const handOffSheetFocus = useCallback(() => {
+    if (mobileControlsRef.current?.contains(document.activeElement)) {
+      mapRegionRef.current?.focus({ preventScroll: true });
+    }
+  }, []);
+  // Escape closes the mobile controls sheet, matching the dialogs — but only
+  // while no dialog sits above it, so one keypress never closes two layers.
+  useEffect(() => {
+    if (
+      !mobileControlsOpen ||
+      aboutOpen ||
+      dataSourcesOpen ||
+      licenceDialogOpen ||
+      themeManagerOpen
+    ) {
+      return;
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      // Asked of the document rather than of this component's state: the
+      // sheet is App's, but the photo lightbox, the save-track dialog and the
+      // export dialog belong to the map, and App cannot name what it does not
+      // hold. A modal is open or it is not, and while one is, Escape is its.
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) {
+        return;
+      }
+      closeMobileControls();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [
+    closeMobileControls,
+    mobileControlsOpen,
+    aboutOpen,
+    dataSourcesOpen,
+    licenceDialogOpen,
+    themeManagerOpen,
+  ]);
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
   const parcelsRef = useRef(parcels);
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
   const [query, setQuery] = useState(initialShareState.pid ?? "");
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [mailingSearchNotice, setMailingSearchNotice] = useState<string | null>(null);
   const [addressSearchResults, setAddressSearchResults] = useState<
-    CivicAddress[]
+    MailingCivicAddress[]
   >([]);
   const [searchingAddresses, setSearchingAddresses] = useState(false);
+  const [activeAddressIndex, setActiveAddressIndex] = useState(-1);
   const [selectedPid, setSelectedPid] = useState<string | null>(
     initialShareState.pid,
   );
   const selectionGeneration = useRef(initialShareState.pid ? 1 : 0);
-  const [selectedEvidenceRequest, setSelectedEvidenceRequest] = useState<
+  // Closing the parcel inspector unmounts it, and focus would otherwise fall
+  // to <body> — the next Tab would restart at the top of the document. The
+  // map region is the panel's own container, so it is where focus goes back
+  // to. A programmatic landing spot only, never a tab stop.
+  const mapRegionRef = useRef<HTMLElement | null>(null);
+  const attributionRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const footer = attributionRef.current;
+    const shell = footer?.parentElement;
+    if (!footer || !shell) return;
+    const measure = () => shell.style.setProperty(
+      "--map-attribution-height", `${Math.ceil(footer.getBoundingClientRect().height)}px`,
+    );
+    measure();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    observer?.observe(footer, { box: "border-box" });
+    return () => {
+      observer?.disconnect();
+      shell.style.removeProperty("--map-attribution-height");
+    };
+  }, []);
+  // Present source credits on entry to each setup, then give the map its
+  // space back. Reading or reopening the footer cancels automatic folding.
+  const [attributionCollapsed, setAttributionFolded] = useState(false);
+  const cancelAttributionFold = useRef<() => void>(() => {});
+  useEffect(() => {
+    setAttributionFolded(false);
+    const region = mapRegionRef.current;
+    const footer = attributionRef.current;
+    const cancel = () => {
+      window.clearTimeout(timer);
+      region?.removeEventListener("pointerdown", fold);
+      footer?.removeEventListener("focusin", cancel);
+      footer?.removeEventListener("pointerdown", cancel);
+    };
+    const fold = () => {
+      cancel();
+      setAttributionFolded(true);
+    };
+    const timer = window.setTimeout(fold, 5000);
+    cancelAttributionFold.current = cancel;
+    region?.addEventListener("pointerdown", fold, { once: true, passive: true });
+    footer?.addEventListener("focusin", cancel);
+    footer?.addEventListener("pointerdown", cancel, { passive: true });
+    return cancel;
+  }, [selectedThemeId]);
+  // Name the tab after the open parcel: multi-tab research otherwise produces
+  // indistinguishable tabs and identical history entries. The PID is already
+  // in the share URL, so this discloses nothing new.
+  useEffect(() => {
+    if (!selectedPid) return;
+    const previousTitle = document.title;
+    document.title = `PID ${selectedPid} — NS Marks The Spot`;
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [selectedPid]);
+  const [storedEvidenceRequest, setSelectedEvidenceRequest] = useState<
     SelectedEvidenceRequest | null
   >(() => initialShareState.pid
     ? { pid: initialShareState.pid, generation: selectionGeneration.current }
     : null);
+  // Retain the request for a return to research; Poker does not fetch inspector evidence.
+  const selectedEvidenceRequest = pokerMode ? null : storedEvidenceRequest;
   const [parcelFocusRequest, setParcelFocusRequest] =
     useState<ParcelFocusRequest | null>(null);
   const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
@@ -1005,7 +1527,15 @@ export function App() {
   );
 
   useEffect(() => {
-    if (!parcelLookupMessage || !/^PID \d+ selected/.test(parcelLookupMessage)) {
+    // Good news dismisses itself; a caution stays until the state changes.
+    // "PID 50251750 selected." is the whole of the good news, so the rule
+    // matches the whole sentence: the shared-boundary notice starts the same
+    // way and then says the choice was not a determination, and a reader who
+    // looked away for six seconds would be left with only the good half.
+    if (
+      !parcelLookupMessage ||
+      !/^PID \d+ selected( from shared map state)?\.$/.test(parcelLookupMessage)
+    ) {
       return;
     }
     const timer = window.setTimeout(
@@ -1036,7 +1566,13 @@ export function App() {
         ? { pid: initialShareState.pid, generation: selectionGeneration.current }
         : null,
     });
-  const [floodHazard, setFloodHazard] = useState<FloodHazardState>({
+  const [riverFlood, setRiverFlood] = useState<RiverFloodState>({
+    status: initialShareState.pid ? "loading" : "idle",
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
+  });
+  const [coastalFlood, setCoastalFlood] = useState<CoastalFloodState>({
     status: initialShareState.pid ? "loading" : "idle",
     request: initialShareState.pid
       ? { pid: initialShareState.pid, generation: selectionGeneration.current }
@@ -1060,9 +1596,40 @@ export function App() {
       ? { pid: initialShareState.pid, generation: selectionGeneration.current }
       : null,
   });
-  const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
+  const [mapMode, setMapMode] = useState<MapMode>(initialMapMode);
   const [taxSaleEnabled, setTaxSaleEnabled] = useState(
     initialTaxSaleEnabled,
+  );
+  /**
+   * Where the map is aimed, [lon, lat], for the vector panel's corner mover.
+   * Separate from `mapViewport` on purpose: that one is suppressed while a
+   * printable-viewport request is in flight, which is right for printing and
+   * wrong for a control whose whole job is to say where a corner would land.
+   */
+  const [mapCentre, setMapCentre] = useState<[number, number] | null>(null);
+  /**
+   * Stable, and identity-stable in what it stores. `MapPositionController`
+   * re-subscribes whenever this callback's identity changes and reports the
+   * position as it does — so an inline arrow storing a fresh array would
+   * render, re-subscribe, store, and render again without end.
+   */
+  const reportMapCentre = useCallback(
+    (position: { latitude: number; longitude: number } | null) => {
+      setMapCentre((current) => {
+        if (!position) {
+          // Moving. The centre is somewhere between where it was and where it
+          // is going, and a control that puts a corner AT the centre is
+          // better told there is no answer than given the wrong one.
+          return null;
+        }
+        return current &&
+          current[0] === position.longitude &&
+          current[1] === position.latitude
+          ? current
+          : [position.longitude, position.latitude];
+      });
+    },
+    [],
   );
   const [mapViewport, setMapViewport] = useState<PrintMapViewport>({
     position: initialShareState.position,
@@ -1075,6 +1642,8 @@ export function App() {
   });
   const sharedLayersIncludeUsableBasemap =
     initialCatalogueLayerIds.has("modern") ||
+    initialCatalogueLayerIds.has("sentinel-2") ||
+    (licenceAccepted && initialCatalogueLayerIds.has("ns-topographic")) ||
     (
       initialCatalogueLayerIds.has("ns-aerial") &&
       initialShareState.position.zoom >=
@@ -1095,6 +1664,8 @@ export function App() {
     fletcherLayerCatalog.opacity,
   );
   const [fletcherRetryToken, setFletcherRetryToken] = useState(0);
+  const [fletcherFeaturesVisible, setFletcherFeaturesVisible] = useState(true);
+  const [fletcherFeaturesStatus, setFletcherFeaturesStatus] = useState('Reviewed historical annotations');
   const intendedInitialProvinceLayers = useRef(
     visibilityRecordFor(
       provinceLayerCatalog.map(({ id }) => id),
@@ -1102,9 +1673,7 @@ export function App() {
     ),
   ).current;
   const [provinceLayers, setProvinceLayers] = useState(
-    () => licenceAccepted
-      ? intendedInitialProvinceLayers
-      : disabledProvinceLayers(),
+    () => Object.fromEntries(provinceLayerCatalog.map((layer) => [layer.id, intendedInitialProvinceLayers[layer.id] && (layer.licence === "province-open" || licenceAccepted)])) as Record<ProvinceLayerId, boolean>,
   );
   const [resourceLayers, setResourceLayers] = useState(
     () => visibilityRecordFor(
@@ -1130,6 +1699,14 @@ export function App() {
       initialCatalogueLayerIds,
     ),
   );
+  const [electoralModes, setElectoralModes] = useState(() => Object.entries(initialShareState.electoralModes ?? {}).reduce((modes,[id,mode]) => withElectoralMode(modes,id as ElectoralLayerId,mode), initialElectoralModes));
+  const [electoralSelection, setElectoralSelection] = useState<ElectoralSelection | null>(null);
+  const [contextLayers, setContextLayers] = useState(
+    () => visibilityRecordFor(
+      contextLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
+  );
   const [forestryLayers, setForestryLayers] = useState(
     () => visibilityRecordFor(
       forestryLayerCatalog.map(({ id }) => id),
@@ -1148,11 +1725,18 @@ export function App() {
       initialCatalogueLayerIds,
     ),
   );
+  const [liveConditionsLayers, setLiveConditionsLayers] = useState(
+    () => visibilityRecordFor(
+      liveConditionsLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
+  );
   const [expandedCategoryIds, setExpandedCategoryIds] = useState<Set<LayerCategoryId>>(
     () => new Set(
-      hasRecognizedShareState
-        ? initialThemeMatch?.preferredCategoryIds ?? []
-        : ["background-maps"],
+      initialRequestedTheme?.preferredCategoryIds
+        ?? (hasRecognizedShareState
+          ? initialThemeMatch?.preferredCategoryIds ?? []
+          : ["background-maps"]),
     ),
   );
   const setCategoryExpanded = useCallback(
@@ -1212,13 +1796,39 @@ export function App() {
     putVectorLayer: userVectorApi.putVectorLayer,
     onLayerChanged: userVectorApi.applyLayerEdit,
   });
+  // The session as it is now, for handlers that resume after an await.
+  const vectorEditRef = useRef(vectorEdit);
+  vectorEditRef.current = vectorEdit;
+
   const [drawMode, setDrawMode] = useState<EditMode | null>(null);
   const [selectedFeatureId, setSelectedFeatureId] = useState<string | null>(null);
+  // Session-scoped on purpose (the field-capture contract): every edit
+  // session re-arms snapping from the defaults, so the licence-gated parcels
+  // toggle is a fresh, deliberate choice each time.
+  const [snapTargets, setSnapTargets] = useState<VectorSnapTargets>(
+    DEFAULT_SNAP_TARGETS,
+  );
+  const [parcelSnapStatus, setParcelSnapStatus] = useState<ParcelSnapStatus>({
+    status: "idle",
+  });
+  const [convertShape, setConvertShape] = useState<ConvertShape | null>(null);
+  const photoManager = usePhotoManager();
+  const [openPhoto, setOpenPhoto] = useState<FeaturePhotoDescriptor | null>(
+    null,
+  );
+  const [bulkPhotosOpen, setBulkPhotosOpen] = useState(false);
+  const photoPopupUi = useMemo(
+    () => ({ loadThumbUrl: photoManager.loadThumbUrl, onOpen: setOpenPhoto }),
+    [photoManager.loadThumbUrl],
+  );
 
   const beginVectorEdit = useCallback(
     (id: string) => {
       setDrawMode(null);
       setSelectedFeatureId(null);
+      setSnapTargets(DEFAULT_SNAP_TARGETS);
+      setParcelSnapStatus({ status: "idle" });
+      setConvertShape(null);
       vectorEdit.beginEdit(id);
     },
     [vectorEdit],
@@ -1226,8 +1836,66 @@ export function App() {
   const endVectorEdit = useCallback(() => {
     setDrawMode(null);
     setSelectedFeatureId(null);
+    setSnapTargets(DEFAULT_SNAP_TARGETS);
+    setParcelSnapStatus({ status: "idle" });
+    setConvertShape(null);
     vectorEdit.endEdit();
   }, [vectorEdit]);
+  // Remove is not Done. Done flushes the debounce so the last edit lands;
+  // Remove asks for the layer to be gone, and flushing would start a write
+  // that reaches the store after the delete and report the user's own
+  // removal as another tab's. The panel state only needs re-arming when the
+  // layer going is the one under edit.
+  const abandonVectorLayer = useCallback(
+    (layerId: string) => {
+      if (vectorEdit.editingId === layerId) {
+        setDrawMode(null);
+        setSelectedFeatureId(null);
+        setSnapTargets(DEFAULT_SNAP_TARGETS);
+        setParcelSnapStatus({ status: "idle" });
+        setConvertShape(null);
+      }
+      vectorEdit.abandonLayer(layerId);
+    },
+    [vectorEdit],
+  );
+
+  const requestParcelSnapLicence = useCallback(() => {
+    setLicenceIntent({ kind: "snap" });
+    setLicenceDialogOpen(true);
+  }, []);
+
+  const conversionPlan = useMemo(
+    () =>
+      vectorEdit.editingLayer && convertShape
+        ? planPointsToPath(vectorEdit.editingLayer.data, convertShape)
+        : null,
+    [convertShape, vectorEdit.editingLayer],
+  );
+  const handleConvertShape = useCallback((shape: ConvertShape | null) => {
+    setConvertShape(shape);
+    if (shape) {
+      // The preview owns the map's attention; an armed draw tool would
+      // fight it for meaning.
+      setDrawMode(null);
+    }
+  }, []);
+  const handleConvertCreate = useCallback(
+    (keepSourcePoints: boolean) => {
+      if (!convertShape) {
+        return;
+      }
+      const createdId = vectorEdit.convertPoints({
+        shape: convertShape,
+        keepSourcePoints,
+      });
+      if (createdId) {
+        setSelectedFeatureId(createdId);
+      }
+      setConvertShape(null);
+    },
+    [convertShape, vectorEdit],
+  );
   // A new drawing layer opens straight into edit mode with the point tool
   // armed: the only reason to create one is to start drawing.
   const createAndEditVectorLayer = useCallback(async () => {
@@ -1235,6 +1903,111 @@ export function App() {
     beginVectorEdit(id);
     setDrawMode("Marker");
   }, [beginVectorEdit, userVectorApi]);
+
+  /**
+   * Mark-my-location, per the field-capture contract: an open edit session
+   * receives the point through its own commit path (so the draft never
+   * forks), and otherwise the point lands in the auto-created "Field notes"
+   * drawn layer. The fix argument is MapCanvas's live watch fix when fresh
+   * and accurate enough; null means request one here.
+   */
+  const markCurrentLocation = useCallback(
+    async (fix: LiveFix | null): Promise<string | null> => {
+      // The layer this mark was aimed at, read at the tap. Finding a fix can
+      // take seconds, and Done, or opening another layer, must not have the
+      // point land somewhere the reader did not aim it — nor revive a panel
+      // they closed.
+      const destinationId = vectorEdit.editingLayer?.record.id ?? null;
+      const destinationGeneration = vectorEdit.editGeneration;
+      let resolved = fix;
+      if (!resolved) {
+        let oneShot: BrowserLocation;
+        try {
+          oneShot = await getBrowserLocation();
+        } catch (error) {
+          // Each of the browser's failures says something different, and
+          // only one of them is a refusal.
+          return markFailureMessage(browserLocationFailure(error));
+        }
+        // The one-shot is held to the same rule as the watch fix that sent
+        // it here: a mark is saved only from a position fresh and tight
+        // enough, and a refusal says which half failed.
+        const outcome = oneShotMarkFix(oneShot, Date.now());
+        if (outcome.kind === "refused") {
+          return outcome.message;
+        }
+        resolved = outcome.fix;
+      }
+      // Read again, after the wait: `vectorEdit` in this closure is the
+      // session as it was at the tap.
+      const session = vectorEditRef.current;
+      if (
+        (session.editingLayer?.record.id ?? null) !== destinationId ||
+        session.editGeneration !== destinationGeneration
+      ) {
+        return "The layer being edited changed while your position was being found. Nothing was saved.";
+      }
+      const feature = buildGpsMarkFeature(resolved);
+      // Never rounded down: a ±0.4 m fix is not "±0 m", and a ±49.4 m one is
+      // not tighter than the device said.
+      const accuracy = formatAccuracyM(resolved.accuracyM);
+      if (session.editingLayer) {
+        session.commitGeometry({
+          type: "FeatureCollection",
+          features: [...session.editingLayer.data.features, feature],
+        });
+        // "Added", not "saved": the edit session writes on its own debounce,
+        // so the point is on the map and its write has not answered yet. If
+        // that write fails, the panel says so while this session is open, and
+        // the map's write-failure notice says so — naming the layer — if the
+        // write answers after it closed.
+        return `Point added to ${session.editingLayer.record.name} (±${accuracy} m).`;
+      }
+      const layerId = await userVectorApi.ensureFieldNotesLayer();
+      const appended = await userVectorApi.appendFeatures(layerId, [feature]);
+      // Silence here read as a mark that landed, and so did "saved" for a
+      // point the device refused to write: it is on the map, and gone with
+      // the tab. Each outcome says which it is.
+      if (!appended) {
+        return `The point couldn't be added to ${FIELD_NOTES_LAYER_NAME}. Try again.`;
+      }
+      return appended.persisted
+        ? `Point saved to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m).`
+        : `Point added to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m), but it couldn't be ` +
+          `written to this device — it stays until you close the tab.`;
+    },
+    [userVectorApi, vectorEdit],
+  );
+
+  /** Every recording becomes its own layer, raw GPX riding as its original. */
+  const saveRecordedTrack = useCallback(
+    async (input: {
+      name: string;
+      collection: GeoJSON.FeatureCollection;
+      rawGpx: Blob;
+      startedAt: string;
+      endedAt: string;
+      /** True only for a walk recovered from an interrupted session. */
+      interrupted: boolean;
+      /** Set when this is a retry of a save the device already refused. */
+      replaceLayerId?: string;
+    }): Promise<{ message: string; persisted: boolean; layerId: string }> => {
+      const { record, persisted } = await userVectorApi.createRecordedLayer(input);
+      // "Saved" only when it was: a track the device refused is on the map and
+      // nowhere else, and the map must not say otherwise.
+      return {
+        message: persisted
+          ? `Track saved as "${record.name}".`
+          : `Track "${record.name}" is on the map, but it couldn't be written ` +
+            `to this device — it stays until you close the tab.`,
+        persisted,
+        // The layer this walk is on, so a retry can be aimed at it instead of
+        // adding a second copy.
+        layerId: record.id,
+      };
+    },
+    [userVectorApi],
+  );
 
   // The layer under edit is drawn by the Geoman bridge, so the read-only
   // list must drop it or every feature would render twice — once editable,
@@ -1384,6 +2157,18 @@ export function App() {
     ) as Record<EnvironmentalHealthLayerId, boolean>,
     [environmentalHealthLayers, licenceAccepted],
   );
+  const effectiveContextLayers = useMemo<
+    Record<ContextLayerId, boolean>
+  >(
+    () => Object.fromEntries(
+      contextLayerCatalog.map((layer) => [
+        layer.id,
+        contextLayers[layer.id] &&
+          (layer.licence !== "province-restricted" || licenceAccepted),
+      ]),
+    ) as Record<ContextLayerId, boolean>,
+    [contextLayers, licenceAccepted],
+  );
   const effectiveFloodHazardLayers = useMemo<Record<FloodHazardLayerId, boolean>>(
     () => Object.fromEntries(
       floodHazardLayerCatalog.map((layer) => [
@@ -1424,15 +2209,38 @@ export function App() {
     setHistoricalParcelMessage(null);
   }, []);
 
+  /**
+   * Whether a coastal projection is on screen, which the OGL–NS test below
+   * deliberately excludes. Excluding them stopped the wrong licence being
+   * claimed but left the right one unsaid: section 4.1 of the unrestricted
+   * licence asks for its notices on every reproduction, and a layer drawn on
+   * the map is one.
+   */
+  const coastalLayerVisible = useMemo(
+    () =>
+      floodHazardLayerCatalog.some(
+        (layer) =>
+          layer.licenceUrl === COASTAL_HAZARD_LICENCE_URL &&
+          effectiveFloodHazardLayers[layer.id],
+      ),
+    [effectiveFloodHazardLayers],
+  );
+
   /** Any visible layer whose licence mandates the OGL–NS statement. */
   const oglLayerVisible = useMemo(
     () =>
+      provinceLayerCatalog.some((layer) => layer.licence === "province-open" && provinceLayers[layer.id]) ||
       Object.values(forestryLayers).some(Boolean) ||
       Object.values(wellLogLayers).some(Boolean) ||
       environmentalHealthLayerCatalog.some(
         (layer) =>
           layer.licence !== "province-restricted" &&
           effectiveEnvironmentalHealthLayers[layer.id],
+      ) ||
+      contextLayerCatalog.some(
+        (layer) =>
+          layer.licence !== "province-restricted" && !layer.attribution &&
+          effectiveContextLayers[layer.id],
       ) ||
       floodHazardLayerCatalog.some(
         (layer) =>
@@ -1441,7 +2249,9 @@ export function App() {
           effectiveFloodHazardLayers[layer.id],
       ),
     [
+      provinceLayers,
       effectiveEnvironmentalHealthLayers,
+      effectiveContextLayers,
       effectiveFloodHazardLayers,
       forestryLayers,
       wellLogLayers,
@@ -1466,11 +2276,13 @@ export function App() {
   }, []);
   const [currentTime, setCurrentTime] = useState(Date.now);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
+  const shareCopySequence = useRef(0);
   const printCaptureSequence = useRef(0);
   const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
   const [exportSession, setExportSession] =
     useState<GeoPdfExportSession | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
+  const addressSearchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
   /** Timestamp of the last address-bar write; see the throttle below. */
@@ -1478,6 +2290,7 @@ export function App() {
 
   useEffect(
     () => () => {
+      if (addressSearchTimer.current !== null) clearTimeout(addressSearchTimer.current);
       addressSearchController.current?.abort();
       pointLookupController.current?.abort();
     },
@@ -1532,7 +2345,7 @@ export function App() {
    * and "error" stay distinct — empty is not the same evidence as a fetch
    * that failed.
    */
-  const pendingGeometryFetchPidRef = useRef<string | null>(null);
+  const pendingGeometryFetchRef = useRef<SelectedEvidenceRequest | null>(null);
   const taxSaleEnabledRef = useRef(taxSaleEnabled);
   const mapModeRef = useRef(mapMode);
   useEffect(() => {
@@ -1540,11 +2353,29 @@ export function App() {
     mapModeRef.current = mapMode;
   }, [mapMode, taxSaleEnabled]);
 
+  /**
+   * How the parcel's own geometry resolved, for the note.
+   *
+   * "The geometry is unavailable" is what every dependent source can say;
+   * WHY it is unavailable is a fact about NSPRD, and the two outcomes are
+   * different evidence: a service that answered with no parcel for this PID,
+   * and a service that did not answer. The live message says which, and the
+   * exported note used to carry neither.
+   */
+  const [geometryOutcome, setGeometryOutcome] = useState<
+    "returned-empty" | "source-error" | "unusable-geometry" | null
+  >(null);
+
   const markGeometryEvidenceTerminal = useCallback(
     (
       request: SelectedEvidenceRequest,
       status: "geometry-unavailable" | "error",
     ) => {
+      // `status` is what happened to the GEOMETRY, and every source below
+      // depends on it. "error" therefore belongs to a source that answered
+      // badly — never to one this never asked because the outline never
+      // arrived. The call sites pass "geometry-unavailable" for a failed
+      // NSPRD fetch and report that outage once, in the lookup message.
       setMappedContext((current) =>
         isCurrentEvidenceRequest(current.request, request)
           ? { status, value: EMPTY_PARCEL_CONTEXT, request }
@@ -1553,7 +2384,11 @@ export function App() {
         isCurrentEvidenceRequest(current.request, request)
           ? { status, request }
           : current);
-      setFloodHazard((current) =>
+      setRiverFlood((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, request }
+          : current);
+      setCoastalFlood((current) =>
         isCurrentEvidenceRequest(current.request, request)
           ? { status, request }
           : current);
@@ -1574,9 +2409,12 @@ export function App() {
       if (!noticeAan) {
         // Dwellings follow automatically: the mirror effect maps a non-ready
         // assessment into the blocked dwelling state.
+        // Including a ready one: with no geometry and no notice, a ready
+        // assessment can only be one a notice supplied before the reader
+        // turned tax-sale information off, and it would go on claiming a
+        // match from a notice the panel no longer shows.
         setAssessmentState((current) =>
-          isCurrentEvidenceRequest(current.request, request) &&
-          current.status !== "ready"
+          isCurrentEvidenceRequest(current.request, request)
             ? { status: "geometry-unavailable", request }
             : current);
       }
@@ -1591,7 +2429,8 @@ export function App() {
       // A search or listing click fetches this pid itself and owns the
       // terminal marking; a second identical request here raced it — and in
       // tests, consumed its mock.
-      pendingGeometryFetchPidRef.current === selectedPid ||
+      (pendingGeometryFetchRef.current?.pid === selectedPid
+        && pendingGeometryFetchRef.current.generation === selectionGeneration.current) ||
       parcels.features.some(({ properties }) => properties.PID === selectedPid)
     ) {
       return;
@@ -1601,8 +2440,10 @@ export function App() {
     const controller = new AbortController();
     fetchParcels([selectedPid], controller.signal)
       .then((collection) => {
+        if (controller.signal.aborted || request?.generation !== selectionGeneration.current) return;
         if (collection.features.length === 0) {
           setParcelLookupMessage(`No NSPRD parcel was found for PID ${selectedPid}.`);
+          setGeometryOutcome("returned-empty");
           if (request) {
             markGeometryEvidenceTerminal(request, "geometry-unavailable");
           }
@@ -1615,9 +2456,11 @@ export function App() {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+        if (controller.signal.aborted || request?.generation !== selectionGeneration.current) return;
         setParcelLookupMessage("The shared PID could not be loaded right now.");
+        setGeometryOutcome("source-error");
         if (request) {
-          markGeometryEvidenceTerminal(request, "error");
+          markGeometryEvidenceTerminal(request, "geometry-unavailable");
         }
       });
 
@@ -1716,11 +2559,15 @@ export function App() {
    * honest "did MY parcel change" test.
    */
   const selectedFeaturesRef = useRef<NsprdFeatureCollection["features"]>([]);
+  // Only the parts with a polygon to ask against. A feature NSPRD returns
+  // with an unusable geometry cannot be queried, drawn or measured, and every
+  // spatial lookup would answer emptily for it — a panel of clean negatives
+  // about a parcel nothing was asked about.
   const selectedParcelFeatures = useMemo(() => {
     const next = selectedPid
       ? parcels.features.filter(
           ({ properties }) => properties.PID === selectedPid,
-        )
+        ).filter(hasQueryablePolygon)
       : [];
     const previous = selectedFeaturesRef.current;
     if (
@@ -1732,6 +2579,61 @@ export function App() {
     selectedFeaturesRef.current = next;
     return next;
   }, [parcels, selectedPid]);
+
+  /**
+   * The parcels with a polygon to draw, which is also the set that can be
+   * asked about.
+   *
+   * `parcels` keeps every feature NSPRD answered with, because the terminal
+   * geometry-unavailable decision below has to know the PID was answered for
+   * at all. What reaches Leaflet and the print map is this: `L.geoJSON` reads
+   * `coordinates.length` and throws on a null geometry, taking the map down
+   * before the panel could say the geometry was unusable.
+   */
+  const drawableParcels = useMemo(
+    () => ({
+      type: "FeatureCollection" as const,
+      features: parcels.features.filter(hasQueryablePolygon),
+    }),
+    [parcels],
+  );
+
+  // NSPRD answered for the PID, but with nothing this build can query
+  // against. Every evidence effect below bails on an empty feature list, so
+  // without this the panel would sit on "Checking…" for a condition already
+  // known — and the sources that do answer without geometry would leave the
+  // rest reading as clean negatives.
+  useEffect(() => {
+    if (!selectedPid || !selectedEvidenceRequest) return;
+    if (selectedParcelFeatures.length > 0) return;
+    if (!parcels.features.some(({ properties }) => properties.PID === selectedPid)) {
+      return;
+    }
+    setGeometryOutcome("unusable-geometry");
+    markGeometryEvidenceTerminal(selectedEvidenceRequest, "geometry-unavailable");
+  }, [
+    // mapMode and taxSaleEnabled are inputs, not noise: they decide whether a
+    // notice AAN is still standing in for the missing geometry.
+    mapMode,
+    markGeometryEvidenceTerminal,
+    parcels,
+    selectedEvidenceRequest,
+    selectedParcelFeatures,
+    selectedPid,
+    taxSaleEnabled,
+  ]);
+
+  // A caution belongs to the selection it was raised for. The shared-boundary
+  // notice deliberately outlives the success toast, so without this it would
+  // outlive the parcel too and name a PID nothing has selected.
+  useEffect(() => {
+    setParcelLookupMessage((current) => {
+      if (!current) return current;
+      const named = /^PID (\d+) /u.exec(current)?.[1];
+      if (!named) return current;
+      return named === selectedPid ? current : null;
+    });
+  }, [selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -1811,12 +2713,11 @@ export function App() {
 
   useEffect(() => {
     if (assessmentState.status !== "ready") {
+      // A failed assessment lookup and a missing outline are different
+      // reasons the dwelling dataset went unasked. "blocked" claims a source
+      // outage, which never happened on the geometry path.
       setDwellingState({
-        status:
-          assessmentState.status === "error" ||
-          assessmentState.status === "geometry-unavailable"
-            ? "blocked"
-            : assessmentState.status,
+        status: assessmentState.status === "error" ? "blocked" : assessmentState.status,
         request: assessmentState.request,
       });
       return;
@@ -1825,24 +2726,44 @@ export function App() {
     const request = assessmentState.request;
     const aans = assessmentState.value.accounts.map(({ aan }) => aan);
     if (aans.length === 0) {
-      setDwellingState({ status: "ready", value: [], request });
+      // No account is no question, not a dataset that answered no — and a
+      // notice that supplied an AAN PVSC has no record for is a third thing
+      // again: an account WAS available, and the assessment dataset answered.
+      setDwellingState({
+        status:
+          assessmentState.value.matchMethod === "notice-aan"
+            ? "no-record-for-notice-aan"
+            : "no-account",
+        request,
+      });
       return;
     }
 
     const controller = new AbortController();
     setDwellingState({ status: "loading", request });
     fetchDwellingCharacteristics(aans, controller.signal)
-      .then((value) => setDwellingState((current) =>
-        isCurrentEvidenceRequest(current.request, request)
-          ? { status: "ready", value, request }
-          : current,
-      ))
+      .then((value) => {
+        if (controller.signal.aborted) return;
+        // Only a state still waiting for THIS request may be answered. The
+        // generation alone is not enough: a geometry-unavailable transition
+        // keeps it, so a late answer to a question the app stopped asking
+        // could put a notice-derived result back after the reader had turned
+        // tax-sale information off.
+        setDwellingState((current) =>
+          isCurrentEvidenceRequest(current.request, request) &&
+          current.status === "loading"
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
       .catch((error: unknown) => {
+        if (controller.signal.aborted) return;
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
         setDwellingState((current) =>
-          isCurrentEvidenceRequest(current.request, request)
+          isCurrentEvidenceRequest(current.request, request) &&
+          current.status === "loading"
             ? { status: "error", request }
             : current,
         );
@@ -1864,28 +2785,52 @@ export function App() {
       { type: "FeatureCollection", features: selectedFeatures },
       selectedPid,
     );
-    fetchParcelFloodHazardEvidence(
+    // Asked apart, settled apart. Joined in one promise, a coastal raster that
+    // never came back kept an answered river result off the panel, and the
+    // print capture's fifteen-second timeout sealed it as a source that had
+    // not answered. The reverse held too: a hanging river query sank three
+    // answered coastal scenarios.
+    fetchPublishedRiverFloodEvidence(selectedFeatures, controller.signal)
+      .then((value) => {
+        // Same reason as the coastal answer below: the abort is what says
+        // this was measured against an outline the map has moved on from.
+        if (controller.signal.aborted) return;
+        setRiverFlood((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setRiverFlood((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", request }
+            : current,
+        );
+      });
+    fetchCoastalFloodEvidence(
       selectedFeatures,
       mappedArea?.squareMetres ?? null,
       controller.signal,
-    ).then((value) => setFloodHazard((current) =>
-      isCurrentEvidenceRequest(current.request, request)
-        ? { status: "ready", value, request }
-        : current,
-    ))
+    )
+      .then((value) => {
+        // The generation moves with the selection, not with the geometry: a
+        // second polygon arriving for the same PID restarts this effect
+        // without changing it. The abort is what says this answer was
+        // measured against an outline the map has moved on from.
+        if (controller.signal.aborted) return;
+        setCoastalFlood((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
-        setFloodHazard((current) =>
+        setCoastalFlood((current) =>
           isCurrentEvidenceRequest(current.request, request)
-            ? { status: "ready", request, value: {
-            river: { status: "error", aep: [], message: "Flood evidence request failed." },
-            coastal: ["current", "2050", "2100"].map((scenario) => ({
-              scenario: scenario as "current" | "2050" | "2100",
-              status: "error" as const,
-              stormAnnualExceedanceProbabilityPercent: 1 as const,
-              message: "Flood evidence request failed.",
-            })),
-            } }
+            ? { status: "error", request }
             : current,
         );
       });
@@ -1978,9 +2923,15 @@ export function App() {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+        // A parcel with no polygon to ask inside was never asked; calling
+        // that a source error would blame a service that was never reached.
+        const status =
+          error instanceof CivicAddressGeometryError
+            ? ("geometry-unavailable" as const)
+            : ("error" as const);
         setCivicAddresses((current) =>
           isCurrentEvidenceRequest(current.request, request)
-            ? { status: "error", value: EMPTY_CIVIC_ADDRESSES, request }
+            ? { status, value: EMPTY_CIVIC_ADDRESSES, request }
             : current,
         );
       });
@@ -2076,6 +3027,10 @@ export function App() {
       environmentalHealthLayerCatalog.map(({ id }) => id),
       visible,
     ));
+    setContextLayers(visibilityRecordFor(
+      contextLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
     setForestryLayers(visibilityRecordFor(
       forestryLayerCatalog.map(({ id }) => id),
       visible,
@@ -2122,13 +3077,27 @@ export function App() {
       return;
     }
 
+    if (themeId === "poker" || selectedThemeId === "poker") {
+      addressSearchController.current?.abort();
+      pointLookupController.current?.abort();
+      if (addressSearchTimer.current !== null) clearTimeout(addressSearchTimer.current);
+      setAddressSearchResults([]);
+      setSearchingAddresses(false);
+      setParcelLookupMessage(null);
+      setSelectedPid(null);
+      setPokerAddress(null);
+      setPokerRevision((value) => value + 1);
+    }
     setSelectedThemeId(themeId);
+    const themeFocus = focusForTheme(themeId);
+    if (themeFocus) requestFocusFit(themeFocus);
+    if (themeId === "poker") setMobileControlsOpen(false);
     applyResolvedTheme(resolveTheme(theme, {
       licenceAccepted,
       availableLayerIds: availableThemeLayerIds,
       restrictedLayerIds: restrictedThemeLayerIds,
     }));
-  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes]);
+  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes, requestFocusFit, selectedThemeId]);
 
   const reviewProvinceLicence = useCallback(() => {
     setLicenceIntent({ kind: "review" });
@@ -2160,6 +3129,9 @@ export function App() {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
+        const themeFocus = focusForTheme(theme.id);
+        if (themeFocus) requestFocusFit(themeFocus);
+        if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: true,
           availableLayerIds: availableThemeLayerIds,
@@ -2172,6 +3144,12 @@ export function App() {
       void runSearch(licenceIntent.query, { licenceJustAccepted: true });
     } else if (licenceIntent?.kind === "layer") {
       setProvinceLayers(intendedInitialProvinceLayers);
+    } else if (licenceIntent?.kind === "aerial") {
+      showAerialBackground(true);
+    } else if (licenceIntent?.kind === "snap") {
+      // Acceptance completes the parcels toggle the edit panel refused to
+      // flip before the licence; declining leaves snapping to own features.
+      setSnapTargets((current) => ({ ...current, parcels: true }));
     }
     // "review" (and any other intent): accepting again is a pure dismiss.
     // This used to fall into the layer branch, so a user re-reading the
@@ -2189,6 +3167,9 @@ export function App() {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
+        const themeFocus = focusForTheme(theme.id);
+        if (themeFocus) requestFocusFit(themeFocus);
+        if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: false,
           availableLayerIds: availableThemeLayerIds,
@@ -2196,7 +3177,7 @@ export function App() {
         }));
       }
     } else {
-      setProvinceLayers(disabledProvinceLayers());
+      setProvinceLayers((current) => Object.fromEntries(provinceLayerCatalog.map((layer) => [layer.id, layer.licence === "province-open" && current[layer.id]])) as Record<ProvinceLayerId, boolean>);
       setResourceLayers((current) => ({
         ...current,
         "mineral-proximity-parcels": false,
@@ -2213,6 +3194,12 @@ export function App() {
           layer.licence === "province-restricted" ? false : current[layer.id],
         ]),
       ) as Record<EnvironmentalHealthLayerId, boolean>);
+      setContextLayers((current) => Object.fromEntries(
+        contextLayerCatalog.map((layer) => [
+          layer.id,
+          layer.licence === "province-restricted" ? false : current[layer.id],
+        ]),
+      ) as Record<ContextLayerId, boolean>);
       setShowModernMap(true);
     }
     setLicenceDialogOpen(false);
@@ -2234,10 +3221,18 @@ export function App() {
 
   const setProvinceLayerVisibility = useCallback(
     (id: ProvinceLayerId, visible: boolean) => {
+    if (id === "ns-aerial" && visible) setContextLayers((current) => ({ ...current, "ns-topographic": false, "sentinel-2": false }));
     setProvinceLayers((current) => ({ ...current, [id]: visible }));
     },
     [],
   );
+
+  // The Rhodena page's Map/Aerial switch swaps the opaque background.
+  const showAerialBackground = useCallback((aerial: boolean) => {
+    setProvinceLayerVisibility("ns-aerial", aerial);
+    setShowModernMap(!aerial);
+    if (!aerial) setContextLayers((current) => ({ ...current, "ns-topographic": false, "sentinel-2": false }));
+  }, [setProvinceLayerVisibility]);
 
   const setResourceLayerVisibility = useCallback(
     (id: ResourceLayerId, visible: boolean) => {
@@ -2272,6 +3267,19 @@ export function App() {
     },
     [],
   );
+  const setContextLayerVisibility = useCallback(
+    (id: ContextLayerId, visible: boolean) => {
+    if (!visible) setElectoralSelection(current => current?.layer.id === id ? null : current);
+    if (!visible && id === "rhodena-visibility") setRhodenaPickPending(false);
+    setContextLayers((current) => ({ ...current, [id]: visible }));
+    if ((id === "ns-topographic" || id === "sentinel-2") && visible) {
+      setContextLayers((current) => ({ ...current, "ns-topographic": id === "ns-topographic", "sentinel-2": id === "sentinel-2" }));
+      setShowModernMap(false);
+      setProvinceLayers((current) => ({ ...current, "ns-aerial": false }));
+    }
+    },
+    [],
+  );
   const setForestryLayerVisibility = useCallback(
     (id: ForestryLayerId, visible: boolean) => {
     setForestryLayers((current) => ({ ...current, [id]: visible }));
@@ -2286,17 +3294,29 @@ export function App() {
     [],
   );
 
+  const setLiveConditionsLayerVisibility = useCallback(
+    (id: LiveConditionsLayerId, visible: boolean) => {
+    setLiveConditionsLayers((current) => ({ ...current, [id]: visible }));
+    },
+    [],
+  );
+
   const provinceToggleFor = useStablePerIdCallback(setProvinceLayerVisibility);
   const resourceToggleFor = useStablePerIdCallback(setResourceLayerVisibility);
   const hydroToggleFor = useStablePerIdCallback(setHydroPilotLayerVisibility);
   const wellLogToggleFor = useStablePerIdCallback(setWellLogLayerVisibility);
   const floodToggleFor = useStablePerIdCallback(setFloodHazardLayerVisibility);
   const environmentalToggleFor = useStablePerIdCallback(setEnvironmentalHealthLayerVisibility);
+  const contextToggleFor = useStablePerIdCallback(setContextLayerVisibility);
   const forestryToggleFor = useStablePerIdCallback(setForestryLayerVisibility);
   const zoningToggleFor = useStablePerIdCallback(setZoningLayerVisibility);
+  const liveConditionsToggleFor = useStablePerIdCallback(
+    setLiveConditionsLayerVisibility,
+  );
 
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
+      if (status.status !== "ready") setElectoralSelection(current => current?.layer.id === id ? null : current);
       setLayerStatuses((current) => {
         // Tile layers report loading/load cycles on every pan, and each
         // report used to build a fresh record — re-rendering the entire App
@@ -2305,10 +3325,13 @@ export function App() {
         if (
           previous &&
           previous.status === status.status &&
+          ("message" in previous ? previous.message : undefined) === ("message" in status ? status.message : undefined) &&
           ("minZoom" in previous ? previous.minZoom : undefined) ===
             ("minZoom" in status ? status.minZoom : undefined) &&
           ("count" in previous ? previous.count : undefined) ===
-            ("count" in status ? status.count : undefined)
+            ("count" in status ? status.count : undefined) &&
+          ("observedAt" in previous ? previous.observedAt : undefined) ===
+            ("observedAt" in status ? status.observedAt : undefined)
         ) {
           return current;
         }
@@ -2319,7 +3342,15 @@ export function App() {
   );
 
   const selectParcel = (pid: string): SelectedEvidenceRequest => {
+    // Before the state change, while the sheet is still in the DOM to be
+    // asked whether it holds focus.
+    handOffSheetFocus();
     setMobileControlsOpen(false);
+    setGeometryOutcome(null);
+    // A caution belongs to the selection it was raised for, and re-selecting
+    // the same PID unambiguously is a new selection: without this the
+    // shared-boundary notice would stand over a tap that had no ambiguity.
+    setParcelLookupMessage(null);
     const request = { pid, generation: selectionGeneration.current + 1 };
     selectionGeneration.current = request.generation;
     setSelectedPid(pid);
@@ -2328,7 +3359,8 @@ export function App() {
     setBuildingCount({ status: "loading", request });
     setAssessmentState({ status: "loading", request });
     setDwellingState({ status: "loading", request });
-    setFloodHazard({ status: "loading", request });
+    setRiverFlood({ status: "loading", request });
+    setCoastalFlood({ status: "loading", request });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES, request });
     setResourceIntersections({
       status: "loading",
@@ -2344,13 +3376,15 @@ export function App() {
       return;
     }
     setMapMode(mode);
+    selectionGeneration.current += 1;
     setSelectedPid(null);
     setSelectedEvidenceRequest(null);
     setQuery("");
     setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT, request: null });
     setBuildingCount({ status: "idle", request: null });
     setAssessmentState({ status: "idle", request: null });
-    setFloodHazard({ status: "idle", request: null });
+    setRiverFlood({ status: "idle", request: null });
+    setCoastalFlood({ status: "idle", request: null });
     setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES, request: null });
     setResourceIntersections({
       status: "idle",
@@ -2361,6 +3395,12 @@ export function App() {
   };
 
   const cancelAddressSearch = () => {
+    setMailingSearchNotice(null);
+    if (addressSearchTimer.current !== null) {
+      clearTimeout(addressSearchTimer.current);
+      addressSearchTimer.current = null;
+    }
+    setActiveAddressIndex(-1);
     addressSearchController.current?.abort();
     addressSearchController.current = null;
     setSearchingAddresses(false);
@@ -2407,13 +3447,27 @@ export function App() {
         return;
       }
 
-      const pid = collection.features[0]?.properties.PID;
+      const { identified, pids, unidentifiedCount } =
+        identifyParcelsAtPoint(collection);
+      const pid = pids[0];
       if (!pid) {
-        setParcelLookupMessage("No NSPRD parcel was found at that point.");
+        // Two different nothings. A reply with no features at all is the
+        // service looking and finding no parcel, and that is the only
+        // sentence here allowed to say anything about the ground. Shapes that
+        // arrived carrying no readable PID are the service finding something
+        // this build cannot name, which is neither "there is no parcel" nor
+        // "the lookup failed".
+        setParcelLookupMessage(
+          unidentifiedCount === 0
+            ? "No NSPRD parcel was found at that point."
+            : unidentifiedCount === 1
+              ? "NSPRD returned a boundary at that point with no readable PID."
+              : `NSPRD returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
+        );
         return;
       }
 
-      setParcels((current) => mergeFeatureCollections(current, collection));
+      setParcels((current) => mergeFeatureCollections(current, identified));
       if (!addressLabel) {
         setQuery(pid);
       }
@@ -2421,9 +3475,33 @@ export function App() {
       if (focusOnSelect) {
         requestParcelFocus(pid);
       }
-      setParcelLookupMessage(`PID ${pid} selected.`);
+      // More than one PID under one point: the parcels meet there, and the
+      // order NSPRD listed them in is not evidence of which one the point
+      // belongs to. "PID … selected." on its own would let a reader
+      // researching a boundary act on the first-listed parcel as a finding.
+      //
+      // A boundary with no readable PID is reported separately rather than
+      // added to the count. Two unnamed records may be two parcels or one
+      // parcel in two pieces, and this build cannot tell which — a count that
+      // included them would state a number nothing established.
+      const meeting =
+        pids.length > 1
+          ? `PID ${pid} selected. ${pids.length} parcels meet at that point; this is the first ${
+              // "the first NSPRD listed" is only true when nothing ahead of it
+              // was dropped. With an unnamed boundary in the reply it may have
+              // been listed second, and the sentence has to say which first.
+              unidentifiedCount > 0 ? "NSPRD named" : "NSPRD listed"
+            }, not a determination of which one it is.`
+          : `PID ${pid} selected.`;
+      setParcelLookupMessage(
+        unidentifiedCount === 0
+          ? meeting
+          : unidentifiedCount === 1
+            ? `${meeting} NSPRD also returned a boundary at that point with no readable PID.`
+            : `${meeting} NSPRD also returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
+      );
     } catch (error: unknown) {
-      if (error instanceof DOMException && error.name === "AbortError") {
+      if (controller.signal.aborted || (error instanceof DOMException && error.name === "AbortError")) {
         return;
       }
       setParcelLookupMessage(
@@ -2438,7 +3516,7 @@ export function App() {
 
   const runSearch = async (
     rawQuery: string,
-    { licenceJustAccepted = false }: { licenceJustAccepted?: boolean } = {},
+    { licenceJustAccepted = false, suggest = false }: { licenceJustAccepted?: boolean; suggest?: boolean } = {},
   ) => {
     if (!licenceAccepted && !licenceJustAccepted) {
       // Search reads NSPRD and the civic address file — licensed Province
@@ -2454,6 +3532,10 @@ export function App() {
     setSearchError(null);
     setAddressSearchResults([]);
     const pid = normalizePid(rawQuery);
+    if (pokerMode && pid) {
+      setSearchError("Search a civic address in Poker mode.");
+      return;
+    }
 
     if (!pid) {
       const normalizedQuery = rawQuery.trim().replace(/\s+/gu, " ");
@@ -2471,20 +3553,23 @@ export function App() {
       setSearchingAddresses(true);
 
       try {
-        const results = await searchCivicAddresses(
+        const reading = await searchAddressesWithMailing(
           normalizedQuery,
           controller.signal,
+          ...(suggest ? [{ suggest: true }] : []),
         );
         if (controller.signal.aborted) {
           return;
         }
+        const results = reading.addresses;
+        setMailingSearchNotice(reading.notice);
         if (results.length === 0) {
-          setSearchError("No mapped civic address matched that search.");
+          setSearchError(reading.notice ? "No verified civic matches were returned; see the lookup status below." : "No mapped civic address matched that search.");
           return;
         }
         setAddressSearchResults(results);
       } catch (error: unknown) {
-        if (error instanceof DOMException && error.name === "AbortError") {
+        if (controller.signal.aborted || (error instanceof DOMException && error.name === "AbortError")) {
           return;
         }
         setSearchError("Civic address search is unavailable right now.");
@@ -2505,27 +3590,68 @@ export function App() {
       return;
     }
 
-    pendingGeometryFetchPidRef.current = pid;
+    pendingGeometryFetchRef.current = request;
     try {
       const collection = await fetchParcels([pid]);
+      if (request.generation !== selectionGeneration.current) return;
       if (collection.features.length === 0) {
         setSearchError("No NSPRD parcel was found for that PID.");
+        setGeometryOutcome("returned-empty");
         markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
       setParcels((current) => mergeFeatureCollections(current, collection));
     } catch {
+      if (request.generation !== selectionGeneration.current) return;
       setSearchError("The Province parcel search is unavailable right now.");
-      markGeometryEvidenceTerminal(request, "error");
+      setGeometryOutcome("source-error");
+      markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
-      if (pendingGeometryFetchPidRef.current === pid) {
-        pendingGeometryFetchPidRef.current = null;
+      if (pendingGeometryFetchRef.current === request) {
+        pendingGeometryFetchRef.current = null;
       }
     }
   };
 
+  const scheduleAddressSuggestions = (value: string) => {
+    const normalized = value.trim().replace(/\s+/gu, " ");
+    // Typing never opens the licence dialog or selects a PID. Both still
+    // require an explicit submission; address candidates require a choice.
+    if (!licenceAccepted || normalized.length < 3 || /^[\d\s-]+$/u.test(value)) return;
+    addressSearchTimer.current = setTimeout(() => {
+      addressSearchTimer.current = null;
+      void runSearch(value, { suggest: true });
+    }, 300);
+  };
+
+  const chooseAddress = (address: CivicAddress) => {
+    setQuery(address.label);
+    if (pokerMode) {
+      cancelAddressSearch();
+      cancelPointLookup();
+      setAddressSearchResults([]);
+      setParcelLookupMessage(null);
+      setSelectedPid(null);
+      setPokerAddress(address);
+      setPokerRevision((value) => value + 1);
+      mapRegionRef.current?.focus({ preventScroll: true });
+      setMobileControlsOpen(false);
+      return;
+    }
+    void identifyParcelAtPoint(
+      address.coordinates[1],
+      address.coordinates[0],
+      { addressLabel: address.label, focusOnSelect: !pokerMode },
+    );
+  };
+
   const submitPidSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // No hand-off here. Submitting is not the same as choosing a parcel: an
+    // eight-digit typo and an address both leave the sheet open, one to show
+    // the error and the other to show its results, and moving focus to the
+    // map behind an open sheet would strand the reader outside the thing they
+    // were reading. `selectParcel` is where the sheet actually closes.
     void runSearch(query);
   };
 
@@ -2545,26 +3671,30 @@ export function App() {
     }
 
     setParcelLookupMessage(`Loading parcel ${pid}…`);
-    pendingGeometryFetchPidRef.current = pid;
+    pendingGeometryFetchRef.current = request;
     try {
       const collection = await fetchParcels([pid]);
+      if (request.generation !== selectionGeneration.current) return;
       if (collection.features.length === 0) {
         setParcelLookupMessage(
           `PID ${pid} details opened, but its map geometry is unavailable.`,
         );
+        setGeometryOutcome("returned-empty");
         markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
       setParcels((current) => mergeFeatureCollections(current, collection));
       setParcelLookupMessage(`PID ${pid} selected.`);
     } catch {
+      if (request.generation !== selectionGeneration.current) return;
       setParcelLookupMessage(
         `PID ${pid} details opened, but the Province parcel service is unavailable.`,
       );
-      markGeometryEvidenceTerminal(request, "error");
+      setGeometryOutcome("source-error");
+      markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
-      if (pendingGeometryFetchPidRef.current === pid) {
-        pendingGeometryFetchPidRef.current = null;
+      if (pendingGeometryFetchRef.current === request) {
+        pendingGeometryFetchRef.current = null;
       }
     }
   };
@@ -2628,6 +3758,9 @@ export function App() {
       ...environmentalHealthLayerCatalog
         .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
         .map(({ id }) => id),
+      ...contextLayerCatalog
+        .filter(({ id }) => effectiveContextLayers[id])
+        .map(({ id }) => id),
       ...forestryLayerCatalog
         .filter(({ id }) => forestryLayers[id])
         .map(({ id }) => id),
@@ -2636,6 +3769,9 @@ export function App() {
         .map(({ id }) => id),
       ...wellLogLayerCatalog
         .filter(({ id }) => wellLogLayers[id])
+        .map(({ id }) => id),
+      ...liveConditionsLayerCatalog
+        .filter(({ id }) => liveConditionsLayers[id])
         .map(({ id }) => id),
     ]);
     if (!licenceAccepted && licenceIntent?.kind === "layer") {
@@ -2646,6 +3782,7 @@ export function App() {
     return allMapLayerIds.filter((id): id is ShareLayerId => active.has(id));
   }, [
     effectiveEnvironmentalHealthLayers,
+    effectiveContextLayers,
     effectiveFloodHazardLayers,
     fletcherVisible,
     forestryLayers,
@@ -2653,6 +3790,7 @@ export function App() {
     initialCatalogueLayerIds,
     licenceAccepted,
     licenceIntent,
+    liveConditionsLayers,
     provinceLayers,
     resourceLayers,
     showModernMap,
@@ -2691,7 +3829,7 @@ export function App() {
         (layerId) => layerCategoryByLayerId[layerId] === categoryId,
       )
     ) {
-      notices.push("Province licence required");
+      notices.push("Some layers: Province licence required");
     }
 
     return [summary, ...notices].join(" · ");
@@ -2708,7 +3846,7 @@ export function App() {
     mapMode,
   }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);
   const persistCustomThemes = useCallback((nextThemes: CustomMapThemeDefinition[]) => {
-    const result = saveCustomThemes(nextThemes, window.localStorage);
+    const result = saveCustomThemes(nextThemes, reachableLocalStorage());
     if (!result.ok) {
       setThemeLibraryNotice(result.message);
       return false;
@@ -2812,6 +3950,15 @@ export function App() {
     [mapThemes, selectedTheme, themeComparableState],
   );
   const activeThemeId = selectedTheme?.id ?? matchedTheme?.id ?? null;
+  /**
+   * Preserve Poker's workflow identity in its URL, and any other built-in
+   * selection that layers alone cannot identify. Custom names stay local.
+   */
+  const shareThemeId = selectedTheme?.kind === "built-in"
+    && themeStatesMatch(themeComparableState, selectedTheme)
+    && (selectedTheme.id === "poker" || matchTheme(themeComparableState, mapThemes)?.id !== selectedTheme.id)
+    ? selectedTheme.id
+    : undefined;
   const themeResultMatches = themeResult !== null
     && themeStatesMatch(themeComparableState, themeResult.target);
   const themeStatus: MapThemeStatus = themeResult?.status === "partial"
@@ -2852,7 +3999,7 @@ export function App() {
     ...(showModernMap ? (["modern"] as const) : []),
     ...(fletcherVisible ? (["fletcher"] as const) : []),
     ...provinceLayerCatalog
-      .filter(({ id }) => licenceAccepted && provinceLayers[id])
+      .filter(({ id, licence }) => (licence === "province-open" || licenceAccepted) && provinceLayers[id])
       .map(({ id }) => id),
     ...allResourceLayerCatalog
       .filter(({ id }) => effectiveResourceLayers[id])
@@ -2866,6 +4013,9 @@ export function App() {
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
       .map(({ id }) => id),
+    ...contextLayerCatalog
+      .filter(({ id }) => effectiveContextLayers[id])
+      .map(({ id }) => id),
     ...forestryLayerCatalog
       .filter(({ id }) => forestryLayers[id])
       .map(({ id }) => id),
@@ -2875,8 +4025,12 @@ export function App() {
     ...wellLogLayerCatalog
       .filter(({ id }) => wellLogLayers[id])
       .map(({ id }) => id),
+    // Live-conditions overlays (highway cameras, weather radar) are
+    // deliberately absent: the print flow captures and seals evidence, and a
+    // live frame's content cannot be re-derived from any stated source date.
   ], [
     effectiveEnvironmentalHealthLayers,
+    effectiveContextLayers,
     effectiveFloodHazardLayers,
     effectiveResourceLayers,
     fletcherVisible,
@@ -2895,29 +4049,32 @@ export function App() {
     dwellings: printDwellingStateForRequest(
       dwellingState,
       selectedEvidenceRequest,
+      assessmentState.status === "ready",
     ),
     civicAddresses: printStateForRequest(civicAddresses, selectedEvidenceRequest),
     mappedContext: printStateForRequest(mappedContext, selectedEvidenceRequest),
-    floodHazard: printStateForRequest(floodHazard, selectedEvidenceRequest),
+    riverFlood: printStateForRequest(riverFlood, selectedEvidenceRequest),
+    coastalFlood: printStateForRequest(coastalFlood, selectedEvidenceRequest),
     resources: printStateForRequest(resourceIntersections, selectedEvidenceRequest),
   }), [
     assessmentState,
     buildingCount,
     civicAddresses,
+    coastalFlood,
     dwellingState,
-    floodHazard,
     mappedContext,
     resourceIntersections,
+    riverFlood,
     selectedEvidenceRequest,
     selectedMappedArea,
   ]);
   const captureLayerSources = useMemo(() => {
-    const sources = printLayerSources(fletcherTileConfiguration.baseUrl);
+    const sources = printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle);
     return captureLayerIds.flatMap((id) => {
       const source = sources.get(id);
       return source ? [source] : [];
     });
-  }, [captureLayerIds, fletcherTileConfiguration.baseUrl]);
+  }, [captureLayerIds, fletcherTileConfiguration.baseUrl, basemapStyle]);
   /**
    * The layer ids `buildExportLayers` actually carries into the PDF. Kept as
    * an explicit mirror of that function's own filters rather than inferred
@@ -2931,9 +4088,12 @@ export function App() {
       ids.add("fletcher");
     }
     for (const layer of provinceLayerCatalog) {
-      if (licenceAccepted && provinceLayers[layer.id] && layer.exportOptions) {
+      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions) {
         ids.add(layer.id);
       }
+    }
+    for (const layer of contextLayerCatalog) {
+      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null) ids.add(layer.id);
     }
     return ids;
   }, [
@@ -2941,8 +4101,13 @@ export function App() {
     fletcherVisible,
     licenceAccepted,
     provinceLayers,
+    effectiveContextLayers,
+    mapViewport.position.zoom,
     showModernMap,
   ]);
+  const exportReproductionLock = selectedPid || selectedParcelGeometry.features.length
+    ? PARCEL_REPRODUCTION_LOCK_REASON
+    : [...exportedLayerIds].map(id => reproductionLockReason(id, provinceLayerCatalog.find(layer => layer.id === id)?.openData)).find(reason => reason !== null) ?? null;
   /**
    * Everything on screen that the PDF will NOT contain, by name.
    *
@@ -2964,17 +4129,24 @@ export function App() {
   const omittedLayerNames = useMemo(() => [
     ...captureLayerSources
       .filter(({ id }) => !exportedLayerIds.has(id))
-      .map(({ name }) => name),
+      .map(({ id, name }) => {
+        const layer = contextLayerCatalog.find((candidate) => candidate.id === id);
+        const reason = layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
+        return reason ? `${name} — ${reason}` : name;
+      }),
     ...userMapsApi.visibleMaps.map(({ record }) => record.name),
     ...userVectorApi.visibleLayers.map(({ record }) => record.name),
   ], [
     captureLayerSources,
     exportedLayerIds,
+    mapViewport.position.zoom,
     userMapsApi.visibleMaps,
     userVectorApi.visibleLayers,
   ]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
+      basemapStyle,
+      electoralModes,
       taxSaleEnabled,
       mode: mapMode,
       pid: selectedPid,
@@ -2987,14 +4159,23 @@ export function App() {
         : [],
       layerIds: activeLayerIds,
       position: mapViewport.position,
+      themeId: shareThemeId,
+      ...(focusDef?.shareParams?.has("month") && focusPage.month !== null ? { month: focusPage.month } : {}),
+      ...(focusDef?.shareParams?.has("spot") && focusPage.spotId !== null ? { spot: focusPage.spotId } : {}),
     }),
     [
       activeLayerIds,
+      basemapStyle,
+      electoralModes,
+      focusDef,
+      focusPage.month,
+      focusPage.spotId,
       mapMode,
       mapViewport.position,
       selectedEventIds,
       selectedHistoricalContexts,
       selectedPid,
+      shareThemeId,
       taxSaleEnabled,
     ],
   );
@@ -3035,15 +4216,29 @@ export function App() {
     return () => window.clearTimeout(timer);
   }, [shareUrl]);
 
-  const copyShareUrl = () => {
-    if (navigator.clipboard?.writeText) {
-      void navigator.clipboard.writeText(shareUrl).then(
-        () => setShareMessage("Share link copied."),
-        () => setShareMessage("Copy failed; use the exact map-state link below."),
-      );
-      return;
+  useEffect(() => {
+    // Feedback belongs to the state that was copied. Ignore a clipboard
+    // completion after the map changes or this view unmounts.
+    setShareMessage(null);
+    shareCopySequence.current += 1;
+    return () => { shareCopySequence.current += 1; };
+  }, [shareUrl]);
+
+  const copyShareUrl = async () => {
+    const sequence = ++shareCopySequence.current;
+    setShareMessage(null);
+    try {
+      if (!navigator.clipboard?.writeText) {
+        setShareMessage("Use the exact map-state link below.");
+        return;
+      }
+      await navigator.clipboard.writeText(shareUrl);
+      if (sequence === shareCopySequence.current) setShareMessage("Share link copied.");
+    } catch {
+      if (sequence === shareCopySequence.current) {
+        setShareMessage("Copy failed; use the exact map-state link below.");
+      }
     }
-    setShareMessage("Use the exact map-state link below.");
   };
 
   const openPrintExport = () => {
@@ -3051,6 +4246,8 @@ export function App() {
 
     printCaptureSequence.current += 1;
     setPrintCapture(startPrintCapture({
+      basemapStyle,
+      electoralModes,
       token: `print-${printCaptureSequence.current}`,
       capturedAt: new Date().toISOString(),
       pid: selectedPid,
@@ -3060,7 +4257,7 @@ export function App() {
       eventIds: printEventIds,
       events: printEvents,
       selectedParcelGeometry,
-      mapParcels: parcels,
+      mapParcels: drawableParcels,
       taxSalePids: Array.from(effectiveTaxSalePids),
       historicalTaxSalePids: Array.from(effectiveHistoricalTaxSalePids),
       viewport: mapViewport,
@@ -3117,6 +4314,10 @@ export function App() {
   }, [licenceAccepted, printCapture, selectedEvidenceRequest, selectedPid]);
 
   const exportEvidence = () => {
+    if (!PROPERTY_RECORD_REPRODUCTION_ALLOWED) {
+      setShareMessage(PARCEL_REPRODUCTION_LOCK_REASON);
+      return;
+    }
     const terminalResource =
       resourceIntersections.status === "ready" ||
       resourceIntersections.status === "error" ||
@@ -3134,17 +4335,16 @@ export function App() {
         assessmentState.status !== "geometry-unavailable") ||
       (dwellingState.status !== "ready" &&
         dwellingState.status !== "error" &&
-        dwellingState.status !== "blocked")
+        dwellingState.status !== "blocked" &&
+        dwellingState.status !== "no-account" &&
+        dwellingState.status !== "no-record-for-notice-aan" &&
+        dwellingState.status !== "geometry-unavailable")
     ) {
       return;
     }
     const activeLayers = [
       ...(showModernMap
-        ? [{
-            name: "Modern map",
-            sourceUrl: "https://www.openstreetmap.org/copyright",
-            sourceDate: "Live OpenStreetMap tiles",
-          }]
+        ? [basemapSource(basemapStyle)]
         : []),
       ...(fletcherVisible
         ? [{
@@ -3197,6 +4397,13 @@ export function App() {
           sourceUrl,
           sourceDate,
         })),
+      ...contextLayerCatalog
+        .filter(({ id }) => effectiveContextLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
       ...forestryLayerCatalog
         .filter(({ id }) => forestryLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
@@ -3238,6 +4445,7 @@ export function App() {
       shareUrl,
       position: mapViewport.position,
       activeLayers,
+      parcelGeometry: geometryOutcome,
       events: selectedListingContext
         ? [{
             name: `${selectedListingContext.event.shortMunicipality} — ${eventDateLabel(selectedListingContext.event)}`,
@@ -3266,10 +4474,11 @@ export function App() {
       civicAddresses: civicAddresses.status === "ready"
         ? {
             status: "ready",
-            points: civicAddresses.value.map(({ label }) => ({
+            points: civicAddresses.value.addresses.map(({ label }) => ({
               label,
               sourceUrl: CIVIC_ADDRESS_DATASET_URL,
             })),
+            unreadableRows: civicAddresses.value.unreadableRows,
           }
         : civicAddresses.status === "geometry-unavailable"
           ? { status: "geometry-unavailable" }
@@ -3283,7 +4492,13 @@ export function App() {
         ? { status: "ready", accounts: dwellingState.value }
         : dwellingState.status === "blocked"
           ? { status: "blocked" }
-          : { status: "error" },
+          : dwellingState.status === "no-account"
+            ? { status: "no-account" }
+            : dwellingState.status === "no-record-for-notice-aan"
+              ? { status: "no-record-for-notice-aan" }
+              : dwellingState.status === "geometry-unavailable"
+                ? { status: "geometry-unavailable" }
+                : { status: "error" },
       resourceResults: resourceLayerCatalog.map((layer) => {
         if (resourceIntersections.status !== "ready") {
           // Terminal but not evaluated: the note records the condition per
@@ -3325,45 +4540,189 @@ export function App() {
     setShareMessage(`Evidence note exported as ${note.filename}.`);
   };
 
+  const searchForm = (
+    <form className={`pid-search${pokerMode ? " poker-search" : ""}`} onSubmit={submitPidSearch}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          cancelAddressSearch();
+          setAddressSearchResults([]);
+        }
+      }}
+    >
+      <label className={pokerMode ? "sr-only" : undefined} htmlFor="pid-query">Search by PID or civic address</label>
+      <div className="search-row">
+        <input
+          ref={pokerSearchRef}
+          id="pid-query"
+          type="search"
+          value={query}
+          onChange={(event) => {
+            cancelAddressSearch();
+            cancelPointLookup();
+            setQuery(event.target.value);
+            setAddressSearchResults([]);
+            setSearchError(null);
+            if (!(event.nativeEvent as InputEvent).isComposing) {
+              scheduleAddressSuggestions(event.target.value);
+            }
+          }}
+          onCompositionStart={cancelAddressSearch}
+          onCompositionEnd={(event) => {
+            cancelAddressSearch();
+            scheduleAddressSuggestions(event.currentTarget.value);
+          }}
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={addressSearchResults.length > 0}
+          aria-controls={addressSearchResults.length > 0 ? "address-search-results" : undefined}
+          aria-activedescendant={activeAddressIndex >= 0 ? `address-option-${activeAddressIndex}` : undefined}
+          onKeyDown={(event) => {
+            if (event.nativeEvent.isComposing) return;
+            if (event.key === "Escape") {
+              if (addressSearchResults.length || searchingAddresses || addressSearchTimer.current !== null) {
+                event.preventDefault();
+                event.stopPropagation();
+                cancelAddressSearch();
+                setAddressSearchResults([]);
+                setSearchError(null);
+              }
+            } else if (addressSearchResults.length && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
+              event.preventDefault();
+              const next = event.key === "ArrowDown"
+                ? (activeAddressIndex + 1) % addressSearchResults.length
+                : (activeAddressIndex <= 0 ? addressSearchResults.length : activeAddressIndex) - 1;
+              setActiveAddressIndex(next);
+              document.getElementById(`address-option-${next}`)?.scrollIntoView?.({ block: "nearest" });
+            } else if (event.key === "Enter" && activeAddressIndex >= 0) {
+              event.preventDefault();
+              chooseAddress(addressSearchResults[activeAddressIndex]);
+            }
+          }}
+          onPointerDown={(event) => {
+            selectPokerQueryOnClick.current = pokerMode && document.activeElement !== event.currentTarget;
+          }}
+          onFocus={(event) => { if (pokerMode) event.currentTarget.select(); }}
+          onClick={(event) => {
+            // Safari positions its caret after focus; select after that first tap.
+            if (selectPokerQueryOnClick.current) {
+              const input = event.currentTarget;
+              requestAnimationFrame(() => {
+                if (document.activeElement === input) input.select();
+              });
+            }
+            selectPokerQueryOnClick.current = false;
+          }}
+          placeholder={pokerMode ? "Search civic address" : "PID or address"}
+          aria-describedby="pid-search-help"
+          inputMode="search"
+          autoComplete="off"
+        />
+        <button className="primary-action" type="submit" aria-label="Find parcel" title="Find parcel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5" />
+            <path d="m16 16 5 5" />
+          </svg>
+        </button>
+      </div>
+      <p id="pid-search-help" className={`field-help${pokerMode && !searchError && !searchingAddresses ? " sr-only" : ""}`} role={searchError ? "alert" : undefined}>
+        {searchError ??
+          (searchingAddresses
+            ? "Searching mapped civic addresses…"
+            : "Enter an 8-digit PID or a Nova Scotia civic address.")}
+      </p>
+      <span className="sr-only" role="status">
+        {addressSearchResults.length > 0
+          ? `${addressSearchResults.length} civic address matches. Use up and down arrows, then Enter to choose.`
+          : searchingAddresses ? "Searching mapped civic addresses…" : ""}
+      </span>
+      {addressSearchResults.length > 0 ? (
+        <ul
+          id="address-search-results"
+          role="listbox"
+          className="address-search-results"
+          aria-label="Civic address results"
+        >
+          {addressSearchResults.map((address, index) => (
+            <li key={address.pntid} role="presentation">
+              <button
+                id={`address-option-${index}`}
+                role="option"
+                aria-selected={activeAddressIndex === index}
+                tabIndex={-1}
+                type="button"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => chooseAddress(address)}
+              >
+                <span>{address.label}</span>
+                {address.mailing?.status === "matched" ? <span className="mailing-search-label">Mailing: {mailingLabel(address.mailing.record)}</span> : null}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {mailingSearchNotice ? <p className="field-help" role="status">{mailingSearchNotice}</p> : null}
+      {addressSearchResults.some(a => a.mailing?.status === "matched") ? <MailingSource /> : null}
+    </form>
+  );
+
+  const appearanceControl = (
+    <label className="basemap-style-control interface-appearance-control">
+      Appearance
+      <select aria-label="Interface appearance" value={appearance} onChange={event => setAppearance(event.target.value as typeof appearance)}>
+        <option value="map">Match map</option>
+        <option value="system">System</option>
+        <option value="day">Light</option>
+        <option value="night">Dark</option>
+      </select>
+    </label>
+  );
+  // Deliberately NOT gated on `licenceAccepted`. Declining the Province
+  // licence runs `continueWithoutProvinceLayers`, which never sets that flag —
+  // so gating here locked the export out permanently for exactly the user the
+  // feature was written for: the one taking OSM + a Fletcher sheet into the
+  // field with live GPS, which needs no Province data at all. Province layers
+  // are already excluded from the export by the same mechanism that excludes
+  // them from `captureLayerIds` — they are only visible, and therefore only
+  // composited, once the licence is accepted.
+  const exportMapButton = (
+    <button
+      type="button"
+      className="secondary-action export-map-trigger"
+      onClick={() =>
+        setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
+    >
+      Export map (PDF)
+    </button>
+  );
+  const offered = (id: string) => focusOffersLayer(focusDef, id);
+  const focusChromeContext: FocusChromeContext = {
+    contextLayers,
+    setContextLayerVisibility,
+    pageState: focusPage,
+    setPageState: updateFocusPage,
+    openMobileControls,
+    closeMobileControls,
+    fitToFocus: () => { if (focusDef) requestFocusFit(focusDef); },
+    startViewpointPick: () => setRhodenaPickPending(true),
+  };
+  const FocusPanel = focusDef?.chrome.Panel;
+
   return (
     <>
     <div
-      className={`app-shell${headerCollapsed ? " header-collapsed" : ""}${
+      className={`app-shell${
         editingMap ? " georeferencing" : ""
-      }`}
+      }${focusDef ? ` ${focusDef.id}-focus` : ""}`}
     >
-      <header className="app-header">
-        <a className="app-brand" href="../" aria-label="NS Marks The Spot home">
-          <img src={appIconUrl} alt="" />
-          <strong>NS Marks The Spot</strong>
-          <span>Online</span>
-        </a>
-        <div className="offline-nav">
-          <button
-            className="text-button header-about"
-            type="button"
-            onClick={() => setAboutOpen(true)}
-          >
-            About this map
-          </button>
-          <span>iPhone app in development</span>
-          <a className="header-action" href={BETA_SIGNUP_URL}>
-            Get launch updates
-          </a>
-        </div>
-        <button
-          className="header-collapse"
-          type="button"
-          aria-label={headerCollapsed ? "Expand header" : "Collapse header"}
-          aria-expanded={!headerCollapsed}
-          onClick={() => setHeaderCollapsed((collapsed) => !collapsed)}
-        >
-          <span aria-hidden="true">{headerCollapsed ? "⌄" : "⌃"}</span>
-        </button>
-      </header>
-
+      {/* Keep the page heading available to assistive technology. */}
+      <h1 className="visually-hidden">
+        {focusDef
+          ? focusDef.pageTitle
+          : <>NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map</>}
+      </h1>
       <main className="map-layout">
         <aside
+          ref={mobileControlsRef}
           id="map-controls"
           className={`layer-rail mode-${mapMode}${mobileControlsOpen ? " mobile-open" : ""}`}
           aria-label="Map controls"
@@ -3371,87 +4730,33 @@ export function App() {
           <div className="mobile-sheet-header">
             <strong>Search &amp; layers</strong>
             <button
+              ref={mobileSheetCloseRef}
               type="button"
-              onClick={() => setMobileControlsOpen(false)}
+              onClick={closeMobileControls}
               aria-label="Close map controls"
             >
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <h1>Explore Nova Scotia</h1>
-          <form className="pid-search" onSubmit={submitPidSearch}>
-            <label htmlFor="pid-query">Search by PID or civic address</label>
-            <div className="search-row">
-              <input
-                id="pid-query"
-                type="search"
-                value={query}
-                onChange={(event) => {
-                  cancelAddressSearch();
-                  cancelPointLookup();
-                  setQuery(event.target.value);
-                  setAddressSearchResults([]);
-                  setSearchError(null);
-                }}
-                placeholder="PID or 11064 Highway 19, Mabou"
-                inputMode="search"
-                autoComplete="off"
-              />
-              <button className="primary-action" type="submit">
-                Find parcel
-              </button>
-            </div>
-            <p className="field-help" role={searchError ? "alert" : undefined}>
-              {searchError ??
-                (searchingAddresses
-                  ? "Searching mapped civic addresses…"
-                  : "Enter an 8-digit PID or a Nova Scotia civic address.")}
-            </p>
-            {addressSearchResults.length > 0 ? (
-              <ul
-                className="address-search-results"
-                aria-label="Civic address results"
-              >
-                {addressSearchResults.map((address) => (
-                  <li key={address.pntid}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setQuery(address.label);
-                        void identifyParcelAtPoint(
-                          address.coordinates[1],
-                          address.coordinates[0],
-                          { addressLabel: address.label, focusOnSelect: true },
-                        );
-                      }}
-                    >
-                      {address.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </form>
+          {/* The page heading is the hidden h1 at the top of the shell. This
+              one names the controls rail, which is a part of the page, and
+              the rail's own child-combinator rule carries its former h1
+              typography over unchanged. */}
+          {focusDef ? (
+            <focusDef.chrome.Hero {...focusChromeContext} />
+          ) : (
+            <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
+          )}
+          {!pokerMode && searchForm}
+          {/* A focus page carries these in its footer instead. */}
+          {!focusDef ? (
+            <>
+              {appearanceControl}
+              {exportMapButton}
+            </>
+          ) : null}
 
-          {/* Deliberately NOT gated on `licenceAccepted`. Declining the
-              Province licence runs `continueWithoutProvinceLayers`, which
-              never sets that flag — so gating here locked the export out
-              permanently for exactly the user the feature was written for:
-              the one taking OSM + a Fletcher sheet into the field with live
-              GPS, which needs no Province data at all. Province layers are
-              already excluded from the export by the same mechanism that
-              excludes them from `captureLayerIds` — they are only visible,
-              and therefore only composited, once the licence is accepted. */}
-          <button
-            type="button"
-            className="secondary-action export-map-trigger"
-            onClick={() =>
-              setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
-          >
-            Export map (PDF)
-          </button>
-
-          <MapThemePicker
+          {!focusHides(focusDef, "setup-picker") ? <MapThemePicker
             themes={mapThemes}
             activeThemeId={activeThemeId}
             status={themeStatus}
@@ -3463,7 +4768,9 @@ export function App() {
             onReset={() => {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
-          />
+          /> : null}
+
+          {FocusPanel ? <FocusPanel {...focusChromeContext} /> : null}
 
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
@@ -3482,38 +4789,48 @@ export function App() {
                 ? "layer-category-list layer-category-list--focused"
                 : "layer-category-list"
             }>
-            {layerCategories
+            {(focusDef
+              ? focusDef.categoryIds.map((id) =>
+                layerCategories.find((category) => category.id === id)!)
+              : layerCategories)
               .filter((category) =>
                 !phoneCategoryLayout || focusedCategoryId === null ||
                   category.id === focusedCategoryId)
               .map((category) => {
               const provinceCategoryLayers = provinceLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const zoningCategoryLayers = zoningLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const hydroCategoryLayers = hydroPilotLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const floodCategoryLayers = floodHazardLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
+              );
+              const contextCategoryLayers = contextLayerCatalog.filter(
+                ({ id, category: assigned }) => assigned === category.id && offered(id),
               );
               const environmentalCategoryLayers =
                 environmentalHealthLayerCatalog.filter(
-                  ({ id }) => layerCategoryByLayerId[id] === category.id,
+                  ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
                 );
               const forestryCategoryLayers = forestryLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const resourceCategoryLayers = allResourceLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
               const wellCategoryLayers = wellLogLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
+              const liveConditionsCategoryLayers =
+                liveConditionsLayerCatalog.filter(
+                  ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
+                );
               const churchCategoryLayers = churchLayerCatalog.filter(
-                ({ id }) => layerCategoryByLayerId[id] === category.id,
+                ({ id }) => layerCategoryByLayerId[id] === category.id && offered(id),
               );
 
               return (
@@ -3544,23 +4861,26 @@ export function App() {
                     }
                   }}
                 >
+                  {category.id === "rhodena-project" ? <RhodenaOverview compact={Boolean(focusDef)} onFit={() => { requestFocusFit(focusDefinitions.rhodena); setMobileControlsOpen(false); }} /> : null}
                   {layerCategoryByLayerId.modern === category.id ? (
+                    <div className="layer-control">
                     <label className="layer-row">
                       <input
                         type="checkbox"
                         aria-label="Modern map"
                         checked={showModernMap}
                         onChange={(event) =>
-                          setShowModernMap(event.target.checked)}
+                          { setShowModernMap(event.target.checked);
+                            if (event.target.checked) setContextLayers((current) => ({ ...current, "ns-topographic": false, "sentinel-2": false })); }}
                       />
                       <span className="switch" aria-hidden="true" />
                       <span>
                         <strong>Modern map</strong>
-                        <small>OpenStreetMap</small>
+                        <small>{basemapStyle === "osm" ? "OpenStreetMap" : basemapSource(basemapStyle).name}</small>
                         <LayerMetadata
-                          sourceDate="Live tiles · checked July 20, 2026"
-                          scale="Web map · native detail to zoom 19"
-                          coverage="Worldwide"
+                          sourceDate={basemapSource(basemapStyle).sourceDate}
+                          scale={basemapStyle === "osm" ? "Web map · native detail to zoom 19" : "Provincial-first · NSTDB 1:10,000 detail; closer zoom magnifies the data. Roads and paths do not establish access permission."}
+                          coverage={basemapStyle === "osm" ? "Worldwide" : "Nova Scotia · supplemental OSM context"}
                           minZoom={7}
                           maxZoom={23}
                           checked={showModernMap}
@@ -3568,6 +4888,28 @@ export function App() {
                         />
                       </span>
                     </label>
+                    <label className="basemap-style-control">
+                      Basemap style
+                      <select aria-label="Basemap style" value={basemapPreference} onChange={(event) => setBasemapPreference(event.target.value as BasemapPreference)}>
+                        <option value="system">Atlas · System appearance</option>
+                        <option value="day">Atlas · Day</option>
+                        <option value="night">Atlas · Night</option>
+                        <option value="fletcher">Atlas · Fletcher</option>
+                        <option value="osm">OpenStreetMap</option>
+                      </select>
+                    </label>
+                    {basemapStyle !== "osm" && <p className="crown-land-key">
+                      <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
+                      <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
+                    </p>}
+                    {basemapStyle === 'fletcher' && !focusDef ? <>
+                      <label className="fletcher-features-toggle">
+                        <input type="checkbox" checked={fletcherFeaturesVisible} onChange={event => setFletcherFeaturesVisible(event.target.checked)} />
+                        Reviewed Fletcher features
+                      </label>
+                      <p className="resource-source-note" role="status">{fletcherFeaturesVisible ? fletcherFeaturesStatus : 'Historical features hidden'}. Zoom to level 12 or closer; select a mark for its original scan and evidence. Historical points and lines are approximate; dashed areas retain unresolved groups. On-screen research layer, excluded from exports.</p>
+                    </> : null}
+                    </div>
                   ) : null}
 
                   {provinceCategoryLayers.map((layer) => (
@@ -3581,7 +4923,7 @@ export function App() {
                         onReviewLicence={reviewProvinceLicence}
                       />
                       {layer.id === "roads" && provinceLayers.roads ? (
-                        <RoadLegend />
+                        <RoadLegend imagery={provinceLayers["ns-aerial"] || contextLayers["sentinel-2"]} />
                       ) : null}
                     </div>
                   ))}
@@ -3708,6 +5050,19 @@ export function App() {
                     </p>
                   ) : null}
 
+                  {category.id === "elections-districts" ? <ElectoralLayerControls visibility={contextLayers} statuses={layerStatuses} licenceAccepted={licenceAccepted} modes={electoralModes} onModeChange={(id, mode) => setElectoralModes(current => withElectoralMode(current,id,mode))} onChange={setContextLayerVisibility} onReviewLicence={reviewProvinceLicence} night={basemapStyle === "night"} /> : null}
+                  {contextCategoryLayers.filter(layer => layer.category !== "elections-districts").map((layer) => (
+                    <ContextLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={contextLayers[layer.id]}
+                      licenceAccepted={licenceAccepted}
+                      status={layerStatuses[layer.id]}
+                      onChange={contextToggleFor(layer.id)}
+                      onReviewLicence={reviewProvinceLicence}
+                    />
+                  ))}
+
                   {environmentalCategoryLayers.map((layer) => (
                     <EnvironmentalHealthLayerToggle
                       key={layer.id}
@@ -3779,6 +5134,43 @@ export function App() {
                     </>
                   ) : null}
 
+                  {liveConditionsCategoryLayers.map((layer) => (
+                    <div className="layer-control" key={layer.id}>
+                      <LiveConditionsLayerToggle
+                        layer={layer}
+                        checked={liveConditionsLayers[layer.id]}
+                        status={layerStatuses[layer.id]}
+                        onChange={liveConditionsToggleFor(layer.id)}
+                      />
+                      <p className="resource-source-note">
+                        {layer.id === "highway-cameras" ? (
+                          <>
+                            Camera images load in your browser directly from
+                            511 Nova Scotia when you tap a camera; this map
+                            stores nothing. The camera list is a project
+                            catalogue of the public 511 map and can lag 511's
+                            own. {" "}
+                          </>
+                        ) : (
+                          <>
+                            Radar shows observed precipitation only — not a
+                            forecast. A gap or missing frame is missing data,
+                            not clear sky. {" "}
+                          </>
+                        )}
+                        <a
+                          href={layer.sourceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {layer.id === "highway-cameras"
+                            ? "511 Nova Scotia map"
+                            : "MSC GeoMet service"}
+                        </a>
+                      </p>
+                    </div>
+                  ))}
+
                   {forestryCategoryLayers.map((layer) => (
                     <ForestryLayerToggle
                       key={layer.id}
@@ -3837,38 +5229,44 @@ export function App() {
                     </p>
                   ) : null}
 
-                  {churchCategoryLayers.map((layer) => (
-                    <div className="layer-row unavailable" key={layer.id}>
-                      <span className="switch" aria-hidden="true" />
-                      <span>
-                        <strong>{layer.name}</strong>
-                        <small>{layer.webCaveat}</small>
-                        <LayerMetadata
-                          sourceDate={layer.sourceDate}
-                          scale={layer.scale}
-                          coverage={layer.coverage}
-                          minZoom={layer.minZoom}
-                          maxZoom={layer.maxZoom}
-                          checked={false}
-                          status={{ status: "idle" }}
-                        />
-                      </span>
-                    </div>
-                  ))}
                   {churchCategoryLayers.length > 0 ? (
-                    <p className="resource-source-note">
-                      A.F. Church topographical township maps name the residents
-                      of each building, and the occupations of prominent
-                      townsfolk. Scans courtesy of the {" "}
-                      <a
-                        href={RUMSEY_COLLECTION_TERMS_URL}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        David Rumsey Map Collection
-                      </a>
-                      . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
-                    </p>
+                    <details className="resource-layer-group">
+                      <summary>
+                        A.F. Church county maps
+                        <small>{churchCategoryLayers.length} maps · web tiles pending</small>
+                      </summary>
+                      {churchCategoryLayers.map((layer) => (
+                        <div className="layer-row unavailable" key={layer.id}>
+                          <span className="switch" aria-hidden="true" />
+                          <span>
+                            <strong>{layer.name}</strong>
+                            <small>{layer.webCaveat}</small>
+                            <LayerMetadata
+                              sourceDate={layer.sourceDate}
+                              scale={layer.scale}
+                              coverage={layer.coverage}
+                              minZoom={layer.minZoom}
+                              maxZoom={layer.maxZoom}
+                              checked={false}
+                              status={{ status: "idle" }}
+                            />
+                          </span>
+                        </div>
+                      ))}
+                      <p className="resource-source-note">
+                        A.F. Church topographical township maps name the residents
+                        of each building, and the occupations of prominent
+                        townsfolk. Scans courtesy of the {" "}
+                        <a
+                          href={RUMSEY_COLLECTION_TERMS_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          David Rumsey Map Collection
+                        </a>
+                        . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
+                      </p>
+                    </details>
                   ) : null}
 
                   {layerCategoryByLayerId.fletcher === category.id ? (
@@ -4187,7 +5585,9 @@ export function App() {
                           vectorEdit.editingId === id
                             ? endVectorEdit()
                             : beginVectorEdit(id)}
+                        onAbandonLayer={abandonVectorLayer}
                         onNewLayer={() => void createAndEditVectorLayer()}
+                        onBulkPhotos={() => setBulkPhotosOpen(true)}
                         editingId={vectorEdit.editingId}
                       />
                     </>
@@ -4198,22 +5598,52 @@ export function App() {
             </div>
           </section>
 
+          {focusDef ? (
+            <section className={`${focusDef.id}-focus-footer`} aria-label="Display, export and full map">
+              {appearanceControl}
+              {exportMapButton}
+              <a
+                className={`${focusDef.id}-full-map-link`}
+                href={fullMapUrl(shareUrl)}
+              >
+                Open this view in the full NS Marks map
+                <span aria-hidden="true">→</span>
+              </a>
+              <focusDef.chrome.FooterNote />
+            </section>
+          ) : null}
         </aside>
 
         <section
-          className={`map-region${selectedPid ? " has-inspector" : ""}`}
+          ref={mapRegionRef}
+          tabIndex={-1}
+          className={`map-region${selectedPid && !pokerMode ? " has-inspector" : ""}${pokerMode ? " poker-mode" : ""}${attributionCollapsed ? " attribution-folded" : ""}`}
           aria-label="Map and parcel details"
         >
           <div className="mobile-map-chrome">
-            <a
-              className="mobile-map-brand"
-              href="../"
-              aria-label="NS Marks The Spot home"
-            >
-              <span aria-hidden="true">NS</span>
-              <strong>NS Marks</strong>
-            </a>
+            {focusDef ? (
+              <button
+                className={`mobile-map-brand ${focusDef.id}-brand`}
+                type="button"
+                aria-label={focusDef.chrome.brand.label}
+                aria-controls="map-controls"
+                aria-expanded={mobileControlsOpen}
+                onClick={() => setMobileControlsOpen(true)}
+              >
+                <focusDef.chrome.brand.Mark />
+              </button>
+            ) : (
+              <a
+                className="mobile-map-brand"
+                href="../"
+                aria-label="NS Marks The Spot home"
+              >
+                <span aria-hidden="true">NS</span>
+                <strong>NS Marks</strong>
+              </a>
+            )}
             <button
+              ref={mobileControlsTriggerRef}
               className="mobile-controls-trigger"
               type="button"
               aria-controls="map-controls"
@@ -4221,39 +5651,72 @@ export function App() {
               onClick={() => setMobileControlsOpen(true)}
             >
               <span aria-hidden="true">⌕</span>
-              Search &amp; layers
+              {pokerMode ? "Layers" : "Search & layers"}
             </button>
           </div>
+          {pokerMode && searchForm}
+          <div className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} />)}</div>
+          {electoralSelection && effectiveContextLayers[electoralSelection.layer.id] && layerStatuses[electoralSelection.layer.id]?.status === "ready" ? <DistrictInspector selection={electoralSelection} night={basemapStyle === "night"} onClose={() => setElectoralSelection(null)} /> : null}
           <MapCanvas
-            parcels={parcels}
+            poker={pokerMode ? {
+              address: pokerAddress,
+              revision: pokerRevision,
+              onCivicStatusChange: setPokerCivicStatus,
+            } : null}
+            basemapStyle={basemapStyle}
+            onUseOsmBasemap={() => setBasemapPreference("osm")}
+            parcels={pokerMode ? { type: "FeatureCollection", features: [] } : drawableParcels}
             taxSalePids={effectiveTaxSalePids}
             historicalTaxSalePids={effectiveHistoricalTaxSalePids}
-            selectedPid={selectedPid}
-            provinceLayers={provinceLayers}
+            selectedPid={pokerMode ? null : selectedPid}
+            provinceLayers={pokerMode ? { ...provinceLayers, nsprd: false } : provinceLayers}
             resourceLayers={effectiveResourceLayers}
             hydroPilotLayers={hydroPilotLayers}
             floodHazardLayers={effectiveFloodHazardLayers}
             environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
+            contextLayers={effectiveContextLayers}
+            electoralModes={electoralModes}
+            electoralLicenceAccepted={licenceAccepted}
+            onElectoralSelect={setElectoralSelection}
             forestryLayers={forestryLayers}
             zoningLayers={zoningLayers}
             wellLogLayers={wellLogLayers}
+            liveConditionsLayers={liveConditionsLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
             fletcherVisible={fletcherVisible}
+            fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef}
+            onFletcherFeaturesStatus={setFletcherFeaturesStatus}
             fletcherOpacity={fletcherOpacity}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
-            userMaps={userMapsApi.visibleMaps}
+            userMaps={focusHides(focusDef, "my-maps") ? undefined : userMapsApi.visibleMaps}
             userMapFitRequest={userMapsApi.fitRequest}
-            userVectorLayers={readOnlyVectorLayers}
+            userVectorLayers={focusHides(focusDef, "my-maps") ? undefined : readOnlyVectorLayers}
             userVectorFitRequest={userVectorApi.fitRequest}
+            userVectorPhotoUi={photoPopupUi}
             userVectorEdit={
               vectorEdit.editingLayer
                 ? {
                     record: vectorEdit.editingLayer.record,
                     data: vectorEdit.editingLayer.data,
                     mode: drawMode,
+                    snap: {
+                      enabled: snapTargets.enabled,
+                      myFeatures: snapTargets.myFeatures,
+                      // Belt to the panel's braces: parcels never arm
+                      // without the accepted province licence.
+                      parcels: snapTargets.parcels && licenceAccepted,
+                    },
                     onGeometryChange: vectorEdit.commitGeometry,
                     onSelectFeature: setSelectedFeatureId,
+                    onParcelSnapStatus: setParcelSnapStatus,
+                    conversionPreview:
+                      convertShape && conversionPlan?.viable
+                        ? {
+                            positions: conversionPlan.positions,
+                            closed: convertShape === "area",
+                          }
+                        : null,
                   }
                 : null
             }
@@ -4273,9 +5736,36 @@ export function App() {
               void identifyParcelAtPoint(latitude, longitude);
             }}
             focusRequest={parcelFocusRequest}
-            initialPosition={initialShareState.position}
+            focusFit={focusFit}
+            // Only a page whose state carries a spot drives the spots layer;
+            // anywhere else the layer keeps its own selection.
+            fishingSpots={focusDef?.shareParams?.has("spot") ? {
+              month: focusPage.month,
+              species: focusPage.species,
+              selectedId: focusPage.spotId,
+              mapReveal: focusPage.mapReveal,
+              onSelect: selectFocusSpot,
+              onOpenCard: openFocusSpotCard,
+            } : undefined}
+            backgroundSwitch={focusDef?.backgroundSwitch ? {
+              aerial: licenceAccepted && provinceLayers["ns-aerial"],
+              onChange: (aerial) => {
+                if (aerial && !licenceAccepted) {
+                  setLicenceIntent({ kind: "aerial" });
+                  setLicenceDialogOpen(true);
+                  return;
+                }
+                showAerialBackground(aerial);
+              },
+            } : null}
+            rhodenaPickPending={rhodenaPickPending}
+            onRhodenaPickStarted={() => setRhodenaPickPending(false)}
+            initialPosition={!hasSharedPosition && cameraFocus ? cameraFocus.initialPosition : initialShareState.position}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
+            onPositionChange={reportMapCentre}
+            onMarkLocation={markCurrentLocation}
+            onSaveTrack={saveRecordedTrack}
             onLayerStatusChange={setLayerStatus}
             exportFrame={
               exportSession?.stage === "framing" ? exportSession.frame : null
@@ -4286,14 +5776,65 @@ export function App() {
             onExportFrameContinue={(bounds, orientation) =>
               setExportSession({ stage: "dialog", bounds, orientation })}
           />
+          {/* While a parcel is open the message travels inside its panel,
+              which on a phone covers the map entirely: overlaid, it sat
+              across the panel's own pinned row. */}
           <p
             className="parcel-lookup-message"
             role="status"
             aria-live="polite"
           >
-            {parcelLookupMessage}
+            {selectedPid ? null : parcelLookupMessage}
           </p>
-          {selectedPid ? (
+          {/* A debounced write can answer after Done has closed the editor,
+              or while a different layer's panel is open — with no panel left
+              to be read in. Those failures are reported here, on the map,
+              which outlives every session, and each names its layer because
+              the reader may be looking at a different one, or at none. */}
+          {Object.keys(vectorEdit.closedSessionErrors).length > 0 ||
+          vectorEdit.discardedPhotos.length > 0 ? (
+            <div className="vector-edit-write-errors">
+              {Object.entries(vectorEdit.closedSessionErrors).map(
+                ([layerId, message]) => (
+                  <p
+                    key={layerId}
+                    className="vector-edit-write-error"
+                    role="alert"
+                  >
+                    <span>{message}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        vectorEdit.dismissClosedSessionError(layerId)}
+                    >
+                      Dismiss
+                    </button>
+                  </p>
+                ),
+              )}
+              {/* A photo whose feature was gone before its bytes landed is
+                  read here for the same reason: the strip that would have
+                  shown it went away with the feature, and on Done the whole
+                  panel goes. It shares this stack rather than opening a
+                  second one, which would sit on this one's corner. */}
+              {vectorEdit.discardedPhotos.map((photo) => (
+                <p
+                  key={photo.id}
+                  className="vector-edit-write-error"
+                  role="alert"
+                >
+                  <span>{photo.message}</span>
+                  <button
+                    type="button"
+                    onClick={() => vectorEdit.dismissDiscardedPhoto(photo.id)}
+                  >
+                    Dismiss
+                  </button>
+                </p>
+              ))}
+            </div>
+          ) : null}
+          {selectedPid && !pokerMode ? (
             <ParcelInspector
               key={selectedPid}
               pid={selectedPid}
@@ -4307,7 +5848,8 @@ export function App() {
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
-              floodHazard={floodHazard}
+              riverFlood={riverFlood}
+              coastalFlood={coastalFlood}
               taxSaleEnabled={taxSaleEnabled}
               mapMode={mapMode}
               shareUrl={shareUrl}
@@ -4328,10 +5870,51 @@ export function App() {
                   assessmentState.status === "geometry-unavailable") &&
                 (dwellingState.status === "ready" ||
                   dwellingState.status === "error" ||
-                  dwellingState.status === "blocked")
+                  dwellingState.status === "blocked" ||
+                  dwellingState.status === "no-account" ||
+                  dwellingState.status === "no-record-for-notice-aan" ||
+                  dwellingState.status === "geometry-unavailable")
+              }
+              lookupMessage={parcelLookupMessage}
+              dismissOnEscape={
+                // The panel is the bottom layer under all of these, and the
+                // rule the controls sheet already follows applies here: "so
+                // one keypress never closes two layers". printCapture is in
+                // the list because closing the panel clears it, which would
+                // tear the capture out from under an open print preview;
+                // editingMap is in it because the georeferencer's own Escape
+                // is deliberately unscoped. The photo viewer and the frame
+                // chooser are in it because Escape is their only exit and
+                // this panel silences the event to keep one keypress from
+                // closing two layers: without them, the viewer would be left
+                // with no way out and the panel behind it would close.
+                // The PDF export dialog and the bulk photo import are here
+                // for the same reason as the rest: both listen for Escape on
+                // the document, where stopPropagation does not reach a
+                // sibling listener, so one keypress cancelled the export and
+                // closed the panel behind it. The save-track dialog lives
+                // inside MapCanvas, which App cannot see, so it says the same
+                // thing with data-owns-escape on its own root.
+                !aboutOpen &&
+                !dataSourcesOpen &&
+                !licenceDialogOpen &&
+                !themeManagerOpen &&
+                !mobileControlsOpen &&
+                !editingMap &&
+                !openPhoto &&
+                !bulkPhotosOpen &&
+                !exportSession &&
+                !userMapsApi.frameChoosingMap &&
+                !printCapture
               }
               now={currentTime}
               onClose={() => {
+                // Focus would otherwise fall to <body>. The map region is
+                // this panel's own container. preventScroll because it is
+                // already on screen, and scrolling it into view here would
+                // move the map under the reader.
+                mapRegionRef.current?.focus({ preventScroll: true });
+                selectionGeneration.current += 1;
                 setSelectedPid(null);
                 setSelectedEvidenceRequest(null);
                 setPrintCapture(null);
@@ -4353,7 +5936,8 @@ export function App() {
                   value: EMPTY_RESOURCE_INTERSECTIONS,
                   request: null,
                 });
-                setFloodHazard({ status: "idle", request: null });
+                setRiverFlood({ status: "idle", request: null });
+                setCoastalFlood({ status: "idle", request: null });
                 setShareMessage(null);
               }}
             />
@@ -4361,51 +5945,90 @@ export function App() {
         </section>
       </main>
 
-      <footer className="map-attribution">
-        <a
-          className="feedback-link"
-          href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback"
-        >
-          Feedback &amp; suggestions: map@kinnokilabs.com
-        </a>
-        <a
-          href="https://www.openstreetmap.org/copyright"
-          target="_blank"
-          rel="noreferrer"
-        >
-          © OpenStreetMap contributors
-        </a>
-        <a
-          href="https://github.com/dfakkeldy/ns-marks-the-spot"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Open source · MIT · GitHub
-        </a>
-        <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
-        {Object.values(resourceLayers).some(Boolean) ? (
-          <span>Geoscience data © Province of Nova Scotia</span>
-        ) : null}
-        {/* Licence-mandated statements for what is actually on screen. The
-            catalog carried these strings precisely because the licences
-            require them in products using the data, but nothing rendered
-            them live: zoning's OGL–Halifax/EDPC lines, the OGL–NS sentence
-            for open layers beyond forestry, and Rumsey's CC BY-NC-SA line
-            for the Fletcher sheets. */}
-        {oglLayerVisible ? (
-          <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
-        ) : null}
-        {visibleZoningAttributions.map((attribution) => (
-          <span key={attribution}>{attribution}</span>
-        ))}
-        {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
-        <span>Boundaries are not a survey</span>
-        <button type="button" onClick={reviewProvinceLicence}>
-          Data &amp; licences
+      <footer ref={attributionRef} className={`map-attribution${attributionCollapsed ? " collapsed" : ""}`}>
+        <button type="button" aria-expanded={!attributionCollapsed} onClick={() => {
+          cancelAttributionFold.current();
+          setAttributionFolded((folded) => !folded);
+        }}>
+          {attributionCollapsed ? "Show licences" : "Hide licences"}
         </button>
-        <button type="button" onClick={() => setAboutOpen(true)}>
-          About this map
-        </button>
+        {pokerMode && (attributionCollapsed
+          // Folded, the strip is a corner pill with no room for the civic
+          // status; it stays a live region so it is still announced.
+          ? <span className="sr-only" role="status">{pokerCivicStatus}</span>
+          : <span className="poker-civic-status" role="status">
+            {pokerCivicStatus} <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.
+          </span>)}
+        {!attributionCollapsed && <>
+          <a
+            className="feedback-link"
+            href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback"
+          >
+            Feedback &amp; suggestions: map@kinnokilabs.com
+          </a>
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noreferrer"
+          >
+            © OpenStreetMap contributors
+          </a>
+          {showModernMap && basemapStyle !== "osm" ? (
+            <span>NS Marks Atlas · Provincial-first · {PROVINCIAL_ATTRIBUTION}
+              {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
+              {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a>
+              {" · "}Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
+          ) : null}
+          <a
+            href="https://github.com/dfakkeldy/ns-marks-the-spot"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open source · MIT · GitHub
+          </a>
+          <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
+          {Object.values(resourceLayers).some(Boolean) ? (
+            <span>Geoscience data © Province of Nova Scotia</span>
+          ) : null}
+          {/* Licence-mandated statements for what is actually on screen. The
+              catalog carried these strings precisely because the licences
+              require them in products using the data, but nothing rendered
+              them live: zoning's OGL–Halifax/EDPC lines, the OGL–NS sentence
+              for open layers beyond forestry, and Rumsey's CC BY-NC-SA line
+              for the Fletcher sheets. */}
+          {oglLayerVisible || pokerMode ? (
+            <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
+          ) : null}
+          {coastalLayerVisible
+            ? COASTAL_HAZARD_NOTICES.map((notice) => (
+                <span key={notice}>{notice}</span>
+              ))
+            : null}
+          {Array.from(new Set(contextLayerCatalog
+            .filter((layer) => effectiveContextLayers[layer.id] && layer.attribution)
+            .map((layer) => layer.attribution!))).map((attribution) => (
+              <span key={attribution}>{attribution}</span>
+            ))}
+          {visibleZoningAttributions.map((attribution) => (
+            <span key={attribution}>{attribution}</span>
+          ))}
+          {liveConditionsLayerCatalog
+            .filter(({ id }) => liveConditionsLayers[id])
+            .map(({ id, attribution }) => (
+              <span key={id}>{attribution}</span>
+            ))}
+          {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
+          {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef ? <span>
+            Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
+          </span> : null}
+          <span>Boundaries are not a survey</span>
+          <button type="button" onClick={() => setDataSourcesOpen(true)}>
+            Data &amp; licences
+          </button>
+          <button type="button" onClick={() => setAboutOpen(true)}>
+            About this map
+          </button>
+        </>}
       </footer>
 
       {licenceDialogOpen ? (
@@ -4416,6 +6039,16 @@ export function App() {
         />
       ) : null}
       {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
+      {dataSourcesOpen ? (
+        <DataSourcesDialog
+          sources={sourceInventory}
+          onReviewProvinceLicence={() => {
+            setDataSourcesOpen(false);
+            reviewProvinceLicence();
+          }}
+          onClose={() => setDataSourcesOpen(false)}
+        />
+      ) : null}
       {themeManagerOpen ? (
         <ThemeManagerDialog
           themes={mapThemes}
@@ -4440,12 +6073,15 @@ export function App() {
         />
       </Suspense>
     ) : null}
-    {exportSession?.stage === "dialog" ? (
+    {exportSession?.stage === "dialog" && exportReproductionLock ? (
+      <LicensingLockDialog reason={exportReproductionLock} onClose={() => setExportSession(null)} />
+    ) : exportSession?.stage === "dialog" ? (
       <Suspense fallback={null}>
       <ExportDialog
         orientation={exportSession.orientation}
         bounds={exportSession.bounds}
         layers={buildExportLayers({
+          basemapStyle,
           bounds: exportSession.bounds,
           showModernMap,
           fletcher: {
@@ -4458,18 +6094,28 @@ export function App() {
             // catches it once and degrades to null, which buildExportLayers
             // reads as "skip the Fletcher layer".
             tileBaseUrl: fletcherTileConfiguration.baseUrl,
-            maxNativeZoom: fletcherLayerCatalog.maxZoom,
+            // The EXPORT fetches real tiles, so it clamps at native depth —
+            // upscaling is a screen behavior, not something to bake into a
+            // PDF's raster.
+            maxNativeZoom:
+              fletcherLayerCatalog.maxNativeZoom ?? fletcherLayerCatalog.maxZoom,
           },
-          arcgisLayers: provinceLayerCatalog
+          arcgisLayers: [...provinceLayerCatalog
             .filter((layer) =>
-              licenceAccepted && provinceLayers[layer.id] && layer.exportOptions)
+              (layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions)
             .map((layer) => ({
               id: layer.id,
               name: layer.name,
               serviceUrl: layer.serviceUrl,
               exportOptions: layer.exportOptions!,
+              openData: layer.openData,
               opacity: layer.opacity,
             })),
+            ...contextLayerCatalog
+              .filter((layer) => effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null)
+              .map((layer) => ({ id: layer.id, name: layer.name, serviceUrl: layer.serviceUrl,
+                exportOptions: layer.exportOptions, openData: layer.openData, tileUrl: "tileUrl" in layer ? layer.tileUrl : undefined, maxNativeZoom: layer.maxNativeZoom, opacity: layer.opacity })),
+          ],
           // v1 scope cut: user-imported maps are not extracted into a
           // CanvasImageSource + mesh yet. They are named in
           // `omittedLayerNames` below, alongside every other visible layer
@@ -4542,6 +6188,20 @@ export function App() {
         }
       />
     ) : null}
+    {openPhoto ? (
+      <PhotoLightbox
+        descriptor={openPhoto}
+        manager={photoManager}
+        onClose={() => setOpenPhoto(null)}
+      />
+    ) : null}
+    {bulkPhotosOpen ? (
+      <BulkPhotoImportDialog
+        bounds={mapViewport.bounds}
+        onCreate={userVectorApi.createPhotoLayer}
+        onClose={() => setBulkPhotosOpen(false)}
+      />
+    ) : null}
     {vectorEdit.editingLayer ? (
       <VectorEditPanel
         record={vectorEdit.editingLayer.record}
@@ -4549,9 +6209,31 @@ export function App() {
         selectedFeatureId={selectedFeatureId}
         drawMode={drawMode}
         storageError={vectorEdit.storageError}
+        snap={snapTargets}
+        parcelSnapStatus={parcelSnapStatus}
+        licenceAccepted={licenceAccepted}
+        onSnapChange={setSnapTargets}
+        onRequestParcelSnapLicence={requestParcelSnapLicence}
+        convertShape={convertShape}
+        conversionPlan={conversionPlan}
+        onConvertShape={handleConvertShape}
+        onConvertCreate={handleConvertCreate}
+        lastConversion={vectorEdit.lastConversion}
+        onUndoConversion={vectorEdit.undoConversion}
         onDrawMode={setDrawMode}
         onRename={vectorEdit.renameLayer}
         onUpdateFeature={vectorEdit.updateFeatureDetails}
+        onPatchAttributes={vectorEdit.updateFeatureProperties}
+        photoManager={photoManager}
+        onSetFeaturePhotos={vectorEdit.setFeaturePhotos}
+        onAttachFeaturePhotos={vectorEdit.attachFeaturePhotos}
+        onPhotoCleanupFailed={vectorEdit.notePhotoCleanupFailure}
+        onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
+        onFeatureCorners={vectorEdit.featureCorners}
+        onMoveVertex={vectorEdit.moveFeatureVertex}
+        onInsertVertex={vectorEdit.insertFeatureVertex}
+        mapCentre={mapCentre}
+        onOpenPhoto={setOpenPhoto}
         onDeleteFeature={(featureId) => {
           vectorEdit.deleteFeature(featureId);
           setSelectedFeatureId(null);

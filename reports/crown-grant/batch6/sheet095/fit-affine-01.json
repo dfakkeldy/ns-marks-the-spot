@@ -1,0 +1,292 @@
+{
+  "sheet": "095",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.63609368486274,
+      1.9192718988262458
+    ],
+    [
+      1.9235847051569597,
+      -4.605707099474918
+    ],
+    [
+      540018.3121423142,
+      5016590.456294926
+    ]
+  ],
+  "source_sha256": "af0f8aad248515baac4a37e52fad9bacc7f6ff6e38631a8a27ae38b4dbf94f4b",
+  "source_dimensions": [
+    6075,
+    4150
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Mountain Lake north tip",
+      "role": "control",
+      "pixel_xy": [
+        954,
+        1636
+      ],
+      "lonlat": [
+        -62.3931606272934,
+        45.24996634565613
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 140676,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140676,
+      "nearest_unfiltered_distance_guide_px": 1.3420654927369706,
+      "selected_distance_guide_px": 1.3420654927369706,
+      "guide_reference_pixel_xy": [
+        938.7285813457565,
+        1594.127079859376
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Lake west of Hattie Lake north tip",
+      "role": "control",
+      "pixel_xy": [
+        2662,
+        657
+      ],
+      "lonlat": [
+        -62.31622275457815,
+        45.319968224557584
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 73281,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 219716,
+      "nearest_unfiltered_distance_guide_px": 2.217776614573071,
+      "selected_distance_guide_px": 4.966262116675653,
+      "guide_reference_pixel_xy": [
+        2638.9219843894825,
+        621.0156900576549
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Indian Man Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        3929,
+        1009
+      ],
+      "lonlat": [
+        -62.23229028066696,
+        45.32576468919029
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 137113,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137113,
+      "nearest_unfiltered_distance_guide_px": 0.7166729194327002,
+      "selected_distance_guide_px": 0.7166729194327002,
+      "guide_reference_pixel_xy": [
+        3902.6073090776918,
+        999.4004886047915
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Sucker Lake island north tip",
+      "role": "control",
+      "pixel_xy": [
+        4832,
+        1221
+      ],
+      "lonlat": [
+        -62.17286546769358,
+        45.33283446171239
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 150111,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 150111,
+      "nearest_unfiltered_distance_guide_px": 1.4302139635175015,
+      "selected_distance_guide_px": 1.4302139635175015,
+      "guide_reference_pixel_xy": [
+        4822.161110746034,
+        1205.8350651572691
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Big Brook Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        740,
+        2550
+      ],
+      "lonlat": [
+        -62.384340435482294,
+        45.207884526734176
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 125857,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125857,
+      "nearest_unfiltered_distance_guide_px": 0.07002112187941564,
+      "selected_distance_guide_px": 0.07002112187941564,
+      "guide_reference_pixel_xy": [
+        713.9892673183349,
+        2506.069193692296
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Rocky Lake north tip",
+      "role": "control",
+      "pixel_xy": [
+        1435,
+        2895
+      ],
+      "lonlat": [
+        -62.334606356868335,
+        45.205486600862336
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 138749,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138749,
+      "nearest_unfiltered_distance_guide_px": 0.253226800019621,
+      "selected_distance_guide_px": 0.253226800019621,
+      "guide_reference_pixel_xy": [
+        1415.1819873867207,
+        2850.823919327231
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Pond northeast of Glenelg southwest tip",
+      "role": "control",
+      "pixel_xy": [
+        5585,
+        2650
+      ],
+      "lonlat": [
+        -62.094444813005786,
+        45.285693109344265
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 141781,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141781,
+      "nearest_unfiltered_distance_guide_px": 0.3440365298576319,
+      "selected_distance_guide_px": 0.3440365298576319,
+      "guide_reference_pixel_xy": [
+        5566.816298986494,
+        2632.2908866987564
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Glencross northern lake southwest tip",
+      "role": "control",
+      "pixel_xy": [
+        4332,
+        1280
+      ],
+      "lonlat": [
+        -62.20194375531797,
+        45.3217445704402
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 126152,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126152,
+      "nearest_unfiltered_distance_guide_px": 1.944096849499605,
+      "selected_distance_guide_px": 1.944096849499605,
+      "guide_reference_pixel_xy": [
+        4308.62106532394,
+        1260.9068091334775
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C09",
+      "label": "Trout Lake island north tip",
+      "role": "control",
+      "pixel_xy": [
+        3065,
+        3193
+      ],
+      "lonlat": [
+        -62.23145785032504,
+        45.22133896605146
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 149687,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 149687,
+      "nearest_unfiltered_distance_guide_px": 0.19092711611377147,
+      "selected_distance_guide_px": 0.19092711611377147,
+      "guide_reference_pixel_xy": [
+        3043.8972665483598,
+        3138.8390683325706
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    33.76035648370618,
+    59.06784112706068,
+    58.75984287127705,
+    46.91022491501125,
+    38.2307255896466,
+    23.756844646241507,
+    19.141573891155627,
+    19.205152112367482,
+    66.61603090495235
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

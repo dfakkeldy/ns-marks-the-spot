@@ -1,0 +1,31 @@
+{
+  "sheet": "135",
+  "component": "main",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07"
+  ],
+  "checks": [
+    "Q01",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07"
+  ],
+  "rejected_before_fit": {
+    "Q02": "Main lake southwest corner: modern lake/river shoreline partition leaves exact physical definition unresolved"
+  },
+  "notes": [
+    "Whole component source coverage retained, including unvalidated features. No score informed point selection.",
+    "Main control spread includes northern/eastern headlands, western and southern inland ponds, and southwest coast; western check ponds are clustered."
+  ]
+}

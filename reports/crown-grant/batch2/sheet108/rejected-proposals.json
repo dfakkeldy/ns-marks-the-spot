@@ -1,0 +1,10 @@
+[
+  {
+    "packet": "controls2 C07",
+    "reason": "Original source marker lay on nearby parcel line; moved to the actual stream junction and re-audited in controls3 before freezing the fit"
+  },
+  {
+    "packet": "checks1 Q11",
+    "reason": "Historic pond southwestern point and modern outlet/channel/U-shaped shoreline do not supply an unambiguous common corner"
+  }
+]

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { NsprdFeatureCollection } from "./nsprd";
 import {
+  COASTAL_SCENARIO_TIMEOUT_MS,
   fetchCoastalFloodEvidence,
   fetchPublishedRiverFloodEvidence,
   summarizeRasterAlpha,
@@ -167,5 +168,202 @@ describe("coastal raster sampling", () => {
     expect(result[0].status === "intersects" && result[0].approximateAffectedSquareMetres)
       .toBeGreaterThan(0);
     expect(result[2]).not.toHaveProperty("probability");
+  });
+
+  // A request that never settled used to hang the whole join: two answered
+  // scenarios went unreported, and the print capture then sealed all three as
+  // a source that had not answered.
+  it("lets the scenarios that answered stand while the one that never replied says it ran out of time", async () => {
+    vi.useFakeTimers();
+    try {
+      vi.stubGlobal("fetch", vi.fn((input: string | URL, init?: RequestInit) => {
+        if (String(input).includes("2100")) {
+          // The service that never comes back. Only this scenario's own
+          // deadline ends it.
+          return new Promise<Response>((_resolve, reject) => {
+            init?.signal?.addEventListener("abort", () => {
+              reject(new DOMException("The operation was aborted.", "AbortError"));
+            });
+          });
+        }
+        return Promise.resolve(new Response("clear", { status: 200 }));
+      }));
+
+      const pending = fetchCoastalFloodEvidence(
+        parcelFeatures,
+        800,
+        undefined,
+        async () => ({ rgba: new Uint8ClampedArray(4 * 4 * 4), width: 4, height: 4 }),
+      );
+      await vi.advanceTimersByTimeAsync(COASTAL_SCENARIO_TIMEOUT_MS);
+      const result = await pending;
+
+      expect(result.map(({ scenario, status }) => ({ scenario, status }))).toEqual([
+        { scenario: "current", status: "no-intersection" },
+        { scenario: "2050", status: "no-intersection" },
+        { scenario: "2100", status: "unanswered" },
+      ]);
+      expect(result[2]).toMatchObject({ stage: "request" });
+      // Nothing was measured, so nothing about the ground is reported.
+      expect(result[2]).not.toHaveProperty("approximateAffectedPercent");
+      expect(result[2]).not.toHaveProperty("approximateAffectedSquareMetres");
+      expect(result[2]).not.toHaveProperty("sampledParcelPixels");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  // A raster that landed no sample inside the outline measured nothing. The
+  // old code called that "no-intersection" with 0% affected, which reads as
+  // the scenario missing the lot.
+  // The deadline has to cover the decode too: a service that answers and then
+  // hands back bytes nothing finishes with held the whole set exactly as a
+  // silent fetch did.
+  it("gives up on a scenario whose raster never finishes decoding", async () => {
+    vi.useFakeTimers();
+    try {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn(() => Promise.resolve(new Response("clear", { status: 200 }))),
+      );
+      let decoded = 0;
+      const pending = fetchCoastalFloodEvidence(
+        parcelFeatures,
+        800,
+        undefined,
+        async () => {
+          decoded += 1;
+          // The last scenario's decoder never answers.
+          if (decoded === 3) return new Promise(() => {});
+          return { rgba: new Uint8ClampedArray(4 * 4 * 4), width: 4, height: 4 };
+        },
+      );
+      await vi.advanceTimersByTimeAsync(COASTAL_SCENARIO_TIMEOUT_MS);
+
+      const settled = await pending;
+      expect(settled.map(({ status }) => status)).toEqual([
+        "no-intersection",
+        "no-intersection",
+        "unanswered",
+      ]);
+      // The province replied; this browser could not read the reply in time.
+      // Calling that a service that did not answer blames somebody else's
+      // system for what happened here.
+      expect(settled[2]).toMatchObject({ stage: "processing" });
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  // A connection the network stack drops answers with a failure. Reading that
+  // as silence would collapse the two states this split exists to keep apart.
+  it("calls a dropped request a failure rather than a silence", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((input: string | URL) =>
+        String(input).includes("2100")
+          ? Promise.reject(new DOMException("connection aborted", "AbortError"))
+          : Promise.resolve(new Response("clear", { status: 200 })),
+      ),
+    );
+
+    const result = await fetchCoastalFloodEvidence(parcelFeatures, 800, undefined, async () => ({
+      rgba: new Uint8ClampedArray(4 * 4 * 4),
+      width: 4,
+      height: 4,
+    }));
+
+    expect(result[2].status).toBe("error");
+  });
+
+  // A selection that has moved on must not have an older geometry's
+  // measurement land on it, and the effect that tore down must not wait out
+  // the whole scenario deadline first.
+  it("gives up at once when the caller abandons it mid-decode", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.resolve(new Response("clear", { status: 200 }))),
+    );
+    const controller = new AbortController();
+
+    const pending = fetchCoastalFloodEvidence(
+      parcelFeatures,
+      800,
+      controller.signal,
+      () => new Promise(() => {}),
+    );
+    controller.abort();
+
+    await expect(pending).rejects.toMatchObject({ name: "AbortError" });
+  });
+
+  it("does not call an unsampled parcel a scenario miss", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("clear", { status: 200 })));
+
+    const result = await fetchCoastalFloodEvidence(
+      parcelFeatures,
+      800,
+      undefined,
+      async () => ({ rgba: new Uint8ClampedArray(4 * 4 * 4), width: 4, height: 4 }),
+    );
+
+    // Two small far-apart parts: the only sampled centre falls in the gap
+    // between them, so no pixel centre lands inside the parcel at all.
+    const twoParts: NsprdFeatureCollection["features"] = [
+      {
+        ...parcelFeatures[0],
+        geometry: {
+          type: "Polygon",
+          coordinates: [[
+            [-63.7, 44.74],
+            [-63.699, 44.74],
+            [-63.699, 44.741],
+            [-63.7, 44.741],
+            [-63.7, 44.74],
+          ]],
+        },
+      },
+      {
+        ...parcelFeatures[0],
+        geometry: {
+          type: "Polygon",
+          coordinates: [[
+            [-63.6, 44.84],
+            [-63.599, 44.84],
+            [-63.599, 44.841],
+            [-63.6, 44.841],
+            [-63.6, 44.84],
+          ]],
+        },
+      },
+    ];
+    const unsampled = await fetchCoastalFloodEvidence(
+      twoParts,
+      800,
+      undefined,
+      async () => ({ rgba: new Uint8ClampedArray(4), width: 1, height: 1 }),
+    );
+
+    expect(result.every(({ status }) => status !== "not-sampled")).toBe(true);
+    expect(unsampled.map(({ status }) => status)).toEqual([
+      "not-sampled",
+      "not-sampled",
+      "not-sampled",
+    ]);
+    expect(unsampled[0]).not.toHaveProperty("approximateAffectedPercent");
+    expect(unsampled[0]).not.toHaveProperty("approximateAffectedSquareMetres");
+  });
+
+  it("reports a parcel with no usable outline as not evaluated, not as a miss", async () => {
+    const result = await fetchCoastalFloodEvidence([], 800, undefined, async () => {
+      throw new Error("no scenario should be requested without an outline");
+    });
+
+    expect(result.map(({ scenario, status }) => ({ scenario, status }))).toEqual([
+      { scenario: "current", status: "geometry-unavailable" },
+      { scenario: "2050", status: "geometry-unavailable" },
+      { scenario: "2100", status: "geometry-unavailable" },
+    ]);
+    expect(result[0]).not.toHaveProperty("approximateAffectedPercent");
   });
 });

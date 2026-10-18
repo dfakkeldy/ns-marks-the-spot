@@ -142,7 +142,7 @@ describe("MapThemePicker", () => {
     );
 
     await userEvent.click(
-      screen.getByRole("button", { name: "Save current setup as…" }),
+      screen.getByRole("button", { name: "Save setup…" }),
     );
     await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
     expect(onSave).toHaveBeenCalledOnce();

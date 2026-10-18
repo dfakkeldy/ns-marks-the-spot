@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C07",
+    "label": "Porter Lake eastern islet northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      595,
+      3006
+    ],
+    "lonlat": [
+      -63.29065310188813,
+      44.71270808224861
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 22952,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22952,
+    "nearest_unfiltered_distance_guide_px": 0.6046028058680597,
+    "selected_distance_guide_px": 0.6046028058680597,
+    "guide_reference_pixel_xy": [
+      626.0718642252032,
+      3011.6003166547744
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Porter Lake eastern islet southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      596,
+      3031
+    ],
+    "lonlat": [
+      -63.29027051308815,
+      44.71168729400008
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 22952,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22952,
+    "nearest_unfiltered_distance_guide_px": 1.5906704247024566,
+    "selected_distance_guide_px": 1.5906704247024566,
+    "guide_reference_pixel_xy": [
+      622.8803114817129,
+      3031.675128649571
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Griswold Lake southwestern bay tip",
+    "role": "proposal",
+    "pixel_xy": [
+      809,
+      698
+    ],
+    "lonlat": [
+      -63.341346759214794,
+      44.8273929321854
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 136977,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136977,
+    "nearest_unfiltered_distance_guide_px": 0.9894223562410396,
+    "selected_distance_guide_px": 0.9894223562410396,
+    "guide_reference_pixel_xy": [
+      888.14996823814,
+      715.4936378737912
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Western Arm Jeddore main island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3932,
+      3311
+    ],
+    "lonlat": [
+      -63.058880538642754,
+      44.76398900380948
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 22456,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22456,
+    "nearest_unfiltered_distance_guide_px": 2.6317887348361464,
+    "selected_distance_guide_px": 2.6317887348361464,
+    "guide_reference_pixel_xy": [
+      3972.010596604843,
+      3333.5612722852966
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

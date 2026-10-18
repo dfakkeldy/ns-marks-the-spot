@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6001 x 4193 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 41.42 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          10,
+          145
+        ],
+        [
+          5860,
+          145
+        ],
+        [
+          5860,
+          4070
+        ],
+        [
+          10,
+          4070
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains Portapique River Wilderness, Londonderry, Folly Lake, Probert, East Folly Mountain, Portapique, Highland Village, Great Village, Spencer Point, East Mines, Debert, Glenholme, Staples Brook, Masstown, Belmont and Debert Camp, all mapped ponds, rivers, the complete Cobequid Bay coast and original ocean area. No displaced inset identified."
+    }
+  ]
+}

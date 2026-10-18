@@ -1,0 +1,381 @@
+{
+  "scope": "All listed figures personally inspected, including every original native proposal/correction close and wide, eight additional exact-coordinate audit views, both raster trials, all seams, and desktop/mobile importer captures. This continuation inspected existing scores afterward and does not assert first-score chronology from direct observation.",
+  "count": 71,
+  "figures": [
+    {
+      "path": "additional-review/sheet-03-R10.jpg",
+      "sha256": "e60b912bb292ddfd18329bfbfbb3e4a243bb30f59e44e927f3805a93cb9ea09f",
+      "personally_viewed": true
+    },
+    {
+      "path": "additional-review/sheet-03-R13.jpg",
+      "sha256": "1785bb1b815959e6d0cdc8b14f7d3ecb13839f7cfe707bda193ce605663456fd",
+      "personally_viewed": true
+    },
+    {
+      "path": "additional-wide/sheet-03-R10.jpg",
+      "sha256": "f841c069b2a488d2ab23581bb1ccbbf622059cc486491a04dbecaaf86295b795",
+      "personally_viewed": true
+    },
+    {
+      "path": "additional-wide/sheet-03-R13.jpg",
+      "sha256": "b7ccb620bc84626658d965bb95b7ccc627b6d169c8ffca3938785c4771489ec1",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/01-north-east.jpg",
+      "sha256": "8dd42cd1f11dced49d52f41b460e51364aed5b876bf702537a737aafdf3ccaba",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/01-north-west.jpg",
+      "sha256": "62a592cb6d034651ce07b26c86c69e1149045efdf21720733ec2371a507fd1a5",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/02-east-pond.jpg",
+      "sha256": "6112dd4283b6204953fdb682e4e7ad42673b2fe5be5047b18094bd1a0d50cdae",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/05-south-east.jpg",
+      "sha256": "003af295de6796da3c05bc66e4166149f26999e808357a5dc72d2ad1871c4cee",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/05-south-west.jpg",
+      "sha256": "cc62ef20064ed0a6e974b97cbb08e89229b9bfa72a09721d43cd4f4bdfdeebc8",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/06-extension.jpg",
+      "sha256": "871e88f44024e9be679850230f66facc2b76e699ff636d53183b14da17cefceb",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review-nine/01-north-east.jpg",
+      "sha256": "6b7a48e75e269115edcc467b3eb9bf2574ea552e85d82b8383530b3e5ca2c610",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review-nine/01-north-west.jpg",
+      "sha256": "e4301e1c0948aab54b270d2638f10e2558596e2aa909b6ab231a07c019fe1a1e",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review-nine/02-east-pond.jpg",
+      "sha256": "b99db8752105c97caef53d0985dfe6779e99acc924fe704f57c6d526fe7f0d47",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review-nine/05-south-east.jpg",
+      "sha256": "4cd6b72427aa383f23f758a179d583b605a14d58428f7e113c018f2c50ef36d2",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review-nine/05-south-west.jpg",
+      "sha256": "911ba168a04ab9666438dd46aa9354e3d19dc4a36519252afa058d23584aadb6",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review-nine/06-extension.jpg",
+      "sha256": "8857c31dbc659bf88ceaf4349026c18289ee2ced2b70447ac929a861dcf9b064",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-check-wide/sheet-03-U04.jpg",
+      "sha256": "d0c7c7af5144bfd0c7af9255a73081a2ef96923dc5dfb72cb78ba162666fd8e4",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-check-wide/sheet-03-U06.jpg",
+      "sha256": "fd29ab4cdf6fc0e7f3b38f6096854487145fea6dcc8cc1b851a79682d5e8bab0",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-control-close/sheet-03-R10.jpg",
+      "sha256": "e60b912bb292ddfd18329bfbfbb3e4a243bb30f59e44e927f3805a93cb9ea09f",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-control-close/sheet-03-R13.jpg",
+      "sha256": "91a975a769e60385f68eb4d276f6a13b5697e50c43de5abea138ecfd8f084d9c",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-control-close/sheet-03-R14.jpg",
+      "sha256": "2e8fea1d2341f6b98d8e45b281717d3d69be60fc7200f8f395f3992205ebfb00",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-control-wide/sheet-03-R10.jpg",
+      "sha256": "f841c069b2a488d2ab23581bb1ccbbf622059cc486491a04dbecaaf86295b795",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-control-wide/sheet-03-R13.jpg",
+      "sha256": "843b79d8c88499544823bcc90976769b1dc8b743aa0b2e665fd335cef694b94d",
+      "personally_viewed": true
+    },
+    {
+      "path": "audit-control-wide/sheet-03-R14.jpg",
+      "sha256": "1824774719d6e3adb8b9248d64f50af2c78dd08e1828d4ec9f678f56fd29970c",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser-nine/import-desktop.png",
+      "sha256": "c5c55d9a9d16cc5c616486ccc1e656dcdab70f2dca8853d1d29b1512fc0105ad",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser-nine/reload-desktop.png",
+      "sha256": "94fbdff5951b8722520cdc446876f85ae1a66a9571cd7ba848e6ed153376b88a",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser-nine/reload-mobile.png",
+      "sha256": "0b7bf140f74e37adb91c956311c34d0c939e4e82e9d43432ebcd8c9f7e6cbea9",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser-ten/import-desktop.png",
+      "sha256": "280d1981bc4730b74d5090f88f37f180ee5a87be2bf003b3d83da442fd756948",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser-ten/reload-desktop.png",
+      "sha256": "9f6c4706adc8f3663e67f45af5dcda98d72761ddce81e1a001e1f7feae9aad00",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser-ten/reload-mobile.png",
+      "sha256": "01c3cb93a8eb582c1ac9577efb03872c4fabd1087996117fb378d8102f27d3af",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-review/sheet-03-R10.jpg",
+      "sha256": "76331d94d4c3978c74303570b17014c6d8ef1a1e6e61a2d64a48a7513008099d",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-review/sheet-03-R11.jpg",
+      "sha256": "8b29177c62e3eef5c1e90cd07006f68d3c19304035455d9440836ff1012b28dc",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-review/sheet-03-R12.jpg",
+      "sha256": "3d7a5377ddada4b1cd88ec8f9972a2bb5521e30341efab73e7a2592815218009",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-wide/sheet-03-R10.jpg",
+      "sha256": "771adef1e3ba7c0dfae7764241babb0b19f8730dc5200e3ad91c31ba9ac03079",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-wide/sheet-03-R11.jpg",
+      "sha256": "826098e5f9677c3bb10c5c730813652fb8a15e2c839174f97e0f20c81eaeef38",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-wide/sheet-03-R12.jpg",
+      "sha256": "ebe8d2825dda6b7b42f2e542dad93f9fd2c37c735b9e831e29ccedd9b531e7c0",
+      "personally_viewed": true
+    },
+    {
+      "path": "final-point-review/sheet-03-R10.jpg",
+      "sha256": "e60b912bb292ddfd18329bfbfbb3e4a243bb30f59e44e927f3805a93cb9ea09f",
+      "personally_viewed": true
+    },
+    {
+      "path": "final-point-review/sheet-03-R13.jpg",
+      "sha256": "91a975a769e60385f68eb4d276f6a13b5697e50c43de5abea138ecfd8f084d9c",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-candidate-review/sheet-03-U01.jpg",
+      "sha256": "c9817ab974f4f0a8389ace0e052005a7293dc4f538314ba616c473c96074ada4",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-candidate-review/sheet-03-U02.jpg",
+      "sha256": "d3477eda419ab5e61652e3357ec9734fa1c5ebab4841c962245cd268cf55af49",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-candidate-review/sheet-03-U03.jpg",
+      "sha256": "a38c4d00aa37b94da8156d487194fa367c54f5840e4c4fb51d80f13f82bb30aa",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-final-review/sheet-03-U01.jpg",
+      "sha256": "c40fb7d2e50c40fad053bfb36582350269756f0ec0f18758586ec50d2d23f013",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-final-review/sheet-03-U02.jpg",
+      "sha256": "d3477eda419ab5e61652e3357ec9734fa1c5ebab4841c962245cd268cf55af49",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-final-review/sheet-03-U03.jpg",
+      "sha256": "6ee8cd7a3388e06fde39e3f544d39dcd90f1846f8ddae76a50915b34d6403961",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-candidate-review/sheet-03-U04.jpg",
+      "sha256": "1363a515ebbe4631f95cf06833db6656f1dbe49d5f296435fa1f7ce7ebc50660",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-candidate-review/sheet-03-U05.jpg",
+      "sha256": "f16fc6753cc028cf7ba6cbdbb8b404284ca58e3772346b48830daf77209e69f0",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-candidate-review/sheet-03-U06.jpg",
+      "sha256": "ffa06ca59ad1c757b9a734b6cd10bbbbd6f59ffb3fc64358b101eec895306515",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-final-review/sheet-03-U04.jpg",
+      "sha256": "097764110a853b92acb7cba61d356a2007bac60eb526eba396e03e4f341c2067",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-final-review/sheet-03-U06.jpg",
+      "sha256": "a428909d40af1a1f041a1f14a2547f75559929e00c37f3837abe53f8e1a96b73",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-wide/sheet-03-U04.jpg",
+      "sha256": "3fa8be6d71bf0c78f2f9b774043621e11627b9435125e418af2da455731acb97",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-wide/sheet-03-U05.jpg",
+      "sha256": "2f8465afb8009cfc4b9b8d10d7c9f1926299d3dea976d7ed8a1da3ba8afcb137",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-ten-wide/sheet-03-U06.jpg",
+      "sha256": "2cd693f9be235c2f05c68f5a3337b8e3881dab0fbc1bf2e6ae10f0740374e5d8",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-wide/sheet-03-U01.jpg",
+      "sha256": "a04a7affffcb4874abe807bed298be23b5cd6df02034a8dc951285724b9a935b",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-wide/sheet-03-U02.jpg",
+      "sha256": "70934d8d388a5ed503ea3a6b64e85084ce0a1e637e58c1eabbca410361fde729",
+      "personally_viewed": true
+    },
+    {
+      "path": "validation-wide/sheet-03-U03.jpg",
+      "sha256": "ebbde10eff3d24bf7d392fe02e155c1f7ce8f748397b32a3ef11c4b202b6b84c",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/aspy-south.jpg",
+      "sha256": "f86b71fbc9732aa9e81b7ae4ee852b0eee2d4af3c38fcdfa36c7de69b7fe12a1",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/blair-north.jpg",
+      "sha256": "a80e05690722f01fe9ff25fc9fb4cb1ce18a5df7419f6cb581f074eaa566eda4",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/fishing-extension.jpg",
+      "sha256": "217ebcaeb0d17b4c0e07f855d51de0303eadd1b5e33974b24e19523e95d75608",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/full-sheet.jpg",
+      "sha256": "159224759e24cc005dd55074b8b97d15b6db56e00ee3645474264cb26fc3dcc7",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/grande-anse.jpg",
+      "sha256": "5eff493c2c538387c97a708200093075c2e928c8f32c774167969d991c57e288",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/grays-north-branch.jpg",
+      "sha256": "932f0434da6a2be672e901824fea2404677327777f7d58604f22c1254ca28745",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/red-river.jpg",
+      "sha256": "6f8c14b3556e2d568732a4f124174eecaecb2c63bb924beccc7ae09603525835",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/wilkie-pond.jpg",
+      "sha256": "4c60b5dd50a3d487f1f4ee8055e553de83ae8914ae51e1e5e2f4bd204bb338e7",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/aspy-south.jpg",
+      "sha256": "cdc2bc6d787b93e029a3eacf290be3af53a081dcdcebd2afc265c5ec6d6f785e",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/blair-north.jpg",
+      "sha256": "b0007428e835b4e1befc77f6312de7ec1aa62c703c83cab2b4b02541d05ce0d3",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/fishing-extension.jpg",
+      "sha256": "b28e9c60424fb95f575398791669e4b6dfdae818ddcc7e1ba160ab5254aaf5be",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/full-sheet.jpg",
+      "sha256": "2d45237937c7754e6028298f7f96ad3e3cda9ec1ffbaa2fab4d689ac5e0f26a2",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/grande-anse.jpg",
+      "sha256": "221c9200b5ee5d378c5f354e656d523d11671645557f845beca03f64cf3bd3d2",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/grays-north-branch.jpg",
+      "sha256": "e982ea772e67eba1256d9a5e77e5d15a342e7aa80bdd06c068d107c0f2fa3e57",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/red-river.jpg",
+      "sha256": "a667074a7360a9ccad6dec6967285199d966c4b694fc00e3c128ec1ceb60b0b9",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review-nine/wilkie-pond.jpg",
+      "sha256": "ede91b6c301ca10e939e01692ef9ee2a37a7e4f195f988d821ecb9d5c0cd0213",
+      "personally_viewed": true
+    }
+  ],
+  "warped_regions": {
+    "full-sheet": "Complete mapped frame and southwest extension retained. Broad northern, inland and eastern misalignment persists in both trials.",
+    "fishing-extension": "Fishing junction remains locally aligned; White Capes coastline, neighboring coastal inlets and tributaries do not establish an accepted extension.",
+    "grande-anse": "Named local confluences remain plausible but upper MacIntosh branches and coastline diverge.",
+    "red-river": "Ten-control Otter mouth correction improves locality; upper branches and Red River upstream remain displaced.",
+    "blair-north": "Poulet/Blair/South Branch hierarchy and coastal positions remain unsupported; rejected candidates not forced.",
+    "grays-north-branch": "Local fitted junctions persist, while upper western branches, wetlands and North Aspy remain displaced.",
+    "wilkie-pond": "North Pond island tip improves locally; remaining islands, shoreline cluster, Wilkie and Zwicker geometry remain mismatched.",
+    "aspy-south": "Chain Lakes move closer locally, but broad North/South Aspy geometry and southern boundary remain misaligned."
+  },
+  "seams": {
+    "01-north-west": "Gap between sheet edges; western coast and inland branch positions disagree with reference.",
+    "01-north-east": "Gap and inconsistent river/road positions; no shared accepted seam.",
+    "02-east-pond": "North Pond island cluster and enclosing shoreline disagree; eastern valley and south pond context not continuous.",
+    "05-south-west": "Gap with incompatible continuation of southern branches; local Grande Anse fit does not resolve seam.",
+    "05-south-east": "Gap across North/South Aspy and Chain Lakes vicinity with unmatched tributary geometry.",
+    "06-extension": "Western extension retained, but White Capes/South Fishing continuation and coast disagree between provisional sheets."
+  },
+  "boundary": "Original full boundary personally inspected; preserve western sea/legend, North Pond islands/offshore rocks and southwest Fishing Cove/White Capes extension plus labels.",
+  "browser": "Both real GeoTIFFs render in My Maps on desktop and mobile after reload; external raster bytes unchanged in IndexedDB. Preview reduction is explicit in browser receipts. Technical success only."
+}

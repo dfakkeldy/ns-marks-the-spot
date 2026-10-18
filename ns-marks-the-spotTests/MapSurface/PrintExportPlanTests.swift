@@ -285,6 +285,45 @@ struct PrintExportPlanTests {
         #expect(!sources.contains { $0.attribution.contains("Apple") })
     }
 
+    /// A page on the Atlas ground credits the Province's snapshot and the
+    /// OpenStreetMap context the tiles carry, in the browser's order, under
+    /// the same "modern" outcome the OpenStreetMap ground reports — and owes
+    /// Apple nothing.
+    @Test func aPageOnTheAtlasGroundCreditsTheProvinceAndOpenStreetMap() throws {
+        let roads = try #require(LayerCatalog.descriptor(for: .roads))
+        let sources = PrintExportPlan.sources(
+            baseMap: .atlasFletcher,
+            outcomes: [
+                Self.outcome(AtlasRasterBase.layerID, AtlasRasterBase.pageName(.fletcher), .drawn),
+                Self.outcome("roads", "Roads", .drawn),
+            ],
+            descriptor: { $0 == "roads" ? roads : nil }
+        )
+
+        #expect(sources.map(\.name).prefix(2) == ["NS Marks Atlas", "Supplemental geography"])
+        #expect(sources[0].attribution.contains(AtlasRaster.Provincial.attribution))
+        #expect(sources[0].attribution.hasSuffix(AtlasRaster.fletcherStyleNote))
+        #expect(sources[1].attribution == AtlasRaster.Supplemental.credit)
+        #expect(sources[1].licenceUrl == "https://www.openstreetmap.org/copyright")
+        #expect(!sources.contains { $0.attribution.contains("Apple") })
+        #expect(sources.count == 3)
+
+        // The same outcome under the Day style carries no Fletcher sentence,
+        // and a ground that never printed is not credited at all.
+        let day = PrintExportPlan.sources(
+            baseMap: .atlasDay,
+            outcomes: [Self.outcome(AtlasRasterBase.layerID, AtlasRasterBase.pageName(.day), .drawn)],
+            descriptor: { _ in nil }
+        )
+        #expect(!day[0].attribution.contains("Fletcher"))
+        let failed = PrintExportPlan.sources(
+            baseMap: .atlasDay,
+            outcomes: [Self.outcome(AtlasRasterBase.layerID, AtlasRasterBase.pageName(.day), .failed("offline"))],
+            descriptor: { _ in nil }
+        )
+        #expect(failed.isEmpty)
+    }
+
     /// The credit follows the ink for the base exactly as for a layer: a
     /// ground whose every tile failed put no pixel on the page and is not
     /// credited for it. Ink in patches is still ink, and is.

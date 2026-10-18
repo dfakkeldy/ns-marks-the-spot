@@ -1,0 +1,225 @@
+{
+  "count": 6,
+  "rms_ground_m": 71.56080797873472,
+  "median_ground_m": 46.67043364566064,
+  "p95_ground_m": 113.87680703431197,
+  "max_ground_m": 118.68875182251244,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -20.225314375447706,
+  "mean_north_ground_m": -42.46024395140612,
+  "points": [
+    {
+      "id": "Q02",
+      "label": "Pig Island south shore",
+      "role": "check",
+      "pixel_xy": [
+        4388,
+        827
+      ],
+      "lonlat": [
+        -62.39332755943547,
+        45.66383571954747
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 18757,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18757,
+      "nearest_unfiltered_distance_guide_px": 2.8746725503805393,
+      "selected_distance_guide_px": 2.8746725503805393,
+      "guide_reference_pixel_xy": [
+        4318.167644911795,
+        772.7850017827004
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections completed before fitting; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.39332757083141,
+        45.66355753002455
+      ],
+      "error_ground_m": 30.919304324276574,
+      "east_ground_m": -0.0008881021752491601,
+      "north_ground_m": -30.91930431152199
+    },
+    {
+      "id": "Q03",
+      "label": "Betty Island east tip",
+      "role": "check",
+      "pixel_xy": [
+        3346,
+        1012
+      ],
+      "lonlat": [
+        -62.44924864671391,
+        45.63837820777884
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 17036,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17036,
+      "nearest_unfiltered_distance_guide_px": 0.7685435588404862,
+      "selected_distance_guide_px": 0.7685435588404862,
+      "guide_reference_pixel_xy": [
+        3307.31137269421,
+        974.7026423322968
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections completed before fitting; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.45050090602647,
+        45.6382084334887
+      ],
+      "error_ground_m": 99.44097266971053,
+      "east_ground_m": -97.63442120567873,
+      "north_ground_m": -18.86867354453478
+    },
+    {
+      "id": "Q04",
+      "label": "Grave Head north tip",
+      "role": "check",
+      "pixel_xy": [
+        3265,
+        1148
+      ],
+      "lonlat": [
+        -62.452135031259445,
+        45.63159638403707
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 8375,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8375,
+      "nearest_unfiltered_distance_guide_px": 4.030765907729679,
+      "selected_distance_guide_px": 4.030765907729679,
+      "guide_reference_pixel_xy": [
+        3210.1475103878183,
+        1097.9719341504388
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections completed before fitting; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.452006155984655,
+        45.63112432699121
+      ],
+      "error_ground_m": 53.42008535201224,
+      "east_ground_m": 10.04923516885278,
+      "north_ground_m": -52.46635485277555
+    },
+    {
+      "id": "Q05",
+      "label": "Pond south of East River west of Telford, north end",
+      "role": "check",
+      "pixel_xy": [
+        2088,
+        1987
+      ],
+      "lonlat": [
+        -62.501492052056115,
+        45.57627559226425
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 70067,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 70067,
+      "nearest_unfiltered_distance_guide_px": 2.015803031226737,
+      "selected_distance_guide_px": 2.015803031226737,
+      "guide_reference_pixel_xy": [
+        2046.8148243037867,
+        1953.369411017513
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections completed before fitting; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.50128712313645,
+        45.575978412835305
+      ],
+      "error_ground_m": 36.69864911917911,
+      "east_ground_m": 15.99529121997515,
+      "north_ground_m": -33.02940365735978
+    },
+    {
+      "id": "Q06",
+      "label": "French River southern branch junction",
+      "role": "check",
+      "pixel_xy": [
+        3041,
+        2613
+      ],
+      "lonlat": [
+        -62.42977389364961,
+        45.56682206327404
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 282190,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 282190,
+      "nearest_unfiltered_distance_guide_px": 2.8077863283303897,
+      "selected_distance_guide_px": 2.8077863283303897,
+      "guide_reference_pixel_xy": [
+        2998.360801490082,
+        2564.7845082780113
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections completed before fitting; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.429900174025725,
+        45.56575785951598
+      ],
+      "error_ground_m": 118.68875182251244,
+      "east_ground_m": -9.858334213629696,
+      "north_ground_m": -118.27862467799636
+    },
+    {
+      "id": "Q07",
+      "label": "Kerr Point north tip",
+      "role": "check",
+      "pixel_xy": [
+        4326,
+        1028
+      ],
+      "lonlat": [
+        -62.39163728221915,
+        45.65407201101064
+      ],
+      "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+      "reference_objectid": 5570,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 5570,
+      "nearest_unfiltered_distance_guide_px": 3.607767118071361,
+      "selected_distance_guide_px": 3.607767118071361,
+      "guide_reference_pixel_xy": [
+        4262.237496755086,
+        984.1698777677957
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shore/lake shapes and river branch connectivity compared; paired original native and modern crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections completed before fitting; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.39214921960815,
+        45.65406122118742
+      ],
+      "error_ground_m": 39.92078193930904,
+      "east_ground_m": -39.90276912003045,
+      "north_ground_m": -1.1991026642482545
+    }
+  ],
+  "fit_sha256": "b86759fcac8e50f7395da5a92d16fa057b8ea2d02d3d814aee595b4af7c58fe3",
+  "checks_sha256": "41142f8c1de450d015923ba32f1b069229d3d573138a74525eb77efd9b928ac4",
+  "status": "Six independent check observations reserved and audited before first affine fit and score; some share island, pond or river systems with controls"
+}

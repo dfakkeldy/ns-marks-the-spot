@@ -1,0 +1,46 @@
+[
+  {
+    "id": "IC01",
+    "label": "Gray Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      653,
+      350
+    ],
+    "lonlat": [
+      -61.12680747450545,
+      46.441698606693926
+    ],
+    "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+    "reference_objectid": 6081,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      670.6956115499488,
+      332.7033707369119
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Whale Cove cape northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      348,
+      588
+    ],
+    "lonlat": [
+      -61.141087353968345,
+      46.42621325471071
+    ],
+    "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+    "reference_objectid": 7376,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      360.8053423842066,
+      560.6572213572217
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

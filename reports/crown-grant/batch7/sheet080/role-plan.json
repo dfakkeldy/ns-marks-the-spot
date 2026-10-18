@@ -1,0 +1,18 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Six controls span north-to-south but only within eastern third; unsupported affine shear/scales would be unconstrained over the broad western frame.",
+  "corrections": [
+    "Kemptown northern tip, east-cluster southern point and Duck southern shore refined before fit"
+  ],
+  "not_adopted": [
+    "Truro reservoir and Brookside pond do not retain stable historical outlines",
+    "Moose Lake north/south lake-stream transitions and Meadow Lake changed shape are not matched as fixed tips",
+    "Western river/road/parcel ambiguity not forced into matches"
+  ],
+  "limitations": [
+    "Western two-thirds, Truro and central Salmon River corridor unvalidated",
+    "Every check shares a lake or pond with a control; three-pond cluster adds further local correlation",
+    "Natural lake/pond observations use12px working source uncertainty"
+  ]
+}

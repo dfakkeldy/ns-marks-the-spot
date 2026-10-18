@@ -1,0 +1,16 @@
+{
+  "metric_sets_replayed": 10,
+  "new_physical_checks": 2,
+  "fresh_checks": 20,
+  "original_coast_extrema_verified": true,
+  "inside_control_hull": [],
+  "outside_control_hull": [
+    "IS52",
+    "IS53"
+  ],
+  "first_eighteen_and_frozen_fit_preserved": true,
+  "actual_raster_windows": 2,
+  "editable_inventories": 3,
+  "browser_terrain_verified": true,
+  "geographic_acceptance": false
+}

@@ -1,0 +1,332 @@
+{
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "baseline_csv_sha256": "35a42079afca0341fcfb61d42bcb6792879c722bca89a4e21db7e22ac42fb347",
+  "new_observations_sha256": "4bfe372ecec1dc1f167434d7e30d6b1654a816914b09963eac8c1f8a55da76bf",
+  "control_count": 6,
+  "check_count": 6,
+  "fresh_validation_count": 0,
+  "check_status": "Diagnostic: original checks replayed during refinement; Blake corrected after initial fit; D01 chosen after seeing the northern mismatch. No checks enter fitting.",
+  "geographic_acceptance": false,
+  "models": {
+    "baseline-affine": {
+      "same_four": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 73.6165908277644
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 270.41987975358154
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 104.21427411918863
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 616.5013843683363
+          }
+        ],
+        "rms_ground_m": 342.59337620176944,
+        "max_ground_m": 616.5013843683363
+      },
+      "same_five_including_blake": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 73.6165908277644
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 270.41987975358154
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 104.21427411918863
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 616.5013843683363
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 99.39199181827486
+          }
+        ],
+        "rms_ground_m": 309.6319278455994,
+        "max_ground_m": 616.5013843683363
+      },
+      "all_six_diagnostics": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 73.6165908277644
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 270.41987975358154
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 104.21427411918863
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 616.5013843683363
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 99.39199181827486
+          },
+          {
+            "label": "D01",
+            "error_ground_m": 635.6616873952297
+          }
+        ],
+        "rms_ground_m": 383.71548368747193,
+        "max_ground_m": 635.6616873952297
+      }
+    },
+    "baseline-tps": {
+      "same_four": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 62.25060866034764
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 275.71838985848973
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 98.2194215035336
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 605.0985065499667
+          }
+        ],
+        "rms_ground_m": 337.5229718753343,
+        "max_ground_m": 605.0985065499667
+      },
+      "same_five_including_blake": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 62.25060866034764
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 275.71838985848973
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 98.2194215035336
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 605.0985065499667
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 112.1524557359383
+          }
+        ],
+        "rms_ground_m": 306.0278417078526,
+        "max_ground_m": 605.0985065499667
+      },
+      "all_six_diagnostics": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 62.25060866034764
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 275.71838985848973
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 98.2194215035336
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 605.0985065499667
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 112.1524557359383
+          },
+          {
+            "label": "D01",
+            "error_ground_m": 628.5345471011424
+          }
+        ],
+        "rms_ground_m": 379.3241525840115,
+        "max_ground_m": 628.5345471011424
+      }
+    },
+    "refined-affine": {
+      "same_four": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 171.53372872838628
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 186.30916841780197
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 67.66599240111589
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 398.4791403578171
+          }
+        ],
+        "rms_ground_m": 238.48440103910846,
+        "max_ground_m": 398.4791403578171
+      },
+      "same_five_including_blake": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 171.53372872838628
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 186.30916841780197
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 67.66599240111589
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 398.4791403578171
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 161.95855889616345
+          }
+        ],
+        "rms_ground_m": 225.26864537953404,
+        "max_ground_m": 398.4791403578171
+      },
+      "all_six_diagnostics": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 171.53372872838628
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 186.30916841780197
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 67.66599240111589
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 398.4791403578171
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 161.95855889616345
+          },
+          {
+            "label": "D01",
+            "error_ground_m": 78.90354392004932
+          }
+        ],
+        "rms_ground_m": 208.14881783585932,
+        "max_ground_m": 398.4791403578171
+      }
+    },
+    "refined-tps": {
+      "same_four": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 52.43292179142793
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 322.689285562847
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 67.70323417452053
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 122.88543722703747
+          }
+        ],
+        "rms_ground_m": 177.87786884883735,
+        "max_ground_m": 322.689285562847
+      },
+      "same_five_including_blake": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 52.43292179142793
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 322.689285562847
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 67.70323417452053
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 122.88543722703747
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 144.52252642056936
+          }
+        ],
+        "rms_ground_m": 171.7258894563082,
+        "max_ground_m": 322.689285562847
+      },
+      "all_six_diagnostics": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 52.43292179142793
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 322.689285562847
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 67.70323417452053
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 122.88543722703747
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "error_ground_m": 144.52252642056936
+          },
+          {
+            "label": "D01",
+            "error_ground_m": 53.34315165269294
+          }
+        ],
+        "rms_ground_m": 158.26896799227737,
+        "max_ground_m": 322.689285562847
+      }
+    }
+  }
+}

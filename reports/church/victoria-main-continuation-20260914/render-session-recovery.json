@@ -1,0 +1,7 @@
+{
+  "run": "harbour-support/render_tps15.py",
+  "terminal_session_result": "SSH connection reset",
+  "followup": "Remote completed artifact receipt and24MB GeoTIFF were present; no matching renderer process remained. Local copied raster hash matched the completed receipt. No rerender was started.",
+  "rejected_raster_sha256": "9238d67757df4c4b21d520bf8d993391fe62743f4b3f4f1da8ff6c7e519caa2d",
+  "geographic_acceptance": false
+}

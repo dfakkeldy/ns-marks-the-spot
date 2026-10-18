@@ -1,0 +1,205 @@
+{
+  "sheet": "082",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.704007903208152,
+      1.891080308889082
+    ],
+    [
+      2.015731783273951,
+      -4.59705290018348
+    ],
+    [
+      486162.19836423924,
+      4994715.471893252
+    ]
+  ],
+  "source_sha256": "2e075bebfb31e0377e3e99617879641e86caf4e3494d859851d726309942db94",
+  "source_dimensions": [
+    6034,
+    4184
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Northern Pratt Lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        3294,
+        1946
+      ],
+      "lonlat": [
+        -62.92838894089918,
+        45.080897095652844
+      ],
+      "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+      "reference_objectid": 143241,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143241,
+      "nearest_unfiltered_distance_guide_px": 2.4953539465844687,
+      "selected_distance_guide_px": 2.4953539465844687,
+      "guide_reference_pixel_xy": [
+        3295.535363627714,
+        1892.9670917236945
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake shape and original paired native crosshairs inspected before any fit/check score; only accepted endpoints enter canonical fit/check files.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Southern Pratt Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3365,
+        2026
+      ],
+      "lonlat": [
+        -62.921630993315965,
+        45.078839347589984
+      ],
+      "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+      "reference_objectid": 126704,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126704,
+      "nearest_unfiltered_distance_guide_px": 1.699845538464298,
+      "selected_distance_guide_px": 1.699845538464298,
+      "guide_reference_pixel_xy": [
+        3376.5771276216838,
+        1974.9300048653968
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake shape and original paired native crosshairs inspected before any fit/check score; only accepted endpoints enter canonical fit/check files.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Sand Lake northern shore apex",
+      "role": "control",
+      "pixel_xy": [
+        4865,
+        1847
+      ],
+      "lonlat": [
+        -62.83808772812525,
+        45.112354193916076
+      ],
+      "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+      "reference_objectid": 142907,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142907,
+      "nearest_unfiltered_distance_guide_px": 0.48498591345679226,
+      "selected_distance_guide_px": 0.48498591345679226,
+      "guide_reference_pixel_xy": [
+        4884.51590481156,
+        1783.9706199935172
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake shape and original paired native crosshairs inspected before any fit/check score; only accepted endpoints enter canonical fit/check files.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Three-lobed pond south of Martin Lakes northern tip",
+      "role": "control",
+      "pixel_xy": [
+        5033,
+        618
+      ],
+      "lonlat": [
+        -62.85961658645987,
+        45.16633711494799
+      ],
+      "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+      "reference_objectid": 128856,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128856,
+      "nearest_unfiltered_distance_guide_px": 3.477406462090079,
+      "selected_distance_guide_px": 3.477406462090079,
+      "guide_reference_pixel_xy": [
+        5032.989400464401,
+        554.8521292913938
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake shape and original paired native crosshairs inspected before any fit/check score; only accepted endpoints enter canonical fit/check files.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Lindsay Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1726,
+        2438
+      ],
+      "lonlat": [
+        -63.01031761766038,
+        45.03435438384165
+      ],
+      "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+      "reference_objectid": 132746,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132746,
+      "nearest_unfiltered_distance_guide_px": 1.276912884679612,
+      "selected_distance_guide_px": 1.276912884679612,
+      "guide_reference_pixel_xy": [
+        1698.0995672470308,
+        2357.3508017372806
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake shape and original paired native crosshairs inspected before any fit/check score; only accepted endpoints enter canonical fit/check files.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Square Lake southwest lobe southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1115,
+        3270
+      ],
+      "lonlat": [
+        -63.02610081700904,
+        44.9900399671955
+      ],
+      "guide_file": ".crown-grant-local/082-adjacent-guide.npy",
+      "reference_objectid": 128953,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128953,
+      "nearest_unfiltered_distance_guide_px": 2.0736672878758546,
+      "selected_distance_guide_px": 2.0736672878758546,
+      "guide_reference_pixel_xy": [
+        1085.5834516204195,
+        3167.661053777556
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Full lake shape and original paired native crosshairs inspected before any fit/check score; only accepted endpoints enter canonical fit/check files.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    81.7043141289253,
+    107.57765456499463,
+    39.28166993423852,
+    68.53334487793572,
+    9.781430643410332,
+    76.93411123484141
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

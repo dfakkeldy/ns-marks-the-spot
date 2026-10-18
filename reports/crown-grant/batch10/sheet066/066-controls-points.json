@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Jack Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      984,
+      527
+    ],
+    "lonlat": [
+      -63.67891357430666,
+      44.73895558777309
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 137349,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137349,
+    "nearest_unfiltered_distance_guide_px": 0.4097177912364151,
+    "selected_distance_guide_px": 0.4097177912364151,
+    "guide_reference_pixel_xy": [
+      945.8494260574225,
+      497.3810461340472
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Georges Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1825,
+      3187
+    ],
+    "lonlat": [
+      -63.561426495010444,
+      44.64237385361589
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 18306,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18306,
+    "nearest_unfiltered_distance_guide_px": 0.18135096287657898,
+    "selected_distance_guide_px": 0.18135096287657898,
+    "guide_reference_pixel_xy": [
+      1817.1706247628317,
+      3166.938556025154
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "East Lake northern island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3878,
+      974
+    ],
+    "lonlat": [
+      -63.4978652477938,
+      44.77054753769552
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 147004,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 147004,
+    "nearest_unfiltered_distance_guide_px": 0.1435037846755855,
+    "selected_distance_guide_px": 0.1435037846755855,
+    "guide_reference_pixel_xy": [
+      3871.9330138071673,
+      960.8730898499489
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Grassy Lake northeast corner northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5362,
+      156
+    ],
+    "lonlat": [
+      -63.430836537092645,
+      44.83114588341824
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 138024,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138024,
+    "nearest_unfiltered_distance_guide_px": 0.2839654730950232,
+    "selected_distance_guide_px": 0.2839654730950232,
+    "guide_reference_pixel_xy": [
+      5382.716989486245,
+      140.97673115786165
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Pound Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5495,
+      435
+    ],
+    "lonlat": [
+      -63.41589368727571,
+      44.82203253739093
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 141848,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141848,
+    "nearest_unfiltered_distance_guide_px": 2.182698981057345,
+    "selected_distance_guide_px": 2.182698981057345,
+    "guide_reference_pixel_xy": [
+      5521.568194559193,
+      415.86043955374043
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Gammon Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4676,
+      3183
+    ],
+    "lonlat": [
+      -63.396257726924205,
+      44.693186597407795
+    ],
+    "guide_file": ".crown-grant-local/066-adjacent-ppi-guide.npy",
+    "reference_objectid": 126588,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126588,
+    "nearest_unfiltered_distance_guide_px": 0.41917834240956303,
+    "selected_distance_guide_px": 0.41917834240956303,
+    "guide_reference_pixel_xy": [
+      4683.343994221883,
+      3142.7604619903723
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

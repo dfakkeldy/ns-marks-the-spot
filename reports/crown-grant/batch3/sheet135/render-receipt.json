@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "7e855eacb2e21c6d6b5e62c6d54bef8f4c076025edefc7c86eb0ceddc71473f5",
+  "fit_sha256": "ebf6bf28d4215e0c074b230167a1b82322b7021ea7481b7ed2a340cab1a2baa0",
+  "components_sha256": "241ad4cc0ad0eeee395a32b6d0bea6c653d2b10e02027fa6e7928b7bb70dc874",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 92.12 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          46.903689306463235,
+          -60.8086126194731
+        ],
+        [
+          47.15840269653833,
+          -60.35334643348132
+        ]
+      ],
+      "dimensions": [
+        6335,
+        5200
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 17699734,
+      "source_mask_pixels": 18580750,
+      "affine_determinant": -28.344439228132188,
+      "png_sha256": "fab5cbb5652eb339614fef04ee4b04a9afb251bc11e2e4aa7a36fc69ef685b7a",
+      "tif_sha256": "c893fa407bfad88a70ba80f20fcfba6164332dfa1f88570fb0cd7a05845398da"
+    },
+    {
+      "id": "stpaul-inset",
+      "status": "RMS 94.09 m passes 100 m; limitations retained",
+      "png": "stpaul-inset-3857.png",
+      "tif": "stpaul-inset-3857.tif",
+      "bounds": [
+        [
+          47.16402806470883,
+          -60.20121442240278
+        ],
+        [
+          47.23609838716898,
+          -60.09672238855399
+        ]
+      ],
+      "dimensions": [
+        1454,
+        1476
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 1264938,
+      "source_mask_pixels": 1457750,
+      "affine_determinant": -25.658917801403177,
+      "png_sha256": "2e4b929d5aa5db97a9d0528d1b2a7ab70a9154768ef886a5ce5a007be304e192",
+      "tif_sha256": "ba747e9eb024199dc120623ea4ff1730a027b538b5d202b6577cc7f035f4562c"
+    }
+  ]
+}

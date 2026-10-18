@@ -1,0 +1,85 @@
+{
+  "source_frame": "Original 5731 x 3919 JPEG, pixel edges; no source resampling",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; failed diagnostic gates",
+      "ring_pixel_xy": [
+        [
+          160,
+          133
+        ],
+        [
+          5619,
+          133
+        ],
+        [
+          5619,
+          3756
+        ],
+        [
+          163,
+          3756
+        ]
+      ],
+      "holes_pixel_xy": [
+        [
+          [
+            3645,
+            270
+          ],
+          [
+            4353,
+            270
+          ],
+          [
+            4353,
+            879
+          ],
+          [
+            3645,
+            879
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "inset",
+      "status": "UNSUPPORTED seam-based placement only; no independent geographic validation",
+      "ring_pixel_xy": [
+        [
+          3645,
+          270
+        ],
+        [
+          4353,
+          270
+        ],
+        [
+          4353,
+          879
+        ],
+        [
+          3645,
+          879
+        ]
+      ],
+      "matrix": [
+        [
+          5.079547097313543,
+          1.8840944548402712
+        ],
+        [
+          2.0229395933821963,
+          -4.918056699836899
+        ],
+        [
+          223379.54498360585,
+          4890181.605831546
+        ]
+      ],
+      "placement": "Approximate printed Joins Sheet 2 seam: native inset x+1320,y-673 into main frame. Scale/orientation assumed equal; not accepted.",
+      "coverage": "Entire inset box retained, including captions; no guessed shoreline clipping."
+    }
+  ]
+}

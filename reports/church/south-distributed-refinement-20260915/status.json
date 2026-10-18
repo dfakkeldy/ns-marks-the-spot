@@ -1,0 +1,239 @@
+{
+  "panel": "inverness-south",
+  "state": "Provisional TPS13 rendered and imported; new independent validation pending",
+  "controls": 13,
+  "fresh_check_count": 0,
+  "selection_diagnostics": {
+    "all14": {
+      "count": 14,
+      "points": [
+        {
+          "label": "island-45-948n-61-096w",
+          "east_ground_m": -11.046164986346227,
+          "north_ground_m": 23.878551569258548,
+          "error_ground_m": 26.30975077706593
+        },
+        {
+          "label": "island-45-875n-61-085w",
+          "east_ground_m": 70.15379901703595,
+          "north_ground_m": -94.3628440900796,
+          "error_ground_m": 117.5835952048216
+        },
+        {
+          "label": "island-45-797n-61-049w",
+          "east_ground_m": 99.80068871663399,
+          "north_ground_m": -6.741443719944822,
+          "error_ground_m": 100.02811870541032
+        },
+        {
+          "label": "island-45-790n-61-057w",
+          "east_ground_m": 79.72890375538634,
+          "north_ground_m": 122.76166081414611,
+          "error_ground_m": 146.38006510410875
+        },
+        {
+          "label": "island-45-762n-61-068w",
+          "east_ground_m": -43.28217747033615,
+          "north_ground_m": 31.332926357831695,
+          "error_ground_m": 53.43312793313694
+        },
+        {
+          "label": "island-45-757n-61-084w",
+          "east_ground_m": -154.24445478472512,
+          "north_ground_m": 194.85061473703004,
+          "error_ground_m": 248.5117983018827
+        },
+        {
+          "label": "IS22",
+          "east_ground_m": 208.03617047612764,
+          "north_ground_m": -51.97460028570996,
+          "error_ground_m": 214.43042531607253
+        },
+        {
+          "label": "IS23",
+          "east_ground_m": -38.040118653186745,
+          "north_ground_m": 18.582903649277934,
+          "error_ground_m": 42.33644925105167
+        },
+        {
+          "label": "IS28",
+          "east_ground_m": -226.79046738676547,
+          "north_ground_m": 152.39998995694353,
+          "error_ground_m": 273.23922309284956
+        },
+        {
+          "label": "IS29",
+          "east_ground_m": 172.17642580017664,
+          "north_ground_m": -102.1124317789267,
+          "error_ground_m": 200.17909562471726
+        },
+        {
+          "label": "IS30",
+          "east_ground_m": 5.716224985309804,
+          "north_ground_m": -371.02606162950036,
+          "error_ground_m": 371.07009261914453
+        },
+        {
+          "label": "IS31",
+          "east_ground_m": 178.2429029108989,
+          "north_ground_m": -145.13638590726123,
+          "error_ground_m": 229.85887616606323
+        },
+        {
+          "label": "IS32",
+          "east_ground_m": 171.57245129548713,
+          "north_ground_m": 106.91962403459043,
+          "error_ground_m": 202.16060953420296
+        },
+        {
+          "label": "IS33",
+          "east_ground_m": -170.32813949629633,
+          "north_ground_m": -140.81623076088118,
+          "error_ground_m": 220.99974196811073
+        }
+      ],
+      "rms_ground_m": 198.8010682061475,
+      "median_ground_m": 201.1698525794601,
+      "p95_ground_m": 307.48002742705273,
+      "max_ground_m": 371.07009261914453,
+      "mean_east_ground_m": 24.406860298528596,
+      "mean_north_ground_m": -18.67455193237326,
+      "scatter_rms_ground_m": 196.4113820540921,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "recent8": {
+      "count": 8,
+      "points": [
+        {
+          "label": "IS22",
+          "east_ground_m": 208.03617047612764,
+          "north_ground_m": -51.97460028570996,
+          "error_ground_m": 214.43042531607253
+        },
+        {
+          "label": "IS23",
+          "east_ground_m": -38.040118653186745,
+          "north_ground_m": 18.582903649277934,
+          "error_ground_m": 42.33644925105167
+        },
+        {
+          "label": "IS28",
+          "east_ground_m": -226.79046738676547,
+          "north_ground_m": 152.39998995694353,
+          "error_ground_m": 273.23922309284956
+        },
+        {
+          "label": "IS29",
+          "east_ground_m": 172.17642580017664,
+          "north_ground_m": -102.1124317789267,
+          "error_ground_m": 200.17909562471726
+        },
+        {
+          "label": "IS30",
+          "east_ground_m": 5.716224985309804,
+          "north_ground_m": -371.02606162950036,
+          "error_ground_m": 371.07009261914453
+        },
+        {
+          "label": "IS31",
+          "east_ground_m": 178.2429029108989,
+          "north_ground_m": -145.13638590726123,
+          "error_ground_m": 229.85887616606323
+        },
+        {
+          "label": "IS32",
+          "east_ground_m": 171.57245129548713,
+          "north_ground_m": 106.91962403459043,
+          "error_ground_m": 202.16060953420296
+        },
+        {
+          "label": "IS33",
+          "east_ground_m": -170.32813949629633,
+          "north_ground_m": -140.81623076088118,
+          "error_ground_m": 220.99974196811073
+        }
+      ],
+      "rms_ground_m": 235.25040918770216,
+      "median_ground_m": 217.71508364209163,
+      "p95_ground_m": 336.82928828494124,
+      "max_ground_m": 371.07009261914453,
+      "mean_east_ground_m": 37.573181241468944,
+      "mean_north_ground_m": -66.64539909018345,
+      "scatter_rms_ground_m": 222.46213577705126,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "historical6": {
+      "count": 6,
+      "points": [
+        {
+          "label": "island-45-948n-61-096w",
+          "east_ground_m": -11.046164986346227,
+          "north_ground_m": 23.878551569258548,
+          "error_ground_m": 26.30975077706593
+        },
+        {
+          "label": "island-45-875n-61-085w",
+          "east_ground_m": 70.15379901703595,
+          "north_ground_m": -94.3628440900796,
+          "error_ground_m": 117.5835952048216
+        },
+        {
+          "label": "island-45-797n-61-049w",
+          "east_ground_m": 99.80068871663399,
+          "north_ground_m": -6.741443719944822,
+          "error_ground_m": 100.02811870541032
+        },
+        {
+          "label": "island-45-790n-61-057w",
+          "east_ground_m": 79.72890375538634,
+          "north_ground_m": 122.76166081414611,
+          "error_ground_m": 146.38006510410875
+        },
+        {
+          "label": "island-45-762n-61-068w",
+          "east_ground_m": -43.28217747033615,
+          "north_ground_m": 31.332926357831695,
+          "error_ground_m": 53.43312793313694
+        },
+        {
+          "label": "island-45-757n-61-084w",
+          "east_ground_m": -154.24445478472512,
+          "north_ground_m": 194.85061473703004,
+          "error_ground_m": 248.5117983018827
+        }
+      ],
+      "rms_ground_m": 135.74735472856923,
+      "median_ground_m": 108.80585695511596,
+      "p95_ground_m": 222.9788650024392,
+      "max_ground_m": 248.5117983018827,
+      "mean_east_ground_m": 6.8517657079414676,
+      "mean_north_ground_m": 45.286577611373666,
+      "scatter_rms_ground_m": 127.78702403114534,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "accepted_july_baseline_replaced": false,
+  "catalog_activation": false,
+  "tiles_generated": false,
+  "deployment": false,
+  "coverage": {
+    "full_content_cutline_retained": true,
+    "transparent_interior_cells": 0,
+    "expected_interior_cells": 22702159,
+    "sampled_orientation_reversals": 0,
+    "orientation_samples": 36615,
+    "shared_feature_seams_verified": false,
+    "intervening_area_accuracy_verified": false
+  },
+  "next_work": [
+    "Keep TPS13 frozen during the next independent validation phase.",
+    "Audit unscored MacPhail Brook / River Denys, Cranberry Island and historical Beaver Dam / possible modern MacGregors Lake; names and fit predictions alone are not correspondences.",
+    "Seek distributed 20\u201330 physical checks where defensible, including coast, interior, edges and seams; preserve first failures."
+  ]
+}

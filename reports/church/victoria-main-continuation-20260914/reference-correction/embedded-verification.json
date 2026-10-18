@@ -1,0 +1,31 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/corrected-tps14-rendered/victoria-main-corrected-tps14-review-20m.tif",
+  "sha256": "3fb0ece4147593efc8f5dbd6dfae8f4159b5ed6e668779ce8e862e078ead3ac3",
+  "sourceCodeBaseCommit": "da573d4ea3f479b2cafc0b79c26622522c32edc2",
+  "pixelSize": {
+    "width": 4081,
+    "height": 5859
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6797340,
+      20,
+      0,
+      5880840,
+      0,
+      -20
+    ]
+  },
+  "preview": {
+    "width": 2853,
+    "height": 4096,
+    "channels": 4,
+    "transparentPixels": 2956582,
+    "opaquePixels": 8729306
+  },
+  "embeddedMeshNodes": 81,
+  "maxMeshDifferenceProjectedMetres": 3.839941346661803e-9,
+  "scope": "Real production GeoTIFF decode, alpha extraction and embedded projection lattice. PNG writer stubbed in this Node probe; actual browser import, persistence, 2D overview/regional view and 10x terrain were checked separately through CUA. No raw-scan GCP mesh or geographic acceptance."
+}

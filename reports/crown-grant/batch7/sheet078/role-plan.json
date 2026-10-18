@@ -1,0 +1,18 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Seven controls span the western Mattatall Lake and northern/eastern coastal systems, with non-collinear support. Southern half remains unvalidated.",
+  "corrections": [
+    "Mattatall north shore and Saddle north shore refined from native crosshairs before fitting"
+  ],
+  "not_adopted": [
+    "Q05 Chambers broad northern apex remains indistinct after close inspection; both proposals retained but excluded before fit",
+    "Dewar/Stevens/Wallace Lake has a generalized eastern lake-stream transition with no stable matching endpoint",
+    "Purdy Island and Sandville spit changed; Blockhouse broad shoreline lacks precise endpoint"
+  ],
+  "limitations": [
+    "Southern half and river/parcel corridors unvalidated",
+    "Mattatall,Saddle,Waugh and west-Waugh islet opposite shore checks are correlated with controls",
+    "Waugh Island is modern mainland-coast WACO20; internal changed connections unvalidated"
+  ]
+}

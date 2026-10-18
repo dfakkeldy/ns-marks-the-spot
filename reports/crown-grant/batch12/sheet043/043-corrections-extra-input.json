@@ -1,0 +1,67 @@
+[
+  [
+    "Q02",
+    "Baxter Harbour inner coast bend",
+    [
+      4589,
+      720
+    ],
+    [
+      4566,
+      660
+    ],
+    "WACO20"
+  ],
+  [
+    "Q03",
+    "Foote Brook western tributary junction",
+    [
+      1824,
+      847
+    ],
+    [
+      1777,
+      783
+    ],
+    "WARV"
+  ],
+  [
+    "C06",
+    "North Brook southeastern tributary junction",
+    [
+      4580,
+      2269
+    ],
+    [
+      4598,
+      2241
+    ],
+    "WARV"
+  ],
+  [
+    "Q06",
+    "North Brook and Sleepy Hollow Brook junction",
+    [
+      4445,
+      2474
+    ],
+    [
+      4415,
+      2440
+    ],
+    "WARV"
+  ],
+  [
+    "Q07",
+    "Cornwallis River northern tributary junction west of Kentville",
+    [
+      2980,
+      3410
+    ],
+    [
+      2935,
+      3345
+    ],
+    "WARV"
+  ]
+]

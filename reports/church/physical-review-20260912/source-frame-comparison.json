@@ -1,0 +1,20 @@
+{
+  "source_origin": [
+    11820,
+    5520
+  ],
+  "source_extent": [
+    1200,
+    1200
+  ],
+  "display": [
+    1200,
+    1200
+  ],
+  "rotation": 0,
+  "direct_jp2_crop_sha256": "0f379ed7eb0a7989337e9360f3e876b719c3418dc6a0ca7738855b6d4ba38858",
+  "july_working_tiff_crop_sha256": "0f379ed7eb0a7989337e9360f3e876b719c3418dc6a0ca7738855b6d4ba38858",
+  "decoded_crops_equal": true,
+  "max_channel_difference": 0,
+  "scope": "One native crop; verifies local frame and pixel correspondence only, not entire working raster."
+}

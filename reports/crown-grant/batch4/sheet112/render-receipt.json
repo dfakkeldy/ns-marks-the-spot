@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "65402aac6c72e0f91a81fe08f2bbf9153cc5aaaf3e1171b792db776fc29c5622",
+  "fit_sha256": "972f762eedd1e6565f9f32889510354ba7a8b161bc3506ef0f020d57e9b2e7a3",
+  "components_sha256": "7b9d9d116410c1298a697e2b782810fd1fe9ae2e14e167b7521b5de05d67b2e8",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 105.24 m exceeds 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          45.265085229278995,
+          -61.35959622208296
+        ],
+        [
+          45.523417553790665,
+          -60.91906240675074
+        ]
+      ],
+      "dimensions": [
+        6130,
+        5119
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 15870322,
+      "source_mask_pixels": 20170000,
+      "affine_determinant": -24.828681879701517,
+      "png_sha256": "44ea4be7d54286a7213ec7fba3ce32ff42ee5a0a551944cb4e8e308de8df34d3",
+      "tif_sha256": "bde425c52a811d12b9af0cb6ab013823f01366c4b12a1ff35984b15b477a39c0"
+    },
+    {
+      "id": "petit-inset",
+      "status": "RMS 90.87 m passes 100 m; limitations retained",
+      "png": "petit-inset-3857.png",
+      "tif": "petit-inset-3857.tif",
+      "bounds": [
+        [
+          45.44950546462328,
+          -61.01208765851383
+        ],
+        [
+          45.54873784529252,
+          -60.873818969982146
+        ]
+      ],
+      "dimensions": [
+        1924,
+        1970
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 2241775,
+      "source_mask_pixels": 2820800,
+      "affine_determinant": -24.986864539756517,
+      "png_sha256": "fd306ac4751d93bc04704907b734bafc83351d2036a39fccec6d24f10e669ab2",
+      "tif_sha256": "8800e246c3eb94a5b988ba4bbed57e5563dc62c166102a922de9c4d98b2cb466"
+    }
+  ]
+}

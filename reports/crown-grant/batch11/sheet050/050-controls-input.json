@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Lower Point west side of Shoulie mouth projecting tip",
+    [
+      1372,
+      372
+    ],
+    [
+      1337,
+      363
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Northeastern elongated pond northern tip",
+    [
+      5256,
+      527
+    ],
+    [
+      5210,
+      524
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Shoulie northern western tributary junction",
+    [
+      1253,
+      1005
+    ],
+    [
+      1220,
+      1016
+    ],
+    "WARV"
+  ],
+  [
+    "C04",
+    "Shoulie southern western tributary junction",
+    [
+      779,
+      1730
+    ],
+    [
+      745,
+      1737
+    ],
+    "WARV"
+  ],
+  [
+    "C05",
+    "Head of River Hebert eastern tributary junction",
+    [
+      4373,
+      1037
+    ],
+    [
+      4324,
+      1025
+    ],
+    "WARV"
+  ],
+  [
+    "C06",
+    "Sandhill Brook east bank junction with River Hebert",
+    [
+      4406,
+      1539
+    ],
+    [
+      4360,
+      1538
+    ],
+    "WARV"
+  ]
+]

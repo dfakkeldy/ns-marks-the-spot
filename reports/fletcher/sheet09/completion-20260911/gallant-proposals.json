@@ -1,0 +1,67 @@
+{
+  "points": [
+    {
+      "id": "C17",
+      "role": "control",
+      "pixel_xy": [
+        5825,
+        6131
+      ],
+      "lonlat": [
+        -61.0317083,
+        46.465377
+      ],
+      "modern_node": "J1400",
+      "modern_objectids": [
+        262306,
+        262309,
+        272885
+      ],
+      "identity_evidence": "Gallant northwestern tributary at the western bend, above two eastern arms. North arm passes a western tributary and ponds; east arm follows the long meandering transverse valley. Downstream turns south through two bends before C18.",
+      "source_uncertainty_px": 12,
+      "review": "Proposal: broad topology inspected; native crosshair review pending. No score consulted."
+    },
+    {
+      "id": "C18",
+      "role": "control",
+      "pixel_xy": [
+        5828,
+        6398
+      ],
+      "lonlat": [
+        -61.0321106,
+        46.4579014
+      ],
+      "modern_node": "J1454",
+      "modern_objectids": [
+        188663,
+        262309,
+        262310
+      ],
+      "identity_evidence": "Gallant eastern tributary between C17 and Mink Brook. Its long east arm has a northern fork shortly upstream; the main Gallant continues south past a tight east bend to the Mink junction.",
+      "source_uncertainty_px": 12,
+      "review": "Proposal: broad topology inspected; native crosshair review pending. No score consulted."
+    },
+    {
+      "id": "C19",
+      "role": "control",
+      "pixel_xy": [
+        5846,
+        6545
+      ],
+      "lonlat": [
+        -61.0301708,
+        46.4531917
+      ],
+      "modern_node": "J1484",
+      "modern_objectids": [
+        189264,
+        262310,
+        262311
+      ],
+      "identity_evidence": "Mink Brook confluence with Gallant, below the intervening eastern tributary C18. Mink extends east as a long unbranched reach; the preceding east arm has a north fork and the main river continues south toward the sheet edge.",
+      "source_uncertainty_px": 12,
+      "review": "Proposal: broad topology inspected; native crosshair review pending. No score consulted."
+    }
+  ]
+}

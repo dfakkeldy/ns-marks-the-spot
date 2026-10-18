@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 61.67815692779736,
+  "median_ground_m": 38.25286254037134,
+  "p95_ground_m": 95.8813796626278,
+  "max_ground_m": 103.6684527429128,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -45.626891336925794,
+  "mean_north_ground_m": 4.104424269514415,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Northeastern elongated pond southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        5187,
+        585
+      ],
+      "lonlat": [
+        -64.3315845850561,
+        45.67081719855717
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 143380,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143380,
+      "nearest_unfiltered_distance_guide_px": 1.1131380905013257,
+      "selected_distance_guide_px": 1.1131380905013257,
+      "guide_reference_pixel_xy": [
+        5145.991638395062,
+        584.4943027566187
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained.",
+      "predicted_lonlat": [
+        -64.33205848057658,
+        45.67090704084159
+      ],
+      "error_ground_m": 38.25286254037134,
+      "east_ground_m": -36.92653366902031,
+      "north_ground_m": 9.985619846722292
+    },
+    {
+      "id": "Q03",
+      "label": "Fork in Shoulie southern western tributary",
+      "role": "check",
+      "pixel_xy": [
+        705,
+        1726
+      ],
+      "lonlat": [
+        -64.58283116148368,
+        45.535148021768336
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 240990,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 240990,
+      "nearest_unfiltered_distance_guide_px": 0.14388165386766116,
+      "selected_distance_guide_px": 0.14388165386766116,
+      "guide_reference_pixel_xy": [
+        675.0975947289262,
+        1732.8942777260672
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained.",
+      "predicted_lonlat": [
+        -64.58324040986052,
+        45.534992960347346
+      ],
+      "error_ground_m": 36.31589364922534,
+      "east_ground_m": -31.966241097191613,
+      "north_ground_m": -17.23379127348544
+    },
+    {
+      "id": "Q05",
+      "label": "River Hebert eastern tributary south of Sandhill Brook",
+      "role": "check",
+      "pixel_xy": [
+        4395,
+        1642
+      ],
+      "lonlat": [
+        -64.3527953516637,
+        45.609190373974066
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 161466,
+      "reference_feature_code": "WARV10",
+      "nearest_unfiltered_feature_code": "WARV10",
+      "nearest_unfiltered_objectid": 161466,
+      "nearest_unfiltered_distance_guide_px": 0.4182190207374171,
+      "selected_distance_guide_px": 0.4182190207374171,
+      "guide_reference_pixel_xy": [
+        4355.874450847332,
+        1647.6010707336245
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained.",
+      "predicted_lonlat": [
+        -64.35352984643025,
+        45.6094614321077
+      ],
+      "error_ground_m": 64.73308734148777,
+      "east_ground_m": -57.29534724630069,
+      "north_ground_m": 30.126662289183457
+    },
+    {
+      "id": "Q06",
+      "label": "Newville lake northwestern river junction",
+      "role": "check",
+      "pixel_xy": [
+        3826,
+        3302
+      ],
+      "lonlat": [
+        -64.34468032041013,
+        45.52554110235751
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 134784,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV20",
+      "nearest_unfiltered_objectid": 170052,
+      "nearest_unfiltered_distance_guide_px": 0.873922109146113,
+      "selected_distance_guide_px": 3.696822666660456,
+      "guide_reference_pixel_xy": [
+        3775.5678641679115,
+        3304.347879893263
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained.",
+      "predicted_lonlat": [
+        -64.34475068522141,
+        45.52586188683331
+      ],
+      "error_ground_m": 36.07393650692098,
+      "east_ground_m": -5.497059094314763,
+      "north_ground_m": 35.65264697633231
+    },
+    {
+      "id": "Q07",
+      "label": "Northeastern small southern pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5225,
+        805
+      ],
+      "lonlat": [
+        -64.32251202242382,
+        45.66233661917134
+      ],
+      "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+      "reference_objectid": 132337,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132337,
+      "nearest_unfiltered_distance_guide_px": 1.2098622456174186,
+      "selected_distance_guide_px": 1.2098622456174186,
+      "guide_reference_pixel_xy": [
+        5197.141469649505,
+        800.2015627289657
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs, feature code and channel/shore context inspected before first fit or score; all raw proposals retained.",
+      "predicted_lonlat": [
+        -64.32374960479247,
+        45.66199463475408
+      ],
+      "error_ground_m": 103.6684527429128,
+      "east_ground_m": -96.44927557780157,
+      "north_ground_m": -38.009016491180546
+    }
+  ],
+  "fit_sha256": "2edf987f223adae4c9aed1ee7c01dca28ebab7d0b4f5c91f1c488d618e24f4d8",
+  "checks_sha256": "5fc5860c671b5e0e5b24684d2d5d713fcee82b0f2fee4e1354433d3459b4c2b6",
+  "status": "Reserved before first fit and score"
+}

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "C01",
+    "label": "Gaspereau northwestern fingered island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1183,
+      1706
+    ],
+    "lonlat": [
+      -64.60047108790228,
+      44.96314030258307
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 310769,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 310769,
+    "nearest_unfiltered_distance_guide_px": 1.0841338031501218,
+    "selected_distance_guide_px": 1.0841338031501218,
+    "guide_reference_pixel_xy": [
+      1157.6405112160137,
+      1683.0227971046697
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Gaspereau central star island eastern horn",
+    "role": "proposal",
+    "pixel_xy": [
+      1412,
+      1737
+    ],
+    "lonlat": [
+      -64.58371639042858,
+      44.9651338170448
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 153249,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 153249,
+    "nearest_unfiltered_distance_guide_px": 0.16777033780138975,
+    "selected_distance_guide_px": 0.16777033780138975,
+    "guide_reference_pixel_xy": [
+      1402.0159436446265,
+      1746.1670110368868
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Gaspereau eastern heart island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1918,
+      2114
+    ],
+    "lonlat": [
+      -64.54242544037119,
+      44.958919693123086
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 153462,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 153462,
+    "nearest_unfiltered_distance_guide_px": 0.5871412039212438,
+    "selected_distance_guide_px": 0.5871412039212438,
+    "guide_reference_pixel_xy": [
+      1911.9329355725204,
+      2113.5832985135494
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "River Lake large island northern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3060,
+      2367
+    ],
+    "lonlat": [
+      -64.46489763090138,
+      44.96940625132361
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 154496,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 154496,
+    "nearest_unfiltered_distance_guide_px": 0.7544459530794569,
+    "selected_distance_guide_px": 0.7544459530794569,
+    "guide_reference_pixel_xy": [
+      3053.458407467697,
+      2380.474770312081
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Morton Flowage northern large island northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3359,
+      3315
+    ],
+    "lonlat": [
+      -64.42036018040223,
+      44.93435887008253
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 147817,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 147817,
+    "nearest_unfiltered_distance_guide_px": 0.7279343684499082,
+    "selected_distance_guide_px": 0.7279343684499082,
+    "guide_reference_pixel_xy": [
+      3369.575091688719,
+      3316.408948926255
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

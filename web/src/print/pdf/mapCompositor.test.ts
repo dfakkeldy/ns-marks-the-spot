@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import * as layerUse from "../../licensing/layerUse";
+import { describe, expect, it, vi } from "vitest";
 import {
   composeMapImage,
   type CompositorImageRequest,
@@ -137,7 +138,7 @@ describe("composeMapImage", () => {
     const { statuses } = await composeMapImage(bounds, size, [
       redTileLayer(),
       redTileLayer({
-        id: "fletcher-03",
+        id: "test-sheet-03",
         name: "Fletcher sheet 3",
         url: () => "https://tiles.example/broken.png",
       }),
@@ -149,7 +150,7 @@ describe("composeMapImage", () => {
     });
     expect(statuses[0].status).toBe("rendered");
     expect(statuses[1]).toMatchObject({
-      id: "fletcher-03",
+      id: "test-sheet-03",
       name: "Fletcher sheet 3",
       status: "failed",
     });
@@ -191,7 +192,7 @@ describe("composeMapImage", () => {
     const requested: CompositorImageRequest[] = [];
     const { canvas, statuses } = await composeMapImage(bounds, size, [{
       kind: "image",
-      id: "nsprd",
+      id: "test-image",
       name: "Property boundaries",
       opacity: 1,
       url: (request) => {
@@ -201,7 +202,7 @@ describe("composeMapImage", () => {
     }], { fetchImage: async () => solidTile("#00ff00") });
 
     expect(statuses).toEqual([
-      { id: "nsprd", name: "Property boundaries", status: "rendered" },
+      { id: "test-image", name: "Property boundaries", status: "rendered" },
     ]);
     expect(requested).toEqual([
       { bounds, widthPx: size.widthPx, heightPx: size.heightPx },
@@ -219,7 +220,7 @@ describe("composeMapImage", () => {
     const { statuses } = await composeMapImage(
       bounds, { widthPx: 8192, heightPx: 4096 }, [{
         kind: "image",
-        id: "nsprd",
+        id: "test-image",
         name: "Property boundaries",
         opacity: 1,
         url: (request) => {
@@ -239,7 +240,7 @@ describe("composeMapImage", () => {
       redTileLayer(),
       {
         kind: "image",
-        id: "nsprd",
+        id: "test-image",
         name: "Property boundaries",
         opacity: 1,
         url: () => "https://arcgis.example/export?broken",
@@ -252,14 +253,14 @@ describe("composeMapImage", () => {
     });
     expect(statuses[0].status).toBe("rendered");
     expect(statuses[1]).toMatchObject({
-      id: "nsprd", status: "failed", detail: "HTTP 500",
+      id: "test-image", status: "failed", detail: "HTTP 500",
     });
   });
 
   it("marks an image layer with no coverage as empty", async () => {
     const { statuses } = await composeMapImage(bounds, size, [{
       kind: "image",
-      id: "nsprd",
+      id: "test-image",
       name: "Property boundaries",
       opacity: 1,
       url: () => null,
@@ -291,7 +292,12 @@ describe("composeMapImage", () => {
       // fires *after* ctx.save()/ctx.globalAlpha = 0.3 but before
       // ctx.restore() — exactly the unbalanced-stack scenario the
       // finally-block fix guards against.
-      const { canvas, statuses } = await composeMapImage(bounds, size, [
+      // Isolate pixel-state mechanics for local synthetic cartography. The real output boundary
+      // is exercised without this stub in licensingLocks and the direct parcel-ring test below.
+      const scope = vi.spyOn(layerUse, "assertReproductionAllowed").mockImplementation(() => {});
+      let canvas: HTMLCanvasElement;
+      let statuses: Awaited<ReturnType<typeof composeMapImage>>["statuses"];
+      try { ({ canvas, statuses } = await composeMapImage(bounds, size, [
         redTileLayer({ id: "base", name: "Base map" }),
         redTileLayer({
           id: "crashing",
@@ -314,7 +320,7 @@ describe("composeMapImage", () => {
           }
           return solidTile("#ff0000");
         },
-      });
+      })); } finally { scope.mockRestore(); }
 
       expect(statuses[1].status).toBe("failed");
       expect(statuses[2].status).toBe("rendered");
@@ -337,57 +343,11 @@ describe("composeMapImage", () => {
     },
   );
 
-  it("draws a parcel ring at projected pixel coordinates", async () => {
-    const ring = [
-      { lat: 46.15, lng: -61.35 },
-      { lat: 46.15, lng: -61.15 },
-      { lat: 46.05, lng: -61.15 },
-      { lat: 46.05, lng: -61.35 },
-      { lat: 46.15, lng: -61.35 },
-    ];
-    const { canvas, statuses } = await composeMapImage(bounds, size, [{
-      kind: "parcel-ring",
-      id: "selected-parcel",
-      name: "Selected parcel",
-      rings: [ring],
-      strokeStyle: "#00ff00",
-      lineWidthPx: 4,
-    }], {});
-    expect(statuses[0].status).toBe("rendered");
-    // The ring's top edge sits at lat 46.15 → somewhere in the top half.
-    const columns = Array.from({ length: size.widthPx }, (_, x) =>
-      pixel(canvas, x, Math.round(size.heightPx * 0.25)));
-    expect(columns.some(([r, g]) => g > 200 && r < 100)).toBe(true);
-
-    // Horizontal span: pin the ring's left/right edges too, so a ring at
-    // the right latitude but wrong longitude would fail this test. Sample
-    // a row through the vertical mid-span of the ring (between its top
-    // and bottom lats), which crosses only the left/right vertical edges.
-    const space = outputSpaceForBounds(bounds, size.widthPx, size.heightPx);
-    const midLat = (46.15 + 46.05) / 2;
-    const rowY = Math.round(
-      latLngToOutput(space, { lat: midLat, lng: -61.25 }).y,
-    );
-    const expectedLeftX = latLngToOutput(
-      space, { lat: midLat, lng: -61.35 },
-    ).x;
-    const expectedRightX = latLngToOutput(
-      space, { lat: midLat, lng: -61.15 },
-    ).x;
-
-    const midRow = Array.from({ length: size.widthPx }, (_, x) =>
-      pixel(canvas, x, rowY));
-    const greenXs = midRow
-      .map(([r, g], x) => (g > 200 && r < 100 ? x : -1))
-      .filter((x) => x >= 0);
-
-    expect(greenXs.some((x) => Math.abs(x - expectedLeftX) <= 4)).toBe(true);
-    expect(greenXs.some((x) => Math.abs(x - expectedRightX) <= 4)).toBe(true);
-    // Well outside the ring's longitude span, the row must not be green —
-    // this is what would catch a ring at the right latitude but the wrong
-    // (or unbounded) longitude.
-    expect(greenXs.some((x) => x < expectedLeftX - 15)).toBe(false);
-    expect(greenXs.some((x) => x > expectedRightX + 15)).toBe(false);
+  it("refuses a direct parcel-ring caller before any canvas or network work", async () => {
+    await expect(composeMapImage(bounds, size, [{
+      kind: "parcel-ring", id: "arbitrary-name", name: "Boundary", rings: [[{ lat: 46.1, lng: -61.2 }]],
+      strokeStyle: "#00ff00", lineWidthPx: 4,
+    }])).rejects.toThrow(/permission/i);
   });
 
   it("warps a user map through the triangle mesh", async () => {

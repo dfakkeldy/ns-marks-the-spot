@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 79.54104580899761,
+  "median_ground_m": 56.38709889661305,
+  "p95_ground_m": 132.73543804720364,
+  "max_ground_m": 144.3429239289696,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 34.970852163571365,
+  "mean_north_ground_m": -9.411969637668546,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Green or Flat Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3100,
+        361
+      ],
+      "lonlat": [
+        -64.12808862245949,
+        44.421291502945536
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 18233,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18233,
+      "nearest_unfiltered_distance_guide_px": 1.2164783908127026,
+      "selected_distance_guide_px": 1.2164783908127026,
+      "guide_reference_pixel_xy": [
+        3085.6367757357075,
+        298.96349802811164
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; broad context and native source/reference crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.1267935541686,
+        44.421497794366935
+      ],
+      "error_ground_m": 105.65130432308312,
+      "east_ground_m": 103.13431824092045,
+      "north_ground_m": 22.924015925427746
+    },
+    {
+      "id": "Q02",
+      "label": "Ironbound Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        3824,
+        225
+      ],
+      "lonlat": [
+        -64.08577881272923,
+        44.441766121009984
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 21749,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 21749,
+      "nearest_unfiltered_distance_guide_px": 2.0982977417006485,
+      "selected_distance_guide_px": 2.0982977417006485,
+      "guide_reference_pixel_xy": [
+        3824.2281859929208,
+        157.04880637780298
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; broad context and native source/reference crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.08624973132319,
+        44.44188771279159
+      ],
+      "error_ground_m": 39.849659580082005,
+      "east_ground_m": -37.48913092443565,
+      "north_ground_m": 13.511492559260214
+    },
+    {
+      "id": "Q03",
+      "label": "Pearl Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3830,
+        1608
+      ],
+      "lonlat": [
+        -64.04789435540965,
+        44.38201442433895
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 20667,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20667,
+      "nearest_unfiltered_distance_guide_px": 3.8794904645461377,
+      "selected_distance_guide_px": 3.8794904645461377,
+      "guide_reference_pixel_xy": [
+        3848.8675587151083,
+        1540.3040326457703
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; broad context and native source/reference crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.04848905284314,
+        44.3820820760037
+      ],
+      "error_ground_m": 47.98380119016108,
+      "east_ground_m": -47.39125227961392,
+      "north_ground_m": 7.51760493953309
+    },
+    {
+      "id": "Q04",
+      "label": "Great Duck Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        2241,
+        1739
+      ],
+      "lonlat": [
+        -64.1422780471905,
+        44.34515011308151
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 17104,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17104,
+      "nearest_unfiltered_distance_guide_px": 0.9602620889130657,
+      "selected_distance_guide_px": 0.9602620889130657,
+      "guide_reference_pixel_xy": [
+        2271.720010824676,
+        1686.081463478622
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; broad context and native source/reference crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.1419070573804,
+        44.34459669260513
+      ],
+      "error_ground_m": 68.24104011797158,
+      "east_ground_m": 29.582919835177076,
+      "north_ground_m": -61.495450322833584
+    },
+    {
+      "id": "Q05",
+      "label": "Little Duck Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1866,
+        1161
+      ],
+      "lonlat": [
+        -64.18086354571474,
+        44.362508712690364
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 19897,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19897,
+      "nearest_unfiltered_distance_guide_px": 0.053088687423561196,
+      "selected_distance_guide_px": 0.053088687423561196,
+      "guide_reference_pixel_xy": [
+        1891.9878559787758,
+        1118.0516810553381
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; broad context and native source/reference crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.18042859582285,
+        44.36210853967812
+      ],
+      "error_ground_m": 56.38709889661305,
+      "east_ground_m": 34.67280313627354,
+      "north_ground_m": -44.46686007185172
+    },
+    {
+      "id": "Q06",
+      "label": "Cross Island southeast projecting tip",
+      "role": "check",
+      "pixel_xy": [
+        1613,
+        2218
+      ],
+      "lonlat": [
+        -64.16746731186254,
+        44.31113256847007
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 16778,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16778,
+      "nearest_unfiltered_distance_guide_px": 1.4433387178726007,
+      "selected_distance_guide_px": 1.4433387178726007,
+      "guide_reference_pixel_xy": [
+        1652.9031988897477,
+        2192.1258145584725
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; broad context and native source/reference crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.16722827679862,
+        44.31125979394381
+      ],
+      "error_ground_m": 23.739902306581243,
+      "east_ground_m": 19.071578900133396,
+      "north_ground_m": 14.137108607562158
+    },
+    {
+      "id": "Q07",
+      "label": "Rose Point eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        619,
+        2195
+      ],
+      "lonlat": [
+        -64.23019991775818,
+        44.29246543444656
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 9281,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 9281,
+      "nearest_unfiltered_distance_guide_px": 2.4242679573242856,
+      "selected_distance_guide_px": 2.4242679573242856,
+      "guide_reference_pixel_xy": [
+        651.3782823510701,
+        2174.4699448770843
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit/score; broad context and native source/reference crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.22840550271617,
+        44.292303325040564
+      ],
+      "error_ground_m": 144.3429239289696,
+      "east_ground_m": 143.2147282365447,
+      "north_ground_m": -18.01169910077771
+    }
+  ],
+  "fit_sha256": "a38daa6c677d8e82e2b13f3f806d34c37343497741acb8a44bc6b26d166eb860",
+  "checks_sha256": "39bf720cdeaf78b5aaf9350d89fb2771e0b9c64732966f89afa7209e20fb0881",
+  "status": "Reserved before first fit and score"
+}

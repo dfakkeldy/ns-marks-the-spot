@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5790 x 3939 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 88.18 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          160,
+          140
+        ],
+        [
+          5660,
+          140
+        ],
+        [
+          5660,
+          3780
+        ],
+        [
+          160,
+          3780
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped rectangle and its large Atlantic Ocean area, including the northwest Cranberry/Swivel Point coast fragment across Sydney Harbour, New Victoria and Low Point, New Waterford and western lakes, Lingan Basin, Glace Bay and the southern Whelan/MacRae coast strip. No displaced inset identified."
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "recorded_at": "2026-09-14T07:33:49.010155+00:00",
+  "completed_after_pr_head_freeze": true,
+  "landed_report_commit": "8b876cf44f8ab57719bbfcb8167d7ee590d09c58",
+  "raster_sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "browser": "Codex in-app browser via CUA",
+  "tab_id": "2 (closed after verification)",
+  "origin": "http://127.0.0.1:49370",
+  "import_route": "My Maps > Add a map file > native file chooser setFiles",
+  "metadata_size": [
+    6532,
+    4513
+  ],
+  "ui_notice": "Large file \u2014 displayed at reduced resolution.",
+  "persistence": "After full navigation/reload, both imported rows restored; affine14 remained checked, v4 remained unchecked.",
+  "rendered_views": [
+    {
+      "mode": "2D",
+      "zoom": 12,
+      "camera_latlon": [
+        45.62,
+        -60.44
+      ],
+      "scope": "Regional Richmond raster over modern map"
+    },
+    {
+      "mode": "3D",
+      "zoom": 12,
+      "camera_latlon": [
+        45.62004,
+        -60.43991
+      ],
+      "exaggeration": 10,
+      "tilt_degrees": 50,
+      "scope": "Actual imported GeoTIFF draped over production terrain"
+    },
+    {
+      "mode": "2D",
+      "zoom": 9,
+      "camera_latlon": [
+        45.05,
+        -60.05
+      ],
+      "scope": "Complete expanded raster footprint visible, including northern and southwest extensions"
+    }
+  ],
+  "capture_workaround": "Full viewport captures retain the prior padded/clipped behaviour. DOM viewport was 2560x1440 with devicePixelRatio 0.5. Using screenshot clip x320,y0,width960,height720 yielded usable map-region captures; camera placement was adjusted for the visible region. Screenshots were not used to measure GCP pixels.",
+  "console_errors": [],
+  "evidence": "Inline CUA screenshots and visible UI state, plus embedded-import-verification.json",
+  "raw_scan_gcp_mesh_verified": false,
+  "geographic_acceptance": false
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- /fishmap is a rewrite of this page; the site stamps the published map
+         path here so assets and data resolve from the map, not the site root. -->
+    <base href="./" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Map of hand-picked shore, wharf and lake fishing spots in Cape Breton and the Strait of Canso area, with the months each fish is around and a dated summary of the rules to check, each with its sources." />
+    <meta property="og:title" content="Fishing spots — Cape Breton and the Strait of Canso" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Shore, wharf and lake spots with the months each fish is around, and the rules to check before you go. Every spot links to its sources." />
+    <meta property="og:url" content="https://kinnokilabs.com/fishmap" />
+    <!-- No fishing card yet: the map's own card stands in. -->
+    <meta property="og:image" content="https://kinnokilabs.com/apps/nsmarksthespot/map/social-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://kinnokilabs.com/apps/nsmarksthespot/map/social-card.png" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0f3a46" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b2630" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Fishing" />
+    <link rel="apple-touch-icon" href="./app-icon-180.png" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%230f3a46'/%3E%3Cpath%20d='M10%2032c8-11%2022-14%2033-6l11-6.5v25L43%2038c-11%208-25%205-33-6Z'%20fill='%23fbf6ea'/%3E%3Ccircle%20cx='22'%20cy='29.5'%20r='2.8'%20fill='%230f3a46'/%3E%3C/svg%3E" />
+    <title>Fishing spots — Cape Breton and the Strait of Canso</title>
+  </head>
+  <body>
+    <div id="root">
+      <p style="margin: 24vh auto 0; max-width: 26rem; padding: 0 24px; text-align: center; font-family: Georgia, serif; color: #12343b">
+        Loading the fishing map…
+      </p>
+    </div>
+    <noscript>
+      <p style="margin: 16px auto 0; max-width: 26rem; padding: 0 24px; text-align: center; font-family: Georgia, serif; color: #12343b">
+        The fishing map is drawn with JavaScript. Enable JavaScript and reload
+        to use it.
+      </p>
+    </noscript>
+    <script type="module" src="/src/fishing/main.tsx"></script>
+  </body>
+</html>

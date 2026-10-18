@@ -1,0 +1,104 @@
+{
+  "status": "Discovery only; no point adopted for fit",
+  "initial_seed": "Printed arrow and nominal5.03m/nativepixel; rough Antigonish-area anchor, never a GCP",
+  "topology_alignment": {
+    "source_rough_pixel_xy": [
+      [
+        4660.0,
+        1710.0
+      ],
+      [
+        1200.0,
+        250.0
+      ]
+    ],
+    "old_guide_rough_pixel_xy": [
+      [
+        4790.0,
+        942.0
+      ],
+      [
+        720.0,
+        1110.0
+      ]
+    ]
+  },
+  "external_context": {
+    "url": "https://www.nslps.com/about-ns-lighthouses/lighthouse-lists?c=cape-george-lighthouse-northumberland-strait",
+    "lonlat": [
+      -61.9005,
+      45.8741111111
+    ],
+    "use": "Locality corroboration only, not an adopted point"
+  },
+  "additional_locality_context": [
+    {
+      "url": "https://geonames.nrcan.gc.ca/search-place-names/unique?id=CAATC",
+      "name": "Antigonish Harbour community",
+      "lonlat": [
+        -61.907845,
+        45.716365
+      ],
+      "use": "Locality identification only; not a shore observation or control"
+    },
+    {
+      "url": "https://geonames.nrcan.gc.ca/search-place-names/unique?id=CAATD",
+      "name": "Antigonish Harbour waterbody label",
+      "lonlat": [
+        -61.910475,
+        45.656124
+      ],
+      "use": "Label point is not harbour-mouth geometry; never a control"
+    }
+  ],
+  "regional_guide_only": {
+    "source_rough_pixel_xy": [
+      [
+        2260.0,
+        775.0
+      ],
+      [
+        4630.0,
+        1720.0
+      ],
+      [
+        1430.0,
+        410.0
+      ]
+    ],
+    "prior_guide_rough_pixel_xy": [
+      [
+        2550.0,
+        745.0
+      ],
+      [
+        4700.0,
+        1720.0
+      ],
+      [
+        1700.0,
+        480.0
+      ]
+    ],
+    "note": "Three broad coastal contexts only; not adopted point pairs and not an accuracy fit"
+  },
+  "discarded_guide": {
+    "file": "103-regional-discovery-guide.npy",
+    "reason": "Near-collinear rough coastal anchors yielded unsupported anisotropy: singular scales20.56/4.65m per pixel; rejected as discovery guide, never used for adopted controls or fit"
+  },
+  "current_guide": "103-regional-similarity-guide.npy; constrained topology-only search guide, not a fitted map",
+  "inset_locality_guide": {
+    "url": "https://geonames.nrcan.gc.ca/search-place-names/unique?id=CAJQT",
+    "name": "Doctors Brook",
+    "lonlat": [
+      -62.122273,
+      45.78261
+    ],
+    "rough_source_pixel_xy": [
+      1200,
+      1500
+    ],
+    "use": "Named-feature search seed only; not a point observation or fit",
+    "north_arrow": "Native arrow reads MAGNETIC1963; never assume it is true/grid north"
+  }
+}

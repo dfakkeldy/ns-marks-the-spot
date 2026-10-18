@@ -1,0 +1,149 @@
+{
+  "panel": "inverness-south",
+  "selected_fit": "Frozen TPS13 unchanged",
+  "fresh_check_count": 8,
+  "new_check_ids": [
+    "IS41"
+  ],
+  "physical_tps13": {
+    "count": 8,
+    "points": [
+      {
+        "label": "IS34",
+        "east_ground_m": -27.70586448843437,
+        "north_ground_m": -193.91704292259703,
+        "error_ground_m": 195.88627941460277
+      },
+      {
+        "label": "IS35",
+        "east_ground_m": 69.67471153643136,
+        "north_ground_m": 69.58044738333533,
+        "error_ground_m": 98.46828974725831
+      },
+      {
+        "label": "IS36",
+        "east_ground_m": -63.25272221657062,
+        "north_ground_m": -18.607853921653273,
+        "error_ground_m": 65.93298943151473
+      },
+      {
+        "label": "IS37",
+        "east_ground_m": 105.62870329046932,
+        "north_ground_m": -160.88456138517714,
+        "error_ground_m": 192.46107411870804
+      },
+      {
+        "label": "IS38",
+        "east_ground_m": 106.27903290351864,
+        "north_ground_m": 61.571074344932015,
+        "error_ground_m": 122.82601528542861
+      },
+      {
+        "label": "IS39",
+        "east_ground_m": 149.3605186435718,
+        "north_ground_m": -4.046620263187344,
+        "error_ground_m": 149.41532607142815
+      },
+      {
+        "label": "IS40",
+        "east_ground_m": 322.1033974896599,
+        "north_ground_m": -18.88840509390816,
+        "error_ground_m": 322.6567379141081
+      },
+      {
+        "label": "IS41",
+        "east_ground_m": -166.78955200888473,
+        "north_ground_m": 109.74365182556136,
+        "error_ground_m": 199.6557631908844
+      }
+    ],
+    "rms_ground_m": 183.99620467810755,
+    "median_ground_m": 170.9382000950681,
+    "p95_ground_m": 279.6063967609797,
+    "max_ground_m": 322.6567379141081,
+    "mean_east_ground_m": 61.91227814372017,
+    "mean_north_ground_m": -19.431163754086786,
+    "scatter_rms_ground_m": 172.17404864312314,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "accepted_baseline_tps": {
+    "count": 8,
+    "points": [
+      {
+        "label": "IS34",
+        "east_ground_m": -107.98992471292357,
+        "north_ground_m": 178.95508418395005,
+        "error_ground_m": 209.01374594697725
+      },
+      {
+        "label": "IS35",
+        "east_ground_m": 18.23633289520786,
+        "north_ground_m": 359.64414815188064,
+        "error_ground_m": 360.10620258106735
+      },
+      {
+        "label": "IS36",
+        "east_ground_m": -35.34844937831931,
+        "north_ground_m": -3.3822201263126765,
+        "error_ground_m": 35.509889980601706
+      },
+      {
+        "label": "IS37",
+        "east_ground_m": 256.240709092222,
+        "north_ground_m": 189.7938749042851,
+        "error_ground_m": 318.8746085019442
+      },
+      {
+        "label": "IS38",
+        "east_ground_m": 191.8707912269594,
+        "north_ground_m": 502.60131776611354,
+        "error_ground_m": 537.9800044112172
+      },
+      {
+        "label": "IS39",
+        "east_ground_m": 104.05234662090042,
+        "north_ground_m": 54.24249239085962,
+        "error_ground_m": 117.34197381196752
+      },
+      {
+        "label": "IS40",
+        "east_ground_m": 336.9471023875292,
+        "north_ground_m": 52.67360741023122,
+        "error_ground_m": 341.03938002078183
+      },
+      {
+        "label": "IS41",
+        "east_ground_m": -36.75704358743934,
+        "north_ground_m": 279.223926872271,
+        "error_ground_m": 281.6328844280445
+      }
+    ],
+    "rms_ground_m": 311.2719381116872,
+    "median_ground_m": 300.2537464649944,
+    "p95_ground_m": 475.72417377066466,
+    "max_ground_m": 537.9800044112172,
+    "mean_east_ground_m": 90.90648306801708,
+    "mean_north_ground_m": 201.71902894415982,
+    "scatter_rms_ground_m": 218.94214796113505,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "no_tuning_after_checks": true,
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "limitations": [
+    "Eight checks remain below the distributed20\u201330 ambition.",
+    "IS41 is one distinct stream-entry feature on Lake Ainslie, not an independent whole-basin check.",
+    "Frasers junction and east-shore road loops remain unscored; exact source correspondence is unresolved.",
+    "Northeastern/intervening interiors, farther edges and seam intervals remain sparsely checked."
+  ],
+  "next_work": [
+    "Continue independent validation beyond the existing clusters; preserve the frozen fit and first results.",
+    "Seek different clear physical features rather than repeating the withheld road and label-obscured stream candidates."
+  ]
+}

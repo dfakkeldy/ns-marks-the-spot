@@ -1,0 +1,91 @@
+{
+  "reviewed_at": "2026-09-15T18:52:17.052824+00:00",
+  "artifact_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "active_raster": "south-explicit-affine-20m",
+  "only_active_user_raster": true,
+  "opacity_percent": 70,
+  "terrain_exaggeration": 10,
+  "tilt_degrees": 50,
+  "bearing_degrees": 0,
+  "locations": [
+    {
+      "name": "MacNeil Point",
+      "lat": 45.96729,
+      "lon": -61.53112,
+      "zoom": 14
+    },
+    {
+      "name": "Long Point",
+      "lat": 45.80358,
+      "lon": -61.49631,
+      "zoom": 14
+    },
+    {
+      "name": "Brileys Lake",
+      "lat": 45.75338,
+      "lon": -61.40393,
+      "zoom": 15
+    },
+    {
+      "name": "Lake Murray / Horton area",
+      "lat": 45.689,
+      "lon": -61.385,
+      "zoom": 14
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/brileys-10x.png",
+      "sha256": "26c1414b1c6d1d7baa3d2cdd0be54af4acfce3eec2214b241d71e682ef650455"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/brileys-2d.png",
+      "sha256": "f6c92db4c91fba666f36709efcdf9352529a868ac9ca72406df7439e4359084c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/long-point-10x.png",
+      "sha256": "345dc84fd83f831584f85df77cb6c2362dabbcca42484c1d3200efbd402c5711"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/long-point-2d.png",
+      "sha256": "69bab156ed83c2ea5a8a2c6b1294a39f843b9a62fa53fb2328d68d46052ddb52"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/macneil-10x.png",
+      "sha256": "e21212abd22724dae584d9e06149936e0e0e17e47851bd427f8e8391e661d29c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/macneil-2d.png",
+      "sha256": "6f37c842461a5c5f8f9346cf1ce2308698606dad1e1261c4c212b55a08b495eb"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/southern-lakes-10x.png",
+      "sha256": "13b2d92694c82ff816c72a4d8aee97cf9386cffff048101646abe50e6c6602af"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/southern-lakes-2d.png",
+      "sha256": "f70e18674881ea80175fb0693e24cfea4d297eba9c65e90d177948462a10d588"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/brileys-state.txt",
+      "sha256": "8903360b5821ec73e87a913efc81e75f80ce6ccd933ae10476ef340a642110a2"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/long-point-state.txt",
+      "sha256": "5f2b5a879a3f7b073448ad40d676a578edccf49237961ca9d3508c1f733d7600"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/macneil-state.txt",
+      "sha256": "f3bed081b03ec2af2d7b6d2a9212b38537b2e0329eb175dac5afc98cc11cb671"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/browser/southern-lakes-state.txt",
+      "sha256": "0ba63fd6124ed0bb3d00201ba10a775bd081f151a25888a85bbd740a828311ba"
+    }
+  ],
+  "console_errors": [],
+  "scope": "Previously imported embedded GeoTIFF restored after navigation and viewed in2D/10x; no re-import or raw-scan mesh acceptance.",
+  "geographic_acceptance": false
+}

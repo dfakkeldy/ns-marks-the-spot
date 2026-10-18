@@ -1,0 +1,2316 @@
+{
+  "sheet": 19,
+  "status": "finalized-source-only",
+  "sheet_finalized": true,
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_dimensions_px": [
+    10815,
+    7549
+  ],
+  "reviewed_inventory_sha256": "5f4e15eb4dfb1998866245e716a9d41dc0a7f57191a3779959386c370817d5de",
+  "source_crop_coverage": {
+    "planned": 35,
+    "source_reviewed": 35,
+    "crop_ids": [
+      "F19-R01C01",
+      "F19-R01C02",
+      "F19-R01C03",
+      "F19-R01C04",
+      "F19-R01C05",
+      "F19-R01C06",
+      "F19-R01C07",
+      "F19-R02C01",
+      "F19-R02C02",
+      "F19-R02C03",
+      "F19-R02C04",
+      "F19-R02C05",
+      "F19-R02C06",
+      "F19-R02C07",
+      "F19-R03C01",
+      "F19-R03C02",
+      "F19-R03C03",
+      "F19-R03C04",
+      "F19-R03C05",
+      "F19-R03C06",
+      "F19-R03C07",
+      "F19-R04C01",
+      "F19-R04C02",
+      "F19-R04C03",
+      "F19-R04C04",
+      "F19-R04C05",
+      "F19-R04C06",
+      "F19-R04C07",
+      "F19-R05C01",
+      "F19-R05C02",
+      "F19-R05C03",
+      "F19-R05C04",
+      "F19-R05C05",
+      "F19-R05C06",
+      "F19-R05C07"
+    ]
+  },
+  "reviewed_annotations": 166,
+  "inherited_annotation_identities": 133,
+  "new_annotation_identities": 33,
+  "printed_spot_height_labels": 2,
+  "partial_or_tentative_readings": [
+    {
+      "id": "F19-JUD-016",
+      "issue": "Abbreviated given name is tentative; elevated d retained. Do not silently expand it or identify a parcel."
+    },
+    {
+      "id": "F19-JUD-034",
+      "issue": "No trailing unit mark confidently resolved. Preserve the numerals without supplying a unit or modern measured height."
+    },
+    {
+      "id": "F19-JUD-059",
+      "issue": "Large upright place-style lettering, unlike the smaller italic road lettering. Classification as a named place is provisional; it does not establish a settlement boundary."
+    },
+    {
+      "id": "F19-JUD-062",
+      "issue": "Quartz and Mill are legible; nearby Falls lettering overlaps or adjoins the first line. Separation into two annotations is tentative."
+    },
+    {
+      "id": "F19-JUD-069",
+      "issue": "Numerals read 25 after enlargement; no trailing unit mark confidently resolved. Preserve text without supplying a unit."
+    },
+    {
+      "id": "F19-JUD-070",
+      "issue": "Small lettering beside Quartz/Mill. This separation is tentative and could be revised on human review."
+    },
+    {
+      "id": "F19-JUD-106",
+      "issue": "Tentative surname: independent reviewer reads McTaggart; intervening strokes and the ending remain difficult."
+    },
+    {
+      "id": "F19-JUD-164",
+      "issue": "Princeville is supported by native detail, but linework across c can resemble d; first pass read Prindeville. Qualification retained."
+    }
+  ],
+  "placement_status": "deferred",
+  "all_annotation_geometry_null": true,
+  "identity_preservation": {
+    "original_four_judique_files_unchanged": true,
+    "ids001_through151_retained": true,
+    "documented_changes": [
+      "ID100: Shop corrected to School; original reading and box retained.",
+      "ID130: CRAIGNISH completed to CRAIGNISH HILLS in the northern batch."
+    ]
+  },
+  "first_pass_audit_note": "All240 structurally valid candidates plus33 readable candidates from the two retained invalid original responses reconciled. Invalid original boxes remain invalid; source review is independent.",
+  "first_pass_candidate_dispositions": [
+    {
+      "raw_candidate_id": "F19-R01C02-01",
+      "model_text": "John Gillis",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-002"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C02-02",
+      "model_text": "Mackay Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-001"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C02-03",
+      "model_text": "Stable Stables",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-008"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C02-04",
+      "model_text": "Stop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-009"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C02-05",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-013"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C02-06",
+      "model_text": "Judiqu",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-014"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-01",
+      "model_text": "1879-80.",
+      "disposition": "excluded-source-apparatus",
+      "reviewed_ids": [],
+      "note": "Excluded red report year."
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-004"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-03",
+      "model_text": "McEachern",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-003"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-04",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-005"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-05",
+      "model_text": "Saw Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-006"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-06",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-009"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-07",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-010"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-08",
+      "model_text": "Show",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-011"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-09",
+      "model_text": "G.M.",
+      "disposition": "excluded-source-apparatus",
+      "reviewed_ids": [],
+      "note": "Red G1 M geological unit code; not a G.M. facility."
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-10",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-007"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-11",
+      "model_text": "Ben Noa",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-012"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-12",
+      "model_text": "Judique",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-014"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-13",
+      "model_text": "age",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-008"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-14",
+      "model_text": "Bo",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-010"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C03-15",
+      "model_text": "dibles",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-008"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C04-01",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-037"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C05-01",
+      "model_text": "A. McIsaac",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-030"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C05-02",
+      "model_text": "Don. McEacharn",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-032"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C05-03",
+      "model_text": "South\nWest",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-039"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C05-04",
+      "model_text": "Squire Mc",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-033"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C05-05",
+      "model_text": "Mabo",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-039"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C05-06",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-037"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-01",
+      "model_text": "Fall 30",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-034"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-02",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-035"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-03",
+      "model_text": "Falls",
+      "disposition": "rejected-unsupported-extra-reading",
+      "reviewed_ids": [],
+      "note": "Unsupported extra Falls in the indicated northern striped area; only the two existing upper Falls/Fall30 occurrences are present."
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-04",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-036"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-05",
+      "model_text": "Squire McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-033"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-06",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-041"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-07",
+      "model_text": "Falls",
+      "disposition": "rejected-unsupported-extra-reading",
+      "reviewed_ids": [],
+      "note": "Unsupported extra Falls near the report lettering. The lower stream has Falls, Fall and Falls, represented by IDs041–043; no fourth occurrence added."
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-08",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-042"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-09",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-043"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-10",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-11",
+      "model_text": "Iron Ore",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-045"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-12",
+      "model_text": "Collis Chisholms Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-046"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-13",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-044"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-14",
+      "model_text": "Falls",
+      "disposition": "rejected-unsupported-extra-reading",
+      "reviewed_ids": [],
+      "note": "Unsupported extra Falls below the existing Fall ID044; no new lettering occurrence at the indicated location."
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-15",
+      "model_text": "s Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-047"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C06-16",
+      "model_text": "Dio",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-064"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-01",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-134"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-02",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-135"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-03",
+      "model_text": "Fall 8'",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-04",
+      "model_text": "Fall 30",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-138"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-05",
+      "model_text": "West Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-139"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-06",
+      "model_text": "East Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-140"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-07",
+      "model_text": "PROPOSED RAILWAY",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-141"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-08",
+      "model_text": "John R Morrison",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-142"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-09",
+      "model_text": "Shops",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-143"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R01C07-10",
+      "model_text": "L... Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-046"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-01",
+      "model_text": "L...g...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-013"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-02",
+      "model_text": "Judiqu...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-014"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-03",
+      "model_text": "R. C. Church",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-015"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-04",
+      "model_text": "Reverend J. Chisholm",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-016"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-05",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-018"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-06",
+      "model_text": "Rory",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-020"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-07",
+      "model_text": "Chist...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-020"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-08",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-024"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-09",
+      "model_text": "G...a...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-025"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C02-10",
+      "model_text": "Campbell Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-029"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-01",
+      "model_text": "Judique",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-014"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-02",
+      "model_text": "Harvey's",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-017"
+      ],
+      "note": "Native lettering reads Barytes, not Harvey’s."
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-019"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-04",
+      "model_text": "Chisholms",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-020"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-05",
+      "model_text": "Mill\nBrook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-020",
+        "F19-JUD-021"
+      ],
+      "note": "Mill is separate from Brook in Rory Chisholm’s Brook; reject compound Mill Brook."
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-06",
+      "model_text": "River Dennis's Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-022"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-07",
+      "model_text": "Rory Chisholm",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-023"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-08",
+      "model_text": "Graham\nRiver",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-025"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-09",
+      "model_text": "Quarries of grey\nand red sandstone",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-026"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-10",
+      "model_text": "Old Judique Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-027"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C03-11",
+      "model_text": "Allan McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-028"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-01",
+      "model_text": "y Chisholm",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-023"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-02",
+      "model_text": "Southwest Miramichi River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-038"
+      ],
+      "note": "Existing Southwest Mabou River; reject imported Miramichi."
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-03",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-037"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-04",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-050"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-05",
+      "model_text": "Dennistown",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-049"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-06",
+      "model_text": "McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-028"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-07",
+      "model_text": "Falls",
+      "disposition": "rejected-unsupported-extra-reading",
+      "reviewed_ids": [],
+      "note": "Unsupported extra Falls; one complete lower occurrence is ID051."
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-08",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-051"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C04-09",
+      "model_text": "Kelly's River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-053"
+      ],
+      "note": "Clipped Old River Denys Road; reject Kelly’s River."
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-01",
+      "model_text": "Mabou River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-039"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-02",
+      "model_text": "Inhabitants",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-037"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-03",
+      "model_text": "Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-037"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-04",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-038"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-05",
+      "model_text": "Denys Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-052"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-06",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-052"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-07",
+      "model_text": "Brook runs underground",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-040"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-08",
+      "model_text": "West Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-056"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-09",
+      "model_text": "Sou",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-10",
+      "model_text": "Old Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-055"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-11",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-059"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-12",
+      "model_text": "raham",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-054"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-13",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-054"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C05-14",
+      "model_text": "Doug. McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-01",
+      "model_text": "Brook runs underground",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-040"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-02",
+      "model_text": "Diogenes Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-047"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-03",
+      "model_text": "Iron Ore",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-045"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-04",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-048"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-05",
+      "model_text": "West Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-056"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-06",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-07",
+      "model_text": "Church",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-058"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-08",
+      "model_text": "River Denys Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-059"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-09",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-060"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-10",
+      "model_text": "Gold Mine",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-061"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-11",
+      "model_text": "Quartz falls Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-062",
+        "F19-JUD-070"
+      ],
+      "note": "Separate Quartz Mill from adjacent Falls; retain prior typography uncertainties rather than accepting the model’s combined phrase."
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-12",
+      "model_text": "Diogenes",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-064"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-13",
+      "model_text": "R Marlowe 130",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-146",
+        "F19-JUD-147"
+      ],
+      "note": "Displaced model boxes do not support R Marlowe or 130. Native eastern context contains Tannery and P.O."
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-14",
+      "model_text": "West Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-065"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-15",
+      "model_text": "East Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-066"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-16",
+      "model_text": "Victoria Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-067"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C06-17",
+      "model_text": "Donald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-01",
+      "model_text": "Boisines",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-064"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-02",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-062"
+      ],
+      "note": "Clipped eastern portion of Quartz Mill at the crop edge; model box is substantially displaced."
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-03",
+      "model_text": "McPhail Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-144"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-04",
+      "model_text": "2 Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-064"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-05",
+      "model_text": "River Denys",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-145"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-06",
+      "model_text": "Hammer PO",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-146",
+        "F19-JUD-147"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-148"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-08",
+      "model_text": "Cross Roads",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-145"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-09",
+      "model_text": "Glen",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-062"
+      ],
+      "note": "Reject Glen; this edge fragment belongs to Quartz Mill."
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-10",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-070"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-11",
+      "model_text": "River Denys Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-149"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-12",
+      "model_text": "W. McLennan Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-150"
+      ],
+      "note": "Native superscript c belongs to McLennan; no separate W. initial."
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-13",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R02C07-14",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-068"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C02-01",
+      "model_text": "Long Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-084"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C02-02",
+      "model_text": "J. Chisholm",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-080"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C02-03",
+      "model_text": "E...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-074"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C02-04",
+      "model_text": "J.C...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-083"
+      ],
+      "note": "Misread lower-right clipped settlement lettering; neighboring native crop completes Long Point. No J.C. personal name is printed here."
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-01",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-074"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-071"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-073"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-04",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-077"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-05",
+      "model_text": "Halls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-078"
+      ],
+      "note": "Halls is Mills; the two printed mill occurrences retain IDs078 and079."
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-06",
+      "model_text": "Mills",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-079"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-07",
+      "model_text": "Chisholm",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-080"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-08",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-09",
+      "model_text": "Long Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-083"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-10",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-085"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C03-11",
+      "model_text": "Christian Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-081"
+      ],
+      "note": "Christian Brook is Chisholm Brook."
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-01",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-051"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-02",
+      "model_text": "R...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-053"
+      ],
+      "note": "Clipped Road at the upper edge is part of Old River Denys Road."
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-03",
+      "model_text": "...tual",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-071"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-04",
+      "model_text": "...School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-073"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-072"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-06",
+      "model_text": "Old River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-053"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-07",
+      "model_text": "Delil's",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-053"
+      ],
+      "note": "Misread Denys in Old River Denys Road."
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-08",
+      "model_text": "D. McPherson",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C04-09",
+      "model_text": "J. McPherson",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-076"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-01",
+      "model_text": "Graham",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-054"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-02",
+      "model_text": "Doug. McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-03",
+      "model_text": "Gold Mine",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-094"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-04",
+      "model_text": "Glenelale's Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-095"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-05",
+      "model_text": "McPherson's",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-06",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-07",
+      "model_text": "David Jones",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-097"
+      ],
+      "note": "David Jones is an unsupported expansion of the printed D. McInnes label."
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-08",
+      "model_text": "Plumbago Mine",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-103"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-09",
+      "model_text": "Glenel",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-098"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-10",
+      "model_text": "Mills",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-101"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C05-11",
+      "model_text": "Machabees Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-104"
+      ],
+      "note": "Misread rotated River Inhabitants Road; no separate Machabees Brook inscription."
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-01",
+      "model_text": "Donald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-02",
+      "model_text": "Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-065"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-03",
+      "model_text": "Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-066"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-04",
+      "model_text": "McLennan's Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-068"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-05",
+      "model_text": "Falls 25",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-069"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-06",
+      "model_text": "Don. Smith",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-105"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-07",
+      "model_text": "D. McDougall",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-106"
+      ],
+      "note": "Retain earlier tentative D. McTaggart reading; do not accept model McDougall."
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-08",
+      "model_text": "Donald McMaster",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-107"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-09",
+      "model_text": "Angus McVar...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-127"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-10",
+      "model_text": "Neil Mc...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-11",
+      "model_text": "D. Buchanan",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-108"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-12",
+      "model_text": "Fine outcrop of black slate with fossils",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-129"
+      ],
+      "note": "Literal source is Fine outcrops of / black shale full / of fossils, not black slate."
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-13",
+      "model_text": "Falls 18",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-111"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-14",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-110"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-15",
+      "model_text": "end",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-098"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-16",
+      "model_text": "lie",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-098"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-17",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-099"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-18",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-19",
+      "model_text": "Mills",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-101"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-20",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-109"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-21",
+      "model_text": "Black",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-129"
+      ],
+      "note": "Black belongs to the fossil description, not a separate named feature. Model box is displaced."
+    },
+    {
+      "raw_candidate_id": "F19-R03C06-22",
+      "model_text": "Cods...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-112"
+      ],
+      "note": "Coal, not Cods; no extra annotation."
+    },
+    {
+      "raw_candidate_id": "F19-R03C07-01",
+      "model_text": "as Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-068"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C07-02",
+      "model_text": "Falles",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C07-03",
+      "model_text": "Angus McVanish",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-127"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C07-04",
+      "model_text": "Neil McCuish",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C07-05",
+      "model_text": "Widow McLeod",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C07-06",
+      "model_text": "Mc Intosh",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-153"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R03C07-07",
+      "model_text": "Fine outcrops of black shale full of fossils",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-129"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C02-01",
+      "model_text": "Long Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-084"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C02-02",
+      "model_text": "...LOI",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-083"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C02-03",
+      "model_text": "...au",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-085"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-01",
+      "model_text": "Long Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-083"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-02",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-085"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-087"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-04",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-089"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-05",
+      "model_text": "700 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-090"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-06",
+      "model_text": "Farm Pond",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-086"
+      ],
+      "note": "Farm Road, not Farm Pond."
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-07",
+      "model_text": "General Line Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-092"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C03-08",
+      "model_text": "Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-081"
+      ],
+      "note": "Top-edge Brook fragment belongs to Chisholm Brook."
+    },
+    {
+      "raw_candidate_id": "F19-R04C04-01",
+      "model_text": "J. A. Mc Dougall",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-088"
+      ],
+      "note": "No extra J. initial: that stroke is adjacent road linework; retain A. McDougall."
+    },
+    {
+      "raw_candidate_id": "F19-R04C04-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-091"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C04-03",
+      "model_text": "Rough Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-113"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C04-04",
+      "model_text": "Mal. Mc Dona...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C04-05",
+      "model_text": "Norman McIntyre",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-115"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C04-06",
+      "model_text": "Nor. Mc Isaac",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-116"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C04-07",
+      "model_text": "Wood Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-093"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-01",
+      "model_text": "Plumbago",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-103"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-02",
+      "model_text": "Mine",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-103"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-03",
+      "model_text": "Mal.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-04",
+      "model_text": "Mc Donald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-05",
+      "model_text": "an Mc Intyre",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-115"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-06",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-104"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-07",
+      "model_text": "Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-104"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-08",
+      "model_text": "Black",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-117"
+      ],
+      "note": "Red Bridge, not Black Bridge."
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-09",
+      "model_text": "Bridge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-117"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-10",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-118"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-11",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-119"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-12",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-120"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-13",
+      "model_text": "Kings",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-121"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-14",
+      "model_text": "Mc",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-15",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-123"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-16",
+      "model_text": "PO",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-124"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-17",
+      "model_text": "Blue",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-18",
+      "model_text": "Bridge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-19",
+      "model_text": "Victoria",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-131"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C05-20",
+      "model_text": "PROPOSED",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-01",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-109"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-02",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-110"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-03",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-111"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-04",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-05",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-112"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-06",
+      "model_text": "Fine outcrop\nblack shale\nof fossi",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-129"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-07",
+      "model_text": "Inhabitants",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-08",
+      "model_text": "Kingsville",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-121"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-09",
+      "model_text": "McIntosh's Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-10",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-123"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-11",
+      "model_text": "PO",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-124"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-12",
+      "model_text": "River Bridge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-125"
+      ],
+      "note": "Blue Bridge, not River Bridge."
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-13",
+      "model_text": "Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-131"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-14",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-132"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C06-15",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-158"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C07-01",
+      "model_text": "Fine outcrops of black shale full of fossils",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-129"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C07-02",
+      "model_text": "McIntosh",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-153"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C07-03",
+      "model_text": "Falls.15",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-154"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C07-04",
+      "model_text": "BigBrook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-155"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C07-05",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-156"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R04C07-06",
+      "model_text": "Big Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-157"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C03-01",
+      "model_text": "850 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-159"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C03-02",
+      "model_text": "Cen...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-092"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C04-01",
+      "model_text": "Wood",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-093"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C04-02",
+      "model_text": "Don M^c Isaac",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-160"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C04-03",
+      "model_text": "Ro",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-161"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C05-01",
+      "model_text": "Rough",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-161"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C05-02",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-161"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C05-03",
+      "model_text": "Don M'Isaac",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-160"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C05-04",
+      "model_text": "PROPOSED RAILWAY TO WHYCO",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C05-05",
+      "model_text": "Victo",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-131"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-01",
+      "model_text": "for 1879-80.",
+      "disposition": "excluded-source-apparatus",
+      "reviewed_ids": [],
+      "note": "Red report/page reference excluded by inventory scope."
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-02",
+      "model_text": "s 100 and 115 F.",
+      "disposition": "excluded-source-apparatus",
+      "reviewed_ids": [],
+      "note": "Red report/page reference excluded by inventory scope."
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-158"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-04",
+      "model_text": "TO WHYCOCOMAGH",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-05",
+      "model_text": "Inhabitants",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-132"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-06",
+      "model_text": "Fall 20",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-162"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-07",
+      "model_text": "Old Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-163"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-08",
+      "model_text": "Prindeville",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-164"
+      ],
+      "note": "Native detail supports Princeville; crossing linework confounds the c/d distinction. Retained as tentative."
+    },
+    {
+      "raw_candidate_id": "F19-R05C06-09",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-165"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C07-01",
+      "model_text": "Big Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-157"
+      ]
+    },
+    {
+      "raw_candidate_id": "F19-R05C07-02",
+      "model_text": "Abraham McArtins",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F19-JUD-166"
+      ],
+      "note": "Native lettering and independent detail support Abraham McArthur, not McArtins."
+    }
+  ],
+  "detail_audit_files": [
+    "sheet-19-north-review-evidence.json",
+    "sheet-19-south-review-evidence.json"
+  ],
+  "detail_candidate_count": 61,
+  "limitations": "Finalized means the initial source transcription pass and crop audit are complete, with explicit uncertain readings. It does not certify infallibility, geographic alignment, historical feature positions or sheet placement acceptance."
+}

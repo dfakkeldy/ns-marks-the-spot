@@ -1,0 +1,47 @@
+[
+  {
+    "candidate": "Island Lake south of Barren Lake",
+    "status": "incomplete-source-shoreline",
+    "reason": "The label is visible, but the available source lacks a continuously established complete basin outline. No label-centre or inferred ring adopted.",
+    "frame": "R41-context-frame.json"
+  },
+  {
+    "candidate": "Ferguson Lake labelled enclosure",
+    "status": "road-boundary-not-water-boundary",
+    "reason": "The enclosure inspected around the label follows paired roads and residences. It is not a defensible shoreline for a whole-basin centroid. Whether a separate lake correspondence exists remains unresolved. No coordinates adopted or scored.",
+    "frames": [
+      "R41-context-frame.json",
+      "R41-ferguson-frame.json"
+    ]
+  },
+  {
+    "candidate": "Northern McKinnon Harbour inlet mouth",
+    "status": "unresolved-tributary-correspondence",
+    "reason": "Source shows one northern tributary and generalized inlet head; modern tidal/tributary geometry has multiple candidates. No inlet-mouth coordinate adopted. R40 uses a separate identifiable outer headland."
+  },
+  {
+    "candidate": "Kelpy Cove inland pond",
+    "status": "unresolved-comparable-basin-extent",
+    "reason": "Broad coast context establishes this closed source outline is an inland pond, not an offshore island. The original modern lake ring 3462 has a substantially different eastern extension and coastal/stream connections. Northwest horns provide a possible identity, but a comparable whole-basin extent is not established; no centroid or point adopted or scored.",
+    "frames": [
+      "R43-kelp-frame.json",
+      "R43-native-frame.json"
+    ],
+    "reference_search_ring": 3462,
+    "reference_features": [
+      131893,
+      131980,
+      131981,
+      154320
+    ]
+  },
+  {
+    "candidate": "Upper Marie Joseph complete basin",
+    "status": "unresolved-source-and-modern-basin-definition",
+    "reason": "The expanded source view contains road boundaries and a connected inner water/stream complex. A comparable complete source/reference basin is still not established. The polygon helper excludes some river-bank classes, so no-polygon is not treated as no-water. R42 measures a separate closed basin farther south; no Upper Marie Joseph centroid was adopted.",
+    "frames": [
+      "R42-east-frame.json",
+      "R42-marie-frame.json"
+    ]
+  }
+]

@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "e1459819159ce55bae7f55aff2f228fb3b0192ed142c19906d6053cef1799033",
+  "fit_sha256": "33df3033db59623b0280e1ce8166b2340a73b70b4dbfde16004797473fea177d",
+  "components_sha256": "0837b4fa0caa8706a1941b6d194ee20d39d0769e086df8c70a226bea47f3b44c",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 168.85 m exceeds 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          46.168737370960976,
+          -61.4652466508243
+        ],
+        [
+          46.42356056916976,
+          -61.020832113464685
+        ]
+      ],
+      "dimensions": [
+        6184,
+        5132
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 17194057,
+      "source_mask_pixels": 20705725,
+      "affine_determinant": -25.3722710701177,
+      "png_sha256": "27c1f8ec02cbae540f746f8b57ac8f307021759a49864b2f66a1122eb7a7af3f",
+      "tif_sha256": "cf87f88669f9cdc13b4e56310f8052edda1142b1aa846df6c66022b5868580f3"
+    },
+    {
+      "id": "cape-mabou-inset",
+      "status": "RMS 93.43 m passes 100 m; limitations retained",
+      "png": "cape-mabou-inset-3857.png",
+      "tif": "cape-mabou-inset-3857.tif",
+      "bounds": [
+        [
+          46.13353232593524,
+          -61.50390686362963
+        ],
+        [
+          46.216736923427504,
+          -61.36563817509796
+        ]
+      ],
+      "dimensions": [
+        1924,
+        1672
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 1697605,
+      "source_mask_pixels": 2002100,
+      "affine_determinant": -26.01404266329859,
+      "png_sha256": "0336eb755bc2afc042de9ec453f91defc3a29aa7aa655c7a8f6904e888ae6d7c",
+      "tif_sha256": "159ebc9025e282e14d7476627bed97fb109cbc90928f83815a58aa59a552dfed"
+    }
+  ]
+}

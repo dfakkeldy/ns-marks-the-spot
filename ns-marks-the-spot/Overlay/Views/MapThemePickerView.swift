@@ -78,18 +78,34 @@ struct MapThemePickerView: View {
                 .accessibilityIdentifier("map-theme-status")
 
             HStack(spacing: 12) {
-                Button("Save setup…") {
+                Button {
                     newThemeName = ""
                     isNaming = true
+                } label: {
+                    Text("Save setup…")
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier("map-theme-save")
 
-                Button("Manage") { isManaging = true }
-                    .accessibilityIdentifier("map-theme-manage")
+                Button {
+                    isManaging = true
+                } label: {
+                    Text("Manage")
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityIdentifier("map-theme-manage")
 
                 if viewModel.themeStatus == .modified || viewModel.themeStatus == .partial {
-                    Button("Reset") { viewModel.resetTheme() }
-                        .accessibilityIdentifier("map-theme-reset")
+                    Button {
+                        viewModel.resetTheme()
+                    } label: {
+                        Text("Reset")
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .accessibilityIdentifier("map-theme-reset")
                 }
 
                 Spacer(minLength: 0)

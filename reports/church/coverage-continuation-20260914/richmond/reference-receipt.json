@@ -1,0 +1,17 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "bbox": "-61.50,45.38,-61.00,45.54",
+  "retrieved": "2026-09-14T07:38:24.218894+00:00",
+  "count": 2088,
+  "server_count": 2088,
+  "unique_ids": true,
+  "sha256": "5f869c94c7048dd20b85a7efa01f01975eac66c231942fbdabe5e15812aada17",
+  "path": "/Users/dfakkeldy/Downloads/church-continuation-20260914/southern-water.geojson",
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "method": "Existing paged fetch, complete original geometries, independent count query",
+  "overlap_with_previous_extracts": {
+    "shared_features": 1241,
+    "changed_geometry_ids": []
+  }
+}

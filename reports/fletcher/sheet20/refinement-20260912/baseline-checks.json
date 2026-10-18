@@ -1,0 +1,44 @@
+{
+  "fit_sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208",
+  "selected_at": "2026-09-12T16:56:43.062894+00:00",
+  "points": [
+    {
+      "id": "F02",
+      "role": "check",
+      "pixel_xy": [
+        3384,
+        2338
+      ],
+      "lonlat": [
+        -60.7575977801373,
+        45.706442878392124
+      ],
+      "modern_objectid": 24101,
+      "modern_part": 0,
+      "modern_vertex": 112,
+      "identity_evidence": "Alick Island southeastern/southernmost coast; separate island east of Chapel.",
+      "source_uncertainty_px": 20,
+      "status": "Exact original close/wide native crosshair and direct modern complete closed island personally inspected; accepted unchanged before first score. Coast morphology differs within source uncertainty."
+    },
+    {
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        2676,
+        2864
+      ],
+      "lonlat": [
+        -60.79043810302436,
+        45.69210991696714
+      ],
+      "modern_objectid": 17632,
+      "modern_part": 0,
+      "modern_vertex": 73,
+      "identity_evidence": "Abois Island southernmost coast; separate island south of Doctor.",
+      "source_uncertainty_px": 20,
+      "status": "Exact original close/wide native crosshair and direct modern complete closed island personally inspected; accepted unchanged before first score. Coast morphology differs within source uncertainty."
+    }
+  ],
+  "reviewed_at": "2026-09-12T16:58:08.365609+00:00",
+  "scope": "Two distinct islands within already controlled inlet; new coordinates but spatially clustered, not whole-interior validation."
+}

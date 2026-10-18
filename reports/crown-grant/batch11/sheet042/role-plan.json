@@ -1,0 +1,32 @@
+{
+  "timing": "Before first main fit and score",
+  "main": {
+    "model": "Constrained reflected similarity EPSG:32620",
+    "controls": 3,
+    "checks": 4,
+    "reason": "Nearly collinear cape and island controls; affine would be unsupported.",
+    "corrections": [
+      "Cape Spencer control refined from eastern extremum to the southeast turning corner using native shores."
+    ],
+    "limitations": [
+      "All controls and checks are in the Cape d Or / Cape Spencer coastal cluster.",
+      "Parrsboro Shore, Brookville and Wards Brook shoreline and northern interior remain unvalidated. Stream-mouth annotations and generalized outlines were not forced into precise points.",
+      "Advocate harbour spits are mobile/generalized and not adopted."
+    ]
+  },
+  "inset": {
+    "model": "Constrained reflected similarity EPSG:32620",
+    "controls": 3,
+    "checks": 2,
+    "status": "All five final native crosshairs inspected before first inset fit/score",
+    "corrections": [
+      "Southern control reference refined to southern tip.",
+      "Initial southwest check snapped to offshore islet18599; rejected and replaced with independently inspected main-island shore17474."
+    ],
+    "limitations": [
+      "Only two checks on one small generalized island; empirical percentile and RMS cannot establish regional accuracy.",
+      "Source uncertainty30 px; generalized outline omits modern shore details."
+    ]
+  },
+  "created_at_utc": "2026-09-25T04:34:01.877814+00:00"
+}

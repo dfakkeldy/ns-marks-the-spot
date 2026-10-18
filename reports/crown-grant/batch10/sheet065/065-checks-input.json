@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Nicholson Lake southern tip",
+    [
+      1140,
+      556
+    ],
+    [
+      1225,
+      581
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Armand Lake southern tip",
+    [
+      3195,
+      263
+    ],
+    [
+      3285,
+      298
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Horse Island in Grand Lake southern tip",
+    [
+      4180,
+      443
+    ],
+    [
+      4256,
+      476
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q04",
+    "Wilson Lake southern tip",
+    [
+      1208,
+      2561
+    ],
+    [
+      1275,
+      2619
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Barrett Lake southern tip",
+    [
+      1390,
+      2610
+    ],
+    [
+      1468,
+      2678
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Little Lake No Good western tip",
+    [
+      5144,
+      3170
+    ],
+    [
+      5205,
+      3248
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Ned Island in Grand Lake southern tip",
+    [
+      4272,
+      260
+    ],
+    [
+      4352,
+      291
+    ],
+    "WALKIS10"
+  ]
+]

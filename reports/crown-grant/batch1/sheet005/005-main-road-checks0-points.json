@@ -1,0 +1,23 @@
+[
+  {
+    "id": "MR01",
+    "label": "Sandy Cove cross-peninsula road T-junction",
+    "role": "proposal",
+    "pixel_xy": [
+      4143,
+      1574
+    ],
+    "lonlat": [
+      -66.08918178503131,
+      44.49106557971353
+    ],
+    "reference_objectid": 585,
+    "reference_feature_code": "RRRDLOY1",
+    "guide_reference_pixel_xy": [
+      4163.400813882821,
+      1566.3397564908955
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

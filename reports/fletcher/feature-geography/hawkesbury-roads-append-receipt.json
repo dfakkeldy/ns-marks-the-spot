@@ -1,0 +1,149 @@
+{
+  "reviewed_at": "2026-09-13",
+  "previous_source_review_sha256": "3c7475e36c1c1b002fada407efad16bb57dafb0f5a618fe4f5487f77b983a3e1",
+  "current_source_review_sha256": "a59d9406a8020c2461200533f66c751d30dcbb033051143a6b3199ac0cc1882c",
+  "unchanged_prior_source_associations": [
+    "F22-HAW-001",
+    "F22-HAW-002",
+    "F22-HAW-004",
+    "F22-HAW-008",
+    "F22-HAW-023",
+    "F22-HAW-025",
+    "F22-HAW-026",
+    "F22-HAW-028",
+    "F22-HAW-031",
+    "F22-HAW-032",
+    "F22-HAW-041",
+    "F22-HAW-042",
+    "F22-HAW-005",
+    "F22-HAW-030",
+    "F22-HAW-045",
+    "F22-HAW-046",
+    "F22-HAW-053",
+    "F22-HAW-055",
+    "F22-HAW-056",
+    "F22-HAW-057",
+    "F22-HAW-058",
+    "F22-HAW-061",
+    "F22-HAW-064",
+    "F22-HAW-067",
+    "F22-HAW-047",
+    "F22-HAW-068",
+    "F22-HAW-070",
+    "F22-HAW-073",
+    "F22-HAW-077",
+    "F22-HAW-084",
+    "F22-HAW-089",
+    "F22-HAW-102",
+    "F22-HAW-104",
+    "F22-HAW-105",
+    "F22-HAW-109",
+    "F22-HAW-114",
+    "F22-HAW-116",
+    "F22-HAW-118",
+    "F22-HAW-129",
+    "F22-HAW-132",
+    "F22-HAW-134",
+    "F22-HAW-137",
+    "F22-HAW-145",
+    "F22-HAW-165",
+    "F22-HAW-166",
+    "F22-HAW-172",
+    "F22-HAW-173",
+    "F22-HAW-174",
+    "F22-HAW-175",
+    "F22-HAW-176",
+    "F22-HAW-179",
+    "F22-HAW-182",
+    "F22-HAW-189",
+    "F22-HAW-191",
+    "F22-HAW-197",
+    "F22-HAW-201",
+    "F22-HAW-205",
+    "F22-HAW-206",
+    "F22-HAW-207",
+    "F22-HAW-208",
+    "F22-HAW-210",
+    "F22-HAW-212",
+    "F22-HAW-214",
+    "F22-HAW-217",
+    "F22-HAW-220",
+    "F22-HAW-221",
+    "F22-HAW-227",
+    "F22-HAW-235",
+    "F22-HAW-250",
+    "F22-HAW-251",
+    "F22-HAW-253",
+    "F22-HAW-260",
+    "F22-HAW-261",
+    "F22-HAW-268",
+    "F22-HAW-269",
+    "F22-HAW-280",
+    "F22-HAW-281",
+    "F22-HAW-282",
+    "F22-HAW-283",
+    "F22-HAW-284"
+  ],
+  "appended_annotation_ids": [
+    "F22-HAW-007",
+    "F22-HAW-014",
+    "F22-HAW-015",
+    "F22-HAW-019",
+    "F22-HAW-027",
+    "F22-HAW-085",
+    "F22-HAW-108",
+    "F22-HAW-121",
+    "F22-HAW-147",
+    "F22-HAW-159",
+    "F22-HAW-160",
+    "F22-HAW-188",
+    "F22-HAW-198",
+    "F22-HAW-231",
+    "F22-HAW-236",
+    "F22-HAW-243",
+    "F22-HAW-265"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-first-proposals.json",
+      "sha256": "904b2454e93191a081d328160bafe4be2c412c7a18fba2ca7bb7e374101938b3"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-second-proposals.json",
+      "sha256": "62bb51b9382f7ff78c37d675a3933b54d5b90111b4c6747e3c3daf5390f3efde"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-third-proposals.json",
+      "sha256": "c7ddb20ca24a6224cda16f784898dd14fdd951f5cd50e27f42bb4d4eab482a8a"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-fourth-proposals.json",
+      "sha256": "381fb0cc4c39dfb89365286df713b79b13a7baaa3d5d15391cbd434663182b7c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-fifth-proposals.json",
+      "sha256": "932665ca887db7aebf3dc5b0e01a48d9c129fec0b24f47fb0ae9b1774a5b05c0"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-fourth-initial-proposals.json",
+      "sha256": "5909976096fa819254d190622129c0e2c70e8b9a178502e7d705e7112bb5db52"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-fifth-initial-proposals.json",
+      "sha256": "98e050f9288f279b2898b72ad51748f263c89150fa84f7952557baa47fad65c7"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-centre-candidates.json",
+      "sha256": "e2712db60f2072a7793af7ad4f106420f445e454c41dc4401dc76ec5ec84a2b5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-contexts.json",
+      "sha256": "9a5b8bd79357f268a8f0a7e9a0048d09ade952ec7e508189c9f7ab1fb7a54cb4"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-road-long-detail-frames.json",
+      "sha256": "257c8e473739ff8bf7d52d4f80e1bd20163428865a3e218833f8cd47d9d66567"
+    }
+  ],
+  "note": "Native paired road strokes were reviewed independently of lettering anchors and fit coverage. Initial long-road candidates cutting bends or following the parallel stream were rejected and manually replaced. All 17 bounded source paths remain whole; no fit-based endpoint trimming. Geographic review follows."
+}

@@ -1,0 +1,25 @@
+{
+  "count": 1,
+  "points": [
+    {
+      "label": "VN25",
+      "east_ground_m": 130.77356799193623,
+      "north_ground_m": -59.14742229727316,
+      "error_ground_m": 143.52750137082975
+    }
+  ],
+  "rms_ground_m": 143.52750137082975,
+  "median_ground_m": 143.52750137082975,
+  "p95_ground_m": 143.52750137082975,
+  "max_ground_m": 143.52750137082975,
+  "mean_east_ground_m": 130.77356799193623,
+  "mean_north_ground_m": -59.14742229727316,
+  "scatter_rms_ground_m": 0.0,
+  "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+  "percentile": "NumPy linear empirical 95th percentile; not a confidence interval",
+  "phase": "First fresh result after TPS15 freeze",
+  "controls_sha256": "1271335c324a200fbaa3b60a601af1f4de23f0bcc1cec3022b2ef4988158f56b",
+  "observation_sha256": "7908d8cde18284d55573844252ae2042db4ffa256efedcb6ed90cbc43333395f",
+  "inside_control_hull": true,
+  "geographic_acceptance": false
+}

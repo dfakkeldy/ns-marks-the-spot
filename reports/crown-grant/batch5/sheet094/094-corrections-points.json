@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C05",
+    "label": "Lake west of Beaver Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2195,
+      3495
+    ],
+    "lonlat": [
+      -62.36686013184589,
+      45.354986652405714
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 73195,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 73195,
+    "nearest_unfiltered_distance_guide_px": 1.3697435497674058,
+    "selected_distance_guide_px": 1.3697435497674058,
+    "guide_reference_pixel_xy": [
+      2203.6303236733656,
+      3399.986429724144
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Lake north of Kerrowgare east lobe extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      1868,
+      1650
+    ],
+    "lonlat": [
+      -62.43100031808934,
+      45.426903538601955
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 135083,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135083,
+    "nearest_unfiltered_distance_guide_px": 2.3052041980059292,
+    "selected_distance_guide_px": 2.3052041980059292,
+    "guide_reference_pixel_xy": [
+      1866.7253339578747,
+      1554.6260203330312
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Round Lake south of Siloam southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3930,
+      3724
+    ],
+    "lonlat": [
+      -62.25914956864874,
+      45.374893380910365
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 142992,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142992,
+    "nearest_unfiltered_distance_guide_px": 11.709449098702967,
+    "selected_distance_guide_px": 11.709449098702967,
+    "guide_reference_pixel_xy": [
+      3942.690690305899,
+      3621.6625393321738
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Eden Lake eastern peninsula north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3609,
+      2865
+    ],
+    "lonlat": [
+      -62.29797227008484,
+      45.4055396528392
+    ],
+    "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+    "reference_objectid": 127886,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127886,
+    "nearest_unfiltered_distance_guide_px": 0.5222588324589471,
+    "selected_distance_guide_px": 0.5222588324589471,
+    "guide_reference_pixel_xy": [
+      3630.1034232389065,
+      2768.511915932293
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

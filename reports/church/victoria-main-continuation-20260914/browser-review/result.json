@@ -1,0 +1,56 @@
+{
+  "raster": "victoria-main-corrected-tps14-review-20m.tif",
+  "sha256": "3fb0ece4147593efc8f5dbd6dfae8f4159b5ed6e668779ce8e862e078ead3ac3",
+  "importedPixelSize": [
+    4081,
+    5859
+  ],
+  "importMessage": "Large file — displayed at reduced resolution.",
+  "opacityPercent": 70,
+  "persistedAfterReload": true,
+  "fullSheet": {
+    "position": [
+      46.26737,
+      -60.69422,
+      10
+    ],
+    "modes": [
+      "2d",
+      "3d"
+    ],
+    "exaggeration": 10,
+    "tilt": 50
+  },
+  "regional": [
+    {
+      "name": "Crow Point / St Patricks Channel",
+      "position": [
+        46.07187,
+        -60.77227,
+        13
+      ],
+      "modes": [
+        "2d",
+        "3d"
+      ],
+      "exaggeration": 10,
+      "tilt": 50
+    },
+    {
+      "name": "North River / MacDonald Brook",
+      "position": [
+        46.31642,
+        -60.67126,
+        13
+      ],
+      "modes": [
+        "2d",
+        "3d"
+      ],
+      "exaggeration": 10,
+      "tilt": 50
+    }
+  ],
+  "consoleErrors": [],
+  "scope": "Actual local My Maps importer, persisted embedded GeoTIFF, full content overview and regional terrain views. Rendered validation is distinct from geographic accuracy; no GCP measured from terrain screenshots and no raw-scan browser TPS mesh acceptance."
+}

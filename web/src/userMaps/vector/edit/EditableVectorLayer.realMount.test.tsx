@@ -1,11 +1,15 @@
 import { cleanup, render, waitFor } from "@testing-library/react";
+import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import L from "leaflet";
 import { MapContainer } from "react-leaflet";
 import type { FeatureCollection } from "geojson";
 import { USER_VECTOR_PANE } from "../../../components/mapPanes";
 import type { UserVectorLayerRecord } from "../types";
-import { EditableVectorLayer } from "./EditableVectorLayer";
+import {
+  EditableVectorLayer,
+  type VectorSnapTargets,
+} from "./EditableVectorLayer";
 
 /**
  * Geoman is the whole subject here, so this file mounts real Leaflet, real
@@ -28,6 +32,23 @@ L.Map.addInitHook(function initHook(this: L.Map) {
 const createdMaps: L.Map[] = [];
 L.Map.addInitHook(function trackHook(this: L.Map) {
   createdMaps.push(this);
+});
+
+/**
+ * The real app creates its one map at page load, BEFORE the lazy Geoman
+ * chunk evaluates — so that map never went through Geoman's init hook and
+ * has no `pm`. This harness imports Geoman at module top (it must), which
+ * gave every test map a `pm` and let the tests certify a condition the app
+ * never runs in; production crashed on "New drawing layer" while this suite
+ * was green. Stripping `pm` at init reproduces the app's actual condition.
+ */
+let stripPmOnInit = false;
+L.Map.addInitHook(function stripHook(this: L.Map) {
+  if (stripPmOnInit) {
+    // Through unknown: Geoman's d.ts declares map.pm as always-present,
+    // which is exactly the fiction this hook exists to break.
+    (this as unknown as { pm: unknown }).pm = undefined;
+  }
 });
 
 const RECORD: UserVectorLayerRecord = {
@@ -65,7 +86,16 @@ const DATA: FeatureCollection = {
   ],
 };
 
-function mount(onGeometryChange = vi.fn()) {
+const SNAP_ALL: VectorSnapTargets = {
+  enabled: true,
+  myFeatures: true,
+  parcels: true,
+};
+
+function mount(
+  onGeometryChange = vi.fn(),
+  options: { mode?: string | null; snap?: VectorSnapTargets } = {},
+) {
   const host = document.createElement("div");
   document.body.append(host);
   const view = (data: FeatureCollection) => (
@@ -73,6 +103,8 @@ function mount(onGeometryChange = vi.fn()) {
       <EditableVectorLayer
         record={RECORD}
         data={data}
+        snap={options.snap ?? SNAP_ALL}
+        mode={options.mode ?? null}
         onGeometryChange={onGeometryChange}
         onSelectFeature={vi.fn()}
       />
@@ -298,5 +330,525 @@ describe("EditableVectorLayer", () => {
       }
     });
     expect(stillEditable).toBe(0);
+  });
+});
+
+/**
+ * The field-capture snapping pins. These certify VENDORED semantics of the
+ * pinned @geoman-io/leaflet-geoman-free 2.20.0 — the snapIgnore/optIn
+ * interplay the snap design hinges on — so a Geoman upgrade that changes
+ * them fails loudly here instead of silently breaking parcel snapping.
+ */
+describe("EditableVectorLayer field-capture snapping", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  function parcelTarget(): L.Polygon {
+    return L.polygon(
+      [
+        [45.79, -61.42],
+        [45.79, -61.38],
+        [45.82, -61.38],
+        [45.82, -61.42],
+      ],
+      {
+        snapIgnore: false,
+        interactive: false,
+        nsmtsSnapSource: "nsprd-parcel",
+      } as L.PolylineOptions,
+    );
+  }
+
+  it("keeps snapIgnore:false targets in the snap list but out of findLayers", async () => {
+    const { map } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    const parcel = parcelTarget().addTo(map);
+
+    // Global edit/drag/delete must never reach the parcel target…
+    const editable = L.PM.Utils.findLayers(map);
+    expect(editable).not.toContain(parcel);
+
+    // …while the draw tool's snap list must include it, even under the
+    // session's L.PM.setOptIn(true) with pmIgnore left undefined.
+    const draw = (map.pm as unknown as {
+      Draw: Record<string, { _createSnapList: () => void; _snapList?: L.Layer[] }>;
+    }).Draw.Line;
+    draw._createSnapList();
+    expect(draw._snapList).toContain(parcel);
+  });
+
+  it("passes the contract snap options to the armed draw tool", async () => {
+    const { map } = mount(vi.fn(), { mode: "Line" });
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    const draw = (map.pm as unknown as {
+      Draw: Record<string, { options: Record<string, unknown> }>;
+    }).Draw.Line;
+    await waitFor(() => expect(draw.options.snappable).toBe(true));
+    expect(draw.options.snapDistance).toBe(15);
+    expect(draw.options.snapSegment).toBe(true);
+    expect(draw.options.snapVertex).toBe(true);
+    expect(draw.options.snapMiddle).toBe(false);
+  });
+
+  it("disarms snapping through the master toggle", async () => {
+    const { map } = mount(vi.fn(), {
+      mode: "Line",
+      snap: { enabled: false, myFeatures: true, parcels: true },
+    });
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const draw = (map.pm as unknown as {
+      Draw: Record<string, { options: Record<string, unknown> }>;
+    }).Draw.Line;
+    await waitFor(() => expect(draw.options.snappable).toBe(false));
+  });
+
+  it("stamps nsmts:createdAt on created shapes and never on seeded ones", async () => {
+    const { map, onGeometryChange } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    map.fire("pm:create", { layer: L.marker([45.8, -61.4]), shape: "Marker" });
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    const created = collection.features.find((f) => f.id !== "poly");
+    const seeded = collection.features.find((f) => f.id === "poly");
+    expect(typeof created?.properties?.["nsmts:createdAt"]).toBe("string");
+    expect(seeded?.properties?.["nsmts:createdAt"]).toBeUndefined();
+  });
+
+  it("stamps nsmts:traced when the drawn shape snapped to a parcel source", async () => {
+    const { map, onGeometryChange } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const parcel = parcelTarget().addTo(map);
+
+    const workingLayer = L.polyline([]).addTo(map);
+    map.fire("pm:drawstart", { workingLayer, shape: "Line" });
+    workingLayer.fire("pm:snap", {
+      layerInteractedWith: parcel,
+      snapLatLng: { lat: 45.79, lng: -61.42 },
+      segment: [
+        { lat: 45.79, lng: -61.42 },
+        { lat: 45.79, lng: -61.38 },
+      ],
+    });
+
+    map.fire("pm:create", {
+      layer: L.polyline([
+        [45.79, -61.42],
+        [45.8, -61.4],
+      ]),
+      shape: "Line",
+    });
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    let collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    let traced = collection.features.find((f) => f.id !== "poly");
+    expect(traced?.properties?.["nsmts:traced"]).toBe("nsprd-parcel");
+
+    // The flag is one-shot: the next shape, drawn without a parcel snap,
+    // must not inherit the stamp.
+    map.fire("pm:create", { layer: L.marker([45.81, -61.41]), shape: "Marker" });
+    await waitFor(() =>
+      expect(
+        (onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection).features,
+      ).toHaveLength(3),
+    );
+    collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    traced = collection.features.find(
+      (f) => f.geometry.type === "Point" && f.id !== "poly",
+    );
+    expect(traced?.properties?.["nsmts:traced"]).toBeUndefined();
+  });
+
+  it("stamps nsmts:traced on an edited feature that snapped to a parcel", async () => {
+    const { map, onGeometryChange } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const parcel = parcelTarget().addTo(map);
+
+    const target = findLayerByFeatureId(map, "poly");
+    expect(target).toBeTruthy();
+    target!.fire("pm:snap", {
+      layerInteractedWith: parcel,
+      snapLatLng: { lat: 45.79, lng: -61.4 },
+      segment: [
+        { lat: 45.79, lng: -61.42 },
+        { lat: 45.79, lng: -61.38 },
+      ],
+    });
+    target!.fire("pm:edit", { layer: target! }, true);
+
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    expect(
+      collection.features.find((f) => f.id === "poly")?.properties?.[
+        "nsmts:traced"
+      ],
+    ).toBe("nsprd-parcel");
+  });
+
+  it("does not stamp nsmts:traced for a snap to a non-parcel source", async () => {
+    const { map, onGeometryChange } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    const ownFeature = L.polyline([
+      [45.78, -61.44],
+      [45.78, -61.4],
+    ]).addTo(map);
+    const target = findLayerByFeatureId(map, "poly");
+    target!.fire("pm:snap", {
+      layerInteractedWith: ownFeature,
+      snapLatLng: { lat: 45.78, lng: -61.44 },
+      segment: [
+        { lat: 45.78, lng: -61.44 },
+        { lat: 45.78, lng: -61.4 },
+      ],
+    });
+    target!.fire("pm:edit", { layer: target! }, true);
+
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    expect(
+      collection.features.find((f) => f.id === "poly")?.properties?.[
+        "nsmts:traced"
+      ],
+    ).toBeUndefined();
+  });
+
+  it("shows a square indicator for a vertex hit and clears it on unsnap", async () => {
+    const { map } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const parcel = parcelTarget().addTo(map);
+    const target = findLayerByFeatureId(map, "poly");
+
+    const segment = [
+      { lat: 45.79, lng: -61.42 },
+      { lat: 45.79, lng: -61.38 },
+    ];
+    target!.fire("pm:snap", {
+      layerInteractedWith: parcel,
+      snapLatLng: { lat: 45.79, lng: -61.42 },
+      segment,
+    });
+    expect(document.querySelector(".snap-indicator-vertex")).toBeTruthy();
+
+    target!.fire("pm:snap", {
+      layerInteractedWith: parcel,
+      snapLatLng: { lat: 45.79, lng: -61.4 },
+      segment,
+    });
+    expect(document.querySelector(".snap-indicator")).toBeTruthy();
+    expect(document.querySelector(".snap-indicator-vertex")).toBeNull();
+
+    target!.fire("pm:unsnap", {});
+    expect(document.querySelector(".snap-indicator")).toBeNull();
+  });
+});
+
+describe("EditableVectorLayer on a map created before Geoman loaded", () => {
+  afterEach(async () => {
+    stripPmOnInit = false;
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  it("initializes map.pm itself and runs a full session (production crash regression)", async () => {
+    stripPmOnInit = true;
+    const { map, onGeometryChange } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    // The session must be fully functional, not merely alive: a drawn shape
+    // still reaches the callback with id and creation stamp.
+    map.fire("pm:create", { layer: L.marker([45.8, -61.4]), shape: "Marker" });
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    expect(collection.features).toHaveLength(2);
+  });
+});
+
+describe("EditableVectorLayer session-added features", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  it("materializes a draft-added feature so the next Geoman publish keeps it", async () => {
+    const { map, onGeometryChange, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    // The session commits a feature the panel created (a conversion result,
+    // a restored point, a GPS mark): it exists in the draft only.
+    const added: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        ...DATA.features,
+        {
+          type: "Feature",
+          id: "converted-line",
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-61.45, 45.75],
+              [-61.35, 45.85],
+            ],
+          },
+          properties: { "nsmts:convertedFromPoints": 2 },
+        },
+      ],
+    };
+    rerenderWith(added);
+    await waitFor(() =>
+      expect(findLayerByFeatureId(map, "converted-line")).toBeTruthy(),
+    );
+
+    // A Geoman gesture rebuilds the published collection from the group; the
+    // added feature must survive that rebuild.
+    const target = findLayerByFeatureId(map, "poly");
+    target!.fire("pm:edit", { layer: target! }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    const survived = collection.features.find((f) => f.id === "converted-line");
+    expect(survived?.geometry.type).toBe("LineString");
+    expect(survived?.properties?.["nsmts:convertedFromPoints"]).toBe(2);
+  });
+});
+
+describe("EditableVectorLayer point moves", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  it("follows a draft Point move and keeps publishing the new position", async () => {
+    const pointData: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "mark",
+          geometry: { type: "Point", coordinates: [-61.4, 45.8] },
+          properties: { name: "Corner" },
+        },
+      ],
+    };
+    const onGeometryChange = vi.fn();
+    const host = document.createElement("div");
+    document.body.append(host);
+    const view = (data: FeatureCollection) => (
+      <MapContainer center={[45.8, -61.4]} zoom={12} zoomControl={false}>
+        <EditableVectorLayer
+          record={RECORD}
+          data={data}
+          snap={SNAP_ALL}
+          onGeometryChange={onGeometryChange}
+          onSelectFeature={vi.fn()}
+        />
+      </MapContainer>
+    );
+    const { rerender } = render(view(pointData), { container: host });
+    const map = createdMaps[0];
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    // The session moved the point ("use photo's location").
+    const moved: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "mark",
+          geometry: { type: "Point", coordinates: [-61.39, 45.81] },
+          properties: { name: "Corner" },
+        },
+      ],
+    };
+    rerender(view(moved));
+
+    const live = findLayerByFeatureId(map, "mark") as L.CircleMarker;
+    await waitFor(() => {
+      const at = live.getLatLng();
+      expect(at.lat).toBeCloseTo(45.81, 9);
+      expect(at.lng).toBeCloseTo(-61.39, 9);
+    });
+
+    // The next Geoman publish reports the moved position, not the seed.
+    live.fire("pm:edit", { layer: live }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    const published = collection.features.find((f) => f.id === "mark");
+    expect(
+      published?.geometry.type === "Point" && published.geometry.coordinates,
+    ).toEqual([-61.39, 45.81]);
+  });
+});
+
+/**
+ * Class-name pins for the coarse-pointer vertex-handle rule in styles.css.
+ * That rule is only as true as the classes Leaflet and the vendored
+ * @geoman-io/leaflet-geoman-free 2.20.0 put on the page, and jsdom applies no
+ * stylesheet — so this is the half a unit test can hold: which markers the
+ * selector reaches, and, load-bearing, which it must never reach.
+ */
+describe("EditableVectorLayer vertex-handle classes", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  // Read off the stylesheet rather than restated, so this pins what SHIPS: a
+  // hardcoded copy would keep passing while the rule it stands for was
+  // widened back to a bare `.marker-icon`, which is the regression that
+  // would enlarge the vertices placed while drawing as well.
+  const HANDLE = (() => {
+    const rule = readFileSync("./src/styles.css", "utf8").match(
+      /@media \(pointer: coarse\)[\s\S]*?\n\s*(\.leaflet-marker-draggable[^{]*?)\s*\{/,
+    )?.[1];
+    if (!rule) throw new Error("no coarse-pointer vertex handle rule in styles.css");
+    return rule.trim();
+  })();
+
+  // The corner mover writes a line or area vertex into the draft, and
+  // collect() rebuilds the published collection from the live layers — so
+  // without the reconciliation the next Geoman gesture would publish the
+  // moved corner back out of existence, and the panel would have reported a
+  // move the map quietly undid.
+  it("follows a corner the panel moved instead of publishing it away", async () => {
+    const { map, onGeometryChange, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    const moved: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "poly",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-61.45, 45.75],
+                [-61.3, 45.7],
+                [-61.3, 45.9],
+                [-61.5, 45.9],
+                [-61.45, 45.75],
+              ],
+            ],
+          },
+          properties: { name: "Back lot", description: "NE corner" },
+        },
+      ],
+    };
+    rerenderWith(moved);
+
+    const live = findLayerByFeatureId(map, "poly") as L.Polygon;
+    await waitFor(() => {
+      const ring = (live.getLatLngs()[0] as L.LatLng[])[0];
+      expect(ring.lat).toBeCloseTo(45.75, 9);
+      expect(ring.lng).toBeCloseTo(-61.45, 9);
+    });
+
+    live.fire("pm:edit", { layer: live }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    const published = collection.features.find((feature) => feature.id === "poly");
+    expect(
+      published?.geometry.type === "Polygon" && published.geometry.coordinates[0][0],
+    ).toEqual([-61.45, 45.75]);
+  });
+
+  // An imported ring is not required to arrive closed. Leaflet always hands
+  // one back closed, so an unclosed draft would read as changed on every
+  // commit and rebuild the layer's handles for nothing.
+  it("does not read an unclosed imported ring as an edit somebody made", async () => {
+    const unclosed: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "poly",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-61.5, 45.7],
+                [-61.3, 45.7],
+                [-61.3, 45.9],
+                [-61.5, 45.9],
+              ],
+            ],
+          },
+          properties: { name: "Back lot", description: "NE corner" },
+        },
+      ],
+    };
+    const { map, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const live = findLayerByFeatureId(map, "poly") as L.Polygon;
+    const setLatLngs = vi.spyOn(live, "setLatLngs");
+
+    rerenderWith(unclosed);
+    // Untouched, so Geoman's handles are never torn down and rebuilt
+    // underneath a reader who changed nothing.
+    expect(setLatLngs).not.toHaveBeenCalled();
+  });
+
+  it("marks a reshape handle draggable and keeps middle markers out", async () => {
+    const { map } = mount(vi.fn(), { mode: "edit" });
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    await waitFor(() =>
+      expect(document.querySelectorAll(HANDLE).length).toBeGreaterThan(0),
+    );
+    // Middle markers carry the same two classes, so the `:not()` is what
+    // keeps them out rather than luck. They stay at Geoman's 10px on
+    // purpose: a middle marker is the only touch route to INSERTING a
+    // vertex, and one fattened to 44px would cover the handle it sits
+    // between.
+    const middles = document.querySelectorAll(".marker-icon-middle");
+    expect(middles.length).toBeGreaterThan(0);
+    for (const middle of middles) {
+      expect(middle.classList.contains("leaflet-marker-draggable")).toBe(true);
+      expect(middle.matches(HANDLE)).toBe(false);
+    }
+  });
+
+  it("leaves a vertex placed while DRAWING outside the rule", async () => {
+    // Why the selector is scoped by `leaflet-marker-draggable` and not by
+    // `.marker-icon` alone. Geoman builds draw-time vertices with
+    // `draggable: false`, and a tap on one of them is what finishes a Line
+    // or closes an Area — L.Marker does not bubble mouse events, so that tap
+    // never reaches the map click that would place the next vertex. At 44px
+    // every tap within 22px of an earlier vertex would end the shape
+    // instead of extending it, which is the main phone-drawing flow.
+    const { map } = mount(vi.fn(), { mode: "Polygon" });
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const draw = (map.pm as unknown as {
+      Draw: Record<string, { enabled: () => boolean }>;
+    }).Draw.Polygon;
+    await waitFor(() => expect(draw.enabled()).toBe(true));
+
+    map.fire("click", { latlng: L.latLng(45.8, -61.4) });
+    map.fire("click", { latlng: L.latLng(45.81, -61.39) });
+
+    // The draw cursor is a `.marker-icon` too, but it is `pointer-events:
+    // none` and nothing aims at it.
+    const placed = [...document.querySelectorAll(".marker-icon")].filter(
+      (el) => !el.classList.contains("cursor-marker"),
+    );
+    expect(placed.length).toBeGreaterThan(0);
+    for (const marker of placed) {
+      expect(marker.matches(HANDLE)).toBe(false);
+    }
   });
 });

@@ -1,0 +1,45 @@
+{
+  "sheet": "124",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full raster and comparison controls browser-verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/124.pdf",
+    "pdf_sha256": "e8f9f4b52fb38c1a4bbd5fec425b2bb88e78db118cf292b3cd6f4bb2d7055428",
+    "jpeg_sha256": "3dbff986e3e7f357893528a5540cb91f295596fd25d604a944aff87b3f79bd39",
+    "dimensions": [
+      5957,
+      4117
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 62.44397730005698,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven checks give RMS 62.44 m but median 62.04 m and P95 92.59 m exceed retained companion bounds; count is below the distributed coverage target",
+    "Checks span islands, barrier spits and southern ponds; northern interior and far western/southwestern frame have insufficient independent support",
+    "Christmas and McPhee island endpoints and nearby southern ponds are spatially correlated; regional subsets are descriptive only",
+    "Rounded Derby Point and the Big Pond barrier have larger working definition uncertainty; shoreline evolution cannot be separated fully from historic cartographic error"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 62.44 m, median 62.04 m, P95 92.59 m, maximum 97.60 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped rectangle, including East Bay shores, Eskasoni islands, southern inland ponds and the original Red Islands fragment at the western frame. No separate inset or deliberate island displacement identified."
+  }
+}

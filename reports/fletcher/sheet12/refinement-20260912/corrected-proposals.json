@@ -1,0 +1,76 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.8401001,
+        46.2152212
+      ],
+      "source_guide_xy": [
+        1596.5476298001595,
+        2513.4291775997262
+      ],
+      "objectids": [
+        177379,
+        272550,
+        272623
+      ],
+      "id": "R01",
+      "modern_node_id": "J0540",
+      "pixel_xy": [
+        1625,
+        2668
+      ],
+      "role": "proposal",
+      "identity_evidence": "Reinspect old V02 northern tributary to Musk Rat Brook",
+      "status": "Reinspected personally in native close and 1200-pixel wide context; unchanged from old failed V02. Northern tributary immediately upstream of larger east fork, southern tributary immediately downstream and westward exit distinguish this location."
+    },
+    {
+      "lonlat": [
+        -60.7874986,
+        46.259802
+      ],
+      "source_guide_xy": [
+        2738.1053827998694,
+        1124.6480959998444
+      ],
+      "objectids": [
+        184862,
+        272617,
+        272618
+      ],
+      "id": "R02",
+      "modern_node_id": "J0254",
+      "pixel_xy": [
+        2932,
+        1034
+      ],
+      "role": "proposal",
+      "identity_evidence": "Eastern tributary entering North Branch Baddeck above broad eastern bend",
+      "status": "Native crosshair was west of the actual eastern tributary confluence; corrected from inspected native close view before scoring. Modern shared northern reach, upstream western tributary and downstream eastern bend support J0254."
+    },
+    {
+      "lonlat": [
+        -60.8407766,
+        46.2486132
+      ],
+      "source_guide_xy": [
+        1581.866226800019,
+        1473.2015935997479
+      ],
+      "objectids": [
+        272364,
+        272365,
+        287272
+      ],
+      "id": "R03",
+      "modern_node_id": "J0307",
+      "pixel_xy": [
+        1590,
+        1697
+      ],
+      "role": "proposal",
+      "identity_evidence": "Western edge river northern tributary",
+      "status": "Rejected unscored: native proposal is west of junction; modern J0307 has a southern branch, contrary to native north/east junction. No replacement identity established."
+    }
+  ]
+}

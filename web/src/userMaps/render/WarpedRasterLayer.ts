@@ -325,6 +325,21 @@ export class WarpedRasterLayer extends L.Layer {
     return this;
   }
 
+  /** Already-warped local pixels and their exact frame for the 3D renderer. */
+  getTerrainDrape(): {
+    canvas: HTMLCanvasElement;
+    coordinates: [[number, number], [number, number], [number, number], [number, number]];
+    opacity: number; pane: string;
+  } | null {
+    if (!this.canvas?.width || !this.canvas.height || !this.map || !this.backingRect || this.cachedZoom === null) return null;
+    const { min, max } = this.backingRect;
+    const coordinates = [[min.x, min.y], [max.x, min.y], [max.x, max.y], [min.x, max.y]].map(([x, y]) => {
+      const p = this.map!.unproject(L.point(x, y), this.cachedZoom!);
+      return [p.lng, p.lat] as [number, number];
+    }) as [[number, number], [number, number], [number, number], [number, number]];
+    return { canvas: this.canvas, coordinates, opacity: Number(this.canvas.style.opacity || 1), pane: this.rasterOptions.paneName };
+  }
+
   /**
    * Follow a CSS-animated zoom (wheel, double-click, the end of a pinch,
    * flyTo's finish). During the animation the map's pixel origin is not yet
@@ -427,6 +442,12 @@ export class WarpedRasterLayer extends L.Layer {
 
   /** World rect of the current viewport at the current zoom. */
   private viewRect(map: L.Map): WorldRect {
+    if (isTerrainViewportInstalled(map)) {
+      const bounds = map.getBounds();
+      const min = map.project(bounds.getNorthWest(), map.getZoom());
+      const max = map.project(bounds.getSouthEast(), map.getZoom());
+      return { min: { x: min.x, y: min.y }, max: { x: max.x, y: max.y } };
+    }
     const origin = map.getPixelOrigin();
     const paneShift = map.containerPointToLayerPoint(new L.Point(0, 0));
     const size = map.getSize();
@@ -794,6 +815,7 @@ export class WarpedRasterLayer extends L.Layer {
         this.pendingWarpRaf = requestAnimationFrame(drawChunk);
       } else {
         this.pendingWarpRaf = null;
+        this.fire('terrainchange');
       }
     };
     drawChunk(startTimestamp);
@@ -852,5 +874,7 @@ export class WarpedRasterLayer extends L.Layer {
     );
     const warpSource = this.warpSource(drape, dpr);
     drawWarpedImage(ctx, warpSource.source, warpSource.srcMesh, dstMesh);
+    this.fire('terrainchange');
   }
 }
+import { isTerrainViewportInstalled } from "../../terrain/terrainViewport";

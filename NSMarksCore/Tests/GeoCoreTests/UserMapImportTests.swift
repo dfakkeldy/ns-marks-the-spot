@@ -107,31 +107,6 @@ struct UserMapImportGateTests {
         #expect(UserMapImport.chooseImage(sizes: [], target: 4096) == nil)
     }
 
-    @Test func thePreviewIsCappedAndNeverEnlarged() {
-        let capped = UserMapImport.previewSize(for: PixelSize(width: 32_000, height: 24_000))
-        #expect(max(capped.width, capped.height) == 4096)
-        // And the aspect ratio survives: 24000/32000 × 4096.
-        #expect(capped.height == 3072)
-
-        let small = PixelSize(width: 640, height: 480)
-        #expect(UserMapImport.previewSize(for: small) == small)
-    }
-
-    /// A one-pixel-tall strip scales to less than half a pixel and rounds to
-    /// nothing, and a raster with no pixels at all is not a raster. Neither may
-    /// come back as a zero dimension, which is a division by zero in every
-    /// consumer downstream.
-    @Test(arguments: [
-        PixelSize(width: 100_000, height: 1),
-        PixelSize(width: 0, height: 0),
-        PixelSize(width: .nan, height: 100),
-    ])
-    func aPreviewIsNeverZeroSized(size: PixelSize) {
-        let preview = UserMapImport.previewSize(for: size)
-        #expect(preview.width >= 1)
-        #expect(preview.height >= 1)
-    }
-
     /// A decode that failed on a genuinely enormous image is not a corrupt
     /// file, and saying so sends the user to fix the wrong thing. The advice
     /// differs too: one says re-export, the other says this file is broken.

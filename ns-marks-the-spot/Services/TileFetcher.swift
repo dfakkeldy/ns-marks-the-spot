@@ -1,4 +1,5 @@
 import Foundation
+import NSDataServices
 import UIKit
 
 nonisolated enum TileFetcherError: Error, Equatable {
@@ -85,8 +86,13 @@ nonisolated final class TileFetcher: Sendable {
     /// `TileRequestFactory` checks the Province licence before it assembles
     /// one. Caching is the caller's, because the bytes worth keeping are the
     /// composite of a layer's passes rather than each pass on its own.
+    ///
+    /// Every provincial map image — on screen, in a print export, in a saved
+    /// area — arrives through here, so this is where those requests say who
+    /// is asking.
     func imageData(from url: URL) async throws -> Data {
-        let (data, response) = try await urlSession.data(from: url)
+        let request = ClientIdentity.identified(URLRequest(url: url))
+        let (data, response) = try await urlSession.data(for: request)
         try validateImageResponse(data: data, response: response)
         return data
     }

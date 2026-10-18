@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { UserMapImportError } from "../../errors";
 import { parseXmlVector } from "./xmlVectorSource";
 
@@ -14,6 +14,19 @@ function expectCode(fn: () => unknown, code: string): void {
 }
 
 describe("parseXmlVector", () => {
+  it("parses an XML input only once before converting its features", () => {
+    const parse = vi.spyOn(DOMParser.prototype, "parseFromString");
+    try {
+      const parsed = parseXmlVector(
+        '<kml><Placemark><Point><coordinates>-63,45</coordinates></Point></Placemark></kml>',
+      );
+      expect(parsed.collection.features[0].geometry).toEqual({ type: "Point", coordinates: [-63, 45] });
+      expect(parse).toHaveBeenCalledTimes(1);
+    } finally {
+      parse.mockRestore();
+    }
+  });
+
   it("dispatches a KML document to the KML reader", () => {
     const parsed = parseXmlVector(
       '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' +

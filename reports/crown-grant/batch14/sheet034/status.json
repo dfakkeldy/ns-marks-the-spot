@@ -1,0 +1,66 @@
+{
+  "sheet": "034",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; inset geographic support is weak and northern depictions unvalidated",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/034.pdf",
+    "pdf_sha256": "39de7d17d86787710aaf8dd751affb84add71f827b59286046d1bec74f2e75a3",
+    "jpeg_sha256": "f77a574be751449e0224d1d7246f0bd02a974ebc9fef9063e8afe32b0ffa9429",
+    "dimensions": [
+      5304,
+      3689
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 81.92880400800229,
+      "rms_gate_passed": true,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "offshore-inset",
+      "controls": 2,
+      "independent_checks": 3,
+      "rms_ground_m": 63.89464302666187,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main: checks include paired control lakes/islands, a separate Spectacle island, White Point pond and Eagle Point; the largely empty southern/eastern ocean and northwestern interior lack independent validation.",
+    "Inset: only two physical controls, one mainland corner and the southern islet west shore, define the constrained four-parameter similarity exactly. There is no fitting redundancy.",
+    "Inset: three excluded checks are on those same two features, and the islet south check is only about 12 ground metres from its west control. This is weak local validation, not independent whole-inset support.",
+    "Inset: the middle oval and northern cropped island outlines remain unmatched and unvalidated. They are retained in full under provisional extrapolation; no geometric acceptance is claimed.",
+    "Generalized natural shorelines and small island tips carry 24 px working source uncertainty."
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 7 checks, RMS 81.93 m; offshore-inset: 3 checks, RMS 63.89 m. Gate: 100 m. No pooled score.",
+    "coverage": "The whole mapped frame, including all open water and Port Mouton islands, is partitioned exactly into the main map and the complete displaced inset. The inset rectangle is removed from the main transform and rendered through its own original-frame transform. Unmatched inset island outlines remain visible and explicitly provisional.",
+    "focusBounds": [
+      [
+        43.84623812772634,
+        -64.88116371686971
+      ],
+      [
+        44.12202310180835,
+        -64.45097849361055
+      ]
+    ]
+  }
+}

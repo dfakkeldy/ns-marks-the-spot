@@ -1,0 +1,18 @@
+{
+  "metric_sets_replayed": 10,
+  "new_physical_checks": 2,
+  "fresh_checks": 11,
+  "river_coast_midpoint_verified": true,
+  "northern_apex_verified": true,
+  "inside_control_hull": [
+    "IS43"
+  ],
+  "outside_control_hull": [
+    "IS44"
+  ],
+  "first_nine_and_frozen_fit_preserved": true,
+  "actual_raster_windows": 2,
+  "editable_inventories": 3,
+  "browser_terrain_verified": true,
+  "geographic_acceptance": false
+}

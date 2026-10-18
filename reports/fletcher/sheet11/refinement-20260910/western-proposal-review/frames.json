@@ -1,0 +1,82 @@
+[
+  {
+    "image": "sheet-11-W01.jpg",
+    "point_record": "sheet11/refinement-20260910/western-proposals.json",
+    "point_id": "W01",
+    "native_box": [
+      2978,
+      2063,
+      3198,
+      2283
+    ],
+    "native_coordinates": [
+      3088,
+      2173
+    ],
+    "modern_lonlat": [
+      -61.1518728,
+      46.4080454
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-11-W02.jpg",
+    "point_record": "sheet11/refinement-20260910/western-proposals.json",
+    "point_id": "W02",
+    "native_box": [
+      3578,
+      2455,
+      3798,
+      2675
+    ],
+    "native_coordinates": [
+      3688,
+      2565
+    ],
+    "modern_lonlat": [
+      -61.1245792,
+      46.3936087
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-11-F01.jpg",
+    "point_record": "sheet11/refinement-20260910/western-proposals.json",
+    "point_id": "F01",
+    "native_box": [
+      8517,
+      5221,
+      8737,
+      5441
+    ],
+    "native_coordinates": [
+      8627,
+      5331
+    ],
+    "modern_lonlat": [
+      -60.8992944,
+      46.3100977
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-11-Q06.jpg",
+    "point_record": "sheet11/refinement-20260910/western-proposals.json",
+    "point_id": "Q06",
+    "native_box": [
+      3476,
+      5954,
+      3696,
+      6174
+    ],
+    "native_coordinates": [
+      3586,
+      6064
+    ],
+    "modern_lonlat": [
+      -61.1311937,
+      46.2824542
+    ],
+    "rotation_degrees": 0
+  }
+]

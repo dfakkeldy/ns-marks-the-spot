@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Two-lobed pond west of McPhee Corner northern shore",
+    [
+      177,
+      1386
+    ],
+    [
+      178,
+      1386
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Round pond west of Brentwood northern shore",
+    [
+      3603,
+      621
+    ],
+    [
+      3623,
+      638
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "North-central pond east of oval pond northern tip",
+    [
+      2565,
+      210
+    ],
+    [
+      2566,
+      230
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Pond northwest of Shubenacadie northeast tip",
+    [
+      2098,
+      2299
+    ],
+    [
+      2099,
+      2297
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Pond west of Wittenberg eastern tip",
+    [
+      4486,
+      3132
+    ],
+    [
+      4513,
+      3142
+    ],
+    "WALK20"
+  ]
+]

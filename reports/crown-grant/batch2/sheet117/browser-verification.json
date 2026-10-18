@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-09-23T04:36:39.594367+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet117/main-3857.png",
+      "complete": true,
+      "width": 6086,
+      "height": 5176
+    }
+  ],
+  "verified": [
+    "Full frame, islands and eastern fragment visible against NSTDB/OSM",
+    "Opacity and modern-only/restore controls exercised",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "First transfer failed with local server socket buffer error; retried successfully, PNG and reference HTTP 200",
+    "Standalone Leaflet raster review; interior coverage remains provisional"
+  ]
+}

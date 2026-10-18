@@ -1,0 +1,21 @@
+{
+  "fit_sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208",
+  "control_count": 12,
+  "initial_fit_sha256": "1ee7a625b6c950a68b1c48b96397bd804a9481cf942a5026e510330aa611be93",
+  "promotions": [
+    {
+      "from_id": "Q04",
+      "to_id": "C14",
+      "pixel_xy": [
+        8221,
+        4427
+      ],
+      "lonlat": [
+        -60.5346714,
+        45.6405475
+      ]
+    }
+  ],
+  "frozen_at": "2026-09-11T14:59:00.689824+00:00",
+  "fresh_checks_not_yet_selected": true
+}

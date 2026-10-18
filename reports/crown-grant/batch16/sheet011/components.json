@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5720 x 3934 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 142.86 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          120,
+          165
+        ],
+        [
+          5570,
+          180
+        ],
+        [
+          5565,
+          3780
+        ],
+        [
+          100,
+          3775
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full mapped frame retains Barrington, Cape Sable, Port Latour, Baccaro, Blanche, all coastal waters, islands and offshore ledges. Six island controls and seven excluded checks cover widely separated physical features; most mainland shoreline and sandbar detail remains provisional."
+    }
+  ]
+}

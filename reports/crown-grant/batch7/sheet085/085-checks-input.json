@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Amet Island southern edge",
+    [
+      341,
+      447
+    ],
+    [
+      449,
+      189
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q02",
+    "Reef Point southwest tip",
+    [
+      775,
+      1506
+    ],
+    [
+      849,
+      1286
+    ],
+    "WACO20"
+  ],
+  [
+    "Q03",
+    "Sandies Point west corner",
+    [
+      933,
+      1744
+    ],
+    [
+      1018,
+      1538
+    ],
+    "WACO20"
+  ],
+  [
+    "Q04",
+    "Headland west of Horn Point northern tip",
+    [
+      1820,
+      1990
+    ],
+    [
+      1902,
+      1805
+    ],
+    "WACO20"
+  ],
+  [
+    "Q05",
+    "Toney River western headland tip",
+    [
+      3805,
+      3275
+    ],
+    [
+      3905,
+      3166
+    ],
+    "WACO20"
+  ],
+  [
+    "Q06",
+    "Long Point northern corner",
+    [
+      861,
+      2338
+    ],
+    [
+      925,
+      2132
+    ],
+    "WACO20"
+  ]
+]

@@ -1,0 +1,44 @@
+{
+  "IS43-native-enlarged.jpg": {
+    "parent_crop_box": [
+      660,
+      445,
+      785,
+      565
+    ],
+    "native_origin": [
+      21442.85714285714,
+      6735.714285714286
+    ],
+    "native_extent": [
+      178.57142857142858,
+      171.42857142857144
+    ],
+    "display": [
+      750,
+      720
+    ],
+    "rotation": 0
+  },
+  "IS44-native-enlarged.jpg": {
+    "parent_crop_box": [
+      600,
+      170,
+      750,
+      365
+    ],
+    "native_origin": [
+      25000,
+      950
+    ],
+    "native_extent": [
+      150,
+      195
+    ],
+    "display": [
+      750,
+      975
+    ],
+    "rotation": 0
+  }
+}

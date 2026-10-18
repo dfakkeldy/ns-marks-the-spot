@@ -1,0 +1,12 @@
+{
+  "sheet": "sheet-13",
+  "scope": "Full mapped neatline; no extension or separate island visible in inspected full overview and four native corner frames.",
+  "provisional_criteria_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "rationale": "Research-scale screening target consistent with current Fletcher queue; does not establish survey accuracy. Require regional coverage, clear identities and actual raster/browser checks in addition to these numbers.",
+  "starting_transform": "Compare simple affine and TPS only on separate diagnostic features; fresh validation follows frozen model selection.",
+  "source_frame": "Native IIIF mosaic 10872x7682; new source hash differs from the old graticule record. Old graticule is a rough search guide only and is preserved unchanged.",
+  "fits_evaluated": 0
+}

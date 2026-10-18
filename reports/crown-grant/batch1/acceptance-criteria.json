@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "change": "User requested RMS threshold of 100 m; interpreted as maximum acceptable RMS.",
+  "rms_ground_m_max": 100,
+  "median_ground_m_max": 40,
+  "p95_ground_m_max": 80,
+  "max_ground_m_max": 100,
+  "companion_policy": "Existing companion bounds retained unless user explicitly changes their role; diagnostic values always reported.",
+  "coverage": "Distributed independent physical checks, complete mapped content, rendering and unsupported-region assessment remain required.",
+  "history": [
+    {
+      "version": 1,
+      "rms_ground_m_max": 50,
+      "median_ground_m_max": 40,
+      "p95_ground_m_max": 80,
+      "max_ground_m_max": 100,
+      "stage": "Fixed before first scoring"
+    }
+  ]
+}

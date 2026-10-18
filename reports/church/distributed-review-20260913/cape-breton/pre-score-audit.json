@@ -1,0 +1,21 @@
+{
+  "scoring_started": false,
+  "corrections": [
+    {
+      "id": "CB07",
+      "prior_pixel_xy": [
+        13585,
+        16995
+      ],
+      "pixel_xy": [
+        13580,
+        16979
+      ],
+      "reason": "Initial crosshair lay on single-stream stem just below outer shoreline convergence. Native review places the final crosshair at the convergence; corrected before fitting/scoring."
+    },
+    {
+      "id": "CB08",
+      "reason": "Reference incidence audit confirms shoreline 141899, shoreline 141900 and stream 275270 Johnstons Brook share the recorded coordinate. Replaced an unverified draft supporting ID and removed inferred flow-direction wording. Coordinates unchanged."
+    }
+  ]
+}

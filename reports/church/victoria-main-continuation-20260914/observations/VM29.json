@@ -1,0 +1,72 @@
+{
+  "id": "VM29",
+  "role": "check",
+  "label": "Crow Point northeastern corner of the northern spit",
+  "pixel_xy": [
+    20594.0,
+    23577.5
+  ],
+  "lonlat": [
+    -60.77227325432535,
+    46.07186873611195
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      20300,
+      23330
+    ],
+    "extent": [
+      550,
+      550
+    ],
+    "display": [
+      1100,
+      1100
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    588,
+    495
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-crow-point-native.jpg",
+  "source_crop_sha256": "6691c08ba88a3e0cf8f173a9206436df8fa8abe2b57886b0925d6043c964070a",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    7917
+  ],
+  "reference_vertex": {
+    "feature_id": 7917,
+    "vertex": 17
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "The source labels Crow Point on the headland connected southward by a narrow neck, with an isolated island to its west and Bone Island to its northeast. Original coast geometry reproduces the northern spit, western island, neck and eastward shore from the base. Select the northeastern corner of the spit, where its north-facing coast turns down the east face, not the representative Crow Point location at the southern base. WACO20 vertex7917v17 is that corner. Historical angular spit versus modern broader outline warrants140m uncertainty. This is an independent mainland-coast feature, not a substitute coordinate for the unmatched Stony Island.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-review-20260913/VM07.jpg",
+    "sha256": "3c4aa59c742044605262ad9179f759f2c150191998a5b1b05451c18cc9a2465b",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        20200,
+        22800
+      ],
+      "extent": [
+        1300,
+        1000
+      ],
+      "display": [
+        1300,
+        1000
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh check after the corrected fourteen-control TPS freeze excluding VM12; not fitted or used to choose the repair",
+  "recorded_at": "2026-09-15T04:20:16.487613+00:00",
+  "freeze_sha256": "52f71ea4743c87e9d62ea1f059743bc27f7cf971ef62d772a39c081094b9b801"
+}

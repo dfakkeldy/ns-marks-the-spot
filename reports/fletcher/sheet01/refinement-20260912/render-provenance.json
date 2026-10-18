@@ -1,0 +1,98 @@
+{
+  "base_commit": "98a34ae2ab2bdec0846a475fc63985d45436a6bf",
+  "source_boundary": "Full original ring retained, including northern sea and legend, offshore rocks, ponds and labels; no separate extension visible. Boundary overview personally inspected.",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/final-fit.json",
+      "sha256": "4dbb3c414a96a7a3a7a547b2c837e601aa6a9a7e68387f46e43415c2611c9daa"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/validation.json",
+      "sha256": "4d3b24b658f0b0a284d7ac48bdde232bcb6f8b16739eae9101815bb639fbd1dd"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/validation-scores.json",
+      "sha256": "667ceaf0ae9918133314f7bc43ca20bd8052fe3eb3fdc367e535e01ce56eb7ed"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/boundary.json",
+      "sha256": "5585bf075453859428c58bd66e64066f58a1274aad08f89eb97954809b21f910"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/source-receipt.json",
+      "sha256": "9bb12e8e527671a7e32159e4b14cc14ee352edb2a098ee2d9e4698cb70c334dc"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/reference-receipts.json",
+      "sha256": "aaea03a0ccaa9620c6c3ee4d790d504b58a1164e1f814a0a0d269425200a398a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/search-guide.json",
+      "sha256": "d85806b5532d38854f9005cdc68d01084e1983dced575698f375a801831901d9"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/guide-audit.json",
+      "sha256": "c5ddd17ba7daeb15243a3ca26127cb9082b4588ea650a438900fb42a879037a5"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/rejected-validation.json",
+      "sha256": "41c2e10106095917779eae2d9ed35ebc0e88e958734a3be4fc46e8ccc298bfe2"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/rejected-diagnostics.json",
+      "sha256": "6cc748e6d221d1aac88217792381d7c38741b9c8cdfd31794708c1224edfbfd0"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/rejected-candidates.json",
+      "sha256": "4502ca2eebff0a352726daa8451e72dc9656fb9fe41b1987e1e0750860379a8f"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/boundary-overview.jpg",
+      "sha256": "8343ad0fcd31b431814c6278b2e9518d0119d713a10597d2da0b040d4281ea4b"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/refinement-20260912/reviewed-fit.json",
+      "sha256": "41f3defeab5ada5b71e1ec2493cb5955fb1f5787cf85969a32f28e586e8043b8"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/refinement-20260912/frozen-fit.json",
+      "sha256": "0f1830d03a7a0bc7d4498a1a4087638cdd31586da8d6f7e11218b91ed501bcdd"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/refinement-20260912/validation.json",
+      "sha256": "05c0c20645688bbc9bb4f7fd406c711c9d53cc998fe439d69032db88e7e052a4"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet01/refinement-20260912/reviewed-additions.json",
+      "sha256": "a39162860337660c39e62f3c8f3cf2dfc7b34b22ae0db1dac0234f294142a9c6"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/render.py",
+      "sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/score.py",
+      "sha256": "b722ec3a769b9c149ea646eb0905b927938bf8f5738790db1ae067284cafe9f2"
+    }
+  ],
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/refinement-20260912/sheet-01-full-sheet.tif",
+      "sha256": "3b2d00f843c7b1251ead26598fb3c19fe3100472cd79c90b4bbc95cb6066cf81"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/regional-eight/sheet-01-full-sheet.tif",
+      "sha256": "50fe7caa175899f9e98667992346326d6e70f8274832b5423a94b314db1b234f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/refinement-20260912/sheet-02-full-sheet.tif",
+      "sha256": "532d42312d7e9fb6e41ae881d94919d8f06ff2b5978c7eb8b48e6d595c5eee0a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-ten/sheet-03-full-sheet.tif",
+      "sha256": "9a8857e158f231e30dfd742b231d2b7691040e93ff284e5e00fbad31b5b2af9c"
+    }
+  ],
+  "external_cutline_sha256": "52aae714b31eca942774c397a47af39becff38ca15af272fdd9b3217cd883d6c",
+  "licence": "David Rumsey Historical Map Collection; existing CC BY-NC-SA 3.0 source boundary retained, manifest licence null; no publication clearance inferred."
+}

@@ -1,0 +1,10 @@
+{
+  "sheet": "sheet-15",
+  "provisional_criteria_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "rationale": "Research-scale screening target for current Fletcher queue; requires geographic coverage, stable feature identities, actual warped-image review and app verification as well as numerical residuals. No survey-accuracy claim.",
+  "starting_transform": "Affine first; compare TPS using separate diagnostics only if supported, then freeze the selected/repaired fit before fresh validation.",
+  "fits_evaluated": 0
+}

@@ -23,7 +23,7 @@ nonisolated enum FletcherTilePlanner {
         guard let normalized = clippedToCoverage(bounds) else { return [] }
         var coordinates: Set<TileCoordinate> = []
 
-        for zoom in zoomRange {
+        for zoom in renderedZooms(for: zoomRange) {
             let range = tileRange(for: normalized, zoom: zoom)
 
             for x in range.x {
@@ -60,9 +60,11 @@ nonisolated enum FletcherTilePlanner {
 
     /// The most tiles `tileCount` will enumerate before it stops counting.
     ///
-    /// Comfortably above `OfflineAreasViewModel.maximumSavedAreaTileCount`, so
-    /// every count the user can actually act on is exact. It is only the
-    /// already-rejected range that is approximated — see `tileCount`.
+    /// Above anything the picker can ask for — the complete published mosaic at zoom 8-15
+    /// contains 44,340 tiles — so every count a reader is shown is exact. Nothing
+    /// refuses a count past this any more (the saved-area cap is gone), which
+    /// means a deeper pyramid that made this reachable would under-quote the
+    /// download; raise it alongside `FletcherSheets.zoomRange`.
     static let countingLimit = 200_000
 
     /// How many tiles a saved area will really fetch.
@@ -77,14 +79,13 @@ nonisolated enum FletcherTilePlanner {
     /// scan by the survey rather than the viewport, but the survey is still
     /// ~2.2 million tiles at zoom 18, and a per-tile sheet test over that is a
     /// visible stall on every drag. Past the limit the return value is a floor
-    /// rather than a count — which is all it is used for, because a draft that
-    /// large is refused either way and the exact size of a download that will
-    /// not happen is not worth the scan.
+    /// rather than a count. The current pyramid cannot reach it; see
+    /// `countingLimit` for what has to happen if a deeper one can.
     static func tileCount(for bounds: MapBounds, zoomRange: ClosedRange<Int>) -> Int {
         guard let normalized = clippedToCoverage(bounds) else { return 0 }
         var count = 0
 
-        for zoom in zoomRange {
+        for zoom in renderedZooms(for: zoomRange) {
             let range = tileRange(for: normalized, zoom: zoom)
             for x in range.x {
                 for y in range.y where isCovered(x: x, y: y, z: zoom) {
@@ -116,6 +117,16 @@ nonisolated enum FletcherTilePlanner {
     /// told about, and an edge is not ground.
     static func coversAnyGround(in bounds: MapBounds) -> Bool {
         !FletcherSheets.sheets(overlapping: geographicBox(bounds)).isEmpty
+    }
+
+    /// Stored areas retain their requested display zooms across source updates.
+    /// Map each end to available imagery, just as the map overzooms that source.
+    /// In particular a legacy 16...16 area now downloads level 15, not nothing.
+    private static func renderedZooms(for requested: ClosedRange<Int>) -> ClosedRange<Int> {
+        let available = FletcherSheets.zoomRange
+        let first = min(max(requested.lowerBound, available.lowerBound), available.upperBound)
+        let last = min(max(requested.upperBound, available.lowerBound), available.upperBound)
+        return first...last
     }
 
     /// `bounds` narrowed to the ground the survey covers, or `nil` for none.

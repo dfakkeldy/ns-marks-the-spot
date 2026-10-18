@@ -1,0 +1,55 @@
+{
+  "id": "IS38",
+  "label": "Henry Island eastern Fishery Point corner",
+  "role": "check",
+  "phase": "Western expansion of first independent validation against unchanged frozen TPS13",
+  "recorded_at": "2026-09-15T23:14:54.174335+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      12550,
+      17100
+    ],
+    "extent": [
+      1200,
+      1300
+    ],
+    "display": [
+      1200,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-western-validation-20260915/henry-native.jpg",
+  "source_crop_sha256": "7c69c38df89d9cd2525158a34ddacf15d0ef0251bc10dfe8cd5b4b48d271adf3",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    576,
+    901
+  ],
+  "pixel_xy": [
+    13126.0,
+    18001.0
+  ],
+  "lonlat": [
+    -61.59042061660727,
+    45.97504106403808
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+  "reference_sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+  "reference_kind": "Visible island outer-shore extremum",
+  "reference_vertices": [
+    {
+      "feature_id": 22576,
+      "vertex": 5,
+      "code": "WACOIS10"
+    }
+  ],
+  "reference_extremum": "max_lon of original island outer shore",
+  "uncertainty_ground_m": 180,
+  "point_definition": "Easternmost outer-shore corner immediately north of the small southeast shoreline recess; not the southern corner below that recess.",
+  "identity_evidence": "The smaller Henry Island lies southwest of Smith\u2019s/Port Hood Island. The source shows the narrow northern Henry Point, the long east coast and a small southeast recess between an upper eastward corner and the lower southern corner. The selected visible upper corner, next to Fishery Point, matches the original island exterior\u2019s unique eastern extremum. The printed panel edge obscures the western coast, so no whole-island source centroid is inferred.",
+  "withheld_alternative": "Whole-island source centroid not adopted: western shoreline obscured by printed panel edge.",
+  "reference_shape_limit": "The modern shoreline is rounded; its extreme-coordinate vertex is slightly north of the lower turning tip. Match the extreme longitude, not a label centre or an invented sharp apex."
+}

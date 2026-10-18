@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5705 x 3893 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 41.33 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          105,
+          115
+        ],
+        [
+          5600,
+          115
+        ],
+        [
+          5600,
+          3770
+        ],
+        [
+          105,
+          3770
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Mansfield, Beckwith, Carrington, Port Howe, Port Philip, Lewis Head, Bergman and Pugwash points, Fishing Point, Victoria Island, Pugwash and its basin, River Philip, Riverview, Kolbeck, Oxford, Oxford Junction, West Hansford, Birchwood, Thompson, Conns Mills, Hartford, Victoria, South Victoria, Big or Pugwash Lake, Wigmore Lake, Pitheo Lake, Streets Ridge, Middleboro and all mapped coastline, rivers and parcels. No displaced inset identified."
+    }
+  ]
+}

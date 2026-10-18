@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C01",
+    "label": "Lower Point west side of Shoulie mouth projecting tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1372,
+      362
+    ],
+    "lonlat": [
+      -64.57828473181787,
+      45.60771199807541
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 3885,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3885,
+    "nearest_unfiltered_distance_guide_px": 1.7437763538194149,
+    "selected_distance_guide_px": 1.7437763538194149,
+    "guide_reference_pixel_xy": [
+      1337.1290968251415,
+      364.7389910815982
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Shoulie northern western tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      1253,
+      1005
+    ],
+    "lonlat": [
+      -64.56824680452566,
+      45.576716873994606
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 241709,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 241709,
+    "nearest_unfiltered_distance_guide_px": 0.11754671926756627,
+    "selected_distance_guide_px": 0.11754671926756627,
+    "guide_reference_pixel_xy": [
+      1214.0944567822735,
+      1019.069965330651
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "River Hebert western tributary opposite Sandhill Brook",
+    "role": "proposal",
+    "pixel_xy": [
+      4354,
+      1553
+    ],
+    "lonlat": [
+      -64.3574721811524,
+      45.61539688805174
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 161464,
+    "reference_feature_code": "WARV10",
+    "nearest_unfiltered_feature_code": "WARV10",
+    "nearest_unfiltered_objectid": 161464,
+    "nearest_unfiltered_distance_guide_px": 0.595668552301191,
+    "selected_distance_guide_px": 0.595668552301191,
+    "guide_reference_pixel_xy": [
+      4344.592282956699,
+      1501.0634186360985
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Newville eastern tributary outlet into River Hebert",
+    "role": "proposal",
+    "pixel_xy": [
+      3826,
+      3302
+    ],
+    "lonlat": [
+      -64.3504740198131,
+      45.5240783765207
+    ],
+    "guide_file": ".crown-grant-local/050-north-adjacent-guide.npy",
+    "reference_objectid": 241683,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 170052,
+    "nearest_unfiltered_distance_guide_px": 8.100216708510033,
+    "selected_distance_guide_px": 80.12071048846603,
+    "guide_reference_pixel_xy": [
+      3686.114035757957,
+      3298.8712997874245
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

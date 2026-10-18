@@ -21,7 +21,6 @@ final class OfflineAreasViewModel {
     private(set) var isStorageOperationInProgress = false
     private(set) var activeDownloadAreaID: String?
 
-    static let maximumSavedAreaTileCount = 100_000
     @ObservationIgnored private let tileStore: TileStore
     @ObservationIgnored private let tileCache: TileCache
     @ObservationIgnored private let savedAreaRepository: SavedOfflineAreaRepository
@@ -37,10 +36,6 @@ final class OfflineAreasViewModel {
     /// `startDownloadTask`. Distinct from `activeDownloadAreaID`, which is the
     /// UI-facing value the cancel button reads.
     @ObservationIgnored private var liveDownloadAreaID: String?
-
-    var maximumSavedAreaTileCount: Int {
-        Self.maximumSavedAreaTileCount
-    }
 
     var layerStorageSummaries: [OfflineLayerStorageSummary] {
         storageSummary.layerBytes
@@ -100,7 +95,7 @@ final class OfflineAreasViewModel {
             maxZoom: maxZoom,
             estimatedTileCount: estimate.tileCount,
             estimatedBytes: estimate.estimatedBytes,
-            state: estimate.tileCount > Self.maximumSavedAreaTileCount ? .failed : .estimating
+            state: .estimating
         )
     }
 
@@ -176,15 +171,24 @@ final class OfflineAreasViewModel {
         }
 
         let retryCoordinates = area.failedTileCoordinates ?? []
-        let targetCoordinates = requiresFailures && !retryCoordinates.isEmpty ? retryCoordinates : nil
-        let startingDownloadedCount = requiresFailures ? area.downloadedTileCount : 0
+        let plannedCoordinates = FletcherTilePlanner.coordinates(
+            for: area.bounds, zoomRange: area.minZoom...area.maxZoom
+        )
+        let plannedSet = Set(plannedCoordinates)
+        // A source update can retire zooms or change the footprint. Persisted
+        // failure coordinates must not bypass the current source's tile plan.
+        let canRetryCoordinates = requiresFailures && !retryCoordinates.isEmpty
+            && retryCoordinates.allSatisfy { plannedSet.contains($0) }
+        let targetCoordinates = canRetryCoordinates ? retryCoordinates : nil
+        let startingDownloadedCount = canRetryCoordinates ? area.downloadedTileCount : 0
 
         do {
             try await updateSavedArea(id: area.id) { savedArea in
                 savedArea.state = .downloading
-                if !requiresFailures {
+                if !canRetryCoordinates {
                     savedArea.downloadedTileCount = 0
                 }
+                savedArea.estimatedTileCount = plannedCoordinates.count
                 savedArea.failedTileCount = 0
                 savedArea.failedTileCoordinates = []
                 savedArea.updatedAt = .now

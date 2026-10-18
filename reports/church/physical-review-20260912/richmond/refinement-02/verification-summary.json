@@ -1,0 +1,19 @@
+{
+  "scope": "Georeferencing refinement and fresh regional checks; not county-wide acceptance",
+  "local_church_unit_tests": {"count": 427, "result": "passed"},
+  "python_report_syntax": "passed",
+  "parser_and_tps": "parser-verification.json",
+  "raster_coverage": "coverage.json",
+  "browser": "browser-verification.json",
+  "prior_head_hosted_ci": {
+    "head": "36cd4ca799193dc318fa63fcacc054507617d9e8",
+    "run": "https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/34724338561",
+    "web": "passed",
+    "core": "passed",
+    "native": "failed",
+    "failure": "MapChromeUITests.testTappingTheMapClosesTheLayersPanel: XCTAssertTrue failed - the layers panel was still moving",
+    "file": "ns-marks-the-spotUITests/MapChromeUITests.swift",
+    "line": 384,
+    "relationship": "No Swift application or UI-test files are modified by this georeferencing work. This is a native UI timing assertion outside the changed surface. Recheck the latest PR head; this record describes the preceding head only."
+  }
+}

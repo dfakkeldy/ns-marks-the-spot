@@ -1,0 +1,46 @@
+{
+  "sheet": "039",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS gate passed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/039.pdf",
+    "pdf_sha256": "073c6ca735c52af6e60f0269265ee4d4e315400900c66fe0d2ffda469d774d11",
+    "jpeg_sha256": "3b502e26e3e84299be27744a1f498400c0d1afb14c086ed144a6d44a42787b7e",
+    "dimensions": [
+      5245,
+      3681
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 35.11490313049672,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six checks pair with control lakes or islands; Oak Hill southeast corner supplies a separate lake check.",
+    "Spectacle eastern lake control has no local independent check.",
+    "Far northern edge, eastern coast and complex southwestern Minamkeak/Milipsigate/Hebb geometry remain unvalidated.",
+    "Source uncertainty 18 px; generalized shores, lake connections and broad extrema limit point precision.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 35.11 m, median 39.17 m, P95 44.59 m, maximum 45.26 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Full original mapped frame retains Northfield, Sweetland, Lower New Cornwall, Midville Branch, Baker Settlement, Bridgewater, Laconia, Mahone Bay, Conquerall, Pleasantville and Lunenburg; Cook, Wiles, Oak Hill, Fancy, Minamkeak, Milipsigate, Hebb, Randall, Langille, Dares and Spectacle lakes, the LaHave River and all intervening land. No inset or internal crop."
+  }
+}

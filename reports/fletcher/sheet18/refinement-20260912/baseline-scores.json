@@ -1,0 +1,27 @@
+{
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+  "checks_sha256": "98920f8d4fd9e8ec2b519fa9a202d4182770d073f4f48b21b58db828511f61e2",
+  "control_count": 14,
+  "method": "GDAL TPS in EPSG:3857",
+  "error_units": "Approximate spherical ground metres",
+  "median_ground_m": 262.51208071600996,
+  "worst_ground_m": 424.5600365550198,
+  "points": [
+    {
+      "id": "F03",
+      "error_ground_m": 424.5600365550198,
+      "predicted_lonlat": [
+        -61.16938863481275,
+        45.89880513611115
+      ]
+    },
+    {
+      "id": "F04",
+      "error_ground_m": 100.46412487700013,
+      "predicted_lonlat": [
+        -61.17087075001849,
+        45.85517500100951
+      ]
+    }
+  ]
+}

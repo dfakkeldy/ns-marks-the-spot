@@ -1,0 +1,508 @@
+{
+  "sheet": "130",
+  "baseline_report": "reports/crown-grant/batch2/sheet130",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "d422a9fd9a8f9c0bf4e799a6738a8609801a2e989ece426809fcab7b3bfcd2cd",
+  "reference_sha256": "f0ece03ec57f2164615434fdc85a20ddc083c979fb898043f6925d8159b02d6d",
+  "fit_sha256": "97db7444028c6ac6e2a6db9f5bfbfd8b703297762656419ea625fc917c69a149",
+  "checks_sha256": "65f44238a35c854a2f4f0f0d8c32e7fdaa1b64bcb977f791be44d7f81833ef3e",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 110.15749385625024,
+    "median_ground_m": 109.80136247798958,
+    "p95_ground_m": 156.66938098376062,
+    "max_ground_m": 165.00177716788696,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -72.33999023892876,
+    "mean_north_ground_m": -10.862041484641264,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Ciboux Island southwestern tip",
+        "role": "independent-check",
+        "pixel_xy": [
+          4185,
+          1170
+        ],
+        "lonlat": [
+          -60.382672287433664,
+          46.37676496485511
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 16599,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          4097.176681382582,
+          1232.1563326688483
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.384321386082085,
+          46.37581596304182
+        ],
+        "error_ground_m": 165.00177716788696,
+        "east_ground_m": -126.87699605059812,
+        "north_ground_m": -105.48845596432592
+      },
+      {
+        "id": "Q02",
+        "label": "Hertford Island northeastern tip",
+        "role": "independent-check",
+        "pixel_xy": [
+          4065,
+          1250
+        ],
+        "lonlat": [
+          -60.38919997335265,
+          46.370604240099
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 17952,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          3962.5863083280856,
+          1318.3334624471609
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.39018289441652,
+          46.37014585480336
+        ],
+        "error_ground_m": 91.19349693260534,
+        "east_ground_m": -75.63099939943766,
+        "north_ground_m": -50.95297648459176
+      },
+      {
+        "id": "Q03",
+        "label": "Fader Point northern coastal bend",
+        "role": "independent-check",
+        "pixel_xy": [
+          2000,
+          1809
+        ],
+        "lonlat": [
+          -60.51080908549252,
+          46.30859647333901
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 10906,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          1854.9077571873786,
+          1897.9411118270364
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.510699198195994,
+          46.30959315581838
+        ],
+        "error_ground_m": 111.11148814841833,
+        "east_ground_m": 8.464632597354116,
+        "north_ground_m": 110.78859505178282
+      },
+      {
+        "id": "Q04",
+        "label": "Munroe Beach northern coastal shoulder",
+        "role": "independent-check",
+        "pixel_xy": [
+          2744,
+          1506
+        ],
+        "lonlat": [
+          -60.468671915005906,
+          46.336641017244105
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 10938,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          2635.5079234516015,
+          1570.3672228584765
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.469773081713775,
+          46.33603203191088
+        ],
+        "error_ground_m": 108.49123680756082,
+        "east_ground_m": -84.78216284847208,
+        "north_ground_m": -67.69293409780228
+      },
+      {
+        "id": "Q05",
+        "label": "Table Head northeastern corner",
+        "role": "independent-check",
+        "pixel_xy": [
+          4259,
+          2272
+        ],
+        "lonlat": [
+          -60.351445855099975,
+          46.32628026210187
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 2420,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          4133.597041463712,
+          2371.216683230945
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.35286810447318,
+          46.32708193404311
+        ],
+        "error_ground_m": 141.19493092752603,
+        "east_ground_m": -109.52115411367694,
+        "north_ground_m": 89.11299187681374
+      },
+      {
+        "id": "Q06",
+        "label": "Plant Point northern tip",
+        "role": "independent-check",
+        "pixel_xy": [
+          5163,
+          2879
+        ],
+        "lonlat": [
+          -60.27894365016166,
+          46.31501795610205
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 21257,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          5024.14440847357,
+          2959.726307545672
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.27951941108757,
+          46.31488083266904
+        ],
+        "error_ground_m": 46.89295797089776,
+        "east_ground_m": -44.34666723444934,
+        "north_ground_m": -15.24213280539835
+      },
+      {
+        "id": "Q07",
+        "label": "Otter Island eastern tip",
+        "role": "independent-check",
+        "pixel_xy": [
+          1123,
+          3573
+        ],
+        "lonlat": [
+          -60.5242803750019,
+          46.21469709666265
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 18364,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          956.6219545676722,
+          3649.122627229546
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.52473034780148,
+          46.21463508186553
+        ],
+        "error_ground_m": 35.39899098322658,
+        "east_ground_m": -34.72135539858881,
+        "north_ground_m": -6.893188080666631
+      },
+      {
+        "id": "Q08",
+        "label": "Black Rock Point northern apex",
+        "role": "independent-check",
+        "pixel_xy": [
+          3547,
+          2488
+        ],
+        "lonlat": [
+          -60.392424134664125,
+          46.305541357830805
+        ],
+        "guide_file": ".crown-grant-local/130-adjacent-guide.npy",
+        "reference_objectid": 2404,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3424.48774748313,
+          2564.104963778518
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "review": "Whole coastline/island shape and final native crosshair audited before first fit and score; excluded from fitting.",
+        "predicted_lonlat": [
+          -60.393868975406264,
+          46.30517674612953
+        ],
+        "error_ground_m": 118.45416589571776,
+        "east_ground_m": -111.30521946356123,
+        "north_ground_m": -40.52823137294171
+      }
+    ]
+  },
+  "control_axis_ratio": 1.5603947268680336,
+  "affine_scale_ratio": 1.0095944617267862,
+  "metres_per_pixel_singular_values": [
+    5.386363996752619,
+    5.335175856194685
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.911746771215564,
+          2.0408397527038784
+        ],
+        [
+          1.9883453109083888,
+          -5.0026025161891425
+        ],
+        [
+          678326.0427617307,
+          5136471.41288381
+        ]
+      ],
+      "diagnostic_rms_m": 102.88031299394927,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.937666347324505,
+          2.0556290737844707
+        ],
+        [
+          2.03468908210512,
+          -4.976989200463674
+        ],
+        [
+          678101.9430788407,
+          5136346.95792918
+        ]
+      ],
+      "diagnostic_rms_m": 116.14667686550676,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.935593005043295,
+          2.056010539164952
+        ],
+        [
+          2.0307845640068853,
+          -4.972729513374043
+        ],
+        [
+          678119.7780065725,
+          5136327.099841737
+        ]
+      ],
+      "diagnostic_rms_m": 116.67059418337695,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.931038484425811,
+          2.0498379886119587
+        ],
+        [
+          2.041699146369908,
+          -4.960989212407379
+        ],
+        [
+          678108.9777652357,
+          5136323.458668067
+        ]
+      ],
+      "diagnostic_rms_m": 125.19402081119578,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.934500369894945,
+          2.0603089875716774
+        ],
+        [
+          2.0272935085992794,
+          -4.973058247835617
+        ],
+        [
+          678134.4667003086,
+          5136341.635297397
+        ]
+      ],
+      "diagnostic_rms_m": 110.80481845000887,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.9355538964455805,
+          2.058348455697152
+        ],
+        [
+          2.0282187045185336,
+          -4.9764076311884855
+        ],
+        [
+          678131.3564141842,
+          5136341.591304901
+        ]
+      ],
+      "diagnostic_rms_m": 109.1902681201913,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.9776528680822265,
+          2.1017479521451397
+        ],
+        [
+          1.966777351122343,
+          -5.045700607017474
+        ],
+        [
+          678071.1144279543,
+          5136286.145711117
+        ]
+      ],
+      "diagnostic_rms_m": 178.8208364147201,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C08",
+      "model": "affine",
+      "matrix": [
+        [
+          4.951454876064033,
+          2.0506800920770245
+        ],
+        [
+          2.051398312133559,
+          -4.984808108079303
+        ],
+        [
+          678042.7400406961,
+          5136378.209993217
+        ]
+      ],
+      "diagnostic_rms_m": 102.69775209037574,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.949155507068634,
+        2.048933623511837
+      ],
+      [
+        2.048933623511837,
+        -4.949155507068634
+      ],
+      [
+        678039.2625009407,
+        5136315.960609075
+      ]
+    ],
+    "rms_ground_m": 119.82302931308655,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.297607+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q01",
+    "Q05",
+    "Q08",
+    "Q03"
+  ],
+  "reviewed_control_ids": [
+    "C01",
+    "C05"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Ciboux narrow southwestern tip adjacent to separate rock is identifiable despite hatch/label clutter. Table Head northeast corner is rounded on modern shore; Black Rock and Fader are broad minor coastal protrusions. Mostly westward diagnostic bias is not a justified translation derived from controls.",
+  "baseline_limitations": [
+    "Eight excluded coast/island checks give RMS 110.16 m, median 109.80 m, P95 156.67 m and maximum 165.00 m; the 100 m RMS ceiling and companion bounds fail",
+    "Controls and checks concentrate on coasts and islands; North River, northern/western interior and parcel interiors remain unsupported",
+    "Generalized barriers, rounded capes and island endpoints carry 12 px working source uncertainty; coastal changes and spatial correlation limit the measurements"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "7c482db8bc777e6d4c6818f2982cc52bc584c1b9adf3e6660d9ac2ecb87074a3"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "b06bf1145b78bba287b4722b8bc490b6a0b4f0ff8c515ddf5628cbe459bd1e29"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "ed1f647d74065920f42332c419906167fa2b85b19215070c0ef003fd63988b82"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "93ddb53b08a7a5c55493ecfe22cd19471a3c9ddccda1c212b113ad07c7e37bec"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "2c4be1eeb1aa90b607f0e2a5897b819f5165167f5df5ee0208e25caf86fbdd1b"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "1cb21d3aee883e3a98f4821a5dacaad4580acd3fbcccd7da5fae19347515b6d2"
+    }
+  ],
+  "control_findings": "Island Point barrier bend and Table Head northwest corner are plausible. The barrier and broad coast shoulders are not exact surveyed corners.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

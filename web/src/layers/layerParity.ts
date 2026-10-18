@@ -6,6 +6,7 @@ import {
   floodHazardLayerCatalog,
   forestryLayerCatalog,
   hydroPilotLayerCatalog,
+  COASTAL_HAZARD_NOTICES,
   initialEnvironmentalHealthLayerVisibility,
   initialFloodHazardLayerVisibility,
   initialForestryLayerVisibility,
@@ -14,7 +15,7 @@ import {
   initialResourceLayerVisibility,
   initialWellLogLayerVisibility,
   initialZoningLayerVisibility,
-  provinceLayerCatalog,
+  nativeProvinceLayerCatalog as provinceLayerCatalog,
   topographyLayerCatalog,
   wellLogLayerCatalog,
   zoningLayerCatalog,
@@ -38,7 +39,8 @@ import {
 } from "./layerCategories";
 
 /**
- * The parity fixture the native iOS catalog is tested against.
+ * The retained native-service contract the iOS catalog is tested against.
+ * Web open-data replacements are deliberately outside this service parity.
  *
  * The iOS app keeps its own hand-written Swift catalog rather than decoding
  * this file at runtime: Swift is where the caveat prose and style closures
@@ -52,7 +54,7 @@ import {
  * this file its own second source of truth, and a field added on the web would
  * go unnoticed instead of failing the Swift key-set assertion.
  */
-export const LAYER_PARITY_SCHEMA_VERSION = 2;
+export const LAYER_PARITY_SCHEMA_VERSION = 3;
 
 export type LayerParityGroupId =
   | "map-layers"
@@ -134,6 +136,16 @@ export type LayerParityFixture = {
    * at once already. Running the real functions and recording the answer means
    * the Swift side is tested against what ships, not against a reading of it.
    */
+  /**
+   * The notices the Unrestricted Map Services licence requires with the
+   * coastal data, in the order both surfaces print them.
+   *
+   * A layer row carries a licence URL and a restricted/open flag, neither of
+   * which is the text the licence asks for. The two surfaces disagreed on that
+   * text — one sentence in the browser against three on the phone — and no
+   * fixture could catch it, because nothing pinned the words themselves.
+   */
+  coastalHazardNotices: readonly string[];
   parcelQuery: {
     layerUrl: string;
     pidBatchSize: number;
@@ -163,6 +175,13 @@ const GROUP_ORDER: readonly LayerParityGroupId[] = [
   "historical",
 ];
 
+/**
+ * Deliberately absent: `liveConditionsLayerCatalog`. The live overlays
+ * (highway cameras, weather radar) are web-only moment-in-time context with
+ * no native counterpart, so they sit outside the parity contract — adding
+ * them here would demand a Swift catalog entry for layers the native app
+ * does not ship.
+ */
 type Source = {
   group: LayerParityGroupId;
   layers: readonly { id: string }[];
@@ -318,7 +337,7 @@ export function buildLayerParityFixture(): LayerParityFixture {
   return {
     schemaVersion: LAYER_PARITY_SCHEMA_VERSION,
     groupOrder: GROUP_ORDER,
-    categories: layerCategories.map(({ id, name, description }) => ({
+    categories: layerCategories.filter(c => c.id !== "elections-districts" && c.id !== "rhodena-project").map(({ id, name, description }) => ({
       id,
       name,
       description,
@@ -328,6 +347,7 @@ export function buildLayerParityFixture(): LayerParityFixture {
       tileRevision: FLETCHER_TILE_REVISION,
       sheets: fletcherSheets,
     },
+    coastalHazardNotices: COASTAL_HAZARD_NOTICES,
     parcelQuery: {
       layerUrl: NSPRD_LAYER_URL,
       pidBatchSize: NSPRD_PID_BATCH_SIZE,

@@ -1,0 +1,7 @@
+{
+  "script": "reports/fletcher/full-sheets/render.py",
+  "script_sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067",
+  "native_source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "cutline_sha256": "44cb946245a6f378b01a346be8f5749df89042691ae63c3b8896ae330a20babb",
+  "method": "Exact GDAL TPS -et 0, complete unchanged boundary, 5 projected metre RGBA raster"
+}

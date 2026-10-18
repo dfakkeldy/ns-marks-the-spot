@@ -1,0 +1,149 @@
+[
+  {
+    "id": "MQ01",
+    "label": "Tiddville northern cove inner bend",
+    "role": "proposal",
+    "pixel_xy": [
+      2479,
+      2161
+    ],
+    "lonlat": [
+      -66.17436943289276,
+      44.43267049131143
+    ],
+    "reference_objectid": 11970,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2485.2728694846155,
+      2167.996359572746
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ02",
+    "label": "Tiddville southern shore headland",
+    "role": "proposal",
+    "pixel_xy": [
+      2820,
+      2512
+    ],
+    "lonlat": [
+      -66.1430786881584,
+      44.42454765621905
+    ],
+    "reference_objectid": 3967,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2825.1540214469424,
+      2516.6558621685253
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ06",
+    "label": "Mink Cove eastern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      3741,
+      2046
+    ],
+    "lonlat": [
+      -66.10142484860896,
+      44.46283186557184
+    ],
+    "reference_objectid": 5470,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3736.8469808017253,
+      2035.0567073875573
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ07",
+    "label": "East Sandy Cove inner head",
+    "role": "proposal",
+    "pixel_xy": [
+      4140,
+      1600
+    ],
+    "lonlat": [
+      -66.08839215742672,
+      44.49015774668318
+    ],
+    "reference_objectid": 4969,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4165.405211774283,
+      1588.6621071142145
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ08",
+    "label": "East Sandy Cove southeastern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      4300,
+      1800
+    ],
+    "lonlat": [
+      -66.0742464505553,
+      44.48449545932629
+    ],
+    "reference_objectid": 5187,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4300.413785398239,
+      1784.3722537830472
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ09",
+    "label": "Little River Cove eastern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      3250,
+      2240
+    ],
+    "lonlat": [
+      -66.12560207154603,
+      44.44466135756879
+    ],
+    "reference_objectid": 5028,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3245.632167156553,
+      2236.66031556495
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ10",
+    "label": "Weymouth estuary outer eastern bank headland",
+    "role": "proposal",
+    "pixel_xy": [
+      4825,
+      2850
+    ],
+    "lonlat": [
+      -66.01482272487635,
+      44.44720171289149
+    ],
+    "reference_objectid": 9463,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4742.141376918182,
+      2866.5558136758627
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

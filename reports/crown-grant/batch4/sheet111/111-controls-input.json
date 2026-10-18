@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Small pond west of Eddy Cove south tip",
+    [
+      1443,
+      2421
+    ],
+    [
+      1450,
+      2430
+    ],
+    "WALK"
+  ],
+  [
+    "C02",
+    "Marys Lake northwest corner",
+    [
+      2005,
+      2562
+    ],
+    [
+      2020,
+      2565
+    ],
+    "WALK"
+  ],
+  [
+    "C03",
+    "Birch Island northwest corner in River Inhabitants",
+    [
+      3270,
+      540
+    ],
+    [
+      3295,
+      552
+    ],
+    "WA"
+  ],
+  [
+    "C04",
+    "McNamara Island north tip",
+    [
+      2980,
+      1360
+    ],
+    [
+      3002,
+      1368
+    ],
+    "WACOIS"
+  ],
+  [
+    "C05",
+    "McLeod Island east tip",
+    [
+      3698,
+      1505
+    ],
+    [
+      3697,
+      1530
+    ],
+    "WACOIS"
+  ],
+  [
+    "C06",
+    "Janvrin Point west tip",
+    [
+      3000,
+      2655
+    ],
+    [
+      3032,
+      2592
+    ],
+    "WACO"
+  ],
+  [
+    "C07",
+    "Cape Argos east tip",
+    [
+      2290,
+      3276
+    ],
+    [
+      2290,
+      3290
+    ],
+    "WACO"
+  ],
+  [
+    "C08",
+    "Pond southwest of Eddy Cove west tip",
+    [
+      1860,
+      2390
+    ],
+    [
+      1880,
+      2405
+    ],
+    "WALK"
+  ]
+]

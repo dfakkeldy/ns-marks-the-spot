@@ -1,0 +1,303 @@
+{
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        5880,
+        2963
+      ],
+      "lonlat": [
+        -61.0249697,
+        46.5621644
+      ],
+      "review_image": "../seed-review/sheet-09-C01.jpg",
+      "image_sha256": "733880c4abcf9b8e3f3c23f420ff1a78f0e250d7ae3d35ec92c2df471008f9ad"
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        5666,
+        2909
+      ],
+      "lonlat": [
+        -61.0350036,
+        46.563704
+      ],
+      "review_image": "../seed-review/sheet-09-C02.jpg",
+      "image_sha256": "425b8985b9a706f38685164fcb55f6eab9211b586d99263a4f9cf4c2be15f218"
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        8613,
+        1918
+      ],
+      "lonlat": [
+        -60.8989298,
+        46.5942935
+      ],
+      "review_image": "faribault-proposal-review/sheet-09-C03.jpg",
+      "image_sha256": "d2f26c4951a1c075cab7c3eca4187944d1d713474b8a9023a7cc8ec3f038322c"
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        8475,
+        1655
+      ],
+      "lonlat": [
+        -60.9049773,
+        46.6021433
+      ],
+      "review_image": "faribault-proposal-review/sheet-09-C04.jpg",
+      "image_sha256": "fab1748e2673444c4e747c39fa10ae71ed6fae1936abf6e8316cfb32242d4163"
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        5252,
+        1700
+      ],
+      "lonlat": [
+        -61.05592939352159,
+        46.6012181791636
+      ],
+      "review_image": "corrected-point-review/sheet-09-C05.jpg",
+      "image_sha256": "ec82c1bf81b2dbfdf7df84f9cfb9860a5b0094258ae9a1347892564b2c01a4d2"
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        5902,
+        1529
+      ],
+      "lonlat": [
+        -61.0242535458462,
+        46.60676810198122
+      ],
+      "review_image": "corrected-point-review/sheet-09-C06.jpg",
+      "image_sha256": "223e9c44d0631c3b540dce5b12b555044e576c3bd23bc80cafd170a48c1d0f62"
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        7232,
+        2136
+      ],
+      "lonlat": [
+        -60.9649361,
+        46.5895015
+      ],
+      "review_image": "north-proposal-review/sheet-09-C07.jpg",
+      "image_sha256": "71e45f4bd0f9bf572b4e679ad2fef9587b563f7096bfb076928e16372c65bef4"
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        7517,
+        1704
+      ],
+      "lonlat": [
+        -60.945519,
+        46.60097
+      ],
+      "review_image": "north-proposal-review/sheet-09-C08.jpg",
+      "image_sha256": "1b35ee1bd1fd8844ec4cc02a765f5458e2bbae9eed1d847685713f089b0ff1c8"
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        7761,
+        6354
+      ],
+      "lonlat": [
+        -60.9398873,
+        46.4581803
+      ],
+      "review_image": "corrected-point-review/sheet-09-C09.jpg",
+      "image_sha256": "3842ffac902004500ab0644a4d4420fb71482e0f13e657b5c2c468bc796250f5"
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        8231,
+        6494
+      ],
+      "lonlat": [
+        -60.9241152,
+        46.4550339
+      ],
+      "review_image": "farm-mouth-review/sheet-09-C10.jpg",
+      "image_sha256": "67186cdd77abd05bf7bbf18f1074ce25adc4b12dfbf44423d6c9f78ada9c6733"
+    },
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        5127,
+        4459
+      ],
+      "lonlat": [
+        -61.0588128,
+        46.5141668
+      ],
+      "review_image": "west-southeast-proposal-review/sheet-09-C11.jpg",
+      "image_sha256": "c05f21ad114bef704a07aa1ad45e5cd14cef703fc55fa43f73fe06096a0d90c4"
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        9040,
+        5656
+      ],
+      "lonlat": [
+        -60.8876023,
+        46.4839496
+      ],
+      "review_image": "west-southeast-proposal-review/sheet-09-C12.jpg",
+      "image_sha256": "72b3da81516ab21e85a288677511bb10af9e8928d3c6e578ef5dd9a5bf5b8a11"
+    },
+    {
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        8883,
+        6040
+      ],
+      "lonlat": [
+        -60.8954978,
+        46.4695954
+      ],
+      "review_image": "west-southeast-proposal-review/sheet-09-C13.jpg",
+      "image_sha256": "f4f78d8b8d98da83c086ff2492ddafde7d0d111938a55c449ae2450ebc0df965"
+    },
+    {
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        7060,
+        3276
+      ],
+      "lonlat": [
+        -60.9681646,
+        46.5528543
+      ],
+      "review_image": "farm-mouth-review/sheet-09-C14.jpg",
+      "image_sha256": "428e0168dedbf4820e5c16bf6d628c6d8d5e18d8ce76c1dc1419d76734e9320a"
+    },
+    {
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        7282,
+        3437
+      ],
+      "lonlat": [
+        -60.9580015,
+        46.5480384
+      ],
+      "review_image": "farm-mouth-review/sheet-09-C15.jpg",
+      "image_sha256": "0a8e53d39d1ccb331dddc6f2f917404a2d63d30e755c49c7543f57026c25e555"
+    },
+    {
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        7384,
+        3572
+      ],
+      "lonlat": [
+        -60.9535169,
+        46.5440136
+      ],
+      "review_image": "farm-mouth-review/sheet-09-C16.jpg",
+      "image_sha256": "19a4e67666f60576a27c9c0a8659a3690f99b899f72f6c47118bfcba1135b48b"
+    },
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7951,
+        6395
+      ],
+      "lonlat": [
+        -60.9275594,
+        46.4580556
+      ],
+      "review_image": "stewart-proposal-review/sheet-09-Q01.jpg",
+      "image_sha256": "a3801f3509017b28252b60f320c6a36dcd6680626a43ef77b034aa2c4a310e82"
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        9160,
+        5673
+      ],
+      "lonlat": [
+        -60.8816454,
+        46.4831797
+      ],
+      "review_image": "west-southeast-proposal-review/sheet-09-Q02.jpg",
+      "image_sha256": "da3388fd290a941dba62db9be894fab903ef0b0344fcf62447eff5aa3bb54870"
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7543,
+        1729
+      ],
+      "lonlat": [
+        -60.9431439,
+        46.5996268
+      ],
+      "review_image": "west-southeast-proposal-review/sheet-09-Q03.jpg",
+      "image_sha256": "6533ade6547f7709203a649f27ae610a01f34ba37b469e3f9369c6462834fcb9"
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        4741,
+        5040
+      ],
+      "lonlat": [
+        -61.0758228,
+        46.4970208
+      ],
+      "review_image": "west-southeast-proposal-review/sheet-09-Q04.jpg",
+      "image_sha256": "3f390fe596e1e715b1aaa51d9b151b94d582c5d69d83a153fbfab10d76fa35b2"
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        7176,
+        3368
+      ],
+      "lonlat": [
+        -60.9625724,
+        46.5499856
+      ],
+      "review_image": "farm-mouth-review/sheet-09-Q05.jpg",
+      "image_sha256": "08051c9c3f916021976c415f2c460da0988d7fd7b5dd931a4d0049c2b77cde39"
+    }
+  ]
+}

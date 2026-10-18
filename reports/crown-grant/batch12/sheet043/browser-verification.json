@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T04:55:21.463662+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "043",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6166,
+        5230
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5727,
+        3921
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-sheet historical and modern-only screenshots inspected; source/raster decoded and opacity65/40/0/65 verified.",
+    "RMS failure, complete map coverage and source attribution visibly retained.",
+    "No browser warnings or errors logged; no geographic acceptance."
+  ]
+}

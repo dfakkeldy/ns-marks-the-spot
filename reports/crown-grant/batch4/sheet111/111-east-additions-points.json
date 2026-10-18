@@ -1,0 +1,46 @@
+[
+  {
+    "id": "C09",
+    "label": "O Seal peninsula southern shore tip east of Louisdale Harbour",
+    "role": "proposal",
+    "pixel_xy": [
+      5293,
+      1980
+    ],
+    "lonlat": [
+      -61.0688789857839,
+      45.59168392359486
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 5543,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5320.751115341554,
+      2024.7829598990502
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q11",
+    "label": "Oval island in Port Royal Harbour north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4345,
+      2970
+    ],
+    "lonlat": [
+      -61.10989352029452,
+      45.52865293294338
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 16438,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4275.767146648315,
+      3036.262968349969
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

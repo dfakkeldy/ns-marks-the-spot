@@ -1,0 +1,41 @@
+[
+  [
+    "IQ01",
+    "Main-a-Dieu inset lake east shore tip",
+    [
+      2692,
+      3268
+    ],
+    [
+      2641,
+      3248
+    ],
+    "WA"
+  ],
+  [
+    "IQ02",
+    "Main-a-Dieu inset lake south tip",
+    [
+      2618,
+      3354
+    ],
+    [
+      2570,
+      3324
+    ],
+    "WA"
+  ],
+  [
+    "IQ03",
+    "Main-a-Dieu inset northeastern coast shoulder",
+    [
+      2590,
+      3080
+    ],
+    [
+      2560,
+      3100
+    ],
+    "WACO"
+  ]
+]

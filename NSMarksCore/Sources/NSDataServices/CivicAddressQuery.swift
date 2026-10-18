@@ -99,7 +99,8 @@ public enum CivicAddressQuery {
     /// `110640`.
     public static func searchURL(
         _ query: String,
-        limit: Int = searchLimit
+        limit: Int = searchLimit,
+        suggest: Bool = false
     ) throws(Refusal) -> URL {
         let normalized = normalize(query)
         // JavaScript's `.length`, so a three-character search means the same
@@ -107,9 +108,10 @@ public enum CivicAddressQuery {
         guard normalized.utf16.count >= 3 else { throw .queryTooShort }
 
         let leading = leadingCivicNumber(in: normalized)
+        let fullText = leading?.rest ?? normalized
         var parameters: [(String, String)] = [
             ("$select", fields.joined(separator: ",")),
-            ("$q", leading?.rest ?? normalized),
+            ("$q", fullText),
             ("$order", "pntid"),
             ("$limit", String(limit)),
         ]
@@ -121,7 +123,28 @@ public enum CivicAddressQuery {
                     : "civicnum=\(leading.number) AND upper(civsuffix)='\(leading.suffix)'"
             ))
         }
+        if suggest, let prefix = suggestionPrefix(in: fullText) {
+            let completed = String(fullText.dropLast(prefix.count))
+                .trimmingCharacters(in: .whitespaces)
+            parameters.removeAll { $0.0 == "$q" }
+            if !completed.isEmpty {
+                parameters.append(("$q", officialSpelling(of: completed) ?? completed))
+            }
+            // Alphabetic input only. Civic numbers and suffixes keep their
+            // exact predicates; the last word may match a word's beginning.
+            let term = prefix.uppercased()
+            let prefixWhere = ["strprefix", "strname", "strsuffix", "strdir", "comm", "mun", "county"]
+                .map { "(starts_with(upper(\($0)),'\(term)') OR upper(\($0)) like '% \(term)%')" }
+                .joined(separator: " OR ")
+            let civicWhere = parameters.first { $0.0 == "$where" }?.1
+            parameters.removeAll { $0.0 == "$where" }
+            parameters.append(("$where", (civicWhere.map { "\($0) AND " } ?? "") + "(\(prefixWhere))"))
+        }
         return try url(with: parameters)
+    }
+
+    static func suggestionPrefix(in query: String) -> String? {
+        JSRegex.firstMatch(#"(?:^|\s)([a-zA-Z]+)$"#, in: normalize(query))?[1]
     }
 
     /// A second spelling of the same search, or `nil` if it would be identical.

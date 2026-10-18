@@ -1,0 +1,49 @@
+{
+  "verified_at_utc": "2026-09-25T02:49:30.294546+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "067",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6035,
+        5197
+      ],
+      "complete": true
+    },
+    {
+      "file": "eastern-passage-inset-3857.png",
+      "dimensions": [
+        544,
+        542
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5828,
+        4121
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Whole original main frame and relocated circular inset inspected in actual browser. Both rasters respond to opacity and modern-only controls.",
+    "Inset additionally inspected after two map zooms, in historical and modern-only views at500 m displayed scale.",
+    "A coast reference popup appeared during zoom and was closed; no application errors observed.",
+    "Main first RMS failure and separate inset island-only validation remain explicit. Native source partition has zero missing, excess or overlapping pixels."
+  ]
+}

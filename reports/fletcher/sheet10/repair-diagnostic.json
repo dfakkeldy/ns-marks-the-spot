@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-10",
+  "fit_sha256": "684472b4fdbe8b6e6afe8c13de4d123c0b43144880dc3340a3f21f8585ac982d",
+  "points": [
+    {
+      "lonlat": [
+        -60.6573321,
+        46.4371696
+      ],
+      "source_guide_xy": [
+        5539.837614540476,
+        1389.8835247601382
+      ],
+      "objectids": [
+        187736,
+        276357,
+        276478
+      ],
+      "id": "Q02",
+      "role": "check",
+      "modern_node_id": "J0584",
+      "pixel_xy": [
+        5683,
+        1385
+      ],
+      "identity_evidence": "Upper Barasois Brook northern fork",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wide context personally inspected before first score; original proposals retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.6573321,
+          46.4371696
+        ],
+        "source_guide_xy": [
+          5539.837614540476,
+          1389.8835247601382
+        ],
+        "objectids": [
+          187736,
+          276357,
+          276478
+        ],
+        "id": "Q02",
+        "role": "check",
+        "modern_node_id": "J0584",
+        "pixel_xy": [
+          5660,
+          1387
+        ],
+        "identity_evidence": "Upper Barasois Brook northern fork",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    }
+  ]
+}

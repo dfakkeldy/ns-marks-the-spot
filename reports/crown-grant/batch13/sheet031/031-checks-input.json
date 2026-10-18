@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Scott Lake northern tip",
+    [
+      410,
+      2757
+    ],
+    [
+      497,
+      2757
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Round Lake central peninsula southern tip",
+    [
+      2662,
+      872
+    ],
+    [
+      2716,
+      874
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Rocky Lake southwestern southern prong",
+    [
+      4430,
+      1800
+    ],
+    [
+      4450,
+      1834
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Smith Lake southern tip",
+    [
+      4812,
+      2560
+    ],
+    [
+      4809,
+      2608
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Flint Lake southern tip",
+    [
+      512,
+      2845
+    ],
+    [
+      596,
+      2838
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Nineveh Lake southern tip",
+    [
+      5283,
+      2591
+    ],
+    [
+      5281,
+      2613
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Unnamed lake west of Pleasant River southeast tip",
+    [
+      3559,
+      2704
+    ],
+    [
+      3574,
+      2750
+    ],
+    "WALK20"
+  ]
+]

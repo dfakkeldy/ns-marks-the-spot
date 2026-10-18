@@ -1,0 +1,263 @@
+{
+  "count": 8,
+  "rms_ground_m": 63.74258836776726,
+  "median_ground_m": 57.58848495908232,
+  "p95_ground_m": 93.2931438823274,
+  "max_ground_m": 98.34019834336857,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -5.287440006897256,
+  "mean_north_ground_m": 42.07820114769753,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Sandy Lake west tip",
+      "role": "check",
+      "pixel_xy": [
+        370,
+        732
+      ],
+      "lonlat": [
+        -60.11226775658218,
+        46.100448306913414
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 136237,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        329.7997735334211,
+        716.5025960677303
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -60.11280098925889,
+        46.10125151662026
+      ],
+      "error_ground_m": 98.34019834336857,
+      "east_ground_m": -41.230554155396185,
+      "north_ground_m": 89.27953860909011
+    },
+    {
+      "id": "Q02",
+      "label": "McPherson Lake east tip",
+      "role": "check",
+      "pixel_xy": [
+        1132,
+        818
+      ],
+      "lonlat": [
+        -60.0623596022197,
+        46.109701698326944
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 136273,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1084.3910408545635,
+        788.2759607272455
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -60.061895413816735,
+        46.11018847622168
+      ],
+      "error_ground_m": 64.9260960108642,
+      "east_ground_m": 35.88612145953043,
+      "north_ground_m": 54.107155070321205
+    },
+    {
+      "id": "Q03",
+      "label": "Central McDonald Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        1086,
+        1461
+      ],
+      "lonlat": [
+        -60.04863592519347,
+        46.080528719892236
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 136294,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1066.2919771312154,
+        1423.6032963622129
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -60.04920270570453,
+        46.08030777762242
+      ],
+      "error_ground_m": 50.25087390730044,
+      "east_ground_m": -43.841126577502735,
+      "north_ground_m": -24.55821550648156
+    },
+    {
+      "id": "Q04",
+      "label": "Small satellite lake southwest of Sand Lake west tip",
+      "role": "check",
+      "pixel_xy": [
+        2990,
+        1132
+      ],
+      "lonlat": [
+        -59.935174916081486,
+        46.126403729239925
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 140565,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2958.3751748990617,
+        1102.4846290326677
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -59.9351788106667,
+        46.12715871473393
+      ],
+      "error_ground_m": 83.92004274039381,
+      "east_ground_m": -0.3009955833697727,
+      "north_ground_m": 83.91950294900653
+    },
+    {
+      "id": "Q05",
+      "label": "Northern Head east tip",
+      "role": "check",
+      "pixel_xy": [
+        5013,
+        741
+      ],
+      "lonlat": [
+        -59.81436997168672,
+        46.17839224989951
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 11517,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4993.2168012365,
+        695.9410378856119
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -59.814821462171956,
+        46.17868490306186
+      ],
+      "error_ground_m": 47.681205270542435,
+      "east_ground_m": -34.86119104877708,
+      "north_ground_m": 32.52990462193624
+    },
+    {
+      "id": "Q06",
+      "label": "Flint larger island east tip",
+      "role": "check",
+      "pixel_xy": [
+        5661,
+        936
+      ],
+      "lonlat": [
+        -59.76863451187516,
+        46.18048439343079
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 18280,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5639.156174357631,
+        883.0090119933011
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -59.768497002195176,
+        46.18064726953768
+      ],
+      "error_ground_m": 20.988039401102462,
+      "east_ground_m": 10.617235240368386,
+      "north_ground_m": 18.10447772659872
+    },
+    {
+      "id": "Q09",
+      "label": "MacRae Point northern extension shoulder",
+      "role": "check",
+      "pixel_xy": [
+        4220,
+        144
+      ],
+      "lonlat": [
+        -59.880665639765745,
+        46.19187534836937
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 7476,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4173.8306817232515,
+        103.23873879387975
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -59.88018396340145,
+        46.19249258770672
+      ],
+      "error_ground_m": 78.03715757359447,
+      "east_ground_m": 37.182640013328765,
+      "north_ground_m": 68.60939617723811
+    },
+    {
+      "id": "Q10",
+      "label": "Mira park peninsula northern tip",
+      "role": "check",
+      "pixel_xy": [
+        788,
+        2315
+      ],
+      "lonlat": [
+        -60.047450502036,
+        46.03650544892537
+      ],
+      "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+      "reference_objectid": 25471,
+      "reference_feature_code": "WACORV20",
+      "guide_reference_pixel_xy": [
+        769.5459627141827,
+        2284.115213886136
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake/coast/river topology and enlarged original-frame paired crosshair inspected before fitting; printed labels used only for discovery.",
+      "review": "Excluded from fitting; final physical identity and crosshair inspected before the first score.",
+      "predicted_lonlat": [
+        -60.047524801082325,
+        46.03663710505851
+      ],
+      "error_ground_m": 15.723581749688643,
+      "east_ground_m": -5.75164940335986,
+      "north_ground_m": 14.633849533870844
+    }
+  ],
+  "fit_sha256": "f3fe185336550bc42e393a08aa4d37e9a299a3345e3a4a4500084c65c2ea50b0",
+  "checks_sha256": "edae01c471c90435a434594cc04da9c7ed06bb737f274f92fb50f4601d01de9f",
+  "status": "Independent physical checks reserved before first frozen affine; no post-score tuning"
+}

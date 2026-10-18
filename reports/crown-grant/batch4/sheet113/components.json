@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5663 x 3871 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 65.42 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          90
+        ],
+        [
+          5590,
+          90
+        ],
+        [
+          5590,
+          3755
+        ],
+        [
+          90,
+          3755
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Cole Harbour, Port Felix, Whitehead, Little Dover, Canso, St Andrews and Dover islands, the Perabie/Cranberry groups, White Head and Millstone islands, all small offshore rocks and the full Atlantic area. No displaced inset identified."
+    }
+  ]
+}

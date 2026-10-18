@@ -1,0 +1,28 @@
+{
+  "points": [
+    {
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        2763,
+        1863
+      ],
+      "lonlat": [
+        -61.1648471,
+        45.899365
+      ],
+      "modern_node_id": "J0329",
+      "modern_objectids": [
+        63540,
+        63541,
+        197934
+      ],
+      "identity_evidence": "Ashfield eastern main brook small pond southern outlet upstream of C10",
+      "source_uncertainty_px": 15,
+      "review": "Native crosshair and modern feature inspected before fresh-check scoring. Point not used to fit or tune the frozen fourteen-control raster.",
+      "promoted_from": "V03",
+      "prior_error_ground_m": 432.57164609770246,
+      "status": "Personally inspected exact original close/wide crosshair and direct modern pond outlet. Promoted unchanged before fresh selection; pond/road ordering and downstream channel support identity."
+    }
+  ]
+}

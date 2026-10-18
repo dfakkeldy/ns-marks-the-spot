@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5958 x 4097 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 104.54 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          40,
+          110
+        ],
+        [
+          5888,
+          110
+        ],
+        [
+          5888,
+          3970
+        ],
+        [
+          40,
+          3970
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full mapped frame retains Isle Madame, St Peters Island, Chapel and surrounding islands, and all mainland interiors. No displaced inset identified."
+    }
+  ]
+}

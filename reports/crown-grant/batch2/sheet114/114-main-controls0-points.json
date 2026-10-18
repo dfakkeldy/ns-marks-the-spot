@@ -1,0 +1,90 @@
+[
+  {
+    "id": "MC01",
+    "label": "Sea Wolf Island northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3351,
+      530
+    ],
+    "lonlat": [
+      -61.25445471861284,
+      46.36788515643014
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 19023,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3333.17960278783,
+      507.60814401065
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC02",
+    "label": "Inverness pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1374,
+      3089
+    ],
+    "lonlat": [
+      -61.31302295682364,
+      46.22621563324344
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 5589,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1346.8690640387358,
+      3104.60600838298
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC03",
+    "label": "Marsh Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2860,
+      1758
+    ],
+    "lonlat": [
+      -61.258213220388,
+      46.30544941269713
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 7059,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2775.5603873071377,
+      1774.709678509389
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC04",
+    "label": "Chimney Corner coastal shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      4789,
+      443
+    ],
+    "lonlat": [
+      -61.17101773988469,
+      46.39287970427296
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 3927,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4733.532944295963,
+      452.95139510463923
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

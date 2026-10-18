@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Pictou Island West Point",
+    [
+      2475,
+      546
+    ],
+    [
+      2537,
+      595
+    ],
+    "WACOIS"
+  ],
+  [
+    "C02",
+    "Pictou Island Seal Point east end",
+    [
+      4028,
+      650
+    ],
+    [
+      4104,
+      689
+    ],
+    "WACOIS"
+  ],
+  [
+    "C03",
+    "Black Point northern tip",
+    [
+      741,
+      745
+    ],
+    [
+      780,
+      770
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Mackenzie Head north tip",
+    [
+      1161,
+      2870
+    ],
+    [
+      1217,
+      2906
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Evans Point east tip",
+    [
+      2160,
+      3608
+    ],
+    [
+      2215,
+      3651
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "Roy Island northwestern lobe",
+    [
+      2241,
+      3880
+    ],
+    [
+      2301,
+      3921
+    ],
+    "WACO20"
+  ],
+  [
+    "C07",
+    "Cole Point southeast corner",
+    [
+      991,
+      2447
+    ],
+    [
+      1041,
+      2507
+    ],
+    "WACO20"
+  ]
+]

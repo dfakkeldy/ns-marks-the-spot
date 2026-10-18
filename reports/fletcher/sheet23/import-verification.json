@@ -1,0 +1,8 @@
+{
+  "controls": 12,
+  "checks": 3,
+  "validation_checks": 5,
+  "semantic_csv_roundtrip": true,
+  "maximum_web_gdal_difference_projected_m": 5.890201144234053e-9,
+  "scope": "Parser and solver consistency; not browser mesh or geographic acceptance."
+}

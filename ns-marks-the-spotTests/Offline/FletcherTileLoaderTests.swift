@@ -7,8 +7,7 @@ import UIKit
 
 @testable import ns_marks_the_spot
 
-/// The offline downloader has to resolve and stack sheets the same way the map
-/// draws them, or a saved area comes back holding a picture the user never saw.
+/// Offline downloads must preserve the already-composited mosaic exactly.
 ///
 /// These drive the real `FletcherTileLoader` against a stubbed session rather
 /// than asserting on the sheet index it consults: the index has its own parity
@@ -123,119 +122,41 @@ struct FletcherTileLoaderTests {
         #expect(FletcherStubURLProtocol.requestedPaths.isEmpty)
     }
 
-    @Test func requestsEverySheetThatCoversTheCoordinate() async throws {
+    @Test func fetchesTheMosaicOnceAtASeamWithoutChangingItsBytes() async throws {
         let (coordinate, sheets) = try overlappedCoordinate()
-        FletcherStubURLProtocol.reset(default: .success(pngTile(.red)))
+        #expect(sheets.count >= 2)
+        let expected = pngTile(.blue.withAlphaComponent(0.5))
+        FletcherStubURLProtocol.reset(default: .success(expected))
         defer { FletcherStubURLProtocol.reset() }
-
-        let (loader, _) = makeLoader()
-        _ = try await loader.data(for: coordinate, layerID: "fletcher")
-
-        // Taking the first sheet that answered would request one of these and
-        // stop, leaving the rest of the tile blank wherever the sheets divide
-        // the ground between them.
-        let requested = FletcherStubURLProtocol.requestedSheets
-        #expect(requested == sheets)
-        #expect(requested.count >= 2)
-        // Ascending, because that is the order Leaflet mounts them in and
-        // therefore the order they stack.
-        #expect(requested == requested.sorted())
-    }
-
-    @Test func drawsTheHighestSheetOnTop() async throws {
-        let (coordinate, sheets) = try overlappedCoordinate()
-        let highest = try #require(sheets.last)
-        FletcherStubURLProtocol.reset(default: .success(pngTile(.red)))
-        FletcherStubURLProtocol.stub(sheet: highest, with: .success(pngTile(.blue)))
-        defer { FletcherStubURLProtocol.reset() }
-
         let (loader, _) = makeLoader()
         let data = try await loader.data(for: coordinate, layerID: "fletcher")
-
-        // Every covering sheet paints the whole tile here, so whoever is on top
-        // is the only thing visible — which makes this the stacking order
-        // itself, not a proxy for it. Leaflet mounts 1 through 24 in order, so
-        // the highest number wins.
-        let (r, g, b, a) = try pixel(data, x: 128, y: 128)
-        #expect(a == 255)
-        #expect(b > 200, "expected the highest sheet (blue) on top, got rgb(\(r), \(g), \(b))")
-        #expect(r < 60)
+        #expect(data == expected)
+        #expect(FletcherStubURLProtocol.requestedPaths == [
+            "/fletcher/\(FletcherSheets.tileRevision)/\(coordinate.z)/\(coordinate.x)/\(coordinate.y).png"
+        ])
     }
 
-    @Test func savesWhatItCanWhenOneSheetHasNoTile() async throws {
-        let (coordinate, sheets) = try overlappedCoordinate()
-        let available = try #require(sheets.first)
-        FletcherStubURLProtocol.reset(default: .status(404))
-        FletcherStubURLProtocol.stub(sheet: available, with: .success(pngTile(.green)))
+    @Test(arguments: [403, 404, 500, 503])
+    func reportsMissingOrFailedMosaicObjects(status: Int) async throws {
+        let (coordinate, _) = try overlappedCoordinate()
+        FletcherStubURLProtocol.reset(default: .status(status))
         defer { FletcherStubURLProtocol.reset() }
-
         let (loader, _) = makeLoader()
-        // A sheet with no raster here is indistinguishable from one behind a
-        // dead connection, and refusing the whole tile would make every seam in
-        // a saved area a permanent failure that Retry can never clear.
-        let data = try await loader.data(for: coordinate, layerID: "fletcher")
-        #expect(!data.isEmpty)
-        #expect(UIImage(data: data) != nil)
-    }
-
-    @Test func refusesTheTileWhenOneSheetIsUnreachable() async throws {
-        let (coordinate, sheets) = try overlappedCoordinate()
-        let broken = try #require(sheets.last)
-        FletcherStubURLProtocol.reset(default: .success(pngTile(.red)))
-        FletcherStubURLProtocol.stub(sheet: broken, with: .status(503))
-        defer { FletcherStubURLProtocol.reset() }
-
-        let (loader, _) = makeLoader()
-        // The counterpart to the 404 case below it: a sheet that is temporarily
-        // down must not be quietly dropped, because the resulting tile would be
-        // saved and then preferred over every later fetch. Failing here is what
-        // lets Retry put the missing half back.
         await #expect(throws: FletcherTileLoader.SheetsUnavailable.self) {
             try await loader.data(for: coordinate, layerID: "fletcher")
         }
     }
 
-    @Test func savesABlankTileWhereNoSheetHasAnyRaster() async throws {
+    @Test func savesAnExplicitTransparentPNGUnchanged() async throws {
         let (coordinate, _) = try overlappedCoordinate()
-        FletcherStubURLProtocol.reset(default: .status(404))
+        let expected = pngTile(.clear)
+        FletcherStubURLProtocol.reset(default: .success(expected))
         defer { FletcherStubURLProtocol.reset() }
-
         let (loader, _) = makeLoader()
-        // Real ground: a rotated scan leaves empty corners inside its own
-        // bounding box, so every covering sheet can honestly answer "nothing
-        // here". Throwing would mark the coordinate failed forever and make
-        // every Retry ask for it again.
         let data = try await loader.data(for: coordinate, layerID: "fletcher")
+        #expect(data == expected)
         let (_, _, _, alpha) = try pixel(data, x: 128, y: 128)
         #expect(alpha == 0)
-    }
-
-    @Test func reportsACoordinateNoSheetWouldServe() async throws {
-        let (coordinate, _) = try overlappedCoordinate()
-        FletcherStubURLProtocol.reset(default: .status(500))
-        defer { FletcherStubURLProtocol.reset() }
-
-        let (loader, _) = makeLoader()
-        // Distinct from `NoCoveringSheet`: this one is worth retrying, and the
-        // caller can only tell them apart if the types differ.
-        await #expect(throws: FletcherTileLoader.SheetsUnavailable.self) {
-            try await loader.data(for: coordinate, layerID: "fletcher")
-        }
-    }
-
-    @Test func addressesTheRevisionedSheetPath() async throws {
-        let (coordinate, sheets) = try overlappedCoordinate()
-        FletcherStubURLProtocol.reset(default: .success(pngTile(.red)))
-        defer { FletcherStubURLProtocol.reset() }
-
-        let (loader, _) = makeLoader()
-        _ = try await loader.data(for: coordinate, layerID: "fletcher")
-
-        let first = try #require(FletcherStubURLProtocol.requestedPaths.first)
-        let sheet = try #require(sheets.first)
-        #expect(first.contains("/\(FletcherSheets.tileRevision)/"))
-        #expect(first.contains(String(format: "/sheet-%02d/", sheet)))
-        #expect(first.hasSuffix("/\(coordinate.z)/\(coordinate.x)/\(coordinate.y).png"))
     }
 }
 

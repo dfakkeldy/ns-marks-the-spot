@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Cook Lake northern tip",
+    [
+      895,
+      348
+    ],
+    [
+      963,
+      325
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Wiles Lake northern roof",
+    [
+      1173,
+      1126
+    ],
+    [
+      1230,
+      1122
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Oak Hill Lake northwest roof",
+    [
+      1688,
+      1951
+    ],
+    [
+      1730,
+      1957
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Fancy Lake central island northern tip",
+    [
+      1856,
+      3144
+    ],
+    [
+      1890,
+      3158
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C05",
+    "Lake Randall northern tip",
+    [
+      3106,
+      1106
+    ],
+    [
+      3150,
+      1098
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Langille Lake eastern finger tip",
+    [
+      4276,
+      1306
+    ],
+    [
+      4315,
+      1308
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Dares Lake southeast tip",
+    [
+      4741,
+      2870
+    ],
+    [
+      4770,
+      2875
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Spectacle eastern lake northern roof",
+    [
+      4365,
+      3001
+    ],
+    [
+      4395,
+      3006
+    ],
+    "WALK20"
+  ]
+]

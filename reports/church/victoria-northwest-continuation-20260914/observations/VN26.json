@@ -1,0 +1,72 @@
+{
+  "id": "VN26",
+  "role": "check",
+  "label": "Archibald Point eastern mainland tip north of Bear Cove",
+  "pixel_xy": [
+    11204.5,
+    17033.0
+  ],
+  "lonlat": [
+    -60.343462677293964,
+    46.70099250465348
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      10950,
+      16750
+    ],
+    "extent": [
+      450,
+      650
+    ],
+    "display": [
+      900,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    509,
+    566
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN3-archibald-point.jpg",
+  "source_crop_sha256": "a64106bc8014e93eb6c76694ffd1fed64073f6f2ca411a4ba85cf4b116bde4d6",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/reference-full/water-lines.geojson",
+  "reference_sha256": "5e9de8a51eeb813e092ea841423bb26fa543b0fade8de6df55068f9d7c25ffa4",
+  "reference_feature_ids": [
+    9454
+  ],
+  "reference_vertex": {
+    "feature_id": 9454,
+    "vertex": 14
+  },
+  "uncertainty_ground_m": 150,
+  "identity_evidence": "The source labels Archibald Point above Bear Cove, south of Rocky Bay and northeast of Jackson Point and Ingonish Island. Its north-south eastern face turns southwest into Bear Cove. The selected original WACO20 mainland vertex is the easternmost tip of that headland, not the nearest coast to the warp prediction. The short modern rounded nose is more detailed than the generalized historical corner; stated uncertainty reflects that difference. Offshore Ingonish Island is separate and not used as this observation.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN3-dundas-context.jpg",
+    "sha256": "2a5e1b4ac496fde2ad89c820b216c0c1d078c660619ca5ea5c499c36d2a98d84",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        7600,
+        16000
+      ],
+      "extent": [
+        4300,
+        2500
+      ],
+      "display": [
+        1720,
+        1000
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh observation after fifteen-control TPS freeze; no fitting or tuning",
+  "recorded_at": "2026-09-14T20:08:21.002813+00:00",
+  "frozen_controls_sha256": "1271335c324a200fbaa3b60a601af1f4de23f0bcc1cec3022b2ef4988158f56b"
+}

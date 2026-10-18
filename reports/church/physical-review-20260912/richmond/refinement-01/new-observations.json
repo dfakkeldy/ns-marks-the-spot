@@ -1,0 +1,352 @@
+{
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "source_dimensions": [
+    35735,
+    30429
+  ],
+  "reference_sha256": "02bbd4c7a583e3f9156ca93ed9dc9617659d4d53b72b81bb74971c75c561740f",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Round Island",
+      "role": "control",
+      "pixel_xy": [
+        13329.205695659633,
+        4850.627829412774
+      ],
+      "lonlat": [
+        -60.96505076402884,
+        45.91217183543293
+      ],
+      "modern_feature_id": 86,
+      "modern_polygon": 0,
+      "modern_ring": 11,
+      "modern_definition": "lon/lat shoelace centroid of identified NSTDB water-polygon interior ring",
+      "source_frame": {
+        "origin": [
+          13050,
+          4600
+        ],
+        "extent": [
+          600,
+          500
+        ],
+        "display": [
+          600,
+          500
+        ],
+        "rotation": 0,
+        "pixel_convention": "original native continuous pixel coordinates; no screenshot-space transfer"
+      },
+      "outline_crop_pixels": [
+        [
+          156,
+          245
+        ],
+        [
+          179,
+          231
+        ],
+        [
+          201,
+          223
+        ],
+        [
+          213,
+          207
+        ],
+        [
+          211,
+          190
+        ],
+        [
+          218,
+          161
+        ],
+        [
+          244,
+          148
+        ],
+        [
+          267,
+          137
+        ],
+        [
+          290,
+          144
+        ],
+        [
+          301,
+          151
+        ],
+        [
+          299,
+          163
+        ],
+        [
+          331,
+          192
+        ],
+        [
+          370,
+          218
+        ],
+        [
+          399,
+          234
+        ],
+        [
+          430,
+          242
+        ],
+        [
+          455,
+          260
+        ],
+        [
+          452,
+          266
+        ],
+        [
+          422,
+          279
+        ],
+        [
+          402,
+          277
+        ],
+        [
+          385,
+          273
+        ],
+        [
+          361,
+          291
+        ],
+        [
+          341,
+          317
+        ],
+        [
+          309,
+          331
+        ],
+        [
+          275,
+          334
+        ],
+        [
+          235,
+          333
+        ],
+        [
+          197,
+          330
+        ],
+        [
+          173,
+          323
+        ],
+        [
+          162,
+          303
+        ],
+        [
+          158,
+          280
+        ]
+      ],
+      "source_definition": "shoelace centroid of visually traced native island outline",
+      "source_crop_sha256": "2c36740fbbc20d4e8a68e0ed80df41e8b5c8ba7b064d2223fc37b6dad210329d",
+      "identity_evidence": "Large western triangular island in the northern island group, immediately north of Boom Island and west of the split historical eastern island. North-shore points and island order match the reference. Native outline is continuous.",
+      "placement_uncertainty_ground_m": 40,
+      "reviewer": "Codex native outline and broad-topology review; no user point audit claimed"
+    },
+    {
+      "id": "C02",
+      "label": "Islet north of Barque group",
+      "role": "control",
+      "pixel_xy": [
+        22732.03604631508,
+        17579.774467545638
+      ],
+      "lonlat": [
+        -60.644922826775236,
+        45.59213592667349
+      ],
+      "modern_feature_id": 41,
+      "modern_polygon": 0,
+      "modern_ring": 17,
+      "modern_definition": "lon/lat shoelace centroid of identified NSTDB water-polygon interior ring",
+      "source_frame": {
+        "origin": [
+          22450,
+          17330
+        ],
+        "extent": [
+          600,
+          550
+        ],
+        "display": [
+          600,
+          550
+        ],
+        "rotation": 0,
+        "pixel_convention": "original native continuous pixel coordinates; no screenshot-space transfer"
+      },
+      "outline_crop_pixels": [
+        [
+          238,
+          267
+        ],
+        [
+          250,
+          257
+        ],
+        [
+          256,
+          238
+        ],
+        [
+          268,
+          214
+        ],
+        [
+          280,
+          210
+        ],
+        [
+          293,
+          212
+        ],
+        [
+          307,
+          229
+        ],
+        [
+          329,
+          243
+        ],
+        [
+          310,
+          262
+        ],
+        [
+          299,
+          277
+        ],
+        [
+          277,
+          286
+        ],
+        [
+          259,
+          283
+        ]
+      ],
+      "source_definition": "shoelace centroid of visually traced native island outline",
+      "source_crop_sha256": "298231fa968fa29dae2c2dd25d70387b028b2630bcfef43d94010499e243bbe6",
+      "identity_evidence": "Isolated main islet between the mainland coast and the three Barque islands. Uses the main modern land ring; nearby tiny rock is not substituted for it. Historical small-island outline is exaggerated and its northeast stroke is damaged: short straight closures across missing ink support only a provisional centroid, not a surveyed shoreline.",
+      "placement_uncertainty_ground_m": 90,
+      "reviewer": "Codex native outline and broad-topology review; no user point audit claimed"
+    },
+    {
+      "id": "D01",
+      "label": "Small island east of Round group",
+      "role": "check",
+      "pixel_xy": [
+        14101.20399747248,
+        4920.648375403239
+      ],
+      "lonlat": [
+        -60.9383423024827,
+        45.91091897699885
+      ],
+      "modern_feature_id": 86,
+      "modern_polygon": 0,
+      "modern_ring": 7,
+      "modern_definition": "lon/lat shoelace centroid of identified NSTDB water-polygon interior ring",
+      "source_frame": {
+        "origin": [
+          13950,
+          4770
+        ],
+        "extent": [
+          400,
+          420
+        ],
+        "display": [
+          400,
+          420
+        ],
+        "rotation": 0,
+        "pixel_convention": "original native continuous pixel coordinates; no screenshot-space transfer"
+      },
+      "outline_crop_pixels": [
+        [
+          97,
+          119
+        ],
+        [
+          137,
+          112
+        ],
+        [
+          167,
+          121
+        ],
+        [
+          184,
+          147
+        ],
+        [
+          206,
+          174
+        ],
+        [
+          193,
+          185
+        ],
+        [
+          174,
+          201
+        ],
+        [
+          160,
+          195
+        ],
+        [
+          151,
+          180
+        ],
+        [
+          148,
+          167
+        ],
+        [
+          130,
+          155
+        ],
+        [
+          110,
+          157
+        ],
+        [
+          97,
+          141
+        ]
+      ],
+      "source_definition": "shoelace centroid of visually traced native island outline",
+      "source_crop_sha256": "14c7aa2916b61c4dfb9d35071ea9220c1638a12278508ec603a5965e46b8811b",
+      "identity_evidence": "Isolated small island east of the two historical eastern pieces (one connected modern island). Round Island lies to the west. Small-island cartographic exaggeration limits centroid precision. Reserved from all fits; diagnostic because selected after inspecting the baseline northern mismatch.",
+      "placement_uncertainty_ground_m": 60,
+      "reviewer": "Codex native outline and broad-topology review; no user point audit claimed"
+    }
+  ],
+  "rejected": [
+    {
+      "candidate": "large island east of Round Island",
+      "reason": "Historical drawing has two separated pieces; modern ring is connected. No centroid match adopted."
+    }
+  ]
+}

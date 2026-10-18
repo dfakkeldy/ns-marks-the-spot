@@ -1,13 +1,13 @@
 import { IDBFactory } from "fake-indexeddb";
 import { describe, expect, it } from "vitest";
-import { DB_NAME, DB_VERSION, MAPS, BLOBS, VECTORS, openUserContentDatabase } from "./database";
+import { DB_NAME, DB_VERSION, MAPS, BLOBS, PHOTOS, VECTORS, openUserContentDatabase } from "./database";
 import { UserMapStore } from "./userMapStore";
 
 describe("openUserContentDatabase", () => {
-  it("creates the maps, blobs, and vectors object stores", async () => {
+  it("creates the maps, blobs, vectors, and photos object stores", async () => {
     const db = await openUserContentDatabase(new IDBFactory());
     expect(Array.from(db.objectStoreNames).sort()).toEqual(
-      [BLOBS, MAPS, VECTORS].sort(),
+      [BLOBS, MAPS, PHOTOS, VECTORS].sort(),
     );
     db.close();
   });
@@ -60,5 +60,48 @@ describe("openUserContentDatabase", () => {
     const store = await UserMapStore.open(factory);
     expect(await store.listUserMaps()).toEqual([]);
     store.close();
+  });
+});
+
+describe("version 3 upgrade", () => {
+  it("adds the photos store with its layer index and preserves existing rows", async () => {
+    const factory = new IDBFactory();
+    // A version-2 database with a row, as a long-time user would have.
+    await new Promise<void>((resolve, reject) => {
+      const req = factory.open(DB_NAME, 2);
+      req.onupgradeneeded = () => {
+        req.result.createObjectStore("maps", { keyPath: "id" });
+        req.result.createObjectStore("blobs");
+        req.result.createObjectStore("vectors", { keyPath: "id" });
+      };
+      req.onsuccess = () => {
+        const tx = req.result.transaction("vectors", "readwrite");
+        tx.objectStore("vectors").put({ id: "layer-1", name: "Kept" });
+        tx.oncomplete = () => {
+          req.result.close();
+          resolve();
+        };
+      };
+      req.onerror = () => reject(req.error);
+    });
+
+    const db = await openUserContentDatabase(factory);
+    expect([...db.objectStoreNames].sort()).toEqual([
+      "blobs",
+      "maps",
+      "photos",
+      "vectors",
+    ]);
+    const photos = db.transaction("photos", "readonly").objectStore("photos");
+    expect([...photos.indexNames]).toEqual(["by-layer"]);
+    const kept = await new Promise((resolve) => {
+      const get = db
+        .transaction("vectors", "readonly")
+        .objectStore("vectors")
+        .get("layer-1");
+      get.onsuccess = () => resolve(get.result);
+    });
+    expect(kept).toMatchObject({ name: "Kept" });
+    db.close();
   });
 });

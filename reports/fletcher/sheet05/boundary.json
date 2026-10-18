@@ -1,0 +1,28 @@
+{
+  "sheet": "sheet-05",
+  "source_sha256": "10ce67bd1d08c5838cdb5891d17775c230bac69527619419d9520640034c2ac0",
+  "ring_pixel_xy": [
+    [
+      1304,
+      1047
+    ],
+    [
+      9518,
+      1046
+    ],
+    [
+      9535,
+      6503
+    ],
+    [
+      1336,
+      6509
+    ],
+    [
+      1304,
+      1047
+    ]
+  ],
+  "scope": "Complete mapped frame. No outside mapped extension identified; original exterior legend remains in native source.",
+  "status": "Native overview, four corners and labels personally inspected; boundary overlay pending review."
+}

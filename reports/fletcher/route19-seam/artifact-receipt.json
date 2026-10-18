@@ -1,0 +1,70 @@
+{
+  "input_raster_and_mask_hashes": {
+    "16-sheet16-neatline-diagnostic.tif": "ffd86b43dc4114f01182b5704577ae5f32eed6c5a6187b959b48611c8f13115d",
+    "16-sheet16-supported-preview.tif": "516d0f60bb7349b9b8796a0b8e21a94ffdfdb78461c0b49e00ec4c55543e1a8d",
+    "19-judique-neatline-diagnostic.tif": "f3cac0b2f48c02c6baedf88670cbe23b8ec790ea470a363627ca9aff67d00913",
+    "19-judique-supported-preview.tif": "fcc6f297f4cd42e7c6933fd76708779112bdbc9463896a13e124b06380874385",
+    "16-previous-cutline": "a5b19a705d89387e2460421c82a44d1f5bc13d8f47ef6bad85494d65857394c2",
+    "19-previous-cutline": "04144795d05527d8496663acbb2015730fa44cf877d2b7357064ff3c3726e770"
+  },
+  "score_sha256": "8da132fbeb47f716157251c21ea8ed0ed815666745c4c3cec53be2fb87efbdc0",
+  "score_script_sha256": "03e614fa026c9b67ad8fa2f6fca1eea42db36713d49b10c04a52e0305878bb73",
+  "render_script_sha256": "d84d35a9b188cb4f60892e76c2782a46365742374f5920421787b115d9025fbc",
+  "seam_y_epsg3857": 5768260,
+  "seam_latitude": 45.92450914758772,
+  "road_step_ground_m_at_cut": 0.06689419270314163,
+  "extension_half_width_ground_m_at_46N": 150,
+  "fit_changes": false,
+  "scope": "Narrow Route19 browsing corridor from northern Judique to Mabou. Lateral road checks do not establish along-road or whole-sheet accuracy.",
+  "rights": "David Rumsey Map Collection / Stanford University Libraries, CC BY-NC-SA 3.0 and recorded project permission. Crop/mosaic modifications; see ../INVENTORY.md.",
+  "rasters": [
+    {
+      "file": "sheet16-corridor-preview.tif",
+      "sha256": "e514f0bbbf0367eb1a67d312db21c82ac7c0b1456c4760b9be48b0a03e1b9286",
+      "size": [
+        6793,
+        5448
+      ],
+      "geoTransform": [
+        -6850315.0,
+        5.0,
+        0.0,
+        5795500.0,
+        0.0,
+        -5.0
+      ]
+    },
+    {
+      "file": "sheet19-corridor-preview.tif",
+      "sha256": "a8967d74f2d185494edf4390e9eac2e5e9a629aac6c857989cd4a36b162387f9",
+      "size": [
+        6333,
+        5535
+      ],
+      "geoTransform": [
+        -6847340.0,
+        5.0,
+        0.0,
+        5768260.0,
+        0.0,
+        -5.0
+      ]
+    },
+    {
+      "file": "judique-mabou-route19-preview.tif",
+      "sha256": "4042421e8a7412b46688be4d145622e28d7384c64f51404c00d8e28fb5cef9c4",
+      "size": [
+        3599,
+        5449
+      ],
+      "geoTransform": [
+        -6849730.0,
+        5.0,
+        0.0,
+        5793180.0,
+        0.0,
+        -5.0
+      ]
+    }
+  ]
+}

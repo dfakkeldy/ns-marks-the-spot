@@ -112,6 +112,30 @@ describe("runWatch", () => {
     expect(report.ledger).toBeUndefined();
   });
 
+  it("retains ingested results when the live page becomes a later pre-sale notice", async () => {
+    const notice = `
+      <table>
+        <tr><th>AAN</th><th>PID</th><th>District</th><th>Assessed Owner and Location/Description</th><th>Total Due</th><th>Redeemable</th></tr>
+        <tr><td>10738199</td><td>25465188</td><td>4</td><td>OWNER OMITTED – 9175 Hwy 204, South Victoria, Land</td><td>$289.67 HST appl</td><td>YES</td></tr>
+      </table>`;
+    const report = await runWatch(
+      CUMBERLAND_SOURCE,
+      buildDeps({ live: notice }),
+    );
+    expect(report.status).toBe("unchanged");
+    expect(report.summary).toMatch(/upcoming notice without results/u);
+    expect(report.dataset).toBeUndefined();
+  });
+
+  it("fails closed when the live page is neither results nor a recognized notice", async () => {
+    await expect(
+      runWatch(
+        CUMBERLAND_SOURCE,
+        buildDeps({ live: "<html><body>Tax sales information coming soon.</body></html>" }),
+      ),
+    ).rejects.toThrow(/no dated results table/u);
+  });
+
   it("defers ingest when no capture carries the results table", async () => {
     const report = await runWatch(
       CUMBERLAND_SOURCE,

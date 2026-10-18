@@ -1,0 +1,46 @@
+{
+  "sheet": "016",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical and browser assessment complete; not geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/016.pdf",
+    "pdf_sha256": "91d44396cdd86a8d7e9761b860271eb962c2cbe1f76d8ef136292a671c05d82a",
+    "jpeg_sha256": "c54ffac790e41fbe3182d7a517d9a52ece0ff0e2c942e98c74c24fc90255dcf4",
+    "dimensions": [
+      5738,
+      3900
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 98.07389707566091,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "RMS passes 100 m, but median 88.46 m fails the 75 m companion limit.",
+    "Seven checks share control lakes; Rushmere supplies a separate waterbody. Shared historical cartography limits independence.",
+    "The eastern third, Mink/Moose/Roseway complex, northern edge and much of the central interior remain independently unvalidated.",
+    "Generalized lake extrema and river-connected shores carry 24 px working source uncertainty.",
+    "Small islands and altered lake connections in the unsampled complexes were not forced into matches."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 98.07 m, median 88.46 m, P95 131.33 m, maximum 131.78 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "The full mapped frame retains all inland lakes, islands, river corridors and boundary continuations. Seven controls and eight excluded checks sample western, northern and southern lakes; the eastern third remains provisional."
+  }
+}

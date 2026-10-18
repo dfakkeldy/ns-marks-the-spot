@@ -1,0 +1,47 @@
+[
+  [
+    "C03",
+    "Front Lake (Jolicure) northeast lobe northern tip",
+    [
+      1128,
+      2755
+    ],
+    [
+      973,
+      2735
+    ],
+    "NBHN_4",
+    [
+      "NB13:427"
+    ]
+  ],
+  [
+    "C05",
+    "Tidnish Head northern tip",
+    [
+      4117,
+      2966
+    ],
+    [
+      3958,
+      2940
+    ],
+    "WACO20"
+  ],
+  [
+    "Q03",
+    "Front Lake (Jolicure) southwest lobe southern tip",
+    [
+      860,
+      2928
+    ],
+    [
+      700,
+      2940
+    ],
+    "NBHN_4",
+    [
+      "NB13:427"
+    ]
+  ]
+]

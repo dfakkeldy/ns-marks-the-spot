@@ -1,0 +1,77 @@
+{
+  "sheet": "sheet-18",
+  "status": "provisional-geography-not-accepted",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "controls": 14,
+  "diagnostic_checks": 2,
+  "fresh_validation_checks_after_control_repairs": 5,
+  "fit_file": "regional-fit.json",
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+  "check_file": "regional-diagnostics.json",
+  "fresh_check_file": "validation.json",
+  "source_sha256": "82de26909fee8671007efe39ef86b90099fad303aecfe9e74e2578a1b552a890",
+  "source_dimensions": [
+    10832,
+    7683
+  ],
+  "transform": "GDAL exact TPS in EPSG:3857, 5 projected metre cells",
+  "boundary_file": "boundary.json",
+  "boundary_sha256": "d7dbaf254a8deacd4ff05d011d5adfd2f6450afc077ffd1667a8d14978b26224",
+  "scope": "Complete mapped inner neatline including all visible Bras d\u2019Or islands and south-bank land. Small eastern notch retains the Macrae Point label that crosses the neatline; no mapped island or land extension otherwise visible outside it.",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+  "raster_sha256": "014d63338579b4b21074eb0b5d3e55a06e55906cf13c6371f5548f834cd344ea",
+  "raster_size": [
+    8596,
+    5608
+  ],
+  "raster_bounds_wgs84": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -61.2286757,
+          45.9223533
+        ],
+        [
+          -61.2286757,
+          45.7468554
+        ],
+        [
+          -60.8425798,
+          45.7468554
+        ],
+        [
+          -60.8425798,
+          45.9223533
+        ],
+        [
+          -61.2286757,
+          45.9223533
+        ]
+      ]
+    ]
+  },
+  "orientation": {
+    "samples": 71821,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -32.3749439984738,
+      -19.565285918724566
+    ]
+  },
+  "fresh_validation_median_ground_m": 88.81891960981538,
+  "fresh_validation_worst_ground_m": 432.57164609770246,
+  "remaining": [
+    "Fresh validation worst error is 432.572 m at Ashfield pond outlet V03; median 88.819 m does not override the failed 200 m maximum. Preserve all five fresh checks and scores.",
+    "Ashfield C10 and V03 require wider identity and historical-geometry review together. Source pond and tributary spacing disagree with modern geometry; northwest streams and western River Denys remain displaced.",
+    "Marble Mountain headwaters and Sydenham/Beaver lake outlines differ substantially from modern drainage. C06 fits a branch junction but does not validate the historical long eastern branch. Separate source generalization or change from transform error.",
+    "Round Island V02 is 141.783 m away; north-basin shoreline and southern island shapes still differ. Prior Crane Q01 remains a reused diagnostic at 141.291 m.",
+    "Original four controls are rounded UI transcriptions. Preserve their values; P04 crossing/bank wording remains imprecise and needs explicit re-identification before any precision upgrade.",
+    "C05 northern-tributary candidate and Q03 road-adjacent fork remain rejected before scoring/fitting. Do not silently add them back.",
+    "Actual joins against Sheets15 and19 show gaps or displaced continuations. Eastern Sheet17 join and independent southeast-interior checks remain outstanding."
+  ],
+  "browser_scope": "Actual GeoTIFF UI import, desktop/mobile rendering and reload; stored bytes, georef, alpha and enabled state preserved; zero captured errors.",
+  "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3"
+}

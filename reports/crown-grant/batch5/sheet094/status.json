@@ -1,0 +1,45 @@
+{
+  "sheet": "094",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full-frame raster and browser verification complete; geographic and user acceptance remain false",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/094.pdf",
+    "pdf_sha256": "a6fa0952e6d06fee3ad375ef345874af74ec1fd74446f291a6534ed0385b14e3",
+    "jpeg_sha256": "f0e7fb379efcfd94bc1e628337fa63e9999290128f1b13bfa82bb6fd42b00933",
+    "dimensions": [
+      6031,
+      4193
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 6,
+      "rms_ground_m": 41.14115849257734,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 41.14 m, median 39.10 m, P95 51.12 m and maximum 53.67 m. Numerical bounds pass; regional qualifications remain.",
+    "Controls and checks concentrate in western and southern lake systems. The northernmost third has no accepted observations, and the northeastern Haggard Lake control has no nearby independent check.",
+    "The Kerrowgare-area lake and Eden Lake each supply separate control/check observations, which are spatially correlated. Six checks cannot establish uniform whole-sheet accuracy.",
+    "Generalized lake and island outlines use 12 px working source uncertainty. Historical Sutherland Lake was not forced to match the modern stream geometry."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 41.14 m, median 39.10 m, P95 51.12 m, maximum 53.67 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Blue Mountain, Blanchard Road, Sunny Brae, Kerrowgare, Lowmoor, Garden of Eden and Eden Lake with its islands, Greens Brook, Rocky Mountain, Willowdale, East River St Marys and all parcel regions. No displaced inset identified."
+  }
+}

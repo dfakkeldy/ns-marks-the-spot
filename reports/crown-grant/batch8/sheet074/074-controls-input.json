@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Cook Lake northern tip",
+    [
+      3405,
+      1304
+    ],
+    [
+      3386,
+      1324
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Southwestern Rocky Lake northern tip",
+    [
+      339,
+      3441
+    ],
+    [
+      342,
+      3467
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Clump Lake northern tip",
+    [
+      518,
+      3513
+    ],
+    [
+      523,
+      3542
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Y Lake northern tip",
+    [
+      523,
+      3371
+    ],
+    [
+      532,
+      3396
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Higgins Lake southwest corner of western lobe",
+    [
+      4357,
+      2840
+    ],
+    [
+      4314,
+      2849
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Little Shaw Lake northern tip",
+    [
+      5212,
+      3210
+    ],
+    [
+      5153,
+      3225
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Cousins Lake central island northern tip",
+    [
+      801,
+      2976
+    ],
+    [
+      803,
+      3003
+    ],
+    "WALKIS10"
+  ]
+]

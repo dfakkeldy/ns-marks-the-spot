@@ -1,0 +1,244 @@
+{
+  "models": {
+    "19": "39-control frozen TPS",
+    "22": "19-control frozen TPS"
+  },
+  "fit_hashes": {
+    "visual-expansion/sheet-observations.json": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+    "sheet22-corridor/revised-observations.json": "b829ca81a9b3da7df3e6bbae6cfc04567843407e48b33b0e197b032c422d6241"
+  },
+  "lines": [
+    {
+      "id": "L19",
+      "sheet": "19",
+      "pixel_xy": [
+        [
+          4281,
+          6000
+        ],
+        [
+          4310,
+          6100
+        ],
+        [
+          4343,
+          6200
+        ],
+        [
+          4352,
+          6250
+        ],
+        [
+          4366,
+          6350
+        ],
+        [
+          4377,
+          6400
+        ],
+        [
+          4389,
+          6450
+        ],
+        [
+          4403,
+          6500
+        ],
+        [
+          4420,
+          6565
+        ]
+      ],
+      "native_box": [
+        4200,
+        5990,
+        4490,
+        6580
+      ],
+      "display_size": [
+        580,
+        1180
+      ],
+      "role": "check-trace",
+      "identity": "Centre of paired coastal road lines; exclude the shoreline and the separate eastern road.",
+      "coordinate_convention": "original scan image-edge x/y",
+      "rotation_degrees": 0,
+      "uncertainty_native_px": 5,
+      "review": "agent native trace overlay; corrected visible offsets before scoring"
+    },
+    {
+      "id": "L22",
+      "sheet": "22",
+      "pixel_xy": [
+        [
+          4445,
+          976
+        ],
+        [
+          4441,
+          1000
+        ],
+        [
+          4443,
+          1030
+        ],
+        [
+          4449,
+          1060
+        ],
+        [
+          4454,
+          1091
+        ],
+        [
+          4454,
+          1130
+        ],
+        [
+          4458,
+          1180
+        ],
+        [
+          4467,
+          1230
+        ],
+        [
+          4473,
+          1280
+        ],
+        [
+          4483,
+          1330
+        ],
+        [
+          4491,
+          1380
+        ],
+        [
+          4493,
+          1426
+        ]
+      ],
+      "native_box": [
+        4360,
+        960,
+        4560,
+        1450
+      ],
+      "display_size": [
+        400,
+        980
+      ],
+      "role": "check-trace",
+      "identity": "Centre of paired coastal road lines; exclude the shoreline and the separate eastern road.",
+      "coordinate_convention": "original scan image-edge x/y",
+      "rotation_degrees": 0,
+      "uncertainty_native_px": 5,
+      "review": "agent native trace overlay; corrected visible offsets before scoring"
+    }
+  ],
+  "points": [
+    {
+      "id": "P19",
+      "sheet": "19",
+      "role": "check",
+      "pixel_xy": [
+        4296,
+        6363
+      ],
+      "lonlat": [
+        -61.4695209,
+        45.754128
+      ],
+      "modern_reference": {
+        "water_objectids": [
+          10184,
+          286615,
+          314001
+        ],
+        "node": "J0086"
+      },
+      "label": "Southern Judique creek mouth",
+      "identity_evidence": "Next substantial coastal creek south of fitted O04; northern east tributary bends west and reaches straight coast north of the road junction. Smaller historical coastal marks are not separately identified modern streams.",
+      "uncertainty_native_px": 8,
+      "source_crop": {
+        "native_box": [
+          4196,
+          6283,
+          4396,
+          6443
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original scan image-edge x/y"
+      },
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed"
+    },
+    {
+      "id": "P22",
+      "sheet": "22",
+      "role": "check",
+      "pixel_xy": [
+        4454,
+        1091
+      ],
+      "lonlat": [
+        -61.46222382111069,
+        45.74411114231861
+      ],
+      "modern_reference": {
+        "water_objectids": [
+          212377
+        ],
+        "highway_objectid": 259868
+      },
+      "label": "Craignish northern creek highway crossing",
+      "identity_evidence": "Centre of paired coastal-road lines at the creek immediately below school; east of fitted N01 mouth, north of the eastern road turn. Modern trail crossing is distinct.",
+      "uncertainty_native_px": 5,
+      "source_crop": {
+        "native_box": [
+          4354,
+          1011,
+          4554,
+          1171
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original scan image-edge x/y"
+      },
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed"
+    }
+  ],
+  "limitations": [
+    "Only two nearby-to-control physical positions, in different creeks; P22 is about 125 m from fitted N01. These do not independently validate full sheets.",
+    "Road trace samples are correlated and measure only lateral error.",
+    "O04 at native (4297,6220) was identified as an existing control, so is not reused as a check.",
+    "Lake B07 remains an unresolved off-corridor diagnostic."
+  ],
+  "edge_recovery": {
+    "19": {
+      "native_box": [
+        4330,
+        6550,
+        4490,
+        6565
+      ],
+      "reason": "Local map interior ends before dark horizontal line near y6569. Recover four pixels of conservative eight-pixel crop near road; do not include line ink."
+    },
+    "22": {
+      "native_box": [
+        4350,
+        976,
+        4550,
+        995
+      ],
+      "reason": "Dark upper neatline is near y971; recover seven pixels of twelve-pixel conservative crop locally, retaining five-pixel clearance."
+    }
+  }
+}

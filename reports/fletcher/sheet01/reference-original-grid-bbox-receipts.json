@@ -1,0 +1,47 @@
+[
+  {
+    "name": "roads",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/8/query",
+    "bbox": "-60.90,46.93,-60.42,47.15",
+    "count": 334,
+    "sha256": "ec78c27d4173449f1f0ccc19a8313437d663abf2dcc8b0318e2a5c59c72fa7c0",
+    "retrieved_date": "2026-09-11",
+    "output_crs": "EPSG:4326",
+    "axis_order": "longitude, latitude",
+    "method": "Paged source query; source geometry, not survey ground truth."
+  },
+  {
+    "name": "rail",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/6/query",
+    "bbox": "-60.90,46.93,-60.42,47.15",
+    "count": 0,
+    "sha256": "40731612d393519f9ce8894e0a22139bce972cb36b00166016106230d200d110",
+    "retrieved_date": "2026-09-11",
+    "output_crs": "EPSG:4326",
+    "axis_order": "longitude, latitude",
+    "method": "Paged source query; source geometry, not survey ground truth.",
+    "status": "returned-empty"
+  },
+  {
+    "name": "water-lines",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+    "bbox": "-60.90,46.93,-60.42,47.15",
+    "count": 1340,
+    "sha256": "21c33c717e88e78adbc6c1fbc5869c485ec8c97f803de8a28070ebd5262ee7fc",
+    "retrieved_date": "2026-09-11",
+    "output_crs": "EPSG:4326",
+    "axis_order": "longitude, latitude",
+    "method": "Paged source query; source geometry, not survey ground truth."
+  },
+  {
+    "name": "water-polygons",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/8/query",
+    "bbox": "-60.90,46.93,-60.42,47.15",
+    "count": 429,
+    "sha256": "14ab54fdec3ed2bf25dfa9fbca1c8b2b21cc1959ed2be0b8e40a38ac07c4bac5",
+    "retrieved_date": "2026-09-11",
+    "output_crs": "EPSG:4326",
+    "axis_order": "longitude, latitude",
+    "method": "Paged source query; source geometry, not survey ground truth."
+  }
+]

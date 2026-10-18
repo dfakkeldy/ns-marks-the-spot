@@ -1,0 +1,109 @@
+{
+  "fit_sha256": "c2d78d959d656e0f8d718cca620774dc25853bfe676ec67392ab1ab984e57a67",
+  "collected_at_utc": "2026-09-12T12:36:12.753889+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.7754658,
+        46.2967762
+      ],
+      "source_guide_xy": [
+        2980.5406868404243,
+        5753.123632720439
+      ],
+      "objectids": [
+        159628,
+        159629,
+        272762
+      ],
+      "id": "F01",
+      "modern_node": "J1875",
+      "role": "check",
+      "pixel_xy": [
+        3235,
+        5759
+      ],
+      "identity_evidence": "North Branch Baddeck major western confluence below elongated upstream pools, eastern small branch just downstream; main turns west below.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original and corrected native close/wide crosshairs against marked modern topology before first score. Never fitted.",
+      "original_proposal": {
+        "lonlat": [
+          -60.7747345,
+          46.2961418
+        ],
+        "source_guide_xy": [
+          2996.2864433403593,
+          5772.953801080352
+        ],
+        "objectids": [
+          159628,
+          176908,
+          181340
+        ],
+        "id": "F01",
+        "modern_node": "J1878",
+        "role": "check",
+        "pixel_xy": [
+          3210,
+          5759
+        ],
+        "identity_evidence": "North Branch Baddeck major western confluence below elongated upstream pools, eastern small branch just downstream; main turns west below.",
+        "source_uncertainty_px": 20,
+        "status": "Fresh proposal after thirteen-control freeze; unscored; native close/wide review pending"
+      },
+      "correction": "Original modern pick J1878 was below the western confluence at the southeastern channel; corrected to J1875 western channel junction. Original native crosshair was on western arm, moved to its actual merger with northern channel. Native and modern branch connectivity reviewed; no scores seen."
+    },
+    {
+      "lonlat": [
+        -60.6438086,
+        46.4032832
+      ],
+      "source_guide_xy": [
+        5829.5789797203615,
+        2446.811099920189
+      ],
+      "objectids": [
+        157069,
+        157070,
+        187023
+      ],
+      "id": "F02",
+      "modern_node": "J0969",
+      "role": "check",
+      "pixel_xy": [
+        5984,
+        2445
+      ],
+      "identity_evidence": "Barasois western tributary at Fall 80 below Cascades and eastern tributary, above next small western tributary and large western Fall fork.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original and corrected native close/wide crosshairs against marked modern topology before first score. Never fitted.",
+      "original_proposal": {
+        "lonlat": [
+          -60.6438086,
+          46.4032832
+        ],
+        "source_guide_xy": [
+          5829.5789797203615,
+          2446.811099920189
+        ],
+        "objectids": [
+          157069,
+          157070,
+          187023
+        ],
+        "id": "F02",
+        "modern_node": "J0969",
+        "role": "check",
+        "pixel_xy": [
+          5984,
+          2451
+        ],
+        "identity_evidence": "Barasois western tributary at Fall 80 below Cascades and eastern tributary, above next small western tributary and large western Fall fork.",
+        "source_uncertainty_px": 20,
+        "status": "Fresh proposal after thirteen-control freeze; unscored; native close/wide review pending"
+      },
+      "correction": "Native crosshair was six pixels south of the west tributary junction; moved to actual merger before first score."
+    }
+  ],
+  "review_completed_at_utc": "2026-09-12T12:38:13.961281+00:00"
+}

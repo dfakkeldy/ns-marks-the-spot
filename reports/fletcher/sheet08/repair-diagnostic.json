@@ -1,0 +1,31 @@
+{
+  "sheet": "sheet-08",
+  "fit_sha256": "ba667e84c9379252c3a444ae64c47a2ab209813dd4961eff17500bfee0a81ca3",
+  "points": [
+    {
+      "lonlat": [
+        -60.5663559,
+        46.4737903
+      ],
+      "source_guide_xy": [
+        7495.252802880015,
+        5517.197194160661
+      ],
+      "objectids": [
+        170720,
+        170721,
+        201994
+      ],
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7737,
+        5774
+      ],
+      "modern_node_id": "J2950",
+      "identity_evidence": "Indian Brook smaller eastern tributary below the fitted major eastern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Close and wide native/modern identity reviewed; separate diagnostic, never part of initial nine-control fit."
+    }
+  ]
+}

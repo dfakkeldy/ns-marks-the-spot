@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T22:15:10.064890+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "084",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6023,
+        5183
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6018,
+        4162
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Complete original mapped frame, full ocean area and all offshore islands inspected; coastal correlation and inland coverage limitations preserved."
+  ]
+}

@@ -36,6 +36,14 @@ function renderDialog(overrides: Partial<ExportDialogProps> = {}) {
 }
 
 describe("ExportDialog", () => {
+  it("refuses a direct restricted-layer caller before an injected compositor or file writer runs", async () => {
+    const { props } = renderDialog({ layers: [{ kind: "image", id: "nsprd", name: "Property boundaries", opacity: 1, url: () => "https://example.invalid/image" }] });
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(/permission/i);
+    expect(props.composeImage).not.toHaveBeenCalled();
+    expect(props.composePdf).not.toHaveBeenCalled();
+    expect(props.saveFile).not.toHaveBeenCalled();
+  });
   it("prefills the title and lets the user edit fields", async () => {
     renderDialog();
     const title = screen.getByLabelText("Title");
@@ -76,6 +84,32 @@ describe("ExportDialog", () => {
     await waitFor(() => expect(props.saveFile).toHaveBeenCalledTimes(1));
   });
 
+  it("reports a failure from Download anyway instead of leaving the dialog stuck", async () => {
+    const canvas = document.createElement("canvas");
+    const { props } = renderDialog({
+      composeImage: vi.fn().mockResolvedValue({
+        canvas,
+        statuses: [
+          { id: "fletcher-14", name: "Fletcher sheet 14", status: "failed",
+            detail: "3 of 12 tiles failed to load" },
+        ],
+      }),
+      composePdf: vi.fn().mockRejectedValue(new Error("PDF compose ran out of memory")),
+    });
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    await screen.findByRole("button", { name: "Download anyway" });
+
+    // The confirm path runs the same fallible pipeline as the happy path;
+    // bare, its rejection went nowhere and the button just looked dead.
+    await userEvent.click(
+      screen.getByRole("button", { name: "Download anyway" }),
+    );
+    expect(
+      await screen.findByText(/PDF compose ran out of memory/u),
+    ).toBeInTheDocument();
+    expect(props.saveFile).not.toHaveBeenCalled();
+  });
+
   it("omits the legend when toggled off", async () => {
     const { props } = renderDialog();
     await userEvent.click(screen.getByLabelText("Include legend"));
@@ -102,6 +136,8 @@ describe("ExportDialog", () => {
       omittedLayerNames: [
         "Inverness zoning",
         "Published river flood zones",
+        "Karst risk",
+        "Historical coal workings",
         "My scanned survey plan",
       ],
     });
@@ -110,6 +146,8 @@ describe("ExportDialog", () => {
     for (const name of [
       "Inverness zoning",
       "Published river flood zones",
+      "Karst risk",
+      "Historical coal workings",
       "My scanned survey plan",
     ]) {
       expect(notice).toHaveTextContent(name);
@@ -233,5 +271,63 @@ describe("ExportDialog", () => {
     await flush();
 
     expect(props.saveFile).not.toHaveBeenCalled();
+  });
+
+  it("saves through the shared primitive when nothing overrides saveFile", async () => {
+    // Every test above injects `saveFile`, so the implementation a real user
+    // gets was never run — App renders <ExportDialog> without the prop. It
+    // clicked a DETACHED anchor and revoked the object URL synchronously,
+    // the two Safari failures `services/downloadFile.ts` exists to prevent.
+    //
+    // `defineProperty` rather than `stubGlobal("URL", …)`: jsdom implements
+    // neither method, and replacing the global would also take away the real
+    // `URL` constructor. Left defined afterwards (as App.test.tsx does) so
+    // the deferred revoke — still pending on a real ten-second timer — has
+    // something harmless to land on; Vitest isolates the file either way.
+    const createObjectURL = vi.fn<(blob: Blob) => string>(
+      () => `blob:pdf-export-${Math.random()}`,
+    );
+    const revokeObjectURL = vi.fn();
+    Object.defineProperty(URL, "createObjectURL", {
+      configurable: true, value: createObjectURL,
+    });
+    Object.defineProperty(URL, "revokeObjectURL", {
+      configurable: true, value: revokeObjectURL,
+    });
+
+    // A real `function`, not an arrow, so `this` is the clicked anchor:
+    // `link.click()` triggers a navigation jsdom does not implement, so the
+    // anchor is the only place the filename and its in-DOM state survive.
+    const captured = { download: "", inDom: false };
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        captured.download = this.download;
+        captured.inDom = this.isConnected;
+      });
+
+    renderDialog({ saveFile: undefined });
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    await waitFor(() => expect(createObjectURL).toHaveBeenCalledTimes(1));
+
+    // The composed bytes reach the blob unchanged, typed as a PDF.
+    const blob = createObjectURL.mock.calls[0][0];
+    expect(blob.type).toBe("application/pdf");
+    expect(new Uint8Array(await blob.arrayBuffer()))
+      .toEqual(new Uint8Array([37, 80, 68, 70]));
+
+    // Safari has historically ignored detached-anchor downloads…
+    expect(captured.inDom).toBe(true);
+    expect(captured.download)
+      .toMatch(/^parcel-50123456-\d{4}-\d{2}-\d{2}\.pdf$/u);
+
+    // …and starts fetching the blob URL only after the click task, so the
+    // revoke has to outlive it. downloadFile.test.ts pins that it does fire,
+    // with the created URL, after DOWNLOAD_REVOKE_DELAY_MS.
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(revokeObjectURL).not.toHaveBeenCalled();
+    expect(document.querySelector("a[download]")).toBeNull();
+
+    anchorClick.mockRestore();
   });
 });

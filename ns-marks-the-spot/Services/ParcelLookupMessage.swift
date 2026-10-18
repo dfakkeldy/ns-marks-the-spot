@@ -362,6 +362,11 @@ nonisolated enum ParcelLookupMessage {
             return "That point is not on the map."
         case .refused(.noServiceURL), .refused(.malformedURL):
             return "The parcel service address is misconfigured in this build."
+        case .tooManyParcels:
+            // Envelope snapping is the only path that throws this. Identify
+            // never does; the case exists so a switch on the shared failure
+            // type stays exhaustive and does not borrow "no parcel".
+            return "Too many parcels here, zoom in."
         case .unreachable, .invalidHTTPStatus, .unreadable:
             // One sentence for every way of not getting an answer, because the
             // difference between them is not the user's to act on — what

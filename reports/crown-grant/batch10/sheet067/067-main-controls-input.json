@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Main map Lawlor Island northern tip",
+    [
+      2364,
+      335
+    ],
+    [
+      2374,
+      345
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Main map Devil Island northeast northern tip",
+    [
+      2845,
+      1126
+    ],
+    [
+      2832,
+      1116
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Main map Osborne Head southern tip",
+    [
+      3625,
+      843
+    ],
+    [
+      3606,
+      820
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Main map Hartlen peninsula southern shore extremity",
+    [
+      3035,
+      1110
+    ],
+    [
+      3024,
+      1089
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Main map Graham Head southern tip",
+    [
+      5750,
+      1370
+    ],
+    [
+      5759,
+      1328
+    ],
+    "WACO20"
+  ]
+]

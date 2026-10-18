@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Second Lake southern tip",
+    "role": "control",
+    "pixel_xy": [
+      1583,
+      1008
+    ],
+    "lonlat": [
+      -65.62994424266837,
+      44.09887397563173
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 143137,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143137,
+    "nearest_unfiltered_distance_guide_px": 1.052491011070816,
+    "selected_distance_guide_px": 1.052491011070816,
+    "guide_reference_pixel_xy": [
+      1593.9565259414376,
+      1006.5609152112156
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence."
+  },
+  {
+    "id": "C02",
+    "label": "Otter Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      2240,
+      1019
+    ],
+    "lonlat": [
+      -65.58898629238874,
+      44.110855039041894
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 140373,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140373,
+    "nearest_unfiltered_distance_guide_px": 0.8144561216915989,
+    "selected_distance_guide_px": 0.8144561216915989,
+    "guide_reference_pixel_xy": [
+      2263.0228905809345,
+      1031.8141343841562
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence."
+  },
+  {
+    "id": "C03",
+    "label": "Little Stony Lake northeastern roof",
+    "role": "control",
+    "pixel_xy": [
+      3934,
+      448
+    ],
+    "lonlat": [
+      -65.50196901708128,
+      44.170218108727035
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 132386,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132386,
+    "nearest_unfiltered_distance_guide_px": 0.6871965425204265,
+    "selected_distance_guide_px": 0.6871965425204265,
+    "guide_reference_pixel_xy": [
+      3974.315394795267,
+      436.05962215783074
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence."
+  },
+  {
+    "id": "C04",
+    "label": "Muise Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      347,
+      2307
+    ],
+    "lonlat": [
+      -65.66735376269595,
+      44.01836481342323
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 135631,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135631,
+    "nearest_unfiltered_distance_guide_px": 2.180113793784752,
+    "selected_distance_guide_px": 2.180113793784752,
+    "guide_reference_pixel_xy": [
+      384.73938685667235,
+      2311.778693525237
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence."
+  },
+  {
+    "id": "C05",
+    "label": "Clamshell Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      3172,
+      2893
+    ],
+    "lonlat": [
+      -65.48104449745176,
+      44.04765866826198
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 128502,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128502,
+    "nearest_unfiltered_distance_guide_px": 2.1136407803926676,
+    "selected_distance_guide_px": 2.1136407803926676,
+    "guide_reference_pixel_xy": [
+      3215.1920377822244,
+      2908.254570747842
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence."
+  },
+  {
+    "id": "C06",
+    "label": "Unnamed southeastern pond northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4025,
+      3470
+    ],
+    "lonlat": [
+      -65.41406691248872,
+      44.03775572238577
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 134103,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134103,
+    "nearest_unfiltered_distance_guide_px": 1.2781202332424835,
+    "selected_distance_guide_px": 1.2781202332424835,
+    "guide_reference_pixel_xy": [
+      4058.2592061026953,
+      3511.7484395632055
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence."
+  },
+  {
+    "id": "C07",
+    "label": "Crane Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      204,
+      3152
+    ],
+    "lonlat": [
+      -65.6527502461737,
+      43.97864006447326
+    ],
+    "guide_file": ".crown-grant-local/016-frozen-north-guide.npy",
+    "reference_objectid": 137476,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137476,
+    "nearest_unfiltered_distance_guide_px": 0.673692967355241,
+    "selected_distance_guide_px": 0.673692967355241,
+    "guide_reference_pixel_xy": [
+      245.5509118019836,
+      3161.3877607518807
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every native paired crosshair inspected before first fit and score; Second/Muise/Crane source and Little Stony reference placements corrected using physical evidence."
+  }
+]

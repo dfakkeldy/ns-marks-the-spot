@@ -1,0 +1,12 @@
+{
+  "metric_sets_replayed": 6,
+  "new_physical_check": "IS47",
+  "fresh_checks": 14,
+  "native_water_junction_verified": true,
+  "original_reference_vertices_verified": true,
+  "first_thirteen_and_frozen_fit_preserved": true,
+  "actual_raster_window_verified": true,
+  "editable_inventories": 3,
+  "browser_2d_terrain_verified": true,
+  "geographic_acceptance": false
+}

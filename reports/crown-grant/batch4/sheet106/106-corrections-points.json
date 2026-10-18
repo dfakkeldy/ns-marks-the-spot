@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C04",
+    "label": "Sangster Lake south outlet",
+    "role": "proposal",
+    "pixel_xy": [
+      2045,
+      2833
+    ],
+    "lonlat": [
+      -61.52110559206208,
+      45.250989004836235
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 142914,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142914,
+    "nearest_unfiltered_distance_guide_px": 1.7763366921477266,
+    "selected_distance_guide_px": 1.7763366921477266,
+    "guide_reference_pixel_xy": [
+      2076.720901235298,
+      2791.7674098840216
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Sandy Cove Brook lake northern shore nub",
+    "role": "proposal",
+    "pixel_xy": [
+      4061,
+      1488
+    ],
+    "lonlat": [
+      -61.433836282025986,
+      45.33985289379701
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 128575,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128575,
+    "nearest_unfiltered_distance_guide_px": 6.669045046446025,
+    "selected_distance_guide_px": 6.669045046446025,
+    "guide_reference_pixel_xy": [
+      4068.2034616792225,
+      1449.4481064163847
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Lake north of East Halfway Cove main lake, western outlet",
+    "role": "proposal",
+    "pixel_xy": [
+      5302,
+      2002
+    ],
+    "lonlat": [
+      -61.35013554976769,
+      45.338207943717805
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 125482,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125482,
+    "nearest_unfiltered_distance_guide_px": 1.5833626965650662,
+    "selected_distance_guide_px": 1.5833626965650662,
+    "guide_reference_pixel_xy": [
+      5277.778585007181,
+      1962.0075628239429
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

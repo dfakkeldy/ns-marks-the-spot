@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "groupOrder": [
     "map-layers",
     "topography",
@@ -75,6 +75,7 @@
       "group": "map-layers",
       "id": "ns-aerial",
       "licence": "province-restricted",
+      "maxNativeZoom": 19,
       "maxZoom": 23,
       "minZoom": 10,
       "name": "NS Aerial",
@@ -580,6 +581,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Inverness Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
       "category": "land-property",
@@ -616,6 +618,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Victoria Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
       "category": "land-property",
@@ -652,6 +655,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Richmond Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
       "category": "land-property",
@@ -688,6 +692,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Municipality of the County of Cumberland's public map service. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Cumberland Land Use By-law",
       "bylawUrl": "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
       "category": "land-property",
@@ -860,15 +865,15 @@
       "opacity": 0.92,
       "outFields": [
         "geo_id",
-        "ShaftID",
-        "Name",
-        "Opening_ty",
-        "Degree_Haz",
-        "Protection"
+        "shaftid",
+        "name",
+        "opening_ty",
+        "degree_haz",
+        "protection"
       ],
       "scale": "Approximate point inventory",
-      "serviceUrl": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
-      "sourceDate": "2024 · version 9",
+      "serviceUrl": "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
+      "sourceDate": "Version 9 · extract June 11, 2024",
       "sourceUrl": "https://novascotia.ca/natr/meb/download/dp010.asp",
       "uiOrder": 29,
       "webCaveat": "Provincial hazard inventory; locations and conditions may change",
@@ -969,37 +974,38 @@
     },
     {
       "category": "historical-maps",
-      "coverage": "Cape Breton Island · 24 individual sheets",
+      "coverage": "Cape Breton Island · 24 source sheets in one mosaic",
       "group": "historical",
       "id": "fletcher",
       "licence": "rumsey-reference",
-      "maxZoom": 16,
+      "maxNativeZoom": 15,
+      "maxZoom": 23,
       "minZoom": 8,
       "name": "Fletcher",
       "nativeDefaultVisibility": true,
       "opacity": 0.72,
-      "scale": "Independently georeferenced historical sheets",
+      "scale": "Georeferenced with cartographic seam adjustments · accuracy varies",
       "serviceUrl": "",
       "sourceDate": "Hugh Fletcher · 1882–1884 source sheets",
       "uiOrder": 35,
       "webAvailability": "available",
-      "webCaveat": "24 direct-Rumsey sheets · zoom 8–16",
+      "webCaveat": "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
       "webDefaultVisible": false
     }
   ],
   "fletcher": {
-    "tileRevision": "fletcher-direct-rumsey-20260726.1",
+    "tileRevision": "fletcher-seams-20261009.2",
     "sheets": [
       {
         "sheet": 1,
         "bounds": [
           [
-            46.96525940034928,
-            -60.8203125
+            46.9616094,
+            -60.7331201
           ],
           [
-            47.14116119721896,
-            -60.435791015625
+            47.1303101,
+            -60.3513361
           ]
         ]
       },
@@ -1007,12 +1013,12 @@
         "sheet": 2,
         "bounds": [
           [
-            46.7925382703598,
-            -60.46875
+            46.7829336,
+            -60.4780884
           ],
           [
-            46.96525940034928,
-            -60.084228515625
+            46.9711727,
+            -60.0696244
           ]
         ]
       },
@@ -1020,12 +1026,12 @@
         "sheet": 3,
         "bounds": [
           [
-            46.7925382703598,
-            -60.8477783203125
+            46.7811189,
+            -60.9072136
           ],
           [
-            46.969008033119586,
-            -60.46875
+            46.9749118,
+            -60.4558101
           ]
         ]
       },
@@ -1033,12 +1039,12 @@
         "sheet": 4,
         "bounds": [
           [
-            46.581518465658,
-            -60.523681640625
+            46.6168071,
+            -60.4785375
           ],
           [
-            46.82637528602131,
-            -60.029296875
+            46.7928056,
+            -60.0881746
           ]
         ]
       },
@@ -1046,12 +1052,12 @@
         "sheet": 5,
         "bounds": [
           [
-            46.619261036171515,
-            -60.8477783203125
+            46.6083531,
+            -60.8548867
           ],
           [
-            46.7925382703598,
-            -60.46875
+            46.7835487,
+            -60.4704527
           ]
         ]
       },
@@ -1059,12 +1065,12 @@
         "sheet": 6,
         "bounds": [
           [
-            46.619261036171515,
-            -61.2213134765625
+            46.6127345,
+            -61.2252621
           ],
           [
-            46.796298989977444,
-            -60.8367919921875
+            46.7932668,
+            -60.8479248
           ]
         ]
       },
@@ -1072,12 +1078,12 @@
         "sheet": 7,
         "bounds": [
           [
-            46.403776166694634,
-            -60.53466796875
+            46.4451559,
+            -60.4711264
           ],
           [
-            46.653206871226644,
-            -60.029296875
+            46.635469,
+            -60.1262183
           ]
         ]
       },
@@ -1085,12 +1091,12 @@
         "sheet": 8,
         "bounds": [
           [
-            46.441642327624976,
-            -60.8477783203125
+            46.4398942,
+            -60.8795904
           ],
           [
-            46.61548796222357,
-            -60.46875
+            46.62054,
+            -60.4536542
           ]
         ]
       },
@@ -1098,12 +1104,12 @@
         "sheet": 9,
         "bounds": [
           [
-            46.44921240385256,
-            -61.226806640625
+            46.4478174,
+            -61.2232858
           ],
           [
-            46.619261036171515,
-            -60.8477783203125
+            46.6151411,
+            -60.8547969
           ]
         ]
       },
@@ -1111,12 +1117,12 @@
         "sheet": 10,
         "bounds": [
           [
-            46.27103747280261,
-            -60.8477783203125
+            46.2663797,
+            -60.8588842
           ],
           [
-            46.44542749723385,
-            -60.46875
+            46.4512525,
+            -60.4422007
           ]
         ]
       },
@@ -1124,12 +1130,12 @@
         "sheet": 11,
         "bounds": [
           [
-            46.27103747280261,
-            -61.2322998046875
+            46.2708819,
+            -61.2714804
           ],
           [
-            46.44542749723385,
-            -60.8477783203125
+            46.4527379,
+            -60.8493621
           ]
         ]
       },
@@ -1137,12 +1143,12 @@
         "sheet": 12,
         "bounds": [
           [
-            46.046548446306204,
-            -60.919189453125
+            46.0706614,
+            -60.8535392
           ],
           [
-            46.297610989881086,
-            -60.413818359375
+            46.274297,
+            -60.4704976
           ]
         ]
       },
@@ -1150,12 +1156,12 @@
         "sheet": 13,
         "bounds": [
           [
-            46.09989991062731,
-            -61.2213134765625
+            46.0956159,
+            -61.2311011
           ],
           [
-            46.27483447871402,
-            -60.8477783203125
+            46.2751353,
+            -60.8413221
           ]
         ]
       },
@@ -1163,12 +1169,12 @@
         "sheet": 14,
         "bounds": [
           [
-            46.05798524479302,
-            -61.666259765625
+            46.091847,
+            -61.6152657
           ],
           [
-            46.305201055811956,
-            -61.160888671875
+            46.2699194,
+            -61.2231061
           ]
         ]
       },
@@ -1176,12 +1182,12 @@
         "sheet": 15,
         "bounds": [
           [
-            45.924408558629,
-            -61.2213134765625
+            45.9194474,
+            -61.2242739
           ],
           [
-            46.09609080214316,
-            -60.8477783203125
+            46.0997272,
+            -60.8476553
           ]
         ]
       },
@@ -1189,12 +1195,12 @@
         "sheet": 16,
         "bounds": [
           [
-            45.920587344733654,
-            -61.5948486328125
+            45.9208535,
+            -61.6018359
           ],
           [
-            46.09989991062731,
-            -61.2213134765625
+            46.0946815,
+            -61.2201866
           ]
         ]
       },
@@ -1202,12 +1208,12 @@
         "sheet": 17,
         "bounds": [
           [
-            45.71001523943371,
-            -60.919189453125
+            45.7415267,
+            -60.8508443
           ],
           [
-            45.958787640356405,
-            -60.413818359375
+            45.9263837,
+            -60.464434
           ]
         ]
       },
@@ -1215,12 +1221,12 @@
         "sheet": 18,
         "bounds": [
           [
-            45.7138509302922,
-            -61.2872314453125
+            45.7468554,
+            -61.2286757
           ],
           [
-            45.95496879511337,
-            -60.787353515625
+            45.9223533,
+            -60.8425798
           ]
         ]
       },
@@ -1228,12 +1234,12 @@
         "sheet": 19,
         "bounds": [
           [
-            45.71768635790719,
-            -61.6607666015625
+            45.7450374,
+            -61.5959519
           ],
           [
-            45.958787640356405,
-            -61.160888671875
+            45.9251653,
+            -61.219468
           ]
         ]
       },
@@ -1241,12 +1247,12 @@
         "sheet": 20,
         "bounds": [
           [
-            45.70617928533084,
-            -60.9136962890625
+            45.5572192,
+            -60.8484637
           ],
           [
-            45.95496879511337,
-            -60.413818359375
+            45.7489867,
+            -60.4723391
           ]
         ]
       },
@@ -1254,12 +1260,12 @@
         "sheet": 21,
         "bounds": [
           [
-            45.53713668039858,
-            -61.292724609375
+            45.5725647,
+            -61.2224773
           ],
           [
-            45.790509467524714,
-            -60.7928466796875
+            45.747733,
+            -60.840873
           ]
         ]
       },
@@ -1267,12 +1273,12 @@
         "sheet": 22,
         "bounds": [
           [
-            45.47554027158592,
-            -61.6607666015625
+            45.570741,
+            -61.596446
           ],
           [
-            45.725356423410155,
-            -61.160888671875
+            45.7497389,
+            -61.2200519
           ]
         ]
       },
@@ -1280,12 +1286,12 @@
         "sheet": 23,
         "bounds": [
           [
-            45.36758436884979,
-            -61.2872314453125
+            45.3971006,
+            -61.2197375
           ],
           [
-            45.61403741135092,
-            -60.787353515625
+            45.5777837,
+            -60.846712
           ]
         ]
       },
@@ -1293,17 +1299,22 @@
         "sheet": 24,
         "bounds": [
           [
-            45.398449976304086,
-            -61.58935546875
+            45.3768803,
+            -61.5924485
           ],
           [
-            45.57560020947801,
-            -61.2158203125
+            45.5771235,
+            -61.219423
           ]
         ]
       }
     ]
   },
+  "coastalHazardNotices": [
+    "Reproduced and distributed with the permission of the Department of Service Nova Scotia.",
+    "This product has been produced by KinNoKi Labs and includes data provided by the Department of Service Nova Scotia. The incorporation of that data shall not be construed as constituting an endorsement by the Department of Service Nova Scotia of this product.",
+    "Service Nova Scotia makes no representation and gives no warranty of any kind respecting the data's accuracy, usefulness, novelty, validity, scope, completeness, or currency."
+  ],
   "parcelQuery": {
     "layerUrl": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0",
     "pidBatchSize": 40,

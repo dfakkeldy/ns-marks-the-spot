@@ -1,0 +1,105 @@
+{
+  "count": 3,
+  "rms_ground_m": 74.66302313804242,
+  "median_ground_m": 73.70481844045912,
+  "p95_ground_m": 76.3929814632002,
+  "max_ground_m": 76.69166624350477,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 72.35810128502588,
+  "mean_north_ground_m": -11.183485193762621,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Gray Point eastern small hook tip",
+      "role": "check",
+      "pixel_xy": [
+        747,
+        402
+      ],
+      "lonlat": [
+        -61.12042790882684,
+        46.441027696282
+      ],
+      "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+      "reference_objectid": 11211,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        751.7720908424235,
+        378.64730113372207
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -61.11946345663396,
+        46.44085032798164
+      ],
+      "error_ground_m": 76.69166624350477,
+      "east_ground_m": 74.11409489504744,
+      "north_ground_m": -19.71579592846892
+    },
+    {
+      "id": "IQ02",
+      "label": "Gray Point western rocky shoulder",
+      "role": "check",
+      "pixel_xy": [
+        629,
+        390
+      ],
+      "lonlat": [
+        -61.12840335768118,
+        46.439425156413826
+      ],
+      "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+      "reference_objectid": 11239,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        631.9654078483,
+        368.7552619460039
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -61.127451823201355,
+        46.43950828452375
+      ],
+      "error_ground_m": 73.70481844045912,
+      "east_ground_m": 73.12321831997998,
+      "north_ground_m": 9.240952541247353
+    },
+    {
+      "id": "IQ03",
+      "label": "Whale Cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        381,
+        643
+      ],
+      "lonlat": [
+        -61.13871910724049,
+        46.42432524353925
+      ],
+      "guide_file": ".crown-grant-local/120-inset-locality-guide.npy",
+      "reference_objectid": 11974,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        378.51781911129365,
+        609.6405043031555
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -61.137810591407124,
+        46.42411765002096
+      ],
+      "error_ground_m": 73.55058898329366,
+      "east_ground_m": 69.83699064005019,
+      "north_ground_m": -23.07561219406629
+    }
+  ],
+  "fit_sha256": "7d26d4be82afc537024ffe90f78aa8ee5c83649a6eaf0ecd4ea1a3572bd52b6b",
+  "checks_sha256": "3dbe8e5f4559163995496ac00d87b1cbfa6fb311d8e8b83b181d62f9993364b7",
+  "status": "Reserved excluded physical checks; sparse regional coverage"
+}

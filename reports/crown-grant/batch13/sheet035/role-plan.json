@@ -1,0 +1,21 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T06:45:58.979323+00:00",
+  "model": "Four-parameter reflected uniform similarity EPSG:32620",
+  "controls": 4,
+  "checks": 3,
+  "reason": "Three northern headlands and one southwestern river junction leave unsupported affine shear; use constrained similarity before seeing any check scores.",
+  "rejected": {
+    "C05": "Proposed Zeke junction source crosshair lies beside an ambiguous small historic connection; not adopted.",
+    "Q03": "Aylesford proposal does not unambiguously locate the intended northern tributary junction in the historical drawing."
+  },
+  "corrections": [
+    "Middleton source and stream endpoint, western river-bridge tributary source and stream endpoint, and Auburn source/reference junction corrected in native audit before fitting.",
+    "Exact final stream endpoints selected from their identified official feature vertices, without interpolation."
+  ],
+  "limitations": [
+    "Only three checks: one nearby Long Point shoulder and two Annapolis tributary junctions. Count and spatial independence are limited.",
+    "Three controls lie on the northern coast and only one in the southwest. Central interior, southeast and Bay of Fundy water lack adequate independent coverage.",
+    "Generalized coastal roofs and river junctions carry 24 px source uncertainty."
+  ]
+}

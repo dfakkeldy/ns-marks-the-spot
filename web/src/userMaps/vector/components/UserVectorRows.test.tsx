@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { UserVectorLayerRecord } from "../types";
@@ -38,10 +38,18 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     removeLayer: vi.fn(async () => {}),
     setEnabled: vi.fn(),
     exportLayer: vi.fn(async () => {}),
+    exportRawRecording: vi.fn(async () => {}),
     createDrawnLayer: vi.fn(async () => "new-layer"),
+    ensureFieldNotesLayer: vi.fn(async () => "field-notes"),
+    createRecordedLayer: vi.fn(async () => ({
+      record: record("recorded-layer"),
+      persisted: true,
+    })),
+    appendFeatures: vi.fn(async () => null),
+    createPhotoLayer: vi.fn(async () => ({ id: null, notes: [] })),
     applyLayerEdit: vi.fn(),
     geometries: {},
-    putVectorLayer: vi.fn(async () => {}),
+    putVectorLayer: vi.fn(async () => true),
     ...overrides,
   };
 }
@@ -96,6 +104,64 @@ describe("UserVectorRows", () => {
     expect(screen.getByText(/Drawn on this device · 3 features/)).toBeInTheDocument();
   });
 
+  it("offers GPX export on every row and Raw GPX only on recorded layers", async () => {
+    const user = userEvent.setup();
+    const layers = api({
+      records: [
+        record("camps"),
+        record("walk", {
+          source: "recorded",
+          origin: {
+            kind: "recorded",
+            startedAt: "2026-08-29T14:00:00.000Z",
+            endedAt: "2026-08-29T14:20:00.000Z",
+          },
+        }),
+      ],
+    });
+    render(<UserVectorRows api={layers} />);
+
+    expect(
+      screen.getByRole("button", {
+        name: "Export Layer camps as GPX (points and tracks only)",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", {
+        name: "Download the raw recording for Layer camps",
+      }),
+    ).not.toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Download the raw recording for Layer walk",
+      }),
+    );
+    expect(layers.exportRawRecording).toHaveBeenCalledWith("walk");
+  });
+
+  it("labels recorded layers as recorded on this device", () => {
+    render(
+      <UserVectorRows
+        api={api({
+          records: [
+            record("walk", {
+              source: "recorded",
+              origin: {
+                kind: "recorded",
+                startedAt: "2026-08-28T14:00:00.000Z",
+                endedAt: "2026-08-28T14:20:00.000Z",
+              },
+            }),
+          ],
+        })}
+      />,
+    );
+    expect(
+      screen.getByText(/Recorded on this device · 3 features/),
+    ).toBeInTheDocument();
+  });
+
   it("toggles a layer through setEnabled", async () => {
     const layers = api({
       records: [record("camps")],
@@ -119,6 +185,84 @@ describe("UserVectorRows", () => {
     expect(layers.removeLayer).toHaveBeenCalledWith("camps");
   });
 
+  // The session holds its own copy of the record and geometry, so removing
+  // the layer under it left an editor open over a layer that no longer
+  // exists — and its debounced write then reported the removal the user had
+  // just asked for as "deleted in another tab".
+  it("hands the layer to the edit session before the row is removed", async () => {
+    const order: string[] = [];
+    const layers = api({
+      records: [record("camps")],
+      removeLayer: vi.fn(async () => {
+        order.push("remove");
+      }),
+    });
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    render(
+      <UserVectorRows
+        api={layers}
+        editingId="camps"
+        onAbandonLayer={(id) => order.push(`abandon ${id}`)}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
+
+    expect(order).toEqual(["abandon camps", "remove"]);
+  });
+
+  // The row lives until the store answers. Editing one on its way out opened
+  // a session over a layer that then vanished under the reader.
+  it("will not reopen a layer whose removal has not answered yet", async () => {
+    let finishRemoval: (() => void) | undefined;
+    const layers = api({
+      records: [record("camps")],
+      removeLayer: vi.fn(
+        () =>
+          new Promise<void>((resolve) => {
+            finishRemoval = resolve;
+          }),
+      ),
+    });
+    const onEdit = vi.fn();
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    render(<UserVectorRows api={layers} onEdit={onEdit} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
+
+    expect(screen.getByRole("button", { name: "Edit Layer camps" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Remove Layer camps" })).toBeDisabled();
+    expect(onEdit).not.toHaveBeenCalled();
+
+    // And the row does not stay disabled forever if the store answers without
+    // taking it off the map.
+    await act(async () => {
+      finishRemoval?.();
+    });
+    expect(screen.getByRole("button", { name: "Edit Layer camps" })).toBeEnabled();
+  });
+
+  it("tells the session about a removal even when another layer is under edit", async () => {
+    const layers = api({ records: [record("camps"), record("wells")] });
+    const onAbandonLayer = vi.fn();
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    render(
+      <UserVectorRows
+        api={layers}
+        editingId="wells"
+        onAbandonLayer={onAbandonLayer}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
+
+    // A write from the session just closed can still be in flight for the
+    // removed layer, so the session is told which layer went whether or not
+    // it is the one on screen.
+    expect(onAbandonLayer).toHaveBeenCalledWith("camps");
+    expect(layers.removeLayer).toHaveBeenCalledWith("camps");
+  });
+
   it("offers GeoJSON and KML export per layer", async () => {
     const layers = api({ records: [record("camps")] });
     render(<UserVectorRows api={layers} />);
@@ -132,6 +276,56 @@ describe("UserVectorRows", () => {
       screen.getByRole("button", { name: "Export Layer camps as KML" }),
     );
     expect(layers.exportLayer).toHaveBeenCalledWith("camps", "kml");
+  });
+
+  it("offers KMZ export with photos embedded per layer", async () => {
+    const layers = api({ records: [record("camps")] });
+    render(<UserVectorRows api={layers} />);
+
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: "Export Layer camps as KMZ with photos embedded",
+      }),
+    );
+    expect(layers.exportLayer).toHaveBeenCalledWith("camps", "kmz");
+    // The photo-free formats say so instead of silently dropping photos.
+    expect(
+      screen.getByRole("button", { name: "Export Layer camps as GeoJSON" }),
+    ).toHaveAttribute("title", expect.stringContaining("use KMZ"));
+    expect(
+      screen.getByRole("button", { name: "Export Layer camps as KML" }),
+    ).toHaveAttribute("title", expect.stringContaining("use KMZ"));
+  });
+
+  it("labels photo-import layers with their photo provenance", () => {
+    render(
+      <UserVectorRows
+        api={api({
+          records: [
+            record("snaps", {
+              source: "photos",
+              origin: {
+                kind: "photo-import",
+                count: 3,
+                importedAt: "2026-08-30T00:00:00.000Z",
+              },
+            }),
+          ],
+        })}
+      />,
+    );
+    expect(
+      screen.getByText(/From your photos · 3 photos · 3 features/),
+    ).toBeInTheDocument();
+  });
+
+  it("offers bulk photo placement when the app wires it", async () => {
+    const onBulkPhotos = vi.fn();
+    render(<UserVectorRows api={api()} onBulkPhotos={onBulkPhotos} />);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Add photos to map" }),
+    );
+    expect(onBulkPhotos).toHaveBeenCalled();
   });
 
   it("starts an edit session for a layer", async () => {

@@ -97,7 +97,7 @@ inventory of published openings. No nearby point is not proof that no historical
 working exists.
 
 - [Official Abandoned Mine Openings database](https://novascotia.ca/natr/meb/download/dp010.asp)
-- [Degree-of-hazard FeatureServer](https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0)
+- [Degree-of-hazard FeatureServer, version 9](https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4) (the map's source since October 2026; see [the source check](research/2026-10-10-abandoned-mine-openings-v9.md))
 - [Abandoned-mine safety program](https://novascotia.ca/natr/meb/hazard-assessment/abandoned-mines.asp)
 
 ### 5. Wet ground, drainage, and wetlands
@@ -108,6 +108,10 @@ features. It is not a measured water table, does not include all soil effects or
 human drainage changes, and dates from 2005–2007 source work. Pair it with the
 Province wetland inventory when a stable web service and display terms are
 confirmed.
+
+Status: the web map withholds both Wet Areas Mapping layers from the map,
+saved and shared state, and PDF export (see
+[`forestryExclusions.ts`](../web/src/layers/forestryExclusions.ts)).
 
 - [Wet Areas Mapping description and downloads](https://novascotia.ca/natr/forestry/gis/wamdownload.asp)
 - [Wet Areas Mapping MapServer](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_WetAreasMapping_WM84/MapServer)

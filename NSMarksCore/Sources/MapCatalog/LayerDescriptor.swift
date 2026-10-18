@@ -32,7 +32,7 @@ public enum LayerDelivery: String, Hashable, Sendable, Codable {
 /// Whether a layer can actually be displayed today.
 public enum LayerAvailability: String, Hashable, Sendable, Codable {
     case available
-    /// Catalogued, but the rights to display the scan are not settled.
+    /// Catalogued, but permission for the app’s display/query/cache use is not confirmed.
     case rightsPending = "rights-pending"
     /// Rights are fine; nobody is hosting the tiles yet.
     case hostingPending = "hosting-pending"

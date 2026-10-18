@@ -1,5 +1,32 @@
 import XCTest
 
+extension XCTestCase {
+    /// Wait for the result of one action without repeating that action. MapKit
+    /// can redraw its annotations before SwiftUI publishes the matching card.
+    @MainActor
+    func waitForUI(timeout: TimeInterval = 30, _ condition: () -> Bool) -> Bool {
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline {
+            if condition() { return true }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.25))
+        }
+        return condition()
+    }
+
+    func attachUIFailure() {
+        guard let testRun, testRun.totalFailureCount > 0 else { return }
+        let app = XCUIApplication()
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "UI at failure"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+        let hierarchy = XCTAttachment(string: app.debugDescription)
+        hierarchy.name = "Accessibility hierarchy at failure"
+        hierarchy.lifetime = .keepAlways
+        add(hierarchy)
+    }
+}
+
 extension XCUIElement {
     /// `waitForExistence`, for hittability.
     ///
@@ -15,15 +42,66 @@ extension XCUIElement {
         }
         return exists && isHittable
     }
+
+    /// Hittable can mean that only an edge of a scrolling button is exposed.
+    /// Require the whole target, and let scrolling settle before aiming at it.
+    func waitForStableFrame(
+        in container: XCUIElement,
+        timeout: TimeInterval = 30,
+        requiresHittable: Bool = true
+    ) -> Bool {
+        // A hosted runner can spend the entire timeout acquiring the first
+        // snapshot. Take the baseline first so stability always compares two
+        // observations. The containing window/rail is stationary at both call
+        // sites; avoid resolving it on every poll.
+        let containerFrame = container.frame
+        var previous = (try? snapshot())?.frame ?? .zero
+        let deadline = Date().addingTimeInterval(timeout)
+        var stableSince = Date()
+        while Date() < deadline {
+            let current = (try? snapshot())?.frame ?? .zero
+            let visible = current != .zero && containerFrame.contains(current)
+                && (!requiresHittable || isHittable)
+            if !visible || current != previous {
+                stableSince = Date()
+            } else if Date().timeIntervalSince(stableSince) >= 0.5 {
+                return true
+            }
+            previous = current
+            RunLoop.current.run(until: Date().addingTimeInterval(0.25))
+        }
+        return false
+    }
 }
 
 extension XCUIApplication {
     /// Launches with the app's own test container.
-    static func launchedForUITests() -> XCUIApplication {
+    ///
+    /// `textSize` is a `UIContentSizeCategory` raw value. Passing one starts
+    /// the app at that text size, which is the only way to ask a built layout
+    /// what it does under Dynamic Type; the default leaves the launch exactly
+    /// as it was, at the device's own setting.
+    static func launchedForUITests(textSize: String? = nil) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments.append("UITestMode")
+        if let textSize {
+            app.launchArguments += ["-UIPreferredContentSizeCategoryName", textSize]
+        }
         app.launch()
         return app
+    }
+
+    /// A tap on the map itself, even where an annotation covers those pixels.
+    ///
+    /// XCUITest's element tap aims at the accessibility element. A measuring
+    /// endpoint is a StaticText whose view refuses interaction so a finger
+    /// can reach the map; tapping that element therefore does nothing. The
+    /// first two measuring taps already go through the application. This is
+    /// the same path, at a known screen point.
+    func tapMap(at point: CGPoint) {
+        coordinate(withNormalizedOffset: .zero)
+            .withOffset(CGVector(dx: point.x - frame.minX, dy: point.y - frame.minY))
+            .tap()
     }
 
     /// Turns the device, and waits for the window to agree.
@@ -89,9 +167,14 @@ extension XCUIApplication {
         _ element: XCUIElement,
         into container: XCUIElement,
         limit: Int = 40,
-        alsoUpwards: Bool = false
+        alsoUpwards: Bool = false,
+        fullyVisible: Bool = false
     ) -> Bool {
-        if element.exists, element.isHittable { return true }
+        func reached() -> Bool {
+            element.exists && element.isHittable
+                && (!fullyVisible || container.frame.contains(element.frame))
+        }
+        if reached() { return true }
         var directions: [() -> Void] = [container.swipeUp]
         if alsoUpwards { directions.append(container.swipeDown) }
 
@@ -100,7 +183,7 @@ extension XCUIApplication {
             var unmoved = 0
             for _ in 0..<limit {
                 swipe()
-                if element.exists, element.isHittable { return true }
+                if reached() { return true }
                 // A target a lazy `List` or `Form` has not built yet has no
                 // frame to compare, and that is the case where giving up early
                 // would be wrong: it is exactly what "keep scrolling" means.

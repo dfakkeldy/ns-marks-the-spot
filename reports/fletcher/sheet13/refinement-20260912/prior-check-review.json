@@ -1,0 +1,204 @@
+{
+  "status": "Previous scored checks; reinspection only, never fresh",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2700,
+        1537
+      ],
+      "lonlat": [
+        -61.1703457,
+        46.2564104
+      ],
+      "modern_node": "J0197",
+      "modern_objectids": [
+        186434,
+        186435,
+        224056
+      ],
+      "identity_evidence": "First eastern tributary on the south arm above Ball Brook C03, before the second eastern tributary; distinct paired junction order.",
+      "source_uncertainty_px": 10,
+      "review": "Corrected native crosshair and modern topology inspected before scoring. Separate from all fitting controls; used for affine/TPS diagnostic comparison.",
+      "pre_review_pixel_xy": [
+        2690,
+        1518
+      ]
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        8738,
+        2550
+      ],
+      "lonlat": [
+        -60.890921,
+        46.2292303
+      ],
+      "modern_node": "J0369",
+      "modern_objectids": [
+        176766,
+        176767,
+        185251
+      ],
+      "identity_evidence": "McLean southeastern arm first western tributary below C01; do not use the nearby small eastern line.",
+      "source_uncertainty_px": 10,
+      "review": "Corrected native crosshair and modern topology inspected before scoring. Separate from all fitting controls; used for affine/TPS diagnostic comparison.",
+      "pre_review_pixel_xy": [
+        8740,
+        2550
+      ]
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        5490,
+        4109
+      ],
+      "lonlat": [
+        -61.0474967,
+        46.1746907
+      ],
+      "modern_node": "J0672",
+      "modern_objectids": [
+        192275,
+        260381,
+        260999
+      ],
+      "identity_evidence": "Coopers Brook southeastern arm major northern tributary above C08, before its smaller southeastern forks.",
+      "source_uncertainty_px": 10,
+      "review": "Corrected native crosshair and modern topology inspected before scoring. Separate from all fitting controls; used for affine/TPS diagnostic comparison.",
+      "pre_review_pixel_xy": [
+        5430,
+        4160
+      ]
+    },
+    {
+      "id": "Q07",
+      "role": "check",
+      "pixel_xy": [
+        4808,
+        6276
+      ],
+      "lonlat": [
+        -61.0739639,
+        46.1083197
+      ],
+      "modern_node": "J0946",
+      "modern_objectids": [
+        222484,
+        281286,
+        281287
+      ],
+      "identity_evidence": "North Brook main western fork: southwest downstream, northern arm with tight upstream bends and eastern arm leading to Q06.",
+      "source_uncertainty_px": 10,
+      "review": "Corrected native crosshair and modern topology inspected before scoring. Separate from all fitting controls; used for affine/TPS diagnostic comparison.",
+      "pre_review_pixel_xy": [
+        4800,
+        6270
+      ],
+      "caveat": "Modern parallel eastern tributary/channel below this junction is not clearly represented in the historical source. Retain this limitation alongside any residual."
+    },
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        4883,
+        3024
+      ],
+      "lonlat": [
+        -61.0673312,
+        46.2103331
+      ],
+      "modern_node": "J0468",
+      "modern_objectids": [
+        190934,
+        279726,
+        279727
+      ],
+      "identity_evidence": "First substantial southern tributary east of the Mount Pleasant northern-arm control C10; long southern arm and next northern small tributary corroborate.",
+      "source_uncertainty_px": 10,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        4860,
+        3020
+      ]
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        4950,
+        6090
+      ],
+      "lonlat": [
+        -61.0689392,
+        46.1123579
+      ],
+      "modern_node": "J0921",
+      "modern_objectids": [
+        191154,
+        281284,
+        281285
+      ],
+      "identity_evidence": "North Brook northern arm small northeastern tributary, above the tight southern bend and downstream of the preceding western branch; distinct from Q07 and C12.",
+      "source_uncertainty_px": 10,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        4950,
+        6090
+      ]
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        9437,
+        4552
+      ],
+      "lonlat": [
+        -60.8602622,
+        46.159877
+      ],
+      "modern_node": "J0732",
+      "modern_objectids": [
+        192593,
+        192599,
+        192866
+      ],
+      "identity_evidence": "McDonald Brook larger upstream fork beside the road crossing, northeast of small northwestern tributary C05; eastern arm and northward reach corroborate.",
+      "source_uncertainty_px": 10,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        9437,
+        4552
+      ]
+    },
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        3874,
+        5613
+      ],
+      "lonlat": [
+        -61.11429005755775,
+        46.128122510389886
+      ],
+      "modern_objectids": [
+        269340
+      ],
+      "modern_definition": "Northernmost vertex of the continuous northern looping headwater arm above J0880 (OBJECTID 269340).",
+      "identity_evidence": "Northernmost turn of the distinctive hooked headwater arm above C11, before the long southeast descent. Small historical crest tributary is not represented in modern line. Bend placement less precise than a junction.",
+      "source_uncertainty_px": 15,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        3874,
+        5613
+      ]
+    }
+  ]
+}

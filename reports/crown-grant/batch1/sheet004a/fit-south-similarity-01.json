@@ -1,0 +1,101 @@
+{
+  "sheet": "004a",
+  "version": "south-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.945891319444249,
+      2.343655416980538
+    ],
+    [
+      2.343655416980538,
+      -4.945891319444249
+    ],
+    [
+      241242.59305812867,
+      4830693.965013114
+    ]
+  ],
+  "source_sha256": "0383f61be07cb70dc5cba2a57f17fbc21fc3347f17122bc30d7af512fd9b171a",
+  "source_dimensions": [
+    3912,
+    5727
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "SA01",
+      "label": "Northern Southern-Seal island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1000,
+        4030
+      ],
+      "lonlat": [
+        -66.01912293908383,
+        43.430948935596774
+      ],
+      "reference_objectid": 20031,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        953.1775307955686,
+        4012.035743259825
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "SA03",
+      "label": "Southern Seal island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        772,
+        4800
+      ],
+      "lonlat": [
+        -66.00855227971162,
+        43.39225691267343
+      ],
+      "reference_objectid": 19162,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        751.4149986090488,
+        4809.4869747952325
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "SA05",
+      "label": "Southern Seal island western corner",
+      "role": "control",
+      "pixel_xy": [
+        660,
+        4699
+      ],
+      "lonlat": [
+        -66.01910034869765,
+        43.393980210656906
+      ],
+      "reference_objectid": 18467,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        621.9688488643151,
+        4707.487174449256
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    5.71603286476978,
+    28.442516978106546,
+    30.43634193037987
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: printed displaced component, narrow control distribution; constrained similarity avoids unsupported affine shear"
+}

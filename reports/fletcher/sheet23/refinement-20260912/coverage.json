@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+  "raster_sha256": "039f2ccc7e7f552e5f28a68f51d3b14d9455b9b39afcc8d9901cbe819e1c7d19",
+  "cutline_sha256": "413f075c8ff12131fad604cb5c5048f5f5c595b54c39d1aa58d41fe04092f23a",
+  "expected_interior_cells": 45962448,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

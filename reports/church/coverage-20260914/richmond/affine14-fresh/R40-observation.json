@@ -1,0 +1,46 @@
+{
+  "id": "R40",
+  "label": "Southern mainland point east of the forked McKinnon Harbour inlet",
+  "role": "check",
+  "pixel_xy": [
+    15385.5,
+    4387.0
+  ],
+  "lonlat": [
+    -60.89610369424519,
+    45.92346332283261
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      15170,
+      4220
+    ],
+    "extent": [
+      650,
+      380
+    ],
+    "display": [
+      1300,
+      760
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    431,
+    334
+  ],
+  "source_crop_sha256": "c861e9ed73402f169b77179a3ee5c0458251ae8c826c84365e09aa1ce0b64031",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    13724
+  ],
+  "reference_vertex": {
+    "feature_id": 13724,
+    "vertex": 47
+  },
+  "uncertainty_ground_m": 160,
+  "identity_evidence": "Southern extremum of the outer mainland coast immediately east of the forked inlet on the eastern side of McKinnon Harbour, before the long coast turns northeast toward the island south of Hector Point. The two inner inlet arms, westward-facing bay and long northeastern coast establish the particular headland. Only this local outer headland is selected, not the farther-west barrier/point or any previously checked island. The matching modern southern extremum is vertex 47 of coast feature 13724. Source tip is broad and generalized; 160 m uncertainty includes along-shore ambiguity and possible shoreline change. The ambiguous northern inlet/tributary mouth was not adopted.",
+  "phase": "New fresh northern-extension headland check after affine14 freeze; excluded from controls and 28 diagnostics; no tuning"
+}

@@ -1,0 +1,1304 @@
+{
+  "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
+  "reconciled_at": "2026-09-13",
+  "nightly_revision": "a96063b663028395cf3ee54c23c51a6ebd03bc01",
+  "next_action": "Continue sheet 16 Port Hood/Mabou source association: the first 30 service/industrial annotations have initial source/geographic decisions, with 16 locally integrated placements and 14 coverage/neatline holdbacks. Fifty-four of the 84 service/industrial entries remain; 226 of all 256 sheet annotations still need initial source association. Preserve the recorded 36-control Glendyer fit. Hawkesbury has all 301 initial decisions and 184 merged placements through PR473, with 117 explicit holdbacks; Judique has all 166 initial decisions and 126 merged placements, with 40 holdbacks. Sheet 14 and the remaining 20 sheets stay open.",
+  "sheets": [
+    {
+      "sheet": 22,
+      "extraction_status": "source-reviewed",
+      "source_reviewed_count": 301,
+      "lettering_status": "processed",
+      "source_associated_count": 242,
+      "approximate_placement_reviewed_count": 184,
+      "integrated_count": 184,
+      "blockers": [
+        {
+          "annotation_id": "F22-HAW-001",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-002",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-010",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-012",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+        },
+        {
+          "annotation_id": "F22-HAW-017",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-019",
+          "stage": "outside-fit-neatline",
+          "reason": "The complete source trace extends beyond the current supported fit neatline. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+        },
+        {
+          "annotation_id": "F22-HAW-020",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+        },
+        {
+          "annotation_id": "F22-HAW-021",
+          "stage": "source-location-unresolved",
+          "reason": "Coal said to have been found here is a qualified historical statement beside the Lainey Brook/fault district. No unique coal, pit or mine mark is attached to this caption. Keep its wording and unlocated status; nearby dots, fault boundaries and the lettering centre do not establish a coal site. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-024",
+          "stage": "locality-unresolved",
+          "reason": "The short source brook bend projects west of the modern channel near the confluence/road district, and the source has no distinct spring-emergence mark. The local channel relationship remains unresolved, consistent with the separately held McMaster’s Mill group. Retain the complete source/provisional reach without public placement; do not snap it to the channel."
+        },
+        {
+          "annotation_id": "F22-HAW-025",
+          "stage": "locality-unresolved",
+          "reason": "The source candidate group touches the brook just north of its road crossing, but the prediction falls west of the modern channel and does not reconcile the nearby confluence/crossing geometry. Retain the full source group and computed prediction as evidence; withhold web placement pending supported local correspondence. Neither the spring nor a modern channel may be substituted for the mill site."
+        },
+        {
+          "annotation_id": "F22-HAW-028",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-033",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-034",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-036",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-037",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-038",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-040",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-043",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-048",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-049",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-051",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-052",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-060",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-062",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-063",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-065",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-069",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-075",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-080",
+          "stage": "source-location-unresolved",
+          "reason": "Barrens names a broad landscape without a distinct vegetation boundary or associated site glyph. Geological colour, streams, road and dip arrows are separate evidence. Do not invent a barren-area polygon or a feature point from the caption. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-093",
+          "stage": "source-location-unresolved",
+          "reason": "Native detail does not resolve an individual falls mark or a unique associated reach. Retain Fall as an unlocated source annotation; the road spur and nearby compact marks are not substitutes."
+        },
+        {
+          "annotation_id": "F22-HAW-094",
+          "stage": "source-location-unresolved",
+          "reason": "Native review does not resolve an associated site mark for Ferguson. Preserve its original text and lettering geography without feature placement; boundary dots, nearby compact marks and a lettering centre are not substitutes."
+        },
+        {
+          "annotation_id": "F22-HAW-095",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-098",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-099",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-103",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-110",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-111",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-115",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-119",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-122",
+          "stage": "source-location-unresolved",
+          "reason": "The distributed ANTIGONISH caption is an administrative-region label, not a point or a closed region boundary. Its lettering and context are retained; the separately reviewed county-line segment cannot establish a complete county polygon. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-125",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-130",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-132",
+          "stage": "source-location-unresolved",
+          "reason": "At Auld Cove the Mill caption is beside a road/watercourse crossing and small loop. Enlarged native pixels do not confidently separate an independent mill symbol from the joining linework. Preserve the caption unlocated; neither the crossing, loop nor circled fossil notation supplies a mill-site coordinate."
+        },
+        {
+          "annotation_id": "F22-HAW-148",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-151",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-152",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-154",
+          "stage": "source-location-unresolved",
+          "reason": "Barren is a broad landscape caption above the road district, without a distinct associated site mark or land-cover boundary. The diagonal geological stripes and dotted contact cannot be treated as barren-land extent. Retain the unlocated annotation. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-157",
+          "stage": "locality-unresolved",
+          "reason": "The southern reach lies near modern drainage, but the source connection from the northern pond to the central Emery branch does not reconcile with the modern branch arrangement: the modern pond outlet continues toward a more western channel while the central branch begins separately. Historical change versus local fit error remains unresolved. Preserve the entire native/provisional line and withhold map placement; do not snap or discard the conflicting northern reach."
+        },
+        {
+          "annotation_id": "F22-HAW-158",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-162",
+          "stage": "locality-unresolved",
+          "reason": "The source branch/railway corridor at northwestern Mc Intyre Lake does not reconcile with the modern lake entrance and connected channels. The projected reach terminates north/east of the corresponding modern shore and cuts across a different wet-area arrangement. Preserve it and the historical directional wording, but withhold placement pending local correspondence; no current flow direction is inferred."
+        },
+        {
+          "annotation_id": "F22-HAW-164",
+          "stage": "locality-unresolved",
+          "reason": "The lake identity is recognizable, but the projected western bank and northwestern connection do not reconcile with the modern shore/branch arrangement; part of the source western bank falls within the modern lake body. No specific historical alteration has been established here. Preserve the complete source/provisional shoreline and withhold placement until local fit versus shoreline change is resolved."
+        },
+        {
+          "annotation_id": "F22-HAW-173",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry lies outside the current conservative source-control hull in the eastern McLeods Bridge district. Retain its native mark/group without map placement; do not shrink the group or substitute a nearby supported point. Accepted local coverage is required."
+        },
+        {
+          "annotation_id": "F22-HAW-174",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry lies outside the current conservative source-control hull in the eastern McLeods Bridge district. Retain its native mark/group without map placement; do not shrink the group or substitute a nearby supported point. Accepted local coverage is required."
+        },
+        {
+          "annotation_id": "F22-HAW-175",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
+        },
+        {
+          "annotation_id": "F22-HAW-176",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
+        },
+        {
+          "annotation_id": "F22-HAW-177",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-178",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-179",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
+        },
+        {
+          "annotation_id": "F22-HAW-180",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-181",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-183",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-184",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-185",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+        },
+        {
+          "annotation_id": "F22-HAW-190",
+          "stage": "locality-unresolved",
+          "reason": "The source settlement cluster projects across the modern channel, while the source places its principal road/stream relationship north of the cluster. The local road, tributary and channel arrangement does not resolve historical change versus fit error. Preserve the complete native/provisional grouping and withhold public placement; do not shrink the group or assign current sites."
+        },
+        {
+          "annotation_id": "F22-HAW-192",
+          "stage": "locality-unresolved",
+          "reason": "The eastern reach and wide-water transition project noticeably north of the modern Tracadie channel, and the western road/stream relationships do not resolve the full offset. Historical channel change versus local fit error remains unresolved. Preserve the entire native/provisional trace but withhold public placement until the corridor is reconciled."
+        },
+        {
+          "annotation_id": "F22-HAW-201",
+          "stage": "source-location-unresolved",
+          "reason": "Mill is printed beside small watercourse loops at the railway/road crossing. Native enlargement does not identify a distinct mill symbol separate from those strokes. Retain the inscription unlocated; the loops and crossing are not substituted for a mill site."
+        },
+        {
+          "annotation_id": "F22-HAW-203",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-204",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-218",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-219",
+          "stage": "source-location-unresolved",
+          "reason": "The apparent small mark below Quarry was inspected at 6x and rejected: it is the hooked descender of the italic y. No separate individual quarry symbol is resolved among the adjacent geological/contact hatching and watercourse. Preserve the rejected point candidate and retain the annotation as unlocated. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-224",
+          "stage": "source-location-unresolved",
+          "reason": "Black shale follows the roadside geological district, but the scan does not distinguish a bounded shale exposure from the parallel road strokes or provide a separate outcrop mark. Retain the wording unlocated; do not turn a road, stripe, caption centre or broad geological unit into an exposure footprint. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-225",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-229",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-230",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-232",
+          "stage": "source-location-unresolved",
+          "reason": "Rocky Barrens spans the railway/road district without a discrete site mark or boundary defining its full landscape extent. The rail curves and geological stripes are separate. Retain the unlocated caption rather than inventing a polygon. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-236",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+        },
+        {
+          "annotation_id": "F22-HAW-238",
+          "stage": "source-location-unresolved",
+          "reason": "Shales with small pieces of coal is a geological observation below the Pit district. No separate outcrop mark or exposure boundary is attached to the observation. The neighbouring pit is preserved as annotation237, but its point is not silently promoted to the exact extent/location of this broader material statement. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-239",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+        },
+        {
+          "annotation_id": "F22-HAW-240",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-242",
+          "stage": "source-location-unresolved",
+          "reason": "Barren is printed within the broad geological district between the railway and pond, without an associated site symbol or vegetation boundary. Preserve the unlocated caption; the geological stripes and stream network do not define barren-land extent. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-244",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-245",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-247",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-248",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-249",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-250",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-251",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-252",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-253",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-254",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-255",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-256",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-257",
+          "stage": "source-location-unresolved",
+          "reason": "Barren lies within the broad River Point/Richmond district with no distinct site glyph or vegetation boundary. The nearby compact mark belongs to separate site evidence and is not assigned to this landscape caption. Retain the annotation unlocated. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-258",
+          "stage": "source-location-unresolved",
+          "reason": "The retained R I lettering is an incomplete distributed administrative-region caption. Preserve those exact letters and source boxes without expanding them into a guessed name, point or county polygon. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-259",
+          "stage": "source-location-unresolved",
+          "reason": "The distributed GUYSBOROUGH caption identifies a broad administrative region without defining a closed region geometry. Preserve the source lettering and context; no label centre, modern boundary or arbitrary whole-sheet area is substituted. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-260",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-261",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-262",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-263",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-264",
+          "stage": "source-location-unresolved",
+          "reason": "Q. veins in slate is printed near the lower sheet edge, without a distinct attached vein trace or exposure boundary. The neighbouring Pit mark is separate annotation263. Preserve the abbreviation and statement without converting the pit, road, dip arrow or lettering centre into a quartz-vein location. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-265",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+        },
+        {
+          "annotation_id": "F22-HAW-266",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-267",
+          "stage": "source-location-unresolved",
+          "reason": "The apparent small mark below Quarry was inspected at 6x and rejected because it is the hooked descender of the italic y. Adjacent geological/contact hatching does not resolve an individual quarry site. Preserve the rejected candidate and keep this annotation unlocated. No map feature is exported; the original lettering evidence remains retained separately."
+        },
+        {
+          "annotation_id": "F22-HAW-272",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+        },
+        {
+          "annotation_id": "F22-HAW-273",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+        },
+        {
+          "annotation_id": "F22-HAW-275",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-283",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-284",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-285",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-286",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-287",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-288",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-289",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-290",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-291",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-297",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-299",
+          "stage": "outside-fit-neatline",
+          "reason": "The complete printed fault segment extends outside the current fit neatline. Preserve its exact native trace with no public placement. Do not trim the eastern portion or extrapolate beyond supported source coverage."
+        }
+      ],
+      "annotation_queue": "sheet-22-queue.json",
+      "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
+      "source_association_reviewed_count": 301,
+      "merged_integrated_count": 184,
+      "integration_status": "All 184 supportable placements merged through PR473. All 301 initial source/geographic decisions are complete; 117 explicit holdbacks remain.",
+      "initial_feature_review_status": "complete-with-explicit-holdbacks"
+    },
+    {
+      "sheet": 19,
+      "extraction_status": "source-reviewed",
+      "source_reviewed_count": 166,
+      "lettering_status": "processed",
+      "source_associated_count": 156,
+      "approximate_placement_reviewed_count": 126,
+      "integrated_count": 126,
+      "blockers": [
+        {
+          "annotation_id": "F19-JUD-001",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
+          "annotation_id": "F19-JUD-002",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+        },
+        {
+          "annotation_id": "F19-JUD-003",
+          "stage": "locality-unresolved",
+          "reason": "The source group is immediately north of an east-west road beside the historical multi-arm junction and stream crossing. Its prediction instead falls in the area between modern road corridors; the relevant crossing and junction spacing are substantially displaced. A supported local comparison is still needed to distinguish historical road changes from fit displacement. Preserve the full source group and prediction as evidence, withholding web placement; do not snap it to a convenient modern road."
+        },
+        {
+          "annotation_id": "F19-JUD-012",
+          "stage": "source-location-unresolved",
+          "reason": "The wider native context shows Ben Noah across patterned ground east of scattered roadside marks, but no distinct summit, spot-height mark or named-feature boundary. The inscription does not uniquely assign itself to one building group or terrain point. Keep its original lettering unlocated; geological mesh is not a mountain boundary."
+        },
+        {
+          "annotation_id": "F19-JUD-026",
+          "stage": "source-location-unresolved",
+          "reason": "Original quarry wording is reviewed, but the source crop does not provide a distinct quarry mark or defensible extraction-area boundary. River and lettering geometry must not be promoted into quarry geometry."
+        },
+        {
+          "annotation_id": "F19-JUD-029",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
+          "annotation_id": "F19-JUD-031",
+          "stage": "source-location-unresolved",
+          "reason": "Full native context contains the spaced Barrens descriptor and road but no boundary for the described land cover. Geological hatching is not a barrens boundary. No point or polygon is invented."
+        },
+        {
+          "annotation_id": "F19-JUD-034",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native reach associated with Fall 30 extends outside the current conservative source-control hull. Keep its source path and historical wording, with no map geometry or web export. Do not trim the reach to make it pass."
+        },
+        {
+          "annotation_id": "F19-JUD-045",
+          "stage": "source-location-unresolved",
+          "reason": "Iron Ore has no distinct native ore mark or defensible deposit boundary in the inspected context. Preserve the wording unlocated; a geological unit, letter O or mill mark cannot supply an ore-site geometry."
+        },
+        {
+          "annotation_id": "F19-JUD-056",
+          "stage": "source-location-unresolved",
+          "reason": "The caption beside the parallel north-south linework cannot be uniquely associated with a distinct watercourse in the inspected source, including the wider context. Preserve the inventory reading/classification as original evidence, but do not substitute a road axis, geological boundary or label centre."
+        },
+        {
+          "annotation_id": "F19-JUD-060",
+          "stage": "locality-unresolved",
+          "reason": "Forge group projects onto a modern stream reach with no matching terminal road bend at that location. The broad western tributary/eastern valley arrangement is recognizable, but the road-versus-stream conflict is substantial. Retain the computed geometry as evidence only and withhold web placement pending a supported local correspondence; do not snap the group to another road."
+        },
+        {
+          "annotation_id": "F19-JUD-080",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+        },
+        {
+          "annotation_id": "F19-JUD-083",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
+          "annotation_id": "F19-JUD-084",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
+          "annotation_id": "F19-JUD-085",
+          "stage": "outside-supported-coverage",
+          "reason": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate."
+        },
+        {
+          "annotation_id": "F19-JUD-090",
+          "stage": "source-location-unresolved",
+          "reason": "700 FT. has no associated spot-height mark, benchmark or distinctly identified summit in the source context. Preserve the wording without a site coordinate or present elevation claim."
+        },
+        {
+          "annotation_id": "F19-JUD-101",
+          "stage": "source-location-unresolved",
+          "reason": "Native source reviewed: Mills does not identify a distinct mark or a defensible building group. Keep native and map feature geometry null; lettering and crossing are not substitute sites."
+        },
+        {
+          "annotation_id": "F19-JUD-124",
+          "stage": "locality-unresolved",
+          "reason": "The source postal mark north of Blue Bridge projects into the modern river corridor, while the road crossing has a different position. The local bank/road correspondence cannot support a postal-site placement. Retain the computed point as evidence only and withhold web export pending supported local correspondence."
+        },
+        {
+          "annotation_id": "F19-JUD-125",
+          "stage": "locality-unresolved",
+          "reason": "The source road/river intersection is explicit, but its projected point is off the modern watercourse and lacks a matching road crossing. Do not identify it with the modern highway bridge farther northwest. The historical crossing needs a supported local comparison before web placement; retain the prediction as evidence only."
+        },
+        {
+          "annotation_id": "F19-JUD-128",
+          "stage": "locality-unresolved",
+          "reason": "The prediction overlaps a modern road/tributary crossing, while the source pair is north of the curved road with no corresponding crossing at the marks. The main brook remains farther east, but the local bank/crossing relationship is not reconciled. Preserve the source group and computed geometry as evidence and withhold web placement pending a supported local comparison."
+        },
+        {
+          "annotation_id": "F19-JUD-129",
+          "stage": "source-location-unresolved",
+          "reason": "The descriptive shale/fossil wording has no distinct outcrop mark or defensible extent in the inspected source. The river and geological unit are not outcrop boundaries."
+        },
+        {
+          "annotation_id": "F19-JUD-130",
+          "stage": "source-location-unresolved",
+          "reason": "The full diagonal CRAIGNISH HILLS inscription spans fourteen separate letter boxes across much of the sheet. Wider native review finds no associated summit symbol, contour or defensible landscape boundary. Preserve every original box, with no invented point, envelope or geological-unit boundary promoted to the named hills."
+        },
+        {
+          "annotation_id": "F19-JUD-131",
+          "stage": "locality-unresolved",
+          "reason": "The source Victoria Road axis is clear, but its northern Blue Bridge approach retains the previously unresolved crossing mismatch. The current fit also places parts of the road/rail junction district against modern river channels in relationships not reconciled with the source. Preserve the full prediction as evidence and withhold web placement pending a supported local comparison; do not replace it with a convenient modern road."
+        },
+        {
+          "annotation_id": "F19-JUD-132",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
+          "annotation_id": "F19-JUD-133",
+          "stage": "locality-unresolved",
+          "reason": "The printed proposal axis is clear, but its surrounding river and road-crossing relationships under this fit are not reconciled with the modern channel/wetland network. A present railway match is not required for a proposal; the unresolved issue is the geographic context. Preserve the proposal and prediction as evidence, withholding web placement until that context is supported. No construction or operation is inferred."
+        },
+        {
+          "annotation_id": "F19-JUD-134",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native falls-junction group extends outside the conservative source-control hull. Preserve its source geometry and withhold modern placement; do not shrink the group to pass."
+        },
+        {
+          "annotation_id": "F19-JUD-139",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
+          "annotation_id": "F19-JUD-140",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
+          "annotation_id": "F19-JUD-141",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
+        },
+        {
+          "annotation_id": "F19-JUD-142",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+        },
+        {
+          "annotation_id": "F19-JUD-143",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete shop candidate group extends outside the current conservative source-control hull. Keep source geometry and withhold map placement pending accepted local support."
+        },
+        {
+          "annotation_id": "F19-JUD-144",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
+          "annotation_id": "F19-JUD-149",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete lower River Denys Road trace extends beyond the conservative native source-control hull. Keep the source axis and withhold map geometry; do not trim the road to force acceptance."
+        },
+        {
+          "annotation_id": "F19-JUD-155",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
+          "annotation_id": "F19-JUD-156",
+          "stage": "outside-supported-coverage",
+          "reason": "The Big Brook P.O. candidate group is outside the current conservative source-control hull. Keep source geometry without map placement; do not extrapolate."
+        },
+        {
+          "annotation_id": "F19-JUD-159",
+          "stage": "source-location-unresolved",
+          "reason": "850 FT. has no associated spot-height mark, benchmark or distinct summit near the southern border. Lettering and colour boundaries cannot supply a terrain point."
+        },
+        {
+          "annotation_id": "F19-JUD-160",
+          "stage": "locality-unresolved",
+          "reason": "The source road curves northeast from the elongated waterbody to end at the name group; the modern road instead continues north well west of the prediction, and the northern waterbody/road relationship differs. The nearby lake supports the wider district but does not resolve this terminal-site correspondence. Retain the full prediction as evidence, withholding web placement until a supported local comparison resolves it."
+        },
+        {
+          "annotation_id": "F19-JUD-161",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
+          "annotation_id": "F19-JUD-164",
+          "stage": "outside-fit-neatline",
+          "reason": "The complete Princeville printed group crosses the frozen southern native neatline. Retain its source region without map placement; do not shrink it or replace it with a caption centre to pass the gate."
+        },
+        {
+          "annotation_id": "F19-JUD-165",
+          "stage": "outside-fit-neatline",
+          "reason": "The Princeville P.O. candidate group crosses the frozen fit’s native neatline near the printed southern border. Preserve the actual source group and withhold map placement; do not trim it to force acceptance."
+        }
+      ],
+      "annotation_queue": "sheet-19-queue.json",
+      "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
+      "integration_status": "All 126 reviewed placements merged through PR453 with green required CI; all 166 initial decisions complete and 40 residual holdbacks documented.",
+      "source_association_reviewed_count": 166,
+      "merged_integrated_count": 126
+    },
+    {
+      "sheet": 16,
+      "extraction_status": "source-reviewed",
+      "source_reviewed_count": 256,
+      "lettering_status": "processed",
+      "source_associated_count": 30,
+      "approximate_placement_reviewed_count": 16,
+      "integrated_count": 16,
+      "blockers": [
+        {
+          "annotation_id": "F16-PHM-001",
+          "stage": "outside-fit-neatline",
+          "reason": "The actual observation-station glyph lies outside the current fit neatline. Preserve the whole native point with no map placement; do not move it inward or substitute lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-003",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-005",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-006",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-007",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-017",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-019",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-021",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-022",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-023",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-064",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-069",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-085",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-086",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        }
+      ],
+      "annotation_queue": "sheet-16-queue.json",
+      "lettering_path": "reports/fletcher/label-geography/sheet-16-labels.geojson",
+      "source_association_reviewed_count": 30,
+      "merged_integrated_count": 0,
+      "integration_status": "First 16 placements pass local checks and await PR; 30 initial source/geographic decisions recorded."
+    },
+    {
+      "sheet": 14,
+      "extraction_status": "source-reviewed",
+      "source_reviewed_count": 166,
+      "lettering_status": "processed",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "annotation_queue": "sheet-14-queue.json",
+      "lettering_path": "reports/fletcher/label-geography/sheet-14-labels.geojson"
+    },
+    {
+      "sheet": 1,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet01",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 2,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet02",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 3,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet03",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 4,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet04",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 5,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet05",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 6,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet06",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 7,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet07",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 8,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet08",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 9,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet09",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 10,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet10",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 11,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet11",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 12,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet12",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 13,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet13",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 15,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet15",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 17,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet17",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 18,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet18",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 20,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet20",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 21,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet21",
+      "placement_constraint": "PR435 retains the earlier fifteen-control provisional baseline and rejects the seventeen-control experiment. Whole-sheet geographic acceptance remains unproven; reconcile committed local support before placement. Source extraction can proceed.",
+      "latest_fit_handoff": "reports/fletcher/sheet21/refinement-20260912/README.md"
+    },
+    {
+      "sheet": 23,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet23",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    },
+    {
+      "sheet": 24,
+      "extraction_status": "not-reconciled",
+      "source_reviewed_count": 0,
+      "lettering_status": "not-started",
+      "source_associated_count": 0,
+      "approximate_placement_reviewed_count": 0,
+      "integrated_count": 0,
+      "blockers": [],
+      "georeferencing_evidence": "reports/fletcher/sheet24",
+      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    }
+  ],
+  "delivery": [
+    {
+      "pr": 432,
+      "status": "merged",
+      "merge_commit": "84b37f934305d5599922d215b051a57aacb6249d"
+    },
+    {
+      "pr": 436,
+      "status": "merged",
+      "merge_commit": "706efb63a25bca3b9f45a7980161ed78a41a02f3",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 439,
+      "status": "merged",
+      "head": "aec7b91c1a98ce5a15e81f4f243229532bf26e09",
+      "ci": "Updated head passed all required checks; earlier native measuring UI flakes are retained in PR history.",
+      "merge_commit": "c4298d490ccb428000654712ef663ec822eed543"
+    },
+    {
+      "pr": 446,
+      "status": "merged",
+      "head": "eaabb9b2998b24d86b1e3cf5e20f3fbf467a4093",
+      "merge_commit": "9d6f982785b251ead63cb66560072cd29530252b",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 447,
+      "status": "merged",
+      "head": "d33487450258366ae050944116861b3b91dfced1",
+      "merge_commit": "84a9d73658f1ebcd1b4781ab5ac59b1dc120a5af",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 451,
+      "status": "merged",
+      "head": "52de7ba67fb28fe086da430b54f0108cb214f4f8",
+      "merge_commit": "da620f6b0eef840f8b8945e9e30d2d0e0fb88985",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 453,
+      "status": "merged",
+      "head": "3f9e50317e475d4bb7cfe0d194805adf89ad5c1b",
+      "merge_commit": "31ae83a61bd7fc577062441b77fa06c47bbbaa35",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 455,
+      "status": "merged",
+      "head": "c14d0129131e6cf9dd8ccd459b2cec15c8b8d242",
+      "merge_commit": "727b31233e8ef9b9404e5b7852c6cf2a305abee3",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 458,
+      "status": "merged",
+      "head": "588ad7dfdec1ff448d1b5b1cda92c2553209959c",
+      "merge_commit": "94722930dfa583fcdaaad17f994a2f1cb5726936",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 459,
+      "status": "merged",
+      "head": "640a35782084881e0ae3d7e6fe2d0a2fa1d8d5a7",
+      "merge_commit": "e138c13ffb9db8b4e0c677fa99283bbc3e3c9774",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 460,
+      "status": "merged",
+      "head": "3d913f312b9f0c30f98470f5166c663fd457f440",
+      "merge_commit": "3c0fa79f068bfc3ace10fc415661e288c0d2b73c",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 461,
+      "status": "merged",
+      "head": "293891747de1b8825024b161122d4e7a9ce59803",
+      "merge_commit": "ad8affa880dcf05dc3046f82e2adb0b7da6bf898",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 462,
+      "status": "merged",
+      "head": "b99d88693fa4c8dc09e3f5b27938133f65d5b08a",
+      "merge_commit": "56ba5570d5bdeab1fbd3fa3304f1e031490250fb",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 463,
+      "status": "merged",
+      "head": "925d6994013a5987639f466b1d4e58083accddbb",
+      "merge_commit": "d0f8f1f01bf64fc6a0fa63779bf39932a7ba7db6",
+      "ci": "All required checks passed. Initial native job failed during simulator launch before the test body; failed jobs passed on unchanged-head attempt 2.",
+      "ci_run": 34749552074
+    },
+    {
+      "pr": 464,
+      "status": "merged",
+      "head": "1876e3c43630c92bc31670669f65afee46452897",
+      "merge_commit": "17c92b745568111eca551cfed14302b5ef805926",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 469,
+      "status": "merged",
+      "head": "992c5c11fc4b93d38e0176959444601f2850fefb",
+      "merge_commit": "769a47acb874e3231606329043643a36c4f61e7c",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 472,
+      "status": "merged",
+      "head": "25c754a7005d3dda2ff0478e615b5b60f57ec9bf",
+      "merge_commit": "4ceacae50e1f3aa7a97089ff56002a9f6afa77e0",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 473,
+      "status": "merged",
+      "head": "91de960b36a6963b167d86564b40d809ecff035f",
+      "merge_commit": "a96063b663028395cf3ee54c23c51a6ebd03bc01",
+      "ci": "All required checks passed. Hosted browser checks passed all 36 tests using one worker after two earlier terrain-timing failures with two workers; no assertions or timeouts relaxed."
+    }
+  ],
+  "fit_reconciliation": {
+    "reviewed_merge": "e007dd64c4a066741688bafff69b8df2b4113a48",
+    "evidence": "reports/fletcher/route19-three-rounds-20260912/README.md",
+    "decision": "PR448 labels the newer selected fits reversible full-sheet drafts and explicitly retains downstream pins. Keep supported, previously reviewed feature/lettering pins. No rejected trial or new draft is silently adopted; future adoption requires preserving predictions and renewed placement review.",
+    "additional_handoffs": [
+      {
+        "pr": 435,
+        "merge_commit": "f2d25abf2bc86093bbc53f0e62ca4435d20fa8d9",
+        "evidence": "reports/fletcher/sheet21/refinement-20260912/README.md",
+        "decision": "Retain the earlier fifteen-control sheet21 fit as provisional baseline; the seventeen-control experiment regresses a mainland check and lacks whole-sheet acceptance. Priority corridor pins remain unchanged."
+      }
+    ]
+  }
+}

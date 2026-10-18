@@ -1,0 +1,41 @@
+[
+  [
+    "C01",
+    "Beaver Lake northern tip",
+    [
+      960,
+      307
+    ],
+    [
+      985,
+      162
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Branch Lake southern tip",
+    [
+      1337,
+      1341
+    ],
+    [
+      1345,
+      1202
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Sharp Head eastern tip",
+    [
+      3668,
+      3480
+    ],
+    [
+      3688,
+      3376
+    ],
+    "WACOIS10"
+  ]
+]

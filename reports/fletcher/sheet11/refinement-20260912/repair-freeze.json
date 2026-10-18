@@ -1,0 +1,23 @@
+{
+  "at_utc": "2026-09-12T13:10:31.679384+00:00",
+  "fit_sha256": "4f05ff0c0d63c823d31e664a72e02c221c1fd03d9c1f8e025364c7f861e4ec2a",
+  "prior_fit_sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "boundaries": [
+    {
+      "component": "mainland",
+      "sha256": "c4f19abbac51325f1492174adbb522719fdb615a73e2517261d845649019eafb"
+    },
+    {
+      "component": "island",
+      "sha256": "f4fb41dcc790c8d3520fafaa28cc5b88192bdf2c85135b093d94cef4e121eb6c"
+    }
+  ],
+  "control_count": 28,
+  "fresh_validation_collected": false,
+  "criteria": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "distributed_whole_raster_and_seams_required": true
+  }
+}

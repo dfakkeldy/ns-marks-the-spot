@@ -1,0 +1,43 @@
+{
+  "candidates": [
+    {
+      "name": "St. Rose Pond",
+      "reason": "Modern narrow coastal pond is available, but a matching closed outline was not established in the source. No invented polygon or historical-absence claim."
+    },
+    {
+      "name": "Arsenaults Pond",
+      "reason": "Source shows channel/island-like outlines along Margaree River; the small D-shaped outline was not established as the modern pond. Do not substitute an island/channel outline for a pond."
+    },
+    {
+      "name": "MacLellans Pond",
+      "reason": "The inspected source labels McIsaac Pond farther along the coastal sequence. Its equivalence to the modern MacLellans Pond was not established; neither name similarity nor an inverse-guide position supplies correspondence."
+    },
+    {
+      "name": "Lower Lake O'Law bodies",
+      "reason": "The first lake is adopted, but the inspected lower bodies/connecting channel and road ink did not yield a defensible separate complete outline. No additional lake check adopted from this crop."
+    },
+    {
+      "name": "Ryan Brook / Lake O Law Brook",
+      "reference_node": [
+        -60.96867328521594,
+        46.313248148168086
+      ],
+      "reference_vertices": [
+        {
+          "feature_id": 270211,
+          "vertex": 0
+        },
+        {
+          "feature_id": 270212,
+          "vertex": 148
+        },
+        {
+          "feature_id": 284232,
+          "vertex": 28
+        }
+      ],
+      "reason": "Named reference confluence and broad source context agree, but native road/channel ink forms an ambiguous small junction area. No precise source pixel or score was adopted."
+    }
+  ],
+  "all_unscored": true
+}

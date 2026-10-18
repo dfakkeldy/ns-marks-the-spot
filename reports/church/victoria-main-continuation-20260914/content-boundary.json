@@ -1,0 +1,68 @@
+{
+  "ring_pixel_xy": [
+    [
+      21500,
+      650
+    ],
+    [
+      33200,
+      650
+    ],
+    [
+      33200,
+      24855
+    ],
+    [
+      25085,
+      25020
+    ],
+    [
+      25085,
+      30720
+    ],
+    [
+      12420,
+      30720
+    ],
+    [
+      12420,
+      20900
+    ],
+    [
+      14800,
+      16800
+    ],
+    [
+      17000,
+      12500
+    ],
+    [
+      19800,
+      8000
+    ],
+    [
+      20800,
+      5600
+    ]
+  ],
+  "status": "Second review proposal; native Baddeck corners and lower western separator checked, upper left content boundary and full rendering still pending. Not adopted.",
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      12000,
+      500
+    ],
+    "extent": [
+      21300,
+      30500
+    ],
+    "display": [
+      1704,
+      2440
+    ],
+    "rotation": 0
+  },
+  "geographic_acceptance": false,
+  "changes_from_first": "First proposal clipped shoreline next to Whycocomagh basin separator and prematurely cropped Maclean Beach approach to Baddeck inset. Move western edge from12650 to12420, trace the sloping inset border gap, and keep full main content to inner southern page rule. All numbers are native pixels, not GCPs."
+}

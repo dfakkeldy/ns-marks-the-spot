@@ -24,7 +24,103 @@
   --line: rgba(18, 52, 59, 0.18);
   --muted: rgba(18, 52, 59, 0.68);
   --shadow: 0 18px 50px rgba(18, 52, 59, 0.2);
+  /* The raised surface as channels, for the many places that draw it at a
+     tuned alpha — a rail at 0.98, a chip at 0.74. Those cannot use `--white`
+     without losing the alpha, and hard-coding the channels leaves a white card
+     under light text on a dark ground. */
+  --surface-rgb: 255, 255, 255;
+  --fog-rgb: 238, 247, 245;
+  --paper-rgb: 251, 246, 234;
+  /* The one tinted panel that is neither paper nor fog: the theme picker's
+     blue wash. */
+  --tint-blue: #f3f8ff;
+  /* Both, and in this order: the browser paints its own form controls,
+     scrollbars and focus rings from this, and without it a phone reading the
+     system as dark renders a select on a light card as dark-on-dark. */
+  color-scheme: light dark;
 }
+
+/* The same map at dusk.
+   ------------------------------------------------------------------
+   This is a field tool, and the light it is used in changes: a screen carrying
+   a light chrome over an aerial basemap at dusk is the one moment a reader
+   cannot dim. The iOS app takes the system's setting for free, so the browser
+   staying light-only was also a parity gap between the two surfaces.
+
+   Only the tokens are redefined. Every colour in this sheet is drawn from
+   them, so the layout, the type scale and the evidence treatments are the same
+   on both grounds — and so is the rule that a caveat is never fainter than the
+   figure it qualifies.
+
+   Measured against the dark ground (#0d1f24) and against the raised card
+   (--white, #1b3940), which is the worse of the two:
+
+     ink   #e8f1f0   14.8:1 on the ground,  10.7:1 on a card
+     blue  #8cc0ff    9.0:1 on the ground,   6.5:1 on a card
+     red   #f08b78    7.0:1 on the ground
+     green #a9c98a    9.2:1 on the ground,   6.7:1 on a card
+     peach #efbb87    9.8:1 on the ground
+
+   All well past AA at every size this sheet uses them, which matters more
+   here than in light: the tax-sale red and the layer-status green carry
+   meaning, and a dark ground is where a colour that was chosen for a white
+   one goes muddy. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) {
+    color: #e8f1f0;
+    background: #0d1f24;
+    --chart-ink: #e8f1f0;
+    --deep-water: #9fd6e2;
+    --survey-blue: #8cc0ff;
+    --paper-peach: #efbb87;
+    --survey-red: #f08b78;
+    --lichen: #a9c98a;
+    --fog: #0d1f24;
+    /* The paper tint keeps its job — a warmer ground for the printed-record
+       surfaces — a shade above the page rather than below it. */
+    --paper: #152b31;
+    /* Not white. `--white` names the raised surface a card is drawn on, and
+       on a dark ground that surface is lighter than the page, not brighter
+       than everything. */
+    --white: #1b3940;
+    --line: rgba(232, 241, 240, 0.22);
+    --muted: rgba(232, 241, 240, 0.72);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    --surface-rgb: 27, 57, 64;
+    --fog-rgb: 13, 31, 36;
+    --paper-rgb: 21, 43, 49;
+    --tint-blue: #16303c;
+  }
+}
+
+:root[data-map-appearance="night"] {
+    color: #e8f1f0;
+    background: #0d1f24;
+    --chart-ink: #e8f1f0;
+    --deep-water: #9fd6e2;
+    --survey-blue: #8cc0ff;
+    --paper-peach: #efbb87;
+    --survey-red: #f08b78;
+    --lichen: #a9c98a;
+    --fog: #0d1f24;
+    /* The paper tint keeps its job — a warmer ground for the printed-record
+       surfaces — a shade above the page rather than below it. */
+    --paper: #152b31;
+    /* Not white. `--white` names the raised surface a card is drawn on, and
+       on a dark ground that surface is lighter than the page, not brighter
+       than everything. */
+    --white: #1b3940;
+    --line: rgba(232, 241, 240, 0.22);
+    --muted: rgba(232, 241, 240, 0.72);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    --surface-rgb: 27, 57, 64;
+    --fog-rgb: 13, 31, 36;
+    --paper-rgb: 21, 43, 49;
+    --tint-blue: #16303c;
+  color-scheme: dark;
+}
+
+:root[data-map-appearance="day"] { color-scheme: light; }
 
 * {
   box-sizing: border-box;
@@ -57,62 +153,15 @@ a {
 
 .app-shell {
   display: grid;
-  grid-template-rows: 68px minmax(0, 1fr) 46px;
+  /* The attribution row is auto-sized, not fixed: it carries licence
+     obligations whose length is set by whichever layers are on, and a fixed
+     46px clipped the coastal notices — and the Data & licences button under
+     them — the moment a coastal layer was switched on. */
+  grid-template-rows: minmax(0, 1fr) auto;
   height: var(--app-viewport-height, 100dvh);
   min-height: var(--app-viewport-height, 100dvh);
   overflow: hidden;
   background: var(--fog);
-}
-
-.app-header {
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 8px 28px;
-  color: var(--white);
-  background: var(--chart-ink);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.header-collapse {
-  display: grid;
-  flex: 0 0 auto;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  padding: 0;
-  color: var(--white);
-  font-size: 1.35rem;
-  line-height: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.header-collapse:hover {
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.app-shell.header-collapsed {
-  grid-template-rows: 36px minmax(0, 1fr) 46px;
-}
-
-.header-collapsed .app-header {
-  justify-content: flex-end;
-  padding-block: 2px;
-}
-
-.header-collapsed .app-brand,
-.header-collapsed .offline-nav {
-  display: none;
-}
-
-.header-collapsed .header-collapse {
-  width: 34px;
-  height: 30px;
 }
 
 .app-brand {
@@ -136,7 +185,7 @@ a {
 }
 
 .app-brand span {
-  color: #85b5ff;
+  color: var(--deep-water);
 }
 
 .offline-nav {
@@ -149,7 +198,10 @@ a {
 .header-action,
 .primary-action {
   display: inline-flex;
-  min-height: 42px;
+  /* 44, not 42. These two render the first thing a reader meets — the licence
+     dialog's Accept and Continue — and two pixels under the target is still
+     under it. */
+  min-height: 44px;
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
@@ -183,14 +235,17 @@ a {
   z-index: 600;
   min-width: 0;
   min-height: 0;
-  padding: 24px 24px 18px;
+  padding: 18px 24px;
   overflow-y: auto;
   background: var(--white);
   border-right: 1px solid var(--line);
   box-shadow: 6px 0 24px rgba(18, 52, 59, 0.08);
 }
 
-.layer-rail > h1,
+/* `.layer-rail > h2` is the rail's own heading, not the headings inside it:
+   `.rail-section h2` and `.map-theme-picker h2` are h2s as well, and the child
+   combinator is what keeps this display type off them. */
+.layer-rail > h2,
 .parcel-inspector h2,
 .licence-dialog h2 {
   margin: 0;
@@ -198,9 +253,9 @@ a {
   line-height: 1.08;
 }
 
-.layer-rail > h1 {
-  margin-bottom: 20px;
-  font-size: 2rem;
+.layer-rail > h2 {
+  margin-bottom: 16px;
+  font-size: 1.45rem;
 }
 
 .pid-search label,
@@ -214,22 +269,43 @@ a {
 
 .search-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 8px;
 }
 
 .search-row .primary-action {
-  width: 100%;
+  width: 44px;
+  padding: 10px;
+}
+
+.search-row svg {
+  width: 20px;
+  height: 20px;
 }
 
 .search-row input {
   min-width: 0;
-  height: 42px;
+  height: 44px;
   padding: 0 12px;
   color: var(--chart-ink);
   background: var(--white);
-  border: 1px solid rgba(18, 52, 59, 0.35);
+  border: 1px solid var(--line);
   border-radius: 5px;
+}
+
+:is(.app-header, .layer-rail, .map-region) :is(button, a, input, select):focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 3px;
+}
+
+.search-row input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.layer-category-heading:hover {
+  background: var(--fog);
+  border-radius: 6px;
 }
 
 .search-row input:focus {
@@ -281,8 +357,9 @@ a {
 }
 
 .address-search-results button:hover,
-.address-search-results button:focus-visible {
-  background: #edf5ff;
+.address-search-results button:focus-visible,
+.address-search-results button[aria-selected="true"] {
+  background: var(--tint-blue);
 }
 
 .rail-section {
@@ -308,10 +385,10 @@ a {
 
 .map-theme-picker {
   display: grid;
-  gap: 8px;
-  margin: 18px -12px 0;
+  gap: 6px;
+  margin: 12px 0 0;
   padding: 12px;
-  background: #f3f8ff;
+  background: var(--tint-blue);
   border: 1px solid rgba(47, 128, 237, 0.28);
   border-radius: 8px;
 }
@@ -327,11 +404,11 @@ a {
 
 .map-theme-picker select {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   padding: 8px 10px;
   color: var(--chart-ink);
   background: var(--white);
-  border: 1px solid rgba(18, 52, 59, 0.35);
+  border: 1px solid var(--line);
   border-radius: 5px;
 }
 
@@ -356,9 +433,10 @@ a {
 
 .map-theme-picker button {
   justify-self: start;
+  min-height: 44px;
   padding: 6px 0;
   color: var(--survey-blue);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-decoration: underline;
   background: none;
@@ -392,7 +470,7 @@ a {
   padding: 24px;
   overflow-y: auto;
   background: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(var(--surface-rgb), 0.55);
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
@@ -644,7 +722,7 @@ a {
   margin: 4px 0 7px;
   padding: 6px 7px;
   color: var(--muted);
-  background: rgba(238, 247, 245, 0.75);
+  background: rgba(var(--fog-rgb), 0.75);
   border-left: 2px solid rgba(18, 52, 59, 0.22);
   border-radius: 0 4px 4px 0;
 }
@@ -710,7 +788,7 @@ a {
 }
 
 .layer-category {
-  border-top: 1px solid rgba(18, 52, 59, 0.14);
+  border-top: 1px solid var(--line);
 }
 
 .layer-category:first-of-type {
@@ -804,7 +882,7 @@ a {
   border-top: 1px solid rgba(18, 52, 59, 0.12);
 }
 
-.resource-layer-group summary {
+.resource-layer-group > summary {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 4px 12px;
@@ -817,11 +895,11 @@ a {
   list-style: none;
 }
 
-.resource-layer-group summary::-webkit-details-marker {
+.resource-layer-group > summary::-webkit-details-marker {
   display: none;
 }
 
-.resource-layer-group summary::after {
+.resource-layer-group > summary::after {
   grid-column: 2;
   grid-row: 1 / span 2;
   color: var(--lichen);
@@ -830,11 +908,11 @@ a {
   font-weight: 400;
 }
 
-.resource-layer-group[open] summary::after {
+.resource-layer-group[open] > summary::after {
   content: "−";
 }
 
-.resource-layer-group summary small {
+.resource-layer-group > summary small {
   grid-column: 1;
   color: var(--muted);
   font-size: 0.7rem;
@@ -988,7 +1066,7 @@ a {
   padding: 10px;
   color: var(--muted);
   font-size: 0.67rem;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(var(--surface-rgb), 0.74);
   border: 1px solid rgba(8, 118, 155, 0.18);
   border-radius: 5px;
 }
@@ -1185,7 +1263,7 @@ a {
   padding: 10px;
   color: var(--muted);
   font-size: 0.67rem;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(var(--surface-rgb), 0.74);
   border: 1px solid rgba(2, 132, 199, 0.18);
   border-radius: 5px;
 }
@@ -1258,6 +1336,35 @@ a {
 .well-log-popup {
   min-width: 230px;
   color: var(--chart-ink);
+}
+
+.camera-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+  color: var(--chart-ink);
+}
+
+.camera-popup img {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.camera-popup .camera-popup-unavailable {
+  margin: 0;
+  padding: 10px;
+  border-radius: 4px;
+  background: rgba(127, 127, 127, 0.12);
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.camera-popup small {
+  color: var(--muted);
 }
 
 .well-log-popup .well-log-popup-eyebrow {
@@ -1595,10 +1702,32 @@ a {
   list-style: none;
 }
 
+.crown-land-key {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.crown-land-key > span:first-child {
+  flex: 0 0 1rem;
+  height: 1rem;
+  margin-top: 0.15rem;
+  border: 1px solid;
+}
+
 .road-legend li {
   display: flex;
   align-items: center;
   gap: 7px;
+}
+
+.road-legend .road-legend-note {
+  grid-column: 1 / -1;
+  display: block;
+  line-height: 1.4;
 }
 
 .road-swatch {
@@ -1650,6 +1779,36 @@ a {
   background: none;
   border: 0;
   cursor: pointer;
+}
+
+.data-sources-dialog {
+  max-width: 560px;
+}
+
+.data-sources-list {
+  display: grid;
+  max-height: 44vh;
+  margin: 0;
+  padding: 0 4px 0 0;
+  gap: 10px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.data-sources-list li {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 8px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-list li:last-child {
+  border-bottom: 0;
+}
+
+.data-sources-list li > span {
+  color: var(--muted);
 }
 
 .segmented-control {
@@ -1743,12 +1902,28 @@ a {
   overflow: hidden;
 }
 
+/* Closing the parcel inspector hands focus back here, so the next Tab starts
+   at the map rather than at the top of the document. A keyboard user should
+   see where focus landed; someone who closed the panel with a pointer should
+   not get a ring drawn around the whole map. */
+.map-region:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: -3px;
+}
+
+.map-region:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .map-canvas,
 .leaflet-container {
   width: 100%;
   height: 100%;
 }
 
+/* The water behind a tile that has not arrived. Map content, not chrome: the
+   ground is the same ground in either scheme, and darkening it would put a
+   different Nova Scotia under the two. */
 .leaflet-container {
   background: #b7dce3;
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -1772,8 +1947,30 @@ a {
     drop-shadow(0 0 6px rgba(116, 97, 168, 0.95));
 }
 
+/* Leaflet ships its zoom buttons as white with dark glyphs, from its own
+   stylesheet. The glyph colour was already taken over here; on a dark ground
+   the background has to come too, or the one control the app did not draw
+   itself sits on the map as a white block beside a rail of dark circles. */
 .leaflet-control-zoom a {
   color: var(--chart-ink);
+  background-color: var(--white);
+}
+
+.leaflet-control-zoom a:hover,
+.leaflet-control-zoom a:focus {
+  background-color: var(--fog);
+}
+
+/* Leaflet draws the seam between + and − and the bar's edge in its own
+   greys, which disappear into a dark card. */
+.leaflet-bar,
+.leaflet-bar a {
+  border-color: var(--line);
+}
+
+.leaflet-control-zoom a.leaflet-disabled {
+  color: var(--muted);
+  background-color: var(--paper);
 }
 
 .location-button {
@@ -1827,6 +2024,50 @@ a {
   background: var(--survey-blue);
 }
 
+.measure-control.measure-actions {
+  left: 66px;
+}
+
+.measure-actions button {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.measure-actions button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.leaflet-tooltip.measure-endpoint-label {
+  z-index: 300;
+  padding: 8px 12px;
+  color: #172f36;
+  background: #fff;
+  border: 2px solid #d97706;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px #0004;
+  text-align: center;
+  pointer-events: none;
+}
+
+.measure-endpoint-label span {
+  display: block;
+  font-size: 12px;
+}
+
+.measure-endpoint-label strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.leaflet-tooltip-top.measure-endpoint-label::before {
+  border-top-color: #d97706;
+}
+
 .measure-readout {
   position: absolute;
   z-index: 500;
@@ -1837,7 +2078,7 @@ a {
   color: var(--chart-ink);
   font-family: "IBM Plex Mono", Menlo, monospace;
   font-size: 0.78rem;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(var(--surface-rgb), 0.94);
   border: 1px solid var(--line);
   border-radius: 4px;
   /* Non-interactive readout text renders inside MapContainer; without this,
@@ -1857,10 +2098,389 @@ a {
   stroke-width: 1.7;
 }
 
+/* Mark + follow + privacy chip, revealed beside the locate toggle while
+   location is on. Same 46px round treatment as .location-button. */
+.location-cluster {
+  position: absolute;
+  z-index: 500;
+  top: 86px;
+  left: 66px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.location-cluster-button {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  place-items: center;
+  color: var(--survey-blue);
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  cursor: pointer;
+}
+
+.location-cluster-button:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.location-follow {
+  height: 46px;
+  padding: 0 14px;
+  color: var(--survey-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  cursor: pointer;
+}
+
+.location-privacy {
+  padding: 4px 8px;
+  color: var(--chart-ink);
+  font-size: 0.68rem;
+  line-height: 1.2;
+  background: rgba(var(--surface-rgb), 0.94);
+  border-radius: 4px;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.18);
+}
+
+/* Recording HUD: elapsed, distance, vertex count, and the fix-quality dot,
+   sitting under the location cluster while a session runs. */
+.location-hud {
+  position: absolute;
+  z-index: 500;
+  top: 138px;
+  left: 66px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 250px;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font-size: 0.78rem;
+  background: rgba(var(--surface-rgb), 0.96);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.location-hud-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.location-hud-quality {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.location-hud-quality-green {
+  background: #1d8a4e;
+}
+
+.location-hud-quality-amber {
+  background: #c58a00;
+}
+
+.location-hud-quality-red {
+  background: #c0392b;
+}
+
+.location-hud small {
+  color: var(--chart-ink);
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+
+.location-hud-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.location-hud-actions button {
+  min-height: 44px;
+  flex: 1;
+  padding: 0 12px;
+  color: var(--survey-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Save-track dialog: the one moment recording data can be lost, so it is
+   modal and Discard confirms. Shared by the bulk photo import.
+
+   Above the phone attribution strip's 1300, not below it. At 1200 the strip
+   painted over the backdrop, so About this map and Data & licences stayed
+   tappable beside a dialog that calls itself modal — and opening one of them
+   put a second modal on the screen. */
+.save-track-backdrop {
+  position: fixed;
+  z-index: 1400;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(18, 52, 59, 0.45);
+}
+
+.save-track-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(420px, 100%);
+  max-height: 90vh;
+  padding: 18px 20px;
+  overflow-y: auto;
+  color: var(--chart-ink);
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+}
+
+.save-track-dialog h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.save-track-stats {
+  margin: 0;
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.save-track-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.save-track-field input {
+  min-height: 44px;
+  padding: 0 10px;
+  font-size: 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.save-track-simplify {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.save-track-simplify legend {
+  padding: 0 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.save-track-simplify label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  font-size: 0.82rem;
+}
+
+.save-track-simplify small {
+  flex-basis: 100%;
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.save-track-note {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.save-track-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.save-track-actions button {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-track-discard {
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.save-track-save {
+  color: var(--white);
+  background: var(--survey-blue);
+  border: 0;
+}
+
+.bulk-photos-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(460px, 100%);
+  max-height: 90vh;
+  padding: 18px 20px;
+  overflow-y: auto;
+  color: var(--chart-ink);
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+}
+
+.bulk-photos-dialog h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.bulk-photos-note,
+.bulk-photos-done {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.bulk-photos-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 40vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.bulk-photos-rows label {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 6px;
+  font-size: 0.82rem;
+  border-radius: 6px;
+}
+
+.bulk-photos-rows label:hover {
+  background: var(--paper, #f4f1e8);
+}
+
+.bulk-photos-rows input {
+  grid-row: span 2;
+}
+
+.bulk-photos-name {
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bulk-photos-rows small {
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.7rem;
+}
+
+.bulk-photos-pick,
+.bulk-photos-create {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--white);
+  cursor: pointer;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 6px;
+}
+
+.bulk-photos-pick:disabled,
+.bulk-photos-create:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.bulk-photos-close {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--chart-ink);
+  cursor: pointer;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.bulk-photos-error {
+  font-size: 0.75rem;
+  color: var(--tax-sale-red, #a0341f);
+}
+
+.save-track-save:disabled,
+.save-track-discard:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+/* Heading wedge on the live-location marker; the divIcon rotates the inner
+   element by the reported course. Non-interactive by construction. */
+.location-heading-anchor {
+  pointer-events: none;
+}
+
+.location-heading {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
+.location-heading::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  border: 6px solid transparent;
+  border-bottom: 11px solid #2f80ed;
+  transform: translateX(-50%);
+}
+
 .modern-map-error {
   position: absolute;
   z-index: 500;
-  top: 12px;
+  top: 72px;
   right: 12px;
   display: flex;
   align-items: center;
@@ -1870,7 +2490,7 @@ a {
   color: var(--chart-ink);
   font-size: 0.72rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
@@ -1898,7 +2518,7 @@ a {
   color: var(--chart-ink);
   font-size: 0.72rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(var(--surface-rgb), 0.94);
   border-radius: 4px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
 }
@@ -1918,7 +2538,7 @@ a {
   font-family: "IBM Plex Mono", Menlo, monospace;
   font-size: 0.7rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(var(--surface-rgb), 0.88);
   border: 1px solid var(--line);
   border-radius: 4px;
   cursor: copy;
@@ -1927,7 +2547,7 @@ a {
 .leaflet-control-scale-line {
   color: var(--chart-ink);
   font-family: "IBM Plex Mono", Menlo, monospace;
-  background: rgba(255, 255, 255, 0.76);
+  background: rgba(var(--surface-rgb), 0.76);
   border-color: rgba(18, 52, 59, 0.55);
 }
 
@@ -1942,7 +2562,7 @@ a {
   font-family: "IBM Plex Mono", Menlo, monospace;
   font-size: 0.68rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(var(--surface-rgb), 0.88);
   border: 1px solid rgba(18, 52, 59, 0.35);
   border-radius: 3px;
   pointer-events: none;
@@ -1950,19 +2570,30 @@ a {
 
 .parcel-lookup-message {
   position: absolute;
-  z-index: 500;
+  /* Above the inspector, which opens over it the moment a parcel is selected.
+     The message is where a shared-boundary tap says the choice was not a
+     determination, and a caution behind an opaque panel is a caution nobody
+     reads. It is inset from the right at every width so it never covers the
+     inspector's 44px close control: pointer-events keeps that button
+     clickable, but a target nobody can see is not a target. */
+  z-index: 950;
   top: 12px;
-  right: 12px;
-  max-width: min(340px, calc(100% - 84px));
+  /* Past the whole 44px close target and its own inset (16 + 14 + 44), not
+     up to its edge: an 8px strip of a control is not a visible control. */
+  right: 82px;
+  max-width: min(340px, calc(100% - 154px));
   margin: 0;
   padding: 8px 10px;
   color: var(--chart-ink);
   font-size: 0.74rem;
   line-height: 1.35;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(var(--surface-rgb), 0.95);
   border: 1px solid var(--line);
   border-radius: 4px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  /* It sits over the inspector so it can be read; it must not take the
+     inspector's close button with it. Nothing here is interactive. */
+  pointer-events: none;
 }
 
 .parcel-lookup-message:empty {
@@ -1978,23 +2609,73 @@ a {
   max-height: calc(100% - 36px);
   padding: 24px;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(var(--surface-rgb), 0.98);
   border: 1px solid var(--line);
   border-radius: 7px;
   box-shadow: var(--shadow);
 }
 
+/* The one part of the panel that does not scroll: which parcel this is, and
+   the way out of it. The panel above is its own scrollport, and an absolutely
+   positioned child of a scrollport is translated by the scroll offset — the
+   close button left the screen with the first swipe of content. On a phone
+   that was the only exit: at 560px and under the panel is full-screen,
+   `.map-region.has-inspector .mobile-map-chrome` is display: none, and the
+   zoom and location controls are faded to opacity 0. Sticky row, negative
+   inline margins bleeding it to the padding box, solid background: the same
+   construction the layer rail's own sticky sheet header uses. The background
+   is fully opaque rather than the panel's 0.98 so scrolled content cannot
+   ghost through the row.
+
+   The native card has a non-scrolling bar for the same reason, but it is not
+   the same bar: ParcelInspectorView.swift pins the short `PID <pid>` and puts
+   everything else in the scroll, while this pins the panel's heading, which
+   is the civic address. Same idea, different content — not parity. */
+/* The map's caution, carried inside the panel while one is open. Above the
+   pinned row rather than over it: on a phone the panel covers the map, so an
+   overlaid message had nowhere to go that was not on top of this panel's own
+   heading and close control. */
+.inspector-lookup-message {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.inspector-header {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 -24px 16px;
+  padding: 14px 14px 12px 24px;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+}
+
 .parcel-inspector h2 {
-  padding-right: 52px;
+  /* The 52px right gutter this used to carry was clearance for the
+     absolutely positioned close button; the flex gap reserves it now.
+     min-width keeps a long address from forcing the row wider than the
+     panel. */
+  min-width: 0;
   font-size: 1.75rem;
 }
 
 .inspector-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
+  display: grid;
+  flex: 0 0 44px;
   width: 44px;
   height: 44px;
+  place-items: center;
+  padding: 0;
   color: var(--chart-ink);
   font-size: min(1.8rem, 32px);
   line-height: 1;
@@ -2645,10 +3326,15 @@ a {
   flex-wrap: wrap;
   align-items: center;
   row-gap: 2px;
+  /* Wrap and grow, never clip: this strip is where the Province attribution
+     and the coastal licence notices — licence obligations — actually render,
+     and nowrap+overflow cut them mid-sentence. The cap keeps a long notice
+     set from taking the map: past it the strip scrolls, the same answer the
+     narrow breakpoint below already gives. */
+  min-height: 46px;
+  max-height: 30dvh;
   padding: 2px 28px;
-  /* Wrap, never clip: this strip is where the Province attribution — a
-     licence obligation — actually renders, and nowrap+overflow cut it to
-     "…provided witho" on ordinary desktop widths. */
+  overflow-y: auto;
   font-size: 0.72rem;
   background: var(--paper);
   border-top: 1px solid var(--line);
@@ -2669,6 +3355,19 @@ a {
 .map-attribution > :first-child {
   padding-left: 0;
   border-left: 0;
+}
+
+/* Every setup folds the strip to its toggle (see the fold effect in App.tsx): one
+   row here, a corner pill on phones below. */
+.map-attribution.collapsed {
+  flex-wrap: nowrap;
+}
+
+/* Text with a link inside an inline-flex item lays out as parallel columns;
+   the civic status reads as one sentence instead. */
+.map-attribution .poker-civic-status {
+  display: block;
+  line-height: 1.3;
 }
 
 .feedback-link {
@@ -2696,7 +3395,7 @@ a {
   width: min(560px, 100%);
   padding: clamp(24px, 5vw, 42px);
   background: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(var(--surface-rgb), 0.55);
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
@@ -2746,13 +3445,19 @@ a {
 }
 
 .secondary-action {
-  min-height: 42px;
+  /* Beside `.primary-action` in the same dialog row; see the note there. */
+  min-height: 44px;
   color: var(--chart-ink);
   font-weight: 700;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: 6px;
   cursor: pointer;
+}
+
+.about-dialog {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
 }
 
 .about-dialog h3 {
@@ -2774,12 +3479,11 @@ a {
 }
 
 .header-about {
-  color: var(--white);
+  color: var(--chart-ink);
 }
 
 @media (max-width: 860px) {
-  .app-shell,
-  .app-shell.header-collapsed {
+  .app-shell {
     position: relative;
     grid-template-rows: minmax(0, 1fr);
     height: var(--app-viewport-height, 100dvh);
@@ -2790,29 +3494,89 @@ a {
     display: none;
   }
 
+  /* The strip floats over the map from this width down, and grows to its
+     72px cap when a layer's licence needs several notices. The inspector's
+     scroll area is padded by that much wherever the strip overlays it, so
+     its last row — Copy, Export, Print and the exact-state link — can always
+     be scrolled clear rather than sitting behind it.
+
+     Between 561px and 860px the narrow override further down never runs, so
+     that same last row inherited the base rule's 18px and landed inside the
+     home indicator on an iPad in portrait standalone. Panel and cap now rise
+     by the same env(safe-area-inset-bottom), which fixes the overlap at 54px
+     here and 30px below 561px — well inside the 84px above, so that figure
+     stays as it is. */
+  .parcel-inspector {
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    padding-bottom: 84px;
+  }
+
   .map-attribution {
     position: absolute;
-    z-index: 1100;
+    /* Above the open layer sheet so Data & licences stays the hit target
+       when a category accordion would otherwise overlap this strip. */
+    z-index: 1300;
     right: 0;
     bottom: 0;
     left: 0;
     /* min-height + scroll rather than the old fixed 32px: the strip is
        where the Province attribution actually renders, and a fixed height
        clipped it after one line. */
-    min-height: 32px;
-    max-height: 72px;
+    /* index.html opts into viewport-fit=cover and apple-mobile-web-app-capable,
+       so on the Home Screen the page runs under the home indicator and the
+       licence lines above — plus the 44px Data & licences and About buttons
+       below — sat in the system gesture zone. Keep bottom: 0 so the paper
+       still reaches the physical edge and the map does not show through
+       beside the indicator, and pad the contents clear of it instead. The
+       bounds carry the inset too, because every box in this sheet is
+       border-box and padding alone would eat the 32px content box rather
+       than sit below it. The padding floor is 2px because the base rule's
+       padding shorthand sets 2px top and bottom and this block re-declares
+       only the inline sides: a bare env() would take the bottom to 0 on a
+       phone with no inset. */
+    min-height: calc(32px + env(safe-area-inset-bottom));
+    max-height: calc(72px + env(safe-area-inset-bottom));
     overflow-y: auto;
     padding-inline: 12px;
-    background: rgba(251, 246, 234, 0.9);
+    padding-bottom: max(2px, env(safe-area-inset-bottom));
+    background: rgba(var(--paper-rgb), 0.9);
     box-shadow: 0 -1px 10px rgba(18, 52, 59, 0.16);
     backdrop-filter: blur(14px);
   }
 
-  /* The strip above overlays the map bottom on small screens; without this
-     the Leaflet scale bar and the coordinate/scale readouts sat underneath
-     it, half-clipped. */
+  /* With the header hidden at this width, About and Data & licences live
+     only in this strip — give them the same 44px target the rail controls
+     get. In-row Review is a second licence path, not a replacement. */
+  .map-attribution button {
+    min-height: 44px;
+  }
+
+  /* Folded, the strip is a pill in the bottom-right corner rather than a
+     full-width bar: the scale bar and screen-scale readout share its row
+     and the map runs to the bottom edge behind them.
+     The pill's own box is what the ResizeObserver measures, so the layer
+     sheet still clears it. */
+  .map-attribution.collapsed {
+    right: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    left: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 0 14px;
+    overflow: visible;
+    border-top: 0;
+    border-radius: 22px;
+    box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  }
+
+  .map-attribution.collapsed > :first-child {
+    padding: 0;
+  }
+
+  /* Attribution wraps to different heights across phone widths and font
+     sizes. Keep the complete scale above its measured border box. */
   .leaflet-bottom.leaflet-left {
-    bottom: 40px;
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
   }
 
   .map-layout {
@@ -2829,12 +3593,13 @@ a {
     bottom: 8px;
     left: 8px;
     display: none;
-    max-height: min(86svh, 760px);
+    /* Follow the visible viewport when the software keyboard opens. */
+    max-height: min(760px, calc(var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)));
     min-height: 0;
     padding-top: 0;
     overflow-y: auto;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(var(--surface-rgb), 0.98);
+    border: 1px solid rgba(var(--surface-rgb), 0.7);
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(18, 52, 59, 0.36);
     backdrop-filter: blur(18px);
@@ -2842,6 +3607,12 @@ a {
 
   .layer-rail.mobile-open {
     display: block;
+    /* Keep the sheet above the measured attribution strip. */
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+  }
+
+  .search-row input {
+    font-size: 16px;
   }
 
   .map-theme-picker select,
@@ -2864,9 +3635,9 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 -24px 20px;
+    margin: 0 -24px 12px;
     padding: 14px 16px 12px 24px;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(var(--surface-rgb), 0.96);
     border-bottom: 1px solid var(--line);
     backdrop-filter: blur(18px);
   }
@@ -2899,12 +3670,16 @@ a {
     min-height: 0;
   }
 
+  /* Left of these pills is Leaflet's zoom bar, pinned 10px from this
+     region's top-left corner. With the 44px buttons set further down, and the
+     2px rim Leaflet adds on a touch container, it ends at most 58px in — so
+     72px is the same 14px of breathing room the pills have always had. */
   .mobile-map-chrome {
     position: absolute;
     z-index: 1000;
     top: max(12px, env(safe-area-inset-top));
     right: 12px;
-    left: 58px;
+    left: 72px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2912,12 +3687,15 @@ a {
     pointer-events: none;
   }
 
+  /* 44px, the target every other control in this block already takes. These
+     two pills were the phone chrome's last 42px holdouts, and their height is
+     what the location ladder's inset offsets below are measured from. */
   .mobile-map-brand,
   .mobile-controls-trigger {
-    min-height: 42px;
+    min-height: 44px;
     color: var(--chart-ink);
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.76);
+    background: rgba(var(--surface-rgb), 0.92);
+    border: 1px solid rgba(var(--surface-rgb), 0.76);
     border-radius: 999px;
     box-shadow: 0 4px 18px rgba(18, 52, 59, 0.24);
     backdrop-filter: blur(16px);
@@ -2968,24 +3746,121 @@ a {
     line-height: 0;
   }
 
+  /* Leaflet ships 26px zoom buttons and bumps them to 30px on touch, which
+     leaves them the one control on the phone map below the 44px target every
+     other control in this block takes. The selector matches Leaflet's own
+     two-class weight and wins on source order, the way this sheet's zoom
+     colour override already does, and .map-canvas keeps it off the
+     georeferencer's scan preview, which has a layout of its own. line-height
+     moves with the box because Leaflet centres the plus and minus glyphs
+     with it. */
+  .map-canvas .leaflet-bar a {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+  }
+
+  /* With viewport-fit=cover, Leaflet's own 10px offset is measured from the
+     physical top of the display, so on a phone with a notch or an island most
+     of the plus button's new 44px sits inside the status bar and cannot be
+     tapped at all. The inset moves the whole bar down by whatever the device
+     reserves, and the location ladder below is written against this rule's
+     resulting bottom edge. */
+  .map-canvas .leaflet-top.leaflet-left {
+    top: env(safe-area-inset-top);
+  }
+
+  /* With viewport-fit=cover these fixed offsets sit relative to the notch,
+     not the visible top — track the mobile chrome, which starts at
+     max(12px, env(safe-area-inset-top)) and now stands 44px tall, by carrying
+     the same inset. The floors answer a second constraint: the zoom bar above
+     takes no safe-area inset at all, so with 44px buttons and the 2px rim
+     Leaflet adds on a touch container it ends at most 102px below the top of
+     this region, and a phone
+     reporting a small inset would otherwise drop this ladder onto it. Each
+     step is the step above plus the control it has to clear, so both branches
+     move by the same amount and the ladder never crosses itself. */
   .location-button {
-    top: 74px;
+    top: max(102px, calc(env(safe-area-inset-top) + 64px));
+  }
+
+  .location-cluster {
+    top: max(102px, calc(env(safe-area-inset-top) + 64px));
+  }
+
+  .location-hud {
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
   }
 
   .location-message {
-    top: 234px;
+    top: max(262px, calc(env(safe-area-inset-top) + 224px));
   }
 
   .measure-control {
-    top: 126px;
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+  }
+
+  /* Share Poker's bare button row with distance and area measurements. */
+  .map-region:not(.poker-mode) .measure-actions {
+    top: auto;
+    right: 8px;
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 90px);
+    left: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .measure-actions button {
+    min-width: 0;
+    height: 44px;
+    padding: 0 4px;
+    border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    box-shadow: 0 1px 6px #12343b33;
+    background: color-mix(in srgb, var(--white) 50%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    font-size: 13px;
   }
 
   .measure-readout {
-    bottom: 16px;
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 142px);
+    max-width: calc(100% - 24px);
   }
 
+  .map-region.attribution-folded .measure-actions {
+    bottom: var(--compact-tools-bottom, calc(60px + env(safe-area-inset-bottom)));
+  }
+
+  .map-region.attribution-folded .measure-readout {
+    bottom: calc(var(--compact-tools-bottom, calc(60px + env(safe-area-inset-bottom))) + 52px);
+  }
+
+  /* All setups share the folded footer's bottom row. Explicit left/width
+     constraints also cover non-Poker maps and landscape layouts. */
+  .map-region.attribution-folded .leaflet-bottom.leaflet-left {
+    bottom: calc(8px + env(safe-area-inset-bottom));
+  }
+
+  .map-region.attribution-folded .leaflet-container .display-scale-readout {
+    left: auto;
+    right: 134px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    max-width: calc(100% - 238px);
+    white-space: normal;
+  }
+
+  /* Follow the same measured footer as the distance bars. The extra 50px
+     above their 8px inset clears both lines and their bottom margin. The
+     measured height already includes the home-indicator safe area. */
+  .display-scale-readout {
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 58px);
+  }
+
+  /* Shares the recording HUD's row, so it moves when that row moves rather
+     than splitting off and landing across the measure buttons. */
   .modern-map-error {
-    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
     right: 12px;
     left: 12px;
     justify-content: space-between;
@@ -3028,16 +3903,14 @@ a {
     padding-left: 16px;
   }
 
+  /* The tighter 10px gap this width has always taken beside the same 48px
+     zoom bar. At 54px the brand pill overlapped the zoom-out button. */
   .mobile-map-chrome {
-    left: 54px;
+    left: 68px;
   }
 
   .mobile-map-brand strong {
     display: none;
-  }
-
-  .search-row {
-    grid-template-columns: 1fr;
   }
 
   .segmented-control {
@@ -3072,17 +3945,56 @@ a {
     padding-inline: 10px;
   }
 
+  /* Full width under the close row rather than squeezed into the strip
+     beside it: at 200% text the 154px inset left a column a few words wide
+     and taller than the screen, with the inspector under it and no way to
+     scroll either. Bounded and scrollable, so a long caution cannot cover
+     the evidence it is about. */
+  .parcel-lookup-message {
+    top: 64px;
+    right: 12px;
+    /* Clear of Leaflet's zoom bar, which is now 44px wide plus its rim and
+       reaches 58px in. Full width from 12px would paint this opaque box over
+       the zoom-out button, and the box takes pointer events, so the control
+       under it would stop answering. */
+    left: 66px;
+    max-width: none;
+    max-height: 30dvh;
+    overflow-y: auto;
+    /* A scroll container nothing can reach is a message with a hidden half:
+       the base rule turns pointer events off so the box never takes the
+       inspector's close control, and that also passed a swipe over this text
+       to the panel underneath. Restored here, where the box is capped, and
+       kept clear of that control by sitting below it. */
+    pointer-events: auto;
+  }
+
   .parcel-inspector {
     top: 10px;
     right: 10px;
-    bottom: 42px;
+    /* The same home-indicator inset the strip's cap takes: the panel and the
+       cap move together, so the 84px scroll padding below still clears the
+       30px the strip overlaps. */
+    bottom: calc(42px + env(safe-area-inset-bottom));
     width: calc(100% - 20px);
     padding: 20px;
+    padding-bottom: 84px;
     overflow-y: auto;
   }
 
+  /* The phone panel pads at 20px, not 24px, so the pinned row is re-inset to
+     bleed to that padding box rather than overhang the panel's border — the
+     same re-inset the rail's sticky sheet header gets in this block for its
+     own padding. */
+  .inspector-header {
+    margin-inline: -20px;
+    padding-left: 20px;
+  }
+
   .map-region.has-inspector .leaflet-control-zoom,
-  .map-region.has-inspector .location-button {
+  .map-region.has-inspector .location-button,
+  .map-region.has-inspector .location-cluster,
+  .map-region.has-inspector .location-hud {
     pointer-events: none;
     opacity: 0;
   }
@@ -3097,6 +4009,10 @@ a {
   }
 }
 
+/* Literal white through the whole print surface, on screen as well as on
+   paper: a preview showing a dark page would be showing something the printer
+   will never produce. Every `.print-` rule below keeps its fixed inks for the
+   same reason. */
 .print-map {
   width: 100%;
   height: 100%;
@@ -3105,7 +4021,8 @@ a {
   border: 1px solid #222;
 }
 
-.print-map .leaflet-tile {
+.print-map .leaflet-tile,
+.print-map .atlas-basemap canvas {
   filter: grayscale(1) contrast(1.18);
 }
 
@@ -3119,6 +4036,8 @@ a {
 
 .print-map .leaflet-control-container,
 .print-map .location-button,
+.print-map .location-cluster,
+.print-map .location-hud,
 .print-map .location-message {
   display: none;
 }
@@ -3153,8 +4072,8 @@ a {
   align-content: start;
   gap: 12px;
   padding: 24px;
-  color: #fff;
-  background: var(--deep-water);
+  color: var(--chart-ink);
+  background: var(--white);
 }
 
 .print-preview-controls h2 {
@@ -3283,6 +4202,8 @@ a {
 }
 
 .print-document {
+  --survey-blue: #1e66cc;
+  color-scheme: light;
   color: #000;
   background: #fff;
   font-size: 9pt;
@@ -3309,6 +4230,7 @@ a {
 .print-general-limitations,
 .print-scale-omission,
 .print-map-failure,
+.print-unanswered-evidence,
 .print-receipt,
 .print-evidence-section {
   margin-right: 10mm;
@@ -3529,7 +4451,8 @@ a {
 .print-research-support .print-required-attribution,
 .print-research-support .print-scale,
 .print-research-support .print-scale-omission,
-.print-research-support .print-map-failure {
+.print-research-support .print-map-failure,
+.print-research-support .print-unanswered-evidence {
   margin: 0;
 }
 
@@ -3546,7 +4469,7 @@ a {
 
 .print-field-support {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 2fr) minmax(0, 3fr);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr);
   gap: 3mm;
   min-height: 0;
   padding-top: 2mm;
@@ -3685,6 +4608,9 @@ a {
   background: linear-gradient(135deg, #fafafa 0%, #aaa 48%, #555 100%);
 }
 
+/* Literal, not the surface token: these symbols are printed, and paper is
+   white whichever scheme the reader's screen is in. Every colour in the print
+   legend is a fixed ink for the same reason. */
 .print-layer-symbol--nsprd {
   border: 1pt solid #777;
   background: #fff;
@@ -4057,7 +4983,8 @@ a {
 .print-required-attribution,
 .print-general-limitations,
 .print-scale-omission,
-.print-map-failure {
+.print-map-failure,
+.print-unanswered-evidence {
   margin-top: 3mm;
   margin-bottom: 0;
 }
@@ -4093,6 +5020,19 @@ a {
 .print-attribution-links li {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+/* Flow notices through columns so a long licence paragraph does not make
+   every short attribution in the same grid row equally tall. */
+.print-research-summary .print-required-attribution {
+  display: block;
+  columns: 2;
+  column-gap: 4mm;
+}
+
+.print-research-summary .print-required-attribution h2,
+.print-research-summary .print-attribution-links {
+  column-span: all;
 }
 
 .print-research-summary .print-attribution-links {
@@ -4268,7 +5208,7 @@ a {
   left: 8px;
   padding: 2px 6px;
   font-size: 12px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(var(--surface-rgb), 0.9);
   border-radius: 4px;
 }
 .export-frame-handle {
@@ -4322,7 +5262,7 @@ a {
   overflow-y: auto;
   padding: clamp(20px, 4vw, 28px);
   background: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(var(--surface-rgb), 0.55);
   border-radius: 8px;
   box-shadow: var(--shadow);
   display: flex;
@@ -4399,13 +5339,15 @@ a {
 }
 
 @media print {
-  body.print-preview-open .app-shell {
+  /* Bare browser print must never reproduce the live map/property UI.
+     Only the independently permission-checked sealed document may print. */
+  .app-shell {
     display: none !important;
   }
 
   /* The rule above cannot reach the georeferencer: App.tsx renders
      `<GeoreferencePanel>` OUTSIDE `.app-shell`, as a sibling of
-     `<PrintPreview>`, so `body.print-preview-open .app-shell` never matches
+     `<PrintPreview>`, so `.app-shell` never matches
      it and the overlay carries its `position: fixed; z-index: 1800` onto
      page 1 of the field sheet. Reachable in one pass: `.parcel-inspector` is
      at `right: 16px`, inside the 55% the panel leaves free, and clickable
@@ -4428,6 +5370,16 @@ a {
      document. */
   .export-dialog-backdrop,
   .export-frame-layer {
+    display: none !important;
+  }
+
+  /* Same exposure again, for the vector edit card. It is rendered OUTSIDE
+     `.app-shell` as well, and a printed page box is narrower than 860px, so
+     the phone block below applies to it: the card's `bottom` is offset by
+     `100%` minus the screen's visual-viewport height, which on Letter puts
+     it in the middle of the field sheet with its own `overflow-y: auto`
+     cropping whatever will not fit. Chrome, never document. */
+  .vector-edit-panel {
     display: none !important;
   }
 
@@ -4483,7 +5435,7 @@ a {
   gap: 5px;
   padding: 10px;
   margin-bottom: 10px;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(var(--surface-rgb), 0.74);
   border: 1px dashed rgba(47, 128, 237, 0.4);
   border-radius: 6px;
 }
@@ -4515,6 +5467,70 @@ a {
   color: #a33228;
   font-size: 0.72rem;
   font-weight: 600;
+}
+
+/* The one edit message that must outlive the panel that raised it: a
+   debounced write can answer after Done has closed the editor, or while a
+   different layer's panel is open, and the reader is still owed the news that
+   the edit is not on this device. One notice per layer, because a full disk
+   fails every layer's write and the second must not erase the first.
+
+   Placed ABOVE the measure readout at bottom: 104px, not on it — 152px clears
+   it even when its "double-click or Enter to finish" hint wraps to two lines.
+   Above the editing card's z-index 1000 as well: an alert behind an opaque
+   panel is an alert nobody reads, which is the reason .parcel-lookup-message
+   gives for its own z-index. It renders outside the Leaflet container, so
+   unlike .measure-control it needs no click-propagation guard. */
+.vector-edit-write-errors {
+  position: absolute;
+  z-index: 1100;
+  bottom: 152px;
+  left: 12px;
+  display: grid;
+  gap: 8px;
+  max-width: min(360px, calc(100% - 24px));
+}
+
+.vector-edit-write-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 10px;
+  color: #a33228;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.35;
+  background: rgba(var(--surface-rgb), 0.96);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.vector-edit-write-error button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 10px;
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* On a phone the coordinate readout is hidden and the measure readout
+   drops to bottom: 16px. The write alert spans the map width. */
+@media (max-width: 860px) {
+  /* The attribution strip below reaches 72px + env(safe-area-inset-bottom),
+     so a bare 88px leaves the alert's bottom rows — and its Dismiss target —
+     painted under the strip on a home-indicator phone. */
+  .vector-edit-write-errors {
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    right: 12px;
+    max-width: none;
+  }
 }
 
 .user-map-status {
@@ -4643,9 +5659,581 @@ a {
   border-color: var(--survey-blue);
 }
 
+.vector-edit-snap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 6px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.vector-edit-snap legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vector-edit-snap-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.vector-edit-snap-caveat {
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vector-edit-snap-status {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.vector-edit-snap-hint {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+/* Both hints are in the DOM and one is shown. "Hold Alt" names a keyboard
+   modifier a phone has no way to press, so the coarse-pointer block below
+   swaps it for the only route a touch user has: the master toggle above. */
+.vector-edit-snap-hint-coarse {
+  display: none;
+}
+
+/* Coarse pointers: the vertex drag target, and the sentence that tells the
+   truth about it.
+
+   Geoman pins its vertex handles at 14px !important (its own `.marker-icon`
+   rule) — a 14px drag target beside the 15-unit snap radius this panel arms,
+   on the one control here that needs precision most, in a panel where every
+   other control is already 44px. The native app settled the shape of the
+   answer in `VectorVertexHandleImage`: a 44-point canvas as the touch
+   target, a 22-point disc as what is seen. This is that, in CSS; web is the
+   surface catching up.
+
+   `.leaflet-marker-draggable` is what scopes this to reshaping, and it is
+   load-bearing. Leaflet adds that class only while a marker's own drag
+   handler is enabled, and Geoman builds vertices placed WHILE DRAWING with
+   `draggable: false` while edit-mode handles are `draggable: true`. A tap on
+   a draw-time vertex is what finishes a line or closes an area and it never
+   reaches the map underneath, so enlarging those would make any tap within
+   22px of an earlier vertex end the shape instead of extending it. The
+   second class is needed for a second reason: Geoman's rule carries
+   `!important`, so this one needs `!important` too AND has to win on
+   specificity, which one class cannot.
+
+   Middle markers are excluded and keep Geoman's 10px, and that is a stated
+   gap rather than a compliment. A middle marker inserts a vertex on click
+   and inserts-then-drags on movestart, so on touch it is the only way to add
+   a vertex at all — removal is bound to `contextmenu`, which touch has no
+   gesture for. Enlarging one would put it over the handle it sits between
+   and take back the drag this block exists to give, and stacking order could
+   answer that much; what it cannot answer is that the session enables editing
+   on every feature of the layer under edit, for the session's whole life, not
+   only while Reshape is armed. A 44px middle marker is therefore a 44px
+   insert target at every segment midpoint of that layer, and a tap meant to
+   select a shape the reader had not selected would add a corner to it
+   instead. So inserting a vertex stays a 10px touch target, and on a segment
+   shorter than the handle an enlarged handle can cover the midpoint outright;
+   zooming in separates them. Neither is fixed here — but neither is now the
+   only route: the panel's corner mover moves and inserts corners by number,
+   with no drag and no pixel precision at all. */
+@media (pointer: coarse) {
+  .leaflet-marker-draggable.marker-icon:not(.marker-icon-middle) {
+    /* Stated, not inherited from this sheet's `*` rule: the disc geometry
+       below is 44 minus 2 x 11 and only holds under border-box. */
+    box-sizing: border-box;
+    width: 44px !important;
+    height: 44px !important;
+    /* Leaflet anchors a divIcon by margin; half the new size is what keeps
+       the handle centred on its vertex instead of offset from it. */
+    margin: -22px 0 0 -22px !important;
+    padding: 11px;
+    /* The canvas is the touch target and the disc below is what is seen, so
+       the canvas draws nothing — and stays square, because a browser
+       hit-tests inside the border radius and Geoman's is 50%. */
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .leaflet-marker-draggable.marker-icon:not(.marker-icon-middle)::before {
+    content: "";
+    display: block;
+    /* This sheet's `*` rule does not reach pseudo-elements. Without its own
+       border-box the 2px rim would make the disc 26px and push it off the
+       vertex it marks. */
+    box-sizing: border-box;
+    width: 22px;
+    height: 22px;
+    background-color: var(--white);
+    border: 2px solid #3388ff;
+    border-radius: 50%;
+  }
+
+  .vector-edit-snap-hint-fine {
+    display: none;
+  }
+
+  .vector-edit-snap-hint-coarse {
+    display: block;
+  }
+}
+
+/* The snap indicator: one marker at the candidate point while a dragged or
+   drawn vertex is inside the snap radius — square for a parcel/feature
+   corner, round for a point along an edge. */
+.snap-indicator-anchor {
+  pointer-events: none;
+}
+
+.snap-indicator {
+  width: 12px;
+  height: 12px;
+  margin: 3px;
+  background: rgba(var(--surface-rgb), 0.85);
+  border: 3px solid #b85c1e;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+}
+
+.snap-indicator-vertex {
+  border-radius: 2px;
+}
+
+/* The corner mover: the same frame as the snapping and convert fieldsets, so
+   a control that reshapes geometry without a drag reads as part of the panel
+   rather than an apology bolted to it. */
+.vector-edit-corners {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.vector-edit-corners legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* `.vector-edit-field input, textarea` carries this sheet's 44px minimum and
+   a select is neither, so the corner picker states its own. */
+.vector-edit-corners select,
+.vector-edit-corners input {
+  min-height: 44px;
+}
+
+.vector-edit-corner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vector-edit-corner-actions button {
+  flex: 1 1 auto;
+  min-height: 44px;
+}
+
+.vector-edit-convert {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.vector-edit-convert legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vector-edit-convert-pick,
+.vector-edit-convert-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.vector-edit-convert-pick button,
+.vector-edit-convert-actions button {
+  min-height: 44px;
+  flex: 1;
+  padding: 0 10px;
+  color: var(--survey-blue);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-convert-create {
+  color: #fff !important;
+  background: var(--survey-blue) !important;
+  border-color: var(--survey-blue) !important;
+}
+
+.vector-edit-convert-create:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.vector-edit-convert-stats {
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.vector-edit-convert-warning {
+  color: #8a4b00;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vector-edit-convert-undo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 2px 2px 6px;
+}
+
+.vector-edit-convert-undo button {
+  min-height: 44px;
+  padding: 0 14px;
+  color: var(--survey-blue);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Numbered vertex badges on the conversion preview: the order IS the
+   contract's safeguard, so the numbers must read at a glance. */
+.convert-badge-anchor {
+  pointer-events: none;
+}
+
+.convert-badge {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  background: #b85c1e;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+}
+
 .vector-edit-field {
   display: grid;
   gap: 4px;
+}
+
+.vector-edit-attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0 2px;
+  border-top: 1px solid var(--line);
+}
+
+.vector-edit-attributes h3 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vector-edit-attributes-empty {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.vector-edit-attribute-row {
+  display: flex;
+  gap: 6px;
+  align-items: end;
+}
+
+.vector-edit-attribute-row label {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.vector-edit-attribute-row label span {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vector-edit-attribute-complex {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-style: italic;
+  line-height: 44px;
+}
+
+.vector-edit-attribute-row button {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-attribute-add {
+  display: flex;
+  gap: 6px;
+}
+
+.vector-edit-attribute-add input {
+  flex: 1;
+  min-width: 0;
+}
+
+.vector-edit-attribute-add button {
+  min-height: 44px;
+  flex: 0 0 auto;
+  padding: 0 14px;
+  color: var(--survey-blue);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-attribute-error {
+  color: #8a4b00;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vector-edit-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0 2px;
+  border-top: 1px solid var(--line);
+}
+
+.vector-edit-photos h3 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vector-edit-photos-empty {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.vector-edit-photo-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* A column, not a badge on the corner of the picture. Remove used to sit on
+   top of the thumbnail, so the only way to give it a 44px target was to spend
+   that target on the picture underneath and make a third of the thumbnail
+   delete the photo instead of opening it. Stacked, the two targets never
+   overlap and both can be full size. */
+.vector-edit-photo-thumb {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vector-edit-photo-thumb > button:first-child {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  background: var(--mono-bg, #eef1ec);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vector-edit-photo-remove {
+  display: grid;
+  width: 64px;
+  min-height: 44px;
+  place-items: center;
+  padding: 0;
+  color: var(--chart-ink);
+  font-size: 0.85rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-photo-offer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(184, 92, 30, 0.08);
+  border: 1px solid rgba(184, 92, 30, 0.4);
+  border-radius: 6px;
+}
+
+.vector-edit-photo-offer button {
+  min-height: 44px;
+  color: var(--survey-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-photo-error {
+  color: #8a4b00;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vector-edit-photo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.vector-edit-photo-actions button {
+  min-height: 44px;
+  flex: 1;
+  color: var(--survey-blue);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-photo-actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.user-vector-popup-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.user-vector-popup-photo {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  background: #eef1ec;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.user-vector-popup-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Above the phone attribution strip's 1300, for the reason given on
+   `.save-track-backdrop`. */
+.photo-lightbox-backdrop {
+  position: fixed;
+  z-index: 1400;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(18, 52, 59, 0.7);
+}
+
+.photo-lightbox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  max-width: min(920px, 100%);
+  max-height: 92vh;
+  padding: 14px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.photo-lightbox img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.photo-lightbox-close {
+  min-height: 44px;
+  align-self: stretch;
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 800;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .vector-edit-field span {
@@ -4699,10 +6287,49 @@ a {
 @media (max-width: 860px) {
   .vector-edit-panel {
     top: auto;
-    bottom: 12px;
+    /* Above the attribution strip, not behind it, and clear of the home
+       indicator. At this width the strip is `position: absolute;
+       z-index: 1300` with a 72px cap while this card is z-index 1000, and
+       neither sits in a stacking context of its own — so at a bare 12px the
+       strip painted over the card's bottom 20-60px and swallowed the taps
+       with it. That band is where "Delete this feature", the Take photo /
+       Add photos row and the select-a-feature hint land.
+
+       80px is the clearance `.layer-rail.mobile-open` already takes for this
+       same strip. The frame has to be converted before that number means
+       anything: the strip's `bottom: 0` is measured against `.app-shell`,
+       whose height is the visual viewport (`var(--app-viewport-height)`),
+       while App.tsx renders this card outside the shell, so its own `bottom`
+       is measured against the initial containing block. The gap between
+       those two bottom edges is `100%` minus that variable — zero while the
+       two viewports agree, the keyboard's height while it is open — so
+       adding it lands the card 80px above the strip either way. The floor
+       keeps a pinch-zoomed-out viewport, where the visual viewport is the
+       taller of the two, from pushing the card off screen; the inset is what
+       the rest of the phone chrome carries for the home indicator. */
+    bottom: calc(
+      max(80px, 100% - var(--app-viewport-height, 100dvh) + 80px) +
+        env(safe-area-inset-bottom)
+    );
     left: 12px;
     right: 12px;
     width: auto;
+    /* Bounded and scrolled. Bottom-anchored with no cap, a card carrying a
+       selected feature's fields, attributes and 64px photo thumbs grew
+       UPWARD out of the top of the initial containing block, and nothing
+       scrolls above the origin — so the header holding "Done editing" was
+       unreachable rather than merely off screen. 92px is the 80px clearance
+       plus a 12px top inset, so the card can grow to the top of the app's
+       own viewport and no further.
+
+       Done editing scrolls back to the top of the card rather than pinning:
+       `position: sticky` on a grid item is clamped to its grid area, which
+       here is exactly the header's own box, so a sticky header would have
+       zero travel. */
+    max-height: calc(
+      var(--app-viewport-height, 100dvh) - 92px - env(safe-area-inset-bottom)
+    );
+    overflow-y: auto;
   }
 }
 
@@ -4842,7 +6469,7 @@ a {
   max-height: 46vh;
   margin-bottom: 14px;
   overflow: hidden;
-  background: #fff;
+  background: var(--white);
   border: 1px solid rgb(10 20 22 / 18%);
   border-radius: 6px;
 }
@@ -5474,6 +7101,25 @@ a {
   cursor: pointer;
 }
 
+/* On a coarse pointer these are the smallest operable things on the page: a
+   24px disclosure toggle in the middle of a parcel's evidence, and a 38px one
+   in the tax-sale list. They stay compact where a cursor can hit them exactly
+   and grow to the target size where a fingertip cannot — padding rather than a
+   height, so the text keeps its place in the line and only the box a finger
+   lands in changes. */
+@media (pointer: coarse) {
+  .evidence-caveat > summary,
+  .layer-provenance summary,
+  .assessment-account summary {
+    min-height: 44px;
+  }
+
+  .tax-sale-property-list summary,
+  .resource-layer-group > summary {
+    min-height: 44px;
+  }
+}
+
 /* display: inline-flex removes the native disclosure marker; put one back so
    the summary still looks operable. */
 .evidence-caveat > summary::before {
@@ -5493,3 +7139,199 @@ a {
 .evidence-caveat[open] > summary {
   color: var(--chart-ink);
 }
+
+
+/* GL supplies the base only; Leaflet panes continue to own all overlays. */
+.leaflet-container > .atlas-basemap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transform-origin: 0 0;
+}
+.atlas-basemap canvas { display: block; }
+.basemap-style-control {
+  display: grid;
+  gap: 6px;
+  padding: 0 12px 12px 46px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.basemap-style-control select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--white);
+  color: var(--chart-ink);
+  font: inherit;
+  font-size: 12px;
+}
+
+/* Keep expanded catalogue provenance compact and independently inspectable. */
+.context-layer-control { border-bottom: 1px solid var(--border-color, #d8d5ca); padding-bottom: 0.5rem; }
+.context-layer-source { margin: 0.25rem 0 0.35rem 3rem; font-size: 0.8rem; overflow-wrap: anywhere; }
+.context-layer-source summary { cursor: pointer; padding: 0.3rem 0; }
+.context-layer-source p { margin: 0.45rem 0; }
+.context-layer-source ul { max-height: 16rem; overflow: auto; padding-left: 0.75rem; }
+.context-layer-control > .text-button { margin-left: 3rem; }
+.context-feature-details { margin: 0.6rem 0; max-height: 16rem; overflow: auto; overflow-wrap: anywhere; }
+.context-feature-details dt { font-weight: 600; margin-top: 0.4rem; }
+.context-feature-details dd { margin-left: 0; }
+
+/* Optional corrected-corridor review control; never shown without its tile host. */
+.fletcher-full-sheets-preview {
+  width: min(270px, calc(100vw - 40px));
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--chart-ink);
+  box-shadow: 0 2px 8px #0002;
+  font-size: 12px;
+}
+.fletcher-full-sheets-preview label { display: flex; align-items: center; gap: 6px; }
+.fletcher-full-sheets-preview p { margin: 6px 0; line-height: 1.35; }
+.fletcher-full-sheets-preview input[type="range"] { flex: 1; min-width: 0; }
+
+/* On small phones the approximate scale needs more lines between the bars
+   and licence pill. Keep measurement actions above that text as well. */
+@media (max-width: 360px) {
+  .map-region.attribution-folded {
+    --compact-tools-bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Mailing records retain their own source and never replace civic labels. */
+.mailing-search-label { display: block; margin-top: .25rem; font-size: .85em; font-weight: normal; }
+.mailing-source { font-size: .8rem; margin-block: .5rem; overflow-wrap: anywhere; }
+.mailing-source summary { cursor: pointer; }
+.mailing-source p { margin-block: .4rem; }
+.mailing-addresses { margin-block: .75rem; padding-top: .5rem; border-top: 1px solid var(--border-color, #8885); }
+.mailing-addresses h4 { margin-block: .25rem; }
+.mailing-addresses li > span { display: block; overflow-wrap: anywhere; }
+.mailing-addresses li { margin-bottom: .5rem; }
+@media print { .mailing-addresses, .mailing-source { display: none !important; } }
+.road-swatch.open-road, .road-swatch.open-minor { border-color: #654735; border-top-width: 2px; }
+.road-swatch.open-minor { border-top-style: dashed; }
+/* Over imagery the map draws cream roads; show them on a photo-dark chip. */
+.road-legend.imagery .road-swatch { position: relative; height: 10px; border: 0; border-radius: 3px; background: #4b5d44; }
+.road-legend.imagery .road-swatch::after { position: absolute; top: 4px; right: 3px; left: 3px; content: ""; border-top: 2px solid #fff3dc; }
+.road-legend.imagery .road-swatch.open-road::after { box-shadow: 0 0 0 1px rgba(18, 24, 18, 0.45); }
+.road-legend.imagery .road-swatch.open-minor::after { border-top: 1.5px dashed rgba(255, 244, 222, 0.9); }
+
+.leaflet-control-attribution { max-width: min(540px, calc(100vw - 64px)); }
+
+/* Electoral canvas: existing ink, survey blue, paper and lichen tokens. */
+.electoral-controls h3 { margin: 1.2rem 0 .35rem; font-size: .88rem; }
+.electoral-controls h3 small { font-weight: 400; }
+.electoral-modes { margin: .4rem .3rem .8rem; font-size: .8rem; }
+.electoral-modes select { max-width: 100%; padding: .4rem; margin-left: .4rem; color: inherit; background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 5px; }
+.electoral-legend { display: flex; flex-wrap: wrap; gap: .5rem .7rem; padding: .6rem 0; }
+.electoral-legend strong { width: 100%; }
+.electoral-legend span { display: inline-flex; align-items: center; gap: .3rem; }
+.electoral-legend i { width: 14px; height: 11px; border: 1px solid #718087; }
+.district-inspector { position: absolute; right: 1rem; top: 4rem; width: min(350px, calc(100% - 2rem)); max-height: calc(100% - 6rem); overflow: auto; z-index: 1100; padding: 1.2rem; box-sizing: border-box; color: var(--ink); background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); font-size: .85rem; line-height: 1.45; }
+.district-inspector h2 { font-family: 'Fraunces', Georgia, serif; font-size: 1.6rem; line-height: 1.2; margin: .5rem 0; }
+.district-close { float: right; }
+.electoral-eyebrow { font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; font-size: .7rem; }
+.electoral-metrics { display: grid; gap: .6rem; }
+.electoral-metrics dd { margin: 0; font-weight: 600; }
+.electoral-vote-bars > div { display: grid; grid-template-columns: 5.8rem 1fr 3.5rem; gap: .35rem; align-items: center; margin: .6rem 0; }
+.electoral-vote-bars small { grid-column: 2 / 4; }
+.electoral-bar-track { background: rgba(113,128,135,.14); height: .7rem; }
+.electoral-bar-track > span { display: block; height: 100%; }
+.electoral-evidence { border-top: 1px solid var(--line); margin-top: 1rem; }
+.electoral-map-label { font-size: 11px; background: rgba(255,255,255,.9); color: #12343b; white-space: normal; max-width: 180px; text-align: center; }
+@media (max-width: 640px) { .district-inspector { top: auto; bottom: .6rem; right: .6rem; width: calc(100% - 1.2rem); max-height: 58%; } }
+.print-electoral-legends { position: absolute; z-index: 1200; bottom: 0; left: 0; right: 0; background: white; color: #12343b; padding: 0 .6rem; font-size: .65rem; }
+.electoral-map-label { min-width: 7rem; border: 0; box-shadow: none; background: transparent; font-weight: 600; text-shadow: 1px 1px #fbf6ea, -1px -1px #fbf6ea, 1px -1px #fbf6ea, -1px 1px #fbf6ea; }
+.electoral-map-label-night { color: #e8f1f0; text-shadow: 1px 1px #152b31, -1px -1px #152b31, 1px -1px #152b31, -1px 1px #152b31; }
+.electoral-map-legends { position: absolute; left: 4.5rem; bottom: 2rem; z-index: 1000; max-width: min(28rem, calc(100% - 6rem)); background: rgb(var(--surface-rgb)); color: var(--ink); border-radius: 8px; font-size: .7rem; padding: 0 .6rem; }
+.electoral-map-legends:empty { display: none; }
+@media (max-width:640px) { .electoral-map-legends { left: .6rem; bottom: 2rem; max-width: calc(100% - 1.2rem); } }
+
+/* Fletcher's paper and ink carry into the controls without changing map data. */
+:root[data-map-appearance="fletcher"] {
+  color-scheme: light;
+  --chart-ink: #352c1d;
+  --deep-water: #3b5760;
+  --survey-blue: #77431f;
+  --fog: #e9dcb9;
+  --paper: #f3e9cf;
+  --white: #faf3df;
+  --line: rgba(53, 44, 29, .24);
+  --muted: rgba(53, 44, 29, .76);
+  --surface-rgb: 250, 243, 223;
+  --fog-rgb: 233, 220, 185;
+  --paper-rgb: 243, 233, 207;
+  --tint-blue: #eee1ba;
+  color: var(--chart-ink);
+  background: var(--fog);
+}
+.interface-appearance-control { margin-bottom: 12px; }
+
+.poker-mode .modern-map-error { top: max(210px, calc(env(safe-area-inset-top) + 198px)); }
+
+.rhodena-overview { font-size: 0.85rem; line-height: 1.5; margin: 0 0 1rem; }
+.rhodena-overview details { margin-block: 0.7rem; }
+.rhodena-overview summary { cursor: pointer; font-weight: 600; }
+.rhodena-parcels { max-height: 15rem; overflow: auto; }
+.rhodena-parcels table { width: 100%; text-align: left; }
+.rhodena-popup { line-height: 1.4; }
+.rhodena-popup p { margin-block: 0.65rem; }
+/* The viewshed panel. Swatch colours match the worker's raster classes. */
+.rhodena-visibility-control { width: 304px; max-width: calc(100vw - 90px); max-height: 48vh; overflow: auto; margin-bottom: 45px !important; padding: 14px 16px; color: var(--chart-ink); font-size: 12.5px; line-height: 1.45; background: rgba(var(--surface-rgb), 0.97); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 36px rgba(18, 52, 59, 0.24); backdrop-filter: blur(14px); }
+.rhodena-visibility-details > summary { display: flex; align-items: center; gap: 8px; font-family: "Fraunces", Georgia, serif; font-size: 1.02rem; font-weight: 700; list-style: none; cursor: pointer; }
+.rhodena-visibility-details > summary::-webkit-details-marker { display: none; }
+.rhodena-visibility-details > summary::after { content: ""; width: 7px; height: 7px; margin-left: auto; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.15s ease; }
+.rhodena-visibility-details:not([open]) > summary::after { transform: rotate(-45deg); }
+.rhodena-visibility-chip { padding: 2px 7px; color: #8a5a12; font-family: "IBM Plex Mono", monospace; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(205, 139, 36, 0.16); border-radius: 999px; }
+:root[data-map-appearance="night"] .rhodena-visibility-chip { color: var(--paper-peach); }
+@media (prefers-color-scheme: dark) { :root:not([data-map-appearance]) .rhodena-visibility-chip { color: var(--paper-peach); } }
+.rhodena-visibility-control label { display: grid; gap: 4px; margin-top: 12px; color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+.rhodena-visibility-control select { min-height: 40px; padding: 0 10px; color: var(--chart-ink); font-weight: 600; background: var(--white); border: 1px solid var(--line); border-radius: 10px; }
+.rhodena-visibility-control p { margin-block: 0.6rem; }
+.rhodena-visibility-control p[role="status"] { color: var(--muted); }
+.rhodena-visibility-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+.rhodena-visibility-control button { min-height: 40px; padding: 8px 14px; color: var(--chart-ink); font-weight: 700; background: var(--fog); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; }
+.rhodena-visibility-control button.rhodena-visibility-pick { color: var(--white); background: var(--deep-water); border-color: var(--deep-water); }
+.rhodena-visibility-control button:disabled { cursor: not-allowed; opacity: 0.5; }
+.rhodena-visibility-hint { padding: 8px 10px; color: var(--deep-water); font-weight: 600; background: rgba(var(--fog-rgb), 0.9); border: 1px dashed var(--deep-water); border-radius: 10px; }
+.rhodena-viewpoint-results { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.rhodena-visibility-summary { padding: 10px 12px; font-weight: 700; background: rgba(var(--fog-rgb), 0.9); border-left: 4px solid var(--muted); border-radius: 10px; }
+.rhodena-visibility-summary[data-status="potential"] { background: rgba(23, 126, 112, 0.13); border-left-color: #177e70; }
+.rhodena-visibility-summary[data-status="blocked"] { background: rgba(100, 105, 113, 0.14); border-left-color: #646971; }
+.rhodena-visibility-summary[data-status="uncertain"] { background: rgba(205, 139, 36, 0.15); border-left-color: #cd8b24; }
+.rhodena-viewpoint-results ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.rhodena-viewpoint-results li { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 7px 0 7px 18px; border-bottom: 1px solid var(--line); }
+.rhodena-viewpoint-results li:last-child { border-bottom: 0; }
+.rhodena-viewpoint-results li strong { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; }
+.rhodena-viewpoint-distance { color: var(--muted); font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rhodena-sightline-key { display: grid; gap: 5px; color: var(--muted); font-size: 0.72rem; }
+.rhodena-sightline-key span { display: flex; align-items: center; gap: 8px; }
+.rhodena-sightline-key svg { flex: none; width: 28px; height: 10px; }
+.leaflet-marker-icon.rhodena-ridge-marker { background: none; border: 0; }
+.rhodena-ridge-marker svg { display: block; width: 16px; height: 14px; filter: drop-shadow(0 1px 1px rgba(16, 49, 58, 0.45)); }
+.rhodena-picking, .rhodena-picking .leaflet-interactive { cursor: crosshair !important; }
+.rhodena-visibility-control p.rhodena-visibility-intro { color: var(--muted); }
+.rhodena-viewshed-raster { transition: opacity 0.3s ease; }
+.rhodena-has-viewpoint .rhodena-viewshed-raster { opacity: 0.4 !important; }
+.rhodena-viewpoint-results li::before, .rhodena-visibility-legend i { position: absolute; top: 0.38em; left: 0; width: 10px; height: 10px; content: ""; background: transparent; border: 1px solid var(--line); border-radius: 3px; }
+.rhodena-viewpoint-results li::before { top: calc(7px + 0.38em); }
+.rhodena-viewpoint-results li[data-status="potential"]::before, .rhodena-visibility-legend i[data-status="potential"] { background: #177e70; border-color: #177e70; }
+.rhodena-viewpoint-results li[data-status="blocked"]::before, .rhodena-visibility-legend i[data-status="blocked"] { background: #646971; border-color: #646971; }
+.rhodena-viewpoint-results li[data-status="uncertain"]::before, .rhodena-visibility-legend i[data-status="uncertain"] { background: #cd8b24; border-color: #cd8b24; }
+.rhodena-visibility-legend { display: grid; gap: 4px; }
+.rhodena-visibility-legend span { position: relative; padding-left: 18px; }
+.rhodena-visibility-control.picking .rhodena-visibility-details > :not(summary, .rhodena-visibility-buttons, .rhodena-visibility-hint), .rhodena-visibility-control.picking .rhodena-visibility-buttons > :not(.rhodena-visibility-pick) { display: none; }
+@media (max-width: 860px) { .rhodena-visibility-control { max-height: 40vh; } }
+.rhodena-visibility-control details details summary { color: var(--survey-blue); font-weight: 600; cursor: pointer; }
+.rhodena-viewshed-raster { image-rendering: pixelated; }
+.leaflet-tooltip.rhodena-label { padding: 1px 7px; color: #fbf6ea; font: 700 10.5px/1.5 "Inter", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.03em; background: #10313a; border: 0; border-radius: 999px; box-shadow: 0 2px 6px rgba(16, 49, 58, 0.35); }
+.leaflet-tooltip-top.rhodena-label::before { border-top-color: #10313a; }
+.leaflet-rhodena-rhodena-turbines-pane path, .leaflet-rhodena-rhodena-receptors-pane path { filter: drop-shadow(0 1px 1.5px rgba(16, 49, 58, 0.45)); }

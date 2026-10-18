@@ -1,0 +1,67 @@
+[
+  [
+    "MC01",
+    "Rouge Point western cape",
+    [
+      400,
+      495
+    ],
+    [
+      454,
+      480
+    ],
+    "WACO"
+  ],
+  [
+    "MC02",
+    "Michaud Point southern tip",
+    [
+      1185,
+      940
+    ],
+    [
+      1233,
+      935
+    ],
+    "WACO"
+  ],
+  [
+    "MC03",
+    "Trelawney Point western hook tip",
+    [
+      2707,
+      565
+    ],
+    [
+      2752,
+      555
+    ],
+    "WACO"
+  ],
+  [
+    "MC04",
+    "Kempt Point southern tip",
+    [
+      3925,
+      646
+    ],
+    [
+      3974,
+      620
+    ],
+    "WACO"
+  ],
+  [
+    "MC05",
+    "St Esprit Island northern tip",
+    [
+      4299,
+      827
+    ],
+    [
+      4338,
+      850
+    ],
+    "WACO"
+  ]
+]

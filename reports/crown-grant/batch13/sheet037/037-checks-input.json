@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Sixty Lake island southern tip",
+    [
+      1702,
+      1424
+    ],
+    [
+      1705,
+      1483
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q02",
+    "Black Duck Lake southern tip",
+    [
+      3000,
+      2215
+    ],
+    [
+      3014,
+      2278
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Triangle or Birch Lake southern tip",
+    [
+      3532,
+      1865
+    ],
+    [
+      3555,
+      1914
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Butler Lake southwest horn",
+    [
+      3458,
+      2525
+    ],
+    [
+      3476,
+      2580
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Owl Lake large island southern tip",
+    [
+      4050,
+      369
+    ],
+    [
+      4056,
+      394
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q06",
+    "Rocky Lake northeast of Fraxville inward western peninsula tip",
+    [
+      5148,
+      980
+    ],
+    [
+      5151,
+      995
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Lake Molly or Upper Gully western tip",
+    [
+      4933,
+      1366
+    ],
+    [
+      4937,
+      1385
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Clear Lake large island southern tip",
+    [
+      3161,
+      3334
+    ],
+    [
+      3192,
+      3403
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q09",
+    "Brown Lake southern tip",
+    [
+      4772,
+      3610
+    ],
+    [
+      4805,
+      3647
+    ],
+    "WALK20"
+  ]
+]

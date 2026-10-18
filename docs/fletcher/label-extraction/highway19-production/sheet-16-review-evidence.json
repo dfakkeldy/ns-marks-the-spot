@@ -1,0 +1,2792 @@
+{
+  "sheet": 16,
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "purpose": "Full-sheet source transcription review and provenance audit; geographic placement deferred.",
+  "detail_manifests": [
+    {
+      "batch_id": "review-20260907-16-01",
+      "sheet": 16,
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "source_dimensions_px": [
+        10822,
+        7531
+      ],
+      "crops": [
+        {
+          "crop_id": "F16-DETAIL-NORTH-HARBOUR",
+          "source_xywh": [
+            3720,
+            975,
+            1190,
+            530
+          ],
+          "sha256": "0781be1e1c1c0f6aacfc091c9070164960ec0cd0f0b03708fc4c25d133e2c90f"
+        },
+        {
+          "crop_id": "F16-DETAIL-NORTH-ISLAND",
+          "source_xywh": [
+            5270,
+            1810,
+            280,
+            220
+          ],
+          "sha256": "58c803df659b3eb138e23e5270a712b6c0df464b759481294e058e338fed32cb"
+        },
+        {
+          "crop_id": "F16-DETAIL-NORTH-VILLAGE",
+          "source_xywh": [
+            6830,
+            1480,
+            790,
+            530
+          ],
+          "sha256": "7a2f2bdbf99b8f071ff5307eadd2f55544a2e27103d3fd8914ed8f644493149a"
+        },
+        {
+          "crop_id": "F16-DETAIL-NORTH-NAMES",
+          "source_xywh": [
+            9190,
+            1640,
+            525,
+            600
+          ],
+          "sha256": "98cab06956c9489b4675003493577c4a323b27019a62f892f15b8e3abc25f42b"
+        },
+        {
+          "crop_id": "F16-DETAIL-NORTH-FRASER",
+          "source_xywh": [
+            7470,
+            1805,
+            245,
+            125
+          ],
+          "sha256": "6f3d26b858326fdc7571dd045259e68e9b0d98502abd071e275a6a9e7371e93a"
+        }
+      ]
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "sheet": 16,
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "source_dimensions_px": [
+        10822,
+        7531
+      ],
+      "crops": [
+        {
+          "crop_id": "F16-DETAIL-COAST-COAL",
+          "source_xywh": [
+            2470,
+            2260,
+            480,
+            700
+          ],
+          "sha256": "095e55b1e59420f77cd981a902e245128a3b2aaaf58df9cff9fe3af76a17c03e"
+        },
+        {
+          "crop_id": "F16-DETAIL-MINERALS",
+          "source_xywh": [
+            2630,
+            2720,
+            730,
+            400
+          ],
+          "sha256": "223f78b9ca8e21fafc9fce2fe444c61e60b7716fc9116cdd154f20ae8ca8c9c5"
+        },
+        {
+          "crop_id": "F16-DETAIL-PORT-HOOD",
+          "source_xywh": [
+            2550,
+            3040,
+            1180,
+            450
+          ],
+          "sha256": "3951545d5f84e0d5238ae3354a9cfac0a4bd0a080365a0c3674f962a3e28de15"
+        },
+        {
+          "crop_id": "F16-DETAIL-MINES",
+          "source_xywh": [
+            2800,
+            3850,
+            600,
+            630
+          ],
+          "sha256": "958e8486a298a92b874755ec3c171134149e7492660786c3885c4a6741aaea4e"
+        },
+        {
+          "crop_id": "F16-DETAIL-EAST-NAMES",
+          "source_xywh": [
+            7790,
+            2890,
+            790,
+            490
+          ],
+          "sha256": "c957e1725d605a0074ae2935d00bffe115541e3d74e446336bea06d825a11035"
+        },
+        {
+          "crop_id": "F16-DETAIL-SE-STREAM",
+          "source_xywh": [
+            7820,
+            3090,
+            450,
+            740
+          ],
+          "sha256": "81d3a4a74906d53113ac226f18056d7ef7710adb4edb8750079109b101e717a4"
+        },
+        {
+          "crop_id": "F16-DETAIL-BARRENS",
+          "source_xywh": [
+            7840,
+            4120,
+            770,
+            110
+          ],
+          "sha256": "b3ffb5bf6d28db20679d3e81fb2f294f66f4ad7b313d787bb90b745f3c077427"
+        },
+        {
+          "crop_id": "F16-DETAIL-LOWER-BROOK",
+          "source_xywh": [
+            4160,
+            6150,
+            820,
+            300
+          ],
+          "sha256": "c71299a0782a8b2c4fb1cb935bfb63414f6be806ee1d85ed85354885e8a5c622"
+        }
+      ]
+    }
+  ],
+  "receipts": [
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-FRASER",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "6f3d26b858326fdc7571dd045259e68e9b0d98502abd071e275a6a9e7371e93a",
+      "prompt_sha256": "31197118b2726550b9a98b1e1df409871a004b225036d6ca389f7e3a3c40a941",
+      "started_unix": 1788747757.2481909,
+      "elapsed_s": 16.29,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f865341a6ffeFTnoA6KBONLbMW"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3327,
+          "input": 737,
+          "output": 264,
+          "reasoning": 1046,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "5996839ca768e76c1875d147e2f7bc23a77c5f76dfb8151c496fbb51ca6571b8"
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-HARBOUR",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "0781be1e1c1c0f6aacfc091c9070164960ec0cd0f0b03708fc4c25d133e2c90f",
+      "prompt_sha256": "e0d9d8cf9e967e43d95cc263e7480027408aa9353450de1adb18f39f3477c003",
+      "started_unix": 1788747742.382292,
+      "elapsed_s": 51.75,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f86535129ffeChcVmL6fHxuOTA"
+      ],
+      "tokens_reported": [
+        {
+          "total": 5852,
+          "input": 963,
+          "output": 842,
+          "reasoning": 2767,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "38ed37d316eaa693f69a55137f46379024658a9fdfa23699d3fbc8e022b861b2"
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-ISLAND",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "58c803df659b3eb138e23e5270a712b6c0df464b759481294e058e338fed32cb",
+      "prompt_sha256": "5b74c209c268f68d9cda7e3d96e4feceeb5f4570abf64ea83be008e0d995e224",
+      "started_unix": 1788747742.380286,
+      "elapsed_s": 22.75,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f86537079ffe7fgnOFXuWXuGHp"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3756,
+          "input": 742,
+          "output": 332,
+          "reasoning": 1402,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "dca850cd1bb8392fcf962b67b1174f1ed20bbee94cc459f2d8b4fea9398f6077"
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-NAMES",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "98cab06956c9489b4675003493577c4a323b27019a62f892f15b8e3abc25f42b",
+      "prompt_sha256": "c784b7e0c5456352f5b3c3fb6db5d76c7715db07ed598d7985ca3f867edb9d4d",
+      "started_unix": 1788747742.380179,
+      "elapsed_s": 14.87,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f86538026ffe3ZjgDCxcMRcaYN"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3132,
+          "input": 846,
+          "output": 241,
+          "reasoning": 765,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "6101b03717883e1fc19c7cce275053bffb0f9dbef678b8afdd51d89595e2d0a7"
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-VILLAGE",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "7a2f2bdbf99b8f071ff5307eadd2f55544a2e27103d3fd8914ed8f644493149a",
+      "prompt_sha256": "6896acde0c8c13cf825e0d8e0defd2f943c01a178573f82c40a8e318f5a9a41a",
+      "started_unix": 1788747742.380519,
+      "elapsed_s": 24.65,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f86536059ffen3mtnuSIutQSWv"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3256,
+          "input": 902,
+          "output": 1028,
+          "reasoning": 46,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "001330599be33d1e603d5b6c1d3f68ba33900b9d40821e30add18da2f8b5b3b1"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-BARRENS",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "b3ffb5bf6d28db20679d3e81fb2f294f66f4ad7b313d787bb90b745f3c077427",
+      "prompt_sha256": "9e36f0cf2bc6eda2d0ca147b148b614abfc5a4861eb3f2b8a3732d23ffbc3893",
+      "started_unix": 1788749399.45488,
+      "elapsed_s": 60.26,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f863a3743ffetr1Htn5wE9SkHo"
+      ],
+      "tokens_reported": [
+        {
+          "total": 8460,
+          "input": 713,
+          "output": 280,
+          "reasoning": 6187,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "3ae655804c58446d5dc5829f0e29a59cffbaad914fe6499d40f3fc40d120e70c"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-COAST-COAL",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "095e55b1e59420f77cd981a902e245128a3b2aaaf58df9cff9fe3af76a17c03e",
+      "prompt_sha256": "8be5d9dc3d5d87643a052680d16e1285c36bcc2742acbeef86368ad2bf9ec9e4",
+      "started_unix": 1788749350.0554602,
+      "elapsed_s": 43.79,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f863af7efffehzbbnoaOPZaC0c"
+      ],
+      "tokens_reported": [
+        {
+          "total": 6667,
+          "input": 848,
+          "output": 1059,
+          "reasoning": 3480,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "258d76e3197eda812f05717f332d186b41af5cc7317961f38b511ebeb24a033a"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-EAST-NAMES",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "c957e1725d605a0074ae2935d00bffe115541e3d74e446336bea06d825a11035",
+      "prompt_sha256": "b6e72c2f23f120cb398b86626e17e48d3e408e2def263b1e64e3dd52129f11a5",
+      "started_unix": 1788749388.0548239,
+      "elapsed_s": 17.07,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f863a63c2ffePGVmo1SieKlWwp"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3471,
+          "input": 855,
+          "output": 332,
+          "reasoning": 1004,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "e4a39aca6698e8252cbcf20c7fb5ad160ff10dd51c197a16b55293741fcc1dcc"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-LOWER-BROOK",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "c71299a0782a8b2c4fb1cb935bfb63414f6be806ee1d85ed85354885e8a5c622",
+      "prompt_sha256": "648734d270c6e5271e62a38beaf232dbec5f87d78f8f40f93241cece04dad317",
+      "started_unix": 1788749405.123727,
+      "elapsed_s": 22.71,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f863a2121ffe9aquUvHR8GLW4U"
+      ],
+      "tokens_reported": [
+        {
+          "total": 4149,
+          "input": 783,
+          "output": 327,
+          "reasoning": 1759,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "823909cea56501c7d2ff27214de7bd98a08357c0f4de70e93b7aef5d511d5510"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-MINERALS",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "223f78b9ca8e21fafc9fce2fe444c61e60b7716fc9116cdd154f20ae8ca8c9c5",
+      "prompt_sha256": "01b1d3c3776f7d7aa3f46dc5b98d9df292ce9e12b84ab00c90f0e6019ed1bd92",
+      "started_unix": 1788749350.055391,
+      "elapsed_s": 38.0,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f863ae884ffeyNojyRlyGkWVek"
+      ],
+      "tokens_reported": [
+        {
+          "total": 5499,
+          "input": 804,
+          "output": 420,
+          "reasoning": 2995,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "8248ce56e1f45208de3df0df0a0b131c2d95bff9049ccdb59391899d913286b4"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-MINES",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "958e8486a298a92b874755ec3c171134149e7492660786c3885c4a6741aaea4e",
+      "prompt_sha256": "107da4773e28cb0bae88e56986dd4f8e096703a01dba3aae3669a270d36869d3",
+      "started_unix": 1788749350.055726,
+      "elapsed_s": 49.4,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": "Box outside assigned crop",
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "needs-repair",
+      "session_ids": [
+        "ses_f863ac8d4ffeTkfvmZTAaN7p57"
+      ],
+      "tokens_reported": [
+        {
+          "total": 5884,
+          "input": 862,
+          "output": 767,
+          "reasoning": 2975,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "4a0823322bcc7de6162e5083a8688daa4d854d87eb7c38c5e9b4c2b7e7301a32"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-PORT-HOOD",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "3951545d5f84e0d5238ae3354a9cfac0a4bd0a080365a0c3674f962a3e28de15",
+      "prompt_sha256": "def9fef6ca9ad27cd7c7568108968a465e5b22c46ebe9e711d0153c7a34b74d5",
+      "started_unix": 1788749350.055517,
+      "elapsed_s": 57.36,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f863ad8d5ffeWacbFb3kMCv2dv"
+      ],
+      "tokens_reported": [
+        {
+          "total": 7475,
+          "input": 977,
+          "output": 1206,
+          "reasoning": 4012,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "9e09ddc185484b9e1f0b6804b9f605ef45173cd166b4a4986010982e45416070"
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-SE-STREAM",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "81d3a4a74906d53113ac226f18056d7ef7710adb4edb8750079109b101e717a4",
+      "prompt_sha256": "8fd2f29656763845ca9c5b9b19c09cc9edccae3d34e111b9e95a418ee471bfaa",
+      "started_unix": 1788749393.848332,
+      "elapsed_s": 13.14,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f863a4d2bffeh8Gp0QpbhWbJAu"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3006,
+          "input": 828,
+          "output": 335,
+          "reasoning": 563,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "dab559b6e4facd11db513c2c1f6102678d2a46d42cad3e0a58935a1331392330"
+    }
+  ],
+  "detail_candidate_dispositions": [
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-FRASER-01",
+      "model_text": "Mills",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-061"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-FRASER-02",
+      "model_text": "T E Fraser",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-062"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-FRASER-03",
+      "model_text": "L ?OTO",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-060"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-01",
+      "model_text": "Observation Station",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-001"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-02",
+      "model_text": "Mabou Harbour",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-002"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-03",
+      "model_text": "Breakwater",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-003"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-04",
+      "model_text": "Layers and streaks of broken coal and peat in the drift sand and gravel at the mouth of Mabou River have been mistaken for coal measures",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-004"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-05",
+      "model_text": "Plaster Quarry",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-005"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-06",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-006"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-07",
+      "model_text": "Lobster Factory",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-007"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-08",
+      "model_text": "35 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-008"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-09",
+      "model_text": "20 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-009"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-10",
+      "model_text": "30 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-013"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-11",
+      "model_text": "M",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-010"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-HARBOUR-12",
+      "model_text": "A",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-010"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-ISLAND-01",
+      "model_text": "400 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-041"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-ISLAND-02",
+      "model_text": "Larreby",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-030"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-ISLAND-03",
+      "model_text": "Island",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-030"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-NAMES-01",
+      "model_text": "M'Donald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-066"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-NAMES-02",
+      "model_text": "James McLean",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-067"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-NAMES-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-069"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-01",
+      "model_text": "Tannery",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-046"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-02",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-047"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-03",
+      "model_text": "Church",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-048"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-04",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-049"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-05",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-054"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-06",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-055"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-07",
+      "model_text": "Shops",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-056"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-08",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-057"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-09",
+      "model_text": "Hillsboro",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-060"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-10",
+      "model_text": "Mills",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-061"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-11",
+      "model_text": "T.E.Fra",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-062"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-12",
+      "model_text": "Church",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-045"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-13",
+      "model_text": "25°",
+      "disposition": "excluded-source-apparatus",
+      "reviewed_ids": [],
+      "note": "Native visual adjudication; raw model box not promoted. Dip/strike numerals excluded."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-14",
+      "model_text": "30°",
+      "disposition": "excluded-source-apparatus",
+      "reviewed_ids": [],
+      "note": "Native visual adjudication; raw model box not promoted. Dip/strike numerals excluded."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "raw_candidate_id": "F16-DETAIL-NORTH-VILLAGE-15",
+      "model_text": "7°",
+      "disposition": "excluded-source-apparatus",
+      "reviewed_ids": [],
+      "note": "Native visual adjudication; raw model box not promoted. Dip/strike numerals excluded."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-BARRENS-01",
+      "model_text": "Barrens",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-185"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-01",
+      "model_text": "Black shale 2'",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-083"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-02",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-071"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-03",
+      "model_text": "Coal 4\"",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-072"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-04",
+      "model_text": "Coal 10\"",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-073"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-05",
+      "model_text": "Coal 3\"",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-074"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-06",
+      "model_text": "120 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-088"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-07",
+      "model_text": "Pu 36'",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-089"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-08",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-090"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-09",
+      "model_text": "Li",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-084"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-10",
+      "model_text": "e",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-070"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-11",
+      "model_text": "al",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-075"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-COAST-COAL-12",
+      "model_text": "ale",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-075"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-EAST-NAMES-01",
+      "model_text": "Widow R McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-135"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-EAST-NAMES-02",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-136"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-EAST-NAMES-03",
+      "model_text": "Southeast",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-139"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-EAST-NAMES-04",
+      "model_text": "Robert McGreen",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-137"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-EAST-NAMES-05",
+      "model_text": "Alex McLeod",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-138"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-LOWER-BROOK-01",
+      "model_text": "Judique",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-247"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-LOWER-BROOK-02",
+      "model_text": "Interval",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-247"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-LOWER-BROOK-03",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-247"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-LOWER-BROOK-04",
+      "model_text": "Old StoneHouse",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-248"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINERALS-01",
+      "model_text": "Pit 36",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-089"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINERALS-02",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-090"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINERALS-03",
+      "model_text": "g y . s .",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-091"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINERALS-04",
+      "model_text": "gys.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-092"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINERALS-05",
+      "model_text": "370 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-096"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINERALS-06",
+      "model_text": "230 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-095"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-01",
+      "model_text": "Slope",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-156"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-02",
+      "model_text": "150 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-157"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-03",
+      "model_text": "Premaine's Mine",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-158"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-04",
+      "model_text": "LightF 54 ft. vis 10 m.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-159"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-05",
+      "model_text": "Adit",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-160"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-06",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-162"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-07",
+      "model_text": "Cape Breton Co's Mine",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-163"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-08",
+      "model_text": "150 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-161"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-09",
+      "model_text": "200 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-164"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-10",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-165"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-11",
+      "model_text": "Fourteen Seam",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-169"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-MINES-12",
+      "model_text": "60 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-166"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-01",
+      "model_text": "It",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-077"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-02",
+      "model_text": "Beds of peaty soil below H.W.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-093"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-03",
+      "model_text": "Coal reported",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-102"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-04",
+      "model_text": "Wharf",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-103"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-05",
+      "model_text": "n Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-082"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-06",
+      "model_text": "Port Hood",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-094"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-07",
+      "model_text": "230 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-095"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-08",
+      "model_text": "370 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-096"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-09",
+      "model_text": "Pits",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-099"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-10",
+      "model_text": "Dark bituminous calcareous shale (shells)",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-101"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-11",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-097"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-12",
+      "model_text": "Court Ho.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-098"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-13",
+      "model_text": "R.C.Ch.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-104"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-PORT-HOOD-14",
+      "model_text": "Pt",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-100"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-SE-STREAM-01",
+      "model_text": "Southeast",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-139"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-SE-STREAM-02",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-139"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-SE-STREAM-03",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-139"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "raw_candidate_id": "F16-DETAIL-SE-STREAM-04",
+      "model_text": "Alex M...",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-138"
+      ],
+      "note": "Native lettering and full overlapping source context control the retained reading."
+    }
+  ],
+  "unresolved_region_dispositions": [
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R01C02",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          698,
+          436,
+          22,
+          24
+        ],
+        "note": "clipped single numeral at right edge, likely a dip/strike value; excluded from annotations"
+      },
+      "source_crop_xywh": [
+        2400,
+        880,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R01C04",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          220,
+          120,
+          50
+        ],
+        "note": "clipped lettering at left edge, unreadable first letter; possibly 'Pool' but not certain"
+      },
+      "source_crop_xywh": [
+        4800,
+        880,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-006"
+      ],
+      "note": "Clipped label is School, completed from adjacent native crop; not Pool."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R01C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1280,
+          1110,
+          90,
+          60
+        ],
+        "note": "red lettering barely legible at map edge; possibly place name but cannot be read with confidence"
+      },
+      "source_crop_xywh": [
+        7200,
+        880,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R01C06",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          1280,
+          1180,
+          90,
+          60
+        ],
+        "note": "red lettering barely legible at map edge; possibly place name but cannot be read with confidence"
+      },
+      "source_crop_xywh": [
+        7200,
+        880,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R01C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          220,
+          245,
+          70,
+          50
+        ],
+        "note": "Faint unreadable lettering near small features, possibly a settlement name."
+      },
+      "source_crop_xywh": [
+        8400,
+        880,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R01C08",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          155,
+          530,
+          45,
+          50
+        ],
+        "note": "Printed number 46 (or possibly 463) on right margin, unclear if in-scope named feature or section/marginal reference"
+      },
+      "source_crop_xywh": [
+        9600,
+        880,
+        200,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C01",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          140,
+          90,
+          60
+        ],
+        "note": "clipped marginal text 'gne.'"
+      },
+      "source_crop_xywh": [
+        1200,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C01",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          0,
+          620,
+          120,
+          80
+        ],
+        "note": "clipped marginal text 'ous.' / 'anian' / 'tone)'"
+      },
+      "source_crop_xywh": [
+        1200,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C01",
+      "unresolved_index": 3,
+      "original_region": {
+        "box_xywh": [
+          1360,
+          170,
+          40,
+          40
+        ],
+        "note": "single letter 'B' clipped at right edge"
+      },
+      "source_crop_xywh": [
+        1200,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-083"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C01",
+      "unresolved_index": 4,
+      "original_region": {
+        "box_xywh": [
+          1380,
+          630,
+          20,
+          30
+        ],
+        "note": "single letter 'E' clipped at right edge"
+      },
+      "source_crop_xywh": [
+        1200,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C01",
+      "unresolved_index": 5,
+      "original_region": {
+        "box_xywh": [
+          1370,
+          1080,
+          30,
+          40
+        ],
+        "note": "text 'sou...' clipped at right edge"
+      },
+      "source_crop_xywh": [
+        1200,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-093"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C02",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          395,
+          190,
+          35,
+          35
+        ],
+        "note": "circled letter 'P', uncertain whether a geological unit code or other symbol"
+      },
+      "source_crop_xywh": [
+        2400,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C02",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          783,
+          1010,
+          32,
+          32
+        ],
+        "note": "circled letter 'R' near Pits, uncertain significance"
+      },
+      "source_crop_xywh": [
+        2400,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C02",
+      "unresolved_index": 3,
+      "original_region": {
+        "box_xywh": [
+          205,
+          815,
+          40,
+          40
+        ],
+        "note": "circled symbol adjacent to the Coal label, uncertain meaning"
+      },
+      "source_crop_xywh": [
+        2400,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C03",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          1040,
+          40,
+          50
+        ],
+        "note": "clipped unreadable fragmentary text on left edge ('is)' and 'ors)')"
+      },
+      "source_crop_xywh": [
+        3600,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-101"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C03",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          0,
+          1230,
+          40,
+          30
+        ],
+        "note": "clipped 'to' at bottom left edge"
+      },
+      "source_crop_xywh": [
+        3600,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-152"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C04",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          1155,
+          20,
+          20
+        ],
+        "note": "small mark/letter at lower-left edge, unreadable"
+      },
+      "source_crop_xywh": [
+        4800,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          726,
+          1044,
+          52,
+          56
+        ],
+        "note": "Rotated lettering along stream, reads 'St.'; intended stream name partially obscured and unreadable"
+      },
+      "source_crop_xywh": [
+        7200,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-139"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C06",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          772,
+          1192,
+          52,
+          56
+        ],
+        "note": "Rotated lettering along stream, reads 'M.'; continuation of stream name unreadable"
+      },
+      "source_crop_xywh": [
+        7200,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-139"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          265,
+          180,
+          75
+        ],
+        "note": "Multiple clipped words at left margin: '...ou', '...d', 'to', 's' - unreadable in full."
+      },
+      "source_crop_xywh": [
+        8400,
+        2080,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-133",
+        "F16-PHM-134"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C02",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          236,
+          548,
+          38,
+          320
+        ],
+        "note": "rotated lettering along shoreline, unreadable at this resolution"
+      },
+      "source_crop_xywh": [
+        2400,
+        3280,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-169",
+        "F16-PHM-199"
+      ],
+      "note": "Raw reported box falls in water. Reinspection of the nearby native mining strip resolves LEVEL and Four feet seam; no additional shoreline name supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C03",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          878,
+          88,
+          26,
+          18
+        ],
+        "note": "small unreadable letter or symbol near upper right"
+      },
+      "source_crop_xywh": [
+        3600,
+        3280,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C05",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1300,
+          445,
+          60,
+          60
+        ],
+        "note": "clipped red lettering at right edge, begins 'Be...', excluded as red reference"
+      },
+      "source_crop_xywh": [
+        6000,
+        3280,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C05",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          0,
+          1190,
+          240,
+          70
+        ],
+        "note": "red partial text 'region was not surveyed', excluded as red annotation"
+      },
+      "source_crop_xywh": [
+        6000,
+        3280,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-219"
+      ],
+      "note": "Red survey statement is a literal historical observation and remains in scope; it is not a report/page reference."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C05",
+      "unresolved_index": 3,
+      "original_region": {
+        "box_xywh": [
+          0,
+          940,
+          130,
+          60
+        ],
+        "note": "red partial text '1882-4', excluded as red reference"
+      },
+      "source_crop_xywh": [
+        6000,
+        3280,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          130,
+          1265,
+          62,
+          66
+        ],
+        "note": "small letters R and P near a point symbol; possibly 'R.P.' or a post office marker; unverified"
+      },
+      "source_crop_xywh": [
+        7200,
+        3280,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-183"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1160,
+          1330,
+          120,
+          70
+        ],
+        "note": "Faint rotated lettering near bottom-right stream '...Brook' - unreadable in this crop."
+      },
+      "source_crop_xywh": [
+        8400,
+        3280,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-194"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R03C08",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          10,
+          460,
+          70,
+          30
+        ],
+        "note": "Unreadable lettering crossed by a stream/road line; possibly a personal or place name, cannot determine the full word."
+      },
+      "source_crop_xywh": [
+        9600,
+        3280,
+        200,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-187"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R04C01",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          168,
+          38,
+          55,
+          44
+        ],
+        "note": "small dark mark/symbol or unreadable lettering on the striped landmass"
+      },
+      "source_crop_xywh": [
+        1200,
+        4480,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R04C02",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          430,
+          0,
+          55,
+          35
+        ],
+        "note": "clipped depth value at top edge, unreadable"
+      },
+      "source_crop_xywh": [
+        2400,
+        4480,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R04C02",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          1060,
+          980,
+          140,
+          45
+        ],
+        "note": "faint lettering near bottom-right settlement, uncertain facility or name, unreadable"
+      },
+      "source_crop_xywh": [
+        2400,
+        4480,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R04C04",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1290,
+          860,
+          70,
+          35
+        ],
+        "note": "faint lettering below 'Upper B'; reads as 'Hon...' but unclear, clipped at right edge"
+      },
+      "source_crop_xywh": [
+        4800,
+        4480,
+        1400,
+        1400
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-230"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R04C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          60,
+          820,
+          260,
+          180
+        ],
+        "note": "Faint small lettering near stream junctions in lower-left; unreadable at this resolution."
+      },
+      "source_crop_xywh": [
+        7200,
+        4480,
+        1400,
+        1400
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R05C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          90,
+          0,
+          30,
+          15
+        ],
+        "note": "Fragment of lettering at top edge, cut off, unreadable"
+      },
+      "source_crop_xywh": [
+        7200,
+        5680,
+        1400,
+        830
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R05C06",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          1210,
+          260,
+          80,
+          60
+        ],
+        "note": "Faint, rotated lettering, unreadable"
+      },
+      "source_crop_xywh": [
+        7200,
+        5680,
+        1400,
+        830
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R05C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          95,
+          240,
+          35,
+          25
+        ],
+        "note": "Faint unreadable lettering near the left margin, possibly a number like 27 or 27'."
+      },
+      "source_crop_xywh": [
+        8400,
+        5680,
+        1400,
+        830
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-ISLAND",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          146,
+          104,
+          22,
+          14
+        ],
+        "note": "Small marks between 'Larreby' and 'Island' - possibly quote/ditto marks or a word fragment; unreadable at this resolution."
+      },
+      "source_crop_xywh": [
+        5270,
+        1810,
+        280,
+        220
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-VILLAGE",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          80,
+          45,
+          80,
+          30
+        ],
+        "note": "Unclear small text near left edge; possibly part of a larger label but illegible."
+      },
+      "source_crop_xywh": [
+        6830,
+        1480,
+        790,
+        530
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "review-20260907-16-01",
+      "crop_id": "F16-DETAIL-NORTH-VILLAGE",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          760,
+          80,
+          30,
+          60
+        ],
+        "note": "Vertical lettering at right edge unreadable."
+      },
+      "source_crop_xywh": [
+        6830,
+        1480,
+        790,
+        530
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-063"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-BARRENS",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          690,
+          45,
+          80,
+          40
+        ],
+        "note": "Clipped letter 'D' (with a dot) at the right edge; full word or name not visible, context unknown."
+      },
+      "source_crop_xywh": [
+        7840,
+        4120,
+        770,
+        110
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-190"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-LOWER-BROOK",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          785,
+          145,
+          30,
+          35
+        ],
+        "note": "number only near right edge, possibly clipped geological value; not confidently in-scope"
+      },
+      "source_crop_xywh": [
+        4160,
+        6150,
+        820,
+        300
+      ],
+      "disposition": "excluded-apparatus-or-unsupported-mark",
+      "reviewed_ids": [],
+      "note": "Native whole-crop review: marginal/source apparatus, unnamed terrain/vegetation marks, or unsupported extra lettering; no additional named occurrence supported."
+    },
+    {
+      "batch_id": "review-20260907-16-02",
+      "crop_id": "F16-DETAIL-MINES",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          170,
+          240,
+          45,
+          25
+        ],
+        "note": "tiny characters alongside line, unclear whether '15 5', '185' or similar"
+      },
+      "source_crop_xywh": [
+        2800,
+        3850,
+        600,
+        630
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F16-PHM-199"
+      ],
+      "note": "Native full-crop context reconciles this fragment to the retained occurrence; model-supplied coordinates may be displaced."
+    }
+  ],
+  "invalid_original_responses": [
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C01",
+      "receipt": {
+        "crop_id": "F16-R02C01",
+        "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+        "opencode_version": "1.18.29",
+        "source_crop_sha256": "21bd76669db8554094c6477d14624d30e0d0211539c80442335745cf2c0a504b",
+        "prompt_sha256": "98303839d1d8871a29ccc116caa766ece4e2fe9ea49e7f8e8d396eb458242ebc",
+        "started_unix": 1788715337.525511,
+        "elapsed_s": 29.01,
+        "exit_code": 0,
+        "timed_out": false,
+        "validation_error": "Box outside assigned crop",
+        "finish_reasons": [
+          "stop"
+        ],
+        "reasoning_effort_requested": "low",
+        "max_output_tokens": 32768,
+        "previous_attempt_retained": false,
+        "status": "needs-repair",
+        "session_ids": [
+          "ses_f8841f5ddffe0Q8m2AHIMDdqya"
+        ],
+        "tokens_reported": [
+          {
+            "total": 5182,
+            "input": 938,
+            "output": 1010,
+            "reasoning": 1954,
+            "cache": {
+              "write": 0,
+              "read": 1280
+            }
+          }
+        ],
+        "billed_cost": null,
+        "cost_note": "Custom provider displayed cost is not a billing receipt.",
+        "event_sha256": "3c777acb3aea53485efdeb0e50a089a8c7995b1912ebb573bcd0008ec8b45214"
+      }
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F16-R02C02",
+      "receipt": {
+        "crop_id": "F16-R02C02",
+        "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+        "opencode_version": "1.18.29",
+        "source_crop_sha256": "1c393be46675f3c919e079f561568b5e46214429df01b403f89d5a07c530dd80",
+        "prompt_sha256": "2d13a0c38f921da5ce2ecaac8f435bf1c104bc834c6712bb1a6a7fa0d558d49a",
+        "started_unix": 1788715343.6391602,
+        "elapsed_s": 80.14,
+        "exit_code": 0,
+        "timed_out": false,
+        "validation_error": "Box outside assigned crop",
+        "finish_reasons": [
+          "stop"
+        ],
+        "reasoning_effort_requested": "low",
+        "max_output_tokens": 32768,
+        "previous_attempt_retained": false,
+        "status": "needs-repair",
+        "session_ids": [
+          "ses_f8841ddf8ffemhdh4KL2R2PtT4"
+        ],
+        "tokens_reported": [
+          {
+            "total": 11439,
+            "input": 938,
+            "output": 1980,
+            "reasoning": 7241,
+            "cache": {
+              "write": 0,
+              "read": 1280
+            }
+          }
+        ],
+        "billed_cost": null,
+        "cost_note": "Custom provider displayed cost is not a billing receipt.",
+        "event_sha256": "d86155838c26530b018a107878652182d8b31e3a4ef22a16ffc505cf13efb0e3"
+      }
+    }
+  ],
+  "adjudication": [
+    "Every native whole crop and every final lettering snippet inspected. Model clear statuses and reviewer-draft pixel boxes were not accepted without native review.",
+    "Coastal overlap fragments completed once; distinct repeated personal names and watercourse inscriptions retained separately.",
+    "Corrected Tremaine’s Mine, Cape Breton Co’s Mine, lighthouse 54 ft, Rock 10 ft high, T. E. Fraser, and D. McInnes from original pixels.",
+    "Rotated native mining text reads LEVEL and Four feet seam, not Fourteen Seam or an island/road name. Native island captions read SMITH Iᵈ. and HENRY Iᵈ.; no Port Hood Island label invented.",
+    "Combined Post Road to Mabou, Road to Whycocomagh, Little Judique Brook, Kewstoke Brook, Southeast Mabou River, Southwest Mabou River, and Judique Intervale Brook from complete source lettering.",
+    "Retained red This region was not surveyed. as historical survey context; excluded report/page references and geological unit codes.",
+    "Qualified Robert McGeen surname and three waterfall numerals whose units remain unresolved. No modern names, ownership, elevation or geography inferred."
+  ],
+  "provenance_verification": {
+    "native_source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+    "native_source_dimensions_px": [
+      10822,
+      7531
+    ],
+    "original_crop_hashes_verified": 40,
+    "detail_crop_hashes_verified": 13,
+    "event_hashes_verified": 53,
+    "local_provenance_audit_sha256": "ecbee9788c7167eb0633cc5875f930889d4649e17f463232e1ac9110d03d087b",
+    "local_review_contact_hashes": [
+      {
+        "group": "coast-parent-contact",
+        "file": "1.png",
+        "sha256": "b9291953c27ae4526356deb99714f7008e0ed933ebcf3251c56d91ff0d940424"
+      },
+      {
+        "group": "coast-parent-contact",
+        "file": "2.png",
+        "sha256": "0bbe869f3f52c386223769189036693dc503f34f915e817c5c17f91c6c437a1e"
+      },
+      {
+        "group": "middle-parent-contact-final",
+        "file": "1.png",
+        "sha256": "f3bbec10c19f7260ece96ecf4caddfb2d7281ec2f676d77e183dcddf89061e71"
+      },
+      {
+        "group": "middle-parent-contact-final",
+        "file": "2.png",
+        "sha256": "aa5939267c406ecd1069c0ff2b890dea693ecb9ce05945c5aae7cacb1e01daa5"
+      },
+      {
+        "group": "middle-parent-contact-final",
+        "file": "3.png",
+        "sha256": "339c96c2429fb65e28d9c1c0309300809333ec93d55b5adb6261c8135df20917"
+      },
+      {
+        "group": "middle-parent-contact-final",
+        "file": "4.png",
+        "sha256": "510beccaaa7b6080c23e047e5e3eb5fc2b2bbcfe48669066f5561659bd803819"
+      },
+      {
+        "group": "middle-parent-contact-final",
+        "file": "5.png",
+        "sha256": "69e73d1845e74ad363f97de8e80a148f90038b336ed7b4b6d55b5b15aea300dd"
+      },
+      {
+        "group": "middle-parent-contact-final",
+        "file": "6.png",
+        "sha256": "11087b6c5c1e9239820d9fce57d47f813c2155f61cd570ccccac69da5fc7c04e"
+      },
+      {
+        "group": "middle-parent-contact-final",
+        "file": "7.png",
+        "sha256": "249dbed04e8b71cc992b4f9805e137fec11ca26afbfe8d836066cdf5faf18b03"
+      },
+      {
+        "group": "south-parent-contact",
+        "file": "1.png",
+        "sha256": "2b5bed16ae51ac019d37f9e4028810acefd1edb44a1ac1b2f7bc1208b76daa0d"
+      },
+      {
+        "group": "south-parent-contact",
+        "file": "2.png",
+        "sha256": "a8aa6059793ed93a01a59eb4cb7f64aa7ef8cbf02e489d9144c1856d00ec5221"
+      },
+      {
+        "group": "south-parent-contact",
+        "file": "3.png",
+        "sha256": "40eeb88a1df9ec83efbf42f3f391f9f7e630bd5fa002230b5b04a13bc7560cd8"
+      },
+      {
+        "group": "south-parent-contact",
+        "file": "4.png",
+        "sha256": "8803ff8b1554f8ce88b9c2dcc4f3847e575704eb478502fefd27cadfc28a1e82"
+      },
+      {
+        "group": "north-source-review",
+        "file": "north-contact-1.png",
+        "sha256": "2f35f14e12cca90ed69d9e1dfe9baf2d2003e93b9987426396960c88e984bed3"
+      },
+      {
+        "group": "north-source-review",
+        "file": "north-contact-2.png",
+        "sha256": "5b042b23ef6cac0297dae51bb2e759541d8f8fa67e8eab0ddbc8f21aec1f799a"
+      },
+      {
+        "group": "north-source-review",
+        "file": "north-contact-3.png",
+        "sha256": "051a1dbc027656793ffcd91a64453fd6b1413b6f36db4b6b63fef5239fe73ef6"
+      },
+      {
+        "group": "north-source-review",
+        "file": "north-contact-4.png",
+        "sha256": "867c2c4af3381cd8252e2c97b45f257b5fee9c044e3e11b2bd903b4e6bb6b1b2"
+      },
+      {
+        "group": "final-box-corrections",
+        "file": "sheet16-final-box-corrections.png",
+        "sha256": "16099a5a98552b6f4133c11367fb079156e2e537b4b85e99ad2f448cf9f24dd9"
+      }
+    ]
+  },
+  "limitations": "Finalized means the initial source inventory and crop audit are complete with qualified readings. It does not certify infallibility, geographic placement, georeferencing acceptance, feature survival or current property/site conditions."
+}

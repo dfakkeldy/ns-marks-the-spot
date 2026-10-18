@@ -1,0 +1,33 @@
+{
+  "IS50-enlarged": {
+    "origin": [
+      31662,
+      3152
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "IS51-enlarged": {
+    "origin": [
+      28914,
+      1267
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "review_timing": "Both native crosshairs and exact-reference candidate figures were inspected before first scoring."
+}

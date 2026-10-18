@@ -1,0 +1,55 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "Q01-Q04 reused diagnostics after model comparison and road-crossing/mouth repair; Q01 tributary identity remains uncertain. Q05 first scored on this revision but close to fitting controls. Not fresh regional validation. Re-associated only after annotation correction; physical fit is identical to original frozen trial.",
+  "fit_sha256": "859ba33527e11723fc76527ef48ba953d21832d5e98ab81f08257c285900dd74",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7951,
+        6395
+      ],
+      "lonlat": [
+        -60.9275594,
+        46.4580556
+      ],
+      "modern_node": "J1449",
+      "modern_objectids": [
+        277807,
+        277810,
+        287345
+      ],
+      "identity_evidence": "Stewart long southern tributary below northern control C09 and above the river mouth C10; tributary curves southwest upstream. Smaller modern southern spurs nearer C09 are not this arm.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed.",
+      "identity_status": "Unresolved after failed initial check. Long historical southern arm may not correspond to the selected short modern tributary; retain as diagnostic, not acceptance evidence."
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        4741,
+        5040
+      ],
+      "lonlat": [
+        -61.0758228,
+        46.4970208
+      ],
+      "modern_node": "J1176",
+      "modern_objectids": [
+        5489,
+        5490,
+        186190
+      ],
+      "identity_evidence": "Coastal creek mouth north of Murphys Brook and south of Basile drainage, at pointed coastal inlet. Creek crosses coast road, curves northeast into a rounded bend then southeast toward inland tributaries. Distinguish the separate smaller coastal creek immediately south.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    }
+  ]
+}

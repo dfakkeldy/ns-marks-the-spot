@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Northwestern Ling-labelled round lake east tip",
+    [
+      715,
+      801
+    ],
+    [
+      681,
+      769
+    ],
+    "WALK"
+  ],
+  [
+    "C02",
+    "Cochran Lake north apex",
+    [
+      1972,
+      1317
+    ],
+    [
+      1946,
+      1279
+    ],
+    "WALK"
+  ],
+  [
+    "C03",
+    "John Allen McDonald pond north apex",
+    [
+      2325,
+      1058
+    ],
+    [
+      2293,
+      1025
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Sand Lake south tip near Birch Grove",
+    [
+      3380,
+      1078
+    ],
+    [
+      3350,
+      1030
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Cape Perce southeast corner",
+    [
+      5007,
+      894
+    ],
+    [
+      4984,
+      838
+    ],
+    "WACO"
+  ],
+  [
+    "C06",
+    "Cape Morien east tip",
+    [
+      4877,
+      1789
+    ],
+    [
+      4875,
+      1743
+    ],
+    "WACO"
+  ],
+  [
+    "C07",
+    "False Bay Head southeast shoulder",
+    [
+      2991,
+      2745
+    ],
+    [
+      2990,
+      2707
+    ],
+    "WACO"
+  ],
+  [
+    "C08",
+    "Northern Catalone pond north apex",
+    [
+      1654,
+      3321
+    ],
+    [
+      1652,
+      3280
+    ],
+    "WA"
+  ]
+]

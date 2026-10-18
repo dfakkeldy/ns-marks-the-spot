@@ -30,8 +30,8 @@ struct OverlayViewModelBasemapTests {
         viewModel.toggleVisibility(LayerID.nsAerial.rawValue)
 
         // The map's default ground, which is the browser's: the imagery going
-        // away leaves the reader on the OpenStreetMap base.
-        #expect(viewModel.baseMapType == .openStreetMap)
+        // away leaves the reader on the Atlas.
+        #expect(viewModel.baseMapType == .atlas)
         #expect(viewModel.layers.first?.isVisible == false)
     }
 
@@ -128,7 +128,7 @@ struct OverlayViewModelBasemapTests {
 
         #expect(viewModel.isShowingLicenceSheet)
         // Still on the opening ground: the pick must not move until answered.
-        #expect(viewModel.baseMapType == .openStreetMap)
+        #expect(viewModel.baseMapType == .atlas)
         #expect(viewModel.layers.first?.isVisible == false)
 
         viewModel.acceptProvinceLicence()

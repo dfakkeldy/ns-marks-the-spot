@@ -1,0 +1,30 @@
+{
+  "at_utc": "2026-09-12T13:33:30.509460+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.0821354,
+        46.4824238
+      ],
+      "source_guide_xy": [
+        4529.393100959249,
+        5523.3555748004
+      ],
+      "objectids": [
+        11443,
+        272052,
+        311341
+      ],
+      "modern_node": "J1292",
+      "id": "R01",
+      "role": "check",
+      "pixel_xy": [
+        4609,
+        5485
+      ],
+      "identity_evidence": "Murphys Brook coastal outlet below Q04 creek and above the long coastal-parallel southern drainage; separate long northern bend and inland fork distinguish it.",
+      "status": "Repair proposal; close/wide native review pending; unscored",
+      "source_uncertainty_px": 15
+    }
+  ]
+}

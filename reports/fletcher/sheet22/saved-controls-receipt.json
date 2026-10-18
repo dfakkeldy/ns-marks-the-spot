@@ -1,0 +1,15 @@
+{
+  "csv_original_filename": "sheet-22-hawkesbury-2026-08-01T23-55-56.csv",
+  "sha256": "2d9654ee10414e2e8862fae7d7eae44d1f75a1db15f461e017bd10dfd7fa5d19",
+  "annotation_original_filename": "sheet-22-hawkesbury.georef (1).json",
+  "annotation_sha256": "1ee2c9514245d9f3abcbe7952c683ced93ef8f41d43c12481de2b679bbc8d457",
+  "annotation_agrees_with_csv": true,
+  "canvas_dimensions": [
+    10790,
+    7687
+  ],
+  "manual_gcp_count": 17,
+  "remaining_default_corners": [
+    "corner-se"
+  ]
+}

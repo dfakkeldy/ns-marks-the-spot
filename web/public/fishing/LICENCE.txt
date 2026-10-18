@@ -1,0 +1,44 @@
+NS Marks The Spot fishing data have separate data licences; they are not MIT code.
+The code's MIT licence does not cover these files or replace any provider's terms.
+
+spots.geojson, rules.json, calendar.json (project-authored wording):
+The project's own descriptions, tips, cautions, calendar notes and rule summaries
+are licensed under the Creative Commons Attribution 4.0 International licence
+(CC BY 4.0). Credit "NS Marks The Spot" and link to this file.
+https://creativecommons.org/licenses/by/4.0/
+CC BY 4.0 covers the project's wording only. Facts drawn from third-party pages
+(tourism listings, park pages, forum and guide reports, regulations, the
+Anglers' Handbook and DFO notices) keep their own terms; those pages are cited
+in each record's sources and are not reproduced. The rule summaries are an
+unofficial paraphrase, not the official text, and have no legal force.
+
+Spot positions and the open-data facts in the spot text (road names and classes,
+shore and stream distances, place names, park entrances, Crown land, protected
+areas, harbours and stocking figures):
+Contains information licensed under the Open Government Licence – Nova Scotia.
+https://novascotia.ca/opendata/licence.asp
+Datasets: NS Road Network (484g-adjn), NSTDB Water Features (h8jb-hzrm,
+fpca-jrmt), NS GeoNAMES (xf3i-vxcb), Provincial Day-use and Camping Park
+Entrances (c6mf-qy4u), Crown Land (3nka-59nz), The Nova Scotia Protected Areas
+System (ticv-5du5), NS Fish Hatchery Stocking Records (8e4a-m6fw) and NS
+Freshwater Fish Species Distribution Records (jgyj-d4fh).
+
+Contains information licensed under the Open Government Licence – Canada.
+https://open.canada.ca/en/open-government-licence-canada
+Datasets: DFO Small Craft Harbours Locations and Information
+(262451e7-6416-47b5-8453-f31d212ea657) for harbour positions and managers, and
+NRCan Aboriginal Lands of Canada Legislative Boundaries
+(522b07b9-78e2-4819-b736-ad9208eb1067) for the reserve-land screen.
+
+stocked-waters.geojson:
+Contains information licensed under the Open Government Licence – Nova Scotia.
+https://novascotia.ca/opendata/licence.asp
+Derived from NS Fish Hatchery Stocking Records (8e4a-m6fw) and located and
+checked with Municipality Boundaries (7bqh-hssn). Coordinates are converted from
+the publisher's UTM easting and northing; the zone is inferred by a county check
+and recorded per point. Salmon releases are withheld.
+
+No endorsement by any data provider is implied. The data are provided without
+warranty; they screen places and seasons and do not establish public access,
+title, permission or current rules. Source identities, queries, dates, rejected
+records and file hashes are recorded in source.json and stocked-waters.source.json.

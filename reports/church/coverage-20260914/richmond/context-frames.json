@@ -1,0 +1,485 @@
+{
+  "R36-prospective": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        14000,
+        5900
+      ],
+      "extent": [
+        1800,
+        1900
+      ],
+      "display": [
+        1440,
+        1520
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R36-prospective.jpg",
+    "image_sha256": "de8fa307a88acfbed68859e7740fc5b00f4cd64af95f8eaef352c51f8e494996"
+  },
+  "R36-tip-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        14500,
+        6220
+      ],
+      "extent": [
+        600,
+        550
+      ],
+      "display": [
+        1200,
+        1100
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R36-tip-native.jpg",
+    "image_sha256": "54b6fa1527e496dd7b0ed43a961dfd6e46b4dad57b5b59ae524b76e90c7ccbd2"
+  },
+  "R37-context": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        4400,
+        14600
+      ],
+      "extent": [
+        2800,
+        2500
+      ],
+      "display": [
+        1680,
+        1500
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R37-context.jpg",
+    "image_sha256": "28d6feac3a961d87204c428412c53aa5327647ed85507e9a3837243d0e2b91f4"
+  },
+  "R37-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        5800,
+        15300
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "display": [
+        1300,
+        1100
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R37-native.jpg",
+    "image_sha256": "588c739d4ca7ae627a379885b6e6cc1671bfd851cd07a63242e3ad69d921b5aa"
+  },
+  "R38-context": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        2500,
+        17000
+      ],
+      "extent": [
+        3800,
+        3300
+      ],
+      "display": [
+        1900,
+        1650
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R38-context.jpg",
+    "image_sha256": "5ac98bf4a953e9d1fc2e787af19f114e757411a2fbc1c9a91d603982dcd7f651"
+  },
+  "R38-creek": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        2900,
+        19300
+      ],
+      "extent": [
+        1700,
+        1500
+      ],
+      "display": [
+        1360,
+        1200
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R38-creek.jpg",
+    "image_sha256": "de81861d74c953613d9f10d48f9cb4cf2460b8d9912c197e314b6b1a6f12d16a"
+  },
+  "R38-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        3330,
+        19890
+      ],
+      "extent": [
+        420,
+        400
+      ],
+      "display": [
+        1260,
+        1200
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R38-native.jpg",
+    "image_sha256": "f12989d8c2f7108cad94e848fb0d3b820415b47e47866bf8eeb7a784e9d7cf81"
+  },
+  "R39-neils": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        11300,
+        20400
+      ],
+      "extent": [
+        1600,
+        950
+      ],
+      "display": [
+        1600,
+        950
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R39-neils.jpg",
+    "image_sha256": "a7f529b1f0484dba8496d69581a0a6b3696ef7510d1f42119edbdaffc4c418f9"
+  },
+  "R39-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        11490,
+        20600
+      ],
+      "extent": [
+        450,
+        280
+      ],
+      "display": [
+        1350,
+        840
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R39-native.jpg",
+    "image_sha256": "0a123964c4646802adc60ce56d6752d75304a36dbd03c3d5ac7e239158ff16c0"
+  },
+  "R40-context": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        14000,
+        2800
+      ],
+      "extent": [
+        4200,
+        2300
+      ],
+      "display": [
+        2100,
+        1150
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R40-context.jpg",
+    "image_sha256": "36515933d7dfba9247b76e15db6451c4b09fadf144ed5e24167d5bb0129e1121"
+  },
+  "R40-peninsula": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        15000,
+        4150
+      ],
+      "extent": [
+        1500,
+        700
+      ],
+      "display": [
+        1500,
+        700
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R40-peninsula.jpg",
+    "image_sha256": "55093e0dfa2513b717618c98cd2be9e92b4d6528c5adb3d3621b297ca4dd7985"
+  },
+  "R40-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        15170,
+        4220
+      ],
+      "extent": [
+        650,
+        380
+      ],
+      "display": [
+        1300,
+        760
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R40-native.jpg",
+    "image_sha256": "c861e9ed73402f169b77179a3ee5c0458251ae8c826c84365e09aa1ce0b64031"
+  },
+  "R41-context": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        21300,
+        13100
+      ],
+      "extent": [
+        4000,
+        3200
+      ],
+      "display": [
+        2000,
+        1600
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R41-context.jpg",
+    "image_sha256": "def7be8f46b45a71cd2a3ec8ff7b62bcf275f93c490fce8e0a72d3699f7b69b6"
+  },
+  "R41-ferguson": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        23350,
+        15000
+      ],
+      "extent": [
+        1300,
+        1300
+      ],
+      "display": [
+        1300,
+        1300
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R41-ferguson.jpg",
+    "image_sha256": "5fbe16ed3b78d5436504c0ca4074e308e40cc7b1bbb73da70f3ba6d3e24e75e0"
+  },
+  "R41-west": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        21480,
+        14600
+      ],
+      "extent": [
+        600,
+        520
+      ],
+      "display": [
+        1200,
+        1040
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R41-west.jpg",
+    "image_sha256": "8a95c279f07eb570759c291c276f866946b22f201d923e841590095b9ff47ead"
+  },
+  "R42-east": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        27000,
+        8400
+      ],
+      "extent": [
+        7700,
+        8500
+      ],
+      "display": [
+        1925,
+        2125
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R42-east.jpg",
+    "image_sha256": "712f3f00cdd6228520d82ef9ce47b51b52d9f256c27de1872e93060a6a677c1a"
+  },
+  "R42-marie": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        28000,
+        12800
+      ],
+      "extent": [
+        3300,
+        3000
+      ],
+      "display": [
+        1650,
+        1500
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R42-marie.jpg",
+    "image_sha256": "b19b856cbd16e0ec31e2122b406044bae98d716871b4338a9b6a1b1c92c599d4"
+  },
+  "R42-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        28550,
+        14000
+      ],
+      "extent": [
+        700,
+        600
+      ],
+      "display": [
+        1400,
+        1200
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R42-native.jpg",
+    "image_sha256": "63ea28d1db7290b3f4ae6473b8cdf464c4fe3e4b68387c0477f24359513c7d7a"
+  },
+  "R43-kelp": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        28400,
+        14900
+      ],
+      "extent": [
+        1600,
+        1700
+      ],
+      "display": [
+        1440,
+        1530
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R43-kelp.jpg",
+    "image_sha256": "aee7fce3b07f2e46b11d72c478df4593db2a7d73dd68a04eaa8417eba100e2d4"
+  },
+  "R43-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        28770,
+        15260
+      ],
+      "extent": [
+        400,
+        400
+      ],
+      "display": [
+        1200,
+        1200
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R43-native.jpg",
+    "image_sha256": "b63c225694bd778f40044de72c2ce4a569783187e600ed6149056aacd65b611a"
+  },
+  "R44-fourchu": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        31700,
+        10200
+      ],
+      "extent": [
+        3070,
+        6000
+      ],
+      "display": [
+        1228,
+        2400
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R44-fourchu.jpg",
+    "image_sha256": "3920ba68800fc8b6eec64dd62e476d94019ab36ede7197c7d970e7d41cb76569"
+  },
+  "R44-point": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        33400,
+        11700
+      ],
+      "extent": [
+        1370,
+        1800
+      ],
+      "display": [
+        1370,
+        1800
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R44-point.jpg",
+    "image_sha256": "9a81163ed672e0abbdbc7cf97c7a6df267b3bbdce79d9471df4de23d9a346f66"
+  },
+  "R44-native": {
+    "frame": {
+      "county": "richmond",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "origin": [
+        34450,
+        12370
+      ],
+      "extent": [
+        300,
+        430
+      ],
+      "display": [
+        900,
+        1290
+      ],
+      "rotation": 0
+    },
+    "image_path": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R44-native.jpg",
+    "image_sha256": "f87af8f36aa03bfcbd2d467ea2079c1c597b454cc954ddedd9ca46882ae23853"
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "status": "Six excluded checks reserved before first affine fit; five reuse control lake/cape regions and one separate small pond near Round Lake",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Round Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4359,
+        444
+      ],
+      "lonlat": [
+        -64.1437565657385,
+        45.92265562514288
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 143288,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143288,
+      "nearest_unfiltered_distance_guide_px": 1.2259292422115364,
+      "selected_distance_guide_px": 1.2259292422115364,
+      "guide_reference_pixel_xy": [
+        4412.2048883562675,
+        457.2261560431216
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected; initial coordinates and roles accepted before first fitting/scoring."
+    },
+    {
+      "id": "Q02",
+      "label": "Long Lake southwest lobe southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4024,
+        850
+      ],
+      "lonlat": [
+        -64.15478010582638,
+        45.89779929899828
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 132042,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132042,
+      "nearest_unfiltered_distance_guide_px": 0.40532269272167476,
+      "selected_distance_guide_px": 0.40532269272167476,
+      "guide_reference_pixel_xy": [
+        4062.1745396927,
+        872.3658174147131
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected; initial coordinates and roles accepted before first fitting/scoring."
+    },
+    {
+      "id": "Q03",
+      "label": "Blairs Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2471,
+        2504
+      ],
+      "lonlat": [
+        -64.2079658442764,
+        45.79549710935342
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 125232,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125232,
+      "nearest_unfiltered_distance_guide_px": 1.4919585686045156,
+      "selected_distance_guide_px": 1.4919585686045156,
+      "guide_reference_pixel_xy": [
+        2516.5091937896796,
+        2535.4089178948198
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected; initial coordinates and roles accepted before first fitting/scoring."
+    },
+    {
+      "id": "Q04",
+      "label": "Small lake northwest of Blairs Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2313,
+        2370
+      ],
+      "lonlat": [
+        -64.22273168279582,
+        45.79835076869342
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 136993,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 232527,
+      "nearest_unfiltered_distance_guide_px": 0.8780877543547206,
+      "selected_distance_guide_px": 4.967258954851158,
+      "guide_reference_pixel_xy": [
+        2343.914734708611,
+        2395.942466077744
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected; initial coordinates and roles accepted before first fitting/scoring."
+    },
+    {
+      "id": "Q05",
+      "label": "Amherst Point western shoulder",
+      "role": "check",
+      "pixel_xy": [
+        684,
+        2405
+      ],
+      "lonlat": [
+        -64.32464935666015,
+        45.76668124044807
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 1913,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 1913,
+      "nearest_unfiltered_distance_guide_px": 2.121720919727063,
+      "selected_distance_guide_px": 2.121720919727063,
+      "guide_reference_pixel_xy": [
+        730.0706531647593,
+        2419.537295847782
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected; initial coordinates and roles accepted before first fitting/scoring."
+    },
+    {
+      "id": "Q06",
+      "label": "Small pond northwest of Round Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4084,
+        217
+      ],
+      "lonlat": [
+        -64.16887695822211,
+        45.92737213925614
+      ],
+      "guide_file": ".crown-grant-local/059-west-neighbor-guide.npy",
+      "reference_objectid": 89353,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 89353,
+      "nearest_unfiltered_distance_guide_px": 1.1599182555009298,
+      "selected_distance_guide_px": 1.1599182555009298,
+      "guide_reference_pixel_xy": [
+        4118.045870763774,
+        223.15901088539977
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected; initial coordinates and roles accepted before first fitting/scoring."
+    }
+  ]
+}

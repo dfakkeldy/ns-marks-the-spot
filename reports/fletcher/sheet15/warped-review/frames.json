@@ -1,0 +1,137 @@
+[
+  {
+    "image": "northwest-lake.jpg",
+    "lonlat_bounds": [
+      -61.235,
+      46.04,
+      -61.1,
+      46.11
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "northeast-shore.jpg",
+    "lonlat_bounds": [
+      -60.95,
+      46.045,
+      -60.835,
+      46.105
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southwest-blues.jpg",
+    "lonlat_bounds": [
+      -61.23,
+      45.92,
+      -61.11,
+      45.99
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southeast-mackinnon.jpg",
+    "lonlat_bounds": [
+      -60.98,
+      45.92,
+      -60.84,
+      46.015
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "central-interior.jpg",
+    "lonlat_bounds": [
+      -61.095,
+      45.998,
+      -60.99,
+      46.055
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "mcphedran.jpg",
+    "lonlat_bounds": [
+      -61.03,
+      46.008,
+      -60.955,
+      46.052
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "channel-islands.jpg",
+    "lonlat_bounds": [
+      -61.14,
+      45.94,
+      -61.0,
+      45.975
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "little-narrows.jpg",
+    "lonlat_bounds": [
+      -61.015,
+      45.98,
+      -60.94,
+      46.015
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "hume-island.jpg",
+    "lonlat_bounds": [
+      -60.947,
+      46.022,
+      -60.913,
+      46.053
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

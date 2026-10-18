@@ -3,6 +3,37 @@ import GeoCore
 import MapCatalog
 import Observation
 
+/// Bundled terms that include the NSPRD acceptance disclaimer and boundary caveat.
+///
+/// This presence check closes the decision sheet if those required statements
+/// are missing or reworded. The shipped document's remaining supplied wording
+/// is pinned separately by the document regression; this is not a licence grant.
+public struct ProvinceLicenceDocument: Sendable {
+    public let text: String
+
+    public init?(text: String?) {
+        guard let text else { return nil }
+        let normalized = Self.normalize(text)
+        guard Self.requiredStatements.allSatisfy({ normalized.contains(Self.normalize($0)) })
+        else { return nil }
+        self.text = text
+    }
+
+    private static func normalize(_ text: String) -> String {
+        text.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+    }
+
+    // Supplied official NSPRD v1 PDF, SHA-256
+    // 39b41573e53b14b142b4d7082bd76fa68de708d646475a1b0288a54bbb7ba20d.
+    // Preserve the source wording, including "size or a property".
+    private static let requiredStatements = [
+        "The Province of Nova Scotia makes no representations, expressed or implied, as to the accuracy, completeness and timeliness of the information, maps and other data, including PID numbers or property boundaries, which are displayed in this map that is presented in this application.",
+        "The map is provided on the understanding that it is not guaranteed to be correct or complete or current, is subject to change, and conclusions drawn or decisions made, based on an interpretation of the data, are the responsibility of the user.",
+        "By continuing to use this application, you agree to the terms of this disclaimer.",
+        "Property boundaries shown on maps are obtained from the provincial land registration system. They are not based upon survey and are subject to change. They are not conclusive evidence of the location or size or a property. You cannot rely on them to determine boundaries or legal descriptions of properties.",
+    ]
+}
+
 /// Whether the user has accepted the Province of Nova Scotia's data licence.
 ///
 /// `declined` exists only in memory, for the session in which the user said no.
@@ -78,7 +109,11 @@ public protocol ProvinceLicenceStorage: Sendable {
 /// documented as thread-safe, and this type only ever reads and writes one
 /// string key.
 public struct UserDefaultsProvinceLicenceStorage: ProvinceLicenceStorage, @unchecked Sendable {
-    public static let storageKey = "ns-marks-the-spot:province-license:v1"
+    /// Preserved as a record of the earlier, incomplete app disclosure.
+    /// Loading or revoking current clearance never removes this legacy record.
+    public static let legacyStorageKey = "ns-marks-the-spot:province-license:v1"
+    /// An app disclosure revision; the supplied Province licence remains NSPRD v1.0.
+    public static let storageKey = "ns-marks-the-spot:province-license:nsprd-v1:disclosure-v2"
     public static let acceptedValue = "accepted"
 
     private let defaults: UserDefaults

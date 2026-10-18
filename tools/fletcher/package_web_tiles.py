@@ -22,7 +22,13 @@ from pathlib import Path
 from typing import Iterable, Iterator
 
 EXPECTED_SHEETS = tuple(range(1, 25))
-EXPECTED_TILE_COUNT = 144_173
+# Fail-closed guard: recalibrate ONLY against a measured tile tree, never to
+# make a failing package build pass. 108,701 = the twelve July-cropped sheets
+# (51,810) plus the twelve re-cropped to their neat line for revision
+# 20260831.1 (56,891). The previous 144,173 described the July compute trees
+# and was already stale for 20260828.1, which shipped 148,410 objects because
+# sheets 16 and 19 came from the August refit rather than those trees.
+EXPECTED_TILE_COUNT = 108_701
 MIN_ZOOM = 8
 MAX_ZOOM = 16
 RUMSEY_ATTRIBUTION = (

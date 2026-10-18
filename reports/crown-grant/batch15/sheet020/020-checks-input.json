@@ -1,0 +1,67 @@
+[
+  [
+    "Q01",
+    "Western inland pond southern shore",
+    [
+      944,
+      3385
+    ],
+    [
+      940,
+      3385
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Eastern inland pond southern shore",
+    [
+      4741,
+      2749
+    ],
+    [
+      4750,
+      2778
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Delap Cove stream mouth western bank",
+    [
+      1809,
+      2694
+    ],
+    [
+      1804,
+      2720
+    ],
+    "WACO20"
+  ],
+  [
+    "Q04",
+    "Young Cove eastern stream mouth",
+    [
+      4410,
+      2284
+    ],
+    [
+      4417,
+      2303
+    ],
+    "WACO20"
+  ],
+  [
+    "Q05",
+    "Far eastern inland pond southern shore",
+    [
+      5535,
+      2918
+    ],
+    [
+      5560,
+      2939
+    ],
+    "WALK20"
+  ]
+]

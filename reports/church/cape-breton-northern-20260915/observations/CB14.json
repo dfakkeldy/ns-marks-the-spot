@@ -1,0 +1,51 @@
+{
+  "id": "CB14",
+  "role": "control",
+  "label": "Scatarie main island eastern shoreline tip, excluding offshore rocks",
+  "pixel_xy": [
+    34567.5,
+    17745.833333333332
+  ],
+  "lonlat": [
+    -59.674915429002446,
+    46.034384005999584
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      33850,
+      17300
+    ],
+    "extent": [
+      1250,
+      1050
+    ],
+    "display": [
+      1500,
+      1260
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    861,
+    535
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/CB4-scatarie-east-native.jpg",
+  "source_crop_sha256": "1fcded9d781cfa7947a4f763efad09904477a579e81af5d4968af01811f2a7ab",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    18462
+  ],
+  "reference_vertex": {
+    "feature_id": 18462,
+    "vertex": 5
+  },
+  "uncertainty_ground_m": 180,
+  "identity_evidence": "The long northeastern arm of the main Scatarie island terminates east of the government lighthouse buildings and north of East Harbour and Hay Island. Its shoreline must be separated from the lighthouse symbol drawn outside the coast, repeated sea engraving contours and detached eastern rocks. Original WACOIS10 feature18462 vertex5 is the eastmost vertex of the previously verified main-island exterior; detached rocks northeast of this endpoint are excluded. Measure the continuous main-island coastline tip, not the lighthouse icon. Historical drawing generalization, dark buildings adjacent to the shore and possible rock/tidal-boundary differences justify180m uncertainty.",
+  "phase": "Prospective local control before scoring; shares the Scatarie feature with existing whole-island centroid CB01 and must never count as independent validation of CB01",
+  "feature_alias_group": "Scatarie main island",
+  "recorded_at": "2026-09-15T13:25:27.027793+00:00"
+}

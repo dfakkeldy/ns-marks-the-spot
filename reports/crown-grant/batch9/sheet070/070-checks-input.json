@@ -1,0 +1,67 @@
+[
+  [
+    "Q01",
+    "Fountain Lake southern tip",
+    [
+      874,
+      2618
+    ],
+    [
+      790,
+      2640
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Gamble Lake southeast tip",
+    [
+      585,
+      3665
+    ],
+    [
+      516,
+      3690
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Newfound Lake southwest tip",
+    [
+      2021,
+      2793
+    ],
+    [
+      1948,
+      2818
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Snake Lake southwest tip",
+    [
+      5299,
+      3708
+    ],
+    [
+      5225,
+      3743
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Pond northeast of Newfound Lake northern tip",
+    [
+      2240,
+      2604
+    ],
+    [
+      2176,
+      2615
+    ],
+    "WALK20"
+  ]
+]

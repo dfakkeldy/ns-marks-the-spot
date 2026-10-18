@@ -1,0 +1,14 @@
+{
+  "frozen_at": "2026-09-12T16:55:12.163577+00:00",
+  "fit_sha256": "4f661910ecdf4de6ac22cb6db3352375467f08b2287083e5d32e908c6f4b06b1",
+  "prior_fit_sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208",
+  "boundary_sha256": {
+    "boundary-main.json": "ff6f1f8aa0d030ab67688cb6c274694cd6a758c395a1ceba8431be67a5a2342d",
+    "boundary-review-frame.json": "7ff09f695571f4a9b868b02ffdb0f0b875737a58b471c5a936c51f436a556f2e",
+    "boundary-southeast-islet.json": "53b52a2154a7a7baa538ab4a8c673da74b6f1d2a6a1b30e8c03488ad966a268f",
+    "boundary-southwest-islet.json": "2e400a86ab0d728012bcc141cba4213ab9b7ca874af34560feb3ac32725dd9be"
+  },
+  "prior_control_count": 12,
+  "control_count": 14,
+  "repairs_complete_before_new_selection": true
+}

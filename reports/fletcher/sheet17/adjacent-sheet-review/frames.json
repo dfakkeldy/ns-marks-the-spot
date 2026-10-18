@@ -1,0 +1,32 @@
+[
+  {
+    "image": "18-western-lake-north.jpg",
+    "lonlat_bounds": [
+      -60.858,
+      45.885,
+      -60.827,
+      45.925
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "18-western-lake-south.jpg",
+    "lonlat_bounds": [
+      -60.858,
+      45.754,
+      -60.827,
+      45.802
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

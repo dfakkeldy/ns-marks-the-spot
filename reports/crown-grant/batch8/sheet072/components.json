@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5287 x 3629 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 31.64 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          55,
+          90
+        ],
+        [
+          5200,
+          90
+        ],
+        [
+          5200,
+          3520
+        ],
+        [
+          55,
+          3520
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Noel Shore, Lower Selmah, Selmah and Salter Head, Maitland, Black Rock, Clifton, Old Barns, Lower Onslow, Central Onslow, Crowe Mills, Princeport, Beaver Brook, South Maitland, Green Oaks, Hilden, Burton, Georgefield, Urbania and Upper Pleasant Valley, the entire original Cobequid Bay and Shubenacadie estuary, every mapped pond, lake and inland parcel. No displaced inset identified."
+    }
+  ]
+}

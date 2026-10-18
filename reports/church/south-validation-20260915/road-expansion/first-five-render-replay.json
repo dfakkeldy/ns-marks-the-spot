@@ -1,0 +1,8 @@
+{
+  "replay_receipt": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/first-five-render-replay/receipt.json",
+  "replay_receipt_sha256": "c374fbd6f85d60799c3bda86c79b43ac7b9a7004fe687e9fbbe2cecdf03e81fe",
+  "original_receipt": "reports/church/south-validation-20260915/warped-review/receipt.json",
+  "original_receipt_sha256": "c374fbd6f85d60799c3bda86c79b43ac7b9a7004fe687e9fbbe2cecdf03e81fe",
+  "all_five_figures_byte_identical": true,
+  "original_files_overwritten": false
+}

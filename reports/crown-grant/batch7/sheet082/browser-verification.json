@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T21:39:12.693261+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "082",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6267,
+        5172
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6034,
+        4184
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Full original mapped frame inspected; median exception, shared-system checks and regional qualifications preserved."
+  ]
+}

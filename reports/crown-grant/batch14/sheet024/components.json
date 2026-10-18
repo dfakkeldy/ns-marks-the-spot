@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5717 x 3934 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 155.19 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          130,
+          150
+        ],
+        [
+          5580,
+          160
+        ],
+        [
+          5580,
+          3780
+        ],
+        [
+          130,
+          3770
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "The full mapped frame retains all Rossignol islands, connected lake reaches, western inland lakes and southern extensions. Seven controls and eight checks support only the narrow western strip; the large eastern lake complex is retained as unvalidated extrapolation."
+    }
+  ]
+}

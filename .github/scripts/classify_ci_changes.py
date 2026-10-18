@@ -30,6 +30,12 @@ DOC_ONLY_FILES = frozenset(
 
 SHARED_CI_PREFIXES = (".github/",)
 
+# These inputs are checked by the Church/Fletcher pipeline steps in the
+# always-required changes job. Generated product assets have their own paths.
+MAP_RESEARCH_PREFIXES = (
+    "reports/church/", "reports/fletcher/", "tools/church/", "tools/fletcher/",
+)
+
 # The tax-sale snapshots both surfaces read. A refresh lands in web/src/data,
 # is exported to SharedData/, and is copied into the Swift package; the drift
 # check that compares the three lives in the web suite, so any of them moving
@@ -38,6 +44,8 @@ SHARED_DATA_PREFIXES = (
     "SharedData/",
     "NSMarksCore/Sources/NSDataServices/Resources/SharedData/",
     "web/src/data/",
+    # Both product parser suites read these emitted files from the repository.
+    "tools/fletcher/gcps/",
 )
 
 
@@ -61,7 +69,7 @@ def classify_paths(paths: Sequence[str]) -> Classification:
             native = True
         elif path in WEB_ONLY_FILES or path.startswith(WEB_ONLY_PREFIXES):
             web = True
-        elif path in DOC_ONLY_FILES or path.startswith(DOC_ONLY_PREFIXES):
+        elif path in DOC_ONLY_FILES or path.startswith(DOC_ONLY_PREFIXES + MAP_RESEARCH_PREFIXES):
             continue
         else:
             native = True

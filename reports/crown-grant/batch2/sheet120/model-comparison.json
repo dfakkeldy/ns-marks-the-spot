@@ -1,0 +1,8 @@
+{
+  "active_fit": "fit-main-affine-01.json",
+  "original_independent_rms_ground_m": 248.9544224830488,
+  "diagnostic_similarity_rms_ground_m": 263.2388861184886,
+  "decision": "Retain original affine; neither supported simple model meets 100 m. No control or valid measured check removed. A curved warp is not justified by this sparse control distribution.",
+  "local_mismatch": "Pembroke/Delaney group: modern named lake and outline context corroborated by national geonames (discovery only), but native scan placement differs substantially. Main MC04 affine control residual is about 592 projected metres. Do not interpret the full-content preview as accepted geography.",
+  "validation": "Original six-check first result retained; alternate model reuse is diagnostic, not additional fresh validation."
+}

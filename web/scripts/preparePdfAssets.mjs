@@ -11,7 +11,7 @@ import {
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-export const PDFJS_VERSION = "6.1.200";
+export const PDFJS_VERSION = "6.2.108";
 export const ASSET_DIRECTORIES = [
   "cmaps",
   "standard_fonts",

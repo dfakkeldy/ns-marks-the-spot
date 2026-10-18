@@ -1,4 +1,5 @@
 import Foundation
+import ImageIO
 
 /// Writing a user's layer back out.
 ///
@@ -12,6 +13,12 @@ public enum VectorExport {
     /// before it goes anywhere else, and one long line is not a file anyone
     /// can check.
     public static func geoJson(_ parsed: ParsedVector) throws -> Data {
+        try requireReproduction(parsed)
+        return try storageGeoJson(parsed)
+    }
+
+    /// Local persistence must preserve existing traced records without exporting them.
+    public static func storageGeoJson(_ parsed: ParsedVector) throws -> Data {
         var features: [Any] = []
         for feature in parsed.features {
             var object: [String: Any] = [
@@ -55,35 +62,321 @@ public enum VectorExport {
 
     // MARK: - KML
 
+    /// Whether photo descriptors are written. Plain KML omits them and the
+    /// img appendix entirely — a lone .kml must never dangle photo
+    /// references. The KMZ writer sets `.kmz`, which adds the required href
+    /// and the viewer-facing description images.
+    enum KmlPhotoMode {
+        case omit, kmz
+    }
+
+    /// A layer with any parcel-traced feature exports with this note in the
+    /// Document description: the coordinates were traced from licence-gated
+    /// NSPRD geometry, the caveat is NSPRD's own, and the attribution
+    /// obligation travels with the file. Consumers that strip it still keep
+    /// the per-feature `nsmts:traced` property. Word-for-word the web's
+    /// TRACED_PROVENANCE_NOTE.
+    public static let tracedProvenanceNote =
+        "Contains boundary coordinates traced from the Nova Scotia Property "
+        + "Records Database (NSPRD). \(CaptureSpec.Snap.parcelCaveat) "
+        + "Contains information obtained under license from the Province of "
+        + "Nova Scotia which is provided without warranty or liability for "
+        + "errors or omissions."
+
+    /// Whether anything here was traced off an NSPRD boundary.
+    ///
+    /// The value the spec declares, not merely the key. An imported file may
+    /// carry its own "nsmts:traced"; treating that as a trace would put the
+    /// NSPRD note and the Province's attribution on an export the Province had
+    /// nothing to do with.
+    public static func hasTracedFeatures(_ parsed: ParsedVector) -> Bool {
+        parsed.features.contains {
+            $0.properties[CaptureSpec.tracedKey]?.stringValue
+                == CaptureSpec.tracedParcelValue
+        }
+    }
+
+    public struct ReproductionRefusal: LocalizedError, Equatable, Sendable {
+        public var errorDescription: String? {
+            "Export locked: permission to reproduce NSPRD-derived boundary coordinates has not been confirmed. Your local record is preserved."
+        }
+        public init() {}
+    }
+
+    public static func requireReproduction(_ parsed: ParsedVector) throws {
+        if hasTracedFeatures(parsed) { throw ReproductionRefusal() }
+    }
+
+    public struct OriginalProvenanceRefusal: LocalizedError, Sendable {
+        public var errorDescription: String? {
+            "Original file export locked: the stored file's provenance could not be checked. Your local file is preserved."
+        }
+        public init() {}
+    }
+
+    /// Originals can be shared by several rows and are unchanged by editing a row.
+    /// Inspect every supported layer in the original, rather than its current edited subset.
+    public static func requireOriginalReproduction(_ data: Data, filename: String) throws {
+        if VectorImport.sniff(data) == .zip {
+            try requireArchiveReproduction(data)
+            return
+        }
+        try requireOriginalXmlProvenance(data)
+        guard let imported = try? VectorImport.read(data, filename: filename) else {
+            throw OriginalProvenanceRefusal()
+        }
+        for layer in imported.layers { try requireReproduction(layer.parsed) }
+    }
+
+    /// Import opens the main KMZ document; sharing exports every entry, including secondary documents.
+    private static func requireArchiveReproduction(_ data: Data) throws {
+        guard data.count <= VectorImport.hardLimitBytes,
+              let entries = try? ZipArchive.entries(in: data) else { throw OriginalProvenanceRefusal() }
+        // Nested/unsupported vector containers cannot inherit a plain main document's clearance.
+        let unsupportedFormats: Set<String> = ["kmz", "zip", "gpkg", "gml", "gdb"]
+        let shapefileSidecars: Set<String> = ["shp", "shx", "dbf", "prj", "cpg", "sbn", "sbx", "qix"]
+        let hasShapefile = entries.contains { $0.name.lowercased().hasSuffix(".shp") }
+        var checked = false
+        var declaredBytes = 0
+        for entry in entries {
+            if entry.name.hasSuffix("/") && entry.uncompressedSize == 0 { continue }
+            let ext = URL(fileURLWithPath: entry.name).pathExtension.lowercased()
+            if unsupportedFormats.contains(ext) { throw OriginalProvenanceRefusal() }
+            guard entry.uncompressedSize >= 0,
+                  entry.uncompressedSize <= KmzParse.maxKmlBytes - declaredBytes else {
+                throw OriginalProvenanceRefusal()
+            }
+            declaredBytes += entry.uncompressedSize
+            guard let bytes = try? ZipArchive.contents(of: entry, in: data) else {
+                throw OriginalProvenanceRefusal()
+            }
+            switch VectorImport.sniff(bytes) {
+            case .xmlCandidate, .geoJsonCandidate:
+                // Content decides the parser even when a secondary document is renamed.
+                try requireOriginalXmlProvenance(bytes)
+                guard let imported = try? VectorImport.read(bytes, filename: entry.name) else {
+                    throw OriginalProvenanceRefusal()
+                }
+                for layer in imported.layers { try requireReproduction(layer.parsed) }
+                checked = true
+            case .zip:
+                throw OriginalProvenanceRefusal()
+            case .unknown:
+                if hasShapefile && shapefileSidecars.contains(ext) { continue }
+                // Preserve normal KMZ photo assets by their detected content, not their filename.
+                guard let image = CGImageSourceCreateWithData(bytes as CFData, nil),
+                      CGImageSourceGetType(image) != nil else { throw OriginalProvenanceRefusal() }
+            }
+        }
+        if hasShapefile {
+            guard let layers = try? ShapefileParse.parse(zip: data) else { throw OriginalProvenanceRefusal() }
+            for layer in layers { try requireReproduction(layer.parsed) }
+            checked = true
+        }
+        guard checked else { throw OriginalProvenanceRefusal() }
+    }
+
+    /// A rendered import can omit malformed geometry; the original still contains its provenance.
+    private static func requireOriginalXmlProvenance(_ data: Data) throws {
+        guard VectorImport.sniff(data) == .xmlCandidate else { return }
+        guard let root = try? XmlTree.parse(data) else { throw OriginalProvenanceRefusal() }
+        let values = root.descendants(named: "Data").compactMap { element -> String? in
+            guard element.attributes["name"] == CaptureSpec.tracedKey else { return nil }
+            return element.firstChild(named: "value")?.trimmedText
+        } + root.descendants(named: "SimpleData").compactMap { element -> String? in
+            element.attributes["name"] == CaptureSpec.tracedKey ? element.trimmedText : nil
+        }
+        if values.contains(CaptureSpec.tracedParcelValue) { throw ReproductionRefusal() }
+        // Earlier app GPX exports carried the exact trace note at file level, without per-feature keys.
+        let descriptions = root.descendants(named: "desc") + root.descendants(named: "description")
+        if descriptions.contains(where: { $0.trimmedText == tracedProvenanceNote }) { throw ReproductionRefusal() }
+    }
+
     /// The layer as a KML document.
     ///
     /// Styling is deliberately not written back. The simplestyle properties
     /// survive in the GeoJSON export, and a `<Style>` block that got the
     /// colours slightly wrong would misrepresent the layer in whatever tool
     /// opens it more than an absent one does.
-    public static func kml(layerName: String, parsed: ParsedVector) -> String {
+    public static func kml(layerName: String, parsed: ParsedVector) throws -> String {
+        try requireReproduction(parsed)
+        return kmlDocument(layerName: layerName, parsed: parsed, photoMode: .omit)
+    }
+
+    static func kmlDocument(
+        layerName: String, parsed: ParsedVector, photoMode: KmlPhotoMode
+    ) -> String {
         var body = ""
         for feature in parsed.features {
             guard let geometry = feature.geometry, let element = kmlGeometry(geometry) else {
                 continue
             }
+            let descriptors = photoMode == .kmz
+                ? PhotoDescriptor.read(from: feature.properties) : []
             var placemark = "<Placemark>"
             if let name = feature.properties["name"]?.stringValue, !name.isEmpty {
                 placemark += "<name>\(escaped(name))</name>"
             }
-            if let description = feature.properties["description"]?.stringValue,
-               !description.isEmpty
-            {
+            let description = feature.properties["description"]?.stringValue ?? ""
+            if !descriptors.isEmpty {
+                // CDATA per the contract profile: the user's text, a blank
+                // line, then one viewer-facing img per photo so Google Earth
+                // renders them from the archive. Import strips exactly the
+                // img tags whose src begins with the photo directory.
+                let imgTags = descriptors.map { descriptor in
+                    "<img src=\"\(descriptor.kmzHref)\" "
+                        + "width=\"\(CaptureSpec.Kmz.descriptionImgWidth)\"/>"
+                }.joined()
+                let text = description.isEmpty ? imgTags : "\(description)\n\n\(imgTags)"
+                placemark += "<description><![CDATA[\(cdataSafe(text))]]></description>"
+            } else if !description.isEmpty {
                 placemark += "<description>\(escaped(description))</description>"
             }
+            placemark += extendedData(
+                feature.properties,
+                kmzDescriptors: photoMode == .kmz ? descriptors : nil
+            )
             placemark += element + "</Placemark>"
             body += placemark
         }
+        let documentDescription = hasTracedFeatures(parsed)
+            ? "<description>\(escaped(tracedProvenanceNote))</description>" : ""
         return """
             <?xml version="1.0" encoding="UTF-8"?>
             <kml xmlns="http://www.opengis.net/kml/2.2"><Document>\
-            <name>\(escaped(layerName))</name>\(body)</Document></kml>
+            <name>\(escaped(layerName))</name>\(documentDescription)\(body)</Document></kml>
             """
+    }
+
+    /// ExtendedData carries every property except the ones with their own
+    /// KML homes (`name`, `description`), togeojson's per-vertex
+    /// `coordinateProperties` (times are a GPX/GeoJSON concern per the
+    /// contract), and `nsmts:photos` (whose KMZ form is passed in by the KMZ
+    /// writer; plain KML must not carry dangling photo references). All
+    /// other `nsmts:` keys ARE written — a parcel-traced or recorded feature
+    /// keeps its provenance through a KML round trip. KML is string-typed:
+    /// numbers and booleans stringify, objects ride as JSON text, and nulls
+    /// are skipped; GeoJSON stays the type-faithful format.
+    private static func extendedData(
+        _ properties: [String: JSONValue], kmzDescriptors: [PhotoDescriptor]?
+    ) -> String {
+        let excluded: Set<String> = [
+            "name", "description", "coordinateProperties", CaptureSpec.photosKey,
+        ]
+        // Sorted for deterministic output; KML carries no ordering meaning.
+        let entries = properties
+            .filter { !excluded.contains($0.key) && $0.value != .null }
+            .sorted { $0.key < $1.key }
+        let descriptors = kmzDescriptors ?? []
+        guard !entries.isEmpty || !descriptors.isEmpty else { return "" }
+        var element = "<ExtendedData>"
+        for (key, value) in entries {
+            element += "<Data name=\"\(escaped(key))\"><value>"
+            element += escaped(stringified(value))
+            element += "</value></Data>"
+        }
+        if !descriptors.isEmpty {
+            let json = stringified(.array(descriptors.map(\.kmzValue)))
+            element += "<Data name=\"\(escaped(CaptureSpec.photosKey))\"><value>"
+            element += escaped(json)
+            element += "</value></Data>"
+        }
+        return element + "</ExtendedData>"
+    }
+
+    /// The KML string form of a property value: strings as they are, scalars
+    /// the way JSON writes them, structures as JSON text.
+    private static func stringified(_ value: JSONValue) -> String {
+        switch value {
+        case .string(let text):
+            return text
+        case .bool(let flag):
+            return flag ? "true" : "false"
+        case .number(let number):
+            return JSONValue.text(forNumber: number)
+        case .null:
+            return ""
+        case .array, .object:
+            // Slashes unescaped so `files/p1.jpg` reads as written; sorted
+            // keys so the same layer always writes the same document.
+            guard let data = try? JSONSerialization.data(
+                withJSONObject: value.jsonObject,
+                options: [.sortedKeys, .withoutEscapingSlashes]
+            ) else { return "" }
+            return String(data: data, encoding: .utf8) ?? ""
+        }
+    }
+
+    /// CDATA cannot contain its own terminator. The standard split keeps the
+    /// user's text intact through any conforming parser.
+    private static func cdataSafe(_ text: String) -> String {
+        text.replacingOccurrences(of: "]]>", with: "]]]]><![CDATA[>")
+    }
+
+    // MARK: - KMZ
+
+    public struct KmzExport: Sendable {
+        public var data: Data
+        public var photosEmbedded: Int
+        /// Descriptors whose bytes could not be supplied — dropped from the
+        /// written document entirely (no Data entry, no img tag): a KMZ must
+        /// never dangle a photo reference. The caller reports the count.
+        public var photosMissing: Int
+    }
+
+    /// KMZ per the field-capture interchange profile: `doc.kml`
+    /// (DEFLATE-compressed) plus one STORED `files/<photoId>.jpg` per
+    /// attached photo. Nil when reproduction is held or the zip writer refuses.
+    public static func kmz(
+        layerName: String, parsed: ParsedVector, photos: [String: Data]
+    ) -> KmzExport? {
+        guard !hasTracedFeatures(parsed) else { return nil }
+        var photosMissing = 0
+        let writable = ParsedVector(
+            features: parsed.features.map { feature in
+                let descriptors = PhotoDescriptor.read(from: feature.properties)
+                guard !descriptors.isEmpty else { return feature }
+                let present = descriptors.filter { photos[$0.id] != nil }
+                photosMissing += descriptors.count - present.count
+                guard present.count != descriptors.count else { return feature }
+                var copy = feature
+                if present.isEmpty {
+                    copy.properties.removeValue(forKey: CaptureSpec.photosKey)
+                } else {
+                    copy.properties[CaptureSpec.photosKey] =
+                        PhotoDescriptor.propertyValue(internalForm: present)
+                }
+                return copy
+            },
+            bbox: parsed.bbox
+        )
+
+        var entries: [ZipArchive.WriteEntry] = [
+            ZipArchive.WriteEntry(
+                name: CaptureSpec.Kmz.docEntry,
+                data: Data(
+                    kmlDocument(layerName: layerName, parsed: writable, photoMode: .kmz).utf8
+                ),
+                compress: true
+            )
+        ]
+        var embedded = Set<String>()
+        for feature in writable.features {
+            for descriptor in PhotoDescriptor.read(from: feature.properties)
+            where !embedded.contains(descriptor.id) {
+                guard let bytes = photos[descriptor.id] else { continue }
+                embedded.insert(descriptor.id)
+                entries.append(
+                    ZipArchive.WriteEntry(
+                        name: descriptor.kmzHref, data: bytes, compress: false
+                    )
+                )
+            }
+        }
+        guard let data = ZipArchive.archive(entries) else { return nil }
+        return KmzExport(
+            data: data, photosEmbedded: embedded.count, photosMissing: photosMissing
+        )
     }
 
     /// Nil for geometry KML has no representation for.

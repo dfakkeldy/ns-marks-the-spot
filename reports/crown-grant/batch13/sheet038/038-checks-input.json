@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Small lake east of New Germany southwest tip",
+    [
+      1540,
+      1390
+    ],
+    [
+      1566,
+      1401
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Sunken Lake southern tip",
+    [
+      4094,
+      1219
+    ],
+    [
+      4145,
+      1243
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Rocky Lake near Walden western elbow",
+    [
+      4116,
+      1707
+    ],
+    [
+      4158,
+      1715
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Ashland Lake southern shore",
+    [
+      1247,
+      2883
+    ],
+    [
+      1280,
+      2886
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Western Rocky Lake southern shore",
+    [
+      807,
+      3075
+    ],
+    [
+      847,
+      3085
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Rhodenizer Lake northeast roof",
+    [
+      793,
+      3531
+    ],
+    [
+      837,
+      3539
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Church Lake northern of two central islands southern tip",
+    [
+      3041,
+      2446
+    ],
+    [
+      3078,
+      2463
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q08",
+    "Spenado Lake southern tip",
+    [
+      4811,
+      3797
+    ],
+    [
+      4870,
+      3805
+    ],
+    "WALK20"
+  ]
+]

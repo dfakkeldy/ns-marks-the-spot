@@ -1,0 +1,255 @@
+{
+  "count": 8,
+  "rms_ground_m": 53.83985300033751,
+  "median_ground_m": 52.58348310480619,
+  "p95_ground_m": 75.29852256341789,
+  "max_ground_m": 77.4575513091516,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 8.777740206295809,
+  "mean_north_ground_m": 36.516779382031444,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "North Harbour northern lobe tip",
+      "role": "check",
+      "pixel_xy": [
+        631,
+        2425
+      ],
+      "lonlat": [
+        -61.44619438861574,
+        45.65639919308747
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 13790,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        625.1135439554346,
+        2432.7376406687545
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.44601775770722,
+        45.65684870766229
+      ],
+      "error_ground_m": 51.823146799029026,
+      "east_ground_m": 13.766747346878375,
+      "north_ground_m": 49.96113701309178
+    },
+    {
+      "id": "Q02",
+      "label": "Long Pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        920,
+        2125
+      ],
+      "lonlat": [
+        -61.43480431971862,
+        45.674956643638886
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 13583,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        923.8782756102155,
+        2135.2068900401937
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.43531010813914,
+        45.6753449534678
+      ],
+      "error_ground_m": 58.44413497638096,
+      "east_ground_m": -39.40855357677976,
+      "north_ground_m": 43.15880927601589
+    },
+    {
+      "id": "Q03",
+      "label": "Lexington Harbour southeastern lobe tip",
+      "role": "check",
+      "pixel_xy": [
+        1608,
+        2411
+      ],
+      "lonlat": [
+        -61.384711328067944,
+        45.674462626309754
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 140522,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1602.0089784301235,
+        2412.4983653449453
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.384369051290435,
+        45.674634773591144
+      ],
+      "error_ground_m": 32.82245932475091,
+      "east_ground_m": 26.668865467565375,
+      "north_ground_m": 19.1333596317486
+    },
+    {
+      "id": "Q05",
+      "label": "River Inhabitants east-facing bend north of Askilton",
+      "role": "check",
+      "pixel_xy": [
+        3352,
+        2006
+      ],
+      "lonlat": [
+        -61.283891285377734,
+        45.72266598936756
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 161351,
+      "reference_feature_code": "WARV10",
+      "guide_reference_pixel_xy": [
+        3346.5384039285127,
+        2018.1848043494392
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.2838528207169,
+        45.72330682251243
+      ],
+      "error_ground_m": 71.28889774991244,
+      "east_ground_m": 2.9944165290183427,
+      "north_ground_m": 71.22598129929985
+    },
+    {
+      "id": "Q07",
+      "label": "West Bay north-shore hook southern corner",
+      "role": "check",
+      "pixel_xy": [
+        4928,
+        2868
+      ],
+      "lonlat": [
+        -61.16238829859557,
+        45.711639485099724
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 14073,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4916.208796729916,
+        2876.5401465904433
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.16185397503833,
+        45.71222732103445
+      ],
+      "error_ground_m": 77.4575513091516,
+      "east_ground_m": 41.60451426313968,
+      "north_ground_m": 65.33556954475915
+    },
+    {
+      "id": "Q08",
+      "label": "West Bay western spit southern end",
+      "role": "check",
+      "pixel_xy": [
+        4877,
+        3000
+      ],
+      "lonlat": [
+        -61.16227066007723,
+        45.70510320761672
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 14076,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4867.635822383629,
+        3003.6100038262084
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.161766329974775,
+        45.70542799537567
+      ],
+      "error_ground_m": 53.34381941058336,
+      "east_ground_m": 39.27386848303381,
+      "north_ground_m": 36.09884102968257
+    },
+    {
+      "id": "Q09",
+      "label": "West Bay northeast headland recurved tip",
+      "role": "check",
+      "pixel_xy": [
+        5177,
+        2727
+      ],
+      "lonlat": [
+        -61.149081003678646,
+        45.72282361611856
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 13397,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5183.310650469968,
+        2730.674879079568
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.14957512190481,
+        45.7228782923065
+      ],
+      "error_ground_m": 38.94375241184455,
+      "east_ground_m": -38.46666170253685,
+      "north_ground_m": 6.077153065180541
+    },
+    {
+      "id": "Q10",
+      "label": "North Harbour southern tip",
+      "role": "check",
+      "pixel_xy": [
+        690,
+        2606
+      ],
+      "lonlat": [
+        -61.43797637616968,
+        45.649781202465434
+      ],
+      "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+      "reference_objectid": 3121,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        685.7645244253217,
+        2604.5653502059868
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged",
+      "predicted_lonlat": [
+        -61.43767119904534,
+        45.649791489426484
+      ],
+      "error_ground_m": 23.81618686809955,
+      "east_ground_m": 23.788724840047497,
+      "north_ground_m": 1.1433841964731903
+    }
+  ],
+  "fit_sha256": "ec056812d798d4d729f53da3bc417916106a2805c6cb345eb008b6ba9b169942",
+  "checks_sha256": "9250bd66b869635dbc1d977cfbe6f3f33735c8022774c1a4bc0495c7e7c250ca",
+  "status": "Eight independent checks finalized before first scoring; sparse northern/interior coverage"
+}

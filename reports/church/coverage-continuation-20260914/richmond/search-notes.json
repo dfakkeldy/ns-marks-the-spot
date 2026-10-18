@@ -1,0 +1,9 @@
+[
+  {
+    "candidate": "R47 reference search",
+    "initial_ring": 2148,
+    "outcome": "Rejected during identity search; belongs to the Murray Lake region farther east, not the Paddys network. No pixel-reference pair or score adopted.",
+    "correct_ring": 2143,
+    "lesson": "Read exact IDs and original coordinates from the close-up inventory; a small overview label was misread. Original search files remain in the external cache."
+  }
+]

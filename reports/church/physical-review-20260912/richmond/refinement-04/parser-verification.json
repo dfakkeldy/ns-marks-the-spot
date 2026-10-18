@@ -1,0 +1,7 @@
+{
+  "controls": 10,
+  "checks": 19,
+  "semantic_csv_roundtrip": true,
+  "maximum_web_gdal_difference_projected_m": 6.585445079827193e-9,
+  "scope": "Parser and TPS computation only; not raw-scan browser mesh or geographic acceptance"
+}

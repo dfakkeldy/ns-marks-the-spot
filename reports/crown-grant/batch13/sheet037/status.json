@@ -1,0 +1,45 @@
+{
+  "sheet": "037",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS gate passed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/037.pdf",
+    "pdf_sha256": "69d657352eccf7501edfc1fe40ae18eb65933158e3653c5a976d1b0b768b0abb",
+    "jpeg_sha256": "93f3d48f94b392cf1c471f342dce804fd7e4f0ec4ef703d931bbe0f75e347caa",
+    "dimensions": [
+      5682,
+      3917
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 46.22874562472398,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks pair with control lakes or islands; Brown Lake supplies a separate check.",
+    "Western third, far northern edge and major Sherbrooke/Long Lake shoreline stretches lack independent validation.",
+    "Small islands, generalized lake endpoints and outlet boundaries carry 18 px source uncertainty.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 46.23 m, median 36.12 m, P95 79.98 m, maximum 92.26 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Full mapped frame retains Crossburn, Dalhousie East, Dale, Dalhousie Road, Fraxville, Forties Settlement, Falkland Ridge, Springfield, Cherryfield, Sartys, Stanburn and Parkdale; Sixty, Lower Thirty, Long, Black Duck, Triangle or Birch, Butler, Owl, Rocky, Molly or Upper Gully, Clear, Brown and Sherbrooke lakes, all rivers and intervening land. No inset or internal crop."
+  }
+}

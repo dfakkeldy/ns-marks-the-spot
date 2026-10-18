@@ -1,0 +1,26 @@
+[
+  {
+    "name": "water-lines",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+    "bbox": "-61.26,45.90,-60.81,46.115",
+    "count": 3893,
+    "sha256": "f9bb31b25cf1febe7f11eba2aa47c9aeeabec5587909e58e65cbfd4fa50c4719",
+    "retrieved_date": "2026-09-11",
+    "output_crs": "EPSG:4326",
+    "axis_order": "longitude, latitude",
+    "method": "Paged source query; source geometry, not survey ground truth.",
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/reference-full/water-lines.geojson"
+  },
+  {
+    "name": "water-lines",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+    "bbox": "-61.24,45.73,-60.82,45.94",
+    "count": 2775,
+    "sha256": "ef6b5f30178a1eb5aafb2b125785ddc84c4555d9b9d0caa669540254c9d05abb",
+    "retrieved_date": "2026-09-11",
+    "output_crs": "EPSG:4326",
+    "axis_order": "longitude, latitude",
+    "method": "Paged source query; source geometry, not survey ground truth.",
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/reference-full/water-lines.geojson"
+  }
+]

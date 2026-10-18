@@ -23,7 +23,8 @@ struct TaxSalePanelTests {
     /// drawn" from "not listed".
     private static func event(
         id: String = "test-2026-09-01",
-        saleStartsAt: Date? = Date(timeIntervalSince1970: 4_000_000_000)
+        saleStartsAt: Date? = Date(timeIntervalSince1970: 4_000_000_000),
+        geometryExceptions: [TaxSaleGeometryException] = []
     ) -> TaxSaleEvent {
         TaxSaleEvent(
             id: id,
@@ -84,7 +85,8 @@ struct TaxSalePanelTests {
                     redemptionLabel: "Six-month redemption period",
                     listingStatus: .withdrawn
                 ),
-            ]
+            ],
+            geometryExceptions: geometryExceptions
         )
     }
 
@@ -213,14 +215,50 @@ struct TaxSalePanelTests {
     /// Counting only the drawable rows reports a smaller sale than the notice
     /// announced, and a reader checking the app against the printed Schedule A
     /// would find two properties missing with nothing saying where they went.
-    @Test func rowsWithNoParcelAreCountedAsAdvertisedRatherThanDroppedFromTheTotal() throws {
+    /// Kept on a constructed notice so a later Schedule A that maps every row
+    /// cannot drop this rule.
+    @Test func rowsWithNoParcelAreCountedAsAdvertisedRatherThanDroppedFromTheTotal() {
+        let event = Self.event(
+            geometryExceptions: [
+                TaxSaleGeometryException(
+                    recordID: "test-2026-09-01-unmapped-1",
+                    aan: "00009991",
+                    pids: ["99999991"],
+                    location: "Parking space A",
+                    checkedOn: "2026-08-20"
+                ),
+                TaxSaleGeometryException(
+                    recordID: "test-2026-09-01-unmapped-2",
+                    aan: "00009992",
+                    pids: ["99999992"],
+                    location: "Parking space B",
+                    checkedOn: "2026-08-20"
+                ),
+            ]
+        )
+        let summary = Self.taxSale(event).summary(for: event)
+
+        // Two mapped advertised listings + two official rows with no parcel.
+        #expect(summary.advertised == 4)
+        #expect(summary.mapped == 2)
+        #expect(summary.unavailable == 2)
+        #expect(summary.advertised == summary.mapped + summary.unavailable)
+    }
+
+    /// The sept11 Schedule A dropped one further advertised row. The two
+    /// parking-space PIDs that previously had empty NSPRD geometry remain
+    /// unpublished, so Halifax still has no unavailable rows.
+    @Test func halifaxSept11ScheduleAAdvertisesTenFullyMappedRows() throws {
         let catalog = TaxSaleCatalog.bundled
         let halifax = try #require(catalog.event(id: "halifax-2026-09-15"))
         let summary = TaxSaleViewModel(catalog: catalog).summary(for: halifax)
 
-        #expect(summary.advertised == 29)
-        #expect(summary.mapped == 27)
-        #expect(summary.unavailable == 2)
+        #expect(halifax.listings.count == 10)
+        #expect(halifax.pids.count == 11)
+        #expect(halifax.geometryExceptions.isEmpty)
+        #expect(summary.advertised == 10)
+        #expect(summary.mapped == 10)
+        #expect(summary.unavailable == 0)
     }
 
     /// A notice with nothing missing keeps the plain counts.

@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Moose Island western extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      628,
+      236
+    ],
+    "lonlat": [
+      -64.092660149818,
+      45.38247322042925
+    ],
+    "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+    "reference_objectid": 18158,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18158,
+    "nearest_unfiltered_distance_guide_px": 0.7059265937224468,
+    "selected_distance_guide_px": 0.7059265937224468,
+    "guide_reference_pixel_xy": [
+      599.7040323787951,
+      245.05167944787536
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Middle or Long Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      414,
+      139
+    ],
+    "lonlat": [
+      -64.10881077252607,
+      45.38274512446633
+    ],
+    "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+    "reference_objectid": 18127,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18127,
+    "nearest_unfiltered_distance_guide_px": 0.3273401966881742,
+    "selected_distance_guide_px": 0.3273401966881742,
+    "guide_reference_pixel_xy": [
+      382.9126657177694,
+      148.31547476525884
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Economy Point mainland southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3152,
+      2061
+    ],
+    "lonlat": [
+      -63.885828282882834,
+      45.34879395681053
+    ],
+    "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+    "reference_objectid": 3601,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3601,
+    "nearest_unfiltered_distance_guide_px": 0.8186075247339305,
+    "selected_distance_guide_px": 0.8186075247339305,
+    "guide_reference_pixel_xy": [
+      3130.723163527029,
+      2052.770376431872
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Bass River western mouth cape southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4958,
+      1796
+    ],
+    "lonlat": [
+      -63.77964463224811,
+      45.394731241119665
+    ],
+    "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+    "reference_objectid": 3477,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3477,
+    "nearest_unfiltered_distance_guide_px": 0.6661775913337047,
+    "selected_distance_guide_px": 0.6661775913337047,
+    "guide_reference_pixel_xy": [
+      4948.340959735389,
+      1778.9027451141737
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Cape Tenny lower cape eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2630,
+      3484
+    ],
+    "lonlat": [
+      -63.88013886663146,
+      45.276117089968075
+    ],
+    "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+    "reference_objectid": 3476,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3476,
+    "nearest_unfiltered_distance_guide_px": 0.58713076238642,
+    "selected_distance_guide_px": 0.58713076238642,
+    "guide_reference_pixel_xy": [
+      2613.4195840263274,
+      3463.088542812504
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Burntcoat peninsula northwest corner below islet",
+    "role": "proposal",
+    "pixel_xy": [
+      3910,
+      3225
+    ],
+    "lonlat": [
+      -63.807486277460214,
+      45.3112931619326
+    ],
+    "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+    "reference_objectid": 3598,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3598,
+    "nearest_unfiltered_distance_guide_px": 0.39399266969975477,
+    "selected_distance_guide_px": 0.39399266969975477,
+    "guide_reference_pixel_xy": [
+      3889.0478174833115,
+      3205.3910801862366
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Noel Head western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5061,
+      3563
+    ],
+    "lonlat": [
+      -63.727190782608176,
+      45.3185226742893
+    ],
+    "guide_file": ".crown-grant-local/062-adjacent-ppi-guide.npy",
+    "reference_objectid": 3472,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3472,
+    "nearest_unfiltered_distance_guide_px": 0.4128337406278921,
+    "selected_distance_guide_px": 0.4128337406278921,
+    "guide_reference_pixel_xy": [
+      5040.121313991665,
+      3519.605393090751
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

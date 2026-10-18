@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Kemptown pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4388,
+      813
+    ],
+    "lonlat": [
+      -63.08067100133513,
+      45.47012881564792
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 138214,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138214,
+    "nearest_unfiltered_distance_guide_px": 0.4369527997080293,
+    "selected_distance_guide_px": 0.4369527997080293,
+    "guide_reference_pixel_xy": [
+      4438.373738955415,
+      758.7736221248051
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Eastern three-pond cluster east pond south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5365,
+      1381
+    ],
+    "lonlat": [
+      -63.00846503534063,
+      45.46258566491495
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 139281,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 222142,
+    "nearest_unfiltered_distance_guide_px": 2.165056143367287,
+    "selected_distance_guide_px": 3.158377947406128,
+    "guide_reference_pixel_xy": [
+      5418.642920074752,
+      1350.1480383356102
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Duck Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4817,
+      3260
+    ],
+    "lonlat": [
+      -62.995692153902105,
+      45.375360697494926
+    ],
+    "guide_file": ".crown-grant-local/080-adjacent-guide.npy",
+    "reference_objectid": 128215,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128215,
+    "nearest_unfiltered_distance_guide_px": 2.281670275867271,
+    "selected_distance_guide_px": 2.281670275867271,
+    "guide_reference_pixel_xy": [
+      4855.762007024954,
+      3221.730775773176
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

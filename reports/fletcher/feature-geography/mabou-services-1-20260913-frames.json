@@ -1,0 +1,193 @@
+{
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "source_review_sha256": "4c95a9e18f717e7fe6d5aa64062fcc6af29b204a37bbb4e9a8cccc971dc5b3f4",
+  "image_sha256": "c05c9fad639864d320235a8b46cb653702e61d43a96c83ddf1c9dde5ad34c3f7",
+  "frames": [
+    {
+      "annotation_id": "F16-PHM-001",
+      "native_xywh": [
+        3568,
+        652,
+        907,
+        700
+      ],
+      "display_xy": [
+        0,
+        60
+      ],
+      "display_size": [
+        583,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": [
+        4195.5,
+        983
+      ],
+      "source_group_xywh": [],
+      "native_to_display_scale_xy": [
+        0.6427783902976847,
+        0.6428571428571429
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-003",
+      "native_xywh": [
+        3829,
+        816,
+        900,
+        700
+      ],
+      "display_xy": [
+        660,
+        60
+      ],
+      "display_size": [
+        579,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "native_to_display_scale_xy": [
+        0.6433333333333333,
+        0.6428571428571429
+      ],
+      "source_path_xy": [
+        [
+          4365,
+          1153
+        ],
+        [
+          4396,
+          1161
+        ],
+        [
+          4429,
+          1169
+        ],
+        [
+          4460,
+          1177
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-005",
+      "native_xywh": [
+        4296,
+        721,
+        900,
+        700
+      ],
+      "display_xy": [
+        0,
+        590
+      ],
+      "display_size": [
+        579,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          4797,
+          1075,
+          25,
+          16
+        ]
+      ],
+      "native_to_display_scale_xy": [
+        0.6433333333333333,
+        0.6428571428571429
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-006",
+      "native_xywh": [
+        4350,
+        771,
+        900,
+        700
+      ],
+      "display_xy": [
+        660,
+        590
+      ],
+      "display_size": [
+        579,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": [
+        4776.5,
+        1142
+      ],
+      "source_group_xywh": [],
+      "native_to_display_scale_xy": [
+        0.6433333333333333,
+        0.6428571428571429
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-007",
+      "native_xywh": [
+        4237,
+        896,
+        900,
+        700
+      ],
+      "display_xy": [
+        0,
+        1120
+      ],
+      "display_size": [
+        579,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": [
+        4587,
+        1210.5
+      ],
+      "source_group_xywh": [],
+      "native_to_display_scale_xy": [
+        0.6433333333333333,
+        0.6428571428571429
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-017",
+      "native_xywh": [
+        3308,
+        1526,
+        900,
+        700
+      ],
+      "display_xy": [
+        660,
+        1120
+      ],
+      "display_size": [
+        579,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          3677,
+          1869,
+          31,
+          30
+        ]
+      ],
+      "native_to_display_scale_xy": [
+        0.6433333333333333,
+        0.6428571428571429
+      ]
+    }
+  ],
+  "scope": "Source-mark crosshair/group review, not geographic validation. Original scans remain unchanged."
+}

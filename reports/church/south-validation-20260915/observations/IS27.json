@@ -1,0 +1,66 @@
+{
+  "id": "IS27",
+  "label": "Doyles Bridge north-approach road junction",
+  "role": "check",
+  "phase": "Fresh expansion of unchanged affine4 validation; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T20:17:22.309456+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      26700,
+      3050
+    ],
+    "extent": [
+      2100,
+      1500
+    ],
+    "display": [
+      1575,
+      1125
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/IS5-granton-native.jpg",
+  "source_crop_sha256": "669e3b0506dce55a55328d04de53677ddf353404b57cb93467c9a2287e29b34c",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    685,
+    455
+  ],
+  "pixel_xy": [
+    27613.333333333332,
+    3656.6666666666665
+  ],
+  "lonlat": [
+    -61.077331866763274,
+    46.33032033857343
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+  "reference_sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc",
+  "reference_service": "BASE_NSTDB_10k_Roads_UT83/MapServer/8",
+  "reference_kind": "Road centreline junction",
+  "reference_vertices": [
+    {
+      "feature_id": 155474,
+      "vertex": 0,
+      "layer": 8,
+      "street": "West Big Intervale Rd"
+    },
+    {
+      "feature_id": 157716,
+      "vertex": 68,
+      "layer": 8,
+      "street": "East Margaree Rd"
+    },
+    {
+      "feature_id": 291588,
+      "vertex": 0,
+      "layer": 8,
+      "street": "East Margaree Rd"
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Centre of the three-road meeting at the north approach of the crossing labelled Doyles Bridge; not bridge midpoint or water confluence.",
+  "identity_evidence": "The source shows the named bridge crossing the Northeast Margaree River east of Margaree Forks. On its north side, one road turns north beside the lower Margaree valley and another follows the north bank east into Granton. The original provincial road/bridge network has the same crossing and three-way approach configuration: East Margaree Rd joins West Big Intervale Rd. The branch sequence, river bank, and position relative to the main river confluence identify the junction independently of the inverse guide. The modern Cabot Trail bypass south of the river is a separate route and is not substituted for the historic approach.150m uncertainty allows the generalized drawn centre and local approach/engineering differences; no claim that bridge structures are unchanged is made."
+}

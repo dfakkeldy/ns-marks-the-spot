@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 49.77692931992484,
+  "median_ground_m": 38.2666156223556,
+  "p95_ground_m": 82.82645667264279,
+  "max_ground_m": 88.14030332996985,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -13.916910322189073,
+  "mean_north_ground_m": 25.033320685268837,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Leeks Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3027,
+        1421
+      ],
+      "lonlat": [
+        -64.34455798227498,
+        45.435044430248006
+      ],
+      "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+      "reference_objectid": 131150,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 131150,
+      "nearest_unfiltered_distance_guide_px": 0.044341602900198125,
+      "selected_distance_guide_px": 0.044341602900198125,
+      "guide_reference_pixel_xy": [
+        3111.044284063857,
+        1302.002258193097
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained.",
+      "predicted_lonlat": [
+        -64.34504260951765,
+        45.43518580849353
+      ],
+      "error_ground_m": 41.04747875977348,
+      "east_ground_m": -37.920960899860454,
+      "north_ground_m": 15.712932156835336
+    },
+    {
+      "id": "Q02",
+      "label": "Summit Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3394,
+        870
+      ],
+      "lonlat": [
+        -64.33685186232121,
+        45.46597947541652
+      ],
+      "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+      "reference_objectid": 137358,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137358,
+      "nearest_unfiltered_distance_guide_px": 0.4601956329042368,
+      "selected_distance_guide_px": 0.4601956329042368,
+      "guide_reference_pixel_xy": [
+        3474.2742752290214,
+        751.3695309449686
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained.",
+      "predicted_lonlat": [
+        -64.33676259076404,
+        45.46631800399058
+      ],
+      "error_ground_m": 38.2666156223556,
+      "east_ground_m": 6.981450967386239,
+      "north_ground_m": 37.62436994261952
+    },
+    {
+      "id": "Q03",
+      "label": "Small pond west of Cranberry Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4289,
+        1157
+      ],
+      "lonlat": [
+        -64.27259684133959,
+        45.47067316599686
+      ],
+      "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+      "reference_objectid": 125224,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125224,
+      "nearest_unfiltered_distance_guide_px": 0.7344311428793676,
+      "selected_distance_guide_px": 0.7344311428793676,
+      "guide_reference_pixel_xy": [
+        4384.705519921787,
+        1038.672807986848
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained.",
+      "predicted_lonlat": [
+        -64.2725861700786,
+        45.470752026196834
+      ],
+      "error_ground_m": 8.804235292148679,
+      "east_ground_m": 0.8344768118381607,
+      "north_ground_m": 8.764599678822801
+    },
+    {
+      "id": "Q04",
+      "label": "Cape Sharp southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1909,
+        2525
+      ],
+      "lonlat": [
+        -64.38528082718052,
+        45.364778538265966
+      ],
+      "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+      "reference_objectid": 8404,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8404,
+      "nearest_unfiltered_distance_guide_px": 0.57782989953454,
+      "selected_distance_guide_px": 0.57782989953454,
+      "guide_reference_pixel_xy": [
+        1970.327486734779,
+        2415.476067045005
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained.",
+      "predicted_lonlat": [
+        -64.38568901026471,
+        45.365517563246044
+      ],
+      "error_ground_m": 88.14030332996985,
+      "east_ground_m": -31.978658959748266,
+      "north_ground_m": 82.13451431788714
+    },
+    {
+      "id": "Q05",
+      "label": "Partridge Island southeast corner",
+      "role": "check",
+      "pixel_xy": [
+        2653,
+        2817
+      ],
+      "lonlat": [
+        -64.33032097352286,
+        45.36647255560126
+      ],
+      "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+      "reference_objectid": 8497,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8497,
+      "nearest_unfiltered_distance_guide_px": 1.525640133101642,
+      "selected_distance_guide_px": 1.525640133101642,
+      "guide_reference_pixel_xy": [
+        2730.842157807201,
+        2707.0065316953696
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained.",
+      "predicted_lonlat": [
+        -64.33100173837187,
+        45.36688641812678
+      ],
+      "error_ground_m": 70.42748113887968,
+      "east_ground_m": -53.332494010913145,
+      "north_ground_m": 45.99646923561815
+    },
+    {
+      "id": "Q06",
+      "label": "Two Brothers larger island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4373,
+        3134
+      ],
+      "lonlat": [
+        -64.2145397203293,
+        45.38583009893919
+      ],
+      "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+      "reference_objectid": 17266,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17266,
+      "nearest_unfiltered_distance_guide_px": 0.10145171925632779,
+      "selected_distance_guide_px": 0.10145171925632779,
+      "guide_reference_pixel_xy": [
+        4465.096292597591,
+        3015.0319403661415
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained.",
+      "predicted_lonlat": [
+        -64.21416527767562,
+        45.38565465101577
+      ],
+      "error_ground_m": 35.21596163836193,
+      "east_ground_m": 29.324891962191593,
+      "north_ground_m": -19.499093966653174
+    },
+    {
+      "id": "Q07",
+      "label": "Two Brothers smaller island southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        4359,
+        3221
+      ],
+      "lonlat": [
+        -64.21256879569155,
+        45.3815330976098
+      ],
+      "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+      "reference_objectid": 17265,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17265,
+      "nearest_unfiltered_distance_guide_px": 2.1402984940699974,
+      "selected_distance_guide_px": 2.1402984940699974,
+      "guide_reference_pixel_xy": [
+        4456.067295795947,
+        3109.4457746525295
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad physical context inspected before first fit or score; original source frame retained.",
+      "predicted_lonlat": [
+        -64.21271341808429,
+        45.381573582352175
+      ],
+      "error_ground_m": 12.188017888973727,
+      "east_ground_m": -11.327078126217643,
+      "north_ground_m": 4.499453431752057
+    }
+  ],
+  "fit_sha256": "1dad7ef451feb95f2819e860d84c3c9e565f1f4d00b5ce0a122a79640cf2c115",
+  "checks_sha256": "757ffd7459723bae058d6dce6ca3777206701f86289bfe2fe0f7092a85f373ef",
+  "status": "Reserved before first fit and score"
+}

@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Northern small pond southern tip",
+    [
+      1158,
+      388
+    ],
+    [
+      1167,
+      378
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Isolated west-central lake southern tip",
+    [
+      1317,
+      1735
+    ],
+    [
+      1351,
+      1707
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Rocky Lake north of Big Lake western tip",
+    [
+      2103,
+      1521
+    ],
+    [
+      2131,
+      1503
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Nix Lake southwest lobe southern tip",
+    [
+      511,
+      2087
+    ],
+    [
+      549,
+      2080
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Knowles Lake northern tip",
+    [
+      921,
+      1997
+    ],
+    [
+      948,
+      1996
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Pond south of Nine Mile River northern tip",
+    [
+      4381,
+      1735
+    ],
+    [
+      4441,
+      1695
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Rocky Lake near Renfrew northern tip",
+    [
+      3232,
+      2758
+    ],
+    [
+      3330,
+      2724
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "North Uniacke Lake eastern extremity",
+    [
+      191,
+      3416
+    ],
+    [
+      256,
+      3405
+    ],
+    "WALK20"
+  ]
+]

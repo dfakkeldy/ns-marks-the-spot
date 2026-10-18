@@ -14,6 +14,11 @@ final class MapChromeUITests: XCTestCase {
         continueAfterFailure = false
     }
 
+    override func tearDown() {
+        attachUIFailure()
+        super.tearDown()
+    }
+
     /// Measuring, by actually measuring.
     ///
     /// The readout exists from the moment the mode opens, saying what to do
@@ -33,17 +38,22 @@ final class MapChromeUITests: XCTestCase {
 
         let prompt = "Tap the map to measure distance"
         XCTAssertEqual(readout.label, prompt, "the readout reports something before any point exists")
+        let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
+        let finish = app.buttons["measure-finish"]
+        let undo = app.buttons["measure-undo"]
+        XCTAssertFalse(endpoint.exists)
 
         // Left of the control rail and above the card, so both taps land on the
         // map rather than on the chrome over it.
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
+        XCTAssertFalse(endpoint.exists, "one corner is not a measured distance")
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
 
-        let measured = expectation(
-            for: NSPredicate(format: "label != %@", prompt),
-            evaluatedWith: readout
+        XCTAssertTrue(
+            waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
+            "the endpoint and card did not publish the measured distance"
         )
-        wait(for: [measured], timeout: 10)
 
         let label = readout.label
         XCTAssertTrue(
@@ -76,11 +86,101 @@ final class MapChromeUITests: XCTestCase {
             "the measured-not-surveyed caveat is not on screen beside the number"
         )
 
+        XCTAssertTrue(app.staticTexts["Total distance"].isHittable)
+        XCTAssertTrue(endpoint.waitForExistence(timeout: 5))
+        XCTAssertTrue(endpoint.label.contains("Total distance"))
+        XCTAssertTrue(endpoint.label.hasSuffix(readout.label), "the endpoint and card disagree")
+        let lastPoint = app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).screenPoint
+        XCTAssertTrue(endpoint.frame.contains(lastPoint), "the label is not attached to the last corner")
+        // The badge covers map pixels, but a tap there still places a point.
+        // Aimed at the application, not at the StaticText: that element is
+        // the label whose view refuses interaction so the map can receive
+        // the tap, and XCUITest's element tap would land on the label.
+        let beforeBadgeTap = readout.label
+        app.tapMap(
+            at: endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).screenPoint
+        )
+        XCTAssertTrue(
+            waitForUI {
+                readout.label != beforeBadgeTap && endpoint.label.hasSuffix(readout.label)
+            },
+            "the badge tap did not update both the endpoint and the card"
+        )
+        XCTAssertTrue(endpoint.label.hasSuffix(readout.label))
+        // Keep at least two points after Undo: the old behavior left that
+        // shape finished and silently discarded it on the next map tap.
+        let beforeFourthPoint = readout.label
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
+        XCTAssertTrue(
+            waitForUI { readout.label != beforeFourthPoint && endpoint.label.hasSuffix(readout.label) },
+            "the fourth point was not published before Finish"
+        )
+        XCTAssertTrue(finish.waitForHittable(timeout: 5))
+        finish.tap()
+        XCTAssertTrue(waitForUI { !finish.isEnabled }, "Finish did not finish the measurement")
+        XCTAssertTrue(undo.waitForHittable(timeout: 5))
+        XCTAssertEqual(undo.label, "Undo point")
+        let beforeUndo = readout.label
+        undo.tap()
+        XCTAssertTrue(
+            waitForUI { finish.isEnabled && readout.label != beforeUndo && endpoint.label.hasSuffix(readout.label) },
+            "Undo did not reopen the measurement and publish the remaining path"
+        )
+        let afterUndo = readout.label
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
+        XCTAssertTrue(
+            waitForUI { readout.label != afterUndo && endpoint.label.hasSuffix(readout.label) },
+            "the next map tap did not extend the remaining path"
+        )
+        XCTAssertNotEqual(readout.label, prompt, "the next tap discarded the remaining path")
+
         XCTAssertTrue(app.buttons["measure-done"].waitForHittable(timeout: 5))
         app.buttons["measure-done"].tap()
         XCTAssertTrue(
             readout.waitForNonExistence(timeout: 10),
             "the measuring card stayed up after Done"
+        )
+        XCTAssertTrue(endpoint.waitForNonExistence(timeout: 5), "the endpoint label stayed up after Done")
+    }
+
+    /// The map opens on the Atlas, the browser's own ground, and the strip
+    /// under it says so; choosing another ground changes the credit with it.
+    ///
+    /// The credit is the assertion, not the tiles: the strip is what a
+    /// reader is owed whether or not the host answered, and it is what says
+    /// which ground the map is on when the picker is closed.
+    @MainActor
+    func testTheMapOpensOnTheAtlasAndTheCreditFollowsTheGround() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let strip = app.descendants(matching: .any)["map-attribution"]
+        XCTAssertTrue(strip.waitForExistence(timeout: timeout), "no attribution strip")
+        XCTAssertTrue(
+            waitForUI { strip.label.hasPrefix("NS Marks Atlas") },
+            "the map did not open on the Atlas: the strip says \"\(strip.label)\""
+        )
+
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+        layers.tap()
+        let picker = app.descendants(matching: .any)["base-map-style"]
+        XCTAssertTrue(picker.waitForHittable(timeout: timeout), "the base map picker is not offered")
+        picker.tap()
+        let osm = app.buttons["OpenStreetMap"]
+        XCTAssertTrue(osm.waitForHittable(timeout: timeout), "OpenStreetMap is not offered as a ground")
+        osm.tap()
+        XCTAssertTrue(
+            waitForUI { strip.label.hasPrefix("© OpenStreetMap contributors") },
+            "choosing OpenStreetMap did not change the credit: the strip says \"\(strip.label)\""
+        )
+
+        XCTAssertTrue(picker.waitForHittable(timeout: timeout))
+        picker.tap()
+        let fletcher = app.buttons["Atlas Fletcher"]
+        XCTAssertTrue(fletcher.waitForHittable(timeout: timeout), "Atlas Fletcher is not offered as a ground")
+        fletcher.tap()
+        XCTAssertTrue(
+            waitForUI { strip.label.hasPrefix("NS Marks Atlas") },
+            "choosing Atlas Fletcher did not restore the Atlas credit"
         )
     }
 
@@ -148,7 +248,7 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt() throws {
         let app = XCUIApplication.launchedForUITests()
-        let layers = app.buttons["Toggle Layers Menu"]
+        let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
 
@@ -216,6 +316,121 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertTrue(
             app.navigationBars["Map Info"].waitForExistence(timeout: 10),
             "All sources does not open the sources sheet"
+        )
+    }
+
+    /// The chrome over the map stays on the screen while the layers panel is
+    /// open.
+    ///
+    /// The panel used to be laid out in the same row as the search field and
+    /// the control rail. The three of them are wider than a phone, and a row
+    /// that cannot fit overflows rather than shrinking — which grew the stack
+    /// every other thing drawn over the map sits in. The search field went off
+    /// the left edge, the rail off the right, and a parcel card opened in that
+    /// state was laid out hundreds of points wider than the phone and centred,
+    /// so its title and figures hung off both sides.
+    ///
+    /// Asserted on frames rather than on hittability: an element pushed off
+    /// the edge of the screen is reported as existing, and the attribution
+    /// strip and the rail are the two ends of the row that showed it.
+    @MainActor
+    func testTheMapChromeStaysOnScreenWithTheLayersPanelOpen() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+        layers.tap()
+        XCTAssertTrue(
+            app.buttons["Close layers menu"].waitForHittable(timeout: timeout),
+            "the layers panel did not open"
+        )
+
+        let screen = app.windows.firstMatch.frame
+        let strip = app.descendants(matching: .any)["map-attribution"]
+        XCTAssertTrue(strip.waitForExistence(timeout: timeout), "no attribution on the map")
+        XCTAssertTrue(
+            screen.contains(strip.frame),
+            "the attribution strip is \(strip.frame) on a \(screen.width) point screen"
+        )
+        XCTAssertTrue(
+            screen.contains(layers.frame),
+            "the control rail is \(layers.frame) on a \(screen.width) point screen"
+        )
+    }
+
+    /// A tap on the map with the panel open puts the panel away.
+    ///
+    /// The panel covers most of a phone, so the map left around it is mostly
+    /// the gap a reader aims for to dismiss it. That tap used to fall through
+    /// to the map and identify a parcel behind the panel instead.
+    @MainActor
+    func testTappingTheMapClosesTheLayersPanel() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+        layers.tap()
+
+        let close = app.buttons["Close layers menu"]
+        XCTAssertTrue(close.waitForHittable(timeout: timeout), "the layers panel did not open")
+
+        // Measured off the panel rather than tapped at a fixed point: it is
+        // anchored to the trailing edge and capped at 300 points, so the map
+        // it leaves exposed is a strip down the leading edge as wide as the
+        // screen allows.
+        let panel = app.otherElements["layer-panel"]
+        XCTAssertTrue(panel.waitForExistence(timeout: timeout), "the layers panel is missing")
+        // The panel slides in from the trailing edge. A tap taken from the
+        // first hittable frame lands on the moving overlay, MapKit never
+        // sees it, and the panel stays open.
+        XCTAssertTrue(
+            panel.waitForStableFrame(in: app.windows.firstMatch, timeout: timeout, requiresHittable: false),
+            "the layers panel was still moving"
+        )
+        let exposed = panel.frame.minX - app.windows.firstMatch.frame.minX
+        try XCTSkipIf(exposed < 24, "no map is exposed beside the panel on this screen")
+        // Aim halfway across the exposed map. The inner scrolling region has
+        // padding, so an offset from its edge can still hit the glass card.
+        app.tapMap(at: CGPoint(
+            x: app.windows.firstMatch.frame.minX + exposed / 2,
+            y: panel.frame.midY
+        ))
+
+        XCTAssertTrue(
+            waitForUI(timeout: 10) { !close.exists },
+            "a tap on the map beside the panel left it open"
+        )
+        // And the map is still there to be used: the panel gave the tap up,
+        // it did not put a card over what it was covering.
+        XCTAssertFalse(
+            app.descendants(matching: .any)["parcel-inspector"].exists,
+            "the tap that closed the panel also opened a parcel card"
+        )
+    }
+
+    /// Whether the panel's own chrome grows with the reader's text size.
+    ///
+    /// The close control was a glyph frozen at a fixed point size inside a
+    /// fixed 44 point frame, so at an accessibility size it stayed exactly the
+    /// size it is at the default one while the layer names beside it grew.
+    /// Measured on the frame the control reports: 44 points at this text size
+    /// is the frozen layout, whatever the setting says.
+    @MainActor
+    func testTheLayersCloseControlGrowsWithTheTextSize() throws {
+        let app = XCUIApplication.launchedForUITests(
+            textSize: "UICTContentSizeCategoryAccessibilityXXXL"
+        )
+        // The rail is taller than the screen at this text size, so the layers
+        // control is reached rather than tapped where it sits by default.
+        let rail = app.scrollViews["map-control-rail"]
+        XCTAssertTrue(rail.waitForExistence(timeout: timeout), "there is no control rail")
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(app.scroll(layers, into: rail), "the layers control cannot be reached")
+        layers.tap()
+
+        let close = app.buttons["Close layers menu"]
+        XCTAssertTrue(close.waitForHittable(timeout: timeout), "the layers panel did not open")
+        XCTAssertGreaterThan(
+            close.frame.height, 44,
+            "the close control is \(close.frame.height) points at an accessibility text size"
         )
     }
 }

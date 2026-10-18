@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "McAdam Lake west end",
+    [
+      861,
+      526
+    ],
+    [
+      803,
+      509
+    ],
+    "WALK"
+  ],
+  [
+    "C02",
+    "East Bay northeast lobe north apex",
+    [
+      1965,
+      815
+    ],
+    [
+      1960,
+      838
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Beadman Lake south tip",
+    [
+      5015,
+      1014
+    ],
+    [
+      4980,
+      1000
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Middle Lake southeast corner",
+    [
+      5225,
+      1318
+    ],
+    [
+      5235,
+      1305
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "McInnis Lake southwest tip",
+    [
+      4248,
+      3408
+    ],
+    [
+      4260,
+      3390
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Rock Elm McAdam Lake northwest corner",
+    [
+      1170,
+      3087
+    ],
+    [
+      1098,
+      3060
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Southeast McDonalds Lake east end",
+    [
+      5300,
+      3270
+    ],
+    [
+      5280,
+      3260
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Western Island Lake northern point",
+    [
+      1060,
+      2272
+    ],
+    [
+      1010,
+      2230
+    ],
+    "WALK"
+  ]
+]

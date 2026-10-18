@@ -1,0 +1,115 @@
+{
+  "raster_sha256": "aec83eeca7f49a82c88009d01ccda482e59130f3808eede04b5825480ccf3e82",
+  "reviews": [
+    {
+      "id": "VN11",
+      "role": "diagnostic",
+      "figure": "VN11.jpg",
+      "figure_sha256": "5b53d4b18df751b36190e7e78004568ff784eff69c54aca3bb53cc2909d499ee",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN15",
+      "role": "CONTROL - not validation",
+      "figure": "VN15.jpg",
+      "figure_sha256": "bbc1226c66d12fbce536b284aec7ffd2579c34cffecb050dea9adf5290e08ea2",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN16",
+      "role": "CONTROL - not validation",
+      "figure": "VN16.jpg",
+      "figure_sha256": "324ed761db1c2a78d320cb38015d7d76c138ada54281c950bde7177759b61261",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN17",
+      "role": "diagnostic",
+      "figure": "VN17.jpg",
+      "figure_sha256": "2b07ec9ac713424af4c358fdf511dd1434fcf422363df714f47ecfd575c02e93",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN18",
+      "role": "CONTROL - not validation",
+      "figure": "VN18.jpg",
+      "figure_sha256": "f2025643b6c115af2e29b1b1f545b234e96861fb8877ff4a01524b2df8af0307",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN19",
+      "role": "diagnostic",
+      "figure": "VN19.jpg",
+      "figure_sha256": "e4574ba4cbca07f0277df91b77ffff5f91c3793db3f2ed18db95b3f9b4a6da54",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN20",
+      "role": "CONTROL - not validation",
+      "figure": "VN20.jpg",
+      "figure_sha256": "0089cd068acc3e8ea0ddef787f48019f62c44bc9c43182d9bbb35e86b720d407",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN21",
+      "role": "CONTROL - not validation",
+      "figure": "VN21.jpg",
+      "figure_sha256": "417fc7083bc6b94ff130a11f212168713fccf9fd8162b6dd1be961b1088e8145",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN22",
+      "role": "CONTROL - not validation",
+      "figure": "VN22.jpg",
+      "figure_sha256": "d452c99389b78166511b1ec921e3769503a427f100e6bbfdff4b8e58425625b6",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN23",
+      "role": "CONTROL - not validation",
+      "figure": "VN23.jpg",
+      "figure_sha256": "7af30ec9a0c9fdb0cfe2a1136dc88f1a7be6fd3180cb85aa21d2bd4cfe9ce611",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN24",
+      "role": "diagnostic",
+      "figure": "VN24.jpg",
+      "figure_sha256": "d796af36b4b83315da89d08e8d9878c895f2c6c53f25efacde47303e95d47b55",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN25",
+      "role": "fresh at TPS15 freeze",
+      "figure": "VN25.jpg",
+      "figure_sha256": "714fd11a5aabe6964d92a3e99a182a88e135e2b5f4cccf03152e8764c96c2237",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VN26",
+      "role": "fresh at TPS15 freeze",
+      "figure": "VN26.jpg",
+      "figure_sha256": "8befb67f9281cb098ae10f28af46f2bd2419e50f3738ff7934b3e2ad3924761b",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/reference-full/water-lines.geojson",
+      "sha256": "5b1725ed4a77195ee24d2d25dcec0f36c03f4a85688c57582da3c2160eb1e59a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/reference-full/water-lines.geojson",
+      "sha256": "d28790711c5b8af8db64b4a68a41f5937c33fb355b36e113184071fae1bc5f9c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/reference-full/water-lines.geojson",
+      "sha256": "5e9de8a51eeb813e092ea841423bb26fa543b0fade8de6df55068f9d7c25ffa4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/reference-full/water-lines.geojson",
+      "sha256": "93623a04337678ae4136d4fa067ef087d673f32baedaf4ea94ed9e1df68fdb7e"
+    }
+  ],
+  "geographic_acceptance": false
+}

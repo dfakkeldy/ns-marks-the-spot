@@ -1,0 +1,117 @@
+{
+  "count": 3,
+  "rms_ground_m": 35.656279033218276,
+  "median_ground_m": 19.076223293934724,
+  "p95_ground_m": 53.62395578621406,
+  "max_ground_m": 57.46259272980066,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -20.228102155933247,
+  "mean_north_ground_m": 4.4568501574151576,
+  "points": [
+    {
+      "id": "IQ02",
+      "label": "Inset Indian Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        653,
+        3146
+      ],
+      "lonlat": [
+        -63.88884843968437,
+        44.48791601044127
+      ],
+      "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+      "reference_objectid": 17735,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17735,
+      "nearest_unfiltered_distance_guide_px": 0.5190685282347244,
+      "selected_distance_guide_px": 0.5190685282347244,
+      "guide_reference_pixel_xy": [
+        648.1458348333254,
+        3177.501839043689
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs and physical context inspected before first inset fit or score.",
+      "predicted_lonlat": [
+        -63.88879985123001,
+        44.48801991852538
+      ],
+      "error_ground_m": 12.17615888091012,
+      "east_ground_m": 3.865009685199805,
+      "north_ground_m": 11.54645162924429
+    },
+    {
+      "id": "IQ03",
+      "label": "Inset Indian Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        679,
+        3202
+      ],
+      "lonlat": [
+        -63.885021831902,
+        44.48586159822056
+      ],
+      "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+      "reference_objectid": 17735,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17735,
+      "nearest_unfiltered_distance_guide_px": 0.3186365424942286,
+      "selected_distance_guide_px": 0.3186365424942286,
+      "guide_reference_pixel_xy": [
+        683.182370884053,
+        3238.7387145108078
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs and physical context inspected before first inset fit or score.",
+      "predicted_lonlat": [
+        -63.88570755140538,
+        44.48602419583095
+      ],
+      "error_ground_m": 57.46259272980066,
+      "east_ground_m": -54.54799757846371,
+      "north_ground_m": 18.06835696489466
+    },
+    {
+      "id": "IQ04",
+      "label": "Inset Corney Rock northern tip",
+      "role": "check",
+      "pixel_xy": [
+        767,
+        3324
+      ],
+      "lonlat": [
+        -63.87690023726027,
+        44.482414983382064
+      ],
+      "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+      "reference_objectid": 23621,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23621,
+      "nearest_unfiltered_distance_guide_px": 0.6645664277947632,
+      "selected_distance_guide_px": 0.6645664277947632,
+      "guide_reference_pixel_xy": [
+        765.0911558019579,
+        3351.34171498823
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs and physical context inspected before first inset fit or score.",
+      "predicted_lonlat": [
+        -63.87702595515183,
+        44.482268798871885
+      ],
+      "error_ground_m": 19.076223293934724,
+      "east_ground_m": -10.001318574535842,
+      "north_ground_m": -16.244258121893477
+    }
+  ],
+  "fit_sha256": "3f8bfa1eafe94bbb2bfecf276c9c5db66190044ec55b867e128d9dbc92bd914a",
+  "checks_sha256": "2673b48c932dce605ef08e64c6fb8211bb66774bc046530a4cb4d4345759886e",
+  "status": "Reserved before first inset fit and score"
+}

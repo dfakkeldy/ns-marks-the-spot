@@ -1,0 +1,45 @@
+{
+  "sheet": "036",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS gate passed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/036.pdf",
+    "pdf_sha256": "0ee3ba5bf27d4855cc3a498914a718c1189577806733c8f2f781ac49b665941c",
+    "jpeg_sha256": "55f76949575fe04d8cbabb55cb668f1ea2d0aa0a1eb4f14aa287edcf293529a4",
+    "dimensions": [
+      5672,
+      3926
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 6,
+      "rms_ground_m": 25.828851950224298,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Five checks pair with control lakes; Lake Paul island supplies a separate check.",
+    "Milton has no local independent check. Southwestern margin and large unsampled northern and central areas remain unvalidated.",
+    "Small generalized lake ends and Lake Paul island carry 18 px source uncertainty.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 25.83 m, median 23.62 m, P95 36.89 m, maximum 39.32 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Full original mapped frame retains Nictaux, Torbrook, Tremont, Harmony, South Harmony and Morristown, the Cloud Lake wilderness area, Lake George and Lake Paul; West Allen, Half Moon, Milton, Kerr, Cloud, Frog, Dog, Upper Palmer and other depicted lakes, rivers and intervening land. No inset or internal crop."
+  }
+}

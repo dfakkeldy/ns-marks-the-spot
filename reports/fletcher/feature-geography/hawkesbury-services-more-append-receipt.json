@@ -1,0 +1,100 @@
+{
+  "reviewed_at": "2026-09-13",
+  "previous_source_review_sha256": "fd0d6a4cd4b645133ddb38ac7d87b81d032133c137281a2a836dfa5f402e37d4",
+  "current_source_review_sha256": "cdbef43b47b202a11f4e1602ea144d23338b5ee22ecc51aca6645272d163788f",
+  "unchanged_prior_source_associations": [
+    "F22-HAW-001",
+    "F22-HAW-002",
+    "F22-HAW-004",
+    "F22-HAW-008",
+    "F22-HAW-023",
+    "F22-HAW-025",
+    "F22-HAW-026",
+    "F22-HAW-028",
+    "F22-HAW-031",
+    "F22-HAW-032",
+    "F22-HAW-041",
+    "F22-HAW-042",
+    "F22-HAW-005",
+    "F22-HAW-030",
+    "F22-HAW-045",
+    "F22-HAW-046",
+    "F22-HAW-053",
+    "F22-HAW-055",
+    "F22-HAW-056",
+    "F22-HAW-057",
+    "F22-HAW-058",
+    "F22-HAW-061",
+    "F22-HAW-064",
+    "F22-HAW-067",
+    "F22-HAW-047",
+    "F22-HAW-068",
+    "F22-HAW-070",
+    "F22-HAW-073",
+    "F22-HAW-077",
+    "F22-HAW-084"
+  ],
+  "appended_annotation_ids": [
+    "F22-HAW-089",
+    "F22-HAW-102",
+    "F22-HAW-104",
+    "F22-HAW-105",
+    "F22-HAW-109",
+    "F22-HAW-114",
+    "F22-HAW-116",
+    "F22-HAW-118",
+    "F22-HAW-129",
+    "F22-HAW-132",
+    "F22-HAW-134",
+    "F22-HAW-137",
+    "F22-HAW-145",
+    "F22-HAW-165",
+    "F22-HAW-166",
+    "F22-HAW-172",
+    "F22-HAW-173",
+    "F22-HAW-174"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-more-initial-candidates.json",
+      "sha256": "4ab3fa71e2accb74f811d15d80068bae9d28b551ec5068b9fd81eb9c5aa454da"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-more-final-candidates.json",
+      "sha256": "b8a0363242b308468720660174d9efb3bff08f07a2f543170034dd2dfc0afd78"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-more-final-point-frames.json",
+      "sha256": "2a3f7c47ea2418a90a6eaf882b113b1a1ea246f2e0693520c72b7f9997d3c2d5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-more-final-crosshairs.jpg",
+      "sha256": "0d6c44f9db7be8c9a24f693b6ac2e5b2c75411a29a3dee09f08cc0f2d1a54e9c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-more-final-groups.jpg",
+      "sha256": "4a586c3debcfeef926a7f9f4fadaf3e4332535c6bae6e27c7cfdad5c4514b427"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-more-ink-components.json",
+      "sha256": "a68b1ac864025c880798fa32f38bf735173c6f045aa87fbe0b177c650934b2c0"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-station-microgrid.jpg",
+      "sha256": "ffded24fbf349b75d5c2c7fd49426b703065a47ea87f8300a5d76ef372fa3d94"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-129-feature-question.png",
+      "sha256": "44fa224041bf42b8bb23a9eb0dcb96f6d7b48a7a36352326d21b4fec5767459c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-132-feature-question.png",
+      "sha256": "9dff77be3e73a783bf14a5a7b58a5bcf77c03beb02702889db18d7a73af5e892"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-172-feature-question.png",
+      "sha256": "1fe111725a278a3d2ce4c4f4c721efb738d627f5098105caf169d15f755765e1"
+    }
+  ],
+  "note": "All contexts and final native geometry inspected. Ink components measured only identified marks; station glyphs connected to other ink needed direct microgrid measurement. The kiln has a separate hollow symbol; the Auld Cove mill remains unlocated. Prior source rows and placement decisions are unchanged; new geography requires separate review."
+}

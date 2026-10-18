@@ -7,6 +7,12 @@
   "display": "standalone",
   "background_color": "#eef7f5",
   "theme_color": "#12343b",
+  "related_applications": [
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/id6785084336"
+    }
+  ],
   "icons": [
     {
       "src": "./app-icon-180.png",

@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 130.8870923964516,
+  "median_ground_m": 77.48115256347084,
+  "p95_ground_m": 219.14757874561082,
+  "max_ground_m": 225.3632793256863,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -12.64587092488348,
+  "mean_north_ground_m": -6.714601293937089,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Scott Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        410,
+        2757
+      ],
+      "lonlat": [
+        -65.08299334200801,
+        44.37678599676642
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 142739,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142739,
+      "nearest_unfiltered_distance_guide_px": 0.6390699762044435,
+      "selected_distance_guide_px": 0.6390699762044435,
+      "guide_reference_pixel_xy": [
+        497.6253413458471,
+        2756.8682478248375
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected; Round and Flint reference corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.08320524851827,
+        44.376490818630835
+      ],
+      "error_ground_m": 36.89255468566744,
+      "east_ground_m": -16.888370585350202,
+      "north_ground_m": -32.80005381408452
+    },
+    {
+      "id": "Q02",
+      "label": "Round Lake central peninsula southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2662,
+        872
+      ],
+      "lonlat": [
+        -64.99633974013459,
+        44.502368652836815
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 143372,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143372,
+      "nearest_unfiltered_distance_guide_px": 0.38684936917943064,
+      "selected_distance_guide_px": 0.38684936917943064,
+      "guide_reference_pixel_xy": [
+        2716.0575022937264,
+        874.382551853545
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected; Round and Flint reference corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.99646884274364,
+        44.50439461659285
+      ],
+      "error_ground_m": 225.3632793256863,
+      "east_ground_m": -10.26670265520465,
+      "north_ground_m": 225.12930170241484
+    },
+    {
+      "id": "Q03",
+      "label": "Rocky Lake southwestern southern prong",
+      "role": "check",
+      "pixel_xy": [
+        4430,
+        1800
+      ],
+      "lonlat": [
+        -64.86277623499586,
+        44.49475362735472
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 143077,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143077,
+      "nearest_unfiltered_distance_guide_px": 0.29285989674773405,
+      "selected_distance_guide_px": 0.29285989674773405,
+      "guide_reference_pixel_xy": [
+        4449.902051626472,
+        1834.275994629017
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected; Round and Flint reference corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.86327990088999,
+        44.49535046330755
+      ],
+      "error_ground_m": 77.48115256347084,
+      "east_ground_m": -40.059511156508414,
+      "north_ground_m": 66.32167495220112
+    },
+    {
+      "id": "Q04",
+      "label": "Smith Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4812,
+        2560
+      ],
+      "lonlat": [
+        -64.81958942796916,
+        44.468143164614055
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 141965,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141965,
+      "nearest_unfiltered_distance_guide_px": 0.984746229033217,
+      "selected_distance_guide_px": 0.984746229033217,
+      "guide_reference_pixel_xy": [
+        4809.877181096876,
+        2608.4475248137023
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected; Round and Flint reference corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.81949129940975,
+        44.46794195150241
+      ],
+      "error_ground_m": 23.683312099702064,
+      "east_ground_m": 7.808396442423144,
+      "north_ground_m": -22.359074600927645
+    },
+    {
+      "id": "Q05",
+      "label": "Flint Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        512,
+        2845
+      ],
+      "lonlat": [
+        -65.07365635947797,
+        44.37542008373346
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 127138,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127138,
+      "nearest_unfiltered_distance_guide_px": 1.0471892362593969,
+      "selected_distance_guide_px": 1.0471892362593969,
+      "guide_reference_pixel_xy": [
+        611.9964941901853,
+        2840.321876724018
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected; Round and Flint reference corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.07460685269155,
+        44.37441430682185
+      ],
+      "error_ground_m": 135.01577981916645,
+      "east_ground_m": -75.75439228784032,
+      "north_ground_m": -111.76105247033796
+    },
+    {
+      "id": "Q06",
+      "label": "Nineveh Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5283,
+        2591
+      ],
+      "lonlat": [
+        -64.79024868822314,
+        44.47714061170654
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 132617,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132617,
+      "nearest_unfiltered_distance_guide_px": 1.1270722248579497,
+      "selected_distance_guide_px": 1.1270722248579497,
+      "guide_reference_pixel_xy": [
+        5280.025573305204,
+        2613.566378333373
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected; Round and Flint reference corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.78982893835037,
+        44.475323674006574
+      ],
+      "error_ground_m": 204.64427739210137,
+      "east_ground_m": 33.39660061296266,
+      "north_ground_m": -201.90083540400124
+    },
+    {
+      "id": "Q07",
+      "label": "Unnamed lake west of Pleasant River southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        3559,
+        2704
+      ],
+      "lonlat": [
+        -64.8924448876093,
+        44.43770284347445
+      ],
+      "guide_file": ".crown-grant-local/031-east-adjacent-guide.npy",
+      "reference_objectid": 140608,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140608,
+      "nearest_unfiltered_distance_guide_px": 0.8584448699481061,
+      "selected_distance_guide_px": 0.8584448699481061,
+      "guide_reference_pixel_xy": [
+        3574.637721064966,
+        2750.574664630927
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and every native paired crosshair inspected; Round and Flint reference corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -64.89227854862798,
+        44.43797613001471
+      ],
+      "error_ground_m": 33.12973118257775,
+      "east_ground_m": 13.242883155333406,
+      "north_ground_m": 30.367830577175763
+    }
+  ],
+  "fit_sha256": "2d535c584134d655aec4ac7dddc7a0b48582c1202d9deff2234c0a78248ec94c",
+  "checks_sha256": "e91845c54b4f6ebe4aecc8624c6593ddec59b2ebe9494e24698cd8adbe35b7ee",
+  "status": "Reserved before first fit and score"
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "image": "pollys-north.jpg",
+    "lonlat_bounds": [
+      -60.48,
+      46.93,
+      -60.4,
+      47.005
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet02/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "north-pond.jpg",
+    "lonlat_bounds": [
+      -60.5,
+      46.87,
+      -60.39,
+      46.96
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet02/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "black-head.jpg",
+    "lonlat_bounds": [
+      -60.455,
+      46.84,
+      -60.36,
+      46.9
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet02/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "white-point.jpg",
+    "lonlat_bounds": [
+      -60.39,
+      46.84,
+      -60.31,
+      46.91
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet02/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "egmont-trout.jpg",
+    "lonlat_bounds": [
+      -60.37,
+      46.795,
+      -60.27,
+      46.855
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet02/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "neils-halfway.jpg",
+    "lonlat_bounds": [
+      -60.465,
+      46.76,
+      -60.28,
+      46.83
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet02/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.54,
+      46.74,
+      -59.99,
+      47.035
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet02/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

@@ -148,6 +148,50 @@ describe("parcel resource intersections", () => {
     ]);
   });
 
+  it("summarizes abandoned mine openings from the lower-case version 9 fields", async () => {
+    const fetchMock = vi.fn(async (
+      input: string | URL | Request,
+      _init?: RequestInit,
+    ) => {
+      void _init;
+      const url = String(input);
+      if (url.includes("Abandoned_Mine")) {
+        return new Response(JSON.stringify({
+          features: [{ attributes: {
+            geo_id: 1178,
+            shaftid: "GBA-1-060",
+            name: "Old Gardiner Main Shaft",
+            opening_ty: "Shaft",
+            degree_haz: "High",
+            protection: "Not Rated",
+          } }],
+        }));
+      }
+      return new Response(JSON.stringify({ features: [] }));
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await fetchParcelResourceIntersections([parcel]);
+
+    const mineCall = fetchMock.mock.calls.find(([input]) =>
+      String(input).includes("Abandoned_Mine"),
+    );
+    expect(String(mineCall?.[0])).toBe(
+      "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4/query",
+    );
+    expect((mineCall?.[1]?.body as URLSearchParams).get("outFields")).toBe(
+      "geo_id,shaftid,name,opening_ty,degree_haz,protection",
+    );
+    expect(result["abandoned-mines"]).toMatchObject({
+      status: "ready",
+      intersections: [{
+        id: "GBA-1-060",
+        name: "Old Gardiner Main Shaft",
+        detail: "Shaft · Hazard: High",
+      }],
+    });
+  });
+
   it("reports a failed source separately from valid empty results", async () => {
     vi.stubGlobal("fetch", vi.fn(async (input: string | URL | Request) => {
       const url = String(input);

@@ -1,0 +1,14 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/fletcher-sheet03/native/sheet03.png",
+  "source_sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413",
+  "source_native_dimensions": [
+    10668,
+    7613
+  ],
+  "fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+  "boundary_sha256": "3956eff0f13aba1316eed2e8df40d36fb3429138e4e356f3a1a7be10739a547b",
+  "raster_sha256": "86f27229ea21c2e36d822be8f9871c16241a28bb1b4daa8abd7ec2761eaed951",
+  "render_script": "reports/fletcher/full-sheets/render.py",
+  "render_script_sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067",
+  "method": "One exact GDAL TPS (-et 0), EPSG:3857, 5 projected metre cells, complete mapped frame and southwest Fishing Cove / White Capes extension, RGBA. Reused diagnostic and fresh validation remain separate."
+}

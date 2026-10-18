@@ -1,0 +1,18 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Six accepted lake controls lie in the northwest; independent affine scales/shear would be unsupported across the rest of the sheet.",
+  "corrections": [
+    "Long Lake Q03 refined from native bank evidence twice before fit; intermediate packets retained"
+  ],
+  "not_adopted": [
+    "Rocky Lake Q01 southwest transition differs from the modern stream/lake extension; excluded before fitting",
+    "Farn Lake and Stevens Lake shapes and transitions lacked stable counterpart endpoints",
+    "Other eastern/southern river candidates overlap faint parcel and road geometry and were not forced"
+  ],
+  "limitations": [
+    "All five checks share lakes with controls, so spatial correlation is high",
+    "Eastern two-thirds and southern half remain without accepted independent geographic validation",
+    "Natural lake observations use12px working source uncertainty"
+  ]
+}

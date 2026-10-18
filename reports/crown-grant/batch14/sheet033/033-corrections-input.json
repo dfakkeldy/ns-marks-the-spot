@@ -1,0 +1,54 @@
+[
+  [
+    "C02",
+    "Little Bonnature Lake northern tip",
+    [
+      309,
+      1778
+    ],
+    [
+      329,
+      1736
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Port Medway Harbour small western island northern tip",
+    [
+      4574,
+      2834
+    ],
+    [
+      4642,
+      2757
+    ],
+    "WACORVIS10"
+  ],
+  [
+    "Q07",
+    "Eight Mile Lake north-central island southern tip",
+    [
+      2327,
+      1094
+    ],
+    [
+      2366,
+      1040
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q08",
+    "Port Medway Harbour small western island southern tip",
+    [
+      4576,
+      2858
+    ],
+    [
+      4645,
+      2778
+    ],
+    "WACORVIS10"
+  ]
+]

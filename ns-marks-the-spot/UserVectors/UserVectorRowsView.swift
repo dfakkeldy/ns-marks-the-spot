@@ -27,7 +27,12 @@ struct UserVectorRowsView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
 
-            if viewModel.rows.isEmpty {
+            if viewModel.rows.isEmpty, !viewModel.isLibrarySealed {
+                // Not while a library this build could not read is sitting on
+                // the device. There is no telling whether it holds nothing or
+                // holds everything the reader has drawn, and an invitation to
+                // import — which the sealed paragraph below then refuses —
+                // would be an empty list answering a question it cannot.
                 Text("Draw your own, or import GeoJSON, KML, KMZ, GPX or a zipped shapefile.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -45,27 +50,92 @@ struct UserVectorRowsView: View {
                     onEdit: onEdit.map { edit in { edit(row) } },
                     onExport: row.parsed.map { parsed in
                         { format in
-                            if format == .original {
+                            if VectorExport.hasTracedFeatures(parsed) {
+                                viewModel.reportExportShortfall(layerName: row.record.name, message: VectorExport.ReproductionRefusal().localizedDescription)
+                                return
+                            }
+                            switch format {
+                            case .original:
                                 Task {
                                     sharing = await originalPayload(row)
                                 }
-                            } else {
+                            case .kmz:
+                                Task {
+                                    sharing = await kmzPayload(row, parsed)
+                                }
+                            default:
                                 sharing = Self.payload(row.record, parsed, format)
                             }
                         }
                     },
                     hasOriginal: row.record.originalFileID != nil,
+                    hasPhotos: row.parsed.map(Self.hasPhotos) ?? false,
                     onDelete: { deleting = row }
                 )
             }
 
-            if let refusal = viewModel.lastRefusal {
+            if let sealed = viewModel.sealedMessage {
+                // The library is there and cannot be read by this build. Said
+                // once, up here, rather than discovered write by write. A
+                // document damaged at this version can be set aside; one
+                // from a newer build is left for that build.
+                Label(sealed, systemImage: "lock.doc")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                if viewModel.sealedReason == .unreadable {
+                    Button {
+                        Task { await viewModel.setAsideDamagedLibrary() }
+                    } label: {
+                        Text("Set aside and start a new library")
+                            .font(.caption.weight(.semibold))
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderless)
+                    .disabled(viewModel.isSettingAside)
+                    .accessibilityHint("Moves the unreadable library aside; nothing is deleted.")
+                }
+                if viewModel.sealedReason == .storageError {
+                    // A read that failed for a reason that passes — a full
+                    // disk, a file mid-sync — is tried again on request,
+                    // rather than only on the next launch.
+                    Button {
+                        Task {
+                            await viewModel.load()
+                            // Said either way: the sealed line going, or
+                            // staying, is otherwise a tap that did nothing.
+                            AccessibilityNotification.Announcement(
+                                viewModel.sealedMessage ?? "Your layers opened."
+                            ).post()
+                        }
+                    } label: {
+                        Text("Try again")
+                            .font(.caption.weight(.semibold))
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderless)
+                }
+                if let refusal = viewModel.lastRefusal, refusal.userMessage != sealed {
+                    // A set-aside that failed, said under the sealed line.
+                    Label(refusal.userMessage, systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else if let refusal = viewModel.lastRefusal {
                 // The refusal's own words. They were written for the person who
                 // chose the file and they say what to do about it; a generic
                 // "import failed" here would throw that away.
                 Label(refusal.userMessage, systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else if let recovery = viewModel.recoveryNotice {
+                Label(recovery, systemImage: "checkmark.circle")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
@@ -76,8 +146,14 @@ struct UserVectorRowsView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
                     Spacer()
-                    Button("Dismiss") { viewModel.clearNotices() }
-                        .font(.caption)
+                    Button {
+                        viewModel.clearNotices()
+                    } label: {
+                        Text("Dismiss")
+                            .font(.caption)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
 
@@ -149,6 +225,9 @@ struct UserVectorRowsView: View {
     enum ExportFormat: String, CaseIterable {
         case geoJson = "GeoJSON"
         case kml = "KML"
+        /// The field-capture interchange profile: doc.kml plus the layer's
+        /// photos, which the plain formats cannot carry.
+        case kmz = "KMZ (with photos)"
         /// The bytes the user imported, byte for byte.
         ///
         /// Offered because the two above are conversions, and a conversion is
@@ -161,9 +240,16 @@ struct UserVectorRowsView: View {
             switch self {
             case .geoJson: return "geojson"
             case .kml: return "kml"
+            case .kmz: return "kmz"
             case .original: return "original"
             }
         }
+    }
+
+    /// Whether any feature carries photo descriptors — the export menu's
+    /// honest note hangs off it.
+    static func hasPhotos(_ parsed: ParsedVector) -> Bool {
+        parsed.features.contains { !PhotoDescriptor.read(from: $0.properties).isEmpty }
     }
 
     /// The layer written to a temporary file under its own name.
@@ -175,6 +261,7 @@ struct UserVectorRowsView: View {
     static func payload(
         _ record: UserVectorLayerRecord, _ parsed: ParsedVector, _ format: ExportFormat
     ) -> SharePayload? {
+        guard !VectorExport.hasTracedFeatures(parsed) else { return nil }
         let safe = record.name
             .components(separatedBy: CharacterSet.alphanumerics.inverted)
             .filter { !$0.isEmpty }
@@ -187,24 +274,106 @@ struct UserVectorRowsView: View {
             else { return nil }
             return SharePayload(text: text, filename: filename)
         case .kml:
+            guard let text = try? VectorExport.kml(layerName: record.name, parsed: parsed) else { return nil }
             return SharePayload(
-                text: VectorExport.kml(layerName: record.name, parsed: parsed),
+                text: text,
                 filename: filename
             )
-        case .original:
-            // Handled by its caller, which has to read the bytes off disk.
+        case .kmz, .original:
+            // Handled by their callers, which have to read bytes off disk.
             return nil
         }
+    }
+
+    /// The safe filename stem the payloads share.
+    static func safeName(_ name: String) -> String {
+        let safe = name
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { !$0.isEmpty }
+            .joined(separator: "-")
+        return safe.isEmpty ? "layer" : safe
+    }
+
+    /// The KMZ payload: the layer's photo bytes gathered from the store,
+    /// the archive built per the interchange profile, and any photos whose
+    /// bytes could not be read reported rather than dangled.
+    private func kmzPayload(
+        _ row: UserVectorsViewModel.Row, _ parsed: ParsedVector
+    ) async -> SharePayload? {
+        guard !VectorExport.hasTracedFeatures(parsed) else { return nil }
+        var photoBytes: [String: Data] = [:]
+        for feature in parsed.features {
+            for descriptor in PhotoDescriptor.read(from: feature.properties)
+            where photoBytes[descriptor.id] == nil {
+                if let data = await viewModel.photoData(
+                    layerID: row.id, photoID: descriptor.id, thumb: false
+                ) {
+                    photoBytes[descriptor.id] = data
+                }
+            }
+        }
+        // Detached: the archive is CRC-32 and Data assembly over what can be
+        // hundreds of megabytes of JPEG at the photo caps, and building it
+        // on the main actor froze the map for the whole export. The temp
+        // write happens there too.
+        let layerName = row.record.name
+        let url = FileManager.default.temporaryDirectory
+            .appending(path: "\(Self.safeName(layerName)).kmz")
+        let bytes = photoBytes
+        let outcome = await Task.detached(
+            priority: .userInitiated
+        ) { () -> (photosMissing: Int, written: Bool)? in
+            guard let export = VectorExport.kmz(
+                layerName: layerName, parsed: parsed, photos: bytes
+            ) else { return nil }
+            let written = (try? export.data.write(to: url, options: .atomic)) != nil
+            return (export.photosMissing, written)
+        }.value
+        guard let outcome else { return nil }
+        if outcome.photosMissing > 0 {
+            viewModel.reportExportShortfall(
+                layerName: layerName,
+                message:
+                    "\(outcome.photosMissing) photo\(outcome.photosMissing == 1 ? "" : "s") "
+                    + "couldn't be read and were left out of the KMZ."
+            )
+        }
+        guard outcome.written else { return nil }
+        return SharePayload(url: url)
     }
 
     /// The imported file under the name it arrived with.
     ///
     /// Its own name rather than the layer's, because this is the file the user
-    /// gave us and handing it back renamed would make it look converted.
+    /// gave us and handing it back renamed would make it look converted. A
+    /// recorded layer's original came from no file, so it goes out under the
+    /// layer's name with the extension it actually is: raw GPX.
     private func originalPayload(_ row: UserVectorsViewModel.Row) async -> SharePayload? {
-        guard case .imported(let filename, _) = row.record.origin,
-              let data = await viewModel.originalFile(for: row.id)
-        else { return nil }
+        guard let parsed = row.parsed, !VectorExport.hasTracedFeatures(parsed) else { return nil }
+        let filename: String
+        switch row.record.origin {
+        case .imported(let imported, _):
+            filename = imported
+        case .recorded:
+            let safe = row.record.name
+                .components(separatedBy: CharacterSet.alphanumerics.inverted)
+                .filter { !$0.isEmpty }
+                .joined(separator: "-")
+            filename = "\(safe.isEmpty ? "track" : safe).gpx"
+        case .drawn, .photos:
+            return nil
+        }
+        guard let data = await viewModel.originalFile(for: row.id) else { return nil }
+        let refusal = await Task.detached { () -> String? in
+            do {
+                try VectorExport.requireOriginalReproduction(data, filename: filename)
+                return nil
+            } catch { return error.localizedDescription }
+        }.value
+        if let refusal {
+            viewModel.reportExportShortfall(layerName: row.record.name, message: refusal)
+            return nil
+        }
         let url = FileManager.default.temporaryDirectory.appending(path: filename)
         guard (try? data.write(to: url, options: .atomic)) != nil else { return nil }
         return SharePayload(url: url)
@@ -231,6 +400,8 @@ private struct UserVectorRow: View {
     let onExport: ((UserVectorRowsView.ExportFormat) -> Void)?
     /// Whether this build still holds the file the layer was imported from.
     let hasOriginal: Bool
+    /// Whether any feature carries photos, for the export menu's honest note.
+    let hasPhotos: Bool
     let onDelete: () -> Void
 
     var body: some View {
@@ -258,8 +429,21 @@ private struct UserVectorRow: View {
                         Menu("Export") {
                             ForEach(UserVectorRowsView.ExportFormat.allCases, id: \.self) { format in
                                 if format != .original || hasOriginal {
-                                    Button(format.rawValue) { onExport(format) }
+                                    // A recorded layer's original is the raw
+                                    // GPX of every fix — named for what it is,
+                                    // so the evidence is never mistaken for
+                                    // the processed line.
+                                    Button(
+                                        format == .original && row.record.source == .recorded
+                                            ? "Raw recording (GPX)" : format.rawValue
+                                    ) { onExport(format) }
                                 }
+                            }
+                            if hasPhotos {
+                                // The honest note the web shows under its
+                                // export buttons: the plain formats cannot
+                                // carry photo bytes.
+                                Text("Photos aren't included in GeoJSON or KML. Use KMZ to carry photos.")
                             }
                         }
                     }

@@ -1,0 +1,45 @@
+{
+  "sheet": "047",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS gate passed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/047.pdf",
+    "pdf_sha256": "382a6a91b53ac391780c384485baeb18ac24bf80a3dbcb944c1d5adc5a5639d1",
+    "jpeg_sha256": "4de04adcc1eb2678aad9ecfc962e62bdf08c3442d7ecb49edd92bdfa6585bf95",
+    "dimensions": [
+      5593,
+      3930
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 72.28190366101757,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "All eight checks pair with control islands; coast samples are correlated and do not establish independent regional accuracy.",
+    "Mainland interiors, the northern edge and substantial mainland coast have no independent validation.",
+    "Source uncertainty 18 px; generalized shoreline tips and small capes limit precision.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 72.28 m, median 47.40 m, P95 130.57 m, maximum 159.10 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped frame retains Chester, Chester Basin, Gold River, Western Shore, Martin and Indian Points, Lunenburg, East River, Mill Cove, Blandford, Bayswater and Aspotogan; Oak, Meisner, Snake, Rouse, Black, Mason, Rafuse, Big and Little Tancook, Gravel and all other depicted islands and Atlantic/Mahone Bay water remain included. Big and Little Tancook are in their mapped positions, not displaced insets."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "C03",
+  "label": "Blue Lake southwest outlet",
+  "role": "control",
+  "pixel_xy": [27935, 15371],
+  "lonlat": [-60.467980325452324, 45.64817099434229],
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "source_dimensions": [35735, 30429],
+  "source_frame": {"origin": [27700, 15150], "extent": [600, 800], "display": [600, 800], "rotation": 0},
+  "feature_definition": "Lake-shore to outgoing single-line stream junction at the southwest side of Blue Lake's southeast bay.",
+  "modern_features": [{"OBJECTID": 124934, "FEAT_CODE": "WALK20", "vertex": 0}, {"OBJECTID": 200503, "FEAT_CODE": "WARV50", "vertex": 0}],
+  "identity_evidence": "The lake's southeast bay has an eastern incoming branch and a separate southwestern outlet. Trace the outgoing stream southwest to the lower coastal water and the incoming branch eastward: the selected western outlet is distinct from the eastern inlet. The historical shoreline turns into the southwest-going stream at the marked native junction; the source image was not moved toward the guide prediction.",
+  "placement_uncertainty_ground_m": 40,
+  "review": "Codex broad lake/stream topology and native junction review; no user point review claimed.",
+  "reference": "Verified NSTDB 10k water-line extracts listed in the parent reference receipts; exact contributing source receipts recorded separately."
+}

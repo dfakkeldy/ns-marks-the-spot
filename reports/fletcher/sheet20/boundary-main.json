@@ -1,0 +1,48 @@
+{
+  "sheet": "sheet-20",
+  "component": "main",
+  "source_sha256": "3be7a138e4fd1a42cef0a549b7317180718a36fc7134777323ff2f1f8eb053dc",
+  "source_dimensions": [
+    10792,
+    7662
+  ],
+  "ring_pixel_xy": [
+    [
+      1454,
+      1066
+    ],
+    [
+      9658,
+      1142
+    ],
+    [
+      9655,
+      6610
+    ],
+    [
+      5340,
+      6585
+    ],
+    [
+      5340,
+      6730
+    ],
+    [
+      3740,
+      6730
+    ],
+    [
+      3740,
+      6570
+    ],
+    [
+      1450,
+      6543
+    ],
+    [
+      1454,
+      1066
+    ]
+  ],
+  "scope": "Full neatline with southern mainland, Red Island, Michaux Point and its small island, plus separate southern AB islets. Native review required before rendering."
+}

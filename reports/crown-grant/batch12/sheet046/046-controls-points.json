@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Duck Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      241,
+      356
+    ],
+    "lonlat": [
+      -64.49871742866954,
+      44.682140795217336
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 128120,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128120,
+    "nearest_unfiltered_distance_guide_px": 2.34751507840909,
+    "selected_distance_guide_px": 2.34751507840909,
+    "guide_reference_pixel_xy": [
+      239.41455775761278,
+      283.72665787348524
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Round Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2315,
+      1495
+    ],
+    "lonlat": [
+      -64.34121137540791,
+      44.67307422533456
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 140191,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140191,
+    "nearest_unfiltered_distance_guide_px": 0.3900589530352048,
+    "selected_distance_guide_px": 0.3900589530352048,
+    "guide_reference_pixel_xy": [
+      2300.746098128555,
+      1401.2961077954387
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Nine Mile Lake eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3147,
+      1246
+    ],
+    "lonlat": [
+      -64.29412002054241,
+      44.70045736281791
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 134483,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134483,
+    "nearest_unfiltered_distance_guide_px": 2.3286493097503485,
+    "selected_distance_guide_px": 2.3286493097503485,
+    "guide_reference_pixel_xy": [
+      3173.0267526952666,
+      1156.7635119563201
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Russell Lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3736,
+      1374
+    ],
+    "lonlat": [
+      -64.25585748713542,
+      44.70643904581759
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 142187,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142187,
+    "nearest_unfiltered_distance_guide_px": 1.073655672889908,
+    "selected_distance_guide_px": 1.073655672889908,
+    "guide_reference_pixel_xy": [
+      3743.4702788922004,
+      1270.066119894269
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Veniot Lake northern inlet",
+    "role": "proposal",
+    "pixel_xy": [
+      1500,
+      2588
+    ],
+    "lonlat": [
+      -64.36262588470738,
+      44.60966213899068
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 139261,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139261,
+    "nearest_unfiltered_distance_guide_px": 2.5818571278202227,
+    "selected_distance_guide_px": 2.5818571278202227,
+    "guide_reference_pixel_xy": [
+      1470.4685185011476,
+      2490.538991264766
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Mill Lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4022,
+      314
+    ],
+    "lonlat": [
+      -64.26775377546288,
+      44.75533157444517
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 129739,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 279413,
+    "nearest_unfiltered_distance_guide_px": 0.8878210185064448,
+    "selected_distance_guide_px": 49.78514115096224,
+    "guide_reference_pixel_xy": [
+      3996.71398596745,
+      260.12061350711156
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Big Whitford Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4597,
+      3149
+    ],
+    "lonlat": [
+      -64.15523920741583,
+      44.64543954258979
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 125789,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125789,
+    "nearest_unfiltered_distance_guide_px": 2.6651431354436013,
+    "selected_distance_guide_px": 2.6651431354436013,
+    "guide_reference_pixel_xy": [
+      4594.597871633712,
+      3041.133024654002
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

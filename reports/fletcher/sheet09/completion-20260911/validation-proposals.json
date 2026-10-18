@@ -1,0 +1,49 @@
+{
+  "sheet": "sheet-09",
+  "fit_sha256": "7bc6e88a856b2394804cf40c45c284cb5d4d10870a1b2fe28ab908ba3b514367",
+  "status": "Fresh after 24-control freeze; two local checks only, not sufficient whole-sheet validation.",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        8920,
+        2618
+      ],
+      "lonlat": [
+        -60.8882406,
+        46.5733458
+      ],
+      "modern_node": "J0498",
+      "modern_objectids": [
+        137264,
+        137265,
+        293750
+      ],
+      "identity_evidence": "Northeastern inlet of the Jim Campbells headwater lake at the small eastern inset, opposite the broad western lobe; outlet C21 is at the separate southern point. Check of local lake shape, not regional coverage.",
+      "source_uncertainty_px": 12,
+      "review": "Selected after regional-fit.json was frozen. Native crosshair review pending before scoring."
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        5874,
+        6194
+      ],
+      "lonlat": [
+        -61.028377,
+        46.4590557
+      ],
+      "modern_node": "J1444",
+      "modern_objectids": [
+        188663,
+        188664,
+        188809
+      ],
+      "identity_evidence": "Northern tributary of the eastern Gallant arm above C18. From main Gallant trace east/northeast to this fork; north arm heads northwest, east arm crosses the hatched upland. Local check independent of fitting but geographically near C18.",
+      "source_uncertainty_px": 12,
+      "review": "Selected after regional-fit.json was frozen. Native crosshair review pending before scoring."
+    }
+  ]
+}

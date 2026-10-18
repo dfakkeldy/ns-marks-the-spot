@@ -14,6 +14,22 @@ final class AppContainer {
     let licenceStore: ProvinceLicenceStore
     let sessionStore: MapSessionStore
 
+    /// Where a walk in progress is written down.
+    ///
+    /// Owned here rather than by the map view because a checkpoint outlives
+    /// every view: it is written by a recorder taking fixes in a pocket and
+    /// read once, at launch, before anything can record over it. `lazy`, so a
+    /// unit test that builds a container to ask which layers install does not
+    /// make a directory in the test host to find out.
+    private(set) lazy var trackCheckpoint = checkpointStore ?? .inApplicationSupport()
+    private let checkpointStore: TrackCheckpointStore?
+
+    /// The walk that was waiting on disk at launch: one iOS ended under the
+    /// reader, one they stopped and never saved, a checkpoint this build could
+    /// not read, or nothing. Set by `forLaunch`, which is the only caller that
+    /// reads the disk.
+    private(set) var restoredWalk: TrackCheckpointStore.Found = .none
+
     /// What the map was showing when the app last went away, or `nil` on a
     /// first launch. Read once, here, so the opening layer set, the opening
     /// background and the opening position come from one answer rather than
@@ -56,6 +72,21 @@ final class AppContainer {
     )
     private(set) lazy var georeferenceReferences = GeoreferenceReferenceServices(container: self)
 
+    /// The track recorder, for the life of the process.
+    ///
+    /// It used to be `@State` in `MapContainerView`, and that is precisely the
+    /// bug: Apple launches this app to perform a `LiveActivityIntent`
+    /// **without opening it**, so no view's `onAppear` need ever run. A Pause
+    /// tapped on the Lock Screen of a terminated app reached a registry with
+    /// nothing installed in it, and the only honest thing left to do was fail.
+    /// Process-lifetime state belongs in the process-lifetime object.
+    ///
+    /// `lazy` for the same reason as the view models above, and one more: it
+    /// builds a `CLLocationManager`, and a unit test that constructs a
+    /// container to ask which layers install must not reach CoreLocation to
+    /// find out.
+    private(set) lazy var trackRecorder = TrackRecorder(checkpoint: trackCheckpoint)
+
     /// The container the app launches with.
     ///
     /// `UITestMode` on the command line builds one that remembers nothing: an
@@ -66,22 +97,90 @@ final class AppContainer {
     /// switch, and the same layer on a fresh install has a lock. That is how a
     /// test passing on a developer's simulator failed on a clean runner.
     static func forLaunch() -> AppContainer {
-        guard ProcessInfo.processInfo.arguments.contains("UITestMode") else {
-            return AppContainer()
+        // Before anything else can draw or be tapped.
+        //
+        // A Live Activity outlives the process that made it. If iOS terminated
+        // this app with a walk running, the Lock Screen is still showing
+        // "Recording a track" with a clock counting, and its buttons will
+        // relaunch this process to perform an intent against a recorder that
+        // knows nothing about that walk. Ending those activities here is what
+        // stops the reader being shown a recording that does not exist.
+        //
+        // Not under a test host, which has no Lock Screen to reconcile and
+        // where reaching ActivityKit blocks the main actor long enough to
+        // starve the rest of the bundle — a deadlock-detector test elsewhere
+        // began timing out at sixty seconds, which is how this was found.
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
+            // Named synchronously, ended afterwards. Enumerating inside the
+            // task would have swept up an activity the reader started in
+            // between — the new walk's Lock Screen torn away while it went on
+            // collecting fixes.
+            let orphans = LiveActivityPresenter.orphanIDs()
+            if !orphans.isEmpty {
+                Task { await LiveActivityPresenter.endOrphans(orphans) }
+            }
         }
-        return AppContainer(
+        guard ProcessInfo.processInfo.arguments.contains("UITestMode") else {
+            let container = AppContainer()
+            // The walk, before a view exists to ask for it. Read here and not
+            // from the map's `.task` because a recorder reached from a
+            // cold-launched Lock Screen intent can be started before any view
+            // runs, and the first thing a new recording does is put the old
+            // journal aside.
+            container.restoredWalk = container.trackCheckpoint.read()
+            container.installTrackActivityActions()
+            return container
+        }
+        // A UI test gets a checkpoint directory thrown away with the run, for
+        // the same reason it gets a licence and a session store that remember
+        // nothing: a test asserting on what is on screen must not be asserting
+        // on a walk the simulator was left holding — and an unsaved recording
+        // opens a sheet over everything else the test came to look at.
+        let container = AppContainer(
             licenceStorage: InMemoryProvinceLicenceStorage(),
             sessionStore: MapSessionStore(
                 defaults: UserDefaults(suiteName: "ui-test-\(UUID().uuidString)") ?? .standard
+            ),
+            checkpointStore: TrackCheckpointStore(
+                directory: FileManager.default.temporaryDirectory
+                    .appendingPathComponent("ui-test-\(UUID().uuidString)", isDirectory: true)
             )
+        )
+        container.installTrackActivityActions()
+        return container
+    }
+
+    /// Points the Lock Screen's buttons at this process's recorder.
+    ///
+    /// At launch rather than from a view's `onAppear`, which is the finding
+    /// this move exists to close: a `LiveActivityIntent` launches the app
+    /// **without opening it**, and an intent performed before any view appeared
+    /// found nothing installed. Whatever else is true of a launched process,
+    /// this ran.
+    private func installTrackActivityActions() {
+        TrackActivityActions.shared.install(
+            pause: { [trackRecorder] in
+                trackRecorder.pause()
+                guard trackRecorder.status == .paused else { return false }
+                MapHaptics.modeChanged()
+                return true
+            },
+            resume: { [trackRecorder] in
+                trackRecorder.resume()
+                guard trackRecorder.status == .recording else { return false }
+                MapHaptics.modeChanged()
+                return true
+            }
         )
     }
 
     init(
         licenceStorage: (any ProvinceLicenceStorage)? = nil,
-        sessionStore: MapSessionStore = MapSessionStore()
+        sessionStore: MapSessionStore = MapSessionStore(),
+        checkpointStore: TrackCheckpointStore? = nil
     ) {
         self.sessionStore = sessionStore
+        self.checkpointStore = checkpointStore
 
         // Warm the bundled catalogs off the main thread. Their statics
         // memoize on first touch, and the first touch used to be the scene
@@ -157,14 +256,19 @@ final class AppContainer {
         // survived the filtering above. NS Aerial is a base map and a licensed
         // layer at once, and setting it here regardless would name imagery the
         // map has just been told it may not draw.
+        let atlasHosted = controller.atlasRasterBaseURL != nil
         if let background = session?.background,
            OverlayViewModel.basemapLayerID(for: background).map(opening.contains) ?? true {
-            controller.baseMapType = background
+            // An Atlas ground stored by a hosted build is not one this build
+            // can draw; the OpenStreetMap raster is the browser's own fallback.
+            controller.baseMapType = background.isAtlas && !atlasHosted ? .openStreetMap : background
         } else if openedAerial {
             // NS Aerial is a base map as well as an overlay, and the two move
             // together everywhere else. Setting the layer alone would open with
             // imagery drawn and the base-map picker reading "Standard".
             controller.baseMapType = .nsAerial
+        } else {
+            controller.baseMapType = .defaultGround(atlasHosted: atlasHosted)
         }
     }
 
@@ -233,11 +337,8 @@ final class AppContainer {
     /// has no renderer for is skipped rather than guessed at.
     ///
     /// `static` and not `private` so it can be exercised against a descriptor
-    /// the caller supplies. The branch that matters most — Fletcher with a host
-    /// configured — is unreachable in a checkout without
-    /// `FLETCHER_TILE_BASE_URL`, which is every checkout in CI. A test that
-    /// could only observe the ambient configuration would pass with that branch
-    /// deleted.
+    /// the caller supplies. Tests exercise both hosted and unhosted Fletcher
+    /// configurations independently of the build's default tile host.
     static func makeLayer(
         from descriptor: LayerDescriptor,
         fletcherBaseURL: URL?

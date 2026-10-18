@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C01",
+    "label": "Longspell Point southeast shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      772,
+      2860
+    ],
+    "lonlat": [
+      -64.35120637691013,
+      45.16574807468294
+    ],
+    "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 7599,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 7599,
+    "nearest_unfiltered_distance_guide_px": 2.4074788471481225,
+    "selected_distance_guide_px": 2.4074788471481225,
+    "guide_reference_pixel_xy": [
+      856.2894479630049,
+      2775.744568616152
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Split Rock northwest mainland corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3370,
+      3512
+    ],
+    "lonlat": [
+      -64.1735706631473,
+      45.186147218578064
+    ],
+    "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 9455,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9455,
+    "nearest_unfiltered_distance_guide_px": 0.4202038651736621,
+    "selected_distance_guide_px": 0.4202038651736621,
+    "guide_reference_pixel_xy": [
+      3434.587173006381,
+      3444.9216089185793
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Starratt Point western projecting tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3964,
+      3430
+    ],
+    "lonlat": [
+      -64.13856392378536,
+      45.20203302089056
+    ],
+    "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 8734,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8734,
+    "nearest_unfiltered_distance_guide_px": 2.5769425459607667,
+    "selected_distance_guide_px": 2.5769425459607667,
+    "guide_reference_pixel_xy": [
+      4040.100817003986,
+      3349.4923809168395
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Pembroke western projecting tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5096,
+      3333
+    ],
+    "lonlat": [
+      -64.07067469281272,
+      45.226553835521685
+    ],
+    "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 8856,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8856,
+    "nearest_unfiltered_distance_guide_px": 0.7305977551959397,
+    "selected_distance_guide_px": 0.7305977551959397,
+    "guide_reference_pixel_xy": [
+      5162.394011376484,
+      3283.615246385685
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

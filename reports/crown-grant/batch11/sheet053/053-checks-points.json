@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q01",
+    "label": "Shey Lake eastern outlet",
+    "role": "proposal",
+    "pixel_xy": [
+      1771,
+      2853
+    ],
+    "lonlat": [
+      -64.18341532144996,
+      45.01672322069811
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 141082,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141082,
+    "nearest_unfiltered_distance_guide_px": 0.364046249141453,
+    "selected_distance_guide_px": 0.364046249141453,
+    "guide_reference_pixel_xy": [
+      1786.658328887308,
+      2790.125660344842
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Lily Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3458,
+      2289
+    ],
+    "lonlat": [
+      -64.08771344211064,
+      45.078305082743704
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 140691,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140691,
+    "nearest_unfiltered_distance_guide_px": 2.5643130397852354,
+    "selected_distance_guide_px": 2.5643130397852354,
+    "guide_reference_pixel_xy": [
+      3479.4357859731535,
+      2212.9774657918606
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Smith Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4687,
+      2754
+    ],
+    "lonlat": [
+      -63.99285515091471,
+      45.0816122997747
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 142567,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142567,
+    "nearest_unfiltered_distance_guide_px": 0.8950662917415627,
+    "selected_distance_guide_px": 0.8950662917415627,
+    "guide_reference_pixel_xy": [
+      4701.557143328071,
+      2674.7778313665185
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Wade Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4642,
+      937
+    ],
+    "lonlat": [
+      -64.04897285676711,
+      45.16559279919465
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 141203,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 280972,
+    "nearest_unfiltered_distance_guide_px": 1.5689567930600758,
+    "selected_distance_guide_px": 3.1007678449069074,
+    "guide_reference_pixel_xy": [
+      4655.060413328349,
+      859.501370390295
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Woodward Sandford or Knox Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4461,
+      1655
+    ],
+    "lonlat": [
+      -64.04004915457958,
+      45.128526206069814
+    ],
+    "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 140323,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140323,
+    "nearest_unfiltered_distance_guide_px": 0.4478927150598441,
+    "selected_distance_guide_px": 0.4478927150598441,
+    "guide_reference_pixel_xy": [
+      4475.6624300887925,
+      1573.7056287390878
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

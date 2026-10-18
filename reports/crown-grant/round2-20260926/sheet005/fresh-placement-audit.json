@@ -1,0 +1,52 @@
+{
+  "audited_at_utc": "2026-09-26T14:50:28.460957+00:00",
+  "before_any_fresh_scoring": true,
+  "original_proposal": "checks-round2-fresh-proposal-00.json",
+  "audited_proposal": "checks-round2-fresh-audit-proposal-01.json",
+  "adopted_checks": "checks-round2-fresh-01.json",
+  "refinements": [
+    {
+      "id": "R2V01",
+      "reason": "Original crosshair lay on rising shore short of the local crest. Native crest selected at [1838,2944] from enlarged crop; reference unchanged."
+    },
+    {
+      "id": "R2V03",
+      "reason": "Original modern proposal below the steep step was rejected; select its upper shoulder by adjacent downshore shelf and upshore gradual rise. More generalized modern detail raises source uncertainty to 25 px."
+    }
+  ],
+  "rejected": [
+    {
+      "id": "R2V04",
+      "point": {
+        "id": "R2V04",
+        "label": "North coast shoulder at Jonathan frontage southwest of West Sandy Cove",
+        "pixel_xy": [
+          3748,
+          1434
+        ],
+        "reference_guide_xy": [
+          3772,
+          1422
+        ],
+        "lonlat": [
+          -66.11753340564103,
+          44.489595750373006
+        ],
+        "reference_objectid": 4408,
+        "reference_feature_code": "WACO20",
+        "reference_selected_baseline_frame_xy": [
+          3773.0952268100227,
+          1420.8736718307482
+        ],
+        "vertex_distance_from_manual_guide_selection_px": 1.5710305249238932,
+        "source_uncertainty_px": 25,
+        "modern_uncertainty_m": 25,
+        "role": "check",
+        "identity_evidence": "Adjacent shoreline shape/sequence inspected in discovery and fresh-search native pairs; no fit-predicted coordinate used to select the modern shore vertex. Vertex is nearest to manually selected physical bend in reference panel, not nearest to transformed source point.",
+        "validation": "New feature definition not present in baseline point/proposal labels; coastal shape samples correlated, limited peninsula coverage."
+      },
+      "reason": "Native has a clear slope-to-shelf shoulder, but modern coastline is a gradual jagged slope. Exact physical definition is insufficient. Rejected before any score; never fitted."
+    }
+  ],
+  "uncertainty": "Working 25 px source and 25 m reference; no subtraction from scores. Three samples confined to peninsula; no new mainland or whole-sheet validation."
+}

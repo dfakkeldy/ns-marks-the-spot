@@ -1,0 +1,132 @@
+[
+  [
+    "Q01",
+    "Small northern lake west of Neil Harbour east end",
+    [
+      2270,
+      626
+    ],
+    [
+      2240,
+      650
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "Lake south of Ann Brook west end",
+    [
+      475,
+      1338
+    ],
+    [
+      487,
+      1350
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Triangular lake north of Warren Lake south tip",
+    [
+      911,
+      1394
+    ],
+    [
+      946,
+      1400
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Western narrow lake south tip",
+    [
+      360,
+      1785
+    ],
+    [
+      369,
+      1775
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Warren Lake southeast end",
+    [
+      1080,
+      1933
+    ],
+    [
+      1060,
+      1950
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Archibald Point east tip",
+    [
+      1540,
+      2335
+    ],
+    [
+      1510,
+      2360
+    ],
+    "WACO"
+  ],
+  [
+    "Q07",
+    "Jackson Point south tip",
+    [
+      1396,
+      2502
+    ],
+    [
+      1268,
+      2515
+    ],
+    "WACO"
+  ],
+  [
+    "Q08",
+    "North Ingonish Bay stream-mouth notch",
+    [
+      915,
+      2440
+    ],
+    [
+      920,
+      2440
+    ],
+    "WACO"
+  ],
+  [
+    "Q09",
+    "Freshwater Lake northwest corner",
+    [
+      280,
+      3130
+    ],
+    [
+      275,
+      3160
+    ],
+    "WALK"
+  ],
+  [
+    "Q10",
+    "Ingonish Island north tip",
+    [
+      1425,
+      2630
+    ],
+    [
+      1410,
+      2640
+    ],
+    "WACOIS"
+  ]
+]

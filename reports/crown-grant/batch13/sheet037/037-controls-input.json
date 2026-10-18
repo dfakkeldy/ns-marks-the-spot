@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Sixty Lake island northern tip",
+    [
+      1696,
+      1386
+    ],
+    [
+      1704,
+      1442
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C02",
+    "Black Duck Lake northwest roof",
+    [
+      2954,
+      1968
+    ],
+    [
+      2964,
+      2020
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Triangle or Birch Lake northern tip",
+    [
+      3526,
+      1702
+    ],
+    [
+      3532,
+      1745
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Butler Lake southern eastern lobe",
+    [
+      3520,
+      2505
+    ],
+    [
+      3540,
+      2552
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Owl Lake northern roof",
+    [
+      4058,
+      283
+    ],
+    [
+      4072,
+      305
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Rocky Lake northeast of Fraxville northwest roof",
+    [
+      5131,
+      934
+    ],
+    [
+      5134,
+      947
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Lake Molly or Upper Gully eastern tip",
+    [
+      5324,
+      1366
+    ],
+    [
+      5330,
+      1394
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Clear Lake large island northern tip",
+    [
+      3165,
+      3306
+    ],
+    [
+      3199,
+      3370
+    ],
+    "WALKIS10"
+  ]
+]

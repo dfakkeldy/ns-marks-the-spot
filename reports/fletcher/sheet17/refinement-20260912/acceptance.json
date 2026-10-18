@@ -1,0 +1,22 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "recommendation": "Retain previous ten-control provisional fit; preserve eleven-control experiment for review, not replacement.",
+  "fresh_validation_count": 1,
+  "fresh_median_ground_m": 306.3999292873321,
+  "fresh_worst_ground_m": 306.3999292873321,
+  "same_check_old_fit_ground_m": 272.82802440959875,
+  "targets": {
+    "median_ground_m": 100,
+    "worst_ground_m": 200
+  },
+  "fresh_status": "Failed; broad island shape uncertainty. New identity but same lake system as existing controls, not independent whole-interior validation.",
+  "failed_repair_excluded": "V05 Bruce barrier gap prior 630.289956 m retained; post-score shoreline identity uncertainty, no promotion.",
+  "technical_checks": "Full alpha coverage, sampled orientation, CSV parser/TPS and actual desktop/mobile browser reload pass.",
+  "unsupported": [
+    "Northern/eastern seams",
+    "Central and southeast source-labelled unexplored terrain",
+    "Middle lake western arms and islands",
+    "Bruce/Gaspereau barrier and headwaters"
+  ],
+  "publishing": "Draft PR only; no merge, deployment, manifest acceptance, source raster replacement or licence change."
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-20-C03.jpg",
+    "point_record": "sheet20/candidate-proposals.json",
+    "point_id": "C03",
+    "native_box": [
+      2750,
+      1950,
+      3450,
+      2650
+    ],
+    "native_coordinates": [
+      3100,
+      2300
+    ],
+    "modern_lonlat": [
+      -60.77658447810415,
+      45.70805807500798
+    ],
+    "rotation_degrees": 0
+  }
+]

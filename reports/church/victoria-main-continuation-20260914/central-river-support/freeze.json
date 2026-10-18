@@ -1,0 +1,14 @@
+{
+  "frozen_at": "2026-09-14T23:58:15.764656+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "69861b42d08e57080b5580b37fae6a6c64e98c0cc4eedc012a68f6659dca91de",
+  "boundary_sha256": "d0979e3b1a6f3c5742f9224279bbde8f4eac8b5975d282bed1c7b38a9f45958e",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "selection": "Fourteen verified regional anchors, with the same two remaining Wreck/Gillis selection diagnostics192.54m RMS. This is a provisional candidate requiring new distributed physical checks, not geographic acceptance.",
+  "diagnostics": [
+    "VM21",
+    "VM22"
+  ],
+  "fresh_count": 0,
+  "geographic_acceptance": false
+}

@@ -1,0 +1,51 @@
+{
+  "id": "R52",
+  "label": "Northern stream junction beside McLeod Lake inter-basin neck",
+  "role": "check",
+  "pixel_xy": [
+    26874.0,
+    11348.0
+  ],
+  "lonlat": [
+    -60.49722861895451,
+    45.74823938238171
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      26600,
+      11150
+    ],
+    "extent": [
+      1100,
+      1400
+    ],
+    "display": [
+      1100,
+      1400
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    274,
+    198
+  ],
+  "source_crop_sha256": "a2cf31a36752401026e37bdfee9b20812ccdeae248bd96026e3217af1215ad78",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    143172,
+    143174,
+    200486
+  ],
+  "reference_vertex": {
+    "feature_id": 200486,
+    "vertex": 51
+  },
+  "reference_path": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+  "reference_sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6",
+  "uncertainty_ground_m": 110,
+  "identity_evidence": "North-running stream meets the northeastern shore of the small western McLeod Lake lobe beside its connection to the larger eastern basin. Both sources preserve the small western lobe, large elongated eastern basin and this northern junction at the neck; the eastern and farther-western modern northern streams are not selected. Exact modern shared point: 200486 vertex 51, 143172 vertex 0, 143174 vertex 29. Use this junction rather than an uncertain combined-basin centroid or a road crossing at the southern end. No water-flow direction inferred; engraving and neck-detail uncertainty retained.",
+  "search_proposal": "COV2-S06; changed to a precise physical junction during review, before scoring",
+  "phase": "Additional fresh northern-interior junction against unchanged affine14; no tuning"
+}

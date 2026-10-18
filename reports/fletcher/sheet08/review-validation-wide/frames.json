@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-08-V01.jpg",
+    "point_record": "sheet08/candidate-validation.json",
+    "point_id": "V01",
+    "native_box": [
+      7782,
+      877,
+      8482,
+      1577
+    ],
+    "native_coordinates": [
+      8132,
+      1227
+    ],
+    "modern_lonlat": [
+      -60.5453039,
+      46.6133825
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-08-V02.jpg",
+    "point_record": "sheet08/candidate-validation.json",
+    "point_id": "V02",
+    "native_box": [
+      8807,
+      958,
+      9507,
+      1658
+    ],
+    "native_coordinates": [
+      9157,
+      1308
+    ],
+    "modern_lonlat": [
+      -60.4944953,
+      46.603258
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-08-V03.jpg",
+    "point_record": "sheet08/candidate-validation.json",
+    "point_id": "V03",
+    "native_box": [
+      2010,
+      4248,
+      2710,
+      4948
+    ],
+    "native_coordinates": [
+      2360,
+      4598
+    ],
+    "modern_lonlat": [
+      -60.7898218,
+      46.503375
+    ],
+    "rotation_degrees": 0
+  }
+]

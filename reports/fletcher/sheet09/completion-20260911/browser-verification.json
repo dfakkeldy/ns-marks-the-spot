@@ -1,0 +1,40 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "url": "http://127.0.0.1:4198/",
+  "viewports": [
+    [
+      1440,
+      1000
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "raster_sha256": "4b6057df3d3ad73269cce9cbf43dedf72a0cb73a5f9974a794b31c70d3722180",
+  "before_and_after_sha256_equal": true,
+  "enabled_state_survived": true,
+  "pixel_size": {
+    "width": 8370,
+    "height": 5414
+  },
+  "embedded_geo": null,
+  "preview_size": [
+    4096,
+    2649
+  ],
+  "transparent_preview_pixels": 420942,
+  "opaque_preview_pixels": 10429362,
+  "errors": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/browser/reload-desktop.png",
+      "sha256": "b44eae3120c88d52af7fd67baf954095354bf990c4e3c9b281fc1e8bd45d4c1b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/browser/reload-mobile.png",
+      "sha256": "dd7f01214b086b5529a1707735eff063d92d73db94c1cf9be9109101c42575c0"
+    }
+  ],
+  "scope": "Actual GeoTIFF import/render/reload; not raw scan TPS mesh, independent geography or publication. Screenshots personally inspected."
+}

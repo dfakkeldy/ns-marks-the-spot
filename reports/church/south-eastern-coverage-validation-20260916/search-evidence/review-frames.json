@@ -1,0 +1,33 @@
+{
+  "IS52-enlarged": {
+    "origin": [
+      31916,
+      15329
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "IS53-enlarged": {
+    "origin": [
+      32255,
+      22256
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "review_timing": "Both native crosshairs and exact-reference markers were inspected before first scoring. The initial 240 m namepoint neighbourhood was expanded to 700 m before choosing the coastline extremum."
+}

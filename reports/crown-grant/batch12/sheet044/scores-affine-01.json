@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 103.25700421444355,
+  "median_ground_m": 86.15338345740838,
+  "p95_ground_m": 160.3875145864105,
+  "max_ground_m": 173.1162494137593,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -12.762465514408774,
+  "mean_north_ground_m": 5.087118967914364,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Gaspereau northwestern fingered island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1184,
+        1778
+      ],
+      "lonlat": [
+        -64.5974963453514,
+        44.958022027717014
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 310769,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 310769,
+      "nearest_unfiltered_distance_guide_px": 0.7255224748132599,
+      "selected_distance_guide_px": 0.7255224748132599,
+      "guide_reference_pixel_xy": [
+        1155.5407914555399,
+        1798.4836604832672
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.59766330989403,
+        44.9595752783419
+      ],
+      "error_ground_m": 173.1162494137593,
+      "east_ground_m": -13.173879496848276,
+      "north_ground_m": 172.6142656621678
+    },
+    {
+      "id": "Q02",
+      "label": "Gaspereau central star island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1393,
+        1760
+      ],
+      "lonlat": [
+        -64.58503286055743,
+        44.96348619266113
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 153249,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 153249,
+      "nearest_unfiltered_distance_guide_px": 0.5750368921002447,
+      "selected_distance_guide_px": 0.5750368921002447,
+      "guide_reference_pixel_xy": [
+        1370.4250825506751,
+        1769.6127374890493
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.58503581023896,
+        44.96431054272584
+      ],
+      "error_ground_m": 91.61120190970993,
+      "east_ground_m": -0.23271739064442595,
+      "north_ground_m": 91.61090632647257
+    },
+    {
+      "id": "Q03",
+      "label": "Gaspereau eastern heart island northeast horn",
+      "role": "check",
+      "pixel_xy": [
+        1938,
+        2077
+      ],
+      "lonlat": [
+        -64.54218590469806,
+        44.96124183899819
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 153462,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 153462,
+      "nearest_unfiltered_distance_guide_px": 0.5813149356771741,
+      "selected_distance_guide_px": 0.5813149356771741,
+      "guide_reference_pixel_xy": [
+        1934.4630329781794,
+        2070.7773040819447
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.54244833354741,
+        44.96092067105728
+      ],
+      "error_ground_m": 41.262868905527284,
+      "east_ground_m": -20.705744996706798,
+      "north_ground_m": -35.69168634914974
+    },
+    {
+      "id": "Q04",
+      "label": "River Lake large island southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        3086,
+        2442
+      ],
+      "lonlat": [
+        -64.46013289319107,
+        44.966840506606154
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 154496,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 154496,
+      "nearest_unfiltered_distance_guide_px": 0.9649726490278202,
+      "selected_distance_guide_px": 0.9649726490278202,
+      "guide_reference_pixel_xy": [
+        3097.0357918738737,
+        2458.0384044643724
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.46076128508386,
+        44.96682051239734
+      ],
+      "error_ground_m": 49.625060570139524,
+      "east_ground_m": -49.57529928953316,
+      "north_ground_m": -2.221786880695149
+    },
+    {
+      "id": "Q05",
+      "label": "Morton Flowage northern large island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3390,
+        3378
+      ],
+      "lonlat": [
+        -64.4166634073766,
+        44.932763727209824
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 147817,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 147817,
+      "nearest_unfiltered_distance_guide_px": 1.2816584268449394,
+      "selected_distance_guide_px": 1.2816584268449394,
+      "guide_reference_pixel_xy": [
+        3406.7189651511144,
+        3369.0399754805258
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.41695459384215,
+        44.93206767567354
+      ],
+      "error_ground_m": 80.69556500510683,
+      "east_ground_m": -22.986244885508516,
+      "north_ground_m": -77.35248384865774
+    },
+    {
+      "id": "Q07",
+      "label": "Moore Brook junction with Mill Brook east of North Alton",
+      "role": "check",
+      "pixel_xy": [
+        3091,
+        469
+      ],
+      "lonlat": [
+        -64.51309086602073,
+        45.05329217325981
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 272389,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 272389,
+      "nearest_unfiltered_distance_guide_px": 3.6261050316282235,
+      "selected_distance_guide_px": 3.6261050316282235,
+      "guide_reference_pixel_xy": [
+        3093.5520600440213,
+        491.7290453648893
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native crosshair inspected; no fitting use.",
+      "predicted_lonlat": [
+        -64.51270877745249,
+        45.052226452220445
+      ],
+      "error_ground_m": 122.20131010436407,
+      "east_ground_m": 30.09909297278852,
+      "north_ground_m": -118.43650110265156
+    }
+  ],
+  "fit_sha256": "29b7eba5ae00b868303ab60d2d5308720837de444676a83040a06ef90862bb1c",
+  "checks_sha256": "0a8eee71c28a9b5000a727550a4a72494c2655745e29df93386057ad0ec683be",
+  "status": "Reserved before first fit and score"
+}

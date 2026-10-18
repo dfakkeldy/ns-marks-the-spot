@@ -1,0 +1,15 @@
+{
+  "sample_step_projected_m": 10,
+  "sample_count": 4469,
+  "transparent_count": 0,
+  "missing_lonlat": [],
+  "latitude_limits": [
+    45.9101,
+    46.0799
+  ],
+  "note": "Raster coverage along the extracted Route19 centreline, not an independent accuracy test or a length-weighted percentage.",
+  "reference_line_raster_cells": 10524,
+  "transparent_reference_line_cells": 0,
+  "old_road_trace_samples": 303,
+  "old_road_transparent_count": 0
+}

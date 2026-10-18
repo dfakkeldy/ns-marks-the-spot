@@ -1,0 +1,177 @@
+{
+  "sheet": "077",
+  "version": "similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.705632272310258,
+      1.6972577313625428
+    ],
+    [
+      1.6972577313625428,
+      -4.705632272310258
+    ],
+    [
+      449983.3467755562,
+      5084578.705556335
+    ]
+  ],
+  "source_sha256": "5e2c7594f20bc54211b925c513d6d26e35cfd1d6edf2ee8e45d26fd15e316fb1",
+  "source_dimensions": [
+    6044,
+    4133
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Smith Point eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        2965,
+        2312
+      ],
+      "lonlat": [
+        -63.41436422931116,
+        45.86086320403733
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 10584,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 10584,
+      "nearest_unfiltered_distance_guide_px": 1.5227974706566376,
+      "selected_distance_guide_px": 1.5227974706566376,
+      "guide_reference_pixel_xy": [
+        2968.5031677358784,
+        2364.7562811159296
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C03",
+      "label": "Fox Harbour island northwest tip",
+      "role": "control",
+      "pixel_xy": [
+        2625,
+        2545
+      ],
+      "lonlat": [
+        -63.42953894126166,
+        45.846564646284214
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 18415,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18415,
+      "nearest_unfiltered_distance_guide_px": 1.529500710347414,
+      "selected_distance_guide_px": 1.529500710347414,
+      "guide_reference_pixel_xy": [
+        2621.1910591132473,
+        2563.517520622001
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C04",
+      "label": "Oak Island eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        3290,
+        2867
+      ],
+      "lonlat": [
+        -63.381462727211925,
+        45.843252044966164
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 20951,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20951,
+      "nearest_unfiltered_distance_guide_px": 1.7905450539082957,
+      "selected_distance_guide_px": 1.7905450539082957,
+      "guide_reference_pixel_xy": [
+        3282.63528806885,
+        2921.270695864572
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C05",
+      "label": "Docherty Point northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2536,
+        2703
+      ],
+      "lonlat": [
+        -63.43103904315376,
+        45.83822300439515
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 5289,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 5289,
+      "nearest_unfiltered_distance_guide_px": 1.9147318897283334,
+      "selected_distance_guide_px": 1.9147318897283334,
+      "guide_reference_pixel_xy": [
+        2524.259050828754,
+        2723.897127006203
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C06",
+      "label": "Horton Point northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2617,
+        3211
+      ],
+      "lonlat": [
+        -63.41565011282745,
+        45.817975956251445
+      ],
+      "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+      "reference_objectid": 13079,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 13079,
+      "nearest_unfiltered_distance_guide_px": 1.036692261839682,
+      "selected_distance_guide_px": 1.036692261839682,
+      "guide_reference_pixel_xy": [
+        2562.7185126369586,
+        3228.252691204194
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole shoreline/island context and original paired crosshairs inspected before any fit or score.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    64.62865984333149,
+    32.32829091557651,
+    57.38909846851133,
+    22.00320473749219,
+    38.11227381991733
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: constrained similarity limits free parameters and avoids unsupported affine shear; see component role plan for control distribution and model rationale"
+}

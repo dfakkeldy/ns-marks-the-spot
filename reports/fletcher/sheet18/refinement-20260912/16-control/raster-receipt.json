@@ -1,0 +1,111 @@
+{
+  "fit_sha256": "45c77c70218c6035e532c5a85dd8bc8f0753ecae8699dcbf07be828c77f8cd93",
+  "boundary_sha256": "d7dbaf254a8deacd4ff05d011d5adfd2f6450afc077ffd1667a8d14978b26224",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Seven reused checks, including F03 same repaired pond; not fresh validation. F04 promoted unchanged with prior 943.992830 m failure retained.",
+  "checks_sha256": "5b8b78efe922a492f851cbeaf63698dff05ccd5614b44e18ff8dba2e17cffe80",
+  "median_ground_m": 87.10728253621967,
+  "worst_ground_m": 163.73279204648807,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 109.74580748778705,
+      "predicted_lonlat": [
+        -61.07919634000108,
+        45.764816558686555
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 66.17156553970625,
+      "predicted_lonlat": [
+        -61.042368382082714,
+        45.84446288745222
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 79.99885466612267,
+      "predicted_lonlat": [
+        -61.167550601234595,
+        45.767850141966555
+      ]
+    },
+    {
+      "id": "V05",
+      "error_ground_m": 56.65859172849372,
+      "predicted_lonlat": [
+        -61.03921000730337,
+        45.844562646810544
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 163.73279204648807,
+      "predicted_lonlat": [
+        -60.964249035544206,
+        45.91496666400543
+      ]
+    },
+    {
+      "id": "V04",
+      "error_ground_m": 87.10728253621967,
+      "predicted_lonlat": [
+        -60.93761514249508,
+        45.83590722982812
+      ]
+    },
+    {
+      "id": "F03",
+      "error_ground_m": 142.8820495365269,
+      "predicted_lonlat": [
+        -61.16287930173569,
+        45.90089516736333
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71821,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -46.068860719410544,
+      -19.43451682431648
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+    "sha256": "13f2d9132a3470cab06e97dd011b23d888422c54352151971fb62abae4bcbb72",
+    "size": [
+      8549,
+      5783
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2277325,
+            45.9276647
+          ],
+          [
+            -61.2277325,
+            45.7466986
+          ],
+          [
+            -60.8437476,
+            45.7466986
+          ],
+          [
+            -60.8437476,
+            45.9276647
+          ],
+          [
+            -61.2277325,
+            45.9276647
+          ]
+        ]
+      ]
+    }
+  }
+}

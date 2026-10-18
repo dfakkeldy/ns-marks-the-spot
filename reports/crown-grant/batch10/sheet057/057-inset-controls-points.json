@@ -1,0 +1,80 @@
+[
+  {
+    "id": "IC01",
+    "label": "Inset Peggy Point western head",
+    "role": "proposal",
+    "pixel_xy": [
+      262,
+      2904
+    ],
+    "lonlat": [
+      -63.919466264385505,
+      44.491324217638336
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 9907,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9907,
+    "nearest_unfiltered_distance_guide_px": 1.4415155849805208,
+    "selected_distance_guide_px": 1.4415155849805208,
+    "guide_reference_pixel_xy": [
+      260.44053272443125,
+      2935.053222660441
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Inset Dover peninsula southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      878,
+      3252
+    ],
+    "lonlat": [
+      -63.872644393370386,
+      44.487701568805605
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 2203,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2203,
+    "nearest_unfiltered_distance_guide_px": 4.683881313727941,
+    "selected_distance_guide_px": 4.683881313727941,
+    "guide_reference_pixel_xy": [
+      866.4791605115752,
+      3275.5558095965534
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC03",
+    "label": "Inset Taylor Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      804,
+      3319
+    ],
+    "lonlat": [
+      -63.87419377103617,
+      44.48290072231913
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 16827,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16827,
+    "nearest_unfiltered_distance_guide_px": 8.909997363512643,
+    "selected_distance_guide_px": 8.909997363512643,
+    "guide_reference_pixel_xy": [
+      805.8615028092172,
+      3357.8065734060947
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

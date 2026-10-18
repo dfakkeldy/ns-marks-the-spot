@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Goat Island southwestern lobe south",
+    [
+      1514,
+      650
+    ],
+    [
+      1527,
+      596
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q02",
+    "Skull Lake western tip",
+    [
+      2108,
+      1803
+    ],
+    [
+      2119,
+      1779
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Beeler Lake eastern outlet corner",
+    [
+      2474,
+      2110
+    ],
+    [
+      2480,
+      2067
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Baillie Lake south-central prong",
+    [
+      2420,
+      3363
+    ],
+    [
+      2395,
+      3346
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Lake La Rose southern tip",
+    [
+      3939,
+      1522
+    ],
+    [
+      3934,
+      1488
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Unnamed northeastern northern lake southwestern tip",
+    [
+      5115,
+      1460
+    ],
+    [
+      5109,
+      1432
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Keeman Lake western tip",
+    [
+      4168,
+      3299
+    ],
+    [
+      4163,
+      3284
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Unnamed northeastern southern lake southeastern tip",
+    [
+      5186,
+      1663
+    ],
+    [
+      5194,
+      1631
+    ],
+    "WALK20"
+  ]
+]

@@ -19,8 +19,9 @@ struct MeasurePanelView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(session.mode == .distance ? "Distance" : "Area")
+                Text(session.mode == .distance ? "Total distance" : "Area")
                     .font(.headline)
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 Button("Done") { onClose() }
                     .accessibilityIdentifier("measure-done")
@@ -39,27 +40,34 @@ struct MeasurePanelView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
+            // The floor is on each button, not on the row. A bordered button
+            // sizes its capsule around its label — about thirty-four points at
+            // the default text size — and a row given a minimum simply centres
+            // those capsules inside it, so the thing a finger has to land on
+            // stayed thirty-four points however tall the row was.
             HStack(spacing: 8) {
-                Button("Undo") { onUndo() }
+                Button("Undo point") { onUndo() }
                     .buttonStyle(.bordered)
+                    .frame(minHeight: 44)
                     .disabled(session.isEmpty)
+                    .accessibilityIdentifier("measure-undo")
 
                 Button("Finish") { onFinish() }
                     .buttonStyle(.bordered)
+                    .frame(minHeight: 44)
                     .disabled(!session.canFinish || session.isFinished)
+                    .accessibilityIdentifier("measure-finish")
 
                 Spacer()
 
                 Button("Clear") { onClear() }
                     .buttonStyle(.bordered)
                     .tint(.red)
+                    .frame(minHeight: 44)
                     .disabled(session.isEmpty)
             }
-            .frame(minHeight: 44)
         }
         .padding(14)
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 3)
+        .mapChromeSurface()
     }
 }

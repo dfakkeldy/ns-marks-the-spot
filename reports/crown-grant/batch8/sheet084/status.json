@@ -1,0 +1,46 @@
+{
+  "sheet": "084",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/084.pdf",
+    "pdf_sha256": "4fdc12d80e65ebea7c0e71fba1259eff22d8348b1198702d515bdd3e91d7338d",
+    "jpeg_sha256": "5ccd933c6dbb5e8ba2755e40e1d96be856ae91ed5cce66f290bb4413a03f2c61",
+    "dimensions": [
+      6018,
+      4162
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 51.01750131888178,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Nine excluded checks give RMS 51.02 m, median 48.72 m, P95 73.76 m and maximum 77.27 m; all numerical bounds pass with geographic coverage qualifications.",
+    "Eight checks share islands with controls; Bald Rock adds one separate island. Strong local correlation limits interpretation as independent regional sampling.",
+    "Mainland northern interior and harbour heads lack accepted independent checks. Ocean coverage is preserved without implying independently measured accuracy at every location.",
+    "Egg main body outer north/south shores are sampled; internal fragmentation remains unvalidated. Mussell follows modern WACO20 connected coast, with its western connection unvalidated.",
+    "Generalized coastal observations use 18 px working source uncertainty. Erosion, tidal shore and small offshore rocks can change."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 51.02 m, median 48.72 m, P95 73.76 m, maximum 77.27 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Lake Charlotte, Clam Harbour, Ship Harbour, Owls Head, Murphy Cove, Pleasant Harbour, Tangier, Popes Harbour and Spry Bay, all mainland parcels and every mapped island and offshore rock including western Long, Cable, Egg, Bald Rock, Friar, Charles, Tangier and Stoney. The entire original ocean frame remains. No displaced inset identified."
+  }
+}

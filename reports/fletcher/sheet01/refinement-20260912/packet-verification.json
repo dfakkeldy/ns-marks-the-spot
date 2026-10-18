@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "unchanged_prior_controls": 8,
+  "verified_native_frames": 10,
+  "viewed_figures": 24,
+  "coverage_and_sampled_orientation": "pass",
+  "web_csv_and_solver": "pass",
+  "actual_browser_import_desktop_mobile_reload": "pass",
+  "fresh_check_scope": "One new coastal mouth near repair C11; no independent inland validation. Diagnostic and validation CSVs deliberately replay the same single check.",
+  "whole_sheet_geographically_accepted": false
+}

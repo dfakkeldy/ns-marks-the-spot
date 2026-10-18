@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Sandy Lake west tip",
+    [
+      370,
+      732
+    ],
+    [
+      332,
+      716
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "McPherson Lake east tip",
+    [
+      1132,
+      818
+    ],
+    [
+      1107,
+      782
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Central McDonald Lake south tip",
+    [
+      1086,
+      1461
+    ],
+    [
+      1067,
+      1425
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Small satellite lake southwest of Sand Lake west tip",
+    [
+      2990,
+      1132
+    ],
+    [
+      2940,
+      1104
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Northern Head east tip",
+    [
+      5013,
+      741
+    ],
+    [
+      4993,
+      695
+    ],
+    "WACO"
+  ],
+  [
+    "Q06",
+    "Flint larger island east tip",
+    [
+      5661,
+      936
+    ],
+    [
+      5638,
+      884
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q09",
+    "MacRae Point northern extension shoulder",
+    [
+      4220,
+      144
+    ],
+    [
+      4174,
+      102
+    ],
+    "WACO"
+  ]
+]

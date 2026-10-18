@@ -66,6 +66,27 @@ class ClassifyCIChangesTests(unittest.TestCase):
         self.assertFalse(result.web)
         self.assertTrue(result.native)
 
+    def test_map_research_uses_the_always_run_pipeline_checks(self) -> None:
+        for path in (
+            "reports/church/victoria-main-review/status.json",
+            "reports/fletcher/full-sheets/inputs.json",
+            "tools/church/physical_gcps/victoria-main.csv",
+            "tools/fletcher/observations/sheet-24.json",
+        ):
+            with self.subTest(path=path):
+                self.assertEqual(MODULE.classify_paths([path]), (False, False))
+
+    def test_emitted_fletcher_gcps_still_exercise_both_product_parsers(self) -> None:
+        self.assertEqual(
+            MODULE.classify_paths(["tools/fletcher/gcps/sheet-24.csv"]),
+            (True, True),
+        )
+
+    def test_research_does_not_hide_a_product_change(self) -> None:
+        self.assertEqual(MODULE.classify_paths([
+            "reports/church/review.json", "web/src/App.tsx",
+        ]), (True, False))
+
     def test_empty_diff_fails_safe_to_both_suites(self) -> None:
         result = MODULE.classify_paths([])
 

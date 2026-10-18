@@ -1,0 +1,58 @@
+{
+  "sheet": "sheet-07",
+  "fit_sha256": "b36039ccc4f179f600c3136a3126b93efc4abd9a8917e3c4c9fa0426fcdd153a",
+  "points": [
+    {
+      "lonlat": [
+        -60.4066568,
+        46.5748864
+      ],
+      "source_guide_xy": [
+        2674.5134159994777,
+        2420.963404800277
+      ],
+      "objectids": [
+        191578,
+        267255,
+        267256
+      ],
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        2605,
+        2281
+      ],
+      "modern_node_id": "J0299",
+      "identity_evidence": "Morrison Brook northern tributary well upstream of fitted mouth and former V02",
+      "source_uncertainty_px": 20,
+      "status": "Fresh corrected check pending final crosshair inspection.",
+      "review_note": "Corrected from nearby native branch/shore to exact physical junction or mouth before any fresh score; modern coordinates unchanged."
+    },
+    {
+      "lonlat": [
+        -60.434821,
+        46.4965663
+      ],
+      "source_guide_xy": [
+        2065.321769999806,
+        4877.708301600069
+      ],
+      "objectids": [
+        11342,
+        11369,
+        269287
+      ],
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        2146,
+        4815
+      ],
+      "modern_node_id": "J0496",
+      "identity_evidence": "Distinct brook coastal mouth north of the historical North Shore/French River mouth",
+      "source_uncertainty_px": 20,
+      "status": "Fresh corrected check pending final crosshair inspection.",
+      "review_note": "Corrected from nearby native branch/shore to exact physical junction or mouth before any fresh score; modern coordinates unchanged."
+    }
+  ]
+}

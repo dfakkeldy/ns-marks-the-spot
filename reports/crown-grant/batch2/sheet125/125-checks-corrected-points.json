@@ -1,0 +1,200 @@
+[
+  {
+    "id": "Q01",
+    "label": "Loch Lomond northern island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2250,
+      1287
+    ],
+    "lonlat": [
+      -60.59446516681908,
+      45.75867701767867
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 154092,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      2294.7450503192376,
+      1284.4214290287346
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Loch Lomond southern island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2220,
+      1420
+    ],
+    "lonlat": [
+      -60.59246183903024,
+      45.75212840196947
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 154091,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      2274.06238490087,
+      1423.4551870407304
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Lake Uist central island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2677,
+      1010
+    ],
+    "lonlat": [
+      -60.574230018557955,
+      45.778254314522826
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 153876,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      2717.261430341867,
+      1003.9362410590984
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "McLeod Lake south of Island Lake southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4333,
+      1588
+    ],
+    "lonlat": [
+      -60.45349945608286,
+      45.77939417378133
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 136861,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4386.581188528624,
+      1602.2141645303927
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Duck Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4726,
+      1364
+    ],
+    "lonlat": [
+      -60.43625269911446,
+      45.79567338365467
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 127933,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4743.234112901264,
+      1370.4784105524886
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Colins Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1062,
+      2390
+    ],
+    "lonlat": [
+      -60.64281542201587,
+      45.68928467859614
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 132798,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1117.6177182010724,
+      2398.3289991287747
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Lake west of Barren Hill southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1423,
+      2767
+    ],
+    "lonlat": [
+      -60.61078581845971,
+      45.678237398630564
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 137125,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1477.2707523718127,
+      2780.989589450415
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Island Lake island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4344,
+      1328
+    ],
+    "lonlat": [
+      -60.46082503277836,
+      45.79143762154331
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 146216,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      4374.1041387776495,
+      1327.767893531709
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Cranberry Lake northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4473,
+      818
+    ],
+    "lonlat": [
+      -60.4661187436275,
+      45.81542918387825
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 128831,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4477.265621204802,
+      828.7771781171905
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

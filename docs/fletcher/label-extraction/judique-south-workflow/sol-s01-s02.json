@@ -1,0 +1,95 @@
+{
+  "model_requested": "gpt-5.6-sol",
+  "crops": [
+    {
+      "crop_id": "S01",
+      "width": 1100,
+      "height": 1250,
+      "annotations": [
+        {
+          "local_id": "S01-01",
+          "source_text": "J C",
+          "kind": "personal_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[1047, 976, 53, 36]],
+          "note": "Only the beginning of an italic personal-name label is visible at the right crop edge; transcribed without expanding it."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "The crop is predominantly blank water. Dip/strike numbers and arrows, graticule lines, and an unlabelled circled symbol were excluded."
+    },
+    {
+      "crop_id": "S02",
+      "width": 1100,
+      "height": 1250,
+      "annotations": [
+        {
+          "local_id": "S02-01",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[231, 356, 74, 30]],
+          "note": ""
+        },
+        {
+          "local_id": "S02-02",
+          "source_text": "Mill",
+          "kind": "mill",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[1000, 691, 55, 27]],
+          "note": ""
+        },
+        {
+          "local_id": "S02-03",
+          "source_text": "Mills",
+          "kind": "mill",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[424, 891, 73, 29]],
+          "note": "Plural facility label printed beside the watercourse."
+        },
+        {
+          "local_id": "S02-04",
+          "source_text": "Mills",
+          "kind": "mill",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[643, 891, 73, 29]],
+          "note": "A separate plural facility label at the eastern mill cluster."
+        },
+        {
+          "local_id": "S02-05",
+          "source_text": "J Chisholm",
+          "kind": "personal_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[54, 971, 147, 31]],
+          "note": ""
+        },
+        {
+          "local_id": "S02-06",
+          "source_text": "P.O.",
+          "kind": "post_office",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[372, 1047, 57, 21]],
+          "note": ""
+        },
+        {
+          "local_id": "S02-07",
+          "source_text": "Chisholm Brook",
+          "kind": "stream",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[827, 990, 166, 119], [953, 1073, 147, 137]],
+          "note": "Curved label split into two overlapping boxes to follow the lettering; the final letter meets the right crop edge."
+        },
+        {
+          "local_id": "S02-08",
+          "source_text": "Long Point",
+          "kind": "geographic_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[194, 1200, 337, 50]],
+          "note": "The label is readable, but the bottoms of the large letters are clipped by the lower crop edge."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "Vertical and cross-hatched geological overlays reduce contrast but the listed black labels remain readable. Red report/page references, geological unit text, dip/strike numbers and arrows, graticule, and unlabelled symbols were excluded."
+    }
+  ]
+}

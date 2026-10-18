@@ -1,0 +1,44 @@
+{
+  "sheet": "128",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; private browser overlay verified; geographic limitations retained",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/128.pdf",
+    "pdf_sha256": "fb0017ff678d253ce326c36f6c6a42616f1d2993a6636420126175767bc03db7",
+    "jpeg_sha256": "8a21de0f893a4646b03e651cb93d7acca3c92c3f77337b1029a519bb6c114cf6",
+    "dimensions": [
+      6097,
+      4184
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 81.92281797944271,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight independent lake checks give RMS 81.92 m; median 81.24 m, P95 115.00 m and maximum 117.36 m exceed companion bounds",
+    "Western river valleys and central Cheticamp Lake area lack independent validation; placement there is extrapolated from surrounding physical lakes",
+    "Endpoints on the same lakes and neighbouring lake groups are spatially correlated; no survey-level confidence is claimed"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 81.92 m, median 81.24 m, P95 115.00 m, maximum 117.36 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped rectangle retains western river valleys, Cheticamp Lake and National Park boundary, northern plateau lakes, Dundas/Roper lakes and the southern Ingonish headwaters. The park outline is not a displaced inset."
+  }
+}

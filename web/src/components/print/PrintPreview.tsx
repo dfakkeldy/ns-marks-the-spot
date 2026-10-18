@@ -1,3 +1,5 @@
+import { LicensingLockDialog } from "../LicensingLockDialog";
+import { printReproductionLockReason } from "../../licensing/printUse";
 import { useCallback, useEffect, useInsertionEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { MapPosition, ShareLayerId } from "../../services/mapShareState";
 import { buildPrintQr, type PrintQrResult } from "../../services/printQr";
@@ -8,6 +10,7 @@ import {
   printedLayerIds,
   printScaleForPosition,
   sealPrintSnapshot,
+  unansweredEvidenceNames,
   type PrintCapture,
   type PrintSnapshot,
   type PrintTemplate,
@@ -43,7 +46,7 @@ function loadingMapReadiness(): Extract<
   };
 }
 
-export function PrintPreview({
+function PermittedPrintPreview({
   capture,
   baseUrl,
   onClose,
@@ -82,24 +85,34 @@ export function PrintPreview({
   const snapshot = sealedSnapshots.captureToken === capture.token
     ? sealedSnapshots.byTemplate[template] ?? null
     : null;
+  // The capture behind the seal, read at the moment of sealing rather than
+  // captured in the callback. Every evidence answer produces a new `capture`,
+  // and a `sealSnapshot` that changed with it restarted the timeout below —
+  // so a page with several slow sources sealed long after the fifteen seconds
+  // it promises, or never, while each answer pushed the deadline out again.
+  const captureRef = useRef(capture);
+  useEffect(() => {
+    captureRef.current = capture;
+  }, [capture]);
   const sealSnapshot = useCallback((templateToSeal: PrintTemplate, didTimeOut: boolean) => {
+    const sealing = captureRef.current;
     setSealedSnapshots((current) => {
-      const byTemplate = current.captureToken === capture.token
+      const byTemplate = current.captureToken === sealing.token
         ? current.byTemplate
         : {};
       if (byTemplate[templateToSeal]) return current;
       return {
-        captureToken: capture.token,
+        captureToken: sealing.token,
         byTemplate: {
           ...byTemplate,
-          [templateToSeal]: sealPrintSnapshot(capture, templateToSeal, {
+          [templateToSeal]: sealPrintSnapshot(sealing, templateToSeal, {
             timedOut: didTimeOut,
             generatedAt: new Date().toISOString(),
           }),
         },
       };
     });
-  }, [capture]);
+  }, []);
   const bounds = useMemo(
     () => snapshot ? printBoundsForTemplate(snapshot, snapshot.template) : null,
     [snapshot],
@@ -159,16 +172,34 @@ export function PrintPreview({
     return () => window.clearTimeout(timer);
   }, [captureReadiness.ready, sealSnapshot, snapshot, template]);
 
+  // One deadline per capture, held as an absolute moment. The wait belongs to
+  // the capture, not to the template on screen: an effect that tore its timer
+  // down when the reader looked at the field sheet started a fresh fifteen
+  // seconds on the way back, and switching often enough postponed the seal
+  // for as long as the reader kept switching.
+  const evidenceDeadlineRef = useRef<{ token: string; at: number } | null>(null);
+  const [evidenceDeadline, setEvidenceDeadline] = useState(
+    () => Date.now() + EVIDENCE_TIMEOUT_MS,
+  );
+  useEffect(() => {
+    // A new capture token is a new wait; the same token keeps the deadline it
+    // started with, whatever else changed.
+    if (evidenceDeadlineRef.current?.token === capture.token) return;
+    const at = Date.now() + EVIDENCE_TIMEOUT_MS;
+    evidenceDeadlineRef.current = { token: capture.token, at };
+    setEvidenceDeadline(at);
+  }, [capture.token]);
+
   useEffect(() => {
     if (template !== "research" || captureReadiness.ready) return;
     const timer = window.setTimeout(
       () => {
         sealSnapshot("research", true);
       },
-      EVIDENCE_TIMEOUT_MS,
+      Math.max(0, evidenceDeadline - Date.now()),
     );
     return () => window.clearTimeout(timer);
-  }, [captureReadiness.ready, sealSnapshot, template]);
+  }, [captureReadiness.ready, evidenceDeadline, sealSnapshot, template]);
 
   useEffect(() => {
     if (!attemptToken || !snapshot) return;
@@ -332,6 +363,7 @@ export function PrintPreview({
             id,
         )
       : [];
+  const unansweredNames = snapshot ? unansweredEvidenceNames(snapshot) : [];
   const appendixAvailable = template === "research";
   const aerialAvailable = capture.layerIds.includes("ns-aerial");
 
@@ -410,6 +442,12 @@ export function PrintPreview({
             <p>Aerial imagery was not captured in this map state.</p>
           ) : null}
           {!snapshot ? <p role="status">Waiting for research evidence to settle.</p> : null}
+          {unansweredNames.length > 0 ? (
+            <p role="status">
+              Sealed while {unansweredNames.join(", ")} had not answered. The
+              document says so on its front page.
+            </p>
+          ) : null}
           {mapReadiness.status === "loading" && snapshot ? <p role="status">Preparing map preview.</p> : null}
           {mapReadiness.status === "error" ? (
             <div className="print-map-error" role="alert">
@@ -456,4 +494,10 @@ export function PrintPreview({
       </div>
     </div>
   );
+}
+
+export function PrintPreview(props: { capture: PrintCapture; baseUrl: string; onClose: () => void }) {
+  const reason = printReproductionLockReason(props.capture);
+  if (reason) return <LicensingLockDialog reason={reason} onClose={props.onClose} label="Print / export" />;
+  return <PermittedPrintPreview {...props} />;
 }

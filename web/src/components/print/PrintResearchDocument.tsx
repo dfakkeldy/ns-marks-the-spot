@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import type { PrintQrResult } from "../../services/printQr";
 import {
+  printEvidenceMessage,
+  printEvidenceReceiptStatus,
+  unansweredEvidenceNames,
   type PrintLayerSource,
   type PrintScale,
   type PrintSnapshot,
@@ -11,6 +14,9 @@ import {
   requiredSelectedGeometryAttribution,
   type PrintEvidenceAttribution,
 } from "../../services/printEvidenceAttribution";
+import { resourceLayerCatalog } from "../../layers/layerCatalog";
+import { contextLayerCatalog, type ContextLayerId } from "../../layers/contextLayerCatalog";
+import { contextPrintColor } from "../../services/contextFeatures";
 import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
 import { PrintEvidenceAppendix } from "./PrintEvidenceAppendix";
 
@@ -100,6 +106,7 @@ export function PrintHeader({ snapshot, title, kind }: {
 }
 
 const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
+  ...Object.fromEntries(contextLayerCatalog.map(({ id }) => [id, "source-classes"])) as Record<ContextLayerId, string>,
   modern: "basemap-grid",
   fletcher: "historical-raster",
   "ns-aerial": "aerial-tone",
@@ -133,6 +140,10 @@ const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
   "zoning-richmond": "zoning-richmond-fill",
   "zoning-cumberland": "zoning-cumberland-fill",
   "zoning-halifax": "zoning-halifax-fill",
+  // Live overlays are excluded from print capture (App's captureLayerIds), so
+  // these two exist only to keep this record total over ShareLayerId.
+  "highway-cameras": "camera-point",
+  "weather-radar": "radar-wash",
 };
 
 export function ActiveLayerLegend({
@@ -199,6 +210,7 @@ export function ActiveLayerLegend({
               </span>
               <span>
                 <strong>{source.name}</strong>
+                <ContextPrintLegend layerId={source.id} />
                 {showSourceDates ? <span>{source.sourceDate}</span> : null}
               </span>
             </li>
@@ -206,6 +218,25 @@ export function ActiveLayerLegend({
         </ul>
       )}
     </section>
+  );
+}
+
+function ContextPrintLegend({ layerId }: { layerId: ShareLayerId }) {
+  const layer = contextLayerCatalog.find(({ id }) => id === layerId);
+  if (!layer || (!layer.printLegend && layer.delivery !== "feature-query" && layer.delivery !== "static-image" && layer.delivery !== "rhodena")) return null;
+  return (
+    <span className="print-context-classes" aria-label={`${layer.name} classes`}>
+      {layer.legend.map(({ label, color }, index) => (
+        <span key={`${index}:${label}`} style={{ display: "block" }}>
+          {color ? <span aria-hidden="true" style={{
+            display: "inline-block", width: 10, height: 10, marginRight: 4,
+            border: "1px solid #555", printColorAdjust: "exact",
+            backgroundColor: layer.delivery === "feature-query" ? contextPrintColor(color) : color,
+          }} /> : null}
+          {label}
+        </span>
+      ))}
+    </span>
   );
 }
 
@@ -331,8 +362,8 @@ export function FieldRequiredAttribution({
 function stateText(
   state: PrintSnapshot["evidence"]["buildings"],
 ): string {
-  if (state.status === "pending" || state.status === "error") {
-    return "Source unavailable at export time.";
+  if (state.status !== "ready") {
+    return printEvidenceMessage(state);
   }
   if (state.value.count === 0) {
     return "No mapped building feature returned.";
@@ -362,16 +393,144 @@ export function ResearchFactGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   );
 }
 
+const UNANSWERED_LIST = new Intl.ListFormat("en-CA", {
+  style: "long",
+  type: "conjunction",
+});
+
+/**
+ * The sources that were still out when the page was made, named on the front.
+ *
+ * The appendix says it source by source, and a reader who acts on a research
+ * summary may never turn that page. The answer that never arrived may be the
+ * one they came for.
+ */
+export function UnansweredEvidenceNotice({
+  snapshot,
+  includeAppendix,
+}: {
+  snapshot: PrintSnapshot;
+  includeAppendix: boolean;
+}) {
+  const names = unansweredEvidenceNames(snapshot);
+  if (names.length === 0) return null;
+  return (
+    <p className="print-unanswered-evidence">
+      This page was made while {UNANSWERED_LIST.format(names)} had not
+      answered.{" "}
+      {includeAppendix
+        ? "The appendix names each of them as unanswered, which is not a finding about this parcel."
+        : "That is not a finding about this parcel, and this page carries no appendix naming them."}
+    </p>
+  );
+}
+
+/**
+ * The receipt for a source that answered, but not for everything it was asked.
+ *
+ * The coastal and resource lookups resolve ready with per-query states inside
+ * them, so a slot can be "captured" while one of its sources was down. A
+ * receipt that says captured over a failed query is the same collapse the
+ * appendix was fixed for, one level up. (The river slot holds one source and
+ * is read directly.)
+ */
+function nestedReceipt(
+  ready: boolean,
+  failed: readonly string[],
+  captured: number,
+  whenUnsettled: string,
+  silent: readonly string[] = [],
+): string {
+  if (!ready) return whenUnsettled;
+  if (silent.length === 0) {
+    if (failed.length === 0) return "captured";
+    // "Partially" has to mean part of it arrived. With every named source
+    // down, nothing was captured, and the receipt says so.
+    return captured === 0
+      ? `unavailable; ${failed.join(", ")} all failed`
+      : `partially captured; ${failed.join(", ")} unavailable`;
+  }
+  // A source that failed and a source that never answered are two different
+  // receipts, and which one happened is what decides whether asking again is
+  // worth anything, so each gets its own clause. "Unavailable" over a source
+  // that simply went quiet reports a refusal that never happened.
+  const clauses = [
+    ...(failed.length > 0 ? [`${failed.join(", ")} unavailable`] : []),
+    `${silent.join(", ")} did not answer`,
+  ];
+  return captured === 0
+    ? `nothing captured; ${clauses.join("; ")}`
+    : `partially captured; ${clauses.join("; ")}`;
+}
+
+/**
+ * The civic receipt, which has to carry the rows that could not be read.
+ *
+ * The appendix says it, and a document printed without the appendix would
+ * otherwise carry no sign at all that the list is a floor.
+ */
+function civicReceipt(state: PrintSnapshot["evidence"]["civicAddresses"]): string {
+  if (state.status !== "ready") return printEvidenceReceiptStatus(state);
+  const { unreadableRows } = state.value;
+  if (unreadableRows === 0) return "captured";
+  return `partially captured; ${unreadableRows} returned row${
+    unreadableRows === 1 ? "" : "s"
+  } unreadable`;
+}
+
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   const assessment = snapshot.evidence.assessments;
   const dwellings = snapshot.evidence.dwellings;
+  const river = snapshot.evidence.riverFlood;
+  const coastal = snapshot.evidence.coastalFlood;
+  const resources = snapshot.evidence.resources;
+  // One source, so no roll-up: a ready slot holding an error is unavailable,
+  // and printEvidenceReceiptStatus on its own would call it captured.
+  const riverReceipt =
+    river.status === "ready" && river.value.status === "error"
+      ? "unavailable"
+      : printEvidenceReceiptStatus(river);
+  // A scenario that never answered was not captured, and it did not fail
+  // either. Counted as captured it would put "captured" on the front page over
+  // a service that said nothing at all.
+  const coastalCaptured =
+    coastal.status === "ready"
+      ? coastal.value.filter(
+          ({ status }) => status !== "error" && status !== "unanswered",
+        ).length
+      : 0;
+  const resourceCaptured =
+    resources.status === "ready"
+      ? resourceLayerCatalog.filter(
+          ({ id }) => resources.value[id]?.status !== "error",
+        ).length
+      : 0;
+  const coastalFailures =
+    coastal.status === "ready"
+      ? coastal.value
+          .filter(({ status }) => status === "error")
+          .map(({ scenario }) => `Coastal ${scenario}`)
+      : [];
+  const coastalSilent =
+    coastal.status === "ready"
+      ? coastal.value
+          .filter(({ status }) => status === "unanswered")
+          .map(({ scenario }) => `Coastal ${scenario}`)
+      : [];
+  const resourceFailures =
+    resources.status === "ready"
+      ? resourceLayerCatalog
+          .filter(({ id }) => resources.value[id]?.status === "error")
+          .map(({ name }) => name)
+      : [];
   const entries = [
-    `Civic addresses: ${snapshot.evidence.civicAddresses.status === "ready" ? "captured" : "unavailable"}`,
-    `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : "unavailable"}`,
-    `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : "unavailable"}`,
-    `Roads and water: ${snapshot.evidence.mappedContext.status === "ready" ? "captured" : "unavailable"}`,
-    `Flood evidence: ${snapshot.evidence.floodHazard.status === "ready" ? "captured" : "unavailable"}`,
-    `Resource evidence: ${snapshot.evidence.resources.status === "ready" ? "captured" : "unavailable"}`,
+    `Civic addresses: ${civicReceipt(snapshot.evidence.civicAddresses)}`,
+    `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(assessment)}`,
+    `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(dwellings)}`,
+    `Roads and water: ${printEvidenceReceiptStatus(snapshot.evidence.mappedContext)}`,
+    `Published river mapping: ${riverReceipt}`,
+    `Coastal scenarios: ${nestedReceipt(coastal.status === "ready", coastalFailures, coastalCaptured, printEvidenceReceiptStatus(coastal), coastalSilent)}`,
+    `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, resourceCaptured, printEvidenceReceiptStatus(resources))}`,
   ];
   return (
     <section className="print-evidence-status-grid" aria-label="Evidence receipt status">
@@ -492,6 +651,7 @@ export function PrintResearchDocument({
             mapMode={snapshot.taxSaleEnabled ? snapshot.mode : undefined}
           />
           <div className="print-research-details">
+            <UnansweredEvidenceNotice snapshot={snapshot} includeAppendix={includeAppendix} />
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
             <ApproximateScale scale={scale} />

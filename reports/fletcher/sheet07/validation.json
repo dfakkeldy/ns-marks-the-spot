@@ -1,0 +1,84 @@
+{
+  "sheet": "sheet-07",
+  "fit_sha256": "606f269ad100a7901a3b9afad6fd5a0920135cf40d46f7765a9e1a7636e9d4f2",
+  "points": [
+    {
+      "lonlat": [
+        -60.3946871,
+        46.5828771
+      ],
+      "source_guide_xy": [
+        2933.4180269995704,
+        2170.311127200257
+      ],
+      "objectids": [
+        191460,
+        271554,
+        271555
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        3050,
+        2110
+      ],
+      "modern_node_id": "J0274",
+      "identity_evidence": "Pathend Brook northern tributary upstream of the mouth",
+      "source_uncertainty_px": 20,
+      "status": "Corrected fresh check pending exact crosshair review.",
+      "review_note": "Native crosshair corrected to actual physical stream junction before first validation score; world location and frozen fit unchanged."
+    },
+    {
+      "lonlat": [
+        -60.4010195,
+        46.5729881
+      ],
+      "source_guide_xy": [
+        2796.448214999633,
+        2480.5092792001087
+      ],
+      "objectids": [
+        191577,
+        267256,
+        267368
+      ],
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        2896,
+        2401
+      ],
+      "modern_node_id": "J0304",
+      "identity_evidence": "Morrison Brook southern tributary upstream of the mouth",
+      "source_uncertainty_px": 20,
+      "status": "Corrected fresh check pending exact crosshair review.",
+      "review_note": "Native crosshair corrected to actual physical stream junction before first validation score; world location and frozen fit unchanged."
+    },
+    {
+      "lonlat": [
+        -60.3957276,
+        46.60744
+      ],
+      "source_guide_xy": [
+        2910.912011999404,
+        1399.8220800003037
+      ],
+      "objectids": [
+        184772,
+        284811,
+        284812
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        2848,
+        1356
+      ],
+      "modern_node_id": "J0204",
+      "identity_evidence": "Northern interior brook fork with western and southwestern arms near the mapped pit",
+      "source_uncertainty_px": 20,
+      "status": "Corrected fresh check pending exact crosshair review.",
+      "review_note": "Native crosshair corrected to actual physical stream junction before first validation score; world location and frozen fit unchanged."
+    }
+  ]
+}

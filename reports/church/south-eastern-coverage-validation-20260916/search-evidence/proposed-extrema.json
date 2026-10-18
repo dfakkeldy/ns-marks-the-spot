@@ -1,0 +1,32 @@
+[
+  {
+    "feature_id": 10117,
+    "vertex": 80,
+    "lonlat": [
+      -60.92521510390629,
+      46.03719145893317
+    ],
+    "distance_from_name_m": 271.9869205995572,
+    "definition": "western extremum of the mapped headland",
+    "source_display_pixel_xy": [
+      616,
+      429
+    ],
+    "name": "maciver"
+  },
+  {
+    "feature_id": 13892,
+    "vertex": 16,
+    "lonlat": [
+      -60.91334405358056,
+      45.86976565630351
+    ],
+    "distance_from_name_m": 16.053652690589573,
+    "definition": "eastern extremum of the mapped headland",
+    "source_display_pixel_xy": [
+      855,
+      856
+    ],
+    "name": "malagawatch"
+  }
+]

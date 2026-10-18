@@ -1,3 +1,6 @@
+import { assertReproductionAllowed } from "../../licensing/layerUse";
+import type { OpenDataSource } from "../../layers/openDataSources";
+import type { AtlasMode } from "../../atlas/palette";
 import { buildSrcMesh, drawWarpedImage } from "../../userMaps/render/mesh";
 import type { LatLngPoint } from "../../userMaps/transform/projection";
 import type { PixelRect } from "../../userMaps/types";
@@ -65,7 +68,13 @@ export type CompositorVectorRing = {
   lineWidthPx: number;
 };
 
+export type CompositorAtlasLayer = {
+  kind: "atlas"; id: string; name: string; mode: AtlasMode;
+};
+
 export type CompositorLayer =
+  | { kind: "open-data"; id: string; name: string; source: OpenDataSource; opacity: number }
+  | CompositorAtlasLayer
   | CompositorTileLayer
   | CompositorImageLayer
   | CompositorWarpedLayer
@@ -330,6 +339,7 @@ export async function composeMapImage(
     signal?: AbortSignal;
   } = {},
 ): Promise<CompositorResult> {
+  assertReproductionAllowed(layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
   const fetchImage = options.fetchImage ?? defaultFetchImage;
   const canvas = document.createElement("canvas");
   canvas.width = size.widthPx;
@@ -349,7 +359,19 @@ export async function composeMapImage(
       currentLayer: layer.name,
     });
     try {
-      if (layer.kind === "tile") {
+      if (layer.kind === "open-data") {
+        const { renderOpenData } = await import("../../services/renderOpenData");
+        const result = await renderOpenData(layer.source, bounds, { width: size.widthPx, height: size.heightPx }, zoomForOutput(bounds, size.widthPx, 23), options.signal);
+        ctx.save(); ctx.globalAlpha = layer.opacity;
+        try { ctx.drawImage(result.canvas, 0, 0); } finally { ctx.restore(); result.canvas.width = 0; }
+        statuses.push({ id: layer.id, name: layer.name, status: result.count ? "rendered" : "empty", detail: `${result.count} open-data features; project-rendered cartography` });
+      } else if (layer.kind === "atlas") {
+        const { renderAtlasImage } = await import("../../atlas/renderAtlasImage");
+        const result = await renderAtlasImage(bounds, size, layer.mode, options.signal);
+        ctx.drawImage(result.canvas, 0, 0, size.widthPx, size.heightPx);
+        result.canvas.width = 0;
+        statuses.push({ id: layer.id, name: layer.name, status: "rendered", detail: result.detail });
+      } else if (layer.kind === "tile") {
         statuses.push(await renderTileLayer(
           ctx, space, bounds, layer, fetchImage, options.signal,
         ));

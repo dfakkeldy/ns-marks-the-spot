@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "Northwest McInnis Lake east end",
+    "role": "proposal",
+    "pixel_xy": [
+      451,
+      459
+    ],
+    "lonlat": [
+      -60.37988222381632,
+      45.85808587232939
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 136746,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      463.93692124664085,
+      469.23199175216723
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Mira long island northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1605,
+      958
+    ],
+    "lonlat": [
+      -60.337631290672135,
+      45.846254445382456
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 153856,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      955.7058182835463,
+      916.8535362529801
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Mohawk Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2524,
+      1333
+    ],
+    "lonlat": [
+      -60.22573997712924,
+      45.85494977220057
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 135687,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2550.465569374268,
+      1321.2787656364962
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Oceanview Wilkinson Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3364,
+      1068
+    ],
+    "lonlat": [
+      -60.178816049130866,
+      45.87996192710532
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 136107,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3374.2757539819577,
+      1073.7453040549299
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Cape Gabarus east shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4330,
+      2800
+    ],
+    "lonlat": [
+      -60.0750562250551,
+      45.81799709058845
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 14158,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4347.160886079073,
+      2811.2845766688697
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Guyon Island west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3398,
+      3602
+    ],
+    "lonlat": [
+      -60.115894805979515,
+      45.7656890808717
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 21417,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3408.8663906518486,
+      3622.867695650202
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Southwest Goose Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      890,
+      3017
+    ],
+    "lonlat": [
+      -60.29101991392705,
+      45.75079475379425
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 126545,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      898.9004458806012,
+      3015.7220043787966
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C09",
+    "label": "Northeast McAuley Lake southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4410,
+      773
+    ],
+    "lonlat": [
+      -60.11817079890978,
+      45.911403984766075
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 132193,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4431.957231751119,
+      770.162193010794
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

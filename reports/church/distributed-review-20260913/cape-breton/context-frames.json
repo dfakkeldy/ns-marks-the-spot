@@ -1,0 +1,70 @@
+{
+  "CB05": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      7600,
+      22000
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1200,
+      1200
+    ],
+    "rotation": 0
+  },
+  "CB06": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      20500,
+      8500
+    ],
+    "extent": [
+      2200,
+      2500
+    ],
+    "display": [
+      1320,
+      1500
+    ],
+    "rotation": 0
+  },
+  "CB07": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      12600,
+      15000
+    ],
+    "extent": [
+      2800,
+      3000
+    ],
+    "display": [
+      1400,
+      1500
+    ],
+    "rotation": 0
+  },
+  "CB08": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      13900,
+      10000
+    ],
+    "extent": [
+      2600,
+      3000
+    ],
+    "display": [
+      1300,
+      1500
+    ],
+    "rotation": 0
+  }
+}

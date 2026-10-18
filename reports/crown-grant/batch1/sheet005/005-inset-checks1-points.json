@@ -1,0 +1,178 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Seal Cove inner bend on northern Brier shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1210,
+      886
+    ],
+    "lonlat": [
+      -66.34769245694342,
+      44.2829803288572
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 17059,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1209.0436281700968,
+      887.124645695556
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Gooseberry Cove eastern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      1070,
+      885
+    ],
+    "lonlat": [
+      -66.35637732163855,
+      44.27990555458474
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 17025,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1061.1235883093323,
+      892.32057192293
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Pero Jack Cove inner bend",
+    "role": "proposal",
+    "pixel_xy": [
+      773,
+      1078
+    ],
+    "lonlat": [
+      -66.36840958354858,
+      44.26622703275927
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 17055,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      777.0152064593858,
+      1076.6019659572048
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ04",
+    "label": "Cow Cove inner bend",
+    "role": "proposal",
+    "pixel_xy": [
+      612,
+      1145
+    ],
+    "lonlat": [
+      -66.37676451084442,
+      44.25996989273438
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 16988,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      606.9426025834982,
+      1143.5897436891682
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ05",
+    "label": "Lighthouse Cove eastern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      366,
+      1231
+    ],
+    "lonlat": [
+      -66.38915416564556,
+      44.25145872946403
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 17050,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      361.1577104254975,
+      1228.4539641201263
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ06",
+    "label": "Brier western cape",
+    "role": "proposal",
+    "pixel_xy": [
+      160,
+      1465
+    ],
+    "lonlat": [
+      -66.39485985050183,
+      44.23652289460141
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 17092,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      155.29883616429288,
+      1474.6488970669452
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ08",
+    "label": "Hog Yard Cove southern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      463,
+      1715
+    ],
+    "lonlat": [
+      -66.36996672762116,
+      44.23200052793309
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 17169,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      467.4498123789672,
+      1710.7660249287728
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ11",
+    "label": "Peters Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1138,
+      1392
+    ],
+    "lonlat": [
+      -66.33815340614953,
+      44.25875271023692
+    ],
+    "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+    "reference_objectid": 20898,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1139.6899024567683,
+      1400.566895455122
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

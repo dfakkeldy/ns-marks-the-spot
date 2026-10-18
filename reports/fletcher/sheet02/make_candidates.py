@@ -1,0 +1,8 @@
+exec(open('reports/fletcher/sheet02/point_tools.py').read())
+pts=[]
+for i,xy,k,e in [('C01',[1605,1108],'J0085','Pollys Brook shoreline mouth on northern mainland strip'),('C06',[3775,5451],'J0329','Neils Brook / Rachel Brook junction'),('C07',[3324,6115],'J0380','Halfway Brook northern tributary east of major western fork'),('C08',[2650,6130],'J0400','Halfway Brook major western fork')]:
+ q=nodes[k].copy();q.update(id=i,role='control',pixel_xy=xy,modern_node_id=k,identity_evidence=e,source_uncertainty_px=20,status='Initial physical proposal; exact native and modern review pending.');pts.append(q)
+for i,xy,box,axis,direction,e in [('C02',[4910,4676],[4700,4550,4900,4850],0,'max','Cape Egmont eastern tip on mainland coast'),('C03',[3780,3416],[3730,3400,3870,3680],1,'max','White Point mainland northernmost tip below offshore island'),('C04',[2690,3633],[2480,3820,2670,3950],1,'max','Black Head northern coastal promontory'),('C05',[4598,5830],[4430,5900,4600,6100],0,'max','Neils Head easternmost mainland tip')]:
+ eligible=[r for r in rows if r['modern_properties']['FEAT_CODE']=='WACO20' and box[0]<r['guide_xy'][0]<box[2] and box[1]<r['guide_xy'][1]<box[3]]
+ q=(max if direction=='max' else min)(eligible,key=lambda r:r['lonlat'][axis]).copy();q.update(id=i,role='control',pixel_xy=xy,identity_evidence=e,selection_box_source_guide=box,source_uncertainty_px=20,status='Initial coastline proposal; exact native and modern review pending.');pts.append(q)
+(D/'candidate-controls.json').write_text(json.dumps(dict(sheet='sheet-02',source_sha256=json.loads((D/'source-receipt.json').read_text())['source_sha256'],points=pts),indent=2)+'\n')

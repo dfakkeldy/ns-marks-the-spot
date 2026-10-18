@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Ramsey Lake western extremum",
+    "role": "proposal",
+    "pixel_xy": [
+      2495,
+      2652
+    ],
+    "lonlat": [
+      -65.27785132222286,
+      44.89466851284722
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 140892,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140892,
+    "nearest_unfiltered_distance_guide_px": 1.9452542382892266,
+    "selected_distance_guide_px": 1.9452542382892266,
+    "guide_reference_pixel_xy": [
+      2413.885480729339,
+      2674.594321437762
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Crosskill eastern lake southwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1918,
+      2791
+    ],
+    "lonlat": [
+      -65.30860381669183,
+      44.880181193747845
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 132245,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132245,
+    "nearest_unfiltered_distance_guide_px": 0.9713238733225829,
+    "selected_distance_guide_px": 0.9713238733225829,
+    "guide_reference_pixel_xy": [
+      1838.8122881549643,
+      2770.532595550292
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Unnamed lake west of Crosskill northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1640,
+      2763
+    ],
+    "lonlat": [
+      -65.32384889471034,
+      44.875230364935426
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 126942,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126942,
+    "nearest_unfiltered_distance_guide_px": 2.8625245817525804,
+    "selected_distance_guide_px": 2.8625245817525804,
+    "guide_reference_pixel_xy": [
+      1573.9093982617487,
+      2772.714229500736
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Small pond northeast of Crosskill southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2172,
+      2537
+    ],
+    "lonlat": [
+      -65.29902919020823,
+      44.89381835534811
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 141969,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141969,
+    "nearest_unfiltered_distance_guide_px": 2.5945202588430574,
+    "selected_distance_guide_px": 2.5945202588430574,
+    "guide_reference_pixel_xy": [
+      2100.605716783146,
+      2555.4356138905277
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Western small pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1306,
+      2650
+    ],
+    "lonlat": [
+      -65.34642831465966,
+      44.872854590106314
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 128280,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128280,
+    "nearest_unfiltered_distance_guide_px": 1.337931408531888,
+    "selected_distance_guide_px": 1.337931408531888,
+    "guide_reference_pixel_xy": [
+      1226.5164617635892,
+      2675.2474979871185
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "St Croix Bay western projecting headland",
+    "role": "proposal",
+    "pixel_xy": [
+      1838,
+      1870
+    ],
+    "lonlat": [
+      -65.3349661890197,
+      44.91577289594675
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 4521,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4521,
+    "nearest_unfiltered_distance_guide_px": 5.068498027021736,
+    "selected_distance_guide_px": 5.068498027021736,
+    "guide_reference_pixel_xy": [
+      1781.360893378558,
+      1878.2038555345498
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "St Croix Bay southernmost shore bend",
+    "role": "proposal",
+    "pixel_xy": [
+      2098,
+      2009
+    ],
+    "lonlat": [
+      -65.31644854027348,
+      44.91485390776724
+    ],
+    "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+    "reference_objectid": 10737,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 10737,
+    "nearest_unfiltered_distance_guide_px": 1.7817074550380934,
+    "selected_distance_guide_px": 1.7817074550380934,
+    "guide_reference_pixel_xy": [
+      2040.06490010157,
+      2016.219474956044
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

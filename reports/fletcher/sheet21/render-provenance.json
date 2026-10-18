@@ -1,0 +1,14 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/fletcher-sheet21/native/sheet21.png",
+  "source_sha256": "1f135b06b54b9fb4a3083d39b326b7d45ad76a096336c4806c7696a10a3b74be",
+  "source_native_dimensions": [
+    10811,
+    7646
+  ],
+  "fit_sha256": "82e1c9490d3b0ea8ca239a17a0b012d9a9036c9fe2cf7018c891433ea9631618",
+  "boundary_sha256": "7946eeedda680117a2d5ab349de2a763d59bea863bd15dc8fa94b301a30faa6c",
+  "raster_sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be",
+  "render_script": "reports/fletcher/full-sheets/render.py",
+  "render_script_sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067",
+  "method": "One exact GDAL TPS (-et 0), EPSG:3857, 5 projected metre cells, complete mapped neatline, RGBA. Reused diagnostics and fresh validation remain separate."
+}

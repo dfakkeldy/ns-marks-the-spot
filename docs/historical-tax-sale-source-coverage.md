@@ -5,7 +5,9 @@ Retrieved and reviewed July 19, 2026; CBRM result availability re-checked July
 2025 result sources were retrieved and reviewed July 23, 2026; the Region of
 Queens February 10, 2026 result was retrieved and reviewed August 6, 2026; and
 the Clare February 28, 2026 notice and result were retrieved and reviewed
-August 8, 2026. Only official municipal primary sources were used. Text
+August 8, 2026; the Victoria County September 14, 2026 result was retrieved
+September 24, 2026; and the Halifax September 15, 2026 result was retrieved
+October 4, 2026. Only official municipal primary sources were used. Text
 extraction supported reconciliation;
 PIDs and financial values in the fourteen result-backed Halifax notice/result
 PDFs, the three Victoria County result PDFs, every row of the CBRM July 22, 2025
@@ -73,11 +75,14 @@ curl -sSL "https://web.archive.org/web/20260415155709id_/https://www.cumberlandc
 | Halifax Regional Municipality — September 24, 2024 | [Schedule A notice](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept24.2024newspaper.website-draft-update-sept9.pdf) and [tender terms](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept24.24.pdf) | [Tax-sale results](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-sept-24-2024-tax-sale-for-website.pdf) | 9 / 10 | Assessment #, PID, location, `Opening Bid`, `Selling Price` or `PENDING`, `Redeemable` | Notice `17fffcc047209cca4787b42bdc594b1872f1ad1be5c64ebfc50f2370c3798f6f`; terms `10ad87054f1dd6622bb93c8cf6cb0f24f05d88e9f704e0f28c6fa0497a270e88`; result `0de2181e3911f6767027c3dc5c0258d635ff09abdec0f5f20d63e8ba0b16472e` |
 | Halifax Regional Municipality — March 25, 2025 | [Final Schedule A notice](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/mar25.2025newspaper.website-updatedmar21.2025.pdf) and [tender terms](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-mar25.25.pdf) | [Tax-sale results](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-mar-25-2025-tax-sale-for-website.pdf) | 5 / 7 | Assessment #, PID, location, `Opening Bid`, `Selling Price`, `Redeemable` | Notice `b0a7a6295ce0021b172ecee8a6b87551e3e6c59469ad6c3c2766e9f51f1581b4`; terms `44cefb06ad8650d137fa9166210efab0650f6ea222febd08a8acf74a0c434bed`; result `dc2bb61ee87103b1ef9ab3140c32e861abedd9669870fd87d6cc6a6ab22fd335` |
 | Halifax Regional Municipality — September 16, 2025 | [Final Schedule A notice](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept16.2025newspaper.website-sept15-2.25.pdf) and [tender terms](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept16.25.pdf) | [Tax-sale results](https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept-16.pdf) | 37 / 38 | Assessment #, PID, location, `Opening Bid`, `Selling Price`, `Redeemable` | Notice `b653a1ad975f6e72ee66a2ddedd76c2a415a1dc1cc70ee743ce8ead9535c5ad0`; terms `f1e362a74880c0236c2e7bef1c8d254ea1555b3d981b90c26cd9e7444b56e033`; result `298eb52e49c734b418bea2e7b73747adfc3b3848cccbaa0aeb56fb578c270768` |
+| Halifax Regional Municipality — September 15, 2026 | [Schedule A notice](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept11.26.pdf) and [tender terms](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf) | [Tax-sale results](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf) | 10 / 11 | AAN, PID, location, `Opening Bid`, `Selling Price` or `NO BIDS`, `Redeemable`; four result rows, six notice rows absent from the result held outcome unknown | Notice `bb9c732f93d1887a4c8a76e70f9a89d94e56fce2215e09cb38b3be8987d4196e`; terms `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`; result `28ba29a327f875a0d07eb990288d124c49dcdb7a32e1e631095af90d2e658d0e` |
 
-The Halifax slice has 87 owner-free records and 93 exact PIDs: 82 sold
-outcomes, four official `NO BIDS` outcomes, and one official `PENDING` row
-represented as outcome unknown. All 93 PIDs were returned by the live NSPRD
-query during review. Multi-PID records retain amounts at listing level.
+The Halifax slice has 97 owner-free records and 104 exact PIDs: 85 sold
+outcomes, five official `NO BIDS` outcomes, one official `PENDING` row
+represented as outcome unknown, and six September 15, 2026 notice rows absent
+from the official result, also held outcome unknown. The 93 PIDs from the
+earlier seven events were returned by the live NSPRD query during review, and
+all 11 September 15, 2026 PIDs are mapped. Multi-PID records retain amounts at listing level.
 
 ## Result-backed Victoria County events (pre-sale listings decayed)
 
@@ -94,11 +99,13 @@ sale method, date, and venue.
 | Victoria County — August 26, 2025 (by tender) | [Announcement notice](https://victoriacounty.com/wp-content/uploads/2025/07/Tax-Sale-Notice-1-Website-Post.jpeg) and [tender terms](https://victoriacounty.com/wp-content/uploads/2025/07/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-aug-26-2025.pdf) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2025/09/Tax-Sale-Results-August-26-2025.pdf) | 12 / 13 | All twelve rows included: two `SOLD/PAID` with bids, one `NOT SOLD`, and nine rows publishing amounts but no status held as outcome unknown | Notice `cc201189d850b05a419b876c32cb23f75ff3487034d0b1e433246cf0bbd94dcd`; terms `69b3db9491611816fd09a4ddbda0c9f43300feb2fb972d6acd158f8bcbcdce52`; result `2d85a27e119a597dd5f61e18bd0df8a3c33c5046c2c1dd45a98deedc7a796cb1` |
 | Victoria County — November 25, 2025 (public auction) | [Announcement notice](https://victoriacounty.com/wp-content/uploads/2025/10/Tax-Sale-Notice-2-Website-Post.jpeg) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2025/12/Tax-Sale-Results-for-November-25-2025.pdf) | 2 / 2 | One `SOLD` (its AAN officially printed with seven digits) and one `NOT SOLD` included; one `DEFERRED` and three `PAID` rows publish no `Total Owing` and are excluded | Notice `cb54268759745bb68475e0f1e3233558b879dbfda66c3df55cf8eb010fbd06aa`; result `592396e7d8c39320407b1f512aeddd1bbb25c8c59a1774ac45aa523a589f56db` |
 | Victoria County — March 24, 2026 (public auction) | [Announcement page snapshot](https://victoriacounty.com/upcoming-tax-sale-by-public-auction-3/) and [housekeeping rules](https://victoriacounty.com/wp-content/uploads/2026/02/Tax-Sale-Housekeeping-Rules.pdf) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2026/03/Tax-Sale-Results-March-24-2026.pdf) | 5 / 5 | Three `SOLD` and one `NOT SOLD` included; one `REMOVED` row printed beside a $17,500.00 bid kept fail-closed as withdrawn with no winning bid; ten `REMOVED` rows publish no `Total Owing` and are excluded, one printing a malformed seven-digit PID | Notice snapshot `a1220caa96989654dd34c468e5f10e59a97fe232ae3bf1efdc73fa7fbb2d1f7f`; terms `3a603c74648e04f11cb525c9d0040156f1c42c0822dd5bc1f276e2686ccc5897`; result `78a4bc0e6bf5d0348fef186d25bb57569b25a3122859d217c46b64ec5b5f9f89` |
+| Victoria County — September 14, 2026 (by tender) | [Archived notice page](https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/) and [tender terms](https://victoriacounty.com/wp-content/uploads/2026/08/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-SEPT-14-2026.pdf) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2026/09/Tax-Sale-Results-for-September-14-2026.pdf) | 4 / 4 | Three `SOLD` with numeric bids and one `NOT SOLD` included, each matched to one retained notice listing by unique total owing and location prefix; four `REMOVED` rows and one row with no printed status publish no `Total Owing` and are excluded | Notice `4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5`; result `6588a167badd6ad9664d6631178a7babf51ca837576ec52108714bc469cd08ee` |
 
-The Victoria County slice has 19 owner-free records and 19 exact PIDs: six
-sold outcomes, three official `NOT SOLD` outcomes, one fail-closed withdrawn
-outcome, and nine outcome-unknown rows. All 19 PIDs were returned by the live
-NSPRD query on July 23, 2026 (PID `85008126` returns four polygon parts for
+The Victoria County slice has 23 owner-free records and 23 exact PIDs: nine
+sold outcomes, four official `NOT SOLD` outcomes, one fail-closed withdrawn
+outcome, and nine outcome-unknown rows. The September 14, 2026 records use the
+PIDs from the archived official notice. The 19 PIDs from the three earlier
+events were returned by the live NSPRD query on July 23, 2026 (PID `85008126` returns four polygon parts for
 one PID). PID `85142388` appears in two events — `NOT SOLD` in August 2025 and
 `REMOVED` beside a printed bid in March 2026 — and both records are retained
 separately.

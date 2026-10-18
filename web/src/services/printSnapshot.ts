@@ -1,6 +1,10 @@
-import type { CivicAddress } from "./civicAddresses";
+import type { BasemapStyle } from "../atlas/basemap";
+import type { CivicAddressReading } from "./civicAddresses";
 import type { ParcelBuildingCount } from "./buildings";
-import type { ParcelFloodHazardEvidence } from "./floodHazard";
+import type {
+  CoastalFloodEvidence,
+  PublishedRiverFloodEvidence,
+} from "./floodHazard";
 import {
   buildMapShareUrl,
   type MapMode,
@@ -16,10 +20,36 @@ import type { WellLogAccuracyFilter } from "./wellLogs";
 
 export type PrintTemplate = "research" | "field";
 
+/**
+ * What a printed source that never answered says for itself.
+ *
+ * Kept apart from "unavailable at export time" on purpose. A source that
+ * failed has answered, and a reader can weigh a failure; a source that went
+ * silent has given nothing at all, and the difference decides whether asking
+ * again is worth anything.
+ */
+export const PRINT_SOURCE_UNANSWERED =
+  "This source had not answered when this page was made. Nothing is concluded from its silence.";
+
+/**
+ * An evidence slot carrying no value, and why it carries none.
+ *
+ * `pending` may name what it is waiting for: a lookup that cannot start until
+ * another answers is not a source going quiet, and if the capture times out
+ * that reason is the honest thing to print. `not-asked` is terminal — there
+ * was no question to put, or the input it needed never arrived — and is kept
+ * apart from `error` because a receipt that calls it unavailable reports an
+ * outage that never happened.
+ */
+export type UnsettledPrintLoad =
+  | { status: "pending"; message?: string }
+  | { status: "error"; message: string }
+  | { status: "not-asked"; message: string }
+  | { status: "unanswered"; message: string };
+
 export type PrintLoadState<T> =
-  | { status: "pending" }
   | { status: "ready"; value: T }
-  | { status: "error"; message: string };
+  | UnsettledPrintLoad;
 
 export type PrintMapBounds = {
   north: number;
@@ -41,6 +71,8 @@ export type PrintLayerSource = {
   attribution: string;
   /** Null when the publisher states no licence terms for the source. */
   licenceUrl: string | null;
+  /** Set when `sourceUrl` is the project's own receipt, not a publisher record. */
+  provenance?: "project-derived";
 };
 
 export type PrintEvent = {
@@ -57,13 +89,22 @@ export type PrintEvidence = {
   buildings: PrintLoadState<ParcelBuildingCount>;
   assessments: PrintLoadState<ParcelAssessmentResult>;
   dwellings: PrintLoadState<PvscDwellingAccount[]>;
-  civicAddresses: PrintLoadState<CivicAddress[]>;
+  civicAddresses: PrintLoadState<CivicAddressReading>;
   mappedContext: PrintLoadState<ParcelContext>;
-  floodHazard: PrintLoadState<ParcelFloodHazardEvidence>;
+  /**
+   * The two flood sources settle apart, because they are two services and one
+   * hanging says nothing about the other. Held as one slot, a coastal request
+   * that never came back sealed an answered river result as a source that had
+   * not answered — a source that spoke, reported as one that went silent.
+   */
+  riverFlood: PrintLoadState<PublishedRiverFloodEvidence>;
+  coastalFlood: PrintLoadState<CoastalFloodEvidence[]>;
   resources: PrintLoadState<ParcelResourceIntersections>;
 };
 
 export type PrintCaptureBase = {
+  electoralModes?: Record<import("../layers/electoralLayers").ElectoralLayerId, import("../layers/electoralLayers").ElectoralMode>;
+  basemapStyle?: BasemapStyle;
   token: string;
   capturedAt: string;
   pid: string;
@@ -115,7 +156,8 @@ const RESEARCH_KEYS = [
   "dwellings",
   "civicAddresses",
   "mappedContext",
-  "floodHazard",
+  "riverFlood",
+  "coastalFlood",
   "resources",
 ] as const;
 
@@ -184,7 +226,9 @@ export function printBoundsForTemplate(
   >,
   template: PrintTemplate,
 ): PrintMapBounds {
-  return template === "research"
+  // A permitted map-only capture has no parcel to frame. Reproduction
+  // permission is checked separately before mounting the preview/map.
+  return template === "research" && capture.selectedParcelGeometry.features.length > 0
     ? boundsForParcelGeometry(capture.selectedParcelGeometry)
     : { ...capture.viewport.bounds };
 }
@@ -223,6 +267,8 @@ export function buildPrintMapShareUrl(
   renderedLayerIds: readonly ShareLayerId[],
 ): string {
   return buildMapShareUrl(baseUrl, {
+    basemapStyle: snapshot.basemapStyle ?? "osm",
+    electoralModes: snapshot.electoralModes,
     taxSaleEnabled: snapshot.taxSaleEnabled,
     mode: snapshot.mode,
     pid: snapshot.pid,
@@ -277,23 +323,30 @@ export function sealPrintSnapshot(
   template: PrintTemplate,
   options: { timedOut: boolean; generatedAt: string },
 ): PrintSnapshot {
-  const unavailableIfPending = <T,>(
-    state: PrintLoadState<T>,
-  ): PrintLoadState<T> =>
+  // A source that ran out of time never answered. Sealing it as an error puts
+  // it under the same sentence as a service that failed, and the reader
+  // holding the page has no way to tell the two apart.
+  // A pending slot that carries its own message is one that explained why it
+  // had not started — a lookup waiting on another source was never asked, so
+  // it is sealed as not-asked and stays out of the silent-sources notice.
+  const sealPending = <T,>(state: PrintLoadState<T>): PrintLoadState<T> =>
     state.status === "pending"
-      ? { status: "error", message: "Source unavailable at export time." }
+      ? state.message === undefined
+        ? { status: "unanswered", message: PRINT_SOURCE_UNANSWERED }
+        : { status: "not-asked", message: state.message }
       : state;
   const clonedEvidence = clone(capture.evidence);
   const evidence = template === "research" && options.timedOut
     ? {
         ...clonedEvidence,
-        buildings: unavailableIfPending(clonedEvidence.buildings),
-        assessments: unavailableIfPending(clonedEvidence.assessments),
-        dwellings: unavailableIfPending(clonedEvidence.dwellings),
-        civicAddresses: unavailableIfPending(clonedEvidence.civicAddresses),
-        mappedContext: unavailableIfPending(clonedEvidence.mappedContext),
-        floodHazard: unavailableIfPending(clonedEvidence.floodHazard),
-        resources: unavailableIfPending(clonedEvidence.resources),
+        buildings: sealPending(clonedEvidence.buildings),
+        assessments: sealPending(clonedEvidence.assessments),
+        dwellings: sealPending(clonedEvidence.dwellings),
+        civicAddresses: sealPending(clonedEvidence.civicAddresses),
+        mappedContext: sealPending(clonedEvidence.mappedContext),
+        riverFlood: sealPending(clonedEvidence.riverFlood),
+        coastalFlood: sealPending(clonedEvidence.coastalFlood),
+        resources: sealPending(clonedEvidence.resources),
       }
     : clonedEvidence;
   if (!options.timedOut && !printCaptureReadiness(capture, template).ready) {
@@ -305,4 +358,74 @@ export function sealPrintSnapshot(
     template,
     generatedAt: options.generatedAt,
   }));
+}
+
+/**
+ * What an unsettled slot prints.
+ *
+ * Every state carries its own sentence, because why a section is blank is what
+ * decides whether a reader may conclude anything from it. A slot still pending
+ * on a printed page never answered either, so it gets the unanswered sentence
+ * rather than being reported as an outage.
+ */
+export function printEvidenceMessage(state: UnsettledPrintLoad): string {
+  return state.status === "pending"
+    ? state.message ?? PRINT_SOURCE_UNANSWERED
+    : state.message;
+}
+
+/**
+ * What the front-page receipt calls a slot.
+ *
+ * "Unavailable", "not asked" and "did not answer" are three different
+ * receipts. One source gave an answer the page could not use; one was never
+ * put a question at all; the third gave nothing back. A receipt that calls
+ * them all unavailable tells the reader the page was refused when in fact it
+ * never asked, or never heard back.
+ */
+export function printEvidenceReceiptStatus(state: {
+  readonly status: PrintLoadState<unknown>["status"];
+}): "captured" | "unavailable" | "not asked" | "did not answer" {
+  if (state.status === "ready") return "captured";
+  if (state.status === "error") return "unavailable";
+  return state.status === "not-asked" ? "not asked" : "did not answer";
+}
+
+/** The appendix headings, so the front page and the appendix agree. */
+const RESEARCH_EVIDENCE_NAMES: Record<EvidenceKey, string> = {
+  buildings: "Mapped buildings",
+  assessments: "Assessment accounts",
+  dwellings: "PVSC dwelling characteristics",
+  civicAddresses: "Civic addresses",
+  mappedContext: "Mapped roads and water",
+  riverFlood: "Published river mapping",
+  coastalFlood: "Coastal scenarios",
+  resources: "Resources",
+};
+
+/**
+ * The sources that never answered, in the order the appendix prints them.
+ *
+ * Named rather than counted: how long a reader should wait, and whether asking
+ * again is worth anything, depends entirely on which source went silent.
+ */
+export function unansweredEvidenceNames(
+  snapshot: Pick<PrintSnapshot, "evidence">,
+): string[] {
+  // The coastal slot is the one that can be ready and still hold nothing: its
+  // three scenarios are three services, each with its own deadline, and a slot
+  // whose every scenario ran out of time answered no more than a slot that
+  // never settled. Counting it as answered would leave the front-page notice
+  // and the pre-print warning silent about a page made with no coastal
+  // evidence at all.
+  const coastal = snapshot.evidence.coastalFlood;
+  const coastalWentQuiet =
+    coastal.status === "ready" &&
+    coastal.value.length > 0 &&
+    coastal.value.every(({ status }) => status === "unanswered");
+  return RESEARCH_KEYS.filter(
+    (key) =>
+      snapshot.evidence[key].status === "unanswered" ||
+      (key === "coastalFlood" && coastalWentQuiet),
+  ).map((key) => RESEARCH_EVIDENCE_NAMES[key]);
 }

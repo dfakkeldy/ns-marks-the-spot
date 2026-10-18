@@ -1,0 +1,22 @@
+{
+  "frozen_at": "2026-09-14T14:53:26.803993+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "cc58d110ce0b52f1ddde76b2237f674a4d8b8e4da94666a39cf9d04523b594cc",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "boundary_sha256": "848770cbdb371abdec736a2af1d79461ed1d0967ebee0fb1fa06b6529f3acad4",
+  "selection": "TPS9 selected from the same three audited diagnostics after adding verified interior and southern support. Original affine4, affine7, all eight-control trials and first failures retained. Diagnostics are not fresh validation.",
+  "diagnostics": [
+    "VN16",
+    "VN17",
+    "VN11"
+  ],
+  "excluded_controls_and_aliases": [
+    "VN08",
+    "VN12",
+    "VN13",
+    "VN15/former VN10",
+    "VN14"
+  ],
+  "fresh_count": 0,
+  "geographic_acceptance": false
+}

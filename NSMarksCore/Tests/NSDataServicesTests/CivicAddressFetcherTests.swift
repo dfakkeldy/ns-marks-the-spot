@@ -48,6 +48,29 @@ struct CivicAddressFetcherTests {
 
     // MARK: - Searching
 
+    @Test func suggestionsMatchOnlyTheFinalPartialWordAndKeepNumbersExact() async throws {
+        let stub = StubTransport(Self.collection([
+            Self.point("1", ["civicnum": "12", "strname": "Main", "comm": "Mabou"]),
+            Self.point("2", ["civicnum": "120", "strname": "Main", "comm": "Mabou"]),
+            Self.point("3", ["civicnum": "12", "strname": "Mainland", "comm": "Mabou"]),
+        ]))
+        let fetcher = CivicAddressFetcher(transport: stub.transport)
+        let suggestions = try await fetcher.search("12 Main Mab", suggest: true)
+        #expect(suggestions.map(\.pntid) == ["1"])
+        let submitted = try await fetcher.search("12 Main Mab")
+        #expect(submitted.isEmpty)
+    }
+
+    @Test func suggestionsCanMatchTheBeginningOfAWordInsideARoadName() async throws {
+        let stub = StubTransport(Self.collection([
+            Self.point("1", ["civicnum": "12", "strname": "Old Main", "comm": "Mabou"]),
+            Self.point("2", ["civicnum": "12", "strname": "Domain", "comm": "Judique"]),
+        ]))
+        let results = try await CivicAddressFetcher(transport: stub.transport)
+            .search("12 Mai", suggest: true)
+        #expect(results.map(\.pntid) == ["1"])
+    }
+
     @Test func aSearchReturnsEachPointOnceWithItsAddressWrittenOut() async throws {
         // The file repeats a point across pages often enough that the web
         // deduplicates too; two rows with one pntid are one address.

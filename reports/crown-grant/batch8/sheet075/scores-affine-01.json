@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 43.62663046339071,
+  "median_ground_m": 41.54364823142211,
+  "p95_ground_m": 68.3109544697303,
+  "max_ground_m": 75.4164193588624,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 16.85228168650303,
+  "mean_north_ground_m": -13.41926879468619,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Griswold Lake southwestern bay tip",
+      "role": "check",
+      "pixel_xy": [
+        809,
+        698
+      ],
+      "lonlat": [
+        -63.341346759214794,
+        44.8273929321854
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 136977,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136977,
+      "nearest_unfiltered_distance_guide_px": 0.9894223562410396,
+      "selected_distance_guide_px": 0.9894223562410396,
+      "guide_reference_pixel_xy": [
+        888.14996823814,
+        715.4936378737912
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role and coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.34125263072201,
+        44.826975385968446
+      ],
+      "error_ground_m": 46.99455980233402,
+      "east_ground_m": 7.444036893476549,
+      "north_ground_m": -46.401238838458916
+    },
+    {
+      "id": "Q02",
+      "label": "Pond west of Elbow Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        940,
+        966
+      ],
+      "lonlat": [
+        -63.32495722353516,
+        44.81676772538985
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 85230,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 85230,
+      "nearest_unfiltered_distance_guide_px": 1.957967894169909,
+      "selected_distance_guide_px": 1.957967894169909,
+      "guide_reference_pixel_xy": [
+        1011.8966005073744,
+        990.3825489700539
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role and coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.32492844988386,
+        44.81679646669008
+      ],
+      "error_ground_m": 3.921899393286773,
+      "east_ground_m": 2.2759295035767737,
+      "north_ground_m": 3.1939692775310067
+    },
+    {
+      "id": "Q03",
+      "label": "Duck Lake north of Island Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4638,
+        806
+      ],
+      "lonlat": [
+        -63.08258487804887,
+        44.897909875116255
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 127744,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127744,
+      "nearest_unfiltered_distance_guide_px": 1.1918079914464983,
+      "selected_distance_guide_px": 1.1918079914464983,
+      "guide_reference_pixel_xy": [
+        4720.846052275621,
+        839.181823331397
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role and coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.082618910353176,
+        44.89796149914495
+      ],
+      "error_ground_m": 6.3355085410132075,
+      "east_ground_m": -2.6880979305083885,
+      "north_ground_m": 5.736967664999327
+    },
+    {
+      "id": "Q04",
+      "label": "Duck Pond east of Catamaran Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3669,
+        1491
+      ],
+      "lonlat": [
+        -63.12825083206933,
+        44.846388146004266
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 140352,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140352,
+      "nearest_unfiltered_distance_guide_px": 0.4910436810243463,
+      "selected_distance_guide_px": 0.4910436810243463,
+      "guide_reference_pixel_xy": [
+        3737.9725485843956,
+        1509.4902757555246
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role and coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.12805312646518,
+        44.84601419649053
+      ],
+      "error_ground_m": 44.39872909997569,
+      "east_ground_m": 15.630158656513686,
+      "north_ground_m": -41.55653120828588
+    },
+    {
+      "id": "Q06",
+      "label": "Western Arm Jeddore main island southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        3964,
+        3325
+      ],
+      "lonlat": [
+        -63.056963538854134,
+        44.76387474659586
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 22456,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22456,
+      "nearest_unfiltered_distance_guide_px": 0.546559619810593,
+      "selected_distance_guide_px": 0.546559619810593,
+      "guide_reference_pixel_xy": [
+        3995.460970969638,
+        3345.706345129176
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role and coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.056796551459925,
+        44.76420193657313
+      ],
+      "error_ground_m": 38.68856736286854,
+      "east_ground_m": 13.22031896929761,
+      "north_ground_m": 36.35970862013674
+    },
+    {
+      "id": "Q07",
+      "label": "Porter Lake eastern islet southern tip",
+      "role": "check",
+      "pixel_xy": [
+        596,
+        3031
+      ],
+      "lonlat": [
+        -63.29027051308815,
+        44.71168729400008
+      ],
+      "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+      "reference_objectid": 22952,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22952,
+      "nearest_unfiltered_distance_guide_px": 1.5906704247024566,
+      "selected_distance_guide_px": 1.5906704247024566,
+      "guide_reference_pixel_xy": [
+        622.8803114817129,
+        3031.675128649571
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected; role and coordinates selected before first fitting/scoring.",
+      "predicted_lonlat": [
+        -63.289447318624234,
+        44.711346700707516
+      ],
+      "error_ground_m": 75.4164193588624,
+      "east_ground_m": 65.23134402666196,
+      "north_ground_m": -37.84848828403941
+    }
+  ],
+  "fit_sha256": "ecb38bffe96dc0c9fdd32c54b18913b7c11fe7d076860856399e1003b6740cf7",
+  "checks_sha256": "32b43748a64af00b57c7f23f4a39ae3f0dd6b273dfcb5be103870126ac58f7f6",
+  "status": "Six excluded checks reserved before first affine fit; all share physical lake/island features with controls"
+}

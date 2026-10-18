@@ -1,0 +1,16 @@
+{
+  "candidates": [
+    {
+      "id": "VN09",
+      "name": "Freshwater Lake",
+      "status": "withheld",
+      "reason": "Southwestern/southern shoreline is overprinted by residence lettering and road-adjacent geometry. Historical northern hook is not straightforwardly continuous with the modern pond/basin subdivision. No complete shared outer-basin definition was established."
+    },
+    {
+      "id": "VN10",
+      "name": "Duncan Brook/Black Brook",
+      "status": "withheld",
+      "reason": "Historical junction is clear, but modern unnamed tributaries and opposite-bank river junctions need a broader drainage trace to establish which exact north tributary represents Duncan Brook. Nearby affine-predicted vertex is not adopted as identity evidence."
+    }
+  ]
+}

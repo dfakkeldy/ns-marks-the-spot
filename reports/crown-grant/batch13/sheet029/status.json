@@ -1,0 +1,45 @@
+{
+  "sheet": "029",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS gate passed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/029.pdf",
+    "pdf_sha256": "ac62351d731a1f3e2d1d2d89a26555cfc9c49b72ec556947641b69f09264a1d5",
+    "jpeg_sha256": "094637215bc985d5e5d11107e81bdc73a5768dfa50924b61bfb4d06515c6e3d6",
+    "dimensions": [
+      6009,
+      4151
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 57.85924840715645,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "All seven checks pair with control lakes or the Scrogg island; spatial independence remains limited.",
+    "Northern third, large intervening interior and major Corbet/Paradise shore stretches lack independent validation.",
+    "Faint generalized lake outlines and small island tips carry 24 px source uncertainty.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 57.86 m, median 45.42 m, P95 95.14 m, maximum 106.16 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Tupperville, Inglisville, East Inglisville, Roxbury, Alpena, Albany, Dalhousie West and Squirreltown; Clear, Corbet, Paradise, Godfrey, Spectacle, Eel Ware, Second Port Medway and Scrogg lakes, all depicted islands, rivers and intervening land. No inset or internal crop."
+  }
+}

@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Hardwood Lake large eastern island northern roof",
+    [
+      1175,
+      494
+    ],
+    [
+      1180,
+      463
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C02",
+    "Rush Lake northern roof",
+    [
+      791,
+      865
+    ],
+    [
+      805,
+      845
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Brandy Lake southern tip",
+    [
+      519,
+      1581
+    ],
+    [
+      534,
+      1562
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Conway Lake northern tip",
+    [
+      2509,
+      775
+    ],
+    [
+      2518,
+      759
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Bullrush Lake northeastern roof",
+    [
+      3013,
+      1229
+    ],
+    [
+      3033,
+      1211
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Kempton Lake northern roof",
+    [
+      4741,
+      498
+    ],
+    [
+      4746,
+      499
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "South West Lake northern roof",
+    [
+      3833,
+      2129
+    ],
+    [
+      3834,
+      2106
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "First Lake northern lobe tip",
+    [
+      3517,
+      222
+    ],
+    [
+      3520,
+      201
+    ],
+    "WALK20"
+  ]
+]

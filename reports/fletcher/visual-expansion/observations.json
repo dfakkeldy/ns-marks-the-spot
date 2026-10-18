@@ -1,0 +1,344 @@
+{
+  "sheet": "sheet-19",
+  "method": "Visual topology matching with native imagery and NSTDB water vectors; median printed-grid translation from the four user-reviewed points supplies search guidance. No old reference warp is used for fit or evaluation.",
+  "frozen_utc": "2026-09-05T20:12:37.848232+00:00",
+  "parent_predictions_sha256": "96cc71f92db332d63c3fb8cf6d999dd839fff5335f00f7f06605369f372a394c",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "water_lines_sha256": "f2ba10507269881f299b4e65cbcbc2a61af13e51a3948bf50c0526324ba3a008",
+  "user_review": {
+    "quote": "those control points looked pretty good to me. Continue",
+    "scope": [
+      "T",
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "interpretation": "Accept these four visually reviewed correspondences as starting controls; not a claim of surveyed accuracy or approval of later points."
+  },
+  "fit": {
+    "method": "thin-plate spline",
+    "coordinate_system": "EPSG:3857",
+    "controls": 12,
+    "checks": 4,
+    "raster_resolution_m": 5,
+    "publication_scope": "Local preview within control convex hull; no production edits."
+  },
+  "gate": {
+    "check_median_max_ground_m": 100,
+    "check_max_ground_m": 200,
+    "all_checks_inside_control_hull": true,
+    "folds_inside_control_hull_allowed": 0
+  },
+  "check_limitations": "Checks are matched by the same agent and observed during correspondence selection, but their coordinates are withheld from transformation fitting. Four checks cannot establish sheet-wide accuracy.",
+  "points": [
+    {
+      "id": "T",
+      "role": "control",
+      "review": "user-reviewed",
+      "pixel_xy": [
+        5338,
+        3069
+      ],
+      "lonlat": [
+        -61.4186559,
+        45.8618824
+      ],
+      "modern_objectids": [
+        196005,
+        196055,
+        196056
+      ],
+      "description": "North tributary joins the east-west stream immediately north of the old road."
+    },
+    {
+      "id": "C1",
+      "role": "control",
+      "review": "user-reviewed",
+      "pixel_xy": [
+        5353,
+        3038
+      ],
+      "lonlat": [
+        -61.4173143,
+        45.862898
+      ],
+      "modern_objectids": [
+        196056,
+        196057,
+        196058
+      ],
+      "description": "Same northern tributary divides just upstream of T."
+    },
+    {
+      "id": "C2",
+      "role": "control",
+      "review": "user-reviewed",
+      "pixel_xy": [
+        4862,
+        2843
+      ],
+      "lonlat": [
+        -61.4391506,
+        45.8693
+      ],
+      "modern_objectids": [
+        196055,
+        283953,
+        284084
+      ],
+      "description": "Western junction: northern stream beside the road joins the east-west stream."
+    },
+    {
+      "id": "C3",
+      "role": "control",
+      "review": "user-reviewed",
+      "pixel_xy": [
+        4915,
+        2683
+      ],
+      "lonlat": [
+        -61.4373415,
+        45.8740861
+      ],
+      "modern_objectids": [
+        196180,
+        283952,
+        283953
+      ],
+      "description": "Further north on the western stream, an eastern tributary joins beside the road."
+    },
+    {
+      "id": "V01",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        4911,
+        3230
+      ],
+      "lonlat": [
+        -61.4379035,
+        45.8557306
+      ],
+      "modern_objectids": [
+        196178,
+        262949,
+        262951
+      ],
+      "description": "Southern tributary joins the stream at the old Judique Road crossing."
+    },
+    {
+      "id": "V02",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5462,
+        3370
+      ],
+      "lonlat": [
+        -61.4131477,
+        45.8510448
+      ],
+      "modern_objectids": [
+        196003,
+        262951,
+        263091
+      ],
+      "description": "Long southern tributary joins the east-west stream beneath the report lettering."
+    },
+    {
+      "id": "V03",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5983,
+        3435
+      ],
+      "lonlat": [
+        -61.3891236,
+        45.8495754
+      ],
+      "modern_objectids": [
+        195687,
+        262457,
+        263092
+      ],
+      "description": "Northeastern branch joins the stream immediately above the marked falls."
+    },
+    {
+      "id": "V04",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6395,
+        3688
+      ],
+      "lonlat": [
+        -61.3697265,
+        45.841205
+      ],
+      "modern_objectids": [
+        197401,
+        263093,
+        263094
+      ],
+      "description": "Eastern tributary joins Graham River at its southwest bend."
+    },
+    {
+      "id": "V05",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6327,
+        4171
+      ],
+      "lonlat": [
+        -61.3730738,
+        45.8238778
+      ],
+      "modern_objectids": [
+        222450,
+        223139,
+        224048
+      ],
+      "description": "Outlet of the small northern lake joins the east-west stream."
+    },
+    {
+      "id": "V06",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5052,
+        4278
+      ],
+      "lonlat": [
+        -61.4318311,
+        45.8193476
+      ],
+      "modern_objectids": [
+        253993,
+        253994,
+        286613
+      ],
+      "description": "Eastern branch joins the western stream in dense hatching."
+    },
+    {
+      "id": "V07",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5105,
+        4356
+      ],
+      "lonlat": [
+        -61.4285647,
+        45.8175827
+      ],
+      "modern_objectids": [
+        195587,
+        253994,
+        254241
+      ],
+      "description": "Southern tributary joins just downstream of V06."
+    },
+    {
+      "id": "V08",
+      "role": "control",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6060,
+        2609
+      ],
+      "lonlat": [
+        -61.3862637,
+        45.8756847
+      ],
+      "modern_objectids": [
+        195689,
+        195808,
+        211475
+      ],
+      "description": "Southwestern tributary joins Southwest Mabou River below its northern fork."
+    },
+    {
+      "id": "Q01",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5508,
+        3614
+      ],
+      "lonlat": [
+        -61.4105328,
+        45.8433669
+      ],
+      "modern_objectids": [
+        195892,
+        196003,
+        211313
+      ],
+      "description": "V02 tributary forks at the geological colour boundary."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5901,
+        3389
+      ],
+      "lonlat": [
+        -61.3929069,
+        45.8508564
+      ],
+      "modern_objectids": [
+        195811,
+        262950,
+        263092
+      ],
+      "description": "Northern tributary enters the stream upstream of the falls junction V03."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6301,
+        3747
+      ],
+      "lonlat": [
+        -61.3738234,
+        45.8397333
+      ],
+      "modern_objectids": [
+        223254,
+        262458,
+        263094
+      ],
+      "description": "Southern tributary joins Graham River west of V04, north of the old road."
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6244,
+        4163
+      ],
+      "lonlat": [
+        -61.3774867,
+        45.824639
+      ],
+      "modern_objectids": [
+        196031,
+        212059,
+        223139
+      ],
+      "description": "Southern tributary joins the east-west stream just west of the lake outlet V05."
+    }
+  ],
+  "unresolved": [
+    "Eastern tributaries beside the original target remain ambiguous.",
+    "Small tributaries and the close northern double junction were omitted when feature identity was uncertain.",
+    "The suspect old cand-0141 stays unchanged and is excluded with the rest of the old reference fit."
+  ]
+}

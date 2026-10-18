@@ -1,0 +1,151 @@
+{
+  "count": 4,
+  "rms_ground_m": 141.3227388784321,
+  "median_ground_m": 101.6643026285746,
+  "p95_ground_m": 220.49334714303592,
+  "max_ground_m": 238.03821333510865,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -9.941553759805196,
+  "mean_north_ground_m": 61.48899107279256,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Medford upper eastern projecting head",
+      "role": "check",
+      "pixel_xy": [
+        913,
+        2273
+      ],
+      "lonlat": [
+        -64.35678854435643,
+        45.192211564236956
+      ],
+      "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 8702,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8702,
+      "nearest_unfiltered_distance_guide_px": 1.9712977550073376,
+      "selected_distance_guide_px": 1.9712977550073376,
+      "guide_reference_pixel_xy": [
+        999.0662069631508,
+        2237.6172999483533
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+      "predicted_lonlat": [
+        -64.35802381768193,
+        45.19416725657778
+      ],
+      "error_ground_m": 238.03821333510865,
+      "east_ground_m": -97.06787239188151,
+      "north_ground_m": 217.34769186049368
+    },
+    {
+      "id": "Q02",
+      "label": "Split Rock northeastern shore corner",
+      "role": "check",
+      "pixel_xy": [
+        3550,
+        3483
+      ],
+      "lonlat": [
+        -64.16273486211554,
+        45.191551016042325
+      ],
+      "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 7993,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7993,
+      "nearest_unfiltered_distance_guide_px": 1.126460966058646,
+      "selected_distance_guide_px": 1.126460966058646,
+      "guide_reference_pixel_xy": [
+        3626.0288707375294,
+        3406.1260909326375
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+      "predicted_lonlat": [
+        -64.16269377351507,
+        45.191170192629244
+      ],
+      "error_ground_m": 42.44599789779634,
+      "east_ground_m": 3.228914835024167,
+      "north_ground_m": -42.323006114026114
+    },
+    {
+      "id": "Q03",
+      "label": "Pembroke northeastern shore corner",
+      "role": "check",
+      "pixel_xy": [
+        5354,
+        3305
+      ],
+      "lonlat": [
+        -64.05499019013045,
+        45.232477917331934
+      ],
+      "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 8855,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8855,
+      "nearest_unfiltered_distance_guide_px": 0.39479067846485,
+      "selected_distance_guide_px": 0.39479067846485,
+      "guide_reference_pixel_xy": [
+        5423.731072843017,
+        3263.2890291750664
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+      "predicted_lonlat": [
+        -64.05582051097527,
+        45.232929135510226
+      ],
+      "error_ground_m": 82.2561665358584,
+      "east_ground_m": -65.20236766279052,
+      "north_ground_m": 50.14706556062039
+    },
+    {
+      "id": "Q04",
+      "label": "Evangeline Beach northern projecting crest",
+      "role": "check",
+      "pixel_xy": [
+        837,
+        3567
+      ],
+      "lonlat": [
+        -64.32955489067972,
+        45.13602117105545
+      ],
+      "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 7559,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7559,
+      "nearest_unfiltered_distance_guide_px": 1.1338724423975555,
+      "selected_distance_guide_px": 1.1338724423975555,
+      "guide_reference_pixel_xy": [
+        904.7684683408588,
+        3472.16625955794
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshairs and shoreline identities inspected before first fit or score; initial proposals preserved.",
+      "predicted_lonlat": [
+        -64.32803854928147,
+        45.13620817964411
+      ],
+      "error_ground_m": 121.0724387212908,
+      "east_ground_m": 119.27511018042708,
+      "north_ground_m": 20.784212984082288
+    }
+  ],
+  "fit_sha256": "a66c9a666e158119ab2cc0df726a67961c857c05bd6063fdc3c72b9ba5f3e3a6",
+  "checks_sha256": "40d622d15b77c7e7430356b34dd3a070ff037b9bfa75cb98534456cd0309c4b0",
+  "status": "Reserved before first fit and score"
+}

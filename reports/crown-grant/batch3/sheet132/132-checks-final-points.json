@@ -1,0 +1,186 @@
+[
+  {
+    "id": "Q02",
+    "label": "Serpent Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4703,
+      1210
+    ],
+    "lonlat": [
+      -60.177311197912125,
+      46.0574847748681
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 126309,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4673.646218346374,
+      1205.4990506893955
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  },
+  {
+    "id": "Q04",
+    "label": "Ducker Lake east end",
+    "role": "proposal",
+    "pixel_xy": [
+      5180,
+      1730
+    ],
+    "lonlat": [
+      -60.132562201110254,
+      46.04230695371777
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 127930,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5178.431872359361,
+      1728.6947211730294
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  },
+  {
+    "id": "Q05",
+    "label": "Mill Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5168,
+      1858
+    ],
+    "lonlat": [
+      -60.130081430648005,
+      46.03655440670773
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136187,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5169.950085626566,
+      1852.8892635592492
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  },
+  {
+    "id": "Q06",
+    "label": "Barren Lake west end",
+    "role": "proposal",
+    "pixel_xy": [
+      871,
+      2593
+    ],
+    "lonlat": [
+      -60.38900801877379,
+      45.931418243961424
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 129666,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      809.6594335705158,
+      2557.9356712519657
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  },
+  {
+    "id": "Q07",
+    "label": "Western McDonald Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1220,
+      2225
+    ],
+    "lonlat": [
+      -60.376331573270406,
+      45.953815869494925
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 136948,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1152.5295950699947,
+      2189.871392104542
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  },
+  {
+    "id": "Q08",
+    "label": "White Lily northeast pond north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1897,
+      2841
+    ],
+    "lonlat": [
+      -60.31870742918957,
+      45.937991661839746
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 135997,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1830.1306344674085,
+      2793.6352274159435
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  },
+  {
+    "id": "Q09",
+    "label": "Mira round peninsula south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4515,
+      2578
+    ],
+    "lonlat": [
+      -60.15676024566648,
+      45.993294705745576
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 22825,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4479.997795757547,
+      2554.76886589278
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  },
+  {
+    "id": "Q10",
+    "label": "Mira long eastern island east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5227,
+      2458
+    ],
+    "lonlat": [
+      -60.11187368053927,
+      46.010456327539075
+    ],
+    "guide_file": ".crown-grant-local/132-topology-guide.npy",
+    "reference_objectid": 27425,
+    "reference_feature_code": "WACORVIS10",
+    "guide_reference_pixel_xy": [
+      5227.610555330699,
+      2451.9211768377572
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting."
+  }
+]

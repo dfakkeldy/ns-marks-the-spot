@@ -29,6 +29,34 @@ struct VectorExportTests {
         #expect(reparsed == original)
     }
 
+    /// Only the value the spec declares means a vertex came off an NSPRD
+    /// boundary. An imported file's own "nsmts:traced" earned the NSPRD note
+    /// and the Province's attribution on export, which the Province had
+    /// nothing to do with.
+    @Test func onlyTheSpecsTracedValueClaimsNsprdProvenance() throws {
+        let traced = try parse(
+            """
+            {"type":"FeatureCollection","features":[
+              {"type":"Feature","id":"a","geometry":{"type":"Point","coordinates":[-63.5,44.6]},
+               "properties":{"nsmts:traced":"nsprd-parcel"}}
+            ]}
+            """
+        )
+        #expect(VectorExport.hasTracedFeatures(traced))
+
+        for value in ["\"manual\"", "false", "1", "null"] {
+            let imported = try parse(
+                """
+                {"type":"FeatureCollection","features":[
+                  {"type":"Feature","id":"a","geometry":{"type":"Point","coordinates":[-63.5,44.6]},
+                   "properties":{"nsmts:traced":\(value)}}
+                ]}
+                """
+            )
+            #expect(!VectorExport.hasTracedFeatures(imported), "claimed for \(value)")
+        }
+    }
+
     @Test func aNullGeometryRowIsWrittenBackAsOne() throws {
         let parsed = try parse(
             """
@@ -67,7 +95,7 @@ struct VectorExportTests {
             ]}
             """
         )
-        let kml = VectorExport.kml(layerName: "Woodlot", parsed: original)
+        let kml = try VectorExport.kml(layerName: "Woodlot", parsed: original)
         let reread = try KmlParse.parse(Data(kml.utf8))
         #expect(reread.featureCount == 3)
         #expect(reread.features[0].properties["name"] == .string("Corner"))
@@ -86,7 +114,7 @@ struct VectorExportTests {
             """
         )
         let reread = try KmlParse.parse(
-            Data(VectorExport.kml(layerName: "L", parsed: original).utf8)
+            Data(try VectorExport.kml(layerName: "L", parsed: original).utf8)
         )
         guard case .polygon(let rings)? = reread.features.first?.geometry else {
             Issue.record("Expected a polygon.")
@@ -102,7 +130,7 @@ struct VectorExportTests {
         let original = try parse(
             #"{"type":"MultiLineString","coordinates":[[[-63,44],[-62,45]],[[-61,46],[-60,47]]]}"#
         )
-        let kml = VectorExport.kml(layerName: "L", parsed: original)
+        let kml = try VectorExport.kml(layerName: "L", parsed: original)
         #expect(kml.contains("<MultiGeometry>"))
         let reread = try KmlParse.parse(Data(kml.utf8))
         guard case .collection(let parts)? = reread.features.first?.geometry else {
@@ -123,7 +151,7 @@ struct VectorExportTests {
              "properties":{"name":"A & B <tag>","description":"5 > 3 \\"quoted\\""}}
             """
         )
-        let kml = VectorExport.kml(layerName: "Layer <1>", parsed: original)
+        let kml = try VectorExport.kml(layerName: "Layer <1>", parsed: original)
         #expect(!kml.contains("<tag>"))
         #expect(kml.contains("&amp;"))
         let reread = try KmlParse.parse(Data(kml.utf8))
@@ -158,7 +186,7 @@ struct VectorExportTests {
             """
         )
         let reread = try KmlParse.parse(
-            Data(VectorExport.kml(layerName: "L", parsed: parsed).utf8)
+            Data(try VectorExport.kml(layerName: "L", parsed: parsed).utf8)
         )
         #expect(reread.featureCount == 1)
     }

@@ -1,0 +1,22 @@
+{
+  "reviewed_at_utc": "2026-09-12T15:17:04.049763+00:00",
+  "scope": "Personal reinspection of recovered historical experiments. No coordinates, fits, original scores or original evidence files changed. Not newly collected fresh validation.",
+  "U06": {
+    "status": "point-definition-uncertain",
+    "raw_error_ground_m": 38.39556329131974,
+    "reason": "Lake-group ordering supports locality, but the modern selected northern point lies on a narrow shoreline protrusion/small loop absent from the generalized rounded historical shore. Exact extremity correspondence is not secure.",
+    "eligible_for_secure_validation": false,
+    "promote_to_control": false
+  },
+  "U04": {
+    "status": "conditional-local-identity",
+    "reason": "First eastern tributary upstream of Otter mouth locally identifiable, but subsequent opposite-bank tributary spacing and branch length differ. Same drainage as R14; no independent watershed validation.",
+    "raw_error_ground_m": 281.1734464044364
+  },
+  "U02_U03": "Correlated lake-group/island-extent checks; U03 uses same island as R10. Neither establishes distributed independent validation.",
+  "rejections_maintained": [
+    "R11 Blair tributary hierarchy",
+    "R12 South Branch/Polletts hierarchy",
+    "U05 MacKenzie mouth bank/centreline mismatch"
+  ]
+}

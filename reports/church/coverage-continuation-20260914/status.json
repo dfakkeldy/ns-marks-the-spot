@@ -1,0 +1,20 @@
+{
+  "full_georeferencing_complete": false,
+  "current_panel": "Richmond pass paused provisionally",
+  "next_panel": "Inverness north",
+  "sequence": [
+    "Inverness north",
+    "Victoria northwest",
+    "Victoria main",
+    "Cape Breton main",
+    "Inverness south"
+  ],
+  "candidate": "Frozen 14-control Richmond affine",
+  "retained_baseline": "Ten-control Richmond v4 TPS",
+  "fresh_count": 14,
+  "rms_ground_m": 233.5208208689285,
+  "remaining": "More defensible interior/coastal interval coverage and adjacent-panel seam checks. Three western interior lakes cluster; 14 checks do not establish whole-panel accuracy. Northern basin R51 fails 378.33 m; preserve it. Other panels remain unaccepted except unchanged July south baseline.",
+  "catalog_activation": false,
+  "tiles": false,
+  "deployment": false
+}

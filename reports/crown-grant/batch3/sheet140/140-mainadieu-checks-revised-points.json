@@ -1,0 +1,68 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Main-a-Dieu inset lake east shore tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2692,
+      3268
+    ],
+    "lonlat": [
+      -59.82660810761182,
+      46.00781484218285
+    ],
+    "guide_file": ".crown-grant-local/140-mainadieu-discovery-guide.npy",
+    "reference_objectid": 138263,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2628.174365628918,
+      3237.2258164847735
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Main-a-Dieu inset northeastern coast shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      2587,
+      3077
+    ],
+    "lonlat": [
+      -59.829878286790816,
+      46.01328815843335
+    ],
+    "guide_file": ".crown-grant-local/140-mainadieu-discovery-guide.npy",
+    "reference_objectid": 5491,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2537.5672396949085,
+      3039.7354143683333
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ04",
+    "label": "Main-a-Dieu inset lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2681,
+      3204
+    ],
+    "lonlat": [
+      -59.82664440867256,
+      46.010046240918356
+    ],
+    "guide_file": ".crown-grant-local/140-mainadieu-discovery-guide.npy",
+    "reference_objectid": 138263,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2624.559913183766,
+      3155.630836640252
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

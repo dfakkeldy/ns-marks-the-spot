@@ -1,0 +1,167 @@
+{
+  "fit_sha256": "93e429c37332b3cafbd501fced4d35c8dee210f04534c446367e8a9f95ceb494",
+  "boundary_sha256": "401fbbd567c67820be00f63b7b42eec5248a48ca289d8ee1df5f9d79d24a08af",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Frozen same-coordinate diagnostics for all three rounds. None may become fitting controls.",
+  "checks_sha256": "f4ccac833a56b40fbf41528b20902ef3af7a8f7ac3e460656afb202c96a375a3",
+  "median_ground_m": 103.89007200574603,
+  "worst_ground_m": 151.30953952764702,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 40.73164630452929,
+      "predicted_lonlat": [
+        -61.51050739107968,
+        46.006425930847264
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 119.56899321002491,
+      "predicted_lonlat": [
+        -61.44409952779832,
+        46.02717683589363
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 75.5035465407812,
+      "predicted_lonlat": [
+        -61.41788793437081,
+        46.077521609488095
+      ]
+    },
+    {
+      "id": "Q04",
+      "error_ground_m": 119.80553412569324,
+      "predicted_lonlat": [
+        -61.47593514685331,
+        45.9845052065186
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 49.74034656620956,
+      "predicted_lonlat": [
+        -61.43673064371024,
+        45.96322798892727
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 12.300645288223249,
+      "predicted_lonlat": [
+        -61.46479313376889,
+        45.928971462549946
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 147.3997885416701,
+      "predicted_lonlat": [
+        -61.426740321852265,
+        46.07039169694877
+      ]
+    },
+    {
+      "id": "Q08",
+      "error_ground_m": 116.0310576331981,
+      "predicted_lonlat": [
+        -61.51635192702854,
+        46.00675941871613
+      ]
+    },
+    {
+      "id": "M02",
+      "error_ground_m": 125.80097151634021,
+      "predicted_lonlat": [
+        -61.23805755148175,
+        46.039898042417065
+      ]
+    },
+    {
+      "id": "M03",
+      "error_ground_m": 91.74908637829397,
+      "predicted_lonlat": [
+        -61.2843164171302,
+        45.94698508944565
+      ]
+    },
+    {
+      "id": "M05",
+      "error_ground_m": 129.21610745644517,
+      "predicted_lonlat": [
+        -61.25334904238573,
+        46.05970638669407
+      ]
+    },
+    {
+      "id": "M06",
+      "error_ground_m": 45.12962194281608,
+      "predicted_lonlat": [
+        -61.26509596408911,
+        45.93501258224009
+      ]
+    },
+    {
+      "id": "M07",
+      "error_ground_m": 61.63440954262651,
+      "predicted_lonlat": [
+        -61.30040599011483,
+        45.95624851375527
+      ]
+    },
+    {
+      "id": "N02",
+      "error_ground_m": 151.30953952764702,
+      "predicted_lonlat": [
+        -61.31366131240894,
+        46.088483187958
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71062,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -40.38440749583045,
+      -20.84767943142383
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-16/sheet-16-full-sheet.tif",
+    "sha256": "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce",
+    "size": [
+      8497,
+      5572
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.6018359,
+            46.0946815
+          ],
+          [
+            -61.6018359,
+            45.9208535
+          ],
+          [
+            -61.2201866,
+            45.9208535
+          ],
+          [
+            -61.2201866,
+            46.0946815
+          ],
+          [
+            -61.6018359,
+            46.0946815
+          ]
+        ]
+      ]
+    }
+  }
+}

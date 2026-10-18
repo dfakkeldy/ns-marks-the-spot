@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit/scoring",
+  "rejections": [
+    {
+      "id": "C01",
+      "reason": "Upper Middle proposal mixed overprinted road and river loop linework; precise junction definition insecure"
+    },
+    {
+      "id": "C02",
+      "reason": "McLeod/Middle major fork identity known but source bank wedge is obscured by road/bridge and heavy ink; no secure precise placement"
+    },
+    {
+      "id": "Q02",
+      "reason": "Proposed eastern tributary junction is not securely identifiable in source overprint"
+    }
+  ],
+  "audit": [
+    "Baddeck Forks nearest degree-three node was an upstream small tributary, not the major fork; final C03 uses the actual northern bank wedge",
+    "Two adjacent North Baddeck forks were resolved by branch order: eastern C04 control and western Q09 excluded check. These nearby points are spatially correlated.",
+    "Northern outer river banks are compared to northern outer banks; a graph node alone is not evidence of feature identity."
+  ]
+}

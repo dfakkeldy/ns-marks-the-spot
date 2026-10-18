@@ -1,6 +1,7 @@
 import Foundation
 import GeoCore
 import MapCatalog
+import NSDataServices
 
 /// How a layer behaves when the device is offline.
 ///
@@ -30,6 +31,14 @@ nonisolated enum LayerOfflinePolicy: Equatable, Sendable {
 /// exactly one layer id and exactly one catalog.
 nonisolated enum NativeLayerTraits {
     private static let provinceDisclaimer = "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
+
+    /// The statement the Open Government Licence – Nova Scotia asks a product to
+    /// carry where the information provider names no other, quoted from the
+    /// licence with its own en dash. `CivicAddressQuery.attribution` is the same
+    /// sentence for the civic-address dataset, and `AttributionTests` pins the
+    /// two together so one licence cannot end up with two wordings.
+    private static let openGovernmentDisclaimer =
+        "Contains information licensed under the Open Government Licence – Nova Scotia."
 
     /// The layers installed as MapKit tile overlays, bottom of the stack first.
     ///
@@ -119,9 +128,12 @@ nonisolated enum NativeLayerTraits {
     /// Who to credit, and under what licence.
     ///
     /// Keyed on `licence` rather than on the id, so a layer added to the shared
-    /// catalog is credited correctly without an entry here. The one per-layer
-    /// detail the licence cannot supply is NS Aerial's copyright line, which
-    /// names the branch that publishes the imagery rather than the province.
+    /// catalog is credited correctly without an entry here. Two things the
+    /// licence case cannot supply are read off the descriptor instead: NS
+    /// Aerial's copyright line, which names the branch that publishes the
+    /// imagery rather than the province, and which licence document a
+    /// `provinceOpen` layer is actually published under, because that case
+    /// covers two of them.
     static func attribution(for descriptor: LayerDescriptor) -> LayerAttribution {
         switch descriptor.licence {
         case .provinceRestricted:
@@ -138,10 +150,32 @@ nonisolated enum NativeLayerTraits {
                 bundledLicenseResourceName: "ProvinceRestrictedGeographicServicesLicense.md"
             )
         case .provinceOpen:
+            // Two licences share this case and the layer row cannot say which.
+            // `LayerLicence`'s raw values are parity-locked to the web's export,
+            // so a third case is not available; the browser tells the coastal
+            // projections apart by the licence document they point at and so
+            // does this. A layer naming no document at all is not one of them,
+            // which is why the URL has to be there before it is compared.
+            if let licenceURL = descriptor.licenceURL,
+               licenceURL == LayerCatalog.unrestrictedLicence
+            {
+                return LayerAttribution(
+                    provider: "Province of Nova Scotia",
+                    copyright: nil,
+                    // All three notices, not the permission alone: the licence
+                    // makes the permission, the endorsement disclaimer and the
+                    // no-warranty caveat conditions of reproducing the data, and
+                    // a layer drawn on the map is a reproduction. The parcel
+                    // panel and the evidence note already carry all three.
+                    disclaimer: CoastalFloodLicence.attribution,
+                    licenseTitle: "Unrestricted Map Services Licence",
+                    licenseURL: licenceURL
+                )
+            }
             return LayerAttribution(
                 provider: "Province of Nova Scotia",
                 copyright: nil,
-                disclaimer: provinceDisclaimer,
+                disclaimer: openGovernmentDisclaimer,
                 licenseTitle: "Open Government Licence — Nova Scotia",
                 licenseURL: descriptor.licenceURL
             )

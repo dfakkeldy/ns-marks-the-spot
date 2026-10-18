@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T07:33:29.070397+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 8,
+  "reason": "Western Stoney/Handsaw, northern Cushing lake, northeastern unnamed lake, southern pond and southeastern Wild Duck/Cranberry distribute controls.",
+  "corrections": [
+    "Unnamed northeastern lake north and south source tips, Stoney western reference corner, and Skunk southern source tip refined before fitting."
+  ],
+  "unadopted": [
+    "Five Hill and unnamed connected pool outlines could not be confidently reconciled.",
+    "Rae Lake island geometry was not confidently matched."
+  ],
+  "limitations": [
+    "Seven checks share control lakes or their islands; Skunk Lake provides one additional waterbody. Independence is limited by shared cartography and nearby geometry.",
+    "The central and southwestern interior between sampled lakes lacks independent validation.",
+    "Generalized shorelines and small lake tips carry 18 px working source uncertainty; no ownership or access claims follow from this fit."
+  ]
+}

@@ -1,0 +1,41 @@
+[
+  [
+    "C01",
+    "Kemptown pond northern tip",
+    [
+      4388,
+      813
+    ],
+    [
+      4438,
+      759
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Eastern three-pond cluster east pond south tip",
+    [
+      5365,
+      1381
+    ],
+    [
+      5420,
+      1353
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Duck Lake southern shore",
+    [
+      4817,
+      3260
+    ],
+    [
+      4856,
+      3224
+    ],
+    "WALK20"
+  ]
+]

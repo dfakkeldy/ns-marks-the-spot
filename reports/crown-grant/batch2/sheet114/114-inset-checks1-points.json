@@ -1,0 +1,24 @@
+[
+  {
+    "id": "IQ03",
+    "label": "Coastal step southwest of Sight Point",
+    "role": "proposal",
+    "pixel_xy": [
+      976,
+      732
+    ],
+    "lonlat": [
+      -61.4306005632221,
+      46.17534130443274
+    ],
+    "guide_file": ".crown-grant-local/114-inset-frozen-guide.npy",
+    "reference_objectid": 12742,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      981.6700418257387,
+      715.8834909774596
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

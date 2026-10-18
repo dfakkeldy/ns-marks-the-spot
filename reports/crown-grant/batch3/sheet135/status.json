@@ -1,0 +1,65 @@
+{
+  "sheet": "135",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; both full rasters, native union and browser verified, regional limitations remain",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/135.pdf",
+    "pdf_sha256": "87902da25448535704405c27af980950d539a36655642a53fcf694eea8a84fba",
+    "jpeg_sha256": "7e855eacb2e21c6d6b5e62c6d54bef8f4c076025edefc7c86eb0ceddc71473f5",
+    "dimensions": [
+      5746,
+      3965
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 6,
+      "rms_ground_m": 92.12473518787186,
+      "rms_gate_passed": true,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "stpaul-inset",
+      "controls": 4,
+      "independent_checks": 4,
+      "rms_ground_m": 94.09306927755449,
+      "rms_gate_passed": true,
+      "fit": "fit-stpaul-similarity-01.json",
+      "checks": "checks-stpaul-similarity-01.json",
+      "scores": "scores-stpaul-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main: seven controls and six independent checks, RMS92.12 m, median 51.23 m, P95149.71 m and maximum 153.19 m. The 100 m RMS ceiling passes; sparse coastal/pond samples do not validate all parcel interiors, eastern slopes or southern edge.",
+    "St Paul inset: four controls and four independent checks, RMS94.09 m, median 83.28 m, P95131.96 m and maximum 140.33 m. RMS passes, but median exceeds suggested 75 m and four coastal checks give limited coverage; north island has a control but no separate excluded check.",
+    "Both components retain first fits and scores; source working uncertainty 12 px, modern 25 m. Generalized shores and changed channels remain limitations.",
+    "Check counts and scores are not pooled across components."
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 6 checks, RMS 92.12 m; stpaul-inset: 4 checks, RMS 94.09 m. Gate: 100 m. No pooled score.",
+    "coverage": "Complete original mapped frame from Pollett Cove and the western interior through Cape St Lawrence, Meat Cove, Bay St Lawrence and Cape North, with all offshore rocks and Atlantic area retained. The true displaced St Paul Island inset, including its northern island, is separately fitted. Its native mask exactly fills the hole in the main source mask.",
+    "focusBounds": [
+      [
+        46.903689306463235,
+        -60.8086126194731
+      ],
+      [
+        47.23609838716898,
+        -60.09672238855399
+      ]
+    ]
+  }
+}

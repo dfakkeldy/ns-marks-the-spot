@@ -1,0 +1,199 @@
+{
+  "sheet": "046",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.920614670867864,
+      2.111859981432738
+    ],
+    [
+      2.0375854205365753,
+      -4.910761504953316
+    ],
+    [
+      379328.42462898215,
+      4949967.334415862
+    ]
+  ],
+  "source_sha256": "ee049696134c43df53373d4362f40f704aaf542d2c4d8a6ccb72651a025a7177",
+  "source_dimensions": [
+    5710,
+    3940
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Duck Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        241,
+        356
+      ],
+      "lonlat": [
+        -64.49871742866954,
+        44.682140795217336
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 128120,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128120,
+      "nearest_unfiltered_distance_guide_px": 2.34751507840909,
+      "selected_distance_guide_px": 2.34751507840909,
+      "guide_reference_pixel_xy": [
+        239.41455775761278,
+        283.72665787348524
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Round Lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        2315,
+        1495
+      ],
+      "lonlat": [
+        -64.34121137540791,
+        44.67307422533456
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 140191,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140191,
+      "nearest_unfiltered_distance_guide_px": 0.3900589530352048,
+      "selected_distance_guide_px": 0.3900589530352048,
+      "guide_reference_pixel_xy": [
+        2300.746098128555,
+        1401.2961077954387
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Nine Mile Lake eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        3147,
+        1246
+      ],
+      "lonlat": [
+        -64.29412002054241,
+        44.70045736281791
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 134483,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134483,
+      "nearest_unfiltered_distance_guide_px": 2.3286493097503485,
+      "selected_distance_guide_px": 2.3286493097503485,
+      "guide_reference_pixel_xy": [
+        3173.0267526952666,
+        1156.7635119563201
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Russell Lake northeast tip",
+      "role": "control",
+      "pixel_xy": [
+        3736,
+        1374
+      ],
+      "lonlat": [
+        -64.25585748713542,
+        44.70643904581759
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 142187,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142187,
+      "nearest_unfiltered_distance_guide_px": 1.073655672889908,
+      "selected_distance_guide_px": 1.073655672889908,
+      "guide_reference_pixel_xy": [
+        3743.4702788922004,
+        1270.066119894269
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Big Whitford Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4597,
+        3149
+      ],
+      "lonlat": [
+        -64.15523920741583,
+        44.64543954258979
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 125789,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125789,
+      "nearest_unfiltered_distance_guide_px": 2.6651431354436013,
+      "selected_distance_guide_px": 2.6651431354436013,
+      "guide_reference_pixel_xy": [
+        4594.597871633712,
+        3041.133024654002
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Long or Ponhook Lake central island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        5319,
+        1895
+      ],
+      "lonlat": [
+        -64.1451296646528,
+        44.71473083261493
+      ],
+      "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+      "reference_objectid": 151389,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 151389,
+      "nearest_unfiltered_distance_guide_px": 1.6202223789681882,
+      "selected_distance_guide_px": 1.6202223789681882,
+      "guide_reference_pixel_xy": [
+        5318.003927822865,
+        1769.6202176179504
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    14.145543606960473,
+    73.55910264106512,
+    121.0406926155056,
+    4.28983527043737,
+    24.828627632973834,
+    63.106362311909564
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

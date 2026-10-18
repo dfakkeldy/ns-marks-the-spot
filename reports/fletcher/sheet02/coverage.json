@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+  "raster_sha256": "ec5096c078ea3628b00f39ef28a9475f641bbd0daa0db19a2c24f655143a1465",
+  "cutline_sha256": "d4d9b585fbd1ea6d7e1e24d63514e2fab658550ed80a2ef5be4590bbe9f5692c",
+  "expected_interior_cells": 51820504,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

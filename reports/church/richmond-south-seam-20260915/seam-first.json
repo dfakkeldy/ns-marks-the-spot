@@ -1,0 +1,90 @@
+{
+  "pairs": [
+    {
+      "richmond_id": "R54",
+      "south_id": "IS35",
+      "richmond_role": "fresh check",
+      "south_role": "fresh check of TPS13",
+      "common_reference_lonlat": [
+        -60.98465884117454,
+        45.907983194873744
+      ],
+      "richmond_prediction_lonlat": [
+        -60.98479244087281,
+        45.906862984094154
+      ],
+      "south_prediction_lonlat": [
+        -60.98375830806686,
+        45.90860894600623
+      ],
+      "richmond_error": {
+        "east_ground_m": -10.336840206520355,
+        "north_ground_m": -124.56192751493067,
+        "error_ground_m": 124.99009581438834
+      },
+      "south_error_against_common_reference": {
+        "east_ground_m": 69.67471153643136,
+        "north_ground_m": 69.58044738333533,
+        "error_ground_m": 98.46828974725831
+      },
+      "richmond_minus_south": {
+        "east_ground_m": -80.01219653895023,
+        "north_ground_m": -194.142374898266,
+        "error_ground_m": 209.98384063095537
+      },
+      "original_south_reference_lonlat": [
+        -60.98465884117454,
+        45.907983194873744
+      ],
+      "common_reference_difference_from_original_south": {
+        "east_ground_m": 0.0,
+        "north_ground_m": 0.0,
+        "error_ground_m": 0.0
+      }
+    },
+    {
+      "richmond_id": "R55",
+      "south_id": "IS11",
+      "richmond_role": "fresh check",
+      "south_role": "TPS13 control; not independent validation",
+      "common_reference_lonlat": [
+        -61.094902628897955,
+        45.75011987610545
+      ],
+      "richmond_prediction_lonlat": [
+        -61.094834384370984,
+        45.74998213805033
+      ],
+      "south_prediction_lonlat": [
+        -61.09489900000001,
+        45.75012899999995
+      ],
+      "richmond_error": {
+        "east_ground_m": 5.29514711996117,
+        "north_ground_m": -15.315794090645364,
+        "error_ground_m": 16.205311834367166
+      },
+      "south_error_against_common_reference": {
+        "east_ground_m": 0.2815687068849889,
+        "north_ground_m": 1.0145321810100911,
+        "error_ground_m": 1.052880089564798
+      },
+      "richmond_minus_south": {
+        "east_ground_m": 5.013577632862951,
+        "north_ground_m": -16.330326271655455,
+        "error_ground_m": 17.08260860698576
+      },
+      "original_south_reference_lonlat": [
+        -61.094899,
+        45.750129
+      ],
+      "common_reference_difference_from_original_south": {
+        "east_ground_m": -0.2815687079876188,
+        "north_ground_m": -1.014532186540711,
+        "error_ground_m": 1.0528800951888553
+      }
+    }
+  ],
+  "seam_rms_ground_m": 148.9715221828419,
+  "scope": "Two centroid-based paired feature separations. R55/IS11 uses a south control; not a two-point independent south accuracy result. No whole-seam or full-shoreline acceptance."
+}

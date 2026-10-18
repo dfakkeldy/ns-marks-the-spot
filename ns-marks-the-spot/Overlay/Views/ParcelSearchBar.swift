@@ -41,6 +41,19 @@ struct ParcelSearchBar: View {
     /// bottom of the screen. Unbounded where no height is passed.
     var availableHeight: CGFloat = .infinity
 
+    /// Whether the layers panel is standing on the card below the field.
+    ///
+    /// The panel is drawn over this column rather than laid out beside it, so
+    /// nothing about the accessibility tree changed: VoiceOver went on offering
+    /// the addresses and the sentence saying which kind of nothing was found,
+    /// from behind a panel that had replaced them on screen, and a swipe
+    /// through the panel landed in a card nobody could see.
+    ///
+    /// The field itself is not hidden and must not be: it sits above where the
+    /// panel begins, and taking a control the reader can see and tap out of the
+    /// tree is the same bug the other way round.
+    var coveredByPanel = false
+
     /// The tallest the card is allowed to be: enough for the licence, a
     /// screenful of addresses and the message, or what the screen has left
     /// under the field, whichever is smaller.
@@ -68,7 +81,7 @@ struct ParcelSearchBar: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
 
                 // A default keyboard rather than a numeric one: the field takes
@@ -97,7 +110,7 @@ struct ParcelSearchBar: View {
                         viewModel.clearParcelSelection()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 15))
+                            .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
                     .accessibilityLabel("Clear parcel search")
@@ -137,6 +150,7 @@ struct ParcelSearchBar: View {
                 }
                 .scrollBounceBehavior(.basedOnSize)
                 .frame(height: cardHeight > 0 ? min(cardHeight, cardLimit) : nil)
+                .accessibilityHidden(coveredByPanel)
             }
         }
     }

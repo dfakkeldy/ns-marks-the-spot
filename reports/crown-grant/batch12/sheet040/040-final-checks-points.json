@@ -1,0 +1,191 @@
+[
+  {
+    "id": "Q01",
+    "label": "Beaver Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1085,
+      670
+    ],
+    "lonlat": [
+      -64.57231540845501,
+      44.2653506250913
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 128663,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128663,
+    "nearest_unfiltered_distance_guide_px": 2.06176731668895,
+    "selected_distance_guide_px": 2.06176731668895,
+    "guide_reference_pixel_xy": [
+      1100.7960021960898,
+      528.0980891261715
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score."
+  },
+  {
+    "id": "Q02",
+    "label": "Crooked Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      820,
+      730
+    ],
+    "lonlat": [
+      -64.58811622306128,
+      44.25688818023626
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 128663,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128663,
+    "nearest_unfiltered_distance_guide_px": 1.5782124087712421,
+    "selected_distance_guide_px": 1.5782124087712421,
+    "guide_reference_pixel_xy": [
+      813.242736884451,
+      589.0271899243817
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score."
+  },
+  {
+    "id": "Q03",
+    "label": "Branch Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1337,
+      1341
+    ],
+    "lonlat": [
+      -64.53905189085383,
+      44.24127253948367
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 124651,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124651,
+    "nearest_unfiltered_distance_guide_px": 1.996340472812974,
+    "selected_distance_guide_px": 1.996340472812974,
+    "guide_reference_pixel_xy": [
+      1346.0779149263399,
+      1200.3196801807499
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score."
+  },
+  {
+    "id": "Q04",
+    "label": "Dolliver\u2019s Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      586,
+      2560
+    ],
+    "lonlat": [
+      -64.55322610589846,
+      44.17317848216946
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 141386,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141386,
+    "nearest_unfiltered_distance_guide_px": 1.374687050686315,
+    "selected_distance_guide_px": 1.374687050686315,
+    "guide_reference_pixel_xy": [
+      568.0915615196573,
+      2411.3716344175627
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score."
+  },
+  {
+    "id": "Q05",
+    "label": "Indian Island southern tip",
+    "role": "check",
+    "pixel_xy": [
+      2500,
+      3790
+    ],
+    "lonlat": [
+      -64.40154694097696,
+      44.15763106621842
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 17698,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17698,
+    "nearest_unfiltered_distance_guide_px": 0.8917051601057748,
+    "selected_distance_guide_px": 0.8917051601057748,
+    "guide_reference_pixel_xy": [
+      2500.8895101097296,
+      3674.9374711486744
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score."
+  },
+  {
+    "id": "Q06",
+    "label": "LaHave Ironbound Island southern tip",
+    "role": "check",
+    "pixel_xy": [
+      4804,
+      3220
+    ],
+    "lonlat": [
+      -64.27517896578152,
+      44.22756100090251
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 22582,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22582,
+    "nearest_unfiltered_distance_guide_px": 3.631996586717271,
+    "selected_distance_guide_px": 3.631996586717271,
+    "guide_reference_pixel_xy": [
+      4820.219917882176,
+      3138.6253324442077
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score."
+  },
+  {
+    "id": "Q07",
+    "label": "Sharp Head eastern tip",
+    "role": "check",
+    "pixel_xy": [
+      3668,
+      3480
+    ],
+    "lonlat": [
+      -64.33874832765711,
+      44.19421873100019
+    ],
+    "guide_file": ".crown-grant-local/040-frozen-east-discovery-guide.npy",
+    "reference_objectid": 17236,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17236,
+    "nearest_unfiltered_distance_guide_px": 18.590201996236388,
+    "selected_distance_guide_px": 18.590201996236388,
+    "guide_reference_pixel_xy": [
+      3669.5341506563127,
+      3373.8533704844303
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and native paired crosshairs inspected; corrections completed before first fit and score."
+  }
+]

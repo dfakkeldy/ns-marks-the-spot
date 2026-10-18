@@ -2,11 +2,14 @@
 
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
-The current-notice catalog covers the August 11, 2026 Inverness County auction,
-the August 31, 2026 Annapolis County tax sale by tender, the September 14, 2026
-Victoria County tender, and the September 15, 2026 Halifax tender. Completed
-Middleton and CBRM events remain in historical-record mode with only printed
-official outcomes classified.
+The tax-sale catalog is a set of dated snapshots—the August 11, 2026 Inverness
+County auction, the August 31, 2026 Annapolis County tax sale by tender, the
+September 14, 2026 Victoria County tender, and the September 15, 2026 Halifax
+tender—each pinned to its official notice date. Whether a catalogued event is
+presented as current or past is decided at runtime from its advertised start
+time and any verified result dataset, as described under Data flow below.
+Completed Middleton and CBRM events remain in historical-record mode with only
+printed official outcomes classified.
 
 ## Run locally
 
@@ -16,6 +19,350 @@ npm run dev
 ```
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
+Run `npx playwright install chromium` once, then `npm run test:browser` for
+rendered keyboard focus, phone controls, georeferencing and print-layout checks.
+The browser suite builds the production app and serves its preview on
+`127.0.0.1:4173`, substitutes local tile imagery, and uses the real components.
+Its print fixture is synthetic and is not a property-evidence or live-source
+acceptance test. CI runs it separately from
+Vitest; failure screenshots and traces are saved in `web/test-results/`.
+
+Archived GeoPDF browser evidence has its own documentation check:
+`python3 tools/validate_browser_evidence.py` from the repository root. It checks
+the saved receipt and screenshots, not the current application's behavior.
+
+## Electoral Districts
+
+The default-off **Elections & Districts** category groups provincial, federal,
+and municipal sources. The **Electoral Districts** setup starts with the 2026
+provincial districts and 2023-order federal ridings. Provincial boundaries,
+polling divisions (zoom 12+), 2024 results and seats are separate sources; the
+2024 results always use their own 55-district geometry. Results offer party,
+margin and turnout modes with text labels, legends and a district inspector.
+Party shares and margin points use valid votes; turnout uses the source's
+listed-elector figure. The June 23 seats claim is checked against a reviewed
+attribute digest and fails closed if the publisher changes those records.
+
+Provincial sources remain behind the Province licence gate. They are loaded
+in full from GeoNOVA without a point or viewport query and are never bundled.
+Federal and municipal geometry is an NS-only project-derived extract with
+its own redistribution licence and receipt at `public/elections/source.json`.
+Federal multipart placemarks and polygon holes are preserved. Municipal
+regulation dates vary; parity with current municipal boundary reviews remains
+unverified and the control states this. Institutional polls have no identifying
+poll label or count. Browser navigation filters the downloaded geometry locally.
+
+Regenerate the open boundaries with
+`python3 scripts/buildElectoralBoundaries.py --cache /tmp/ns-electoral-boundaries`.
+`npm run check:electoral-boundaries` verifies hashes and feature counts during
+prebuild. `python3 scripts/buildElectoralMembers.py` refreshes the dated Commons
+name/caucus snapshot, joining exactly to the 2023-order riding names. These are
+current-caucus facts, not election-party records. Provincial district selections
+obtain the MLA from the separately dated seats source, while result selections
+show the MLA elected in 2024. `python3 scripts/checkElectoralSeats.py` prints
+only a source-attribute digest for review; it does not store an extract or
+establish a new as-of date.
+
+Shared links and browser print preserve the selected electoral display modes.
+Browser print credits each rendered source. The generated-PDF compositor
+explicitly lists these feature overlays as omitted, following its existing
+unsupported-format contract. The web-only category, theme and layers stay out
+of the native parity fixtures. `/e2e/electoral.html` is a development-only
+component verification page using live sources with fixture-supplied licence
+state; it never changes saved licence acceptance and is absent from normal
+production builds.
+
+## Atlas basemap
+
+The research map uses original NS Marks Atlas cartography over a pinned
+provincial vector-tile archive: NSRN roads (including tracks, rail and ferries),
+GeoNAMES labels, NSTDB hydrography and woodland, and municipal boundaries.
+A separate pinned archive adds [Crown Land](https://data.novascotia.ca/d/3nka-59nz)
+to all three Atlas styles. Adjoining and overlapping polygons are dissolved
+before tiling and rendered as fills without boundary lines. Holes and disconnected areas remain. This includes
+full or partial provincial interest, not a survey or permission to enter.
+The small Crown Land archive is downloaded once per browser page and checked
+against its receipt before use; it also works on static hosts without byte-range
+responses. The larger provincial archive continues to use remote byte ranges.
+OpenFreeMap's OSM tiles supplement ocean context, grass, farmland, settlement
+areas and building footprints. Atlas covers Nova Scotia; choose OpenStreetMap
+for worldwide detail.
+
+Atlas has three styles. Day and Night are the modern map: quiet paper, sage
+woodland and a cool water wash, set in Atlas Sans. Fletcher is a separate
+style chosen explicitly (it is never the system default): the salmon, olive,
+ochre, paper and ink of Hugh Fletcher's 1884 Geological Survey sheets of Cape
+Breton (David Rumsey Map Collection, David Rumsey Map Center, Stanford
+University Libraries) applied to the same modern provincial and OSM classes,
+with serif lettering, paper grain, an engraved shore and hand-inked strokes.
+In Fletcher, salmon is the land ground wherever no tree cover is mapped, olive
+is NSTDB tree cover, ochre is farmland, bare paper is water under an ink shore,
+and main routes are a dark rust line. Crown Land uses a distinct mustard wash
+above land cover; Day and Night use muted teal. It is modern geography in historical
+colours, not a historical map; nothing depicts geology and the sheets'
+hatching is deliberately omitted. `src/atlas/palette.ts`
+holds the tokens and `src/atlas/style.ts` the cartography. Labels are set in
+Atlas Serif (Fletcher names, italic for water; derived from Libre Baskerville)
+and Atlas Sans (Day and Night names, road names everywhere; derived from Noto
+Sans) from self-hosted glyph ranges in
+`public/atlas/fonts`, generated by `npm run build:atlas-glyphs` from each pinned
+OFL font's own outlines and recorded in that folder's `source.json`. The stacks
+carry project names because converted glyphs are Modified Versions under the
+OFL (Libre Baskerville declares a Reserved Font Name; Noto Sans does not). No
+font host is contacted for map lettering; the page's interface fonts remain a
+separate Google Fonts dependency. The paper grain, shore stipple and hand-inked
+strokes come from the procedural sprite in `public/atlas/sprite`
+(`npm run build:atlas-sprite`). In the Fletcher style `/atlas.html` also shows
+unlocated specimens for future historical site symbols and lettering.
+
+The Fletcher style also enables a separately identified reviewed historical-feature
+layer: currently 326 annotations from Judique, Port Hawkesbury and Port Hood/Mabou, with approximate points, traced reaches and
+unresolved group outlines. Its checkbox is below the style selector. Select a
+mark from zoom 12 for original source pixels, reading/placement uncertainty,
+fit provenance and prior-coordinate evidence; persistent labels appear at zoom
+15. Group selections expose every annotation sharing the geometry. The church
+retains its explicit east-of-Highway-19 correction. Native excerpts and licence
+receipts live in `public/fletcher-features/`. This on-screen research layer is
+excluded from print/PDF exports. See the [feature review](../reports/fletcher/feature-geography/README.md)
+for coverage, limitations and reproduction. Local dev/preview PMTiles responses disable HTTP storage to avoid reproduced
+Chromium range-cache failures; production hosting retains its configured policy.
+The remaining inventories are not
+automatically promoted from lettering centres to historical sites.
+
+**Background Maps → Basemap style** offers Day, Night, Fletcher,
+System appearance (the default), and standard OpenStreetMap. Explicit choices
+stay in this browser; shared links carry the resolved style. Leaflet owns the
+research layers, data queries and parcel selection; the 3D view below mirrors
+that same map state.
+A failed atlas source offers retry or a switch to OpenStreetMap.
+
+Browser print captures the selected style and applies the existing monochrome
+treatment. Generated PDF renders the captured atlas bounds locally with source
+credits; the basemap render is bounded to 2048 pixels per edge and its resampling
+is disclosed in the export receipt. Neither path silently substitutes OSM.
+
+`/atlas.html` remains a comparison study with Baddeck, Mabou, Halifax, Judique
+and Port Hawkesbury bookmarks. Its WebGL historical preview requires tile-host CORS permission;
+the research map uses ordinary image overlays instead. Fletcher uses the same
+`VITE_FLETCHER_TILE_BASE_URL`, mosaic revision, sheet footprints, and imagery
+terms on both surfaces. Builds default to `https://tiles.kinnokilabs.com`
+(revision `fletcher-seams-20261009.2`); an explicit empty override
+disables the historical control.
+Property boundaries retain the Province licence gate and attribution.
+
+The sidebar's **Appearance** selector offers **Match map**, **System**, **Light**
+and **Dark** independently of the basemap. Match map carries Fletcher's paper and
+ink into the controls. The choice stays in this browser. Property boundaries use
+mustard outlines on Fletcher, bright yellow over Night or aerial imagery, and
+teal on light backgrounds, with no context fill. Crown Land remains fill-only;
+selected and tax-sale parcels retain their distinct evidence symbols.
+
+On-screen road overlays reuse exposed Atlas roads while retaining supplemental
+bridge/structure geometry. When imagery hides Atlas, the separate road overlay
+is retained. Main roads do not redraw the network when Roads is already on.
+Extra road and place-name labels are suppressed over a labelled basemap or
+provincial topographic map. Labels baked into separate raster images cannot be
+removed individually. Standalone NSRN overlays use unsimplified source geometry
+at every zoom. Completed road collections up to 8 MiB are cached in memory for
+60 seconds with a 10% margin on each edge, so small pans reuse source geometry.
+Zoom changes or leaving that area fetch fresh data. Completed overlays remain visible during replacement loads;
+failed replacements clear the layer and name the failed dataset and HTTP status
+when available.
+
+### Main-map 3D terrain
+
+The research map's **3D terrain / 2D** control changes the current map
+in place, keeping its centre and selected layers. The 3D view uses
+[Mapzen Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/)
+([source attribution and licences](https://github.com/tilezen/joerd/blob/master/docs/attribution.md))
+for province-wide relief. Source detail and age vary; this is neither a provincial
+LiDAR surface nor a watershed model. Both terrain views offer 1–10× height
+exaggeration and an optional independent 1–10× scale for source elevations
+between 0–20 m or 0–100 m. Higher terrain retains the overall relief scale and
+is offset to join the lower band continuously. Sea level stays fixed; underwater
+elevations retain the overall scale. These are display controls: source rasters,
+recorded elevations and measurements are unchanged.
+Poker also supports 3D. Switching dimensions suspends driveway measurement
+capture and preserves the measurement for returning to 2D; civic numbers remain
+visible in 3D with label collision handling. The 3D renderer avoids loading a
+second basemap and does not resubmit unchanged path geometry.
+
+The compact 3D toolbar keeps **2D** and **3D settings** visible. Settings start
+collapsed; opening them offers a Tilt slider (0° looks straight down), rotation buttons,
+and North up. On touch screens, use one finger to pan, pinch to zoom, twist to
+rotate, or slide two fingers up/down together to tilt. **Terrain height** opens
+the exaggeration settings. Touch-screen terrain rendering caps pixel density
+at 1.5 to reduce GPU work; interface text keeps the screen's native resolution.
+The settings body scrolls within a bounded panel, keeping both toolbar buttons
+reachable on short screens. Terrain tiles retry a dropped connection or server
+error twice before the view reports a failure. Failed sources are named where
+available, with HTTP status codes (or "connection interrupted") and **Retry 3D** to reload the view at the current location
+with its selected layers and height settings. Graphics failures have a separate
+message. An error remains visible until retry or returning to 2D; changing
+height settings cannot conceal it.
+Tilt, bearing and dimension choice are not persisted in shared URLs.
+
+MapLibre mirrors the mounted Leaflet image and tile layers, local warped
+rasters, paths and markers. The existing data queries and licence gates still
+own these layers, and parcel clicks are forwarded by geographic position. Research markers retain
+their configured opacity even behind terrain; fading is not used as a confidence
+indicator. Feature evidence opens in the 3D view without a hidden 2D popup
+pulling the camera back after a drag. Closing it restores the map controls.
+User-loaded raster and vector inputs remain in the browser. Roads, bridges
+and property outlines draw above water. Editing, measurement and print framing
+use the 2D map; print/export does not capture a tilted terrain scene. Remote
+imagery used in WebGL must permit browser cross-origin access.
+
+### Judique terrain inspection
+
+`/terrain.html`, linked from the Atlas study, is a separate bounded experiment.
+It drapes the reviewed full-sheet Judique draft or provincial aerial imagery
+over a contour-derived surface. Controls switch overhead/3D views, sheet
+opacity, contours, roads and bridges, property boundaries, and labelled height
+exaggeration. Open NSRN road and bridge vectors and optional property outlines
+draw above the water polygons and NS Hydrographic Network. Aerial imagery and
+property boundaries retain explicit provincial licence gates; parcel detail
+starts at zoom 14.
+
+The bundled 30 m terrain grid uses open NSTDB contour elevations, linear
+triangulation and one-cell Gaussian smoothing, then uses NSTDB water polygons
+to condition lake interiors. Touching lake/reservoir pieces are dissolved before
+sampling their complete shoreline against the contour interpolation. Lakes with
+finite, consistent support receive the median estimated shoreline level; those
+outside support or below grid sampling remain reference-only. Ocean polygons
+use a separate display-zero convention. Rivers are not flattened, and neither
+water-source Z nor NSHN heights are mixed into the unresolved contour vertical
+frame. These are model estimates, not surveyed lake levels or tidal evidence.
+
+This inspection model is not provincial LiDAR or a watershed-ready surface:
+drainage is not enforced and no independent vertical accuracy is claimed.
+Source contour intervals vary. Browser reference geometry is simplified within
+5 m; original contours and water polygons feed the model. Tile resampling means
+shore transitions are not exact polygon breaklines. Terrain outside the
+inspection extent is masked. The historical image is a downsampled draft with
+approximate alignment, not a replacement for the published Fletcher layer.
+
+`public/terrain/judique/source.json` records source hashes, processing, geographic
+bounds, per-lake estimates and rejection reasons, the pinned historical raster,
+and artifact checksums; `LICENCE.txt`
+separates provincial data and historical-image terms from MIT code. Regenerate
+with `web/scripts/buildJudiqueTerrain.py --cache <external-cache> --output
+web/public/terrain/judique --historical <reviewed-judique-full-sheet.tif>` from the
+repository root. Its Python dependencies are listed in the script; GDAL CLI is
+also required. Raw inputs and the full-resolution historical raster stay outside
+Git. Review the pinned source identity before replacing it.
+
+The contour/stream approach follows the motivation described in
+[Topo to Raster](https://doc.esri.com/en/arcgis-pro/latest/tool-reference/spatial-analyst/how-topo-to-raster-works.html),
+but the inspection generator does not implement ANUDEM or claim its hydrological
+guarantees. Future watershed work requires separate drainage and elevation checks.
+
+All three HTML entry points are included in `npm run build`. The MapLibre 6 worker
+is bundled with Vite's `?worker&url` import for hosting beneath a subpath. KinNoKi
+Labs publishes a separately pinned copy; a source change or merge here does not
+update that pin or establish production deployment.
+
+### Raster tiles for the native app
+
+`npm run build:atlas-raster -- --archive <ns-….pmtiles> --out <dir>` renders
+the three Atlas styles to raster tiles so the native app, which has no vector
+renderer, can show the same cartography through MapKit. The pipeline
+(`scripts/atlasRaster/`) bundles the real `src/atlas/style.ts` with Vite and
+draws it with the same maplibre-gl build in headless Chromium (Metal-backed
+WebGL on macOS, SwiftShader elsewhere); no layer is re-implemented. A local
+server feeds the pinned provincial archive (verified against
+`public/atlas/provincial/source.json` before anything renders), the self-hosted
+glyphs and sprite, and a polite disk-caching proxy for OpenFreeMap. Any MapLibre
+error, a missing glyph range, or a misaligned camera fails the run rather than
+writing a blank tile. Output is an immutable revision:
+
+```
+<out>/<revision>/source.json               receipt: renderer, style hashes, archive, OSM fetch, counts
+<out>/<revision>/coverage.json             rendered addresses per zoom as inclusive x runs per row
+<out>/<revision>/<style>/{z}/{x}/{y}.webp  style = day | night | fletcher
+<out>/<revision>/<style>/ocean/{z}.webp    stand-in for any address outside coverage at that zoom
+```
+
+Tiles follow the XYZ Web Mercator scheme for zooms 5–13. Tile (z, x, y) is
+that tile's extent rendered at MapLibre zoom z (512 CSS px per tile) at
+pixelRatio 2, so every image is 1024 × 1024 px and shows the map at Leaflet
+zoom z + 1; the native app cuts its 256-point square at zoom z from the tile
+at z − 1. A tile exists if and only if the provincial archive holds a tile at that
+exact address; everything else is served by the ocean stand-in, rendered from an
+open-Atlantic address so it carries each style's water colour and, for
+Fletcher, the paper grain. Tiles are cut from 4 × 4 metatiles with a half-tile
+buffer so labels near metatile edges are drawn whole. WebP quality 0.9 is
+recorded in the receipt with measured per-zoom sizes. The script resumes by
+skipping existing tiles and accepts `--zoom`, `--styles`, `--bbox`,
+`--workers`, `--revision`, `--osm-cache`, `--force`, `--angle`, `--quality` and
+`--review`. `npm run serve:atlas-raster -- --dir <out> --port 4791` serves a
+finished directory at `http://127.0.0.1:4791/atlas-raster/<revision>/…` for a
+simulator. Rendering a revision locally does not publish it: uploading to the
+tile host is a separate, explicit step, and the native app's pinned revision
+changes only when that step is done and verified.
+
+### Provincial archive and refresh
+
+The Crown Land display archive ships in `public/atlas/crown/` with its own
+source receipt, source release hash, omitted records and transformation audit.
+It is independent of the existing provincial archive so updating Crown Land
+does not refresh unrelated geography. Regenerate it from the repository root
+with `python3 tools/build_crown_atlas.py --work-dir /tmp/ns-crown-atlas` using
+GDAL with PMTiles and GEOS support. The generator dissolves full-precision
+geometry, then simplifies the union at most 2 m for display. `npm run
+check:crown-atlas` verifies the bundled archive before production builds. Serve
+the archive unchanged with HTTP byte ranges, preserving its filename. The
+map, study, PDF and future native raster generation share these styles and
+source notes; already published native raster revisions are unchanged.
+
+`public/atlas/provincial/source.json` records the archive hash, source releases,
+record counts, licences and rejected records. The code licence does not apply
+to these provincial datasets. `npm run check:provincial-atlas` verifies the
+archive against its receipt and runs before a production build.
+
+To refresh, use Python with current GDAL bindings with PMTiles support
+(verified with GDAL 3.13.3):
+
+```sh
+python3 tools/build_provincial_atlas.py --work-dir /tmp/ns-provincial-atlas
+```
+
+Run that command from the repository root. It caches source releases outside
+the repository, rejects incomplete or changing downloads, preserves original
+names and identifiers, and installs a content-addressed archive only after
+checking the Long Point road and the Judique woodland ring detail in the
+generated tiles. Null source geometries are quarantined with identifiers and
+reasons in the receipt. Woodland is downloaded with a topology-preserving
+0.000018-degree simplification (Socrata applies the tolerance in degrees, so
+this is at most two metres on the ground) and served at zoom 12 and 13; zooms
+8 to 11 use two coarser display copies whose tolerance is a quarter of a pixel
+and whose smallest kept ring is two and a half pixels wide at the top of each
+band, so clearings are either dropped or keep their shape. Source polygons
+that fail OGC validity are repaired with GEOS MakeValid and counted per source
+in the receipt. All vector geometry is quantized for display (8192 units per
+tile, maximum native GL zoom 13). Closer zoom magnifies this data; it does not
+add surveying precision.
+
+The public archive must be served with HTTP byte-range support. It is shared by
+the map, study and PDF renderer. A missing archive is a source error; the app
+does not silently restore outdated OSM road names. Dated downloads are not a
+promise that every feature was surveyed on that date. Refreshes and KinNoKi
+publication remain separate, explicit operations. See
+[`docs/PROVINCIAL_ATLAS.md`](../docs/PROVINCIAL_ATLAS.md).
+
+Production builds use `https://tiles.kinnokilabs.com/provincial-atlas/` on
+Cloudflare R2, configured in `.env.production`. Override
+`VITE_PROVINCIAL_ATLAS_BASE_URL` to use another public archive directory.
+The app still requests the receipt's immutable filename;
+it does not switch to an unpinned “latest” archive. The host must allow CORS
+and HTTP byte ranges. Prebuild verifies the local archive when present, or
+downloads the pinned R2 object for full checksum verification on fresh checkouts.
+Vite removes the duplicate archive from `dist` when using an
+external host. The generated archive is larger than typical static
+hosting per-file limits and GitHub's regular Git file limit; distribute it as
+a data artifact, not a source-code blob. Website publication remains separate
+from publishing the data archive. The prebuild gate verifies the full SHA-256
+and source inventory and fails if the hosted object is unavailable or corrupt.
 
 ## Map setup, categories, and themes
 
@@ -26,10 +373,97 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
 
-The five built-in map setups are **Explore Nova Scotia**,
-**Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**, and
-**Georeferencing**. Applying a setup replaces the catalogue-layer configuration
+The web-only `contextLayerCatalog` has 77 default-off research controls.
+The original GeoNova group is 38 of those, across these categories:
+provincial topography, 15 OGL-NS infrastructure and mapped-place overlays,
+water and forest context, geology, environmental screens, historical coal
+workings under **Historical Maps**, and the default-off Sentinel-2 2016–2017
+background (EOX CC BY 4.0 `s2cloudless_3857`). The catalog also includes
+eight **Elections & Districts** layers, six **Rhodena Wind Project**
+layers, four fishing layers under **Water & Terrain** (see
+[Fishing page](#fishing-page)), and the 21 September 2026 habitat, water,
+and community GIS overlays described next. All start off. Source-specific
+legends, dates, coverage, scale caveats and licence acknowledgement remain
+visible; the native offline catalogue is unchanged. Browser
+**Print / Save PDF** supports the static context layers, including static
+Rhodena geometry and the fishing layers, subject to fitted zoom and source
+readiness; the interactive Rhodena turbine viewshed and private viewpoint
+(`rhodena-visibility`) are omitted. For the GeoNova 38, generated PDF
+supports their 33 MapServer, open-data and tile entries (four feature-query
+layers and the static radon image are omitted and named as not included).
+Electoral feature overlays, Rhodena source formats and the four fishing
+layers (all feature queries) are also omitted from generated PDF and named.
+The
+[GeoNova source inventory](../docs/geonova-layer-expansion.md) lists the
+GeoNova subset, including official sources, delivery paths, licences,
+open-data replacements, the Sentinel-2 WMTS identifier, and the
+reproducible radon image and its source receipt. Electoral and Rhodena
+controls are documented with those themes below.
+
+The September 2026 expansion adds **21 further optional layers** to both maps:
+provincial core habitat, federal final/proposed critical habitat, aquatic and
+generalized species ranges, ecological units, national wetlands, eelgrass
+observations, stream spines, finer/coastal watersheds, coastal land use,
+hydrometric station locations, installed turbines, public structures, heritage,
+tourism, traffic-survey sections and 2024 NPRI facilities. Vector popups retain
+source IDs and declared attributes. New layers start off and participate in
+shared views. See the [biodiversity](../docs/gis-biodiversity-sources.md),
+[water](../docs/gis-water-sources.md) and [community](../docs/gis-community-sources.md)
+receipts for dates, terms, coverage and sources held back. Browser printing
+retains vector legends and attribution; the standalone generated-PDF path
+explicitly names unsupported vector formats as omitted. New image-service and
+Socrata geometry overlays use the existing generated-PDF rendering paths.
+
+The nine built-in map setups are **Explore Nova Scotia**,
+**Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
+**Georeferencing**, **Poker**, **Electoral Districts**, **Rhodena**, and
+**Fishing**. Applying a setup replaces the catalogue-layer configuration
 coherently; it does not remove or change imported maps or data.
+
+Across all built-in and custom setups, the footer presents source credits on
+entry, then folds after the first map touch or five seconds. **Show licences**
+restores the full strip and keeps it open for reading; **Hide licences** folds
+it again. On phones, the toggle becomes a corner pill beside the scale bar
+and screen-scale readout. Distance and area measurement actions use the same
+translucent button row as Poker, with instructions above it while drawing and
+the completed total on the map label. These controls follow the current light
+or dark appearance.
+
+**Poker** is a web-only driveway-measuring workflow with an always-visible
+search field over the map. Aerial imagery and roads (including street-name
+labels) are on by default, subject to the Province licence gate. Civic numbers
+are on at street zoom. Search a civic address, choose a result, then tap the
+house and trace the driveway to your mail route. **Finish**, **Undo point**,
+and **Clear** sit in a translucent row over the map, and the running total is
+the label on the last point. Tap the search
+field to replace the address; choosing another result clears the previous path.
+Quick successive taps keep every point. Parcel boundaries and parcel lookups are disabled in Poker so they cannot intercept measurement taps.
+Civic points may not sit on a house. They load at zoom 16 or closer, with a
+500-point viewport limit, once a pan or zoom has finished. Each number sits
+where it covers no other number, address dot or map control; one with no clear
+spot waits for a closer zoom while its dot stays, and the 3D view still places
+every number. Units sharing a provincial point and number show one label. The footer also shows its civic-source status and
+accuracy notes. Civic status is still announced to screen readers while the
+footer is folded. Poker sessions and measurements are not saved, shared,
+or copied into custom themes. The native theme parity fixture excludes this
+web-only workflow.
+
+**Fishing** is a web-only setup for the curated spots, stocked waters and DFO
+small craft harbours, with water features, NSHN stream spines, hydrometric
+station locations, wharves and coastal structures, protected areas, roads
+and campgrounds over the modern map. It is not a fishing guide:
+it holds no seasons or limits, and a spot, stocked water or harbour is never
+permission to fish there. Check the current Anglers' Handbook and DFO notices.
+Every layer in it is open, so `?theme=fishing` never raises the Province
+licence sheet. The DFO aquatic species-at-risk layers stay in the catalogue
+but out of the setup. Waterfalls and the Crown land overlay are left out on
+purpose: turning on Waterfalls fits the map to the whole province, and an
+opening layer that needs zoom 12 (Crown land) makes the map zoom in to a few
+kilometres, either of which would move the view away from the spots. The
+Atlas background already shades Crown land, and both overlays stay one tap
+away. Place names are left out too: the GeoNAMES dots bury the spot pins at
+the opening zoom, and the background already labels places. The native theme parity fixture excludes this setup. See
+[Fishing page](#fishing-page) for the layers and the `/fishing` page.
 
 Custom themes are stored only in this browser's `localStorage`. They can save
 visible catalogue-layer IDs, supported opacity overrides, preferred categories,
@@ -44,12 +478,50 @@ compatibility, a legacy link with `mode` or `event` but no `taxSale` parameter
 still enables Tax Sale; exact shared state takes precedence over local custom
 theme storage.
 
+A `theme` parameter names a built-in setup by ID, so a link can open one
+directly — `?theme=poker` starts a driveway session. It is honoured only while
+the rest of the link agrees with the setup it names: layer, tax-sale, and mode
+parameters keep precedence, and an unknown or custom name is ignored, since a
+custom setup lives only in the browser that saved it. A named setup whose
+layers need the Province licence asks for acceptance before drawing them, the
+same as a shared link would. Share links preserve Poker’s `theme` to identify
+the driveway workflow explicitly. Other built-in setups carry their name only
+when layer parameters cannot identify the selection on their own. A setup that
+has a focus page (Rhodena, Fishing) also brings that page's camera: a
+`?theme=` link with no `position` opens on the page's area, and choosing the
+setup in the picker fits the map to it.
+
 The generated web-to-native category and built-in-theme contract is
 [`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json),
 written by `src/themes/mapThemes.test.ts` and read by the Swift package's
 `MapThemeTests`. Regenerate it with `npx vitest run mapThemes -u` after a theme
 change. Custom themes are not transferred between web and iPhone; each surface
 keeps its own saved setups locally.
+
+## App icon
+
+`docs/assets/app-icon.svg` is the source of truth for the app mark: a red
+lobster embracing Cape Breton over the Nova Scotia land mass. The web app
+keeps the map full-height without a top bar; the `docs/*.html` pages use it as their
+favicon and header logo, and the iOS `AppIcon.appiconset` SVGs are copies of
+it — the tinted slot is the same artwork in grayscale so iOS can apply the
+user's tint by luminance. The province outline is derived from Natural Earth
+1:10m Admin 1 States & Provinces (public domain), resampled and smoothed for
+legibility at icon sizes; it is identity artwork rather than a survey
+boundary and carries no positional accuracy claim.
+
+Regenerate the raster copies after changing the SVG:
+
+```sh
+rsvg-convert -w 512 -h 512 docs/assets/app-icon.svg -o web/public/app-icon-512.png
+rsvg-convert -w 180 -h 180 docs/assets/app-icon.svg -o web/public/app-icon-180.png
+```
+
+The iOS PNGs come from the same command at 1024×1024 against each
+`AppIcon-*.svg` in the appiconset. `index.html` carries a separate, coarser
+inline SVG favicon so a subpath host never requests `/favicon.ico`; it keeps
+the mark's black/green/red signature at 16 px, where the full artwork cannot
+resolve.
 
 ## Share card
 
@@ -98,8 +570,21 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    with the municipality.” Once the event is deliberately archived, its dated
    notice records can remain mapped with every outcome marked pending; sold,
    unsold, withdrawn, and winning-bid values are never inferred.
-6. Browser location stays in the browser and is drawn on the map. This app has
-   no application server receiving the coordinates.
+6. Browser location stays in the browser. A live watch is drawn on the map
+   and is not sent to an application server. If you mark a point or save a
+   track, those geometries (and for a recording, the raw GPX original) are
+   stored locally as user layers and leave only if you export or share them.
+   While a track is recording, the walk so far is also written to this
+   device's storage every few seconds, so a reloaded or discarded tab does not
+   lose it. That copy is offered back the next time the map is opened, and
+   goes on being offered until it is saved or discarded; a walk saved from it
+   is marked as ending at the last position the device stored. It is deleted
+   when the recording is saved to your layers or discarded, and if the device
+   refuses to delete it the map says so rather than reporting a discard that
+   did not happen. Recording waits until the device has answered what it is
+   already holding, so a new walk never writes over one you have not been
+   offered; a device this browser cannot read from says that, rather than
+   passing for an empty one.
 7. For a selected PID, the browser reuses the exact NSPRD Polygon or
    MultiPolygon geometry to look up mapped physical-address points from the
    Nova Scotia Civic Address File. Municipal notice locations remain notice
@@ -161,7 +646,9 @@ source is never presented as an empty result or proof of absence.
 The **Print / Save PDF** action invokes the browser's print dialog. The separate
 **Export map (PDF)** action generates a PDF directly in the browser: it fetches
 the map images for the framed area, composites them onto a canvas, and writes a
-single raster page. Everything happens client-side — no server round trip, and
+single raster page — plus, only when the licence statements for the layers on it
+cannot fit the attribution strip, plain continuation pages carrying the rest of
+that attribution. Everything happens client-side — no server round trip, and
 nothing is uploaded. What it produces is a picture of the map, not the data
 behind it: there is still no raw geometry download, no tile archive, and no bulk
 data export. OpenStreetMap and ArcGIS images stay browser-rendered in a
@@ -169,6 +656,16 @@ display-only, non-interactive Leaflet map. The print output includes a locally
 generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
+
+Browser **Print / Save PDF** supports the static context layers (77 catalog
+entries, including static Rhodena geometry and the fishing layers), subject to
+selection, fitted zoom, licence acknowledgement and source readiness.
+Interactive Rhodena turbine viewshed and private viewpoint
+(`rhodena-visibility`) are omitted. The separate **Export map (PDF)** still
+uses the MapServer, open-data and tile path for supported entries;
+unsupported vector formats, including new GIS feature overlays, electoral
+feature entries, Rhodena source formats, the four fishing layers, and the
+static radon image, are omitted and explicitly listed as not included.
 
 Attribution follows the material actually rendered or reported:
 
@@ -201,14 +698,47 @@ enough. Layers that are on screen but not carried into the export are named in
 the dialog before the download, so the page never credits data it does not
 contain.
 
-## Native layer parity
+## Web data sources and native parity
 
-Both surfaces carry the same 36 layers under the same ids. `layerParity.ts`
-projects every field of every web descriptor and the Swift catalog test compares
-against that projection, so a source URL, renderer restriction, zoom gate, panel
-position, or default-visibility change on one side fails the build on the other.
-What still differs is delivery: the browser is online-only, while the app can
-save an area's Fletcher tiles for use without a connection.
+The web map now prefers Open Government Licence–Nova Scotia downloads for
+Crown Land, the three watershed levels, water features, roads, geographic names,
+buildings, contours, and 15 infrastructure controls. The 24 controls use bounded
+Socrata GeoJSON queries and shared browser/PDF cartography. Source row IDs,
+constituent dataset links, licence attribution and scale caveats are retained.
+`src/data/openLayerSources.json` records the metadata and schemas checked on
+September 12, 2026; it is not a frozen geometry snapshot. NSRN roads retain their
+original geometry without a server simplification pass. Other display geometries
+use subpixel, topology-preserving simplification capped at 10 metres, converted
+to degrees for Socrata’s geographic coordinates. Requests are
+limited to 12,000 features and 24 MiB per layer; oversized areas ask the user to
+zoom in instead of displaying partial results. Source failures are not empty maps.
+
+`nativeProvinceLayerCatalog` and `layerParity.ts` retain the native service
+contract. `provinceLayerCatalog` applies web-specific open-data replacements;
+the native app and its offline cache policy are separate. Parcel building counts
+and road/water intersection evidence still query their original services and
+retain those service attributions. Display geometry never supplies parcel
+intersection, proximity, access or title evidence.
+
+Sentinel-2 is a separate, default-off background using EOX's CC BY 4.0 **2016
+edition**, with 2016–2017 acquisitions and 10 m source imagery. Its tile ceiling
+is zoom 14; closer views enlarge pixels. The live WMTS capabilities identify
+`s2cloudless_3857` as the open edition. Newer EOX editions have additional
+restrictions and must not be substituted by changing the year. Credits and dates
+travel with shared views, browser print and generated PDFs. See
+[EOX pricing and service-use terms](https://cloudless.eox.at/pricing) and
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+NS Aerial remains available under its existing restricted-service gate. This
+migration changes the web's sources; it does not add an offline area-download
+control or authorize bulk downloads from someone else's tile service.
+
+Remaining source/service review includes NS Aerial, NSPRD and derived parcel
+geometry, the complete provincial topographic cartography, the marked forestry,
+water-supply and other thematic services, and the parcel evidence queries above.
+Review each service's own terms separately from its underlying dataset licence;
+the presence of an open download is not evidence that its rendered service has
+the same grant. No permission request has been sent as part of this change.
 
 The layers a reader is most likely to ask about:
 
@@ -222,45 +752,52 @@ The layers a reader is most likely to ask about:
   and map-tap parcel identification follows the same zoom floor. A selected sale
   parcel becomes fully opaque at zoom 15 and closer while other listed parcels
   keep their lighter overview fill.
-- Crown Lands uses the native green dynamic renderer.
-- Watersheds uses the native `show:24,25,26` restriction; it is watershed
-  context, not flood-risk mapping.
+- [Crown Lands](https://data.novascotia.ca/d/3nka-59nz) uses the open dataset,
+  including partial Crown interests; it is not proof of title or public access.
+- Watersheds uses open primary, secondary and tertiary boundaries; it is
+  watershed context, not flood-risk mapping.
 - Flood hazard context is separate and default-off: published 5%/1% AEP river
   layers for four study areas plus current, 2050, and 2100 Coastal Hazard Map
   scenarios. Selected parcels show coverage-aware source states and approximate
   raster exposure rather than a universal PID probability.
-- Waterfalls uses hydrography layer 1 and the exact Province falls definition;
-  enabling it fits the map to all 90 matching points before the user zooms in.
-- [Water Features](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Nova-Scotia-Topographic-DataBase-Water-Features-Li/fpca-jrmt)
-  uses the complete Province hydrography service for rivers,
-  lakes, wetlands, rapids, ditches, dams, and other mapped features, from
-  zoom 10 where its 1:10,000 line work is legible. A higher
-  export resolution improves line legibility without replacing the Province's
-  symbols or colours.
-- [Roads, Trails & Culverts](https://data.novascotia.ca/Roads-Driving-and-Transport/Nova-Scotia-Topographic-DataBase-Roads-Trails-and-/gywn-246n)
-  uses the complete Province transportation service,
-  including highways, local/resource roads, unpaved roads, tracks, trails,
-  bridges, rail, ferry crossings, road polygons, and close-range culvert
-  features, from zoom 10 so the service's route shields appear only where
-  they are legible. A compact legend explains the principal line classes.
-- [Buildings](https://data.novascotia.ca/d/tz45-5mz7) is a default-off NSTDB
-  context layer from zoom 13. It preserves the Province's point and polygon
-  renderer.
-- [Contours](https://data.novascotia.ca/d/j63u-5nkj) is a default-off Topography
-  layer from zoom 13. It uses the maintained NSTDB Landforms renderer's
-  labelled 5 m LiDAR-derived contour lines. The layer is visual terrain
-  screening only: it does not establish surveyed grade, drainage, stability,
-  access, flood exposure, or buildability.
-- Fletcher has a real default-off control for the 24 independently accepted
-  direct-Rumsey sheets. The browser renders bounded per-sheet XYZ trees from
-  the immutable `fletcher-direct-rumsey-20260726.1` revision and supports
-  opacity, share links, print/evidence attribution, and retryable error state.
-  It fails closed with “Tile hosting not configured” unless
-  `VITE_FLETCHER_TILE_BASE_URL` names an authorized HTTPS object host. No
-  OldMapsOnline endpoint is used.
+- Waterfalls retains the exact NSTDB falls feature class in the open point
+  inventory; enabling it fits the discovery extent.
+- Water features combine open NSTDB polygons and lines from zoom 11, plus
+  points at close range. Their blue display is project cartography, not the service renderer.
+- Roads use the open NSRN road network plus NSTDB line/point details at close
+  range. Detail builds with zoom in disjoint tiers of the same network: paved
+  through and local roads from zoom 10, unpaved, resource and seasonal roads
+  from 13, and tracks, trails and driveways from 14. Minor tracks, trails,
+  driveways and unpaved features use dashed lines; over aerial or satellite
+  imagery roads switch to cream lines on a soft dark edge, with the legend to
+  match. Mapped transport features do not establish access or passability.
+- Buildings combine open NSTDB polygon footprints and close-range point records.
+  They remain default-off and begin at zoom 13.
+- Contours use open NSTDB Landforms elevation lines from zoom 13. Elevations are
+  in metres; intervals and survey dates vary. They do not claim the former
+  service's uniform 5 m LiDAR interval or establish surveyed grade, drainage,
+  stability, flood exposure or buildability.
+- Fletcher has a real default-off control for the published 24-sheet mosaic.
+  The browser fetches one precomposited XYZ pyramid
+  (`{base}/{revision}/{z}/{x}/{y}.png`) from the immutable
+  `fletcher-seams-20261009.2` revision at zooms 8–15, enlarging zoom 15
+  at closer display scales. Sheet footprints remain coverage metadata; they
+  do not cause the mosaic to be fetched or painted once per overlapping
+  sheet. Edges are adjusted for visual continuity; geographic
+  acceptance findings are unchanged. Attribution remains David Rumsey Map
+  Collection, David Rumsey Map Center, Stanford University Libraries and
+  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The
+  source receipt is `{base}/{revision}/source.json`. The control supports
+  opacity, share links, print/evidence attribution, and retryable error
+  state. It defaults to `https://tiles.kinnokilabs.com`;
+  `VITE_FLETCHER_TILE_BASE_URL` can override that HTTPS object host or
+  explicitly disable hosting with an empty value. No OldMapsOnline endpoint
+  is used.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
-  as disabled rows: no tiles have been produced for them yet. See
+  as disabled rows in **Historical Maps → A.F. Church county maps**. This
+  subsection starts collapsed; expand it for the county sheets and source
+  credits. No tiles have been produced for them yet. See
   [docs/CHURCH_MAPS.md](../docs/CHURCH_MAPS.md).
 
 ## Forestry policy
@@ -285,8 +822,8 @@ govern Crown-land management and do not establish conditions on private land.
 ## Geology and resources
 
 The collapsed **Geology & Resources** group starts with every switch off. Its
-three source-backed overlays use Province open data independently of the
-restricted map-services gate:
+original three source-backed overlays use Province open data independently of
+the restricted map-services gate:
 
 - [Mineral Occurrences Database](https://novascotia.ca/natr/meb/download/dp002.asp)
   records known occurrences and past producers. A point is not proof of a
@@ -323,10 +860,13 @@ remains licence-gated and off by default.
 
 ## Municipal zoning
 
-The collapsed **Municipal zoning** group renders zoning polygons live from five
-municipal ArcGIS services. Every layer is default-off, unofficial, and outside
-the Province licence gate, because these are municipal rather than provincial
-sources.
+The collapsed **Municipal zoning** group catalogs five municipal ArcGIS
+services. Every layer is default-off, unofficial, and outside the Province
+licence gate, because these are municipal rather than provincial sources.
+App query, cached/retained display, and reproduction are held for Inverness,
+Victoria, Richmond, and Cumberland (no stated licence). Halifax/HRM zoning
+remains available. Official by-law links stay on the catalog rows. See
+[docs/licensing-locks.md](../docs/licensing-locks.md).
 
 Nova Scotia publishes no provincial zoning layer (verified July 23, 2026), so
 zoning is necessarily per-municipality. Three consequences are carried in the
@@ -352,12 +892,12 @@ UI rather than left implicit:
 
 ### Zoning source receipt — July 23, 2026
 
-All five services were queried live on July 23, 2026. Every one returned an
-empty `copyrightText`, and only Halifax publishes a licence page. The four
-sources with no stated licence are marked `redistribution: "live-query-only"`
-in `web/src/layers/layerCatalog.ts`: they are rendered from the publisher's
-public endpoint and their geometry is **not** extracted or republished as
-project data. Doing so would need the publisher's permission first.
+All five services were queried live on July 23, 2026 as catalog evidence.
+Every one returned an empty `copyrightText`, and only Halifax publishes a
+licence page. The four sources with no stated licence remain catalogued with
+their official by-law links; app query, cached/retained display, and
+reproduction are held. Halifax/HRM zoning remains available. See
+[docs/licensing-locks.md](../docs/licensing-locks.md).
 
 - **Inverness County** — county-wide zoning in effect September 11, 2025. 1,125
   polygons. Authority: [Plan Inverness Land Use By-law](https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf).
@@ -443,6 +983,61 @@ underlying database may not be redistributed and is deliberately not used here,
 and the stale 2015 Socrata copy is not used either. The published table includes
 an `ADDRESS` column that can hold a well owner's civic address; it is excluded at
 the query rather than filtered out afterwards, so it never reaches the browser.
+
+## Live conditions
+
+Two default-off overlays show the province as it is right now rather than as a
+record: **Highway cameras** (Roads & Places) and **Weather radar**
+(Environment & Hazards). Both are web-only, outside the native parity
+contract, and excluded from print/export capture — a sealed PDF states a
+source date, and a live frame's content cannot be re-derived from one. Their
+attribution lines render in the footer while they are on, and both appear in
+Data & licences.
+
+**Highway cameras.** 511 Nova Scotia publishes no open-data feed: its REST API
+answers `{"Message":"Invalid Key"}` without a registered key and sends no CORS
+headers, so a browser app cannot call it either way. What ships instead is the
+narrowest workable slice: `src/data/highwayCameras.ts` is a project catalogue
+of the 57 camera sites (id, name, coordinates only) taken from the public 511
+map, and the live JPEG for a tapped camera loads in the visitor's browser
+directly from `511.novascotia.ca/map/Cctv/{id}` — the same request the 511
+site itself makes, with a cache-busting key per popup open. No imagery is
+copied into this repository or its deployments. The imagery and names are
+Crown copyright, carried with attribution and a source link rather than an
+open-licence claim. A failed image renders an explicit source-error note, not
+a blank: a frozen or missing camera is a camera fault, never road truth.
+
+### Highway camera source receipt — August 29, 2026
+
+Catalogued from `https://511.novascotia.ca/map/mapIcons/Cameras` (57 sites,
+ids 1–57, coordinates) joined with each site's public tooltip
+(`/tooltip/Cameras/{id}?lang=en`) for the display name. Image endpoint
+verified as `image/jpeg` for in-range ids; out-of-range ids return a
+placeholder PNG. The keyed developer API and its terms were not available to
+review; if 511 publishes an open feed or objects to the live hotlink, this
+layer's delivery should be revisited.
+
+**Weather radar.** The `RADAR_1KM_RRAI` rain-rate composite streams from
+Environment and Climate Change Canada's MSC GeoMet WMS — the codebase's first
+WMS layer — under the ECCC open data-server licence, which requires the
+data-source statement the footer shows. On toggle the layer reads the
+layer-scoped `GetCapabilities` time dimension to pin the newest frame, shows
+that observation time in the layer row (`Ready · observed 3:54 p.m.`), and
+re-checks every 5 minutes; GeoMet publishes a frame about every 6. Radar is
+observed precipitation only — not a forecast, and a gap or missing frame is
+missing data, not clear sky.
+
+**Evaluated and rejected for now.** Road conditions and BurnSafe burn
+restrictions were both researched and deliberately not shipped. 511's
+road-conditions data sits behind the same keyed, CORS-closed API as the
+cameras, with no image-style escape hatch. BurnSafe has no API at all — the
+daily county statuses are server-rendered into `novascotia.ca/burnsafe` with
+no CORS — and a bundled snapshot would show yesterday's "burning allowed"
+after conditions turned red: a stale-green failure mode the evidence contract
+treats as fail-open, worse than absence. Either layer becomes shippable with
+an authorized live feed (or, for BurnSafe, a same-day refresh pipeline with a
+fail-closed staleness gate that greys the layer out rather than showing an
+old green).
 
 ## Inverness micro-hydro screening pilot
 
@@ -596,6 +1191,31 @@ so no septic overlay is manufactured here.
 
 ## Mapped civic addresses
 
+The web map also offers a separate **mailing address** from Statistics Canada's
+free National Address Register (June 2026). `services/mailingAddresses.ts` keeps
+these dated records distinct from the live provincial civic address. Matching
+requires exact normalized civic number, suffix, unit and road, plus coordinates
+within 50 metres; ambiguous, unmatched and source-error readings stay distinct.
+The inspector shows the postal community, postal code, additional delivery
+information and source address ID. It does not identify residents or ownership.
+
+Search recognizes mailing communities alongside civic names. Postal candidates
+must resolve to one matching live provincial civic point before becoming
+selectable; map positions, directions and parcel lookups retain that point's
+published coordinate. The search inspects at most six matching road keys and
+six postal candidates, alongside the existing civic results; broader queries
+show a refinement notice. Source failures are disclosed without hiding valid
+civic results. Cancelling a search cancels its dependent requests.
+
+The self-hosted compressed lookup loads by street shard and retains a bounded
+browser cache. Its source receipt, coverage exclusions, separate Statistics
+Canada licence and reproduction instructions are in
+[`public/mailing-addresses/README.md`](public/mailing-addresses/README.md).
+No paid API or external mailing lookup is called. Mailing evidence is currently
+on screen only; the existing print/PDF/evidence-note civic sections continue to
+contain provincial civic evidence alone.
+
+
 The authoritative source is the [Nova Scotia Civic Address File — Civic
 Points](https://data.novascotia.ca/Municipalities/Nova-Scotia-Civic-Address-File-Civic-Points/tntn-er5g).
 `services/civicAddresses.ts` calculates a bounding box for each selected
@@ -606,8 +1226,16 @@ client-side containment across polygon parts and holes. Boundary points count
 as inside; hole interiors do not.
 
 The same service searches civic addresses through Socrata's full-text `$q`
-index and returns at most 12 mapped-point candidates. It folds harmless
-punctuation when checking relevance, rejects broad suffix matches, and retries a
+index and returns at most 12 mapped-point candidates. After Province licence
+acceptance, typing three or more characters requests suggestions after a 300 ms
+pause. Suggestions also match the final alphabetic word as a prefix, so `Mab`
+can find `Mabou`; completed words and civic numbers still constrain the query.
+Arrow keys highlight a candidate, Enter chooses it, and tapping selects it.
+Escape, leaving the search, clearing it, or editing again cancels pending
+suggestions. Typing a PID never selects a parcel automatically; submit its full
+eight digits. Submitted address searches retain their whole-word matching.
+The service folds harmless punctuation when checking relevance, rejects broad
+suffix matches, and retries a
 compact possessive initialism with official periods when needed (`dr's` can find
 `D.R.'s`). The same one-shot fallback treats `hwy 19` and `route 19` as
 `Highway 19`. Choosing a result uses the point's published coordinate in an
@@ -709,7 +1337,10 @@ value, changed table schema, or ambiguous event detail fails closed.
 
 `npm run watch:tax-sales` handles sources that publish results to a single page
 they overwrite each sale, where the previous sale's results are destroyed rather
-than kept at a dated URL — Cumberland today. On no change it does nothing. When a
+than kept at a dated URL — Cumberland today. On no change it does nothing. When
+the live page is a later pre-sale notice (no dated results heading; owner names
+mixed into the location column) it retains the already ingested result event and
+does not invent a current-notice dataset from that table. When a
 new sale appears it submits the page to the Wayback Machine and, if a capture's
 raw `id_` bytes carry the results table, ingests the event, records, and ledger
 entry against that capture; if no capture carries the table yet, it records the
@@ -717,8 +1348,22 @@ sale as pending and retries next run, archiving first so evidence is never lost
 while ingestion waits. Any winning-bid cell that is not a money amount,
 `ADJORNED`, or `NOT COMPLETED` fails the run rather than being guessed. The
 manual workflow `.github/workflows/tax-sale-watch.yml` remains available as a
-diagnostic. The Codex tax-sale automation owns the recurring refresh,
-verification, publication, and exact-pin deployment path.
+diagnostic. The Codex tax-sale automation runs daily at 5:15 p.m. Atlantic and
+owns refresh, verification, and the source PR. The existing NS Marks web map
+deployment routine owns the subsequent exact-pin site publication.
+
+Transient transport and server failures receive at most three fetch attempts.
+An HTTP 307 JavaScript verification response remains a source error. Codex may
+open that official page in a normal browser and rerun the watcher with
+`--browser-receipts <JSON-file>` after capturing an owner-free rendered notice.
+Each receipt supplies `sourceKind: "owner-free-rendered-notice"`, the exact
+official `sourceUrl`, UTC `capturedAt`, `observedTableRowCount` including the
+header, and `html` containing the actual notice table with every mixed
+owner/location cell replaced by `[OMITTED]`. The watcher rejects receipts older
+than 20 minutes, incomplete or duplicate identifiers, unredacted cells, changed
+headers, mismatched row counts, and any results table. This fallback can only
+verify a pre-sale notice and retain existing results; it cannot ingest results
+or substitute for the archive requirements.
 
 ## CBRM July 21, 2026 source receipt
 
@@ -794,22 +1439,24 @@ closed on an unrecognized winning-bid value or identifier mismatch.
 - Current official source: [September 14, 2026 Tax Sale by Tender](https://victoriacounty.com/property-tax-sale-notice/),
   dated August 13, 2026. Sealed bids must arrive by noon at the Municipal
   Administration Building in Baddeck.
-- The official table contains nine numbered rows. Rows 1 and 2 now print
-  `REMOVED` in every public field, including AAN and PID, so they remain two
-  opaque removed-row counts without parcel identities. The other seven rows
+- The official table contains nine numbered rows. Rows 1, 2, 3, 8, and 9 now
+  print `REMOVED` in every public field, including AAN and PID, so they remain
+  five opaque removed-row counts without parcel identities. The other four rows
   publish exact AAN/PID pairs, descriptions, redeemability, and total owing.
+  Two land-only rows print TOTAL OWING as `$digits.cents + hst`; the advertised
+  dollar amount is stored and HST is not added.
 - The assessed-name column is discarded before normalized facts or the public
   snapshot are written. Land-registration values are validated for known
   `YES`/`NO` input but are not added to the public map schema. The normalized
   owner-free source-facts SHA-256 is
-  `a2f2808c2246a027ffe045f75efdeac2ccb24a55991f93015ecbb2fab89018d0`;
+  `bd8df1ae76e9344fd310697338e47b1c4d1200dc0454d34ea7be00696e880ac3`;
   the byte-for-byte public dataset SHA-256 is
-  `4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467`.
+  `c91f5a8b2b2268454d3282395318b3bc238f7224aaf895d58ee396a4d6466a87`.
 - Because the municipality overwrites this HTML notice as properties are
   removed, the page was archived before ingestion. The raw replay bytes are
-  preserved at the [Wayback Machine](https://web.archive.org/web/20260819200343id_/https://victoriacounty.com/property-tax-sale-notice/)
+  preserved at the [Wayback Machine](https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/)
   with SHA-256
-  `df7b7fb25d8853863cdcd2923069e714283c30228fda4708e9e095632db3cfdc`.
+  `4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5`.
 
 Run `npm run refresh:victoria-tax-sale` to reparse the official table. A partial
 removal, malformed or duplicate identifier, unfamiliar `YES`/`NO` state, row
@@ -819,41 +1466,54 @@ archive capture fails closed.
 ## Halifax September 2026 source receipt
 
 - Official landing page: [Halifax Tax Sale](https://www.halifax.ca/home-property/property-taxes/tax-sale).
-  Tender `HRM-TaxSale23` closes at 10:00 AM September 15, 2026. The official
+  Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. The October 4
+  refresh verified the dated official
+  [results PDF](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf)
+  linked from the official results page. Its SHA-256 is
+  `28ba29a327f875a0d07eb990288d124c49dcdb7a32e1e631095af90d2e658d0e`.
+  Three rows publish numeric selling prices and one prints `NO BIDS`; each
+  reconciles exactly by AAN, PID, opening bid, location and redemption flag.
+  The six retained notice rows absent from the results remain outcome unknown.
+  The event is now historical; the notice snapshot remains unchanged.
+  The official
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
   have SHA-256
   `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`;
-  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-13.26.pdf)
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept11.26.pdf)
   has SHA-256
-  `346db085fce52ea896294ec2562f1ccd2291a562028c42200a5c18af18871c1d`.
-- Schedule A contains 29 advertised rows and 30 exact PIDs. Twenty-seven rows
-  covering 28 PIDs returned exact NSPRD geometry on August 15, 2026. PIDs
-  `41051889` (AAN `09417036`) and `41051897` (AAN `09417044`) returned valid
-  empty NSPRD collections. Both official parking-space rows remain in the
-  owner-free source snapshot and appear as non-interactive geometry exceptions;
-  no replacement PID or parcel is inferred.
-- Nine source rows print HST `Yes`, and two print redeemable `No`. Those inputs
+  `bb9c732f93d1887a4c8a76e70f9a89d94e56fce2215e09cb38b3be8987d4196e`.
+- Schedule A contains 10 advertised rows and 11 exact PIDs. All 10 rows
+  covering 11 PIDs are mapped. The sept11 revision no longer advertises one
+  additional row that was on the sept10 draft; the two parking-space PIDs
+  that previously returned empty NSPRD collections remain unpublished, so this
+  snapshot has no geometry exceptions.
+- Five source rows print HST `Yes`, and one prints redeemable `No`. Those inputs
   are validated and counted but HST is not added to the public listing schema.
   The assessed-name column and owner-bearing PDF bytes are not committed. The
   byte-for-byte owner-free public dataset SHA-256 is
-  `3a188b2fd8b78e2204538b0fe9006cba24337168031e7da47154a51f28e9c84c`.
+  `e325d369945024df438fb52a47731ec586a272b4e41c3ad9ac0983f1caacf826`.
 
-Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs. The
-refresh fails closed on a changed document link, tender number, fixed-column
-layout, identifier, amount, flag, row/PID count, or geometry-exception pair.
+Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs, or
+to confirm an awaiting-results page or ingest the dated published results.
+The refresh fails closed on a changed document
+link, tender number, layout, identifier, amount, flag, row/PID count, a
+geometry-exception pin that does not match a live Schedule A row, a closed
+notice or results page mixed with current tender documents, an unrecognized
+selling price, or results that no longer reconcile with the retained notice.
+Repeated ingestion preserves retrieval dates and rejects rewriting accepted outcomes.
 The live NSPRD test requires every mapped PID to resolve and every declared
 exception PID to remain empty, so either provincial change triggers review.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 26 events—25
+The historical layer is visually distinct and off by default. Its 28 events—27
 with verified results and one notice-only event awaiting official results—span
 eleven municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Halifax | 7 | 87 | 93 | 82 | 4 | 0 | 0 | 1 |
-| Victoria County | 3 | 19 | 19 | 6 | 3 | 1 | 0 | 9 |
+| Halifax | 8 | 97 | 104 | 85 | 5 | 0 | 0 | 7 |
+| Victoria County | 4 | 23 | 23 | 9 | 4 | 1 | 0 | 9 |
 | CBRM | 2 | 140 | 133 | 71 | 0 | 0 | 1 | 68 |
 | Cumberland | 2 | 34 | 33 | 27 | 0 | 6 | 0 | 1 |
 | Lunenburg District | 6 | 145 | 125 | 69 | 21 | 37 | 0 | 18 |
@@ -863,7 +1523,7 @@ eleven municipalities:
 | Clare | 1 | 16 | 16 | 12 | 1 | 0 | 2 | 1 |
 | Middleton | 1 | 2 | 2 | 0 | 2 | 0 | 0 | 0 |
 | Colchester | 1 | 7 | 7 | 0 | 0 | 0 | 0 | 7 |
-| **Total** | **26** | **490** | **468** | **292** | **33** | **57** | **3** | **105** |
+| **Total** | **28** | **504** | **483** | **298** | **35** | **57** | **3** | **111** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026
@@ -885,7 +1545,8 @@ claims. The row that prints `Sold` and $26,000.00 but also says the buyer
 forfeited remains outcome-unknown; the contradiction is preserved rather than
 collapsed into a completed sale.
 
-Every Halifax listing was reconciled between the official notice and result.
+Every published Halifax result row was reconciled with its official notice.
+Notice rows absent from the September 15, 2026 results remain unknown.
 The July 21, 2026 CBRM result rows were reconciled to the official notice by
 lien, AAN, PID, minimum bid, and redemption category. The Victoria County and
 July 22, 2025 CBRM records come from self-contained official result tables that
@@ -959,12 +1620,13 @@ date rather than leaving that date only in source data.
 
 ## Current boundary
 
-This slice includes the modern OpenStreetMap basemap, nine web-cleared
+This slice includes the day/night Atlas and OpenStreetMap basemaps, nine web-cleared
 Province layers, three default-off open geoscience/resource source overlays,
 one default-off open old-growth policy overlay, one default-off licence-gated
 derived mineral-proximity parcel row,
-five default-off unofficial municipal zoning layers rendered live from
-municipal services and never republished as project data,
+five default-off unofficial municipal zoning catalog rows (Inverness,
+Victoria, Richmond, and Cumberland held for app query/cached display/reproduction;
+Halifax/HRM remains available; see [docs/licensing-locks.md](../docs/licensing-locks.md)),
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the
@@ -975,17 +1637,410 @@ User-loaded files stay in the browser: raster maps (GeoTIFF, GeoPDF, PNG,
 JPEG) under "Your maps" and vector data (GeoJSON, KML, KMZ, GPX, and zipped
 shapefiles) under "Your data" share one drop zone, are stored locally in
 IndexedDB, render clearly labeled as user-loaded material, and are excluded
-from print capture and share links. Vector layers export back out as GeoJSON
-or KML. A shapefile without its `.prj` is refused rather than assumed to be
-longitude/latitude. Vector layers can also be drawn and edited on the map —
+from print capture and share links. Vector layers export back out as GeoJSON,
+KML, KMZ, or GPX (GPX carries points and tracks; polygons are skipped).
+Recorded layers also offer a Raw GPX download of the original file. A shapefile without its `.prj`
+is refused rather than assumed to be longitude/latitude. Vector layers can also be drawn and edited on the map —
 add points, lines, and areas, reshape or move them, name individual features,
-and start a blank drawing layer of your own.
-The Fletcher web integration and immutable, bounded per-sheet package are
-implemented, but the layer remains disabled in builds without
-`VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
-separate so overlapping XYZ keys are never resolved by last-write-wins copying.
-The public revision includes a source receipt; private object and duplicate-key
-receipts stay with the deployable package. Hosting, upload verification, and
-custom-domain acceptance remain separate gates. The permission does not by
-itself clear native offline bundling. Unsupported historical
-sources remain fail-closed; this web workflow does not change the native app.
+and start a blank drawing layer of your own. While drawing or editing,
+optional snap to own features and licence-gated NSPRD parcel boundaries is
+available at zoom 16 and closer. The panel shows the standing caveat
+"Traced boundaries are not a survey." Exports can carry traced provenance
+when any feature was parcel-traced. Selected points can be converted into a
+line or area from the edit panel ("Make line or area from points"), with a
+numbered dashed preview of connect-the-dots order before commit. Source
+points stay by default, or can be consumed in the same commit; a one-shot
+Undo restores the conversion. Selected features can have freeform name/value
+attributes edited in the panel; KML export carries them as ExtendedData
+(values stored as strings; reserved and app-owned keys are handled per
+contract). Selected features can attach photos from the camera or a file.
+Each photo is stored as a re-encoded JPEG (full plus thumbnail) with EXIF,
+including GPS, stripped from stored bytes. The edit panel shows a photo
+strip and a lightbox; points with photos render as a hollow map indicator.
+When a photo is geotagged, you can optionally move the point to that
+location. KMZ export and import can carry those photos as embedded
+EXIF-stripped JPEGs; GeoJSON and KML export titles note that photos aren't
+included and to use KMZ. "Add photos to map" bulk-places geotagged JPEGs
+from its own file picker (not the shared drop zone): files are classified
+in-view, out-of-view, or no-location, and confirmed photos become a
+photos-source layer of points.
+The Fletcher web integration and published 24-sheet mosaic are implemented and
+default to `https://tiles.kinnokilabs.com` (revision
+`fletcher-seams-20261009.2`). Tiles are fetched as
+`{base}/{revision}/{z}/{x}/{y}.png`; the source receipt is
+`{base}/{revision}/source.json`. An explicit empty `VITE_FLETCHER_TILE_BASE_URL`
+disables the layer. Sheet footprints remain coverage metadata rather than
+per-sheet XYZ trees. Hosting, upload verification, and custom-domain
+acceptance remain separate gates. The permission does not by itself clear
+native offline bundling. Unsupported historical sources remain fail-closed;
+this web workflow does not change the native app.
+
+### Fletcher full-sheets review preview
+
+`VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` / `FletcherFullSheetsPreview` optionally
+enables the cartographically adjusted 24-sheet review revision
+`fletcher-seams-20261009.2`. Example local host: `http://127.0.0.1:4198`.
+The control is absent without this setting. Narrow inter-sheet gaps are closed
+by stretching existing edge detail toward the midpoint, fading the adjustment
+inside each sheet. The preview identifies that adjustment; locations near joins
+are approximate. Original source scans, geographic fits and checks are retained.
+
+The normal published Fletcher layer uses the `fletcher-seams-20261009.2` mosaic through
+`VITE_FLETCHER_TILE_BASE_URL`. The review overlay has separate visibility and
+opacity controls and is excluded from map exports and print. Building or merging
+this preview does not publish the new tiles. See the
+[seam repair report](../reports/fletcher/seam-repair-20261009/README.md) for the
+recipe, comparison imagery, input hashes and remaining gaps.
+
+## Poker pocket app
+
+`/poker` is a separate, small address-and-driveway app (`poker.html`), built from
+this repository and published by KinNoKi with a rewrite that preserves the short
+URL. It restores this browser's search, postal filter, chosen address, viewport
+and current trace from `ns-marks:poker:v1`. Selecting an address starts a new
+trace; Finish checks the user's strictly-over-500-metre carding threshold against
+the unrounded geodesic path length. Civic numbers show from zoom 16 and road names
+from zoom 15, placed so no label covers another label, an address dot or a map
+control. Road names run along straight stretches of their road, turned to match
+it; a lane shorter than its name gets one label over it. A number with no clear
+spot around its dot waits for a closer zoom while the dot stays, and at the
+closest zoom every number shows.
+The research map's older Poker theme remains separate; old KinNoKi Poker links
+lead to the dedicated app, including browsers that cached the former redirect.
+
+The map fills the viewport, with one search field and small translucent overlay
+controls. Map options holds the postal filter and offline management; sources
+and detailed caveats remain available from the small Sources control. The
+running distance and finished 500-metre result sit on the last trace point.
+Typing a leading civic number such as `544` also suggests pack addresses whose
+house number starts with that prefix, including `5447`.
+**Use my location**, below zoom, requests a fresh browser position on tap and
+centres the saved map on it. A blue dot and accuracy circle mark the last reading;
+it does not continuously follow or change the selected address or trace. The
+position is not uploaded or restored as a current fix after reload. Location
+can work offline when the device can obtain a fix. Permission, signal, timeout
+and outside-pack coverage failures are reported separately.
+
+Save offline in Map options downloads Poker's dependency closure and the approximately 4.5 MB
+regional data pack. Its `/poker`-scoped service worker never caches aerial imagery,
+other remote services, or the general research map. It confirms every required
+file before reporting success and can repair missing cached files. A saved copy
+keeps serving Poker even online, so while online Poker asks for a newer deploy
+when it opens, when its tab comes back into view and when the connection
+returns. The new copy downloads in the background, and once it is complete a
+**Poker updated · Reload** notice appears; Reload switches to it and keeps the
+session. Poker never reloads by itself. The manifest
+opens `/poker`; browser storage availability/eviction and clearing website data
+still affect saved sessions. Installing or using another browser does not sync
+sessions. The offline map uses Atlas Day colours with open NSRN roads and NSTDB
+water/building geometry; it is a bounded subset, not the full provincial Atlas.
+Aerial remains an online, licence-gated option.
+
+`public/poker/source.json` records exact source queries, dates, counts, hashes,
+licences and the conservative NAR-to-civic matching policy. All 1,575 NAR records
+in B0E 1P0, B0E 2W0 and B0E 1X0 remain searchable; 1,507 have a unique verified
+civic point. A numbered highway joins whether the register writes `19 HWY` or the
+province writes `Highway 19`; that one spelling difference had previously left
+about 500 Highway 19 and Highway 252 records unverified and listed each of them
+twice in search. The remaining 68 postal records are visibly unverified: selecting
+one opens its own Statistics Canada building coordinate with a dashed ring, and
+the few whose civic number has no provincial point on that road at all (for
+example 40 Wills Lane) are labelled in blue as postal points at street zoom.
+Search also includes provincial civic addresses in the saved region that lack
+a verified postal-list match, including 117 Gussieville Rd. Those results retain
+their provincial location caveat and show “postal code unverified”; they remain
+visible under postal-area filters with an explicit notice, without assigning
+a postal code or delivery route. Units sharing a provincial point stay distinct.
+No resident names, ownership inference, invented postal boundaries or delivery
+routes are included. A missing/unmatched record is not evidence of absence.
+Regenerate with `python3 scripts/fetchPokerSources.py --cache <external-folder>`
+then `node scripts/buildPokerData.mjs <external-folder>` from `web/`. Raw sources
+stay outside Git. The build checks the compressed pack against its receipt.
+Browser tests exercise real pack search, refresh, offline reload, civic numbers,
+trace persistence, and clearing the trace at phone and desktop widths.
+
+## Rhodena Wind Project
+
+Choose **Rhodena** or open `?theme=rhodena` for the 2024 assessed six-turbine
+proposal near Creignish, Craigmore, Long Point and Judique. The web-only setup
+adds published turbine coordinates, approximate infrastructure and study-area
+traces, dated anonymous receptors, optional illustrative 1 km rings, and
+existing Crown, protected-land, water, road and old-growth context. The Rhodena
+category explains the conditional approval, changing schedule, sensitive-data
+limits, two conflicting substation locations and unverified final geometry.
+The source report's 80 study-area PIDs retain their 2024 Crown/private categories;
+these do not establish current ownership or authorizations.
+
+`/rhodena` (`rhodena.html`) is the same research map opened as a single-project
+page: the Rhodena setup is fixed, the panel offers only the layers listed in
+`src/rhodena/focus.ts` (less the four fishing layers, which belong to
+`/fishing` and stay off this panel), and tax sale, My Maps, the setup picker
+and reviewed Fletcher features are absent. `src/rhodena/focusDefinition.ts`
+registers the page; see [Focus pages](#focus-pages) for the shared mechanism.
+A Map/Aerial switch under the 3D control swaps the
+background; aerial imagery keeps its Province licence gate.
+The focus includes the shared research sources and existing forestry,
+source-water, geology, aquifer and flood-context controls. Primary through
+tertiary **Watersheds** were already integrated. The finer sub-tertiary source
+is limited to six published basins and reports outside coverage at Rhodena.
+Its summary card turns the viewshed on or starts choosing a viewpoint in one
+tap, and a fresh link on a phone opens on that summary. Shared links drop layers
+outside the page and keep tax sale off; **Open this view in the full NS Marks
+map** carries the current layers and position to the full map. Each layer keeps
+its own licence gate, source and caveats. The KinNoKi site rewrites `/rhodena` to
+this page and stamps its asset base, as it does for `/poker`; locally, Vite
+answers `/rhodena` too. `public/rhodena-social-card.png` is the link preview, an
+illustration rather than a map or visual simulation.
+
+**Rhodena · turbine visibility** enables a preliminary combined bare-earth
+viewshed for all six turbines. Green indicates potential visibility of at least
+one turbine; grey requires terrain screening of all six. Individual T1–T6 views
+remain available, and a private viewpoint gives a combined answer and details
+for all six. It uses
+fixed Mapzen elevation data, a 1.7 m observer and the maximum 200 m tip; a 118 m
+hub comparison remains explicitly tied to the 2024 model. Potential visibility,
+terrain screening, near-threshold and unassessed locations stay distinct. Trees,
+buildings, weather and final design are excluded. Terrain pixels are about
+27 m here and overview cells about 106 m; these are not survey accuracy claims.
+The selected viewpoint stays in memory and is neither saved nor shared.
+A chosen viewpoint also draws a sight line from eye level to each assessed blade
+tip, coloured like the viewshed. Each line is solid while it clears bare earth;
+where the ground first rises into it, a ridge mark and a dotted remainder show the
+break, and the list gives that distance. While a viewpoint is being chosen, the
+map takes the tap before any overlay can, so historical features, parcels and
+other popups cannot swallow it.
+
+The reproducible preparation and accuracy receipt are described in
+[`scripts/rhodena/README.md`](scripts/rhodena/README.md). `npm run check:rhodena`
+checks generated facts and terrain hashes during prebuild. Browser printing
+renders the static Rhodena geometry with sources and approximation notes;
+interactive viewsheds/viewpoints are explicitly omitted. Generated PDF currently
+omits these source formats and lists them. Neither source merge nor checks
+publish the separately pinned KinNoKi production copy.
+
+## Focus pages
+
+A focus page is the research map opened for one purpose: a fixed setup, a
+shorter panel, its own heading and footer note, and its own short URL. Each
+has an HTML entry that mounts `<App focus="…" />` and a `FocusDefinition` in
+its own folder, registered in `src/focus/registry.ts`. The definition names
+the setup, the panel categories, the layers the panel offers and the ones it
+never offers (a denied layer stays off even when its category is allowed),
+the camera, the features the page hides, any page state its links carry, and
+the page's chrome components. `src/focus/registry.test.ts` applies the same
+checks to every registered page: every layer of its setup is offered, every
+offered layer exists and sits in one of its categories, hidden features have
+no panel section, and the opening camera lies inside the page's area.
+
+Every focus page moves appearance and export into its footer, leaves out the
+reviewed Fletcher features, opens a fresh phone visit on its summary sheet,
+drops shared layers it does not offer, keeps tax sale off, and puts
+**Open this view in the full NS Marks map** in its footer, after appearance and
+export and before the page's own note. Vite answers each page's
+map-relative path locally (`/rhodena`, `/fishing`, and their trailing-slash
+forms), the path it has under the published map. On the live site the KinNoKi
+rewrites serve each page's public short URL (`/rhodena`, and `/fishmap` for the
+fishing page) and stamp its asset base.
+
+## Fishing page
+
+### Fishing layers
+
+Four default-off **Water & Terrain** layers (`src/layers/fishingLayers.ts`)
+are on both maps. None states a season, a limit or a right of access.
+
+- **Curated fishing spots** (`fishing-spots`): 27 project-placed points in
+  southern Cape Breton, the Strait of Canso area and the Antigonish–Guysborough
+  lakes, read from `public/fishing/spots.geojson` and coloured by water type
+  (salt, brackish and tidal, fresh lake). They are the project's own
+  screening notes, not a publisher's record, so the layer row and popups link
+  a **Project source** (the [fishing receipt](../docs/gis-fishing-sources.md))
+  and the data's own `LICENCE.txt` (CC BY 4.0 for the project's wording,
+  OGL-NS and OGL-Canada for positions and open-data facts). The pins are
+  numbered by spot id and keyboard-focusable. On the full map a pin's popup
+  links to that spot's card on the fishing page.
+- **Stocked waters (hatchery records)** (`stocked-waters`): 1,079 province-wide
+  waters from the provincial stocking records, from zoom 9, coloured still or
+  running water. Records run 1976–2025; 2026 releases are not included. A past
+  stocking does not mean a water is stocked this year, and a stocked water is
+  not proof of public access. Every salmon release is withheld.
+- **DFO small craft harbours · core fishing** and **· non-core fishing**
+  (`dfo-small-craft-harbours-core`, `-non-core`): live queries of DFO's open
+  Small Craft Harbours service (layers 0 and 1, Nova Scotia rows only), from
+  zoom 8. A harbour point is not permission to fish from the wharf; harbour
+  authorities set their own rules.
+
+`withheldFishingSources` in the same module lists the fishing sources that
+were reviewed and kept out (a salmon-river status layer, boat-launch and
+barrier-free fishing-site layers without a licence, the tide service, and the
+routing demo server); a test fails if any catalogue entry or shipped fishing
+file names one. Browser print includes the four layers. Generated PDF omits
+them, as feature queries, and names them as not included.
+
+### The `/fishing` page
+
+`fishing.html` (`src/fishing/main.tsx`) is served at `/fishing` locally and at
+`/apps/nsmarksthespot/map/fishing` on the site; its public short URL is
+`https://kinnokilabs.com/fishmap`. It mounts the research map as
+`<App focus="fishing" />` with the **Fishing** setup fixed and fits the map to
+every spot when the link has no position. Its panel lists Water & Terrain,
+Land & Property, Roads & Places, Environment & Hazards and Background Maps.
+Water and background layers are offered by category, so later additions
+appear; land, road and hazard rows are listed one by one. The DFO aquatic
+species-at-risk layers and provincial core habitat are never offered here:
+beside fishing pins they would read as directions to Endangered salmon. Tax
+sale, My Maps and the setup picker are hidden; NS Aerial and Property
+Boundaries are offered but keep the Province licence gate.
+
+- **Heading.** A short purpose, a rules stamp dated from `rules.json` (current,
+  past its date, or not loaded), a **Spots for {this month}** shortcut,
+  **Zoom to all spots**, and a dedication line. The dedication is page code
+  (`FishingHero.tsx`), never part of the data files.
+- **Filters.** Month and species. Species that are rules-only are never
+  offered as a filter. A live summary counts the spots shown ("5 of 27 spots
+  for January"), and a filter that matches nothing says the curated list
+  names no spot for it, which is not evidence that no fish are there. The map
+  layer then reports **Ready** with the filter, not an empty source.
+- **Spot cards.** Numbered to match the pins: name, area and water type,
+  species, a 12-month good and peak strip with screen-reader text, access
+  notes (marked as not permission), tip, why the spot is listed with its
+  evidence class, caution, destination-only Google and Apple directions
+  links, coordinates as text, **Show on the map**, the spot's dated rules with
+  their citations, and its sources. A pin's popup **Open the spot card**
+  opens the card; on a phone, **Show on the map** closes the sheet first.
+- **Species calendar.** An HTML table of good and peak months (fish biology
+  and reported fishing quality, not open seasons) that scrolls inside its own
+  box at phone width. Atlantic salmon, landlocked salmon, American eel and
+  chain pickerel are rules-only rows with no months; their dated rules sit
+  below the table.
+- **Footer.** After the full-map link, the page's note and a link to the
+  **Strait and Bras d'Or fishing map** (`https://kinnokilabs.com/fishing/`),
+  the site's separate static fishing guide.
+
+Links carry `month=` (1–12) and `spot=` (a spot id such as `S05`) for this
+page only. They are kept out of the recognized share keys, so a
+month-only link is still a fresh visit and opens the phone summary. A spot
+that does not exist, or that the linked month leaves out, is dropped. The
+full-map link carries layers and position and leaves both behind. Share links
+keep the path the visitor arrived on, so on the live site they carry
+`/fishmap`; `main.tsx` drops a trailing slash from `/fishmap/` or `/fishing/`
+first (`src/fishing/pagePath.ts`). The page's `og:url` is
+`https://kinnokilabs.com/fishmap`, and it links to the map's generic social
+card; there is no fishing card yet.
+
+On kinnokilabs.com, `/fishing/` is the separate static guide, not this page.
+The KinNoKi site must rewrite `/fishmap` and `/fishmap/` to
+`/apps/nsmarksthespot/map/fishing` and stamp this page's asset base, as it does
+for `/rhodena`, and that site rewrite PR must merge before this page's PR:
+without it the short URL does not reach the page, and the page loads with the
+wrong base and no assets. The guide's link back to `/fishmap` is also a site
+change. Neither a merge here nor the site change proves the live page; check
+the live `source.json` receipt and the rendered page.
+
+### Data files
+
+The page and the spots layer read `public/fishing/`, outside the JavaScript
+bundle, through one shared load per page; the full map loads the spot,
+calendar and rules files only when the spots layer is on. After a failed
+load, turning the layer on again or the panel's Try again retries it for
+every part of the page. Sources, counts and
+receipts are in [docs/gis-fishing-sources.md](../docs/gis-fishing-sources.md).
+
+| File | Holds |
+| --- | --- |
+| `spots.geojson` | The 27 curated spots and their screening text; species, months and rule ids for the cards |
+| `rules.json` | Dated, paraphrased rule entries for the 2026 rules year, each with its source, section and link |
+| `calendar.json` | Good and peak months and short notes for 19 species |
+| `source.json` | Receipt: each pin's dataset, feature and method; SHA-256 pins for the four curated files |
+| `LICENCE.txt` | CC BY 4.0 for the project's wording; OGL-NS and OGL-Canada for the data |
+| `stocked-waters.geojson`, `stocked-waters.source.json` | The stocking snapshot and its query, hashes and rejected-row receipt |
+
+### Rules expiry
+
+A stale "open" is worse than nothing, as the BurnSafe decision under
+[Live conditions](#live-conditions) records, so rule text is dated and the
+page fails closed. `src/fishing/rules.ts` shows an entry only when
+`validFrom ≤ today ≤ entry.validUntil` and, unless the entry is a standing
+regulation, today is on or before the file's own `validUntil` (2027-03-31,
+the end of the 2026–27 licence year). A standing entry's `validUntil`
+(2027-10-12) is a review date. "Today" is the date in Halifax, so the rules
+hide at the same moment for a reader in any time zone.
+A malformed entry is hidden and counted, and a file that fails to load shows
+no rule text. Hidden text is replaced by links to the Anglers' Handbook
+landing page and DFO's Maritimes recreational fisheries page, not this year's
+PDF. Nothing computes whether a season is open now.
+
+Nothing automated warns before the date. After 2027-03-31 the page shows the
+expired stamp and the official links in place of the dated entries until
+someone writes the next `rules.json`; the yearly refresh below is the only
+reminder.
+
+### `check:fishing`
+
+`npm run check:fishing` (`scripts/checkFishing.mjs`) runs in `prebuild` after
+`check:rhodena`, and `npm run test:scripts` runs its tests. It is offline and
+never reads the clock, so an expired rules window cannot fail an unrelated
+build. It checks file structure and the property allowlist, Nova Scotia and
+coverage bounds, unique ids, cross-references (every species in the calendar,
+every `rules_ref` matched by its entry's `scope.spots`), the SHA-256 pins in
+both receipts, and forbidden public text: OpenStreetMap or routing provenance
+(neither is used), drive times and directions relative to a place, and rule
+facts (dates, limits, sizes, statutes, licences) in spot text or calendar
+notes, which belong in `rules.json`. `FISHING_DENYLIST` may name a local file
+of extra terms, one per line, that no fishing file may contain; without it
+nothing is added. Date checks are
+structural only: the file's `validUntil` falls within about 14 months of the
+rules year, a non-standing entry ends no more than 92 days past it, and a
+standing review date is within 24 months of `checked`. After any byte change
+to the curated files, run `node scripts/checkFishing.mjs --write-hashes` and
+review the diff.
+
+Tests: `src/fishing/*.test.ts(x)` (rules with fixed clocks, filters, data
+parsing, the focus lists, the panel and the spots layer), `src/focus/`,
+`src/layers/fishingLayers.test.ts`, the Fishing setup cases in
+`src/themes/mapThemes.test.ts` and `src/App.test.tsx`, the two script suites,
+and `e2e/fishing-page.spec.ts` at 1440 and 390 px. The e2e spec routes the DFO
+harbour queries to `src/test/fixtures/dfo-small-craft-harbours/`. Rule
+assertions avoid date bombs: unit tests fix the clock, and the e2e spec checks
+a standing rule only while it is in force.
+
+### Yearly refresh (each April)
+
+Do this before 1 April, when the licence year turns over and the 2026 file's
+dated entries hide, or as soon as the new Anglers' Handbook is out:
+
+1. **Rules.** From the new handbook and the current DFO Maritimes and Gulf
+   orders, write `rules.json` for the new licence year: `rulesYear`,
+   `checked`, `validUntil` (the end of that licence year) and
+   `validUntilBasis`. Re-date, rewrite or drop every entry, keep its source,
+   section and link, and move each standing entry's review date forward. Keep
+   each entry's `scope.spots` equal to the spots whose `rules_ref` name it.
+2. **Calendar.** Review `calendar.json` months and notes. Rules-only species
+   keep no months.
+3. **Spots.** Re-check each spot's access, caution, evidence and sources.
+   Re-derive any pin whose open-data basis changed (a road realignment, a
+   harbour change) from the same dataset and update `source.json`. Move the
+   `checked` date in `spots.geojson` and the layer's `sourceDate`.
+4. **Stocking.** After the provincial update (about April), run
+   `npm run build:fishing-stocked-waters`, review the rejected-row diff in
+   `stocked-waters.source.json`, and commit both files. If the record years
+   change, update the layer's caveat to the file's new `label`
+   (`fishingLayers.test.ts` requires them to match) and its `sourceDate` and
+   `coverage` text.
+5. **Harbours.** Recheck the DFO harbour counts and caveats, and whether the
+   service's Recreational layer now has Nova Scotia rows.
+6. **Gate.** Run `node scripts/checkFishing.mjs --write-hashes`, review the
+   diff, then `npm run check:fishing`, `npm run test:scripts`, the fishing unit
+   tests and `e2e/fishing-page.spec.ts`.
+7. **Live.** After the site promotes the change, check the live `source.json`
+   receipt and the rendered page at `https://kinnokilabs.com/fishmap`.
+
+In season, add or end a variation-order entry with its own dates as DFO
+issues it.
+
+### Not included
+
+Live river levels, regulation-zone polygons, an offline pack, and any native
+iOS fishing layer are not built; `plan.md` lists them as follow-ups. The
+**Data & licences** dialog still labels every source link **Official source**,
+including the curated spots; the layer row and popups say **Project source**.

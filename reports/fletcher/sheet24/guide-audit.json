@@ -1,0 +1,8 @@
+{
+  "original_observation": "tools/fletcher/observations/sheet-24.json",
+  "original_sha256": "acf00f3cc036afa923f64fa1f7f392ade5a4e2b82cc5264267bc9b437464a247",
+  "original_unchanged": true,
+  "guide_method": "Ten individually measured slanted engraved intersections, affine search guidance only; original grid control/check roles are not physical evidence.",
+  "native_label_review": "Both left and right 45 degrees 30 minutes and 45 degrees 25 minutes north; outer 61 degrees 35 minutes / 61 degrees 15 minutes west personally read from native crops.",
+  "source_encoding": "New native-region assembly hash differs from July cached TIFF receipt. Original cached source and source-drift pilot records remain unchanged; this is an independent acquisition, not retroactive verification of that cached source."
+}

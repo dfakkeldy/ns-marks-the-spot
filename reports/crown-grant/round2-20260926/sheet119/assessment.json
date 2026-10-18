@@ -1,0 +1,311 @@
+{
+  "sheet": "119",
+  "baseline_report": "reports/crown-grant/batch2/sheet119",
+  "baseline_fit": "fit-similarity-01.json",
+  "baseline_checks": "checks-similarity-01.json",
+  "baseline_score": "scores-similarity-01.json",
+  "source_sha256": "9e47cf45020f5c516c4820b9583f5b6eba18b58f3d12fb30881320127afd526e",
+  "reference_sha256": "80793b2ca6029f5615b13793e5591e0be9ab970da1ad025df2e025e2e9a1936e",
+  "fit_sha256": "28aac0fa9b6facf81b4d07187c3fbbbf373a40acdbc4abf5e05ee2a43c5c102a",
+  "checks_sha256": "23915c49975ef080e28ffb2573668873307986a3e25df886f66bf7afe1f4941e",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 5,
+    "rms_ground_m": 128.15367108852973,
+    "median_ground_m": 81.64988406337294,
+    "p95_ground_m": 211.9038082817348,
+    "max_ground_m": 229.83373368584114,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 45.71654655771455,
+    "mean_north_ground_m": 41.33962034251456,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Enrage Cape eastern island tip",
+        "role": "check",
+        "pixel_xy": [
+          3094,
+          3564
+        ],
+        "lonlat": [
+          -61.01364759607275,
+          46.64640580751109
+        ],
+        "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+        "reference_objectid": 4141,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3072.532417673152,
+          3516.7219305952312
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshair and broader coastline/island or stream-mouth context inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -61.012131869090396,
+          46.645698255933375
+        ],
+        "error_ground_m": 140.18410666530949,
+        "east_ground_m": 116.03996461123957,
+        "north_ground_m": -78.65310149366734
+      },
+      {
+        "id": "Q02",
+        "label": "Western Caveau Point northern apex",
+        "role": "check",
+        "pixel_xy": [
+          3356,
+          3500
+        ],
+        "lonlat": [
+          -60.99681484128584,
+          46.65321767313929
+        ],
+        "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+        "reference_objectid": 11621,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3349.864581682603,
+          3470.6657450153725
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshair and broader coastline/island or stream-mouth context inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.99665595583056,
+          46.653166401569855
+        ],
+        "error_ground_m": 13.43142282911286,
+        "east_ground_m": 12.162167326850382,
+        "north_ground_m": -5.699544291266378
+      },
+      {
+        "id": "Q03",
+        "label": "Cap Rouge northern coastal point",
+        "role": "check",
+        "pixel_xy": [
+          4188,
+          2915
+        ],
+        "lonlat": [
+          -60.957741376343684,
+          46.693407354751905
+        ],
+        "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+        "reference_objectid": 9882,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          4170.288624845038,
+          2883.1307990459027
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshair and broader coastline/island or stream-mouth context inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.957186449044606,
+          46.69403479910626
+        ],
+        "error_ground_m": 81.64988406337294,
+        "east_ground_m": 42.44587941959095,
+        "north_ground_m": 69.74991675880185
+      },
+      {
+        "id": "Q04",
+        "label": "Shag Roost shoreline stream mouth",
+        "role": "check",
+        "pixel_xy": [
+          5425,
+          1784
+        ],
+        "lonlat": [
+          -60.90510545658246,
+          46.76445271016105
+        ],
+        "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+        "reference_objectid": 263568,
+        "reference_feature_code": "WARV50",
+        "guide_reference_pixel_xy": [
+          5396.782442374271,
+          1757.5045777846826
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshair and broader coastline/island or stream-mouth context inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.90503015024726,
+          46.76651953979297
+        ],
+        "error_ground_m": 229.83373368584114,
+        "east_ground_m": 5.752400933705805,
+        "north_ground_m": 229.76173533352338
+      },
+      {
+        "id": "Q05",
+        "label": "Coastal bend north of Jerome Brook",
+        "role": "check",
+        "pixel_xy": [
+          4049,
+          3238
+        ],
+        "lonlat": [
+          -60.95873975668566,
+          46.67715481730344
+        ],
+        "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+        "reference_objectid": 11625,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          4038.9015756792505,
+          3198.164139773813
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Native crosshair and broader coastline/island or stream-mouth context inspected before first scoring; excluded from fit.",
+        "predicted_lonlat": [
+          -60.958057750907216,
+          46.677078703729485
+        ],
+        "error_ground_m": 52.86380121627337,
+        "east_ground_m": 52.18232049718604,
+        "north_ground_m": -8.460904594818702
+      }
+    ]
+  },
+  "control_axis_ratio": 7.84400975590368,
+  "affine_scale_ratio": 1.0,
+  "metres_per_pixel_singular_values": [
+    5.363194886487995,
+    5.363194886487995
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.943026346662427,
+          2.0722966509905256
+        ],
+        [
+          2.0722966509905256,
+          -4.943026346662427
+        ],
+        [
+          629448.2449391533,
+          5178923.196363728
+        ]
+      ],
+      "diagnostic_rms_m": 127.87219616850831,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.947863363293182,
+          2.073730782675883
+        ],
+        [
+          2.073730782675883,
+          -4.947863363293182
+        ],
+        [
+          629420.5491861253,
+          5178926.393324426
+        ]
+      ],
+      "diagnostic_rms_m": 127.39658529750149,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.957163707822524,
+          2.0922236647010384
+        ],
+        [
+          2.0922236647010384,
+          -4.957163707822524
+        ],
+        [
+          629330.321073979,
+          5178903.626929789
+        ]
+      ],
+      "diagnostic_rms_m": 154.48576891995398,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.946116407485052,
+        2.073593952335378
+      ],
+      [
+        2.073593952335378,
+        -4.946116407485052
+      ],
+      [
+        629429.656292993,
+        5178924.538390031
+      ]
+    ],
+    "rms_ground_m": 128.15367262359013,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "reflected similarity",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.233768+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q04",
+    "Q01",
+    "Q03",
+    "Q05"
+  ],
+  "reviewed_control_ids": [
+    "C02",
+    "C01"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Shag Roost has a clear coastal stream but other nearby mouths require broader topology; tiny Enrage cape turns into rock/islet-like modern geometry. Cap Rouge and Jerome coastal bends are generalized. Sparse coastal anchors and interior extrapolation remain insufficient for a flexible warp.",
+  "baseline_limitations": [
+    "Five checks give RMS 128.15 m, median 81.65 m, P95 211.90 m and maximum 229.83 m; the 100 m RMS ceiling and companion bounds fail",
+    "Only three controls and five checks can be defended on the narrow mapped land strip; no whole-interior accuracy claim is supported",
+    "Enrage Cape and Caveau endpoint checks share local landforms with controls and are spatially correlated",
+    "The Enrage northern outline is generalized beside a printed survey symbol; source uncertainty is larger there"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "6cc0a0ccff87d6a00d1019b69892dc8c1b71826dc0d7153b76045c109cbb6be8"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "bed08fc638741b2f023398660258f4eed3fb86ba51ef7df03ef8f37ef3047a53"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "f2186e526e77a22bac0f236a057b88b20860accac109ccc0178802e6251113b5"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "2d3492afb84c18563b93ee20d574b3a1a8d235446a926359db5512c5404e6013"
+    }
+  ],
+  "control_findings": "Eastern Caveau and Enrage northern capes retain coast sequence; three coastal controls provide limited interior support.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "C01",
+    "label": "Main Cape d Or southwest tip",
+    "role": "control",
+    "pixel_xy": [
+      1565,
+      1680
+    ],
+    "lonlat": [
+      -64.77492576261386,
+      45.28997084938909
+    ],
+    "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+    "reference_objectid": 8367,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8367,
+    "nearest_unfiltered_distance_guide_px": 0.2696617581910811,
+    "selected_distance_guide_px": 0.2696617581910811,
+    "guide_reference_pixel_xy": [
+      1530.2505181255983,
+      1695.099790443317
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad coast and native paired crosshair inspected before first main fit/score."
+  },
+  {
+    "id": "C02",
+    "label": "Main Cape Spencer southeast turning corner",
+    "role": "control",
+    "pixel_xy": [
+      2691,
+      1580
+    ],
+    "lonlat": [
+      -64.7056685055794,
+      45.316398043811475
+    ],
+    "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+    "reference_objectid": 8371,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8371,
+    "nearest_unfiltered_distance_guide_px": 1.5223805779524129,
+    "selected_distance_guide_px": 1.5223805779524129,
+    "guide_reference_pixel_xy": [
+      2677.3746024650754,
+      1595.6543016789947
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad coast and native paired crosshair inspected before first main fit/score."
+  },
+  {
+    "id": "C03",
+    "label": "Main Spencer Island western tip",
+    "role": "control",
+    "pixel_xy": [
+      2975,
+      1384
+    ],
+    "lonlat": [
+      -64.69421520974285,
+      45.330153929713816
+    ],
+    "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+    "reference_objectid": 18574,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18574,
+    "nearest_unfiltered_distance_guide_px": 0.1972849184317717,
+    "selected_distance_guide_px": 0.1972849184317717,
+    "guide_reference_pixel_xy": [
+      2945.049636120093,
+      1398.8090612804517
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad coast and native paired crosshair inspected before first main fit/score."
+  }
+]

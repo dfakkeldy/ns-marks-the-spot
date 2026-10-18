@@ -1,0 +1,263 @@
+{
+  "sheet": "094",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.620797356033122,
+      1.946122244413898
+    ],
+    [
+      1.9368277890204575,
+      -4.641005999849979
+    ],
+    [
+      532660.3157260984,
+      5034523.186227868
+    ]
+  ],
+  "source_sha256": "f0e7fb379efcfd94bc1e628337fa63e9999290128f1b13bfa82bb6fd42b00933",
+  "source_dimensions": [
+    6031,
+    4193
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Lake north of Kerrowgare south tip",
+      "role": "control",
+      "pixel_xy": [
+        1806,
+        1707
+      ],
+      "lonlat": [
+        -62.43359872989771,
+        45.423237638176346
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 135083,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135083,
+      "nearest_unfiltered_distance_guide_px": 0.4228137469974691,
+      "selected_distance_guide_px": 0.4228137469974691,
+      "guide_reference_pixel_xy": [
+        1798.2457540581236,
+        1614.3440587269142
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Haggard Lake southeast tip",
+      "role": "control",
+      "pixel_xy": [
+        5212,
+        1838
+      ],
+      "lonlat": [
+        -62.22850616409147,
+        45.47611225136507
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 138257,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138257,
+      "nearest_unfiltered_distance_guide_px": 0.5666900394274557,
+      "selected_distance_guide_px": 0.5666900394274557,
+      "guide_reference_pixel_xy": [
+        5229.52897727635,
+        1729.2032747940393
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Small lake east of Murray Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        1758,
+        2787
+      ],
+      "lonlat": [
+        -62.410453730495554,
+        45.37691954975093
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 140682,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 208361,
+      "nearest_unfiltered_distance_guide_px": 5.045362531872515,
+      "selected_distance_guide_px": 8.461192696414827,
+      "guide_reference_pixel_xy": [
+        1749.7229080478428,
+        2696.54334364878
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Narrow lake southwest of Lowmoor south tip",
+      "role": "control",
+      "pixel_xy": [
+        1834,
+        3203
+      ],
+      "lonlat": [
+        -62.39556923598513,
+        45.36098317560556
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 72235,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 72235,
+      "nearest_unfiltered_distance_guide_px": 0.6196360161150442,
+      "selected_distance_guide_px": 0.6196360161150442,
+      "guide_reference_pixel_xy": [
+        1834.2415685919113,
+        3109.4293920716736
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Lake west of Beaver Lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        2195,
+        3495
+      ],
+      "lonlat": [
+        -62.36686013184589,
+        45.354986652405714
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 73195,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 73195,
+      "nearest_unfiltered_distance_guide_px": 1.3697435497674058,
+      "selected_distance_guide_px": 1.3697435497674058,
+      "guide_reference_pixel_xy": [
+        2203.6303236733656,
+        3399.986429724144
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Eden Lake larger island south tip",
+      "role": "control",
+      "pixel_xy": [
+        3628,
+        2798
+      ],
+      "lonlat": [
+        -62.298798298202115,
+        45.40880049393789
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 143834,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 143834,
+      "nearest_unfiltered_distance_guide_px": 1.1335038091795724,
+      "selected_distance_guide_px": 1.1335038091795724,
+      "guide_reference_pixel_xy": [
+        3645.1334996527294,
+        2697.003069639555
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Cranberry Lakes southern tip",
+      "role": "control",
+      "pixel_xy": [
+        3244,
+        3469
+      ],
+      "lonlat": [
+        -62.3055976559038,
+        45.37399074039141
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 141074,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141074,
+      "nearest_unfiltered_distance_guide_px": 0.4717908337884549,
+      "selected_distance_guide_px": 0.4717908337884549,
+      "guide_reference_pixel_xy": [
+        3256.6160274663707,
+        3369.274138075183
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Siloam Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        3898,
+        3666
+      ],
+      "lonlat": [
+        -62.26243352685991,
+        45.37702274888472
+      ],
+      "guide_file": ".crown-grant-local/094-adjacent-guide.npy",
+      "reference_objectid": 142548,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142548,
+      "nearest_unfiltered_distance_guide_px": 3.8550972575479268,
+      "selected_distance_guide_px": 3.8550972575479268,
+      "guide_reference_pixel_xy": [
+        3912.379610761651,
+        3558.9669771698536
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/island outlines and paired native crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    8.825375079683834,
+    5.7331672096871955,
+    28.55577483923122,
+    2.7764446221343375,
+    20.85689959190232,
+    27.741470410080293,
+    5.85064229839341,
+    23.861163768258464
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

@@ -1,0 +1,29 @@
+{
+  "sheet": "140",
+  "component": "scatarie-inset",
+  "stage": "Before first inset fit or score",
+  "model": "similarity",
+  "controls": [
+    "SC01",
+    "SC02",
+    "SC03",
+    "SC04"
+  ],
+  "checks": [
+    "SQ01",
+    "SQ02",
+    "SQ04",
+    "SQ05",
+    "SQ06"
+  ],
+  "rms_ceiling_ground_m": 100,
+  "rejected_before_fit": {
+    "SQ03": "Historic Hatchet Rock shore point could not be paired with modern rock-fragment geometry"
+  },
+  "notes": [
+    "Eastern cape reference corrected from adjacent Brown islet to main Scatarie shore before fitting",
+    "A failed mainland-only WACO20 filter sent proposals to remote mainland shores; these raw packets retained and rejected. Adopted main-island coast uses audited WACOIS features",
+    "Constrained similarity selected before score; no flexible warp or model selection on checks",
+    "Main sheet and inset repeat some geographic features; per-component checks are not pooled as independent series observations"
+  ]
+}

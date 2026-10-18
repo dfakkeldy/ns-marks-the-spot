@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+like+%27%25Ivor%25Point%25%27+or+geoname+like+%27%25Dunmore%25%27+or+geoname+like+%27%25Blackstone%25%27&%24limit=100",
+  "query": {
+    "$where": "geoname like '%Ivor%Point%' or geoname like '%Dunmore%' or geoname like '%Blackstone%'",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-15T01:32:20.008794+00:00",
+  "sha256": "ec4c39a06a5e2b0ab4ae4bd4b900cfb6b0cdfcf173468860cf4e58af6c4e3f34",
+  "scope": "Official identity only; not physical GCP coordinates"
+}

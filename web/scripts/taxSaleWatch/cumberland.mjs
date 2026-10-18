@@ -78,6 +78,56 @@ export function containsResultsTable(html) {
   return HEADING_PATTERN.test(html.replace(/<[^>]+>/gu, " "));
 }
 
+const NOTICE_HEADERS = [
+  "AAN",
+  "PID",
+  "District",
+  "Assessed Owner and Location/Description",
+  "Total Due",
+  "Redeemable",
+];
+
+/**
+ * Cumberland overwrites the same URL. After results are ingested, the live page
+ * can become the next sale's pre-auction notice. That table mixes assessed-owner
+ * names into the location cell and has no winning-bid column, so it is not a
+ * result dataset and must not be parsed as one.
+ */
+export function isUpcomingNotice(html) {
+  if (containsResultsTable(html)) {
+    return false;
+  }
+  const tables = html.match(/<table[\s\S]*?<\/table>/giu) ?? [];
+  if (tables.length !== 1) {
+    return false;
+  }
+  const headerCells = (tables[0].match(/<tr[\s\S]*?<\/tr>/giu) ?? [])
+    .map(cellsOf)
+    .find((cells) => cells.some((cell) => cell.toUpperCase() === "PID"));
+  return Boolean(
+    headerCells && JSON.stringify(headerCells) === JSON.stringify(NOTICE_HEADERS),
+  );
+}
+
+/** A browser excerpt must contain real notice rows with the mixed name cell omitted. */
+export function ownerFreeNoticeRowCount(html) {
+  if (!isUpcomingNotice(html)) return 0;
+  const rows = (html.match(/<tr[\s\S]*?<\/tr>/giu) ?? []).map(cellsOf);
+  if (JSON.stringify(rows[0]) !== JSON.stringify(NOTICE_HEADERS) || rows.length < 2) return 0;
+  const aans = new Set();
+  const pids = new Set();
+  for (const cells of rows.slice(1)) {
+    if (cells.length !== 6) return 0;
+    const [aan, pid, district, omitted, amount, redeemable] = cells;
+    if (!/^\d{8}$/u.test(aan) || !/^\d{8}$/u.test(pid) || !/^\d+$/u.test(district) ||
+        omitted !== "[OMITTED]" || !/^\$?(?:\d+|\d{1,3}(?:,\d{3})+)\.\d{2}(?:\s+HST appl)?$/iu.test(amount) ||
+        !/^(YES|NO)$/iu.test(redeemable) || aans.has(aan) || pids.has(pid)) return 0;
+    aans.add(aan);
+    pids.add(pid);
+  }
+  return rows.length;
+}
+
 function redemptionLabel(raw) {
   const value = raw.trim().toUpperCase();
   if (value === "6 MONTH") return "Redemption expiry - 6 month";
@@ -171,4 +221,6 @@ export const CUMBERLAND_SOURCE = {
   parseResults,
   classifyOutcome,
   containsResultsTable,
+  isUpcomingNotice,
+  ownerFreeNoticeRowCount,
 };

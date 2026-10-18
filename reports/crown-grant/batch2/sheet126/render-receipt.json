@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "c9fc8d96e97c272a6c7136f10b5cf52b311e5f8b754035851271cca972ed44ab",
+  "fit_sha256": "df5486d8368b3d85caad15cfe58160c1f50ba3539e89788742f552553dd5f4b4",
+  "components_sha256": "a3fc4b3edef550a8468e781bebe4b883b70e9d3edc11af0e6e122f218ac58cc8",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 99.94 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          45.4243146480956,
+          -60.7716489368264
+        ],
+        [
+          45.67810382916056,
+          -60.33636128275345
+        ]
+      ],
+      "dimensions": [
+        6057,
+        5043
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 13535708,
+      "source_mask_pixels": 15144450,
+      "affine_determinant": -28.044250923315076,
+      "png_sha256": "77872edf54746cb303bf2f71d58f771f8414aca1395c936238ef6c8875439338",
+      "tif_sha256": "d97909c235a9e5521944b89c71de60e464f2090ea075e13151d6ec2c000593cb"
+    },
+    {
+      "id": "sheet134-inset",
+      "status": "RMS 62.13 m passes 100 m; limitations retained",
+      "png": "sheet134-inset-3857.png",
+      "tif": "sheet134-inset-3857.tif",
+      "bounds": [
+        [
+          45.61988186783248,
+          -60.424193160336465
+        ],
+        [
+          45.74018421898575,
+          -60.15886675801892
+        ]
+      ],
+      "dimensions": [
+        3692,
+        2396
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 4310241,
+      "source_mask_pixels": 4802400,
+      "affine_determinant": -28.05134726018295,
+      "png_sha256": "da384de54d4d683c16aa7a1118683d51f87269458b88549faada7a84824105b3",
+      "tif_sha256": "3dd2fbace451f1a0ccf0526fa54e3b3ebbf58ff34c763891d808eb1799a07aad"
+    }
+  ]
+}

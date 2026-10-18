@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-09-16T00:56:20.798691+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active at70% opacity, source4751x6488, zoom15. IS41 reviewed in2D and10x terrain at50deg and0deg tilt; the foreground hills obscure the mouth at50deg, so topdown was also inspected. No new import or coordinates measured from perspective.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/browser/IS41-2d.png",
+      "sha256": "f8ea442e849f421bef9a00fb622be49bd21c8454d4b1b083f568f78a737ab96a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/browser/IS41-terrain10x-topdown.png",
+      "sha256": "a5cef8db1fe227ac9d9282503ae97db7790f91243fcb73e7b64a31671a8b6019"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/browser/IS41-terrain10x.png",
+      "sha256": "9a79e8f19cad7356a4018b174b71e1a1f88ce10bc8143500b9b5c08d86894df8"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/browser/IS41-import-state.txt",
+      "sha256": "8ea7a3e61228bf56c935d49c69e8f01e60d74f90e9ce227cfa3578d0fe61ed70"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/browser/IS41-terrain10x-state.txt",
+      "sha256": "cb1c01ae1e2ddaaf3e46fee069c2c5aa10c5be6508286f416f1fbb964047de41"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/browser/IS41-topdown-state.txt",
+      "sha256": "f8172182bd12c61f606ce426d29175cef7df6ca1819da1cd33afc31de5a20d62"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

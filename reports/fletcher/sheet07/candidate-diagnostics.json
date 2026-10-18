@@ -1,0 +1,88 @@
+{
+  "sheet": "sheet-07",
+  "fit_sha256": "606f269ad100a7901a3b9afad6fd5a0920135cf40d46f7765a9e1a7636e9d4f2",
+  "points": [
+    {
+      "lonlat": [
+        -60.4475692,
+        46.5560073
+      ],
+      "source_guide_xy": [
+        1789.5782039994374,
+        3013.1630136002786
+      ],
+      "objectids": [
+        184779,
+        271881,
+        272023
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        1850,
+        2925
+      ],
+      "modern_node_id": "J0349",
+      "identity_evidence": "Ferry Brook smaller northern tributary upstream of fitted southwestern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.4581103,
+        46.5238144
+      ],
+      "source_guide_xy": [
+        1561.5742109993007,
+        4022.9899008001667
+      ],
+      "objectids": [
+        190705,
+        269081,
+        269082
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        1558,
+        3974
+      ],
+      "modern_node_id": "J0427",
+      "identity_evidence": "Mill Brook second southern tributary just downstream of fitted southwestern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.45627829704659,
+        46.45808388842513
+      ],
+      "guide_xy": [
+        1601.200434881961,
+        6084.824587880634
+      ],
+      "modern_objectid": 125610,
+      "modern_part": 0,
+      "modern_vertex": 110,
+      "modern_properties": {
+        "OBJECTID": 125610,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 866.248724332772
+      },
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        1650,
+        6090
+      ],
+      "identity_evidence": "Southern extremity of large coastal pond at Breeding Cove",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    }
+  ]
+}

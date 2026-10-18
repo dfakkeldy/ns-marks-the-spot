@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C02",
+    "label": "McLeod Brook major fork northern bank wedge",
+    "role": "proposal",
+    "pixel_xy": [
+      606,
+      2771
+    ],
+    "lonlat": [
+      -60.92769532887776,
+      46.15872947122314
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 160428,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      593.7619593013078,
+      2800.620902443072
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Baddeck Forks northern bank wedge",
+    "role": "proposal",
+    "pixel_xy": [
+      2935,
+      3310
+    ],
+    "lonlat": [
+      -60.77359468852859,
+      46.17504888908316
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 159474,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      2955.138922495127,
+      3299.7593763869954
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "North Baddeck eastern of two adjacent confluences",
+    "role": "proposal",
+    "pixel_xy": [
+      3186,
+      1804
+    ],
+    "lonlat": [
+      -60.794626734972184,
+      46.24303020299266
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 184743,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3188.71611487848,
+      1775.6738101114752
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Central southern pond western end",
+    "role": "proposal",
+    "pixel_xy": [
+      3486,
+      1154
+    ],
+    "lonlat": [
+      -60.79179191002291,
+      46.27566350308159
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 56288,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3488.072432147048,
+      1114.1381222860655
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Northeastern compact pond western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4660,
+      650
+    ],
+    "lonlat": [
+      -60.73223400210959,
+      46.315001450381715
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 135979,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4660.181632993685,
+      619.9849054663209
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Northeastern tall lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4880,
+      688
+    ],
+    "lonlat": [
+      -60.71800588026679,
+      46.31665956898551
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 136086,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4878.932047914306,
+      662.3645417190855
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Upper Middle River western large loop northern bank crest",
+    "role": "proposal",
+    "pixel_xy": [
+      1599,
+      974
+    ],
+    "lonlat": [
+      -60.90909641078532,
+      46.252243518599684
+    ],
+    "guide_file": ".crown-grant-local/122-adjacent-guide.npy",
+    "reference_objectid": 159910,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      1606.2898832078208,
+      963.4364554618951
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

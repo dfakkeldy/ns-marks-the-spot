@@ -2,6 +2,8 @@ import { Component, type ErrorInfo, type ReactNode } from "react";
 
 type ErrorBoundaryProps = {
   children: ReactNode;
+  recoveryNote?: ReactNode;
+  className?: string;
 };
 
 type ErrorBoundaryState = {
@@ -34,11 +36,17 @@ export class ErrorBoundary extends Component<
 > {
   state: ErrorBoundaryState = { error: null };
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { error };
+  static getDerivedStateFromError(error: unknown): ErrorBoundaryState {
+    // JavaScript can throw null, undefined, or strings. Keep recovery state
+    // truthy so those values cannot render the failing children again.
+    return {
+      error: error instanceof Error
+        ? error
+        : new Error(typeof error === "string" ? error : "An unexpected application error occurred."),
+    };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo): void {
+  componentDidCatch(error: unknown, info: ErrorInfo): void {
     // The console is the only reporting channel this app has: it ships no
     // telemetry, and user-loaded material must not leave the browser.
     console.error("Unhandled application error", error, info.componentStack);
@@ -51,17 +59,17 @@ export class ErrorBoundary extends Component<
     }
 
     return (
-      <div className="app-error" role="alert">
+      <div className={this.props.className ?? "app-error"} role="alert">
         <h1>The map stopped responding</h1>
         <p>
           Something went wrong and the map could not keep running. Reloading
           usually fixes it.
         </p>
-        <p>
+        {this.props.recoveryNote ?? <p>
           Maps you have imported, georeferenced, or drawn are stored in this
           browser and are not lost by reloading. The parcel you had selected
           and the layers you had switched on will reset.
-        </p>
+        </p>}
         <button
           className="primary-action"
           type="button"

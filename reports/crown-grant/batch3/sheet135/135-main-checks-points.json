@@ -1,0 +1,156 @@
+[
+  {
+    "id": "Q01",
+    "label": "Blackrock Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3190,
+      2110
+    ],
+    "lonlat": [
+      -60.5585800678155,
+      47.03168687081628
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 2403,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3147.075917586335,
+      2067.7674992928514
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Largest southwestern lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2750,
+      3348
+    ],
+    "lonlat": [
+      -60.55545056573555,
+      46.96811653325655
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 136302,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2715.463325802819,
+      3332.335900899023
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Small pond southeast of largest lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2925,
+      3350
+    ],
+    "lonlat": [
+      -60.5441316982183,
+      46.971297537716175
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 34158,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2888.723210522381,
+      3326.883221541648
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Elongated southern pond northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2920,
+      3390
+    ],
+    "lonlat": [
+      -60.54327788868595,
+      46.96901406906355
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 33279,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2883.026376126625,
+      3376.0448864556383
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Lower eastern pond south tip below Cape St Lawrence",
+    "role": "proposal",
+    "pixel_xy": [
+      2783,
+      2080
+    ],
+    "lonlat": [
+      -60.585218503862066,
+      47.02655477548296
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 125494,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2757.2305376520962,
+      2034.4011476002634
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Small western interior pond south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1170,
+      3353
+    ],
+    "lonlat": [
+      -60.65935331689023,
+      46.94100324655306
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 33315,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1140.1785787546542,
+      3340.052339517162
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Island off Cape North north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5148,
+      2714
+    ],
+    "lonlat": [
+      -60.41342445627104,
+      47.03698223141479
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 20783,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5103.219058766321,
+      2692.6520117475884
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

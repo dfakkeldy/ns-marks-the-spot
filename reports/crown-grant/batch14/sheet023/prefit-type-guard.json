@@ -1,0 +1,7 @@
+{
+  "timing": "Before any fit or score",
+  "rejected": [
+    "Initial WALK20 C05/Q05 Central Lake proposals failed505.8/355.0guide-pixel guards; no initial complete point packets were produced."
+  ],
+  "correction": "Direct reference inspection identifies WARVLK20 Central and Irving shores and WARVLKIS10 Irving islands. Correct types applied before fitting."
+}

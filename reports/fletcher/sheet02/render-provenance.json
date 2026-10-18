@@ -1,0 +1,14 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/sheet02.png",
+  "source_sha256": "b4094db3ab94e60e3f30727c7edb97d6ac66e19a7e640c3a5ce3b339b91e1922",
+  "source_native_dimensions": [
+    10829,
+    7582
+  ],
+  "fit_sha256": "3094eec05b4adec75eaaea85a19c3349f2ab9d2d45963359533d7d86a2917c6a",
+  "boundary_sha256": "615e4edbf4593f906f996a9b7a5ebff3d8b78d5fcbd3055d00f11883e02268a1",
+  "raster_sha256": "ec5096c078ea3628b00f39ef28a9475f641bbd0daa0db19a2c24f655143a1465",
+  "render_script": "reports/fletcher/full-sheets/render.py",
+  "render_script_sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067",
+  "method": "One exact GDAL TPS (-et 0), EPSG:3857, 5 projected metre cells, complete mapped frame, RGBA. Initial failed diagnostic preserved with original eight-control fit; promoted Q01 is never a fresh check."
+}

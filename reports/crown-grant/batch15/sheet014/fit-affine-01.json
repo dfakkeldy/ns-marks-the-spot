@@ -1,0 +1,255 @@
+{
+  "sheet": "014",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.875916819709591,
+      2.0813817638341305
+    ],
+    [
+      2.063680418699149,
+      -4.933755317564506
+    ],
+    [
+      265031.4518209037,
+      4923712.725279236
+    ]
+  ],
+  "source_sha256": "b6d1d337b1ce281425126c810b15c2d84fc56102e7610d7154f7025626b05912",
+  "source_dimensions": [
+    5700,
+    3912
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Dunbar Lake northeastern roof",
+      "role": "control",
+      "pixel_xy": [
+        640,
+        928
+      ],
+      "lonlat": [
+        -65.88638900042496,
+        44.40124043614633
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 127941,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127941,
+      "nearest_unfiltered_distance_guide_px": 2.779192679797803,
+      "selected_distance_guide_px": 2.779192679797803,
+      "guide_reference_pixel_xy": [
+        662.094604863727,
+        936.3724209624343
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "McKeen Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        2756,
+        297
+      ],
+      "lonlat": [
+        -65.77865143899291,
+        44.471483299786236
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 136707,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136707,
+      "nearest_unfiltered_distance_guide_px": 11.256025885037488,
+      "selected_distance_guide_px": 11.256025885037488,
+      "guide_reference_pixel_xy": [
+        2760.1972467096057,
+        255.22736415546387
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Dugas Lake island north",
+      "role": "control",
+      "pixel_xy": [
+        2401,
+        1316
+      ],
+      "lonlat": [
+        -65.77080773813735,
+        44.419343748973006
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 144485,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 144485,
+      "nearest_unfiltered_distance_guide_px": 1.0083912981305703,
+      "selected_distance_guide_px": 1.0083912981305703,
+      "guide_reference_pixel_xy": [
+        2412.99317164527,
+        1297.1745367960539
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Little Uniacke Lake northeastern horn",
+      "role": "control",
+      "pixel_xy": [
+        3760,
+        939
+      ],
+      "lonlat": [
+        -65.69800356877006,
+        44.4633038731071
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 132107,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132107,
+      "nearest_unfiltered_distance_guide_px": 1.986810390611292,
+      "selected_distance_guide_px": 1.986810390611292,
+      "guide_reference_pixel_xy": [
+        3799.518531819922,
+        902.0724098153878
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Uniacke Lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        3145,
+        1764
+      ],
+      "lonlat": [
+        -65.71198617494068,
+        44.41504261149328
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 125685,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125685,
+      "nearest_unfiltered_distance_guide_px": 0.5827073731376649,
+      "selected_distance_guide_px": 0.5827073731376649,
+      "guide_reference_pixel_xy": [
+        3186.248645466112,
+        1737.5269946061308
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Colibri Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        1558,
+        2768
+      ],
+      "lonlat": [
+        -65.7816872388626,
+        44.339048993726614
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 128726,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128726,
+      "nearest_unfiltered_distance_guide_px": 2.0710925478471562,
+      "selected_distance_guide_px": 2.0710925478471562,
+      "guide_reference_pixel_xy": [
+        1561.9225332173519,
+        2761.7702534452546
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Cranberry Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        5125,
+        3559
+      ],
+      "lonlat": [
+        -65.5433641973155,
+        44.37647682800091
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 129051,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129051,
+      "nearest_unfiltered_distance_guide_px": 2.1074433539040496,
+      "selected_distance_guide_px": 2.1074433539040496,
+      "guide_reference_pixel_xy": [
+        5177.335462363728,
+        3497.707470717025
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Unnamed northeastern lake northeastern roof",
+      "role": "control",
+      "pixel_xy": [
+        4619,
+        726
+      ],
+      "lonlat": [
+        -65.65364671320793,
+        44.49037380388225
+      ],
+      "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+      "reference_objectid": 132863,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132863,
+      "nearest_unfiltered_distance_guide_px": 2.4936208191433975,
+      "selected_distance_guide_px": 2.4936208191433975,
+      "guide_reference_pixel_xy": [
+        4646.216669672285,
+        655.1421560110757
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    86.16173089864466,
+    89.35007910757261,
+    46.19694617938941,
+    82.4761957934283,
+    82.2501915825377,
+    87.98335964804876,
+    20.842258991806183,
+    50.98149828387407
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

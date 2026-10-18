@@ -1,0 +1,25 @@
+{
+  "frozen_fit_sha256": "15a9fc3e1d11cc3264b20d85458c3dcd431044a97c477925ef6a189fe1b4c12f",
+  "validation_status": "One new inland check after four-control trial; near I10 and spatially correlated. No tuning against this check.",
+  "metrics": {
+    "count": 1,
+    "points": [
+      {
+        "label": "I12",
+        "east_ground_m": 1699.2571215995372,
+        "north_ground_m": 633.8596862357958,
+        "error_ground_m": 1813.6297491885398
+      }
+    ],
+    "rms_ground_m": 1813.6297491885398,
+    "median_ground_m": 1813.6297491885398,
+    "p95_ground_m": 1813.6297491885398,
+    "max_ground_m": 1813.6297491885398,
+    "mean_east_ground_m": 1699.2571215995372,
+    "mean_north_ground_m": 633.8596862357958,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

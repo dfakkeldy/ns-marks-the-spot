@@ -27,7 +27,10 @@ let package = Package(
         ),
         .testTarget(
             name: "GeoCoreTests",
-            dependencies: ["GeoCore"],
+            // ParityFixtures for the field-capture contract: the capture
+            // constants live in GeoCore and the fixture that pins them is
+            // shared with the web, like the catalog and services fixtures.
+            dependencies: ["GeoCore", "ParityFixtures"],
             // TIFFs written by GDAL, in the layouts ImageIO does and does not
             // decode. Copied rather than processed: resource processing would
             // be free to rewrite the bytes, and the bytes are the test.

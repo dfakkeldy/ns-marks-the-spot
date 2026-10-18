@@ -1,0 +1,33 @@
+{
+  "raster": "victoria-northwest-tps15-review-20m.tif",
+  "importedPixelSize": [
+    2435,
+    3906
+  ],
+  "opacityPercent": 70,
+  "localImport": true,
+  "persistedAfterNavigation": true,
+  "overview": {
+    "position": [
+      46.84,
+      -60.49,
+      10
+    ],
+    "exaggeration": 10,
+    "tilt": 50
+  },
+  "regional": {
+    "position": [
+      46.94,
+      -60.49,
+      13
+    ],
+    "exaggeration": 10,
+    "tiltsReviewed": [
+      50,
+      0
+    ]
+  },
+  "consoleErrors": [],
+  "scope": "Actual app importer and persisted GeoTIFF overlay, full-panel 2D and 10x terrain, Wilkie valley top/oblique. Terrain helps drainage context; steep 10x relief obscures valley bottoms obliquely. No point measured from terrain screenshots; geographic acceptance remains false."
+}

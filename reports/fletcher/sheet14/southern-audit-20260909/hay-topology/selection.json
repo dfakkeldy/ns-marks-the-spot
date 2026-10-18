@@ -1,0 +1,12 @@
+{
+  "status": "Selected provisional full-sheet refinement",
+  "fit_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+  "controls": 26,
+  "checks": 13,
+  "frozen_trial_metadata_retained": true,
+  "raster_sha256": "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7",
+  "replaces": "refinement-20260909/fit.json (25 controls)",
+  "intermediate_southern_only": "../fit.json (26 controls) was never tiled or handed off as active",
+  "geographic_acceptance": false,
+  "reason": "C13 boundary catchment identity corrected; B01 mill added; Hay C14/F05 identities corrected. Full native neatline retained. Same diagnostic set improves after Hay correction; uniform100/200m targets still missed."
+}

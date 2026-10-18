@@ -1,3 +1,6 @@
+import { printReproductionLockReason } from "../../licensing/printUse";
+import { ElectoralLegend } from "../ElectoralLayerControls";
+import { initialElectoralModes } from "../../layers/electoralLayers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   environmentalHealthLayerCatalog,
@@ -5,15 +8,8 @@ import {
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
   allResourceLayerCatalog,
-  type EnvironmentalHealthLayerId,
   zoningLayerCatalog,
   wellLogLayerCatalog,
-  type FloodHazardLayerId,
-  type HydroPilotLayerId,
-  type ProvinceLayerId,
-  type ResourceLayerId,
-  type ZoningLayerId,
-  type WellLogLayerId,
 } from "../../layers/layerCatalog";
 import type { MapPosition, ShareLayerId } from "../../services/mapShareState";
 import {
@@ -22,6 +18,7 @@ import {
   type PrintSnapshot,
 } from "../../services/printSnapshot";
 import { normalizeFletcherTileBaseUrl } from "../../layers/fletcherLayer";
+import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
 import type { NsprdFeatureCollection } from "../../services/nsprd";
 import {
   MapCanvas,
@@ -58,38 +55,7 @@ function visibilityFor<Id extends ShareLayerId>(
   ) as Record<Id, boolean>;
 }
 
-function provinceVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<ProvinceLayerId>(provinceLayerCatalog, layerIds);
-}
-
-function resourceVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<ResourceLayerId>(allResourceLayerCatalog, layerIds);
-}
-
-function hydroVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<HydroPilotLayerId>(hydroPilotLayerCatalog, layerIds);
-}
-
-function floodVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<FloodHazardLayerId>(floodHazardLayerCatalog, layerIds);
-}
-
-function environmentalHealthVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<EnvironmentalHealthLayerId>(
-    environmentalHealthLayerCatalog,
-    layerIds,
-  );
-}
-
-function zoningVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<ZoningLayerId>(zoningLayerCatalog, layerIds);
-}
-
-function wellLogVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<WellLogLayerId>(wellLogLayerCatalog, layerIds);
-}
-
-export function PrintMap({
+function PermittedPrintMap({
   snapshot,
   bounds,
   includeAerial,
@@ -109,8 +75,8 @@ export function PrintMap({
       return null;
     }
   }, []);
-  const layerIds = useMemo(
-    () => printedLayerIds([...snapshot.layerIds], includeAerial),
+  const layerIds = useMemo<ShareLayerId[]>(
+    () => printedLayerIds([...snapshot.layerIds], includeAerial).filter(id => id !== "rhodena-visibility"),
     [includeAerial, snapshot.layerIds],
   );
   const [statuses, setStatuses] = useState<Record<string, MapLayerStatus>>({});
@@ -131,10 +97,15 @@ export function PrintMap({
     });
   }, []);
 
+  const reportPosition = useCallback((position: MapPosition | null) => {
+    // Only the settled position belongs in the printed receipt.
+    if (position) onResolvedPosition(position);
+  }, [onResolvedPosition]);
+
   useEffect(() => {
     const values = layerIds.map((id) => statuses[id]);
     const renderedLayerIds = layerIds.filter((id) => statuses[id]?.status === "ready");
-    const failedLayerIds = layerIds.filter((id) => statuses[id]?.status === "error");
+    const failedLayerIds = layerIds.filter((id) => ["error", "source-error", "licence-blocked", "returned-empty"].includes(statuses[id]?.status));
     const belowZoomLayerIds = layerIds.filter((id) => statuses[id]?.status === "zoom");
     if (failedLayerIds.length > 0) {
       onReadinessChange({
@@ -145,7 +116,7 @@ export function PrintMap({
         timedOutLayerIds: [],
       });
     } else if (values.every((value) =>
-      value?.status === "ready" || value?.status === "zoom"
+      value?.status === "ready" || value?.status === "zoom" || value?.status === "outside-coverage"
     )) {
       onReadinessChange({ status: "ready", renderedLayerIds, belowZoomLayerIds });
     } else {
@@ -159,19 +130,37 @@ export function PrintMap({
   }, [layerIds, onReadinessChange, statuses]);
 
   return (
-    <div className="print-map" aria-label={`Printable map for PID ${snapshot.pid}`}>
+    /* The same rule as the live map's wrapper: a name on a div with no role
+       is discarded, so this said nothing at all. It is a region here too,
+       which nests the map's own landmark inside this one — that is what the
+       page is, a printable map containing the map. */
+    <div
+      className="print-map"
+      role="region"
+      aria-label={`Printable map for PID ${snapshot.pid}`}
+    >
+      {snapshot.layerIds.includes("rhodena-visibility") ? <p>Not included: interactive Rhodena turbine viewshed and private viewpoint. Use the live map for this preliminary terrain analysis.</p> : null}
+      <div className="print-electoral-legends">{contextLayerCatalog.filter(layer => layer.electoral && layerIds.includes(layer.id)).map(layer => {
+        const state = statuses[layer.id]?.status;
+        const messages = { 'returned-empty': 'Source returned no records', 'outside-coverage': 'Outside this source’s mapped coverage', 'source-error': 'Source request failed', 'licence-blocked': 'Province licence blocked this source' };
+        return state && state in messages ? <p key={layer.id}>{layer.name}: {messages[state as keyof typeof messages]}</p> : null;
+      })}{Object.entries(snapshot.electoralModes ?? initialElectoralModes).filter(([id,mode]) => layerIds.includes(id as ShareLayerId) && mode !== 'boundaries').map(([id,mode]) => <ElectoralLegend key={id} mode={mode} night={snapshot.basemapStyle === "night"} />)}</div>
       <MapCanvas
+        basemapStyle={snapshot.basemapStyle ?? "osm"}
         parcels={parcels}
         taxSalePids={new Set(snapshot.taxSalePids)}
         historicalTaxSalePids={new Set(snapshot.historicalTaxSalePids)}
         selectedPid={snapshot.pid}
-        provinceLayers={provinceVisibilityFor(layerIds)}
-        resourceLayers={resourceVisibilityFor(layerIds)}
-        hydroPilotLayers={hydroVisibilityFor(layerIds)}
-        floodHazardLayers={floodVisibilityFor(layerIds)}
-        environmentalHealthLayers={environmentalHealthVisibilityFor(layerIds)}
-        zoningLayers={zoningVisibilityFor(layerIds)}
-        wellLogLayers={wellLogVisibilityFor(layerIds)}
+        provinceLayers={visibilityFor(provinceLayerCatalog, layerIds)}
+        resourceLayers={visibilityFor(allResourceLayerCatalog, layerIds)}
+        hydroPilotLayers={visibilityFor(hydroPilotLayerCatalog, layerIds)}
+        floodHazardLayers={visibilityFor(floodHazardLayerCatalog, layerIds)}
+        environmentalHealthLayers={visibilityFor(environmentalHealthLayerCatalog, layerIds)}
+        zoningLayers={visibilityFor(zoningLayerCatalog, layerIds)}
+        wellLogLayers={visibilityFor(wellLogLayerCatalog, layerIds)}
+        contextLayers={visibilityFor(contextLayerCatalog, layerIds)}
+        electoralModes={snapshot.electoralModes}
+        electoralLicenceAccepted={snapshot.licenceAccepted}
         wellLogAccuracyFilter={snapshot.wellLogAccuracyFilter}
         fletcherVisible={
           Boolean(fletcherTileBaseUrl) && layerIds.includes("fletcher")
@@ -186,11 +175,17 @@ export function PrintMap({
         onSelectPid={() => undefined}
         onIdentifyParcel={() => undefined}
         initialPosition={snapshot.viewport.position}
-        onPositionChange={onResolvedPosition}
+        onPositionChange={reportPosition}
         onLayerStatusChange={updateStatus}
         renderMode="print"
         fitBounds={bounds}
       />
     </div>
   );
+}
+
+export function PrintMap(props: Parameters<typeof PermittedPrintMap>[0]) {
+  const reason = printReproductionLockReason(props.snapshot);
+  if (reason) return <p role="alert">{reason}</p>;
+  return <PermittedPrintMap {...props} />;
 }

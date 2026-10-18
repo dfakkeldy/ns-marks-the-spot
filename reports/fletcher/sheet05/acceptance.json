@@ -1,0 +1,14 @@
+{
+  "status": "unaccepted-whole-sheet-geography",
+  "production_eligible": false,
+  "fit_sha256": "f04cbd3f80ff7361bf6d719f0989834dfa4cc9833242f0c18f6ffed1f2e80db9",
+  "fresh_check_count": 4,
+  "fresh_numerical_thresholds_passed": true,
+  "median_ground_m": 80.70630334034132,
+  "worst_ground_m": 117.23561884276091,
+  "required_median_max_m": 100,
+  "required_worst_max_m": 200,
+  "initial_diagnostics_separate": true,
+  "repair_performed": false,
+  "hosted_ci": "Inspect PR checks separately."
+}

@@ -1,0 +1,107 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/112.pdf",
+  "source_dimensions": [
+    6029,
+    4090
+  ],
+  "ppi": 160,
+  "reference": {
+    "retrieved_at_utc": "2026-09-24T14:12:02.197712+00:00",
+    "bbox": [
+      -61.40590691313948,
+      45.2224036287412,
+      -60.792277939958446,
+      45.57255221578482
+    ],
+    "reference_count": 6192,
+    "truncated": false,
+    "pages": [
+      {
+        "file": "112-water-page0.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-61.40590691313948%2C45.2224036287412%2C-60.792277939958446%2C45.57255221578482&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=0",
+        "count": 2000,
+        "sha256": "08a7a297854e58663fbf111eec87d2736ece6ed0449af226527f3bc4d708b909"
+      },
+      {
+        "file": "112-water-page1.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-61.40590691313948%2C45.2224036287412%2C-60.792277939958446%2C45.57255221578482&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=2000",
+        "count": 2000,
+        "sha256": "963261782c8ce215b36cb5f592f7ff6f9805170f974982d148d08e05701b4e69"
+      },
+      {
+        "file": "112-water-page2.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-61.40590691313948%2C45.2224036287412%2C-60.792277939958446%2C45.57255221578482&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=4000",
+        "count": 2000,
+        "sha256": "ceb37f075e2d654b2481e510d255162effbc2b95eb7c943a7ec07895c6afe563"
+      },
+      {
+        "file": "112-water-page3.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-61.40590691313948%2C45.2224036287412%2C-60.792277939958446%2C45.57255221578482&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=6000",
+        "count": 192,
+        "sha256": "c84b19132391e977e88c70859235d171c22bfd16c5a9029b0fbebbb74cce7c37"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "112.pdf",
+      "bytes": 2968695,
+      "sha256": "5310f67c9f6542eefbfe36376b13758a60d2a891d1180bf09d8ca84b782d9d7e"
+    },
+    {
+      "name": "112-000.jpg",
+      "bytes": 2967523,
+      "sha256": "65402aac6c72e0f91a81fe08f2bbf9153cc5aaaf3e1171b792db776fc29c5622"
+    },
+    {
+      "name": "112-water-tight.geojson",
+      "bytes": 15397149,
+      "sha256": "bbb045d4a48d006c144d8c00faba93d2de4c6b66f99447e87deb891d2ee26f32"
+    },
+    {
+      "name": "112-reference-receipt.json",
+      "bytes": 2301,
+      "sha256": "f3fa8805169b189532bf88a1e806f31dfed377dfb95d40eda1b44dbd62c0df12"
+    },
+    {
+      "name": "112-water-page0.geojson",
+      "bytes": 5511778,
+      "sha256": "08a7a297854e58663fbf111eec87d2736ece6ed0449af226527f3bc4d708b909"
+    },
+    {
+      "name": "112-water-page1.geojson",
+      "bytes": 4281676,
+      "sha256": "963261782c8ce215b36cb5f592f7ff6f9805170f974982d148d08e05701b4e69"
+    },
+    {
+      "name": "112-water-page2.geojson",
+      "bytes": 4917360,
+      "sha256": "ceb37f075e2d654b2481e510d255162effbc2b95eb7c943a7ec07895c6afe563"
+    },
+    {
+      "name": "112-water-page3.geojson",
+      "bytes": 379324,
+      "sha256": "c84b19132391e977e88c70859235d171c22bfd16c5a9029b0fbebbb74cce7c37"
+    },
+    {
+      "name": "112-adjacent-guide.npy",
+      "bytes": 176,
+      "sha256": "a302094bd7b4befcfdbcc70db04afc884cc0ee3d55b85d4d1aa42cad41e2b016"
+    },
+    {
+      "name": "112-inset-discovery-guide.npy",
+      "bytes": 176,
+      "sha256": "9cd25e58b3d51c763fbecced4e4a6a93d3c55902accb2a336f9f7f1b4486255c"
+    },
+    {
+      "name": "112-inset-topology-guide.npy",
+      "bytes": 176,
+      "sha256": "bb75da73773d7621e17d95713f6061539806f84a703c933e61dc0c2f14e44c92"
+    },
+    {
+      "name": "112-main-topology-guide.npy",
+      "bytes": 176,
+      "sha256": "3262e962c393bac7790b68aeb80e7041bb44fde24586b15ef63153ffa4fcce12"
+    }
+  ]
+}

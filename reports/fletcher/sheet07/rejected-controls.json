@@ -1,0 +1,54 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.4654921,
+        46.5997694
+      ],
+      "source_guide_xy": [
+        1401.905876999488,
+        1640.43346080021
+      ],
+      "objectids": [
+        185179,
+        185444,
+        185573
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        1469,
+        1598
+      ],
+      "modern_node_id": "J0223",
+      "identity_evidence": "Northwestern brook small southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: wider native and modern branching topology does not establish a reliable correspondence."
+    },
+    {
+      "lonlat": [
+        -60.4578989,
+        46.4611481
+      ],
+      "source_guide_xy": [
+        1566.1467929994687,
+        5988.7063992000185
+      ],
+      "objectids": [
+        125611,
+        125612,
+        188302
+      ],
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        1622,
+        6020
+      ],
+      "modern_node_id": "J0606",
+      "identity_evidence": "Western inlet to large Breeding Cove pond",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: wider native and modern branching topology does not establish a reliable correspondence. Historical western pond inlet differs from proposed modern short northern tributary."
+    }
+  ]
+}

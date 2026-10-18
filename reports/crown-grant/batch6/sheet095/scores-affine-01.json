@@ -1,0 +1,295 @@
+{
+  "count": 8,
+  "rms_ground_m": 64.4772255308227,
+  "median_ground_m": 50.93007793659636,
+  "p95_ground_m": 105.14590209855533,
+  "max_ground_m": 106.30060366337008,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -19.932623329453815,
+  "mean_north_ground_m": -2.5084281461466027,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Green Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        544,
+        1547
+      ],
+      "lonlat": [
+        -62.41885840077355,
+        45.24615372180936
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 137940,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137940,
+      "nearest_unfiltered_distance_guide_px": 1.1967254547604762,
+      "selected_distance_guide_px": 1.1967254547604762,
+      "guide_reference_pixel_xy": [
+        534.4457151201786,
+        1519.0606224993244
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.420002752118975,
+        45.24660701634973
+      ],
+      "error_ground_m": 103.00145633532793,
+      "east_ground_m": -89.84059310303739,
+      "north_ground_m": 50.378247667946304
+    },
+    {
+      "id": "Q02",
+      "label": "Lake west of Hattie Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        2664,
+        760
+      ],
+      "lonlat": [
+        -62.3133914834602,
+        45.31553333700708
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 73282,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 73282,
+      "nearest_unfiltered_distance_guide_px": 0.44152425976666165,
+      "selected_distance_guide_px": 0.44152425976666165,
+      "guide_reference_pixel_xy": [
+        2642.837848914729,
+        728.410671033198
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.31322385353136,
+        45.31526821913347
+      ],
+      "error_ground_m": 32.26360914195105,
+      "east_ground_m": 13.144405919799242,
+      "north_ground_m": -29.464640976603363
+    },
+    {
+      "id": "Q03",
+      "label": "Glencross southern lake island north tip",
+      "role": "check",
+      "pixel_xy": [
+        4333,
+        1400
+      ],
+      "lonlat": [
+        -62.19895756538127,
+        45.31643532480047
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 154018,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 154018,
+      "nearest_unfiltered_distance_guide_px": 0.9770636373139929,
+      "selected_distance_guide_px": 0.9770636373139929,
+      "guide_reference_pixel_xy": [
+        4307.649043929239,
+        1387.0881430003792
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.19877826578251,
+        45.31682357151971
+      ],
+      "error_ground_m": 45.38161457082276,
+      "east_ground_m": 14.059077948433005,
+      "north_ground_m": 43.14896601651768
+    },
+    {
+      "id": "Q04",
+      "label": "Sucker Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        4828,
+        1323
+      ],
+      "lonlat": [
+        -62.1707756542503,
+        45.328770472298494
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 139514,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139514,
+      "nearest_unfiltered_distance_guide_px": 1.8810136937871158,
+      "selected_distance_guide_px": 1.8810136937871158,
+      "guide_reference_pixel_xy": [
+        4818.606017440674,
+        1301.2629430472152
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.17122078229813,
+        45.32837089358529
+      ],
+      "error_ground_m": 56.47854130236996,
+      "east_ground_m": -34.89588821388933,
+      "north_ground_m": -44.40836197617797
+    },
+    {
+      "id": "Q05",
+      "label": "Three Island Lake east extremity",
+      "role": "check",
+      "pixel_xy": [
+        461,
+        1797
+      ],
+      "lonlat": [
+        -62.41861600420002,
+        45.23431365863611
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 139276,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139276,
+      "nearest_unfiltered_distance_guide_px": 0.4384932652043759,
+      "selected_distance_guide_px": 0.4384932652043759,
+      "guide_reference_pixel_xy": [
+        438.66551295033423,
+        1762.283539692522
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.41889852001572,
+        45.234802835660226
+      ],
+      "error_ground_m": 58.71745557277225,
+      "east_ground_m": -22.184309714121454,
+      "north_ground_m": 54.36539332561129
+    },
+    {
+      "id": "Q06",
+      "label": "Small lake east of Rocky Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        1660,
+        2997
+      ],
+      "lonlat": [
+        -62.318752918207416,
+        45.20507988832533
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 131861,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 131861,
+      "nearest_unfiltered_distance_guide_px": 0.41659862489028227,
+      "selected_distance_guide_px": 0.41659862489028227,
+      "guide_reference_pixel_xy": [
+        1641.7389327929122,
+        2953.3246510860045
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.3190262057498,
+        45.20521513215097
+      ],
+      "error_ground_m": 26.20897097681778,
+      "east_ground_m": -21.470800482393205,
+      "north_ground_m": 15.030465272536993
+    },
+    {
+      "id": "Q07",
+      "label": "Lake north of Glenelg northeast tip",
+      "role": "check",
+      "pixel_xy": [
+        5642,
+        2858
+      ],
+      "lonlat": [
+        -62.086540825502524,
+        45.27826514501331
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 124423,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124423,
+      "nearest_unfiltered_distance_guide_px": 0.3002143517981998,
+      "selected_distance_guide_px": 0.3002143517981998,
+      "guide_reference_pixel_xy": [
+        5619.778325824707,
+        2830.7975420610746
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.08619136759283,
+        45.27814692625305
+      ],
+      "error_ground_m": 30.405192955451767,
+      "east_ground_m": 27.420011681305184,
+      "north_ground_m": -13.138444278351267
+    },
+    {
+      "id": "Q08",
+      "label": "Smith Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        4195,
+        3859
+      ],
+      "lonlat": [
+        -62.14757802064243,
+        45.212990653326614
+      ],
+      "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+      "reference_objectid": 142565,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142565,
+      "nearest_unfiltered_distance_guide_px": 0.7927141716516486,
+      "selected_distance_guide_px": 0.7927141716516486,
+      "guide_reference_pixel_xy": [
+        4191.677423153946,
+        3805.724113206845
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake and island outlines plus paired original native crosshairs visually audited before first fit and check scoring.",
+      "review": "All physical corrections made before first fit; checks excluded from fitting.",
+      "predicted_lonlat": [
+        -62.14815968550685,
+        45.21212703331059
+      ],
+      "error_ground_m": 106.30060366337008,
+      "east_ground_m": -45.692890671726566,
+      "north_ground_m": -95.97905022065248
+    }
+  ],
+  "fit_sha256": "15b89457db1b5002440d881cabb19a0531cc65f40e49250801b5d6cdc770d558",
+  "checks_sha256": "9c5c773478193afe82f3eda73ebfaefaca47917c4343107ed2bbc71b74d1bd77",
+  "status": "Eight excluded checks reserved and visually audited before first affine fit and score; shared lake systems remain correlated"
+}

@@ -1,0 +1,189 @@
+{
+  "status": "Eight excluded coastal and island checks; inland coverage sparse",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Cow Point southern hook",
+      "role": "check",
+      "pixel_xy": [
+        543,
+        1145
+      ],
+      "lonlat": [
+        -60.879984462333574,
+        46.064945706121414
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 10210,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        520.7582507259212,
+        1195.2309810135048
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    },
+    {
+      "id": "Q02",
+      "label": "Birch Point southern corner",
+      "role": "check",
+      "pixel_xy": [
+        1225,
+        1799
+      ],
+      "lonlat": [
+        -60.824064504880084,
+        46.04824429013274
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 10507,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1192.612413494906,
+        1845.4252172439592
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    },
+    {
+      "id": "Q03",
+      "label": "Bone Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2503,
+        1564
+      ],
+      "lonlat": [
+        -60.751965612800554,
+        46.07848590530594
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 17212,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2469.004294650804,
+        1611.0010580928065
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    },
+    {
+      "id": "Q04",
+      "label": "Gillie Point eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1729,
+        2566
+      ],
+      "lonlat": [
+        -60.775811647271155,
+        46.0236733504227
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 6583,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1692.5795326764928,
+        2616.5378927448764
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    },
+    {
+      "id": "Q05",
+      "label": "Kempt Head western rounded apex",
+      "role": "check",
+      "pixel_xy": [
+        3715,
+        2124
+      ],
+      "lonlat": [
+        -60.666182069459,
+        46.0741402008862
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 5498,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3668.9423589505604,
+        2165.7603254429996
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 30,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    },
+    {
+      "id": "Q06",
+      "label": "Black Point northern apex",
+      "role": "check",
+      "pixel_xy": [
+        3492,
+        3178
+      ],
+      "lonlat": [
+        -60.655316064062916,
+        46.02541922223928
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 5374,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3441.5595475931186,
+        3233.9746603174135
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    },
+    {
+      "id": "Q07",
+      "label": "Christmas Island western shore tip",
+      "role": "check",
+      "pixel_xy": [
+        1555,
+        3764
+      ],
+      "lonlat": [
+        -60.758366278491074,
+        45.971770990290636
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 6621,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1533.516844567086,
+        3786.1009824736975
+      ],
+      "source_uncertainty_px": 10,
+      "modern_uncertainty_m": 30,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    },
+    {
+      "id": "Q08",
+      "label": "Kidston Island southwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        2643,
+        1280
+      ],
+      "lonlat": [
+        -60.74990274149029,
+        46.09238251315823
+      ],
+      "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+      "reference_objectid": 18000,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2608.4712358997785,
+        1334.405983957462
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broader coastal topology inspected before first fit scoring; excluded from controls."
+    }
+  ]
+}

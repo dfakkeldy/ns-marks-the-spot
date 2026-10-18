@@ -157,6 +157,52 @@ public enum ParcelQuery {
         ])
     }
 
+    /// Viewport parcels for snap-to-boundary drawing.
+    ///
+    /// Licence-gated before the URL is assembled, like the point query: NSPRD
+    /// is Province-restricted, and a code path that built the address first
+    /// would leave it lying around after a refuse. `outFields` is PID only —
+    /// snap needs the rings, not the inspector's area and date. `resultRecordCount`
+    /// is `maxSnapParcels + 1` so one page can tell a dense viewport from a
+    /// ready one without returning a silent subset.
+    public static func envelopeQueryURL(
+        bounds: GeoBoundingBox,
+        clearance: ProvinceLicenceClearance,
+        resultOffset: Int = 0,
+        resultRecordCount: Int = CaptureSpec.Snap.maxParcels + 1
+    ) throws(Refusal) -> URL {
+        guard clearance.allows(.nsprd) else { throw .licenceNotAccepted }
+        guard bounds.isWellFormed,
+              bounds.south.isFinite, bounds.north.isFinite,
+              bounds.west.isFinite, bounds.east.isFinite,
+              bounds.south >= -90, bounds.north <= 90,
+              bounds.west >= -180, bounds.east <= 180
+        else { throw .invalidCoordinate }
+
+        return try query([
+            ("where", "1=1"),
+            (
+                "geometry",
+                [
+                    ArcGISExportURL.jsNumber(bounds.west),
+                    ArcGISExportURL.jsNumber(bounds.south),
+                    ArcGISExportURL.jsNumber(bounds.east),
+                    ArcGISExportURL.jsNumber(bounds.north),
+                ].joined(separator: ",")
+            ),
+            ("geometryType", "esriGeometryEnvelope"),
+            ("spatialRel", "esriSpatialRelIntersects"),
+            ("inSR", "4326"),
+            ("outSR", "4326"),
+            ("outFields", "PID"),
+            ("returnGeometry", "true"),
+            ("resultRecordCount", String(resultRecordCount)),
+            ("resultOffset", String(resultOffset)),
+            ("orderByFields", "PID"),
+            ("f", "geojson"),
+        ])
+    }
+
     private static let outFields = "PID,UPDAT_DATE,SHAPE.AREA"
 
     private static func pidQueryURL(normalizedPIDs pids: [String]) throws(Refusal) -> URL {

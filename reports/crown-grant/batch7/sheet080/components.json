@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6035 x 4199 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 38.50 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          75,
+          160
+        ],
+        [
+          5910,
+          160
+        ],
+        [
+          5910,
+          4090
+        ],
+        [
+          75,
+          4090
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains Truro, Onslow Mountain, North River, Brookside, Salmon River, Valley, Riversdale, Kemptown, Greenfield, Camden, Upper Brookfield, the eastern ponds, Moose, Island, Duck and Meadow lakes, all western reservoir imagery, rivers and inland parcels. No displaced inset identified."
+    }
+  ]
+}

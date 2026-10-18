@@ -1,0 +1,68 @@
+[
+  {
+    "id": "C01",
+    "label": "Maryville coastal pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1838,
+      598
+    ],
+    "lonlat": [
+      -61.51293720818011,
+      45.92031895382066
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 141683,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1855.6735805153148,
+      624.6420048379805
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "McKay Point southern hooked tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1734,
+      904
+    ],
+    "lonlat": [
+      -61.510619391855734,
+      45.90557615278688
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 10437,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1767.1454296990996,
+      941.5274269978981
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Central stream west-tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3933,
+      1810
+    ],
+    "lonlat": [
+      -61.360100008401155,
+      45.90380421607196
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 223358,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3929.054956975451,
+      1833.2010265949648
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

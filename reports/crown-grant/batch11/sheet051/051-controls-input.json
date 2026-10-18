@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Leeks Lake northern western lobe",
+    [
+      2995,
+      1323
+    ],
+    [
+      3077,
+      1198
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Summit Lake northern tip",
+    [
+      3383,
+      815
+    ],
+    [
+      3466,
+      690
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Small pond west of Cranberry Lake northern tip",
+    [
+      4289,
+      1104
+    ],
+    [
+      4384,
+      985
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Cape Split mainland northern tip",
+    [
+      171,
+      2461
+    ],
+    [
+      205,
+      2327
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Partridge Island western tip",
+    [
+      2541,
+      2765
+    ],
+    [
+      2618,
+      2645
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "Two Brothers larger island northern tip",
+    [
+      4353,
+      3035
+    ],
+    [
+      4445,
+      2921
+    ],
+    "WACOIS10"
+  ]
+]

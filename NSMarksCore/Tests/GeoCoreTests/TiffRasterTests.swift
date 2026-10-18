@@ -172,4 +172,46 @@ struct TiffRasterTests {
         #expect(striped.rowsPerStrip == 21)
         #expect(striped.offsets.count == 5)
     }
+
+    /// The decoder reads blocks by absolute offset, so an archive handed in as
+    /// a slice of something larger must not be read from the wrong place.
+    ///
+    /// The failure this guards is the one nothing downstream could catch: a
+    /// plausible-looking picture of the wrong part of the raster, draped over
+    /// the map as though it were the sheet the reader placed.
+    @Test func aFileHandedInAsASliceDecodesToTheSamePixels() throws {
+        let name = "tiled-deflate-pred"
+        let whole = try Self.fixture(name)
+        let layout = try #require(try GeoTiffTags.layout(whole))
+        let direct = try TiffRaster.decode(whole, layout: layout, maxDimension: 4_096)
+
+        var padded = Data(repeating: 0xAB, count: 137)
+        padded.append(whole)
+        let slice = padded[137...]
+        #expect(slice.startIndex == 137)
+
+        let fromSlice = try TiffRaster.decode(slice, layout: layout, maxDimension: 4_096)
+        #expect(fromSlice.width == direct.width)
+        #expect(fromSlice.height == direct.height)
+        #expect(fromSlice.rgba == direct.rgba)
+    }
+
+    /// A layout claiming no samples per pixel.
+    ///
+    /// `write` reads its samples by index now rather than through a bounded
+    /// slice, so this is the guard that keeps the read inside the pixel — and
+    /// `check` does not cover it: it guards bitsPerSample,
+    /// planarConfiguration, photometric, compression and predictor, and
+    /// `bitsPerSample.allSatisfy` is vacuously true for the empty array a
+    /// zero-sample layout carries.
+    @Test func aLayoutClaimingNoSamplesPerPixelIsRefused() throws {
+        let whole = try Self.fixture("tiled-deflate-pred")
+        var layout = try #require(try GeoTiffTags.layout(whole))
+        layout.samplesPerPixel = 0
+        layout.bitsPerSample = []
+
+        #expect(throws: UserMapImportRefusal.self) {
+            try TiffRaster.decode(whole, layout: layout, maxDimension: 4_096)
+        }
+    }
 }

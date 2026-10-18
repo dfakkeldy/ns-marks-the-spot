@@ -1,0 +1,46 @@
+[
+  {
+    "id": "C05",
+    "label": "Cape George southwest shoreline corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4632,
+      1716
+    ],
+    "lonlat": [
+      -61.89522658413078,
+      45.87209847928742
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 4173,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4594.3287733797915,
+      1731.3025980928796
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Eastern Cape George creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      5050,
+      1485
+    ],
+    "lonlat": [
+      -61.922698983433264,
+      45.88520914327224
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 4543,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5023.735627272516,
+      1463.8346144232783
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

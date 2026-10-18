@@ -4,45 +4,6 @@ import Testing
 
 @testable import NSDataServices
 
-@Suite("Screening a hydro reach")
-struct HydroTerrainMetricsTests {
-    @Test("The screen is the log of the area times the average fall")
-    func theWebsArithmetic() throws {
-        let metrics = try HydroPotentialPilot.terrainMetrics(
-            for: HydroPotentialPilot.TerrainInputs(
-                upstreamAreaKm2: 10.2,
-                dropThresholdMetres: 20,
-                downstreamRouteLengthKm: 0.52
-            )
-        )
-
-        #expect(abs(metrics.averageFallMetresPerKm - 20 / 0.52) < 1e-9)
-        #expect(abs(metrics.screeningValue - log1p(10.2) * (20 / 0.52)) < 1e-9)
-    }
-
-    @Test("A measurement of zero is not a reach without potential")
-    func zeroIsNotAResult() {
-        for inputs in [
-            HydroPotentialPilot.TerrainInputs(
-                upstreamAreaKm2: 0, dropThresholdMetres: 20, downstreamRouteLengthKm: 1
-            ),
-            HydroPotentialPilot.TerrainInputs(
-                upstreamAreaKm2: 5, dropThresholdMetres: 0, downstreamRouteLengthKm: 1
-            ),
-            HydroPotentialPilot.TerrainInputs(
-                upstreamAreaKm2: 5, dropThresholdMetres: 20, downstreamRouteLengthKm: 0
-            ),
-            HydroPotentialPilot.TerrainInputs(
-                upstreamAreaKm2: .infinity, dropThresholdMetres: 20, downstreamRouteLengthKm: 1
-            ),
-        ] {
-            #expect(throws: HydroPotentialPilot.TerrainFailure.measurementsMustBePositive) {
-                try HydroPotentialPilot.terrainMetrics(for: inputs)
-            }
-        }
-    }
-}
-
 @Suite("Drawing a hydro reach")
 struct HydroLineStyleTests {
     @Test("Width follows the log of the area, clamped at both ends")

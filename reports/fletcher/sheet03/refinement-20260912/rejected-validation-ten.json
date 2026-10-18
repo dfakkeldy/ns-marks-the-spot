@@ -1,0 +1,37 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.830191659465974,
+        46.82379859271249
+      ],
+      "guide_xy": [
+        1644.5988558344543,
+        5506.121753660962
+      ],
+      "modern_objectid": 269093,
+      "modern_part": 0,
+      "modern_vertex": 0,
+      "modern_properties": {
+        "OBJECTID": 269093,
+        "FEAT_CODE": "WARV50",
+        "FEAT_DESC": "River - Single Line",
+        "RIVNAME_1": "MacKenzies River",
+        "RIVNAME_2": " ",
+        "ZVALUE": 9999,
+        "FID": null,
+        "SHAPE_Length": 71.98621857075041
+      },
+      "id": "U05",
+      "pixel_xy": [
+        1970,
+        5090
+      ],
+      "role": "check",
+      "identity_evidence": "MacKenzies River open shoreline mouth east of McKenzie Point. Main broad river traced from southern bends and valley; modern named terminal line 269093 ends at coast. Historical mouth/bank detail differs.",
+      "source_uncertainty_px": 30,
+      "status": "Rejected, unscored",
+      "rejection_reason": "Proposed native point lies on land beside a broad historic inlet. The inlet has no uniquely established shoreline/centreline endpoint equivalent to modern terminal feature 269093; road crossing and generalized banks cannot substitute for a matched mouth point."
+    }
+  ]
+}

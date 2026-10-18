@@ -1,0 +1,210 @@
+[
+  {
+    "id": "Q01",
+    "label": "Middle Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      776,
+      522
+    ],
+    "lonlat": [
+      -61.650551433146546,
+      45.32634760596981
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 136400,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136400,
+    "nearest_unfiltered_distance_guide_px": 1.820453352992022,
+    "selected_distance_guide_px": 1.820453352992022,
+    "guide_reference_pixel_xy": [
+      795.2052687722025,
+      484.69505700469017
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Loon Lake northwest lobe north end",
+    "role": "proposal",
+    "pixel_xy": [
+      1521,
+      1663
+    ],
+    "lonlat": [
+      -61.57936899653229,
+      45.29061258613343
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 131875,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 204218,
+    "nearest_unfiltered_distance_guide_px": 1.816801665900738,
+    "selected_distance_guide_px": 2.5691893600005793,
+    "guide_reference_pixel_xy": [
+      1545.2687561750645,
+      1635.2340527602937
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Cranberry Lake southwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1941,
+      3018
+    ],
+    "lonlat": [
+      -61.52235116524325,
+      45.241386964375046
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 128649,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128649,
+    "nearest_unfiltered_distance_guide_px": 0.689755276574205,
+    "selected_distance_guide_px": 0.689755276574205,
+    "guide_reference_pixel_xy": [
+      1981.0150384357548,
+      2983.6895913188346
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Jessie Lake southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1473,
+      3700
+    ],
+    "lonlat": [
+      -61.53421298187901,
+      45.20458740739499
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 137146,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137146,
+    "nearest_unfiltered_distance_guide_px": 2.6362231941969374,
+    "selected_distance_guide_px": 2.6362231941969374,
+    "guide_reference_pixel_xy": [
+      1510.4425213710638,
+      3678.401183429756
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Separate lake north of East Halfway Cove main lake, west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5307,
+      1990
+    ],
+    "lonlat": [
+      -61.34784695992372,
+      45.339923831266745
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 128322,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 195506,
+    "nearest_unfiltered_distance_guide_px": 3.6156785754583933,
+    "selected_distance_guide_px": 5.599266082953566,
+    "guide_reference_pixel_xy": [
+      5324.991424998618,
+      1939.4627855528379
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Small elongated southeastern pond, east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5260,
+      3095
+    ],
+    "lonlat": [
+      -61.3245135499251,
+      45.293186697581476
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 68747,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 68747,
+    "nearest_unfiltered_distance_guide_px": 2.6485399498868323,
+    "selected_distance_guide_px": 2.6485399498868323,
+    "guide_reference_pixel_xy": [
+      5291.148743664089,
+      3042.6135482698446
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Ragged Head south extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      5447,
+      363
+    ],
+    "lonlat": [
+      -61.37861264203573,
+      45.41077987984375
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 3801,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3801,
+    "nearest_unfiltered_distance_guide_px": 1.40656512513957,
+    "selected_distance_guide_px": 1.40656512513957,
+    "guide_reference_pixel_xy": [
+      5444.666387603967,
+      293.55289438785985
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Bigsby Head east extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      3687,
+      755
+    ],
+    "lonlat": [
+      -61.473251759437474,
+      45.36543398876501
+    ],
+    "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+    "reference_objectid": 4136,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4136,
+    "nearest_unfiltered_distance_guide_px": 2.242950554229941,
+    "selected_distance_guide_px": 2.242950554229941,
+    "guide_reference_pixel_xy": [
+      3698.682128082146,
+      693.1850507453782
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

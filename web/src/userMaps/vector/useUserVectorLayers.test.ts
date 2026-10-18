@@ -1,6 +1,6 @@
 import { IDBFactory } from "fake-indexeddb";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { FeatureCollection } from "geojson";
 import { UserMapImportError } from "../errors";
 import { UserVectorStore } from "./store/userVectorStore";
@@ -283,6 +283,27 @@ describe("useUserVectorLayers", () => {
     });
   });
 
+  // A layer the user removed must not come back through a commit dispatched
+  // for it. The row is gone from the list; putting its geometry back left a
+  // map entry for a layer nothing owns.
+  it("does not restore a removed layer's geometry from a late edit", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const original = result.current.records[0];
+
+    await act(() => result.current.removeLayer(original.id));
+    act(() =>
+      result.current.applyLayerEdit({ ...original, revision: 1 }, {
+        type: "FeatureCollection",
+        features: [],
+      }),
+    );
+
+    expect(result.current.records).toHaveLength(0);
+    expect(result.current.geometries[original.id]).toBeUndefined();
+  });
+
   it("ignores an export request for a layer that is gone", async () => {
     const downloads: Array<{ filename: string; blob: Blob }> = [];
     const { result } = renderHook(() =>
@@ -358,6 +379,121 @@ describe("useUserVectorLayers", () => {
     expect(result.current.visibleLayers).toHaveLength(1);
   });
 
+  it("starts from nothing when the stored layer state is not an object", async () => {
+    // A corrupt or tampered value parses without throwing and is then indexed
+    // by visibleLayers and by setEnabled, which re-reads storage every call.
+    localStorage.setItem("user-vector-ui-state-v1", "null");
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    expect(result.current.uiState).toEqual({});
+
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const id = result.current.records[0].id;
+    expect(result.current.visibleLayers).toHaveLength(1);
+
+    act(() => result.current.setEnabled(id, false));
+    expect(result.current.visibleLayers).toHaveLength(0);
+  });
+
+  it("keeps every layer on the map when the browser refuses the write", async () => {
+    // Quota, or a store that takes reads and refuses writes. What the session
+    // is showing is held in state, so nothing already switched on may drop
+    // off the map because the note-to-self did not land.
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserVectorLayers(options()));
+      await act(() => result.current.importFiles([geojsonFile("a.geojson", -63)]));
+      const first = result.current.records[0].id;
+      await act(() => result.current.importFiles([geojsonFile("b.geojson", -62)]));
+      const second = result.current.records[1].id;
+      // The second import must not take the first layer off the map.
+      expect(result.current.visibleLayers.map(({ record }) => record.id)).toEqual([
+        first,
+        second,
+      ]);
+
+      // Nor may switching one row off switch another one off with it.
+      act(() => result.current.setEnabled(second, false));
+      expect(result.current.visibleLayers.map(({ record }) => record.id)).toEqual([
+        first,
+      ]);
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
+  it("takes another tab's layer change instead of writing over it", async () => {
+    // `storage` fires only in the OTHER same-origin tabs, never in the one
+    // that wrote, so this is how a second tab hears the first one's toggle.
+    // Before the listener, this tab's next change was computed from the record
+    // it loaded and put the other tab's choice back the way it was.
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const id = result.current.records[0].id;
+    act(() => result.current.setEnabled(id, false));
+    expect(result.current.visibleLayers).toHaveLength(0);
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-vector-ui-state-v1",
+          newValue: JSON.stringify({
+            [id]: { enabled: true },
+            "other-tab-layer": { enabled: true },
+          }),
+        }),
+      );
+    });
+    expect(result.current.visibleLayers).toHaveLength(1);
+
+    act(() => result.current.setEnabled(id, false));
+    expect(
+      JSON.parse(localStorage.getItem("user-vector-ui-state-v1") ?? "{}"),
+    ).toEqual({
+      [id]: { enabled: false },
+      "other-tab-layer": { enabled: true },
+    });
+  });
+
+  it("keeps the layers it is showing when another tab clears or corrupts the record", async () => {
+    // The vector hook keeps its own listener against its own key, so its
+    // early returns need their own guard: a value this tab cannot read and a
+    // removed key are both silence, not an instruction to switch every layer
+    // off.
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    expect(result.current.visibleLayers).toHaveLength(1);
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-vector-ui-state-v1",
+          newValue: "not json",
+        }),
+      );
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-vector-ui-state-v1",
+          newValue: null,
+        }),
+      );
+    });
+
+    expect(result.current.visibleLayers).toHaveLength(1);
+  });
+
   it("loads persisted layers on mount", async () => {
     const factory = new IDBFactory();
     const first = renderHook(() => useUserVectorLayers(options(factory)));
@@ -388,5 +524,705 @@ describe("useUserVectorLayers", () => {
     const store = await UserVectorStore.open(factory);
     expect(await store.listVectorLayers()).toEqual([]);
     store.close();
+  });
+});
+
+describe("drawn-layer persistence retry", () => {
+  it("creates the row on the next edit write after a failed initial save, then reports real failures", async () => {
+    // The store's putVectorLayer is deliberately an UPDATE-only guarded
+    // write (an absent row means another tab deleted the layer), so a
+    // drawing whose INITIAL save failed used to no-op on every later edit:
+    // it looked fine all session and vanished with the tab.
+    const factory = new IDBFactory();
+    let failNextSave = true;
+    const realOpen = () => UserVectorStore.open(factory);
+    const openStore = async () => {
+      const opened = await realOpen();
+      return new Proxy(opened, {
+        get(target, property, receiver) {
+          if (property === "saveVectorLayer" && failNextSave) {
+            return async () => {
+              failNextSave = false;
+              throw new Error("save blocked");
+            };
+          }
+          return Reflect.get(target, property, receiver);
+        },
+      });
+    };
+    const { result } = renderHook(() => useUserVectorLayers({ openStore }));
+
+    let drawnId = "";
+    await act(async () => {
+      drawnId = await result.current.createDrawnLayer();
+    });
+    const record = result.current.records.find(({ id }) => id === drawnId)!;
+    expect(record).toBeDefined();
+
+    // First edit write: takes the CREATE path, which now succeeds.
+    const collection = {
+      type: "FeatureCollection" as const,
+      features: [
+        {
+          type: "Feature" as const,
+          id: "f1",
+          geometry: { type: "Point" as const, coordinates: [-63, 45] },
+          properties: {},
+        },
+      ],
+    };
+    await act(async () => {
+      await result.current.putVectorLayer(record, collection);
+    });
+
+    // The row genuinely exists now: a fresh mount over the same factory
+    // loads the drawing back, which the silent no-op never achieved.
+    const remounted = renderHook(() => useUserVectorLayers({ openStore }));
+    await waitFor(() =>
+      expect(
+        remounted.result.current.records.some(({ id }) => id === drawnId),
+      ).toBe(true),
+    );
+  });
+});
+
+describe("field-capture append", () => {
+  function markFeature(id: string): GeoJSON.Feature {
+    return {
+      type: "Feature",
+      id,
+      geometry: { type: "Point", coordinates: [-60.91, 46.12] },
+      properties: {
+        "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+        "nsmts:accuracyM": 7.4,
+      },
+    };
+  }
+
+  it("creates the Field notes layer once and reuses it, even in one tick", async () => {
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    let first = "";
+    let second = "";
+    await act(async () => {
+      // Both calls inside one act: the reuse must not depend on a re-render
+      // having refreshed the records snapshot in between.
+      first = await result.current.ensureFieldNotesLayer();
+      second = await result.current.ensureFieldNotesLayer();
+    });
+    expect(second).toBe(first);
+    const record = result.current.records.find(({ id }) => id === first);
+    expect(record?.name).toBe("Field notes");
+    expect(record?.origin.kind).toBe("drawn");
+  });
+
+  it("appends to a just-created layer, stamps modifiedAt, and persists", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(async () => {
+      const id = await result.current.ensureFieldNotesLayer();
+      const advanced = await result.current.appendFeatures(id, [
+        markFeature("mark-1"),
+      ]);
+      expect(advanced?.record.featureCount).toBe(1);
+      expect(advanced?.record.revision).toBe(1);
+      expect(advanced?.record.modifiedAt).toBeTruthy();
+      expect(advanced?.record.bbox).toEqual([-60.91, 46.12, -60.91, 46.12]);
+      // It reached the device, so the caller may call it saved.
+      expect(advanced?.persisted).toBe(true);
+    });
+
+    const visible = result.current.visibleLayers.find(
+      ({ record }) => record.name === "Field notes",
+    );
+    expect(visible?.data.features.map(({ id }) => id)).toEqual(["mark-1"]);
+
+    const store = await UserVectorStore.open(factory);
+    const listed = await store.listVectorLayers();
+    expect(listed).toHaveLength(1);
+    expect(listed[0].featureCount).toBe(1);
+  });
+
+  // The session's own record, not a re-read of storage: with the write
+  // refused, rebuilding from an empty store dropped every layer enabled
+  // before this one off the map and out of visibleLayers, silently.
+  it("keeps every layer on the map when the browser refuses the write", async () => {
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserVectorLayers(options()));
+      await act(() => result.current.importFiles([geojsonFile("first.geojson")]));
+      await act(() => result.current.importFiles([geojsonFile("second.geojson")]));
+
+      await waitFor(() => expect(result.current.records).toHaveLength(2));
+      expect(result.current.visibleLayers).toHaveLength(2);
+
+      const second = result.current.records.find(
+        ({ name }) => name === "second",
+      );
+      expect(second).toBeDefined();
+      await act(() => {
+        result.current.setEnabled(second!.id, false);
+        return Promise.resolve();
+      });
+      expect(result.current.visibleLayers).toHaveLength(1);
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
+  it("chains marks within one tick without losing the earlier one", async () => {
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(async () => {
+      const id = await result.current.ensureFieldNotesLayer();
+      await result.current.appendFeatures(id, [markFeature("mark-1")]);
+      await result.current.appendFeatures(id, [markFeature("mark-2")]);
+    });
+    const layer = result.current.visibleLayers.find(
+      ({ record }) => record.name === "Field notes",
+    );
+    expect(layer?.data.features.map(({ id }) => id)).toEqual([
+      "mark-1",
+      "mark-2",
+    ]);
+    expect(layer?.record.revision).toBe(2);
+  });
+
+  it("says a point that could not be written is not saved", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    let outcome: unknown = "sentinel";
+    await act(async () => {
+      const id = await result.current.ensureFieldNotesLayer();
+      // The device refuses the write: quota, private mode, a closed store.
+      // An existing layer takes the put path; the create path is for a
+      // drawing whose first save failed.
+      const putVectorLayer = vi
+        .spyOn(UserVectorStore.prototype, "putVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      outcome = await result.current.appendFeatures(id, [markFeature("mark-1")]);
+      putVectorLayer.mockRestore();
+    });
+    expect(outcome).toMatchObject({ persisted: false });
+    // The feature is still on the map for this session.
+    const layer = result.current.visibleLayers.find(
+      ({ record }) => record.name === "Field notes",
+    );
+    expect(layer?.data.features.map(({ id }) => id)).toEqual(["mark-1"]);
+    expect(result.current.storageError).toContain("until you close the tab");
+  });
+
+  it("returns null when appending to a layer that is gone", async () => {
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    let advanced: unknown = "sentinel";
+    await act(async () => {
+      advanced = await result.current.appendFeatures("missing", [
+        markFeature("mark-1"),
+      ]);
+    });
+    expect(advanced).toBeNull();
+  });
+});
+
+describe("recorded layers", () => {
+  it("saves a recording as a new layer with the raw GPX as its original", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const collection: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "track-1",
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-61, 46],
+              [-61, 46.001],
+            ],
+          },
+          properties: { name: "Boundary walk" },
+        },
+      ],
+    };
+    let created: unknown;
+    await act(async () => {
+      created = await result.current.createRecordedLayer({
+        name: "Boundary walk",
+        collection,
+        rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+        startedAt: "2026-08-29T14:00:00.000Z",
+        endedAt: "2026-08-29T14:20:00.000Z",
+      });
+    });
+
+    const record = result.current.records.find(
+      ({ name }) => name === "Boundary walk",
+    );
+    expect(record).toBeDefined();
+    expect(record?.source).toBe("recorded");
+    expect(record?.origin).toEqual({
+      kind: "recorded",
+      startedAt: "2026-08-29T14:00:00.000Z",
+      endedAt: "2026-08-29T14:20:00.000Z",
+    });
+    expect(record?.featureCount).toBe(1);
+    expect(created).toEqual({ record, persisted: true });
+    expect(
+      result.current.visibleLayers.some(
+        ({ record: visible }) => visible.id === record?.id,
+      ),
+    ).toBe(true);
+
+    const store = await UserVectorStore.open(factory);
+    const listed = await store.listVectorLayers();
+    expect(listed).toHaveLength(1);
+    const original = await store.getOriginalBlob(listed[0].id);
+    expect(original).not.toBeNull();
+    expect(await original?.text()).toBe("<gpx/>");
+  });
+
+  it("puts a retried track back on the layer the refused save left, not beside it", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const input = {
+      name: "Boundary walk",
+      collection: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "track-1",
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [-61, 46],
+                [-61, 46.001],
+              ],
+            },
+            properties: {},
+          },
+        ],
+      } as FeatureCollection,
+      rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+      startedAt: "2026-08-29T14:00:00.000Z",
+      endedAt: "2026-08-29T14:20:00.000Z",
+    };
+
+    let refusedId = "";
+    let refusedPersisted = true;
+    await act(async () => {
+      // The device refuses the write: quota, private mode, a closed store.
+      const save = vi
+        .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      const refused = await result.current.createRecordedLayer(input);
+      refusedId = refused.record.id;
+      refusedPersisted = refused.persisted;
+      save.mockRestore();
+    });
+    expect(refusedPersisted).toBe(false);
+    expect(result.current.records).toHaveLength(1);
+
+    let retried: unknown;
+    await act(async () => {
+      retried = await result.current.createRecordedLayer({
+        ...input,
+        replaceLayerId: refusedId,
+      });
+    });
+
+    expect(retried).toMatchObject({ persisted: true });
+    expect(result.current.records.map(({ id }) => id)).toEqual([refusedId]);
+    const store = await UserVectorStore.open(factory);
+    expect(await store.listVectorLayers()).toHaveLength(1);
+  });
+
+  // The layer a refused save leaves on the map can still be edited, and those
+  // edits are the reader's most recent work. Rewriting the layer with the
+  // original walk would delete them; a second layer is the honest answer.
+  it("leaves an edited track alone and saves the retry as its own layer", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const input = {
+      name: "Boundary walk",
+      collection: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "track-1",
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [-61, 46],
+                [-61, 46.001],
+              ],
+            },
+            properties: {},
+          },
+        ],
+      } as FeatureCollection,
+      rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+      startedAt: "2026-08-29T14:00:00.000Z",
+      endedAt: "2026-08-29T14:20:00.000Z",
+    };
+
+    let refusedId = "";
+    await act(async () => {
+      const save = vi
+        .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      refusedId = (await result.current.createRecordedLayer(input)).record.id;
+      save.mockRestore();
+    });
+
+    // An edit to that session-only layer, applied the way an edit session
+    // applies one.
+    act(() => {
+      const edited = result.current.records.find(({ id }) => id === refusedId);
+      result.current.applyLayerEdit(
+        { ...edited!, revision: 1, modifiedAt: "2026-08-29T15:00:00.000Z" },
+        input.collection,
+      );
+    });
+
+    await act(async () => {
+      await result.current.createRecordedLayer({
+        ...input,
+        replaceLayerId: refusedId,
+      });
+    });
+
+    expect(result.current.records).toHaveLength(2);
+    expect(result.current.records[0].id).toBe(refusedId);
+    expect(result.current.records[0].revision).toBe(1);
+  });
+
+  // Taking the row off the map is what the reader asked for. Saying the layer
+  // is gone when the device still holds it is not, because it comes back.
+  it("says so when the device would not delete a stored layer", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const id = result.current.records[0].id;
+
+    const refuse = vi
+      .spyOn(UserVectorStore.prototype, "deleteVectorLayer")
+      .mockRejectedValue(new Error("blocked"));
+    await act(() => result.current.removeLayer(id));
+    refuse.mockRestore();
+
+    expect(result.current.records).toHaveLength(0);
+    expect(result.current.storageError).toContain("wouldn't delete its copy");
+  });
+
+  // An edit to a session-only recording writes the row. A recorded row whose
+  // original never went with it offers a Raw GPX button that answers with
+  // nothing — the evidence behind the drawn track, missing from the one place
+  // it is filed.
+  it("writes the raw recording with the row when an edit creates it", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const collection: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "track-1",
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-61, 46],
+              [-61, 46.001],
+            ],
+          },
+          properties: {},
+        },
+      ],
+    };
+
+    let refusedId = "";
+    await act(async () => {
+      const save = vi
+        .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      refusedId = (
+        await result.current.createRecordedLayer({
+          name: "Boundary walk",
+          collection,
+          rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+          startedAt: "2026-08-29T14:00:00.000Z",
+          endedAt: "2026-08-29T14:20:00.000Z",
+        })
+      ).record.id;
+      save.mockRestore();
+    });
+    expect(result.current.storageError).not.toBeNull();
+
+    await act(async () => {
+      const edited = result.current.records.find(({ id }) => id === refusedId);
+      await result.current.putVectorLayer({ ...edited! }, collection);
+    });
+
+    const store = await UserVectorStore.open(factory);
+    expect(await (await store.getOriginalBlob(refusedId))?.text()).toBe("<gpx/>");
+    // And the refusal that write has just undone is off the panel.
+    expect(result.current.storageError).toBeNull();
+  });
+
+  // Nothing was ever stored for a layer whose first save was refused, so a
+  // failed delete has left no copy to come back.
+  it("does not invent a stored copy for a layer that was never saved", async () => {
+    const factory = new IDBFactory();
+    const refuse = vi
+      .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+      .mockRejectedValue(new Error("quota"));
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    refuse.mockRestore();
+    const id = result.current.records[0].id;
+
+    const refuseDelete = vi
+      .spyOn(UserVectorStore.prototype, "deleteVectorLayer")
+      .mockRejectedValue(new Error("blocked"));
+    await act(() => result.current.removeLayer(id));
+    refuseDelete.mockRestore();
+
+    expect(result.current.records).toHaveLength(0);
+    expect(result.current.storageError ?? "").not.toContain("delete its copy");
+  });
+});
+
+describe("GPX export", () => {
+  it("exports a layer as GPX through the shared download seam", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        ...options(),
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const id = result.current.records[0].id;
+
+    await act(() => result.current.exportLayer(id, "gpx"));
+    expect(downloads[0].filename).toBe("camps.gpx");
+    const gpx = await downloads[0].blob.text();
+    expect(gpx).toContain('creator="NS Marks The Spot"');
+    expect(gpx).toContain("<wpt ");
+  });
+
+  it("downloads a recorded layer's raw GPX original", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        ...options(),
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    let id = "";
+    await act(async () => {
+      const { record } = await result.current.createRecordedLayer({
+        name: "Boundary walk",
+        collection: {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              id: "track-1",
+              geometry: {
+                type: "LineString",
+                coordinates: [
+                  [-61, 46],
+                  [-61, 46.001],
+                ],
+              },
+              properties: {},
+            },
+          ],
+        },
+        rawGpx: new Blob(["<gpx>raw</gpx>"], { type: "application/gpx+xml" }),
+        startedAt: "2026-08-29T14:00:00.000Z",
+        endedAt: "2026-08-29T14:20:00.000Z",
+      });
+      id = record.id;
+    });
+
+    await act(() => result.current.exportRawRecording(id));
+    expect(downloads[0].filename).toBe("Boundary walk (raw).gpx");
+    expect(await downloads[0].blob.text()).toBe("<gpx>raw</gpx>");
+    expect(result.current.storageError).toBeNull();
+  });
+
+  it("reports a missing raw recording distinctly instead of downloading", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const store = await UserVectorStore.open(new IDBFactory());
+    vi.spyOn(store, "getOriginalBlob").mockResolvedValue(null);
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        openStore: async () => store,
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    let id = "";
+    await act(async () => {
+      id = (await result.current.createRecordedLayer({
+        name: "Missing original",
+        collection: { type: "FeatureCollection", features: [] },
+        rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+        startedAt: "2026-08-29T14:00:00.000Z",
+        endedAt: "2026-08-29T14:20:00.000Z",
+      })).record.id;
+    });
+    await act(() => result.current.exportRawRecording(id));
+    expect(downloads).toHaveLength(0);
+    expect(result.current.storageError).toMatch(/raw recording/i);
+    store.close();
+  });
+
+  it("does not expose an imported original through the raw recording API", async () => {
+    const downloads = vi.fn();
+    const { result } = renderHook(() => useUserVectorLayers({ ...options(), download: downloads }));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    await act(() => result.current.exportRawRecording(result.current.records[0].id));
+    expect(downloads).not.toHaveBeenCalled();
+    expect(result.current.records).toHaveLength(1);
+  });
+});
+
+describe("photo cleanup", () => {
+  it("removing a layer removes its photo rows and blobs", async () => {
+    const factory = new IDBFactory();
+    const { UserPhotoStore } = await import("./photos/photoStore");
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const layerId = result.current.records[0].id;
+
+    const photos = await UserPhotoStore.open(factory);
+    await photos.savePhoto(
+      {
+        id: "photo-1",
+        layerId,
+        addedAt: "2026-08-30T00:00:00.000Z",
+        width: 10,
+        height: 10,
+        fullBytes: 1,
+        thumbBytes: 1,
+      },
+      new Blob(["full"], { type: "image/jpeg" }),
+      new Blob(["thumb"], { type: "image/jpeg" }),
+    );
+
+    await act(() => result.current.removeLayer(layerId));
+    expect(await photos.listLayerPhotos(layerId)).toHaveLength(0);
+    expect(await photos.getFullBlob("photo-1")).toBeNull();
+  });
+
+  it("the session write path sweeps rows no descriptor references", async () => {
+    const factory = new IDBFactory();
+    const { UserPhotoStore } = await import("./photos/photoStore");
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const layerId = result.current.records[0].id;
+    const record = result.current.records[0];
+
+    const photos = await UserPhotoStore.open(factory);
+    for (const id of ["referenced", "orphan"]) {
+      await photos.savePhoto(
+        {
+          id,
+          layerId,
+          addedAt: "2026-08-30T00:00:00.000Z",
+          width: 10,
+          height: 10,
+          fullBytes: 1,
+          thumbBytes: 1,
+        },
+        new Blob(["full"], { type: "image/jpeg" }),
+        new Blob(["thumb"], { type: "image/jpeg" }),
+      );
+    }
+
+    await act(() =>
+      result.current.putVectorLayer(record, {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "f1",
+            geometry: { type: "Point", coordinates: [-63.5, 44.5] },
+            properties: {
+              "nsmts:photos": [{ id: "referenced", width: 10, height: 10 }],
+            },
+          },
+        ],
+      }),
+    );
+    // The sweep is fire-and-forget behind the put; give it a beat.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    });
+    const remaining = await photos.listLayerPhotos(layerId);
+    expect(remaining.map(({ id }) => id)).toEqual(["referenced"]);
+  });
+
+  // A photo row lands before the feature that will reference it. Every layer
+  // write carries a working copy captured before it ran, so that collection
+  // saying nothing about the row is not evidence the row is an orphan — and
+  // deleting it left the strip showing a permanent placeholder for a photo
+  // the user had just taken.
+  it("keeps a photo an in-flight attach has not committed yet", async () => {
+    const factory = new IDBFactory();
+    const { UserPhotoStore, reservePhotoId, resetPhotoReservationsForTests } =
+      await import("./photos/photoStore");
+    resetPhotoReservationsForTests();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const record = result.current.records[0];
+
+    const photos = await UserPhotoStore.open(factory);
+    // Exactly the window attachPhotos opens: the row is saved, the
+    // reservation is held, and the descriptor has not been committed yet.
+    reservePhotoId("attaching");
+    await photos.savePhoto(
+      {
+        id: "attaching",
+        layerId: record.id,
+        addedAt: "2026-08-30T00:00:00.000Z",
+        width: 10,
+        height: 10,
+        fullBytes: 1,
+        thumbBytes: 1,
+      },
+      new Blob(["full"], { type: "image/jpeg" }),
+      new Blob(["thumb"], { type: "image/jpeg" }),
+    );
+
+    // A keystroke in the name field, or any Geoman gesture, commits the
+    // pre-attach collection through the same debounced write.
+    await act(() =>
+      result.current.putVectorLayer(record, {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "f1",
+            geometry: { type: "Point", coordinates: [-63.5, 44.5] },
+            properties: {},
+          },
+        ],
+      }),
+    );
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    });
+
+    expect(
+      (await photos.listLayerPhotos(record.id)).map(({ id }) => id),
+    ).toEqual(["attaching"]);
+    expect(await (await photos.getFullBlob("attaching"))?.text()).toBe("full");
   });
 });

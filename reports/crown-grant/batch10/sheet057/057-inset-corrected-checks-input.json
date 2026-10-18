@@ -1,0 +1,41 @@
+[
+  [
+    "IQ02",
+    "Inset Indian Island northern tip",
+    [
+      653,
+      3146
+    ],
+    [
+      648,
+      3178
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ03",
+    "Inset Indian Island southern tip",
+    [
+      679,
+      3202
+    ],
+    [
+      683,
+      3239
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ04",
+    "Inset Corney Rock northern tip",
+    [
+      767,
+      3324
+    ],
+    [
+      765,
+      3352
+    ],
+    "WACOIS10"
+  ]
+]

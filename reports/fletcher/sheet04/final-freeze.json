@@ -1,0 +1,7 @@
+{
+  "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+  "frozen_at": "2026-09-11T21:02:11.851935+00:00",
+  "initial_fit_unchanged": true,
+  "fresh_checks_not_collected_yet": true,
+  "reason": "Two initial checks pass numerical thresholds but limited coverage; retain fit and collect fresh checks."
+}

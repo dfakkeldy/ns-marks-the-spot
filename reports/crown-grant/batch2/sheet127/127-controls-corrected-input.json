@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Fishing Cove inner coastal bend",
+    [
+      709,
+      1479
+    ],
+    [
+      599,
+      1443
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Red Cape coastal shoulder",
+    [
+      2753,
+      750
+    ],
+    [
+      2628,
+      729
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Northeastern plateau pond southeastern corner",
+    [
+      5537,
+      701
+    ],
+    [
+      5386,
+      693
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Western ridge compact pond northern tip",
+    [
+      1898,
+      1932
+    ],
+    [
+      1767,
+      1901
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "South-central round pond western end",
+    [
+      3627,
+      3254
+    ],
+    [
+      3474,
+      3232
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Southeastern lobed lake southern tip",
+    [
+      5384,
+      3462
+    ],
+    [
+      5218,
+      3483
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Southeastern vertical lake northern tip",
+    [
+      5137,
+      2989
+    ],
+    [
+      4978,
+      2994
+    ],
+    "WALK"
+  ]
+]

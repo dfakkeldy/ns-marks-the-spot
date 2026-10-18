@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Margaretville natural headland northern roof west of wharf",
+    [
+      1082,
+      892
+    ],
+    [
+      1165,
+      917
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Morden headland northern roof",
+    [
+      3264,
+      521
+    ],
+    [
+      3302,
+      553
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Long Point northern roof",
+    [
+      5408,
+      355
+    ],
+    [
+      5420,
+      381
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Annapolis north tributary junction at Middleton",
+    [
+      316,
+      3043
+    ],
+    [
+      373,
+      3075
+    ],
+    "WARV"
+  ],
+  [
+    "C05",
+    "Zeke Brook junction with Annapolis River near Kingston",
+    [
+      2185,
+      3133
+    ],
+    [
+      2217,
+      3163
+    ],
+    "WARV"
+  ]
+]

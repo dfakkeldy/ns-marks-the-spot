@@ -1,0 +1,1668 @@
+{
+  "sheet": 19,
+  "inventory_path": "docs/fletcher/label-extraction/highway19-production/sheet-19-reviewed.json",
+  "inventory_sha256": "5f4e15eb4dfb1998866245e716a9d41dc0a7f57191a3779959386c370817d5de",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "annotations": [
+    {
+      "annotation_id": "F19-JUD-001",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-002",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+    },
+    {
+      "annotation_id": "F19-JUD-003",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The source group is immediately north of an east-west road beside the historical multi-arm junction and stream crossing. Its prediction instead falls in the area between modern road corridors; the relevant crossing and junction spacing are substantially displaced. A supported local comparison is still needed to distinguish historical road changes from fit displacement. Preserve the full source group and prediction as evidence, withholding web placement; do not snap it to a convenient modern road."
+    },
+    {
+      "annotation_id": "F19-JUD-004",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-005",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-006",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-007",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-008",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-009",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-010",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-011",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-012",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The wider native context shows Ben Noah across patterned ground east of scattered roadside marks, but no distinct summit, spot-height mark or named-feature boundary. The inscription does not uniquely assign itself to one building group or terrain point. Keep its original lettering unlocated; geological mesh is not a mountain boundary."
+    },
+    {
+      "annotation_id": "F19-JUD-013",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-014",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-015",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-016",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-017",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-018",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-019",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-020",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-021",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-022",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-023",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-024",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-025",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-026",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Original quarry wording is reviewed, but the source crop does not provide a distinct quarry mark or defensible extraction-area boundary. River and lettering geometry must not be promoted into quarry geometry."
+    },
+    {
+      "annotation_id": "F19-JUD-027",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-028",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-029",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-030",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-031",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Full native context contains the spaced Barrens descriptor and road but no boundary for the described land cover. Geological hatching is not a barrens boundary. No point or polygon is invented."
+    },
+    {
+      "annotation_id": "F19-JUD-032",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-033",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-034",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete native reach associated with Fall 30 extends outside the current conservative source-control hull. Keep its source path and historical wording, with no map geometry or web export. Do not trim the reach to make it pass."
+    },
+    {
+      "annotation_id": "F19-JUD-035",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-036",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-037",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-038",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-039",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-040",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-041",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-042",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-043",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-044",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-045",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Iron Ore has no distinct native ore mark or defensible deposit boundary in the inspected context. Preserve the wording unlocated; a geological unit, letter O or mill mark cannot supply an ore-site geometry."
+    },
+    {
+      "annotation_id": "F19-JUD-046",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-047",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-048",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-049",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-050",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-051",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-052",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-053",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-054",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-055",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-056",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The caption beside the parallel north-south linework cannot be uniquely associated with a distinct watercourse in the inspected source, including the wider context. Preserve the inventory reading/classification as original evidence, but do not substitute a road axis, geological boundary or label centre."
+    },
+    {
+      "annotation_id": "F19-JUD-057",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-058",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-059",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-060",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Forge group projects onto a modern stream reach with no matching terminal road bend at that location. The broad western tributary/eastern valley arrangement is recognizable, but the road-versus-stream conflict is substantial. Retain the computed geometry as evidence only and withhold web placement pending a supported local correspondence; do not snap the group to another road."
+    },
+    {
+      "annotation_id": "F19-JUD-061",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-062",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-063",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-064",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-065",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-066",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-067",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-068",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-069",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-070",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-071",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-072",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-073",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-074",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-075",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-076",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-077",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-078",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-079",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-080",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+    },
+    {
+      "annotation_id": "F19-JUD-081",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-082",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-083",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-084",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-085",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate."
+    },
+    {
+      "annotation_id": "F19-JUD-086",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-087",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-088",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-089",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-090",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "700 FT. has no associated spot-height mark, benchmark or distinctly identified summit in the source context. Preserve the wording without a site coordinate or present elevation claim."
+    },
+    {
+      "annotation_id": "F19-JUD-091",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-092",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-093",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-094",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-095",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-096",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-097",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-098",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-099",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-100",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-101",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Native source reviewed: Mills does not identify a distinct mark or a defensible building group. Keep native and map feature geometry null; lettering and crossing are not substitute sites."
+    },
+    {
+      "annotation_id": "F19-JUD-102",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-103",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-104",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-105",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-106",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-107",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-108",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-109",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-110",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-111",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-112",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-113",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-114",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-115",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-116",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-117",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-118",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-119",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-120",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-121",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-122",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-123",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-124",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The source postal mark north of Blue Bridge projects into the modern river corridor, while the road crossing has a different position. The local bank/road correspondence cannot support a postal-site placement. Retain the computed point as evidence only and withhold web export pending supported local correspondence."
+    },
+    {
+      "annotation_id": "F19-JUD-125",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The source road/river intersection is explicit, but its projected point is off the modern watercourse and lacks a matching road crossing. Do not identify it with the modern highway bridge farther northwest. The historical crossing needs a supported local comparison before web placement; retain the prediction as evidence only."
+    },
+    {
+      "annotation_id": "F19-JUD-126",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-127",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-128",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The prediction overlaps a modern road/tributary crossing, while the source pair is north of the curved road with no corresponding crossing at the marks. The main brook remains farther east, but the local bank/crossing relationship is not reconciled. Preserve the source group and computed geometry as evidence and withhold web placement pending a supported local comparison."
+    },
+    {
+      "annotation_id": "F19-JUD-129",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The descriptive shale/fossil wording has no distinct outcrop mark or defensible extent in the inspected source. The river and geological unit are not outcrop boundaries."
+    },
+    {
+      "annotation_id": "F19-JUD-130",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The full diagonal CRAIGNISH HILLS inscription spans fourteen separate letter boxes across much of the sheet. Wider native review finds no associated summit symbol, contour or defensible landscape boundary. Preserve every original box, with no invented point, envelope or geological-unit boundary promoted to the named hills."
+    },
+    {
+      "annotation_id": "F19-JUD-131",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The source Victoria Road axis is clear, but its northern Blue Bridge approach retains the previously unresolved crossing mismatch. The current fit also places parts of the road/rail junction district against modern river channels in relationships not reconciled with the source. Preserve the full prediction as evidence and withhold web placement pending a supported local comparison; do not replace it with a convenient modern road."
+    },
+    {
+      "annotation_id": "F19-JUD-132",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-133",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The printed proposal axis is clear, but its surrounding river and road-crossing relationships under this fit are not reconciled with the modern channel/wetland network. A present railway match is not required for a proposal; the unresolved issue is the geographic context. Preserve the proposal and prediction as evidence, withholding web placement until that context is supported. No construction or operation is inferred."
+    },
+    {
+      "annotation_id": "F19-JUD-134",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete native falls-junction group extends outside the conservative source-control hull. Preserve its source geometry and withhold modern placement; do not shrink the group to pass."
+    },
+    {
+      "annotation_id": "F19-JUD-135",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-136",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-137",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-138",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-139",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-140",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-141",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
+    },
+    {
+      "annotation_id": "F19-JUD-142",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+    },
+    {
+      "annotation_id": "F19-JUD-143",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete shop candidate group extends outside the current conservative source-control hull. Keep source geometry and withhold map placement pending accepted local support."
+    },
+    {
+      "annotation_id": "F19-JUD-144",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-145",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-146",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-147",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-148",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-149",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete lower River Denys Road trace extends beyond the conservative native source-control hull. Keep the source axis and withhold map geometry; do not trim the road to force acceptance."
+    },
+    {
+      "annotation_id": "F19-JUD-150",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-151",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-152",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-153",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-154",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-155",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-156",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The Big Brook P.O. candidate group is outside the current conservative source-control hull. Keep source geometry without map placement; do not extrapolate."
+    },
+    {
+      "annotation_id": "F19-JUD-157",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-158",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-159",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "850 FT. has no associated spot-height mark, benchmark or distinct summit near the southern border. Lettering and colour boundaries cannot supply a terrain point."
+    },
+    {
+      "annotation_id": "F19-JUD-160",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The source road curves northeast from the elongated waterbody to end at the name group; the modern road instead continues north well west of the prediction, and the northern waterbody/road relationship differs. The nearby lake supports the wider district but does not resolve this terminal-site correspondence. Retain the full prediction as evidence, withholding web placement until a supported local comparison resolves it."
+    },
+    {
+      "annotation_id": "F19-JUD-161",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-162",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-163",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
+    },
+    {
+      "annotation_id": "F19-JUD-164",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-fit-neatline",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete Princeville printed group crosses the frozen southern native neatline. Retain its source region without map placement; do not shrink it or replace it with a caption centre to pass the gate."
+    },
+    {
+      "annotation_id": "F19-JUD-165",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-fit-neatline",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The Princeville P.O. candidate group crosses the frozen fit’s native neatline near the printed southern border. Preserve the actual source group and withhold map placement; do not trim it to force acceptance."
+    },
+    {
+      "annotation_id": "F19-JUD-166",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    }
+  ]
+}

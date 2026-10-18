@@ -1,0 +1,13 @@
+{
+  "timing": "Before first fit and score",
+  "corrections": [
+    "C01 Mountain Lake source moved from adjoining western shoulder to northern apex",
+    "Q03 Glencross island source moved to actual northern tip",
+    "Q05 Three Island Lake source refined on eastern extremity"
+  ],
+  "southern_extension": "Trout Lake island control C09 and Smith Lake check Q08 reserved before fitting to extend southern coverage",
+  "limitations": [
+    "Northwestern river corridor and far northern edge lack independent checks",
+    "Several control/check observations share lake systems; sparse southern coverage remains"
+  ]
+}

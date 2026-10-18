@@ -1,0 +1,52 @@
+{
+  "id": "CB13",
+  "role": "check",
+  "label": "North Head eastern apex, engraved Coal Point on Indian Bay",
+  "pixel_xy": [
+    24122.0,
+    9401.333333333334
+  ],
+  "lonlat": [
+    -60.027643014657535,
+    46.242476943693745
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      23750,
+      8950
+    ],
+    "extent": [
+      900,
+      900
+    ],
+    "display": [
+      1350,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    558,
+    677
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/CB3-north-head-native.jpg",
+  "source_crop_sha256": "df6dfc2e661c08f2670da30cf281b1bf9abe6af13d3cc67ff4da1089d631360b",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    7861
+  ],
+  "reference_vertex": {
+    "feature_id": 7861,
+    "vertex": 22
+  },
+  "uncertainty_ground_m": 150,
+  "official_identity_key": "CBBYR",
+  "identity_evidence": "The engraved Coal Point is the prominent eastward headland on the western shore of Indian Bay. The northern coast approaches southeast from the Barachois/Low Point direction; the coast turns south toward Lingan and the entrance of the historical Bridgeport Basin. This agrees with North Head CBBYR, whose official narrative specifies the west shore of Indian Bay. Measure the rounded eastern apex on the innermost coastal boundary, not the multiple offshore engraving curves or Coal Pt label. Original WACO20 feature7861 vertex22 is the corresponding eastern shoreline apex. Harbour/industrial shorelines to the south have changed and are not used. Generalization and possible cliff/shore retreat justify150m uncertainty.",
+  "phase": "Fresh physical check selected after frozen TPS6, with no fitting use of this point",
+  "frozen_fit": "../selected-tps6/freeze.json",
+  "recorded_at": "2026-09-15T13:04:16.665705+00:00"
+}

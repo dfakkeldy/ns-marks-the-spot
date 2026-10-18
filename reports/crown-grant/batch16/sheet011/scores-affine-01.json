@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 142.86475263080376,
+  "median_ground_m": 133.59051973140464,
+  "p95_ground_m": 208.41668508552996,
+  "max_ground_m": 230.57403747983312,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -8.242508703489722,
+  "mean_north_ground_m": 10.26113655380705,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Squirrel Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        447,
+        215
+      ],
+      "lonlat": [
+        -65.74940657993247,
+        43.530988040581725
+      ],
+      "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+      "reference_objectid": 20221,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20221,
+      "nearest_unfiltered_distance_guide_px": 0.6332198984109538,
+      "selected_distance_guide_px": 0.6332198984109538,
+      "guide_reference_pixel_xy": [
+        428.3668769594515,
+        187.9889250160195
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.7491163453535,
+        43.530681521715444
+      ],
+      "error_ground_m": 41.35440484187266,
+      "east_ground_m": 23.461319212194,
+      "north_ground_m": -34.05515086809978
+    },
+    {
+      "id": "Q02",
+      "label": "Stoddard Island northeastern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        471,
+        1485
+      ],
+      "lonlat": [
+        -65.71302143748723,
+        43.477308374024965
+      ],
+      "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+      "reference_objectid": 22040,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22040,
+      "nearest_unfiltered_distance_guide_px": 1.4157060346516814,
+      "selected_distance_guide_px": 1.4157060346516814,
+      "guide_reference_pixel_xy": [
+        474.7364544006414,
+        1418.609040872776
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.7134308481794,
+        43.4761713183156
+      ],
+      "error_ground_m": 130.5997616411938,
+      "east_ground_m": -33.12479584157033,
+      "north_ground_m": -126.32911636353244
+    },
+    {
+      "id": "Q03",
+      "label": "Green Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        517,
+        2825
+      ],
+      "lonlat": [
+        -65.67645657924928,
+        43.418815612891926
+      ],
+      "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+      "reference_objectid": 18469,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18469,
+      "nearest_unfiltered_distance_guide_px": 0.6443161514564841,
+      "selected_distance_guide_px": 0.6443161514564841,
+      "guide_reference_pixel_xy": [
+        483.56523015582934,
+        2740.4755191748263
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.67461716607336,
+        43.41904764229435
+      ],
+      "error_ground_m": 151.17859722645673,
+      "east_ground_m": 148.96423524498158,
+      "north_ground_m": 25.780319572049788
+    },
+    {
+      "id": "Q04",
+      "label": "John Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        4552,
+        2552
+      ],
+      "lonlat": [
+        -65.44034995482463,
+        43.50843002431856
+      ],
+      "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+      "reference_objectid": 17787,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17787,
+      "nearest_unfiltered_distance_guide_px": 1.1442432936843847,
+      "selected_distance_guide_px": 1.1442432936843847,
+      "guide_reference_pixel_xy": [
+        4529.692426917143,
+        2535.102130443207
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.44100783754904,
+        43.50975681777144
+      ],
+      "error_ground_m": 156.7161961654894,
+      "east_ground_m": -53.19880092706862,
+      "north_ground_m": 147.41049392937492
+    },
+    {
+      "id": "Q05",
+      "label": "Kirby Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        2865,
+        840
+      ],
+      "lonlat": [
+        -65.58699343165107,
+        43.551353894486276
+      ],
+      "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+      "reference_objectid": 17408,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17408,
+      "nearest_unfiltered_distance_guide_px": 0.3389266792800109,
+      "selected_distance_guide_px": 0.3389266792800109,
+      "guide_reference_pixel_xy": [
+        2856.8088736398495,
+        820.7201035756152
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.58780845413489,
+        43.55102410910566
+      ],
+      "error_ground_m": 75.36663815950303,
+      "east_ground_m": -65.86077665191178,
+      "north_ground_m": -36.63998152663904
+    },
+    {
+      "id": "Q06",
+      "label": "Blanche Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        4799,
+        3618
+      ],
+      "lonlat": [
+        -65.39714821661518,
+        43.4663022390217
+      ],
+      "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+      "reference_objectid": 17084,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17084,
+      "nearest_unfiltered_distance_guide_px": 0.7789888603350069,
+      "selected_distance_guide_px": 0.7789888603350069,
+      "guide_reference_pixel_xy": [
+        4773.647460414562,
+        3591.566850307514
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.39773217905415,
+        43.468333527301105
+      ],
+      "error_ground_m": 230.57403747983312,
+      "east_ground_m": -47.253618112773964,
+      "north_ground_m": 225.68004416652263
+    },
+    {
+      "id": "Q07",
+      "label": "Coesars Pond southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3896,
+        1588
+      ],
+      "lonlat": [
+        -65.50569030721437,
+        43.53992755879854
+      ],
+      "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+      "reference_objectid": 125994,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125994,
+      "nearest_unfiltered_distance_guide_px": 0.8712151278617803,
+      "selected_distance_guide_px": 0.8712151278617803,
+      "guide_reference_pixel_xy": [
+        3888.8688460406265,
+        1540.0642055815551
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, thirteen initial native crosshairs and corrected John Island reference inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.50606995647655,
+        43.53875730751072
+      ],
+      "error_ground_m": 133.59051973140464,
+      "east_ground_m": -30.685123848278952,
+      "north_ground_m": -130.01865303302674
+    }
+  ],
+  "fit_sha256": "cbcdc520a0ebf7a893b3540e0e76eb67fef88889ce92119c8d3274d4dc5073de",
+  "checks_sha256": "c34723833a96d8687a1fdfaeadfde9ef53aafc4c7ba179c0e792df181740c712",
+  "status": "Reserved before first fit and score"
+}

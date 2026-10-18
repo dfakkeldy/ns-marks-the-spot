@@ -1,0 +1,202 @@
+{
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "reviews": [
+    {
+      "id": "IS01",
+      "figure": "IS01.jpg",
+      "figure_sha256": "4b412d91b0ebfa3895a5eb08bf59c16684515ad3c45f18f08032eb6758b44aa1",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS02",
+      "figure": "IS02.jpg",
+      "figure_sha256": "0837a2369d5c5429a8372f4ec38195a2d664bdf4d421f4e3519f9beadb4193e2",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS05",
+      "figure": "IS05.jpg",
+      "figure_sha256": "b853a8d2534f9c59048c66816f86dab794d104f735da56d4d06defc8c578366e",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS11",
+      "figure": "IS11.jpg",
+      "figure_sha256": "36680d588d2be610da619063afb00d1247bd9d55d617f38f03dcdebbf7ee559c",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS19",
+      "figure": "IS19.jpg",
+      "figure_sha256": "49a7ea71902081693a3bd1292ebfb0f0cc27c6debd2a413e24a70b5456fcc3e2",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS21",
+      "figure": "IS21.jpg",
+      "figure_sha256": "db5f9e2537e026827a790f5a5cbc78756163013d2d18d8f317baae0b76d12bdf",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS24",
+      "figure": "IS24.jpg",
+      "figure_sha256": "2c2a4f3e99e7b80fbe35d0fefb8ea673f4485cb6b09dd6f9c55009b150e57ba2",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS25",
+      "figure": "IS25.jpg",
+      "figure_sha256": "310327c85341c918d84491d20b74871b5dc9db3909f3fba5bb1c2763b95c4e93",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS26",
+      "figure": "IS26.jpg",
+      "figure_sha256": "bd0859990cfd8275c2d0ed21f9ca8dc0d4173a78fc84bf55d3bee89b150afdfc",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS27",
+      "figure": "IS27.jpg",
+      "figure_sha256": "d097ff5580c270d32b82a9514a5849bf91d3cfa2b43d9c1fa924cd653c9f5664",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS15",
+      "figure": "IS15.jpg",
+      "figure_sha256": "882b2baa61d3840c013faa302ef629305ceb8ee83b26396d473931c307ee21c2",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS18",
+      "figure": "IS18.jpg",
+      "figure_sha256": "2f71484d83572437bbe66337a70f1d0b41fa53fac28d46aec675f4e9143ea33a",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS20",
+      "figure": "IS20.jpg",
+      "figure_sha256": "ac9c5dcd315be2f49b11eaf9aafb0628e10801d3060fa16df8ec6690f5525dd0",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "island-45-948n-61-096w",
+      "figure": "island-45-948n-61-096w.jpg",
+      "figure_sha256": "0f501527ecf764459c6c3b7c3fe99e2b7df6019f2cb4027ffaa2d6352747c4e7",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "island-45-875n-61-085w",
+      "figure": "island-45-875n-61-085w.jpg",
+      "figure_sha256": "e1585b86480aebad3425850c0b4361adb3d747483b8cb742f27badaf1d27c2a5",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "island-45-797n-61-049w",
+      "figure": "island-45-797n-61-049w.jpg",
+      "figure_sha256": "07020970e8621af9c1a28e53c24e49fded6ec77aaa77b9d12aa9cc861dfbc1e1",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "island-45-790n-61-057w",
+      "figure": "island-45-790n-61-057w.jpg",
+      "figure_sha256": "7d4698e1e7ee9c1469ea0491489f50dd63baeedd464444f1bdca53edbbb8fc2b",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "island-45-762n-61-068w",
+      "figure": "island-45-762n-61-068w.jpg",
+      "figure_sha256": "0f878f3ac640599aabea279ac5665ba64ce49546d53e96c2d8bb9611b149aef4",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "island-45-757n-61-084w",
+      "figure": "island-45-757n-61-084w.jpg",
+      "figure_sha256": "0baec907e18969b799435a72e8daf3024f0468b01a6cbbfd72462715d9a79fbf",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS22",
+      "figure": "IS22.jpg",
+      "figure_sha256": "7e3f8f0146bab89d81f0c70d7ed956dc9de56f1032fc70e1fc640cdaec88326c",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS23",
+      "figure": "IS23.jpg",
+      "figure_sha256": "afc0fa77c82f204fb3b70505dc178bc713db08cc7f12168836eac444ead435fc",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS28",
+      "figure": "IS28.jpg",
+      "figure_sha256": "0fa0d34310f80b700728f7ecb4118ba42a89d0b65b6395a15bc237be56ef2a14",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS29",
+      "figure": "IS29.jpg",
+      "figure_sha256": "cbb0f82967b0a580efceb7f1648a2b3a6d8dd8b77e1e38899a7f762e39b4aaa9",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS30",
+      "figure": "IS30.jpg",
+      "figure_sha256": "7548e8f4957ddcd833df8955f617a0ca06f0dba0a2f5c4cd0da9657a161a11da",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS31",
+      "figure": "IS31.jpg",
+      "figure_sha256": "4f84e5e64577e148197e442f37a186ed69ed6237a1a9631957abf76ce736322d",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS32",
+      "figure": "IS32.jpg",
+      "figure_sha256": "2573e04da9c7ab7b52d9f7d1f343432a4605f611ecc8d37770a170bfe1a5a7ec",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS33",
+      "figure": "IS33.jpg",
+      "figure_sha256": "ebfe261b5d851c36695298fe3c0e174da91324b625417ad03ac04be6e7a5a24c",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+      "sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/highways.geojson",
+      "sha256": "cb2948e070869b3c2c15fe27a3875e8ccef0a1aea4c72d4dfd2405175a94caad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/bridges.geojson",
+      "sha256": "b20b941df0c990b48c6dfceef72de0ca5f21fa9e26af058c434f460dacac1023"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/railways.geojson",
+      "sha256": "974868322effea1acac2c1d71a182719828aa73284c90ef06213031ccab38318"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson",
+      "sha256": "46db449bce463d75cb0f5f6f6a6af6e6334ac81fd70a7f5c9a0585bb4b403a50"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+      "sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+      "sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/interior-water.geojson",
+      "sha256": "48a47d12e3be8128e07e3ab0921afa1c4cee72e7856eb5c1712f9c9dc9650abf"
+    }
+  ],
+  "geographic_acceptance": false
+}

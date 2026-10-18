@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C05",
+    "label": "French River northern branch junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3120,
+      2447
+    ],
+    "lonlat": [
+      -62.42938846137458,
+      45.573753634053624
+    ],
+    "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+    "reference_objectid": 282189,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 282189,
+    "nearest_unfiltered_distance_guide_px": 1.2645664019272917,
+    "selected_distance_guide_px": 1.2645664019272917,
+    "guide_reference_pixel_xy": [
+      3060.8691033584764,
+      2423.918579085963
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Smashem Head south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3887,
+      962
+    ],
+    "lonlat": [
+      -62.419992543549675,
+      45.64954217060718
+    ],
+    "guide_file": ".crown-grant-local/093-adjacent-guide.npy",
+    "reference_objectid": 2615,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2615,
+    "nearest_unfiltered_distance_guide_px": 2.001045885512061,
+    "selected_distance_guide_px": 2.001045885512061,
+    "guide_reference_pixel_xy": [
+      3818.5160318297567,
+      913.6576054582838
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

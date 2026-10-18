@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Round Lake southern shore",
+    [
+      4359,
+      444
+    ],
+    [
+      4411,
+      457
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Long Lake southwest lobe southern tip",
+    [
+      4024,
+      850
+    ],
+    [
+      4062,
+      872
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Blairs Lake southern tip",
+    [
+      2471,
+      2504
+    ],
+    [
+      2517,
+      2534
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Small lake northwest of Blairs Lake southern tip",
+    [
+      2313,
+      2370
+    ],
+    [
+      2340,
+      2399
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Amherst Point western shoulder",
+    [
+      684,
+      2405
+    ],
+    [
+      728,
+      2420
+    ],
+    "WACO"
+  ],
+  [
+    "Q06",
+    "Small pond northwest of Round Lake southern tip",
+    [
+      4084,
+      217
+    ],
+    [
+      4118,
+      222
+    ],
+    "WALK20"
+  ]
+]

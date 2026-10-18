@@ -1,0 +1,14 @@
+{
+  "sheet": "sheet-11",
+  "scope": "Full mapped mainland plus western extension and Sea Wolf Island; not Route19 corridor. Preserve main-sheet content outside standard rectangular frame.",
+  "source_dimensions": [
+    10771,
+    7551
+  ],
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "native_source": "/Users/dfakkeldy/Downloads/fletcher-sheet11/native/sheet11.png",
+  "rumsey_id": "RUMSEY~8~1~2636~290004",
+  "criteria": "Working <=100m median and <=200m worst ground error for label browsing; retain failed comparisons, no uniform accuracy claim. Compare affine/TPS on excluded checks; finite orientation and actual-raster validation required.",
+  "prior_controls": "No accepted physical controls found for11; July engraved-graticule observations are search guidance only.",
+  "timing": "Protocol and control/check partition frozen before initial score."
+}

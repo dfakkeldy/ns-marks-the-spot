@@ -1,0 +1,45 @@
+{
+  "sheet": "063",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; first fit retained; numerical pass with regional limitations; private browser and raster coverage verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/063.pdf",
+    "pdf_sha256": "9d45c7ea83d90a79f9fc6c74271f6af5a0fdde2239e29223b36dfc33bb198ff3",
+    "jpeg_sha256": "b355c7aa78268c5268d0e2ffb61cbc9f6e7c72add086e8ac228e321c6d92fbe6",
+    "dimensions": [
+      6066,
+      4144
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 6,
+      "rms_ground_m": 46.18328792778325,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 46.18 m, median 47.46 m, P95 52.56 m and maximum 52.69 m; numerical criteria pass with regional limitations.",
+    "All six checks use the same lake or pond systems as controls, with four in the northeastern cluster. The sample is geographically correlated.",
+    "Northwestern interior and southeastern and southern river regions lack independent validation. Complete imagery does not imply geographic acceptance there.",
+    "Thick generalized lake and pond boundaries use 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 46.18 m, median 47.46 m, P95 52.56 m, maximum 52.69 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Walton, Minasville, Noel, Densmores Mills, Gormanville, Pinnacle Hill, Hennigar, Noel Road, Kennetcook, Upper Kennetcook, Riverside Corner, Stanley and Clarksville, all original lakes, rivers, inland parcels and the northern Noel Bay edge. No displaced inset identified."
+  }
+}

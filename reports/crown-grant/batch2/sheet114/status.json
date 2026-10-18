@@ -1,0 +1,66 @@
+{
+  "sheet": "114",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; main RMS fails, inset coverage limited",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/114.pdf",
+    "pdf_sha256": "b7404f2a2c542ef2ec7f6091fb1d6e67132b70aba965d525c8716fe08253a4ce",
+    "jpeg_sha256": "e1459819159ce55bae7f55aff2f228fb3b0192ed142c19906d6053cef1799033",
+    "dimensions": [
+      5959,
+      4077
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 6,
+      "rms_ground_m": 168.84910065357266,
+      "rms_gate_passed": false,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "cape-mabou-inset",
+      "controls": 2,
+      "independent_checks": 4,
+      "rms_ground_m": 93.43295834790348,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main map RMS 168.85 m exceeds 100 m; six independent checks are limited to island/coastal features",
+    "Inset RMS 93.43 m passes 100 m, but four coast checks and only two controls leave its interior and far edges unsupported",
+    "Inset median/P95/maximum and main companion bounds exceed the retained criteria",
+    "Eastern main-sheet terrain and changing Margaree channel configurations are not independently validated",
+    "Two-point similarity fitting residuals are essentially zero by construction and are not accuracy evidence"
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 6 checks, RMS 168.85 m; cape-mabou-inset: 4 checks, RMS 93.43 m. Gate: 100 m. No pooled score.",
+    "coverage": "The complete main map includes Sea Wolf Island. The boxed Cape Mabou/Sight Point inset uses its own constrained similarity transform at its actual location. Its lower annotation extension is retained; complementary masks preserve the entire mapped source footprint without overlap.",
+    "focusBounds": [
+      [
+        46.13353232593524,
+        -61.50390686362963
+      ],
+      [
+        46.42356056916976,
+        -61.020832113464685
+      ]
+    ]
+  }
+}

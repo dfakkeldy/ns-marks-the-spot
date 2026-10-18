@@ -126,6 +126,40 @@ struct MapShareStateTests {
         #expect(Self.parse(url.absoluteString) == state)
     }
 
+    /// The web's `basemap` parameter: the three Atlas looks and the
+    /// OpenStreetMap raster travel, an unknown style is dropped, and a link
+    /// that says nothing leaves the reader's own preference standing.
+    @Test func theBasemapStyleTravelsAndUnknownStylesAreDropped() {
+        #expect(Self.parse("https://example.test/?basemap=fletcher").basemapStyle == .fletcher)
+        #expect(Self.parse("https://example.test/?basemap=night").basemapStyle == .night)
+        #expect(Self.parse("https://example.test/?basemap=day").basemapStyle == .day)
+        #expect(Self.parse("https://example.test/?basemap=osm").basemapStyle == .osm)
+        #expect(Self.parse("https://example.test/?basemap=sepia").basemapStyle == nil)
+        #expect(Self.parse("https://example.test/?layers=modern").basemapStyle == nil)
+        // A style alone is not a view: the browser's recognised keys do not
+        // include it, and neither does `carriesState`.
+        #expect(MapShareState.carriesState("https://example.test/?basemap=day") == false)
+    }
+
+    /// Written first, as `buildMapShareUrl` writes it, and byte-identical to
+    /// the browser's link for the same state.
+    @Test func theBasemapStyleIsWrittenFirstAndSurvivesTheRoundTrip() throws {
+        var styled = Self.state
+        styled.basemapStyle = .fletcher
+        styled.layerIDs = ["modern", "nsprd"]
+        let url = try #require(styled.url(base: URL(string: "https://example.com/map/")!))
+
+        #expect(
+            url.absoluteString == "https://example.com/map/"
+                + "?basemap=fletcher&taxSale=on&mode=current&pid=15234636&event=cbrm-2026-07-21"
+                + "&layers=modern,nsprd&position=46.18845,-60.02123,15"
+        )
+        #expect(Self.parse(url.absoluteString) == styled)
+        // Absent stays absent: no `basemap=` for a link that carries no style.
+        let plain = try #require(Self.state.url(base: URL(string: "https://example.com/map/")!))
+        #expect(!plain.absoluteString.contains("basemap="))
+    }
+
     /// Tax-sale research is one optional use of this map, not what the map is,
     /// and a link that does not say otherwise opens without it.
     @Test func aLinkThatSaysNothingAboutTaxSalesOpensWithoutThem() {

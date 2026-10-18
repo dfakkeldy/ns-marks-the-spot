@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+  "raster_sha256": "977633cdaff7a3a71b11b796c9d014d1ed8876f4c780c6ef9155d104fb47926c",
+  "cutline_sha256": "5c9e6a9047e0cd3369caaaaac9f25f6c2a0ea79bd0825ec7dddbde68ab1eb6a2",
+  "expected_interior_cells": 46793688,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

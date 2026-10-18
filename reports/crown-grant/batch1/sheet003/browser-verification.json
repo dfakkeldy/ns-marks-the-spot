@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:8842/",
+  "date": "2026-09-19",
+  "tool": "Codex in-app browser via cua_repl",
+  "raster": {
+    "path": "/sheet003/main-3857.png",
+    "complete": true,
+    "naturalWidth": 5977,
+    "naturalHeight": 5188
+  },
+  "verified": [
+    "Sheet selection 002 to 003 updates image and status",
+    "Actual raster inspected at full-sheet overview and 500 m scale",
+    "Modern-only comparison works",
+    "No browser error/warning logs",
+    "Modern NSTDB water and OSM reference load",
+    "Attribution and provisional status visible"
+  ],
+  "fix": "Disabled navigation/fade animations and stopped previous map transitions before fitting the selected sheet; selection now centres the correct extent deterministically",
+  "limitations": [
+    "No production deployment",
+    "Mobile validation deferred to batch handoff"
+  ]
+}

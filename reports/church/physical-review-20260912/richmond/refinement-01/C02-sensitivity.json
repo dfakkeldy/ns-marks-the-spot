@@ -1,0 +1,45 @@
+{
+  "scope": "Sensitivity to C02 pre-recorded 90 m placement uncertainty. No perturbed position selected or written into the fit. Original observation remains unchanged.",
+  "tests": [
+    {
+      "direction": "east",
+      "offset_ground_m": [
+        90,
+        0
+      ],
+      "same_four_rms_ground_m": 191.54498989526894,
+      "same_four_max_ground_m": 316.24284393783165
+    },
+    {
+      "direction": "west",
+      "offset_ground_m": [
+        -90,
+        0
+      ],
+      "same_four_rms_ground_m": 177.35366730404465,
+      "same_four_max_ground_m": 329.36330322089395
+    },
+    {
+      "direction": "north",
+      "offset_ground_m": [
+        0,
+        90
+      ],
+      "same_four_rms_ground_m": 191.59194778013904,
+      "same_four_max_ground_m": 314.1895558196232
+    },
+    {
+      "direction": "south",
+      "offset_ground_m": [
+        0,
+        -90
+      ],
+      "same_four_rms_ground_m": 177.3026630651182,
+      "same_four_max_ground_m": 331.3224199416761
+    }
+  ],
+  "rms_range": [
+    177.3026630651182,
+    191.59194778013904
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "date": "2026-09-12",
+  "tool": "Codex in-app browser through cua_repl",
+  "origin": "http://127.0.0.1:4197",
+  "artifact_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/richmond-draft-preview20m.tif",
+  "artifact_sha256": "2db3fbc9882da095b5858175c0d3c334b999fcf6825738ae7a71fbc67d896370",
+  "artifact_size": [
+    6502,
+    4438
+  ],
+  "artifact_bytes": 26943744,
+  "artifact_geotransform": [
+    -6834765.0,
+    20.0,
+    0.0,
+    5774200.0,
+    0.0,
+    -20.0
+  ],
+  "parent_full_raster_sha256": "f828262e8871422aa7aab6a4866ddba5f7d7694c01760137bac8fa6e73592c7b",
+  "generation": "gdal_translate -tr 20 20 -r average from full affine GeoTIFF; same geographic placement, separate review-resolution artifact",
+  "imported_through_file_chooser": true,
+  "visible_map_checked": true,
+  "transparent_cutouts_visually_retained": true,
+  "enabled_after_reload": true,
+  "dimensions_after_reload": [
+    6502,
+    4438
+  ],
+  "console_errors_observed": [],
+  "browser_downsample_notice": "Large file \u2014 displayed at reduced resolution.",
+  "scope": "Embedded 20-projected-metre and full 5-projected-metre GeoTIFF importer/render/save/reload paths. Both large files display at reduced browser resolution. Raw native-scan affine browser mesh not exercised. Stored blob SHA was not independently read from IndexedDB. No geographic acceptance.",
+  "full_resolution_follow_up": {
+    "artifact_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/richmond-draft/richmond-physical-draft.tif",
+    "artifact_sha256": "f828262e8871422aa7aab6a4866ddba5f7d7694c01760137bac8fa6e73592c7b",
+    "artifact_bytes": 398433079,
+    "dimensions_after_import_and_reload": [
+      26007,
+      17753
+    ],
+    "file_chooser_import_passed": true,
+    "enabled_after_reload": true,
+    "preview_disabled_during_full_raster_test": true,
+    "transparent_cutouts_visually_retained": true,
+    "visible_render_after_reload": true,
+    "zoom_levels_visually_inspected": [
+      10,
+      12
+    ],
+    "background": "OpenStreetMap",
+    "console_errors_observed": []
+  }
+}

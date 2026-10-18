@@ -1,0 +1,1807 @@
+{
+  "sheet": 14,
+  "source_sha256": "907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c",
+  "purpose": "Final source-only transcription and provenance audit.",
+  "detail_manifests": [
+    {
+      "batch_id": "review-20260907-14-01",
+      "sheet": 14,
+      "source_sha256": "907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c",
+      "source_dimensions_px": [
+        10852,
+        7622
+      ],
+      "purpose": "Independent readings of dense native source lettering and rotated geological captions.",
+      "crops": [
+        {
+          "crop_id": "F14-DETAIL-BROAD-COVE-MINES",
+          "source_xywh": [
+            8110,
+            1630,
+            530,
+            430
+          ],
+          "sha256": "8f97ecc9686fe8690061029969d8101e870eec055d0587b54a49b921b070196f"
+        },
+        {
+          "crop_id": "F14-DETAIL-NORTH-NAME",
+          "source_xywh": [
+            8740,
+            1710,
+            460,
+            135
+          ],
+          "sha256": "10519eef6536cde9641fea58d048e2ebc2f60883778fb6b88cc784a4ee3a85e5"
+        },
+        {
+          "crop_id": "F14-DETAIL-SANDSTONE",
+          "source_xywh": [
+            7840,
+            2490,
+            670,
+            920
+          ],
+          "sha256": "3c065030f41d46d170b2040ace6f55ec60d8057b8a596ac797333993c101c01f"
+        },
+        {
+          "crop_id": "F14-DETAIL-EAST-ROCK",
+          "source_xywh": [
+            8790,
+            2650,
+            200,
+            350
+          ],
+          "sha256": "91df638c22e8d0afa1cb25a056c613db4be39223ac6c0a2e278af5eefc8ca102"
+        },
+        {
+          "crop_id": "F14-DETAIL-STRATH-NAMES",
+          "source_xywh": [
+            8320,
+            3450,
+            470,
+            570
+          ],
+          "sha256": "41153e538d5b56528aa797ae6167346fc56ac7bdb0b92d09d1becfd6b21df9cb"
+        },
+        {
+          "crop_id": "F14-DETAIL-MILLS",
+          "source_xywh": [
+            7750,
+            3540,
+            300,
+            170
+          ],
+          "sha256": "22f7931e2475d31e3f4bac2466b6f17d4d8c02732b117f127423bf7c5846910f"
+        }
+      ]
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "sheet": 14,
+      "source_sha256": "907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c",
+      "source_dimensions_px": [
+        10852,
+        7622
+      ],
+      "purpose": "Independent narrow readings of curved source captions and dense coal seam numerals.",
+      "crops": [
+        {
+          "crop_id": "F14-DETAIL-YOUNG",
+          "source_xywh": [
+            8460,
+            5680,
+            530,
+            135
+          ],
+          "sha256": "4e7de3ea714e3c92fa4963e56e3ef60e8b8ba4f85c1be0bb1e3c78062ef94fcc"
+        },
+        {
+          "crop_id": "F14-DETAIL-SOUTH-BROOK",
+          "source_xywh": [
+            7000,
+            5650,
+            390,
+            550
+          ],
+          "sha256": "911fb0b35994120b76614946f4ab7842f10521eb27454594bad1d85e011d1342"
+        },
+        {
+          "crop_id": "F14-DETAIL-COAL-SEAMS",
+          "source_xywh": [
+            8385,
+            1670,
+            245,
+            155
+          ],
+          "sha256": "1f469c3c8fdf18802c210b6bc920fe08d974533c4292e1d6cc6d122b61023148"
+        }
+      ]
+    }
+  ],
+  "receipts": [
+    {
+      "batch_id": "review-20260907-14-01",
+      "crop_id": "F14-DETAIL-BROAD-COVE-MINES",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "8f97ecc9686fe8690061029969d8101e870eec055d0587b54a49b921b070196f",
+      "prompt_sha256": "5464a68e3a4911b40eda39c59683d1feaad1e141b60dbfc10b69a064ddab8cf8",
+      "started_unix": 1788758098.503617,
+      "elapsed_s": 53.68,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85b55b66ffe6y7sq1O9E1I9ke"
+      ],
+      "tokens_reported": [
+        {
+          "total": 7068,
+          "input": 793,
+          "output": 573,
+          "reasoning": 4422,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "6a61e6e2291ec99f7b29319714598e7785be801c03aacd55085927174aab366d"
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "crop_id": "F14-DETAIL-NORTH-NAME",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "10519eef6536cde9641fea58d048e2ebc2f60883778fb6b88cc784a4ee3a85e5",
+      "prompt_sha256": "cd22cec2ee853aa0a8234da08c46a889c1f6c6dec9a542a5dff7a7fe47b44fde",
+      "started_unix": 1788758098.503339,
+      "elapsed_s": 11.55,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85b56b46ffePBbJR0xxngtbmo"
+      ],
+      "tokens_reported": [
+        {
+          "total": 2538,
+          "input": 2003,
+          "output": 166,
+          "reasoning": 369,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "36d33b35368de1135028a70533de98e6f50ada27c4d110c8ac69e35378a3d285"
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "crop_id": "F14-DETAIL-SANDSTONE",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "3c065030f41d46d170b2040ace6f55ec60d8057b8a596ac797333993c101c01f",
+      "prompt_sha256": "f52497b89a0f451d141567b17187eff4937fdd6e7ed6ce4dcf06f6cdd7c9e852",
+      "started_unix": 1788758098.505078,
+      "elapsed_s": 54.53,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85b54be6ffesL0zEsfpnQ06lQ"
+      ],
+      "tokens_reported": [
+        {
+          "total": 6723,
+          "input": 988,
+          "output": 681,
+          "reasoning": 3774,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "81f5a6690114f3845406a099de380205817c0f1bd4e2b621977205de602022d0"
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "crop_id": "F14-DETAIL-EAST-ROCK",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "91df638c22e8d0afa1cb25a056c613db4be39223ac6c0a2e278af5eefc8ca102",
+      "prompt_sha256": "005fe50fb1afadaa0f9cbfa56fb1b91d3689d9290c67e210fb7b79d326c42444",
+      "started_unix": 1788758098.503274,
+      "elapsed_s": 50.97,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85b57ab7ffewfKfAe1lfih3Zy"
+      ],
+      "tokens_reported": [
+        {
+          "total": 7482,
+          "input": 2007,
+          "output": 171,
+          "reasoning": 5304,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "30683541614fffeddafdf73f1933756ece5d2e4dbca1f8ac06bce4d9dc6760af"
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "crop_id": "F14-DETAIL-STRATH-NAMES",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "41153e538d5b56528aa797ae6167346fc56ac7bdb0b92d09d1becfd6b21df9cb",
+      "prompt_sha256": "67199fae8410a499c22e81156a38c4861df3f738959d14087992e565dd96b1b0",
+      "started_unix": 1788758110.052624,
+      "elapsed_s": 45.37,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85b53bffffejw41BdmxqEtHwR"
+      ],
+      "tokens_reported": [
+        {
+          "total": 6582,
+          "input": 806,
+          "output": 1176,
+          "reasoning": 3320,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "e2859920507f4ab6a8eca550b59b87a8468dae075d4abeec92e10c53b7cec30b"
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "crop_id": "F14-DETAIL-MILLS",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "22f7931e2475d31e3f4bac2466b6f17d4d8c02732b117f127423bf7c5846910f",
+      "prompt_sha256": "0cc7af861b83449e0bcbd89c3f8d68bd88796411ae5ba9b1656286ad7a0cc2b0",
+      "started_unix": 1788758149.471731,
+      "elapsed_s": 6.09,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85b4b3b0ffe593g1Uap4LaEm7"
+      ],
+      "tokens_reported": [
+        {
+          "total": 2370,
+          "input": 721,
+          "output": 200,
+          "reasoning": 169,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "22b73ed05d186d587c72eb0a8d21a72f4fa85728c05e70bfd3e7706e1bbd89da"
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "crop_id": "F14-DETAIL-YOUNG",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "4e7de3ea714e3c92fa4963e56e3ef60e8b8ba4f85c1be0bb1e3c78062ef94fcc",
+      "prompt_sha256": "ef61cec350c6f13a1e2b3e5ac9cedcc2c0d4d33f5ded4827e43321f9818883d6",
+      "started_unix": 1788759115.081831,
+      "elapsed_s": 14.04,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85a5f7d0ffeMSbGdzN5yVgyHp"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3294,
+          "input": 729,
+          "output": 340,
+          "reasoning": 945,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "46c937de9e292952102d4a74b88067e86fdde3c6a2ff92abab12805c757628b0"
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "crop_id": "F14-DETAIL-SOUTH-BROOK",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "911fb0b35994120b76614946f4ab7842f10521eb27454594bad1d85e011d1342",
+      "prompt_sha256": "70c5c8932f7d018733c60d5d02694840a4945305e9d28b2022411ea5939418e0",
+      "started_unix": 1788759115.0819468,
+      "elapsed_s": 15.6,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85a5e823ffe6wBmq0Y4pm4Ca3"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3071,
+          "input": 778,
+          "output": 359,
+          "reasoning": 654,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "ede5793bc40d7113d4c284e5d7bbbe7a5d48c4875175001a05d17b0675a9edfd"
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "crop_id": "F14-DETAIL-COAL-SEAMS",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "1f469c3c8fdf18802c210b6bc920fe08d974533c4292e1d6cc6d122b61023148",
+      "prompt_sha256": "909ef1a0ddfd745f480c5d7b551821eaebf48d4076e22c98a4482ee598a1a751",
+      "started_unix": 1788759115.08189,
+      "elapsed_s": 24.58,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f85a5d879ffeM7qzQ75hcetLWu"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3681,
+          "input": 719,
+          "output": 383,
+          "reasoning": 1299,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "264c2f4c80c695b0bf2ca94a3579be5dc650d4b4bbf132c436731c05ed488d53"
+    }
+  ],
+  "detail_candidate_dispositions": [
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-01",
+      "model_text": "Broad",
+      "reviewed_ids": [
+        "F14-CMB-004"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-02",
+      "model_text": "2' Seam",
+      "reviewed_ids": [
+        "F14-CMB-005"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-03",
+      "model_text": "14 Seam",
+      "reviewed_ids": [
+        "F14-CMB-006"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-04",
+      "model_text": "3' Seam",
+      "reviewed_ids": [
+        "F14-CMB-007"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-05",
+      "model_text": "Slopes",
+      "reviewed_ids": [
+        "F14-CMB-008"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-06",
+      "model_text": "Coal Mine",
+      "reviewed_ids": [
+        "F14-CMB-009"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-07",
+      "model_text": "A. McIsaar",
+      "reviewed_ids": [
+        "F14-CMB-010"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-BROAD-COVE-MINES-08",
+      "model_text": "Eng. Slope",
+      "reviewed_ids": [
+        "F14-CMB-011"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-NORTH-NAME-01",
+      "model_text": "Widow Hon. Mc Donald",
+      "reviewed_ids": [
+        "F14-CMB-022"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-01",
+      "model_text": "Kerr",
+      "reviewed_ids": [
+        "F14-CMB-045"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-02",
+      "model_text": "own",
+      "reviewed_ids": [
+        "F14-CMB-045"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-03",
+      "model_text": "Brown",
+      "reviewed_ids": [
+        "F14-CMB-045"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-04",
+      "model_text": "Forge",
+      "reviewed_ids": [
+        "F14-CMB-048"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-05",
+      "model_text": "Sand",
+      "reviewed_ids": [
+        "F14-CMB-045"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-06",
+      "model_text": "Shan",
+      "reviewed_ids": [
+        "F14-CMB-049"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-07",
+      "model_text": "Shops",
+      "reviewed_ids": [
+        "F14-CMB-050"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-08",
+      "model_text": "Shop",
+      "reviewed_ids": [
+        "F14-CMB-051"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-09",
+      "model_text": "Darky",
+      "reviewed_ids": [
+        "F14-CMB-046"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-SANDSTONE-10",
+      "model_text": "quarrie",
+      "reviewed_ids": [
+        "F14-CMB-046"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-EAST-ROCK-01",
+      "model_text": "Do. Little",
+      "reviewed_ids": [
+        "F14-CMB-058"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-01",
+      "model_text": "Lorne",
+      "reviewed_ids": [
+        "F14-CMB-053"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-02",
+      "model_text": "Shop",
+      "reviewed_ids": [
+        "F14-CMB-054"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-03",
+      "model_text": "P.O.",
+      "reviewed_ids": [
+        "F14-CMB-055"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-04",
+      "model_text": "Isaac McLeod",
+      "reviewed_ids": [
+        "F14-CMB-084"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-05",
+      "model_text": "Forge",
+      "reviewed_ids": [
+        "F14-CMB-087"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-06",
+      "model_text": "School",
+      "reviewed_ids": [
+        "F14-CMB-088"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-07",
+      "model_text": "Shop",
+      "reviewed_ids": [
+        "F14-CMB-089"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-08",
+      "model_text": "J.Y. Gunn",
+      "reviewed_ids": [
+        "F14-CMB-090"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-09",
+      "model_text": "D.T. Gunn",
+      "reviewed_ids": [
+        "F14-CMB-091"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-10",
+      "model_text": "Church",
+      "reviewed_ids": [
+        "F14-CMB-092"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-11",
+      "model_text": "Shon",
+      "reviewed_ids": [
+        "F14-CMB-094"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-12",
+      "model_text": "John McLean",
+      "reviewed_ids": [
+        "F14-CMB-095"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-13",
+      "model_text": "Schoo",
+      "reviewed_ids": [
+        "F14-CMB-104"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-14",
+      "model_text": "Sho",
+      "reviewed_ids": [
+        "F14-CMB-105"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-15",
+      "model_text": "RAILWA",
+      "reviewed_ids": [
+        "F14-CMB-057"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-16",
+      "model_text": "Indian pipes",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-17",
+      "model_text": "gouges etc.",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-18",
+      "model_text": "found in the",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-STRATH-NAMES-19",
+      "model_text": "fields",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-MILLS-01",
+      "model_text": "S. C. Mill",
+      "reviewed_ids": [
+        "F14-CMB-085"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "raw_candidate_id": "F14-DETAIL-MILLS-02",
+      "model_text": "C. Mill",
+      "reviewed_ids": [
+        "F14-CMB-086"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-YOUNG-01",
+      "model_text": "Mount",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-YOUNG-02",
+      "model_text": "School",
+      "reviewed_ids": [
+        "F14-CMB-162"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-YOUNG-03",
+      "model_text": "Young",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-SOUTH-BROOK-01",
+      "model_text": "Brook",
+      "reviewed_ids": [
+        "F14-CMB-156"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-SOUTH-BROOK-02",
+      "model_text": "Saw Mill",
+      "reviewed_ids": [
+        "F14-CMB-155"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-SOUTH-BROOK-03",
+      "model_text": "Glenlyer",
+      "reviewed_ids": [
+        "F14-CMB-156"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-SOUTH-BROOK-04",
+      "model_text": "45",
+      "reviewed_ids": [],
+      "disposition": "excluded-source-apparatus",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-COAL-SEAMS-01",
+      "model_text": "2d. Seam",
+      "reviewed_ids": [
+        "F14-CMB-005"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-COAL-SEAMS-02",
+      "model_text": "1st. Seam",
+      "reviewed_ids": [
+        "F14-CMB-006"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "raw_candidate_id": "F14-DETAIL-COAL-SEAMS-03",
+      "model_text": "3rd. Seam",
+      "reviewed_ids": [
+        "F14-CMB-007"
+      ],
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native retained lettering and complete source context control the reading; raw model boxes and inferred names are rejected."
+    }
+  ],
+  "unresolved_region_dispositions": [
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R01C05",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1285,
+          1320,
+          100,
+          35
+        ],
+        "note": "faint/partial grey lettering adjacent to red 'Note 1', possibly clipped; unreadable"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "The assigned pixels intersect marginal/report material and clipped pond context; complete MᶜIsaac Pond is retained, with no additional readable inscription.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        6200,
+        900,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R01C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1330,
+          425,
+          70,
+          55
+        ],
+        "note": "fragmentary number at top-right edge, reading uncertain"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Dip numeral / clipped marginal report context; excluded from source label scope.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        7400,
+        900,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R01C06",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          1330,
+          735,
+          70,
+          55
+        ],
+        "note": "possible clipped continuation of 'Broad Cove' at right edge"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Full adjacent crop completes Broad Cove Chapel as one caption.",
+      "reviewed_ids": [
+        "F14-CMB-004"
+      ],
+      "source_crop_xywh": [
+        7400,
+        900,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R01C06",
+      "unresolved_index": 3,
+      "original_region": {
+        "box_xywh": [
+          945,
+          1190,
+          40,
+          45
+        ],
+        "note": "black 'H' adjacent to red report text, role unclear"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Roman/report lettering, not another geographic annotation.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        7400,
+        900,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R01C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          80,
+          340,
+          135,
+          130
+        ],
+        "note": "clipped text at left edge; appears to read 'coal' or 'of Coal' with surrounding unreadable lettering"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Complete adjacent native crop reads A wedge of Coal on the shore.",
+      "reviewed_ids": [
+        "F14-CMB-003"
+      ],
+      "source_crop_xywh": [
+        8600,
+        900,
+        1200,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R01C07",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          0,
+          420,
+          120,
+          60
+        ],
+        "note": "partial text at far left margin unreadable"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Adjacent crop provides the same coastal coal note; no separate inscription.",
+      "reviewed_ids": [
+        "F14-CMB-003"
+      ],
+      "source_crop_xywh": [
+        8600,
+        900,
+        1200,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R02C01",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1360,
+          490,
+          40,
+          140
+        ],
+        "note": "Faint dark markings along right edge, possibly lettering or numbers, heavily clipped by crop boundary and too blurred to read reliably"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Blank sea, compass/graticule context; no additional readable place inscription.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        1400,
+        2100,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R02C04",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          418,
+          1362,
+          42,
+          40
+        ],
+        "note": "faint, clipped lettering near road junction at bottom left; appears to end in 'y' but cannot be read reliably"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "No legible additional inscription at the alleged location after full native crop review; model box is displaced.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        5000,
+        2100,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R02C05",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          1245,
+          95,
+          45
+        ],
+        "note": "faint clipped lettering at lower left edge, unreadable"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Adjacent native context completes Kennedy; guessed box was displaced.",
+      "reviewed_ids": [
+        "F14-CMB-032"
+      ],
+      "source_crop_xywh": [
+        6200,
+        2100,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R02C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1260,
+          1140,
+          140,
+          70
+        ],
+        "note": "red marking on right edge; possibly a geological code or post-office symbol; unreadable"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Red geological/report notation and dip apparatus; no post-office label here.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        7400,
+        2100,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R02C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          190,
+          555,
+          100,
+          235
+        ],
+        "note": "Rotated cursive lettering inside the red oval, partially obscured by the oval marking; unreadable."
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Rotated native intrusive-body caption reads Trap Hill.",
+      "reviewed_ids": [
+        "F14-CMB-058"
+      ],
+      "source_crop_xywh": [
+        8600,
+        2100,
+        1200,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R03C03",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          [
+            1070,
+            1000,
+            130,
+            42
+          ]
+        ],
+        "note": "Clipped multi-letter text at bottom-right edge, possibly a water body or settlement name; only a couple of letters are visible so no confident reading can be given."
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Native whole-crop context retains Cape Mabou and School; no additional readable occurrence in the purported box.",
+      "reviewed_ids": [
+        "F14-CMB-060",
+        "F14-CMB-061"
+      ],
+      "source_crop_xywh": [
+        3800,
+        3300,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R03C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          170,
+          60,
+          230
+        ],
+        "note": "clipped descriptive text at left crop edge"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Adjacent native crop completes the two Gunn names and the four-line artifact note; guessed unresolved box was displaced.",
+      "reviewed_ids": [
+        "F14-CMB-090",
+        "F14-CMB-091",
+        "F14-CMB-096"
+      ],
+      "source_crop_xywh": [
+        8600,
+        3300,
+        1200,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R04C01",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          270,
+          660,
+          30,
+          25
+        ],
+        "note": "faint U-shaped mark, likely paper blemish or artifact rather than readable lettering"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Whole native context contains source apparatus/unnamed marks or no additional readable inscription.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        1400,
+        4500,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R04C05",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          1000,
+          0,
+          400,
+          80
+        ],
+        "note": "Partial lettering cut off at top right edge; unreadable text precedes 'Brook'"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Complete native adjacent caption resolves the fragment; original guessed box may be displaced.",
+      "reviewed_ids": [
+        "F14-CMB-082"
+      ],
+      "source_crop_xywh": [
+        6200,
+        4500,
+        1400,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R04C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          270,
+          0,
+          320,
+          40
+        ],
+        "note": "clipped unreadable lettering at top edge, possibly a settlement name"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Complete native adjacent caption resolves the fragment; original guessed box may be displaced.",
+      "reviewed_ids": [
+        "F14-CMB-107"
+      ],
+      "source_crop_xywh": [
+        8600,
+        4500,
+        1200,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R04C07",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          0,
+          560,
+          260,
+          55
+        ],
+        "note": "clipped/unreadable lettering above 'Young'"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Complete native adjacent caption resolves the fragment; original guessed box may be displaced.",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ],
+      "source_crop_xywh": [
+        8600,
+        4500,
+        1200,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R04C07",
+      "unresolved_index": 3,
+      "original_region": {
+        "box_xywh": [
+          0,
+          630,
+          70,
+          40
+        ],
+        "note": "clipped place name ending in 'ton' at left edge"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Whole native context contains source apparatus/unnamed marks or no additional readable inscription.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        8600,
+        4500,
+        1200,
+        1400
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R05C06",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          415,
+          185,
+          35,
+          35
+        ],
+        "note": "Circled numeral/symbol (appears to be an '8' or similar), unclear whether a labelled in-scope feature or a section/graticule marker."
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Whole native context contains source apparatus/unnamed marks or no additional readable inscription.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        7400,
+        5700,
+        1400,
+        860
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R05C07",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          110,
+          0,
+          60,
+          40
+        ],
+        "note": "clipped partial letter above Young; unreadable"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Complete native adjacent caption resolves the fragment; original guessed box may be displaced.",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ],
+      "source_crop_xywh": [
+        8600,
+        5700,
+        1200,
+        860
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R05C07",
+      "unresolved_index": 2,
+      "original_region": {
+        "box_xywh": [
+          340,
+          130,
+          80,
+          60
+        ],
+        "note": "faint rotated labeling unreadable"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Whole native context contains source apparatus/unnamed marks or no additional readable inscription.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        8600,
+        5700,
+        1200,
+        860
+      ]
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R05C07",
+      "unresolved_index": 3,
+      "original_region": {
+        "box_xywh": [
+          950,
+          20,
+          150,
+          60
+        ],
+        "note": "faint marks at top right; unreadable"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Whole native context contains source apparatus/unnamed marks or no additional readable inscription.",
+      "reviewed_ids": [],
+      "source_crop_xywh": [
+        8600,
+        5700,
+        1200,
+        860
+      ]
+    },
+    {
+      "batch_id": "review-20260907-14-01",
+      "crop_id": "F14-DETAIL-SANDSTONE",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          600,
+          340,
+          70,
+          110
+        ],
+        "note": "lettering at right edge, mostly clipped and illegible"
+      },
+      "disposition": "resolved-in-native-context",
+      "note": "Adjacent full-native context supplies Hugh Cameron; partial detail edge is not another name.",
+      "reviewed_ids": [
+        "F14-CMB-047"
+      ]
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "crop_id": "F14-DETAIL-YOUNG",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          0,
+          0,
+          40,
+          25
+        ],
+        "note": "clipped/partial faint lettering at top-left corner, cut by crop edge"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Native detail and whole-crop inspection find no additional readable inscription in the claimed edge marks.",
+      "reviewed_ids": []
+    },
+    {
+      "batch_id": "review-20260907-14-02",
+      "crop_id": "F14-DETAIL-SOUTH-BROOK",
+      "unresolved_index": 1,
+      "original_region": {
+        "box_xywh": [
+          370,
+          390,
+          20,
+          30
+        ],
+        "note": "very faint partial lettering at right edge, unreadable"
+      },
+      "disposition": "excluded-or-no-additional-readable-inscription",
+      "note": "Native detail and whole-crop inspection find no additional readable inscription in the claimed edge marks.",
+      "reviewed_ids": []
+    }
+  ],
+  "invalid_original_responses": [
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R02C04",
+      "receipt": {
+        "crop_id": "F14-R02C04",
+        "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+        "opencode_version": "1.18.29",
+        "source_crop_sha256": "c56488b9ac1f244b9095af18e10cdc0ed91fe78ecf618138b73bb6aea1875f13",
+        "prompt_sha256": "0d8289d34accab9ad6b9b2b0c680be83ed2a6dc2b5715b67325506f230a21aee",
+        "started_unix": 1788715718.5695848,
+        "elapsed_s": 46.25,
+        "exit_code": 0,
+        "timed_out": false,
+        "validation_error": "Box outside assigned crop",
+        "finish_reasons": [
+          "stop"
+        ],
+        "reasoning_effort_requested": "low",
+        "max_output_tokens": 32768,
+        "previous_attempt_retained": false,
+        "status": "needs-repair",
+        "session_ids": [
+          "ses_f883c1610ffeT3YVwKxtoRubf8"
+        ],
+        "tokens_reported": [
+          {
+            "total": 6814,
+            "input": 938,
+            "output": 411,
+            "reasoning": 4185,
+            "cache": {
+              "write": 0,
+              "read": 1280
+            }
+          }
+        ],
+        "billed_cost": null,
+        "cost_note": "Custom provider displayed cost is not a billing receipt.",
+        "event_sha256": "ac031eebc1c55486a9cbc3e37b46feeab31e988d6ee223cea164e1b05e367a30"
+      }
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R03C03",
+      "receipt": {
+        "crop_id": "F14-R03C03",
+        "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+        "opencode_version": "1.18.29",
+        "source_crop_sha256": "f23bd69b2519d76e47427a1355022df88b753c58e90b9c3046f5ebd1a5c60062",
+        "prompt_sha256": "e81cc6eadec1844055e399bcd8d6ad068dbf40a6a7aab39f721466d53025c749",
+        "started_unix": 1788715781.773966,
+        "elapsed_s": 17.67,
+        "exit_code": 0,
+        "timed_out": false,
+        "validation_error": "Box must contain four integers",
+        "finish_reasons": [
+          "stop"
+        ],
+        "reasoning_effort_requested": "low",
+        "max_output_tokens": 32768,
+        "previous_attempt_retained": false,
+        "status": "needs-repair",
+        "session_ids": [
+          "ses_f883b2e96ffer3Lk9WG6Usfdbq"
+        ],
+        "tokens_reported": [
+          {
+            "total": 3773,
+            "input": 938,
+            "output": 346,
+            "reasoning": 1209,
+            "cache": {
+              "write": 0,
+              "read": 1280
+            }
+          }
+        ],
+        "billed_cost": null,
+        "cost_note": "Custom provider displayed cost is not a billing receipt.",
+        "event_sha256": "de69208fce6d702d7e9f9cf62bc9af6c13f94acd57cb78aa33cd70c5d9bb0f88"
+      }
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R03C06",
+      "receipt": {
+        "crop_id": "F14-R03C06",
+        "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+        "opencode_version": "1.18.29",
+        "source_crop_sha256": "22c535b43946c10cf0a070ea5a7ff27156e57217ac466ba3215d7f0317745b8b",
+        "prompt_sha256": "59f870513c654f98ddeddf1bfd3e1c37590f46e3f9bb3bfc1252918ce0e50a4a",
+        "started_unix": 1788715813.4304159,
+        "elapsed_s": 79.18,
+        "exit_code": 0,
+        "timed_out": false,
+        "validation_error": "Box outside assigned crop",
+        "finish_reasons": [
+          "stop"
+        ],
+        "reasoning_effort_requested": "low",
+        "max_output_tokens": 32768,
+        "previous_attempt_retained": false,
+        "status": "needs-repair",
+        "session_ids": [
+          "ses_f883ab2f8ffeHBnb25b5bH2aUb"
+        ],
+        "tokens_reported": [
+          {
+            "total": 11288,
+            "input": 938,
+            "output": 1489,
+            "reasoning": 7581,
+            "cache": {
+              "write": 0,
+              "read": 1280
+            }
+          }
+        ],
+        "billed_cost": null,
+        "cost_note": "Custom provider displayed cost is not a billing receipt.",
+        "event_sha256": "c03b2c92badc71feae12a6295d7b92dca92023ea266faac54d5edfdd4b9c793f"
+      }
+    },
+    {
+      "batch_id": "first-pass",
+      "crop_id": "F14-R05C02",
+      "receipt": {
+        "crop_id": "F14-R05C02",
+        "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+        "opencode_version": "1.18.29",
+        "source_crop_sha256": "478e9faf17e4beea5017ea80fa918af8f0bd7cc5a068f95dccfd9e466ac8f6de",
+        "prompt_sha256": "af763c363801ac70ed6b087806e93151c651adac7ce860a4abe5a2e32f6cbe7c",
+        "started_unix": 1788715930.5422971,
+        "elapsed_s": 39.73,
+        "exit_code": 0,
+        "timed_out": false,
+        "validation_error": "Box outside assigned crop",
+        "finish_reasons": [
+          "stop"
+        ],
+        "reasoning_effort_requested": "low",
+        "max_output_tokens": 32768,
+        "previous_attempt_retained": false,
+        "status": "needs-repair",
+        "session_ids": [
+          "ses_f8838e96fffes3ALHDiFeDzxuM"
+        ],
+        "tokens_reported": [
+          {
+            "total": 6445,
+            "input": 928,
+            "output": 423,
+            "reasoning": 3814,
+            "cache": {
+              "write": 0,
+              "read": 1280
+            }
+          }
+        ],
+        "billed_cost": null,
+        "cost_note": "Custom provider displayed cost is not a billing receipt.",
+        "event_sha256": "03266cad068adee81862e7b9b60bd9009a774138f8d249461ee9186b971cf383"
+      }
+    }
+  ],
+  "adjudication": [
+    "All 35 whole native crops reviewed. All retained final original-pixel lettering snippets inspected; model clear statuses and reviewer completion claims are not evidence by themselves.",
+    "Combined Broad Cove Chapel, More Brook, Broad Cove River, Proposed Railway, LOCH BAN, MABOU HIGHLANDS, Northeast Mabou River and Glendyer Brook from their complete cross-crop lettering.",
+    "Native rotation reads Trap Hill and Rusty Brown Sand. Reject invented St Croix, McKenzie/Mackay names in the diorite caption and the Sandstone suffix. Native source includes Dark gray diorite and Iron Pyrites.",
+    "Expanded S. & G. Mill beyond the clipped initial box; kept adjacent C. Mill separate. Native context resolves Eng. Slope, J. Y. Gunn and Dr Gunn without expanding abbreviations.",
+    "Parent whole-crop audit added five omitted facilities: school near Mabou Coal Mines, school below Mound Young, post office and forge at Glen Dhu, and shop at Hay River.",
+    "Parent inspection repaired empty/displaced Glen Dhu or Alexander boxes, clipped Mabou Coal Mines and Thomas Burke, the M in MABOU, and full Brook/River captions. Identical overlap records merged once.",
+    "Five readings remain qualified: three dense coal-seam numeral/raised-mark combinations, the Ron./Hon. abbreviation after Widow, and Mound/Mount Young. No seam thickness inferred from ambiguous marks.",
+    "Original four invalid responses remain preserved with their rejected model boxes. No rerun or silent conversion to accepted model output."
+  ],
+  "provenance_verification": {
+    "native_source_dimensions_px": [
+      10852,
+      7622
+    ],
+    "original_crop_hashes_verified": 35,
+    "detail_crop_hashes_verified": 9,
+    "event_hashes_verified": 44,
+    "local_review_contact_hashes": [
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "1.png",
+        "sha256": "db4163025724f3e7d3f541d3c6aada742120cda76538e6fab8bdb66fc848a47a"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "10.png",
+        "sha256": "95eaf9cd20ffadef9c1d52d0777736eda40bd49035983761eac2d905390cc963"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "11.png",
+        "sha256": "60c354782417853616316d8085a6270e1384a8dd0633482ed8f915de7f4af98e"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "2.png",
+        "sha256": "6e2afb5b35b96c122c0412911636faa203ac49bcd67e5931a0fa4f3478e435f0"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "3.png",
+        "sha256": "ee3638fa7b3372ae36705cb7f5b7153518704290da3cd80bb362e1f5da85e9a3"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "4.png",
+        "sha256": "49c9456b88d68cc37c0568a77bf0a87e2a56ea7eeaf57e6b4dc13b9755e8a8db"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "5.png",
+        "sha256": "c004731a4119b35fdc9649b54a26e075623e25e9eba010b738f6b2772d98dd69"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "6.png",
+        "sha256": "bc7c5259619278c9db8ff8a09b8456c23e7b36a2bdaeda5f9c4a68c64ec37f98"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "7.png",
+        "sha256": "fba18bf308849948ad9d03bb8b2f87143209c08808bc5a44077d0c19f41d0840"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "8.png",
+        "sha256": "797647fa63694c3904b0aceb04dd151576b1717d047e68276b829b89c35a7a8a"
+      },
+      {
+        "group": "sheet-14-final-lettering-proof",
+        "file": "9.png",
+        "sha256": "3ef45233dc5b91df57983a969ea7fa6be3b23c8b1c5a0e3f282534467a88d022"
+      }
+    ],
+    "final_lettering_snippets_visually_inspected": 166
+  },
+  "limitations": "Finalized means the initial source inventory and crop audit are complete with explicit qualified readings. It does not certify infallibility, geographic placement, georeferencing acceptance, feature survival, ownership or current site conditions."
+}

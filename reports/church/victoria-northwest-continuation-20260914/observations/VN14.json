@@ -1,0 +1,49 @@
+{
+  "id": "VN14",
+  "role": "check",
+  "label": "Smoky Cape northern outer shore turn",
+  "pixel_xy": [
+    11031.0,
+    19975.0
+  ],
+  "lonlat": [
+    -60.35009258026133,
+    46.62765541169051
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      10850,
+      19800
+    ],
+    "extent": [
+      550,
+      650
+    ],
+    "display": [
+      1100,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    362,
+    350
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-smokey-detail.jpg",
+  "source_crop_sha256": "0b49c64590dfebc2b386473cac041b88a51afc2093254f4b27e801e531dd2df3",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/reference-full/water-lines.geojson",
+  "reference_sha256": "5e9de8a51eeb813e092ea841423bb26fa543b0fade8de6df55068f9d7c25ffa4",
+  "reference_feature_ids": [
+    10612
+  ],
+  "reference_vertex": {
+    "feature_id": 10612,
+    "vertex": 22
+  },
+  "uncertainty_ground_m": 160,
+  "identity_evidence": "Northern outer corner where the north-facing Smoky Cape coast turns down its eastern cliff face. Broad context shows the southern bay shoreline approaching from the west, the cape massif and east coast continuing toward the sheet bottom. Select the northern corner immediately west of the Smoky Cape lettering, not the farther-south projection or the neatline intersection. Modern offshore rocks are excluded. Shore detail and spacing of minor projections differ, so this is a coarse outer-headland check with160m uncertainty, not a claim of unchanged fine bank geometry.",
+  "phase": "First fresh check selected after seven-control affine freeze; no tuning; original source point lies in the restored southern edge region"
+}

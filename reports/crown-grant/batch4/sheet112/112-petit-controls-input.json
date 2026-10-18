@@ -1,0 +1,54 @@
+[
+  [
+    "IC01",
+    "Fouger Point east tip in inset",
+    [
+      4815,
+      1840
+    ],
+    [
+      4835,
+      1848
+    ],
+    "WACO"
+  ],
+  [
+    "IC02",
+    "Heath Head southwest tip",
+    [
+      4910,
+      2883
+    ],
+    [
+      4920,
+      2863
+    ],
+    "WACO"
+  ],
+  [
+    "IC03",
+    "Flat Point east tip",
+    [
+      5700,
+      2465
+    ],
+    [
+      5700,
+      2470
+    ],
+    "WACO"
+  ],
+  [
+    "IC04",
+    "Green Island southeast corner",
+    [
+      5645,
+      3205
+    ],
+    [
+      5685,
+      3190
+    ],
+    "WACOIS"
+  ]
+]

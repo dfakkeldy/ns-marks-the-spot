@@ -1,0 +1,137 @@
+[
+  {
+    "lonlat": [
+      -61.32065670986413,
+      45.811328240692056
+    ],
+    "branches": [
+      {
+        "feature_id": 262424,
+        "vertex": 16,
+        "name": "Glendale Brook"
+      },
+      {
+        "feature_id": 276069,
+        "vertex": 21,
+        "name": "River Inhabitants"
+      },
+      {
+        "feature_id": 276070,
+        "vertex": 0,
+        "name": "River Inhabitants"
+      }
+    ],
+    "inverse_search_guide": [
+      20745.1076932245,
+      24726.6315304243
+    ]
+  },
+  {
+    "lonlat": [
+      -61.32619342766039,
+      45.81408992537688
+    ],
+    "branches": [
+      {
+        "feature_id": 262428,
+        "vertex": 312,
+        "name": "Glendale Brook"
+      },
+      {
+        "feature_id": 263047,
+        "vertex": 0,
+        "name": "Glendale Brook"
+      },
+      {
+        "feature_id": 273925,
+        "vertex": 142,
+        "name": "MacPherson Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      20588.2789331684,
+      24612.7801910814
+    ]
+  },
+  {
+    "lonlat": [
+      -61.34230237332063,
+      45.7327073818812
+    ],
+    "branches": [
+      {
+        "feature_id": 268879,
+        "vertex": 363,
+        "name": "Lamey Brook"
+      },
+      {
+        "feature_id": 269114,
+        "vertex": 390,
+        "name": "MacMaster Brook"
+      },
+      {
+        "feature_id": 270732,
+        "vertex": 0,
+        "name": "Lamey Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      20137.2728634743,
+      28009.6130790373
+    ]
+  },
+  {
+    "lonlat": [
+      -61.318905073694495,
+      45.811838020279964
+    ],
+    "branches": [
+      {
+        "feature_id": 269367,
+        "vertex": 12,
+        "name": "MacColls Brook"
+      },
+      {
+        "feature_id": 276069,
+        "vertex": 0,
+        "name": "River Inhabitants"
+      },
+      {
+        "feature_id": 276071,
+        "vertex": 291,
+        "name": "River Inhabitants"
+      }
+    ],
+    "inverse_search_guide": [
+      20794.7631680564,
+      24705.1119137592
+    ]
+  },
+  {
+    "lonlat": [
+      -61.354561320999906,
+      45.919512795453265
+    ],
+    "branches": [
+      {
+        "feature_id": 269441,
+        "vertex": 46,
+        "name": "MacLeod Brook"
+      },
+      {
+        "feature_id": 277650,
+        "vertex": 0,
+        "name": "Southwest Mabou River"
+      },
+      {
+        "feature_id": 277651,
+        "vertex": 37,
+        "name": "Southwest Mabou River"
+      }
+    ],
+    "inverse_search_guide": [
+      19819.2870957541,
+      20258.7497187296
+    ]
+  }
+]

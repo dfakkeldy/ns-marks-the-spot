@@ -1,0 +1,186 @@
+[
+  {
+    "id": "Q02",
+    "label": "Little Island west end",
+    "role": "proposal",
+    "pixel_xy": [
+      2662,
+      1040
+    ],
+    "lonlat": [
+      -60.39786044340143,
+      46.19755406410229
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 21788,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2737.2206169720157,
+      999.3454304169863
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  },
+  {
+    "id": "Q03",
+    "label": "Condor Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3888,
+      752
+    ],
+    "lonlat": [
+      -60.32609027759124,
+      46.231287596060206
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 3547,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3952.111875496572,
+      711.0120276074158
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  },
+  {
+    "id": "Q04",
+    "label": "Jessop Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3813,
+      1122
+    ],
+    "lonlat": [
+      -60.32287630592904,
+      46.212842964972104
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 5985,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3863.004014564329,
+      1084.1792078831932
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  },
+  {
+    "id": "Q05",
+    "label": "Indian Lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4505,
+      1310
+    ],
+    "lonlat": [
+      -60.272660162803625,
+      46.21575992535838
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 38656,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4564.271275247273,
+      1282.0424607413588
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  },
+  {
+    "id": "Q06",
+    "label": "Scotch Lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3198,
+      1530
+    ],
+    "lonlat": [
+      -60.351686832939144,
+      46.18418852553946
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 141900,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3266.503226246801,
+      1492.4212370039895
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  },
+  {
+    "id": "Q07",
+    "label": "Long Island Barachois north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1889,
+      1752
+    ],
+    "lonlat": [
+      -60.42908500170111,
+      46.1523777242314
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 10630,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1988.2827507570037,
+      1714.1728424513713
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  },
+  {
+    "id": "Q08",
+    "label": "McAuley southern lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1467,
+      2710
+    ],
+    "lonlat": [
+      -60.43710207680049,
+      46.1014232648357
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 132379,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1511.7620845501078,
+      2658.6347956468817
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  },
+  {
+    "id": "Q10",
+    "label": "South Bar west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5225,
+      1840
+    ],
+    "lonlat": [
+      -60.21245924705704,
+      46.20443948071383
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 12163,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5298.957090821932,
+      1805.514006332378
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature."
+  }
+]

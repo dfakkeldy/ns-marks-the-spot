@@ -1,0 +1,70 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "before": {
+    "record": {
+      "id": "488366d2-d781-4f16-b829-b029faee88f6",
+      "name": "judique-hawkesbury-seam-detail",
+      "source": "geotiff",
+      "createdAt": "2026-09-07T02:09:24.326Z",
+      "pixelSize": {
+        "width": 445,
+        "height": 542
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6843370,
+          5,
+          0,
+          5742135,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      445,
+      542
+    ],
+    "storedRasterSha256": "cb0aec4731727ded72fb758749238c0156b7dc61110cee669220f36e60dbcf2f",
+    "rasterBytes": 154669,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 192383,
+    "opaquePixels": 48807
+  },
+  "after": {
+    "record": {
+      "id": "488366d2-d781-4f16-b829-b029faee88f6",
+      "name": "judique-hawkesbury-seam-detail",
+      "source": "geotiff",
+      "createdAt": "2026-09-07T02:09:24.326Z",
+      "pixelSize": {
+        "width": 445,
+        "height": 542
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6843370,
+          5,
+          0,
+          5742135,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      445,
+      542
+    ],
+    "storedRasterSha256": "cb0aec4731727ded72fb758749238c0156b7dc61110cee669220f36e60dbcf2f",
+    "rasterBytes": 154669,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 192383,
+    "opaquePixels": 48807
+  },
+  "enabledStateSurvived": true
+}

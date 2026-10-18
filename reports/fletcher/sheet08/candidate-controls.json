@@ -1,0 +1,281 @@
+{
+  "sheet": "sheet-08",
+  "source_sha256": "aa324565b0b25bdd1ae102f14e4bad8b542547d6e5bba76dd620a52dafa1d4aa",
+  "points": [
+    {
+      "lonlat": [
+        -60.8435285,
+        46.565019
+      ],
+      "source_guide_xy": [
+        1509.233908799477,
+        2649.4061552004423
+      ],
+      "objectids": [
+        271191,
+        271192,
+        309347
+      ],
+      "id": "C01",
+      "modern_node_id": "J1472",
+      "role": "control",
+      "pixel_xy": [
+        1590,
+        2620
+      ],
+      "identity_evidence": "The Two Brooks: North Branch / Northeast Margaree confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.8186815,
+        46.5929978
+      ],
+      "source_guide_xy": [
+        2045.153384639416,
+        1776.7422147204634
+      ],
+      "objectids": [
+        184002,
+        270952,
+        270953
+      ],
+      "id": "C02",
+      "modern_node_id": "J0931",
+      "role": "control",
+      "pixel_xy": [
+        2490,
+        1520
+      ],
+      "identity_evidence": "North Branch major eastern tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.7920516,
+        46.5805287
+      ],
+      "source_guide_xy": [
+        2620.3429843194317,
+        2168.0084314402193
+      ],
+      "objectids": [
+        184190,
+        190217,
+        190219
+      ],
+      "id": "C03",
+      "modern_node_id": "J1209",
+      "role": "control",
+      "pixel_xy": [
+        2730,
+        2175
+      ],
+      "identity_evidence": "Northern tributary to Northeast Margaree headwaters",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.622316,
+        46.603779
+      ],
+      "source_guide_xy": [
+        6284.556076799519,
+        1452.130359200295
+      ],
+      "objectids": [
+        185133,
+        276740,
+        276741
+      ],
+      "id": "C04",
+      "modern_node_id": "J0734",
+      "role": "control",
+      "pixel_xy": [
+        6445,
+        1355
+      ],
+      "identity_evidence": "Upper Ingonish River northern tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.5444981,
+        46.613151
+      ],
+      "source_guide_xy": [
+        7964.495722559746,
+        1164.152432960458
+      ],
+      "objectids": [
+        185073,
+        281367,
+        281368
+      ],
+      "id": "C05",
+      "modern_node_id": "J0598",
+      "role": "control",
+      "pixel_xy": [
+        8125,
+        1220
+      ],
+      "identity_evidence": "Ingonish River southern tributary above lake chain",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.4951989,
+        46.6054415
+      ],
+      "source_guide_xy": [
+        9029.033192639705,
+        1408.1166562405415
+      ],
+      "objectids": [
+        191214,
+        274258,
+        274260
+      ],
+      "id": "C06",
+      "modern_node_id": "J0708",
+      "role": "control",
+      "pixel_xy": [
+        9180,
+        1230
+      ],
+      "identity_evidence": "McKinnon Brook southern long tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.4994046,
+        46.4932064
+      ],
+      "source_guide_xy": [
+        8940.38536128006,
+        4914.707261120668
+      ],
+      "objectids": [
+        188334,
+        263943,
+        263944
+      ],
+      "id": "C07",
+      "modern_node_id": "J2665",
+      "role": "control",
+      "pixel_xy": [
+        8980,
+        5090
+      ],
+      "identity_evidence": "French River / Little River confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.5672062,
+        46.4750837
+      ],
+      "source_guide_xy": [
+        7476.869652479887,
+        5476.731076400494
+      ],
+      "objectids": [
+        170719,
+        170720,
+        201595
+      ],
+      "id": "C08",
+      "modern_node_id": "J2933",
+      "role": "control",
+      "pixel_xy": [
+        7600,
+        5690
+      ],
+      "identity_evidence": "Indian Brook eastern tributary below Gisborne area",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.8032656,
+        46.4513554
+      ],
+      "source_guide_xy": [
+        2380.7083660797216,
+        6203.405940320576
+      ],
+      "objectids": [
+        188598,
+        188599,
+        188747
+      ],
+      "id": "C09",
+      "modern_node_id": "J3190",
+      "role": "control",
+      "pixel_xy": [
+        2430,
+        6220
+      ],
+      "identity_evidence": "First Fork Brook northern tributary near Rapids",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.7979924,
+        46.478854
+      ],
+      "source_guide_xy": [
+        2494.0308902396355,
+        5344.524731840473
+      ],
+      "objectids": [
+        190150,
+        278229,
+        279148
+      ],
+      "id": "C10",
+      "modern_node_id": "J2873",
+      "role": "control",
+      "pixel_xy": [
+        2760,
+        5390
+      ],
+      "identity_evidence": "Second Fork Brook southern tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    },
+    {
+      "lonlat": [
+        -60.498975,
+        46.461201
+      ],
+      "source_guide_xy": [
+        8950.275100799976,
+        5914.761994400527
+      ],
+      "objectids": [
+        189427,
+        189561,
+        190547
+      ],
+      "id": "C11",
+      "modern_node_id": "J3097",
+      "role": "control",
+      "pixel_xy": [
+        8860,
+        5900
+      ],
+      "identity_evidence": "Little River western tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity."
+    }
+  ]
+}

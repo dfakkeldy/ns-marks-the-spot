@@ -106,6 +106,13 @@ public struct ParityFixture: Sendable {
     public let layers: [String: [String: JSONValue]]
     public let fletcher: [String: JSONValue]?
     public let parcelQuery: [String: JSONValue]?
+    /// The coastal licence notices the web renders, in its own order.
+    ///
+    /// A layer row carries a licence URL and an open/restricted flag, neither
+    /// of which is the text the licence asks for. The two surfaces disagreed on
+    /// that text once, and nothing could catch it because nothing pinned the
+    /// words.
+    public let coastalHazardNotices: [String]?
 
     /// The sheet index, decoded from the fixture's `[[south, west], [north,
     /// east]]` corner pairs.
@@ -204,6 +211,15 @@ public struct ParityFixture: Sendable {
             fatalError("layer-parity.json carries a category this reader could not read")
         }
 
+        // A partial decode would shrink the comparison rather than fail it: a
+        // fourth entry this reader dropped would leave the three it kept
+        // matching, and a notice the web added would go unnoticed.
+        let noticeEntries = root["coastalHazardNotices"]?.array
+        let notices = noticeEntries?.compactMap(\.string)
+        if let noticeEntries, notices?.count != noticeEntries.count {
+            fatalError("layer-parity.json carries a coastal notice this reader could not read")
+        }
+
         let objects = entries.compactMap(\.object)
         return ParityFixture(
             groupOrder: groupOrder.compactMap(\.string),
@@ -214,7 +230,8 @@ public struct ParityFixture: Sendable {
                 result[id] = entry
             },
             fletcher: root["fletcher"]?.object,
-            parcelQuery: root["parcelQuery"]?.object
+            parcelQuery: root["parcelQuery"]?.object,
+            coastalHazardNotices: notices
         )
     }()
 

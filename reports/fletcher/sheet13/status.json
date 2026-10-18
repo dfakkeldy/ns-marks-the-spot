@@ -1,0 +1,74 @@
+{
+  "sheet": "sheet-13",
+  "status": "provisional-geography-not-accepted",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "controls": 11,
+  "diagnostic_checks": 4,
+  "fresh_validation_checks_after_control_repairs": 4,
+  "fit_file": "regional-fit.json",
+  "fit_sha256": "3d4a6d192eb87a343b649941518538f2ca108a25e20182055eadccfba2ff7981",
+  "check_file": "regional-diagnostics.json",
+  "fresh_check_file": "validation-checks.json",
+  "source_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f",
+  "source_dimensions": [
+    10872,
+    7682
+  ],
+  "transform": "GDAL exact TPS in EPSG:3857, 5 projected metre cells",
+  "boundary_file": "boundary.json",
+  "boundary_sha256": "f7cd2eca10af9fb59a12d66abc02926d57f739f0da11b01f6eddc2822023f746",
+  "scope": "Entire mapped inner neatline including all visible lake/river/island geometry inside it; thin frame margin retained. No corridor or control-hull crop.",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+  "raster_sha256": "178cf532aee8967ee38cc3cc76a29a691e8310a08ac49afe3944916e442e5a91",
+  "raster_size": [
+    8695,
+    5806
+  ],
+  "raster_bounds_wgs84": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -61.2304723,
+          46.2747317
+        ],
+        [
+          -61.2304723,
+          46.0941831
+        ],
+        [
+          -60.8399298,
+          46.0941831
+        ],
+        [
+          -60.8399298,
+          46.2747317
+        ],
+        [
+          -61.2304723,
+          46.2747317
+        ]
+      ]
+    ]
+  },
+  "orientation": {
+    "samples": 71721,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -30.18642605054424,
+      -19.05596449395102
+    ]
+  },
+  "remaining": [
+    "Fresh validation median 115.492 m and worst 245.573 m fail the 100/200 m criteria; V02 North Brook northern arm is the largest failure. Preserve all residuals.",
+    "Q04 Coopers branch definition and Q07 North Brook parallel downstream branch require further topology audit; both are retained diagnostics, not clean acceptance evidence.",
+    "Middle River C06 remains rejected because the historical major channel merger is not modern J0910; resolve bank/centreline identity before adding valley support.",
+    "Historical mill-brook outlet course and parts of Lake Ainslie shoreline differ from modern geometry. Distinguish historical mapping/landscape change from transform error before adding shoreline controls.",
+    "Northwestern valley, southern interior and southeast estuary remain sparsely supported and visibly displaced. Whole-sheet alignment cannot be inferred from the control clusters.",
+    "Sheet 11 northern border and Sheet 14 western border retain offsets/gaps; no seamless mosaic acceptance."
+  ],
+  "browser_scope": "Real GeoTIFF UI import, desktop/mobile render and reload in isolated Chromium; stored bytes, embedded georef, alpha and enabled state preserved. No captured browser errors.",
+  "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3"
+}

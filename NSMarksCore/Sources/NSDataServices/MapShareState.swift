@@ -18,6 +18,26 @@ public struct MapShareState: Sendable, Equatable {
         case historical
     }
 
+    /// Which basemap style the modern map was drawn in.
+    ///
+    /// The web's `BasemapStyle`: the three Atlas looks and the OpenStreetMap
+    /// raster. A link carries the *resolved* style — "system appearance" is a
+    /// preference, not a view, and the browser writes whichever of Day or
+    /// Night it resolved to. Absent from a link means the recipient keeps
+    /// their own preference, which is how the web reads it too.
+    public enum BasemapStyle: String, Sendable, Equatable, CaseIterable {
+        case day
+        case night
+        case fletcher
+        case osm
+    }
+
+    /// The style the modern map was in, or `nil` for a link that did not say.
+    ///
+    /// Only meaningful beside `modern` in `layerIDs`: the style of a base map
+    /// that is switched off is not a fact about the view.
+    public var basemapStyle: BasemapStyle?
+
     /// Whether the map was showing tax-sale information at all.
     ///
     /// Tax-sale research is one optional use of this map rather than what the
@@ -35,6 +55,7 @@ public struct MapShareState: Sendable, Equatable {
     public var position: MapPosition
 
     public init(
+        basemapStyle: BasemapStyle? = nil,
         taxSaleEnabled: Bool = false,
         mode: Mode = .current,
         pid: String? = nil,
@@ -42,6 +63,7 @@ public struct MapShareState: Sendable, Equatable {
         layerIDs: [String] = [],
         position: MapPosition = .default
     ) {
+        self.basemapStyle = basemapStyle
         self.taxSaleEnabled = taxSaleEnabled
         self.mode = mode
         self.pid = pid
@@ -194,6 +216,9 @@ extension MapShareState {
             .filter { validLayerIDs.contains($0) }
 
         return MapShareState(
+            // An unknown style is dropped, as the web drops it: the link is
+            // still a view, and the reader's own preference stands in.
+            basemapStyle: first("basemap").flatMap(BasemapStyle.init(rawValue:)),
             taxSaleEnabled: taxSaleEnabled,
             mode: mode,
             pid: ParcelQuery.normalizePID(first("pid") ?? ""),
@@ -246,7 +271,13 @@ extension MapShareState {
         components.query = nil
         components.fragment = nil
 
-        var items = [
+        var items: [URLQueryItem] = []
+        // First, as the web writes it: `buildMapShareUrl` sets `basemap`
+        // before anything else, and the order is part of the string.
+        if let basemapStyle {
+            items.append(URLQueryItem(name: "basemap", value: basemapStyle.rawValue))
+        }
+        items += [
             URLQueryItem(name: "taxSale", value: taxSaleEnabled ? "on" : "off"),
             URLQueryItem(name: "mode", value: mode.rawValue),
         ]

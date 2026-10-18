@@ -1,0 +1,9 @@
+{
+  "frozen_at": "2026-09-15T21:51:31.583138+00:00",
+  "controls_csv_sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527",
+  "boundary_sha256": "b72bbb89c6b018167dc3c535f8c7f9bafeb013bee6b018968ef54cc04a8253cb",
+  "training_input_commit": "a38e8f6b7bd377fa5e4eb89a6659ec8e749530de",
+  "transform": "TPS",
+  "selected_as": "Provisional distributed-control candidate for full-raster and new-feature review; not accepted",
+  "geographic_acceptance": false
+}

@@ -1,0 +1,117 @@
+{
+  "count": 3,
+  "rms_ground_m": 63.89464302666187,
+  "median_ground_m": 64.35514301472675,
+  "p95_ground_m": 68.17246818666611,
+  "max_ground_m": 68.5966154279927,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 17.443893566279403,
+  "mean_north_ground_m": -43.401787363074455,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Inset southern islet northeastern horn tip",
+      "role": "check",
+      "pixel_xy": [
+        4880,
+        1515
+      ],
+      "lonlat": [
+        -64.52285279608107,
+        44.10216307271917
+      ],
+      "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+      "reference_objectid": 18597,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18597,
+      "nearest_unfiltered_distance_guide_px": 0.4174042764710308,
+      "selected_distance_guide_px": 0.4174042764710308,
+      "guide_reference_pixel_xy": [
+        4867.386091326131,
+        1543.841381533537
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations.",
+      "predicted_lonlat": [
+        -64.52232127641794,
+        44.1018042878744
+      ],
+      "error_ground_m": 58.31377317488374,
+      "east_ground_m": 42.55820636234792,
+      "north_ground_m": -39.86596559863563
+    },
+    {
+      "id": "IQ02",
+      "label": "Inset southern islet southwestern low shore",
+      "role": "check",
+      "pixel_xy": [
+        4856,
+        1537
+      ],
+      "lonlat": [
+        -64.524039611333,
+        44.10056309584306
+      ],
+      "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+      "reference_objectid": 18597,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18597,
+      "nearest_unfiltered_distance_guide_px": 8.141042326715336,
+      "selected_distance_guide_px": 8.141042326715336,
+      "guide_reference_pixel_xy": [
+        4839.880165779672,
+        1565.8598396867746
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations.",
+      "predicted_lonlat": [
+        -64.52338087397303,
+        44.10023126471684
+      ],
+      "error_ground_m": 64.35514301472675,
+      "east_ground_m": 52.7457886706155,
+      "north_ground_m": -36.870939911544205
+    },
+    {
+      "id": "IQ03",
+      "label": "Inset mainland southeast rounded shore turn",
+      "role": "check",
+      "pixel_xy": [
+        4667,
+        1422
+      ],
+      "lonlat": [
+        -64.53909628469343,
+        44.1027176449287
+      ],
+      "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+      "reference_objectid": 8900,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8900,
+      "nearest_unfiltered_distance_guide_px": 1.4205108249571796,
+      "selected_distance_guide_px": 1.4205108249571796,
+      "guide_reference_pixel_xy": [
+        4665.197838399676,
+        1440.763566743699
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; Town Lake source correction before first fit and score. Inset uses separately inspected physical shoreline observations.",
+      "predicted_lonlat": [
+        -64.53963298015998,
+        44.10223644112266
+      ],
+      "error_ground_m": 68.5966154279927,
+      "east_ground_m": -42.97231433412521,
+      "north_ground_m": -53.46845657904354
+    }
+  ],
+  "fit_sha256": "8d18ea3301ef4ed76745f3b933a6aab06aa6e413f582d01573acfbaa08f7ecc0",
+  "checks_sha256": "691b8c50b41ed0acc5bdefa89a541e6f59bb2ff337ed8f691cdd86b5207b6f79",
+  "status": "Reserved before first component fit and score"
+}

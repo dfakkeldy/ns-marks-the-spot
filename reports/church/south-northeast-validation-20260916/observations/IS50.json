@@ -1,0 +1,63 @@
+{
+  "id": "IS50",
+  "label": "Nile Brook / South Nile Brook confluence",
+  "role": "check",
+  "recorded_at": "2026-09-16T03:39:47.465441+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      31200,
+      2800
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/nile-native.jpg",
+  "source_crop_sha256": "7a3a4a03f2b2427aa166f4d2bab9dbd964e3b6d603468fd7db8370fb91384238",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    562,
+    452
+  ],
+  "pixel_xy": [
+    31762,
+    3252
+  ],
+  "lonlat": [
+    -60.93342722974329,
+    46.341581284194895
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 187960,
+      "vertex": 143
+    },
+    {
+      "feature_id": 272344,
+      "vertex": 343
+    },
+    {
+      "feature_id": 272346,
+      "vertex": 0
+    },
+    {
+      "feature_id": 277416,
+      "vertex": 118
+    }
+  ],
+  "reference_kind": "Original single-line water confluence",
+  "uncertainty_ground_m": 150,
+  "point_definition": "North-going source branch and eastern South Branch meet, with the combined channel continuing west.",
+  "identity_evidence": "The source labels North Branch Nile Brook and South Branch, and shows the northern channel swinging west, east and west again before joining the eastern branch. The southern branch bows southeast farther upstream, and the joined stream runs west through the valley flank. This matches the original named network and neighbouring drainage. A fourth, smaller unnamed reference tributary shares the node but is not clearly drawn in the historical scan; it is not used as an independent matching feature. The chosen pixel is the clear main-branch convergence, away from lettering and hatching.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and selection"
+}

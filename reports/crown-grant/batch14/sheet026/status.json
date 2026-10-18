@@ -1,0 +1,46 @@
+{
+  "sheet": "026",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL FAILED; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/026.pdf",
+    "pdf_sha256": "980b66e7f3e2601417dd77817aafbce25cb204fc33231b52d0ada9b0141ce906",
+    "jpeg_sha256": "d07ceffb64b55a362a51a8f003049d74e05f3fa4fd1fdcc6b6e716b38b03709d",
+    "dimensions": [
+      5464,
+      3681
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 5,
+      "rms_ground_m": 103.52941962631171,
+      "rms_gate_passed": false,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "All adopted controls and checks are in the southern half. The northern half, northwestern interior, river corridors and much of the coast remain independently unvalidated.",
+    "Four checks pair with control waterbodies; Forbes Lake is separate. The small Sinclair Island north/south pair provides little spatially independent information.",
+    "Thin generalized lake shores, small island depictions and cape extrema carry 24 px working source uncertainty.",
+    "A constrained similarity limits unsupported shear; a numerical pass would not establish accuracy outside the southern sampled strip.",
+    "RMS103.53m exceeds100m and median104.80m exceeds75m."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 103.53 m, median 104.80 m, P95 133.91 m, maximum 135.47 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "The full mapped frame retains the northern interior, rivers, all southern lakes and tidal bays. Adopted geographic support is confined to the southern half; retained content must not be confused with validated geography."
+  }
+}

@@ -1,10 +1,17 @@
 import GeoCore
 import MapCatalog
 import NSDataServices
+import PhotosUI
 import SwiftUI
 import UniformTypeIdentifiers
 
 struct TransparencySliderView: View {
+    /// A definite touch target that scales with the reader's text, not a
+    /// minimum. A minimum lets the enclosing row propose whatever width it has
+    /// left, so the target is only as certain as the layout around it; the
+    /// rail's MapControlIcon has always sized itself this way.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let viewModel: OverlayViewModel
     /// The user's own maps. Optional because they are a separate concern from
     /// the catalogued layers, and a panel shown without them (a preview, a
@@ -18,6 +25,10 @@ struct TransparencySliderView: View {
     var onEditLayer: ((UserVectorsViewModel.Row) -> Void)?
     /// Starts an empty layer to draw into.
     var onNewDrawingLayer: (() -> Void)?
+    /// The device photo library, shown as a catalogue-free My Maps row.
+    var photoMap: PhotoMapViewModel?
+    /// PhotosPicker items from the photo-map row, classified by the container.
+    var onPlacePhotos: (([PhotosPickerItem]) -> Void)?
     @Binding var isExpanded: Bool
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -67,10 +78,10 @@ struct TransparencySliderView: View {
                     }
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 20))
+                        .font(.title3)
                         .foregroundStyle(.secondary)
                         .symbolRenderingMode(.hierarchical)
-                        .frame(width: 44, height: 44)
+                        .frame(width: controlTarget, height: controlTarget)
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -128,15 +139,13 @@ struct TransparencySliderView: View {
         // Held from here on, so the sections the panel opened with stay open
         // while the reader changes what the map is.
         .onAppear { expandedCategories = openCategories.wrappedValue }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 4)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.white.opacity(0.15), lineWidth: 1)
-        )
+        // The same surface as every other panel over the map, so iOS 26 does
+        // not show one card in glass beside another in material. The hand-drawn
+        // stroke goes with it: glass draws its own edge, and a second one over
+        // the top reads as a sticker.
+        .mapChromeSurface(interactive: true, shadow: (0.15, 10, 4))
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("layer-panel")
         .sheet(isPresented: Binding(
             get: { viewModel.isShowingLicenceSheet },
             set: { if !$0 { viewModel.dismissLicenceSheet() } }
@@ -153,6 +162,7 @@ struct TransparencySliderView: View {
     /// is the whole of what the My Maps heading has to count.
     private var addedMapCount: Int {
         (userMaps?.rows.count ?? 0) + (userVectors?.rows.count ?? 0)
+            + (photoMap == nil ? 0 : 1)
     }
 
     /// What a section holds besides its layer rows.
@@ -191,7 +201,7 @@ struct TransparencySliderView: View {
                 get: { viewModel.baseMapType },
                 set: { viewModel.setBaseMapType($0) }
             )) {
-                ForEach(MapBaseType.allCases) { type in
+                ForEach(viewModel.availableBaseMapTypes) { type in
                     Text(type.rawValue).tag(type)
                 }
             }
@@ -265,6 +275,8 @@ struct TransparencySliderView: View {
                     Button(action: onNewDrawingLayer) {
                         Label("Draw", systemImage: "pencil.and.outline")
                             .font(.caption)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                 }
 
@@ -275,6 +287,8 @@ struct TransparencySliderView: View {
                 } label: {
                     Label("Import", systemImage: "plus")
                         .font(.caption)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier("import-user-file")
             }
@@ -286,6 +300,10 @@ struct TransparencySliderView: View {
                 guard case .success(let urls) = result else { return }
                 Task { await UserFileImport.load(urls, maps: userMaps, vectors: userVectors) }
             }
+        }
+
+        if let photoMap, let onPlacePhotos {
+            PhotoMapRow(viewModel: photoMap, onPicked: onPlacePhotos)
         }
 
         if let userMaps {
@@ -435,10 +453,16 @@ private struct LayerProvenanceDisclosure: View {
                 line("Coverage", descriptor.coverage)
                 line("Zoom", "\(descriptor.minZoom)–\(descriptor.maxZoom)")
 
+                // The routes to what a source says about itself. Both were an
+                // eleven-point line with no target around them.
                 if let sourceURL = descriptor.sourceURL {
-                    Link("Official source", destination: sourceURL)
-                        .font(.caption2)
-                        .padding(.top, 2)
+                    Link(destination: sourceURL) {
+                        Text("Official source")
+                            .font(.footnote)
+                            .frame(minHeight: 44, alignment: .leading)
+                            .contentShape(Rectangle())
+                    }
+                    .padding(.top, 2)
                 }
                 // Beside the source link, as the web puts it. The download
                 // page hands over the database; this is where the source says
@@ -446,8 +470,12 @@ private struct LayerProvenanceDisclosure: View {
                 // needs before deciding whether a hollow well marker is a
                 // location or a report about an area.
                 if let manualURL = descriptor.manualURL {
-                    Link("Accuracy definitions", destination: manualURL)
-                        .font(.caption2)
+                    Link(destination: manualURL) {
+                        Text("Accuracy definitions")
+                            .font(.footnote)
+                            .frame(minHeight: 44, alignment: .leading)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -456,6 +484,8 @@ private struct LayerProvenanceDisclosure: View {
             Text("Source & scale")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                .contentShape(Rectangle())
         }
         .tint(.secondary)
         .accessibilityHint("Source date, scale, coverage and zoom range for \(descriptor.name)")
@@ -470,18 +500,34 @@ private struct LayerProvenanceDisclosure: View {
 }
 
 private struct LayerRowView: View {
+    /// A definite touch target that scales with the reader's text, not a
+    /// minimum. A minimum lets the enclosing row propose whatever width it has
+    /// left, so the target is only as certain as the layout around it; the
+    /// rail's MapControlIcon has always sized itself this way.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let row: LayerRow
     let viewModel: OverlayViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dynamicTypeSize) private var typeSize
 
+    /// The row's icon and the chip behind it, scaled against the row's own
+    /// name. Frozen at 16 points in a 28 point chip, the icon stayed the size
+    /// it is at the default text size while the name beside it grew. Capped,
+    /// not frozen: past 44 points the icon column starts taking the width the
+    /// name needs, and the name is what says which source a row belongs to.
+    /// The glyph keeps its share of the chip either way.
+    @ScaledMetric(relativeTo: .subheadline) private var scaledIconChip: CGFloat = 28
+    private var iconChip: CGFloat { min(scaledIconChip, 44) }
+    private var iconGlyph: CGFloat { iconChip * 16 / 28 }
+
     var body: some View {
         VStack(spacing: 8) {
             HStack(spacing: 12) {
                 Image(systemName: LayerRowView.icon(for: row.descriptor.id))
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.system(size: iconGlyph, weight: .medium))
                     .foregroundStyle(row.isVisible ? .blue : .secondary)
-                    .frame(width: 28, height: 28)
+                    .frame(width: iconChip, height: iconChip)
                     .background(row.isVisible ? Color.blue.opacity(0.15) : Color.primary.opacity(0.05))
                     .clipShape(RoundedRectangle(cornerRadius: 6))
 
@@ -511,8 +557,14 @@ private struct LayerRowView: View {
                             // nobody guesses, and the layer reads as broken
                             // when it was the moment that was.
                             if runtime.emphasis == .broken, row.hasOpacityControl {
-                                Button("Retry tiles") { viewModel.retryTiles(for: row.id) }
-                                    .font(.caption2.weight(.medium))
+                                Button {
+                                    viewModel.retryTiles(for: row.id)
+                                } label: {
+                                    Text("Retry tiles")
+                                        .font(.footnote.weight(.medium))
+                                        .frame(minHeight: 44, alignment: .leading)
+                                        .contentShape(Rectangle())
+                                }
                                     .buttonStyle(.plain)
                                     .foregroundStyle(.blue)
                                     .accessibilityLabel("Retry \(row.name) tiles")
@@ -538,9 +590,9 @@ private struct LayerRowView: View {
                         viewModel.toggleVisibility(row.id)
                     } label: {
                         Image(systemName: "lock.fill")
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
-                            .frame(width: 44, height: 44)
+                            .frame(width: controlTarget, height: controlTarget)
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
@@ -624,7 +676,7 @@ private struct LayerRowView: View {
         if !row.isAvailable {
             switch row.descriptor.availability {
             case .rightsPending:
-                return "Rights pending · not yet displayed"
+                return LayerUse.queryLockReason(for: row.descriptor) ?? "Rights pending · not yet displayed"
             case .hostingPending:
                 // Not "in this build": nothing hosts these anywhere. The
                 // Fletcher case below is the one where a build has no address
@@ -727,17 +779,20 @@ private struct WellAccuracyFilterControl: View {
                 HStack(spacing: 6) {
                     WellAccuracySwatch(accuracy: band.accuracy)
                     Text(band.label)
-                        .font(.caption2)
+                        .font(.footnote)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
+            // The same tier as the evidence surfaces: a sentence saying four
+            // of the five bands are not surveyed positions cannot be the
+            // faintest thing in the legend it belongs to.
             Text(
                 "Only surveyed wells are drawn as solid points. Hollow markers "
                 + "report that a well exists somewhere nearby, not where it is."
             )
-            .font(.caption2)
-            .foregroundStyle(.secondary)
+            .font(.footnote)
+            .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
         }
     }

@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Griswold Lake northern finger",
+    [
+      822,
+      594
+    ],
+    [
+      899,
+      621
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Pond west of Elbow Lake northern tip",
+    [
+      929,
+      938
+    ],
+    [
+      1008,
+      967
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Duck Lake north of Island Lake northern tip",
+    [
+      4611,
+      739
+    ],
+    [
+      4694,
+      771
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Duck Pond east of Catamaran Lake northern tip",
+    [
+      3677,
+      1422
+    ],
+    [
+      3744,
+      1441
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Pond north of Flat Lake northern tip",
+    [
+      4960,
+      1242
+    ],
+    [
+      5043,
+      1269
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Western Arm Jeddore main island northwest tip",
+    [
+      3937,
+      3310
+    ],
+    [
+      3975,
+      3332
+    ],
+    "WACOIS10"
+  ]
+]

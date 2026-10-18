@@ -1,0 +1,11 @@
+{
+  "trial": "distributed-14-tps",
+  "before_scoring": true,
+  "promote_unchanged": ["R21", "R26", "H03", "G01"],
+  "geographic_reason": "Separate northwest-mainland McMillan basin, northwestern-interior McDonald basin, eastern Framboise peninsula pond and southern Green Island edge. The new isolated R26/R27 trials demonstrate broad response outside the local pair; these independently reviewed features provide support across those regions rather than two closely spaced northwest basins alone.",
+  "retained_diagnostic_count": 20,
+  "no_coordinate_adjustments": true,
+  "alias_rule": "Remove every promoted feature from all evaluated check phases. Preserve first results and prior rejected promotions unchanged.",
+  "selection": "Compare identical 20 retained diagnostics against v4, including individual errors, bias and regional spread. Reject folds and strong unsupported local deformation. Working target remains 250 ground-metre independent RMS; a diagnostic improvement is only provisional and requires new distributed fresh checks.",
+  "geographic_acceptance": false
+}

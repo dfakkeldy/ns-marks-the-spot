@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Seven controls span a northern central lake, middle and southeastern lakes, and Pinnacle Island in the southwestern corner, supplying non-collinear geographic support.",
+  "corrections": [
+    "Modern Cleveland Lake southern check and Economy Lake eastern control refined to their physical extrema using native geometry before fitting."
+  ],
+  "not_adopted": [
+    "Unnamed lake west of British Lake without confident precise reference match",
+    "Simpson Lake complex northern outlet and Five Islands tidal shore configurations not forced into controls"
+  ],
+  "limitations": [
+    "All seven checks share physical lake or island systems with controls; they are geographically correlated.",
+    "Northwestern interior, far eastern border and inland rivers lack independent validation.",
+    "18 px working source uncertainty for thick generalized shoreline boundaries."
+  ]
+}

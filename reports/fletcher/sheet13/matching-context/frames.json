@@ -1,0 +1,100 @@
+[
+  {
+    "image": "mclean.jpg",
+    "native_box": [
+      8150,
+      2220,
+      9300,
+      2820
+    ],
+    "rotation_degrees": 0,
+    "source_grid_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/mclean-grid.png",
+    "modern_guide_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/mclean-modern.png",
+    "guide": "Old printed-graticule least-squares affine, search only; no fitting control derives its location from this guide.",
+    "source_image_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f"
+  },
+  {
+    "image": "northwest.jpg",
+    "native_box": [
+      1500,
+      1100,
+      4200,
+      3000
+    ],
+    "rotation_degrees": 0,
+    "source_grid_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/northwest-grid.png",
+    "modern_guide_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/northwest-modern.png",
+    "guide": "Old printed-graticule least-squares affine, search only; no fitting control derives its location from this guide.",
+    "source_image_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f"
+  },
+  {
+    "image": "central.jpg",
+    "native_box": [
+      4000,
+      2400,
+      7400,
+      4700
+    ],
+    "rotation_degrees": 0,
+    "source_grid_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/central-grid.png",
+    "modern_guide_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/central-modern.png",
+    "guide": "Old printed-graticule least-squares affine, search only; no fitting control derives its location from this guide.",
+    "source_image_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f"
+  },
+  {
+    "image": "northbrook.jpg",
+    "native_box": [
+      4600,
+      5950,
+      5550,
+      6500
+    ],
+    "rotation_degrees": 0,
+    "source_grid_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/northbrook-grid.png",
+    "modern_guide_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/northbrook-modern.png",
+    "guide": "Old printed-graticule least-squares affine, search only; no fitting control derives its location from this guide.",
+    "source_image_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f"
+  },
+  {
+    "image": "millbrook.jpg",
+    "native_box": [
+      3250,
+      5500,
+      4100,
+      5875
+    ],
+    "rotation_degrees": 0,
+    "source_grid_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/millbrook-grid.png",
+    "modern_guide_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/millbrook-modern.png",
+    "guide": "Old printed-graticule least-squares affine, search only; no fitting control derives its location from this guide.",
+    "source_image_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f"
+  },
+  {
+    "image": "mcdonald-upper.jpg",
+    "native_box": [
+      9200,
+      4400,
+      9600,
+      4780
+    ],
+    "rotation_degrees": 0,
+    "source_grid_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/mcdonald-upper-grid.png",
+    "modern_guide_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/mcdonald-upper-modern.png",
+    "guide": "Old printed-graticule least-squares affine, search only; no fitting control derives its location from this guide.",
+    "source_image_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f"
+  },
+  {
+    "image": "ainslie-mouth.jpg",
+    "native_box": [
+      3200,
+      5900,
+      3850,
+      6450
+    ],
+    "rotation_degrees": 0,
+    "source_grid_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/ainslie-mouth-grid.png",
+    "modern_guide_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/search/ainslie-mouth-modern.png",
+    "guide": "Old printed-graticule least-squares affine, search only; no fitting control derives its location from this guide.",
+    "source_image_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f"
+  }
+]

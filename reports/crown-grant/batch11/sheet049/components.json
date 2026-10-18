@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5627 x 3916 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 424.26 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          80,
+          110
+        ],
+        [
+          5520,
+          110
+        ],
+        [
+          5520,
+          3795
+        ],
+        [
+          80,
+          3795
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Chignecto Bay, Cumberland Basin, Shepody Bay, Grindstone Island, Cape Maringouin, Rockport, Johnsons Mills, the generalized St Mary Point and New Brunswick shoreline, Joggins, Lower Cove, Boss Point, Downing Head, Ragged Reef, Two Rivers and River Hebert. All water and original grant-list blocks remain retained; no inset or internal crop is introduced."
+    }
+  ]
+}

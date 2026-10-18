@@ -1,0 +1,14 @@
+{
+  "original_fit": "regional-fit.json",
+  "original_sha256": "7bc6e88a856b2394804cf40c45c284cb5d4d10870a1b2fe28ab908ba3b514367",
+  "corrected_fit": "reviewed-fit.json",
+  "corrected_sha256": "859ba33527e11723fc76527ef48ba953d21832d5e98ab81f08257c285900dd74",
+  "physical_inputs_identical": true,
+  "changes": "C19 name corrected from Mink to unnamed tributary north of Mink; original scored trial retained. Modern J1484 arm OBJECTID189264 is unnamed; Mink is J1527/OBJECTID272245. No physical location changed.",
+  "evidence_native_box": [
+    5780,
+    6400,
+    7040,
+    6720
+  ]
+}

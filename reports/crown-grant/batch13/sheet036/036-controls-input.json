@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "West Allen Lake northern roof",
+    [
+      865,
+      1573
+    ],
+    [
+      893,
+      1645
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Small lake east of South Tremont northern tip",
+    [
+      2147,
+      1062
+    ],
+    [
+      2174,
+      1119
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Half Moon Lake northern tip",
+    [
+      5326,
+      1102
+    ],
+    [
+      5375,
+      1120
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Milton Lake southern tip",
+    [
+      3065,
+      3468
+    ],
+    [
+      3120,
+      3552
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Small lake west of Lake Paul northern tip",
+    [
+      4039,
+      2621
+    ],
+    [
+      4086,
+      2675
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Kerr Lake northern roof",
+    [
+      5260,
+      3161
+    ],
+    [
+      5320,
+      3201
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q02",
+    "label": "Lake Killarney southeast lobe southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2715,
+      3843
+    ],
+    "lonlat": [
+      -63.83094958730458,
+      45.85166986335859
+    ],
+    "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+    "reference_objectid": 133372,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133372,
+    "nearest_unfiltered_distance_guide_px": 2.3927469268486656,
+    "selected_distance_guide_px": 2.3927469268486656,
+    "guide_reference_pixel_xy": [
+      2750.6914189071395,
+      3861.370960101718
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

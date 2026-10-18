@@ -105,12 +105,12 @@ struct TaxSaleCatalogTests {
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "05078472") == nil)
     }
 
-    @Test func victoriaCarriesItsSevenItemsAsAmountsOwing() throws {
+    @Test func victoriaCarriesItsFourAdvertisedItemsAsAmountsOwing() throws {
         let event = try #require(
             TaxSaleCatalog.bundled.event(id: "victoria-county-2026-09-14")
         )
 
-        #expect(event.listings.count == 7)
+        #expect(event.listings.count == 4)
         #expect(event.eventType == .sealedTender)
         #expect(event.publishedOn == "2026-08-13")
         // What the county owes itself, not a price. Labelling it a minimum bid
@@ -126,27 +126,23 @@ struct TaxSaleCatalogTests {
         #expect(context.event.id == event.id)
     }
 
-    @Test func halifaxKeepsTheRowsNSPRDWillNotDrawOutOfTheMappedList() throws {
+    @Test func halifaxMapsEveryAdvertisedSept11ScheduleARow() throws {
         let event = try #require(TaxSaleCatalog.bundled.event(id: "halifax-2026-09-15"))
 
-        // Twenty-nine rows in Schedule A; two of them have no exact NSPRD
-        // parcel, so they are carried as exceptions rather than as listings a
-        // reader could select on the map.
-        #expect(event.listings.count == 27)
-        #expect(event.geometryExceptions.count == 2)
-        #expect(event.geometryExceptions.map(\.aan) == ["09417036", "09417044"])
-        #expect(event.geometryExceptions.flatMap(\.pids) == ["41051889", "41051897"])
-        for exception in event.geometryExceptions {
-            #expect(exception.reason == .noNSPRDGeometry)
-            #expect(exception.checkedOn == "2026-08-15")
-            // Still an official row, so it keeps the record id its listing had.
-            #expect(exception.recordID.hasPrefix("halifax-2026-09-15-item-"))
-        }
+        // Ten rows / 11 PIDs in the sept11 Schedule A. One further advertised
+        // row left the sept10 draft; the two parking-space PIDs that previously
+        // had empty NSPRD geometry remain unpublished.
+        #expect(event.listings.count == 10)
+        #expect(event.pids.count == 11)
+        #expect(event.geometryExceptions.isEmpty)
 
-        // An excepted PID is not answerable as a mapped parcel, which is the
-        // whole point of holding it apart.
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00015966") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "41051889") == nil)
+        #expect(!event.pids.contains("00015966"))
         #expect(!event.pids.contains("41051889"))
+        #expect(!event.pids.contains("41051897"))
+        #expect(!event.pids.contains("00535617"))
+        #expect(!event.pids.contains("41274085"))
     }
 
     @Test func cbrmIsCarriedAsHistoryRatherThanAnOffering() throws {

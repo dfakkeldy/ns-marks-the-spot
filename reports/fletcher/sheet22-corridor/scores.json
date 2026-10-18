@@ -1,0 +1,596 @@
+{
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "selected_model": "19-control TPS",
+  "input_hashes": {
+    "revised-observations.json": "b829ca81a9b3da7df3e6bbae6cfc04567843407e48b33b0e197b032c422d6241",
+    "checks.json": "9e42f04197073da686eaee543c8fa2e01dc08201bddef956da977502d2400221",
+    "validation-checks.json": "73667e7d7542b85e79d2d5abcdee6f6c7953b190c5e89add55e0e87b278984b3",
+    "tps-validation-checks.json": "6f69f48ecfcd5cdf7201318462dd27db47268cbdcd39f558961cb93465ea7ed4",
+    "model-revision.json": "492dcd11520898baa1ea17bed84a1134b7a5cf02aaff9b5a4eff2da1c0f90fcb"
+  },
+  "interpretation": "Only G is fresh validation of selected TPS. C was consumed to add N01/N02; F selected the TPS revision. Q remains whole-sheet diagnosis. All results retained.",
+  "models": {
+    "17-affine": {
+      "Q": {
+        "median_ground_m": 112.65544491466058,
+        "worst_ground_m": 277.56260840490614,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "Q01",
+            "predicted_lonlat": [
+              -61.419155983761314,
+              45.74148640814481
+            ],
+            "error_ground_m": 264.26787818975964
+          },
+          {
+            "id": "Q02",
+            "predicted_lonlat": [
+              -61.26529871046919,
+              45.72074341218698
+            ],
+            "error_ground_m": 56.36784872876057
+          },
+          {
+            "id": "Q03",
+            "predicted_lonlat": [
+              -61.54576561610237,
+              45.59346280988445
+            ],
+            "error_ground_m": 138.7806600275357
+          },
+          {
+            "id": "Q04",
+            "predicted_lonlat": [
+              -61.55076053873845,
+              45.64014103474782
+            ],
+            "error_ground_m": 277.56260840490614
+          },
+          {
+            "id": "Q05",
+            "predicted_lonlat": [
+              -61.34427904570139,
+              45.69955858140091
+            ],
+            "error_ground_m": 131.58207120637258
+          },
+          {
+            "id": "Q06",
+            "predicted_lonlat": [
+              -61.550482115297584,
+              45.6490253853058
+            ],
+            "error_ground_m": 93.72881862294858
+          },
+          {
+            "id": "Q07",
+            "predicted_lonlat": [
+              -61.56851865294839,
+              45.69294738822322
+            ],
+            "error_ground_m": 87.40553885649045
+          },
+          {
+            "id": "Q08",
+            "predicted_lonlat": [
+              -61.51801426954297,
+              45.68353839850961
+            ],
+            "error_ground_m": 64.39023340526924
+          }
+        ]
+      },
+      "C": {
+        "median_ground_m": 101.40912459308313,
+        "worst_ground_m": 109.4120073612427,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "C01",
+            "predicted_lonlat": [
+              -61.46394903004517,
+              45.74331354482082
+            ],
+            "error_ground_m": 109.11836473921053
+          },
+          {
+            "id": "C02",
+            "predicted_lonlat": [
+              -61.44336428307508,
+              45.688162599032225
+            ],
+            "error_ground_m": 109.4120073612427
+          },
+          {
+            "id": "C04",
+            "predicted_lonlat": [
+              -61.3812066051925,
+              45.634640179475966
+            ],
+            "error_ground_m": 55.112325554309706
+          },
+          {
+            "id": "C05",
+            "predicted_lonlat": [
+              -61.35708690620273,
+              45.62986228372451
+            ],
+            "error_ground_m": 93.69988444695572
+          }
+        ]
+      },
+      "F": {
+        "median_ground_m": 121.95083058532754,
+        "worst_ground_m": 152.39237857428517,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "F01",
+            "predicted_lonlat": [
+              -61.46350477554376,
+              45.7330760014221
+            ],
+            "error_ground_m": 152.39237857428517
+          },
+          {
+            "id": "F02",
+            "predicted_lonlat": [
+              -61.44016598659148,
+              45.687930908618206
+            ],
+            "error_ground_m": 113.02806823097357
+          },
+          {
+            "id": "F03",
+            "predicted_lonlat": [
+              -61.377236487477354,
+              45.635130084360895
+            ],
+            "error_ground_m": 130.8735929396815
+          },
+          {
+            "id": "F04",
+            "predicted_lonlat": [
+              -61.35743187033934,
+              45.62641270203195
+            ],
+            "error_ground_m": 50.326225518677305
+          }
+        ]
+      },
+      "G": {
+        "median_ground_m": 155.58451919293327,
+        "worst_ground_m": 199.2713201085765,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "G01",
+            "predicted_lonlat": [
+              -61.463576570807135,
+              45.72539735102372
+            ],
+            "error_ground_m": 198.73059455984384
+          },
+          {
+            "id": "G02",
+            "predicted_lonlat": [
+              -61.46076579220259,
+              45.73267562359118
+            ],
+            "error_ground_m": 199.2713201085765
+          },
+          {
+            "id": "G03",
+            "predicted_lonlat": [
+              -61.378531909131574,
+              45.63510672084099
+            ],
+            "error_ground_m": 111.69145950090711
+          },
+          {
+            "id": "G04",
+            "predicted_lonlat": [
+              -61.34638069422289,
+              45.61798665863388
+            ],
+            "error_ground_m": 112.43844382602269
+          }
+        ]
+      }
+    },
+    "19-affine": {
+      "Q": {
+        "median_ground_m": 119.0705929293674,
+        "worst_ground_m": 283.7430841085266,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "Q01",
+            "predicted_lonlat": [
+              -61.4190779052704,
+              45.74167229941022
+            ],
+            "error_ground_m": 248.09503438444477
+          },
+          {
+            "id": "Q02",
+            "predicted_lonlat": [
+              -61.265268681906036,
+              45.7207827721372
+            ],
+            "error_ground_m": 56.36686348622368
+          },
+          {
+            "id": "Q03",
+            "predicted_lonlat": [
+              -61.54570368589481,
+              45.593491274499094
+            ],
+            "error_ground_m": 143.89194565307497
+          },
+          {
+            "id": "Q04",
+            "predicted_lonlat": [
+              -61.55068154672583,
+              45.640251794671855
+            ],
+            "error_ground_m": 283.7430841085266
+          },
+          {
+            "id": "Q05",
+            "predicted_lonlat": [
+              -61.344235097491016,
+              45.6996195366051
+            ],
+            "error_ground_m": 126.14020833560357
+          },
+          {
+            "id": "Q06",
+            "predicted_lonlat": [
+              -61.55040020229875,
+              45.64915090774769
+            ],
+            "error_ground_m": 91.33158425140996
+          },
+          {
+            "id": "Q07",
+            "predicted_lonlat": [
+              -61.56841711336992,
+              45.693159948254674
+            ],
+            "error_ground_m": 112.00097752313123
+          },
+          {
+            "id": "Q08",
+            "predicted_lonlat": [
+              -61.51792937806635,
+              45.683698463590574
+            ],
+            "error_ground_m": 55.7355485715186
+          }
+        ]
+      },
+      "C": {
+        "median_ground_m": 89.77625780980627,
+        "worst_ground_m": 96.92382420099341,
+        "passes_numeric_gate": true,
+        "checks": [
+          {
+            "id": "C01",
+            "predicted_lonlat": [
+              -61.46385838465182,
+              45.74353499188359
+            ],
+            "error_ground_m": 84.20384604691911
+          },
+          {
+            "id": "C02",
+            "predicted_lonlat": [
+              -61.44329774646512,
+              45.68827626537099
+            ],
+            "error_ground_m": 96.92382420099341
+          },
+          {
+            "id": "C04",
+            "predicted_lonlat": [
+              -61.38117470085073,
+              45.634618485700265
+            ],
+            "error_ground_m": 56.963555957495565
+          },
+          {
+            "id": "C05",
+            "predicted_lonlat": [
+              -61.357063046941505,
+              45.629815004461754
+            ],
+            "error_ground_m": 95.34866957269342
+          }
+        ]
+      },
+      "F": {
+        "median_ground_m": 116.61595468150493,
+        "worst_ground_m": 128.97597645335634,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "F01",
+            "predicted_lonlat": [
+              -61.46341770592791,
+              45.73327989966922
+            ],
+            "error_ground_m": 128.97597645335634
+          },
+          {
+            "id": "F02",
+            "predicted_lonlat": [
+              -61.4401003813911,
+              45.68804186321869
+            ],
+            "error_ground_m": 104.40645460096982
+          },
+          {
+            "id": "F03",
+            "predicted_lonlat": [
+              -61.3772054771403,
+              45.63510633259228
+            ],
+            "error_ground_m": 128.82545476204004
+          },
+          {
+            "id": "F04",
+            "predicted_lonlat": [
+              -61.35740908169736,
+              45.6263598525918
+            ],
+            "error_ground_m": 56.34039434896763
+          }
+        ]
+      },
+      "G": {
+        "median_ground_m": 147.3291081788716,
+        "worst_ground_m": 176.50398226250707,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "G01",
+            "predicted_lonlat": [
+              -61.46349207473334,
+              45.725588378426124
+            ],
+            "error_ground_m": 176.50398226250707
+          },
+          {
+            "id": "G02",
+            "predicted_lonlat": [
+              -61.46067958848515,
+              45.73287686158168
+            ],
+            "error_ground_m": 175.9603279423428
+          },
+          {
+            "id": "G03",
+            "predicted_lonlat": [
+              -61.37850056107927,
+              45.63508387082232
+            ],
+            "error_ground_m": 114.78087296937238
+          },
+          {
+            "id": "G04",
+            "predicted_lonlat": [
+              -61.346363693413714,
+              45.61791155810282
+            ],
+            "error_ground_m": 118.6978884154004
+          }
+        ]
+      }
+    },
+    "19-TPS": {
+      "Q": {
+        "median_ground_m": 151.34526189831485,
+        "worst_ground_m": 304.07104015727407,
+        "passes_numeric_gate": false,
+        "checks": [
+          {
+            "id": "Q01",
+            "predicted_lonlat": [
+              -61.41878144575989,
+              45.74207778275382
+            ],
+            "error_ground_m": 221.87057885399128
+          },
+          {
+            "id": "Q02",
+            "predicted_lonlat": [
+              -61.26466461895155,
+              45.72029803203769
+            ],
+            "error_ground_m": 25.302518300206934
+          },
+          {
+            "id": "Q03",
+            "predicted_lonlat": [
+              -61.546032244914066,
+              45.59328081614703
+            ],
+            "error_ground_m": 117.7132970805414
+          },
+          {
+            "id": "Q04",
+            "predicted_lonlat": [
+              -61.55209118869889,
+              45.63935007232702
+            ],
+            "error_ground_m": 304.07104015727407
+          },
+          {
+            "id": "Q05",
+            "predicted_lonlat": [
+              -61.3436581761508,
+              45.7002031086198
+            ],
+            "error_ground_m": 101.1527544247406
+          },
+          {
+            "id": "Q06",
+            "predicted_lonlat": [
+              -61.55198730910225,
+              45.64815421106895
+            ],
+            "error_ground_m": 160.7516974154975
+          },
+          {
+            "id": "Q07",
+            "predicted_lonlat": [
+              -61.57056261235323,
+              45.69188913276253
+            ],
+            "error_ground_m": 149.83651248759344
+          },
+          {
+            "id": "Q08",
+            "predicted_lonlat": [
+              -61.51908281178037,
+              45.68325810905264
+            ],
+            "error_ground_m": 152.85401130903628
+          }
+        ]
+      },
+      "C": {
+        "median_ground_m": 13.868662556551595,
+        "worst_ground_m": 163.8046371277421,
+        "passes_numeric_gate": true,
+        "checks": [
+          {
+            "id": "C01",
+            "predicted_lonlat": [
+              -61.4638454,
+              45.744292199999975
+            ],
+            "error_ground_m": 2.3702656953659495e-09
+          },
+          {
+            "id": "C02",
+            "predicted_lonlat": [
+              -61.442375099999985,
+              45.68886310000001
+            ],
+            "error_ground_m": 1.9275429351721707e-09
+          },
+          {
+            "id": "C04",
+            "predicted_lonlat": [
+              -61.380993406522435,
+              45.63536944493784
+            ],
+            "error_ground_m": 27.737325110732925
+          },
+          {
+            "id": "C05",
+            "predicted_lonlat": [
+              -61.35639443106319,
+              45.63044942711417
+            ],
+            "error_ground_m": 163.8046371277421
+          }
+        ]
+      },
+      "F": {
+        "median_ground_m": 65.96436344356276,
+        "worst_ground_m": 127.35574018100898,
+        "passes_numeric_gate": true,
+        "checks": [
+          {
+            "id": "F01",
+            "predicted_lonlat": [
+              -61.46306089005625,
+              45.73450356830988
+            ],
+            "error_ground_m": 13.31638376165708
+          },
+          {
+            "id": "F02",
+            "predicted_lonlat": [
+              -61.43922666952189,
+              45.68858808285538
+            ],
+            "error_ground_m": 47.09039779113832
+          },
+          {
+            "id": "F03",
+            "predicted_lonlat": [
+              -61.376959920314945,
+              45.63587011015713
+            ],
+            "error_ground_m": 127.35574018100898
+          },
+          {
+            "id": "F04",
+            "predicted_lonlat": [
+              -61.35666756471537,
+              45.62692632934931
+            ],
+            "error_ground_m": 84.83832909598719
+          }
+        ]
+      },
+      "G": {
+        "median_ground_m": 91.65890516399753,
+        "worst_ground_m": 165.20057748333102,
+        "passes_numeric_gate": true,
+        "checks": [
+          {
+            "id": "G01",
+            "predicted_lonlat": [
+              -61.46283511994618,
+              45.72668698473818
+            ],
+            "error_ground_m": 47.60075507868095
+          },
+          {
+            "id": "G02",
+            "predicted_lonlat": [
+              -61.46027371981743,
+              45.73410765407256
+            ],
+            "error_ground_m": 35.52441043221911
+          },
+          {
+            "id": "G03",
+            "predicted_lonlat": [
+              -61.37827903607584,
+              45.6358461324341
+            ],
+            "error_ground_m": 135.71705524931411
+          },
+          {
+            "id": "G04",
+            "predicted_lonlat": [
+              -61.34545283703135,
+              45.61828988287375
+            ],
+            "error_ground_m": 165.20057748333102
+          }
+        ]
+      }
+    }
+  },
+  "sampled_jacobian": {
+    "samples": 4730,
+    "native_step_px": 50,
+    "nonnegative_count": 0,
+    "min": -29.64980057938489,
+    "max": -22.903200316250658,
+    "limitation": "Samples include corridor surroundings; not a continuous no-fold proof."
+  },
+  "status": "limited-corridor-gate-pass"
+}

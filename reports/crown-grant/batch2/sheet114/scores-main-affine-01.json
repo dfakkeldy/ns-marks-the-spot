@@ -1,0 +1,195 @@
+{
+  "count": 6,
+  "rms_ground_m": 168.84910065357266,
+  "median_ground_m": 161.2757934939262,
+  "p95_ground_m": 237.71804723171223,
+  "max_ground_m": 242.5902787130925,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -19.72286653453915,
+  "mean_north_ground_m": 78.17925846050447,
+  "points": [
+    {
+      "id": "MQ01",
+      "label": "Sea Wolf Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3076,
+        759
+      ],
+      "lonlat": [
+        -61.26502397807037,
+        46.352357147545746
+      ],
+      "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+      "reference_objectid": 19024,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3056.0199430934736,
+        769.4000712329289
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -61.26698850686671,
+        46.35299604875222
+      ],
+      "error_ground_m": 167.05662293110183,
+      "east_ground_m": -151.20824869043642,
+      "north_ground_m": 71.0209883986098
+    },
+    {
+      "id": "MQ02",
+      "label": "Sea Wolf Island western corner",
+      "role": "check",
+      "pixel_xy": [
+        3027,
+        714
+      ],
+      "lonlat": [
+        -61.268610010238234,
+        46.35311625908472
+      ],
+      "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+      "reference_objectid": 19024,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3010.5992500081775,
+        733.8812578431098
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -61.271018955731364,
+        46.35423252835795
+      ],
+      "error_ground_m": 223.1013527875715,
+      "east_ground_m": -185.4104735278204,
+      "north_ground_m": 124.08533322610636
+    },
+    {
+      "id": "MQ03",
+      "label": "Inverness pond western lobe northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1314,
+        3025
+      ],
+      "lonlat": [
+        -61.31664267308059,
+        46.22828377526824
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 5589,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1330.318861026375,
+        3036.613184247748
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -61.31790080098612,
+        46.2285483146797
+      ],
+      "error_ground_m": 101.41354160376571,
+      "east_ground_m": -97.05669559710198,
+      "north_ground_m": 29.40585418569243
+    },
+    {
+      "id": "MQ04",
+      "label": "Inverness coastal inlet northern lip",
+      "role": "check",
+      "pixel_xy": [
+        1205,
+        2963
+      ],
+      "lonlat": [
+        -61.32602990125728,
+        46.22965412555183
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 13087,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1203.639278376184,
+        2962.1703982247273
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -61.32592834170037,
+        46.22963810683041
+      ],
+      "error_ground_m": 8.034318552829989,
+      "east_ground_m": 7.834529288777015,
+      "north_ground_m": -1.7805688505764898
+    },
+    {
+      "id": "MQ05",
+      "label": "Southern Broad Cove Marsh headland",
+      "role": "check",
+      "pixel_xy": [
+        2505,
+        2131
+      ],
+      "lonlat": [
+        -61.269882403472096,
+        46.2842766906988
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 10586,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2473.53227711661,
+        2135.6794755350566
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -61.26810810847076,
+        46.2849427723628
+      ],
+      "error_ground_m": 155.49496405675055,
+      "east_ground_m": 136.73551505577473,
+      "north_ground_m": 74.04108838639631
+    },
+    {
+      "id": "MQ06",
+      "label": "Dunvegan cove southern lip",
+      "role": "check",
+      "pixel_xy": [
+        2702,
+        2002
+      ],
+      "lonlat": [
+        -61.26162264596749,
+        46.29189773141374
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 13217,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2656.848842011357,
+        2022.3865016731434
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -61.25940639645837,
+        46.29344779495678
+      ],
+      "error_ground_m": 242.5902787130925,
+      "east_ground_m": 170.76817426357218,
+      "north_ground_m": 172.30285541679845
+    }
+  ],
+  "fit_sha256": "33df3033db59623b0280e1ce8166b2340a73b70b4dbfde16004797473fea177d",
+  "checks_sha256": "fe3125e827561945029327fa28736c6b5a6ddc5df24b47c40a8817d928e99b7e",
+  "status": "Six independent coastal/island checks; main interior and eastern edge validation remain sparse"
+}

@@ -1,0 +1,24 @@
+{
+  "points": [
+    {
+      "id": "R3-A",
+      "role": "control",
+      "pixel_xy": [
+        8970,
+        5799
+      ],
+      "lonlat": [
+        -61.25878269972843,
+        45.941108562200846
+      ],
+      "modern_objectids": [
+        198305,
+        265823,
+        265952
+      ],
+      "source_uncertainty_px": 7,
+      "identity_evidence": "Upper River Denys fork northeast/upstream of M04: long northwestern arm from Falls36 area meets northeastern stem which has its own eastern tributary farther upstream. Main turns southwest to M04 and then excluded M06. Distinguished from the small eastern historical spur between this fork and M04.",
+      "review": "Agent enlarged native crosshair inspected before scoring. Pixel8970,5799 lies at northwest/northeast/downstream branch junction; arrow85 is separate inside the fork. Two upstream tributary sequences corroborate identity."
+    }
+  ]
+}

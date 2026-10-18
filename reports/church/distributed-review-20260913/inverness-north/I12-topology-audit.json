@@ -1,0 +1,9 @@
+{
+  "id": "I12",
+  "prior_record": "../../physical-review-20260913/inverness-north/candidate-I12.json",
+  "prior_record_sha256": "8f156b259ca28dc2c2e94f9cb892460afc355d1546b1277f950161051ee8aa1d",
+  "status": "withheld from valid post-correction checks; topology contradiction",
+  "finding": "Original source crosshair is on the first northern side tributary east of First Fork. Original modern crosshair is at a junction with a substantial southern branch and northeast/east continuation. Broad source context has a separate Moises Brook southern fork farther east. These are not established as the same junction. The 1813.63 m first failure is retained as an observed discrepancy of the old proposed pair, not attributed entirely to distortion.",
+  "replacement": null,
+  "controls_do_not_use_I12": true
+}

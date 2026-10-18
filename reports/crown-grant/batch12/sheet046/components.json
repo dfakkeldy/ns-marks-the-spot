@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5710 x 3940 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 96.79 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          165,
+          105
+        ],
+        [
+          5590,
+          105
+        ],
+        [
+          5590,
+          3820
+        ],
+        [
+          165,
+          3820
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Glengarry, Sherwood, Canaan, Beech Hill, Chester Grant and Chester Basin, Duck, Round, Nine Mile, Russell, Mill, Veniot and Long lakes, Long or Ponhook/St Croix Lake, Cranberry, Timber and Big Whitford lakes, and every intervening river and land area. There is no inset or internal crop."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T09:35:31.459447+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "022",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6026,
+        5189
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5986,
+        4165
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-frame historical and modern-only screenshots inspected; decoded source/raster and opacity65/40/0/65 verified.",
+    "Full mapped frame retained; first failed fit and all checks unchanged.",
+    "Warning/error console empty."
+  ]
+}

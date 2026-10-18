@@ -1,0 +1,225 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 201,
+  "export_sha256": "49ac01a08eb7f515806569b5af3760ebe04106c85bca99856e664cfaa711a44e",
+  "checks": {
+    "count": 201,
+    "checks": [
+      {
+        "id": "F22-HAW-007",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-014",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-015",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-027",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-085",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-108",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-121",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-147",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-159",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-160",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-188",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-198",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-231",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-019",
+      "F22-HAW-236",
+      "F22-HAW-243",
+      "F22-HAW-265",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-253",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-179",
+      "F22-HAW-201",
+      "F22-HAW-132",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F19-JUD-001",
+      "F19-JUD-012",
+      "F19-JUD-029",
+      "F19-JUD-083",
+      "F19-JUD-084",
+      "F19-JUD-130",
+      "F19-JUD-155",
+      "F19-JUD-164",
+      "F19-JUD-056",
+      "F19-JUD-132",
+      "F19-JUD-139",
+      "F19-JUD-140",
+      "F19-JUD-144",
+      "F19-JUD-161",
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All thirteen additions selected through visible painted road dashes at alternating desktop/phone widths, with native excerpts, visible placement notes, ready basemaps and clean console.",
+    "All previous eighty Hawkesbury evidence records remain unchanged.",
+    "The three coverage holdbacks and Landrie Lake locality discrepancy remain excluded; full native paths remain in evidence."
+  ],
+  "local_checks": {
+    "python": "299 tests pass, eight existing skips",
+    "web": "7 Fletcher component tests and web script tests pass; lint and build pass"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-roads-review.json",
+      "sha256": "997576bae9bb137e04aac613ea909b602d1579239093e5a6bfd1fe9dc7abed38"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-roads-159.png",
+      "sha256": "570da48c166e55d8f572652f6b372ce4c0674d344380670b537534ecf88a0fff"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-roads-188.png",
+      "sha256": "0e1f73ad2c18ffdf36f7ef2e0c6e7a5263d85be3b7b3ee78201ad999f3cd7cbe"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-roads-15.png",
+      "sha256": "f21f570822bbde08086541a5c7cca1847d2190fc402ed3639f672a47a6051913"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-roads-7.png",
+      "sha256": "f6115ea56c7b0efea315b816f037077cb7be8a9ef7f8503c98c6f5b54485884c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-roads-108.png",
+      "sha256": "bd12b8217ed85104f673d863ede5578eb1d1df63be58d3d4022a869117a0e7f2"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-roads-231.png",
+      "sha256": "9f644fd8406993e198b7aa002d0c36adedd210356bff63fcc1a926c91ec4e47f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-201-export/source.json",
+      "sha256": "a98436707bcfaa44103e946b9174dbe94142f4f711fef467cfb4e00b54fe204a"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-201-export/reviewed.geojson",
+      "sha256": "49ac01a08eb7f515806569b5af3760ebe04106c85bca99856e664cfaa711a44e"
+    }
+  ],
+  "limits": "Bounded historical source road segments, not surveyed centreline geometry, present road identity or access. No production publication claim."
+}

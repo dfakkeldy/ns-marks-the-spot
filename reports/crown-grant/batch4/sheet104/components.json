@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5694 x 3872 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 51.33 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          90
+        ],
+        [
+          5570,
+          90
+        ],
+        [
+          5570,
+          3760
+        ],
+        [
+          90,
+          3760
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame includes Pomquet and Bayfield shores, Pomquet Island, Bowman Head and Delory Island, Tracadie Harbour, Cape Jack and Havre Boucher, all inland lakes/parcel regions and St Georges Bay. No displaced inset identified. Reservoir imagery and minor islands remain present despite exclusion from point fitting."
+    }
+  ]
+}

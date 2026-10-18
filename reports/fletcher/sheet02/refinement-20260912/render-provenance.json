@@ -1,0 +1,83 @@
+{
+  "baseline_commit": "98a34ae2ab2bdec0846a475fc63985d45436a6bf",
+  "method": "Exact GDAL TPS -et 0, cubic RGBA, EPSG:3857, 5 projected metre cells; complete unchanged mapped boundary.",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/final-fit.json",
+      "sha256": "3094eec05b4adec75eaaea85a19c3349f2ab9d2d45963359533d7d86a2917c6a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/boundary.json",
+      "sha256": "615e4edbf4593f906f996a9b7a5ebff3d8b78d5fcbd3055d00f11883e02268a1"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/source-receipt.json",
+      "sha256": "5a2b24db72f74b1e7ce9794434a6f42647c085d81b3ad7eab0b5421552bd4081"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/reference-receipts.json",
+      "sha256": "3e50d7b44ceaa8422fb65518b47b28fbbe378793ebec3e0d5332839141de3ca9"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/search-guide.json",
+      "sha256": "d71110b3cb19bc809672da0b782c69c1408793e98dc36d1e39cc0f8478a23eb3"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/validation.json",
+      "sha256": "705516ff547528b9fe0696f4c212e653203bb00a208e102faf54fcfcf0a52307"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/validation-scores.json",
+      "sha256": "1cd67baee832e2f3bd6e592f5dd4e6b4471b5576571e87b1ced2dfe592c678cf"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet02/rejected-diagnostics.json",
+      "sha256": "0b7087745806c9be6c4bd6ec42fd96206732ad651cfc9d26101011398f5bf99a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/render.py",
+      "sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/score.py",
+      "sha256": "b722ec3a769b9c149ea646eb0905b927938bf8f5738790db1ae067284cafe9f2"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/review_points.py",
+      "sha256": "2d41e269870e341863949d1f998686eea5cb85016c6eeba78aa78b8f17f3ecfe"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/refinement-20260912/neatline.geojson",
+      "sha256": "a5d527c8e933956acbbf665d65407ac64eeb7610511d7c23df2cdf48d3d842ad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/refinement-20260912/search/all-modern-nodes-anchored.json",
+      "sha256": "720b87d99bbd2a179f0de11713407d4e4e5fab3132db112102096a6bfe66bc75"
+    }
+  ],
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/regional-eight/sheet-01-full-sheet.tif",
+      "sha256": "50fe7caa175899f9e98667992346326d6e70f8274832b5423a94b314db1b234f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/refinement-20260912/sheet-02-full-sheet.tif",
+      "sha256": "532d42312d7e9fb6e41ae881d94919d8f06ff2b5978c7eb8b48e6d595c5eee0a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "sha256": "ec5096c078ea3628b00f39ef28a9475f641bbd0daa0db19a2c24f655143a1465"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-ten/sheet-03-full-sheet.tif",
+      "sha256": "9a8857e158f231e30dfd742b231d2b7691040e93ff284e5e00fbad31b5b2af9c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/11-control/sheet-04-full-sheet.tif",
+      "sha256": "e739f6a1cd4ede3a9df9662f6758b87e5e1a2819e1bab08ea0574b47b06b77b7"
+    }
+  ],
+  "neighbor_status": "Sheet 1 original 8; Sheet 3 new 10; Sheet 4 new 11. All provisional, no seam accepted.",
+  "source_credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries. CC BY-NC-SA 3.0; georeferenced/annotated derivative, not relicensed under repository MIT; no hosting clearance.",
+  "search": "Eight measured slanted printed-graticule crossings only for discovery, not fit. Earlier search-guide encoding hash remains distinct from current native source."
+}

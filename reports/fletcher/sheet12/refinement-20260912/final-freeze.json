@@ -1,0 +1,13 @@
+{
+  "at_utc": "2026-09-12T11:56:12.086392+00:00",
+  "fit_sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+  "previous_fit_sha256": "0f9c3ba0d0f266d1817c9eeca0c7e37a4fae3363146f7516e6251e4373424f29",
+  "boundary_sha256": "71bc58ceb5476a5ca9b98fd8be187d4ea88b4052cad67a37c1f534bfbdb6c720",
+  "control_count": 17,
+  "new_validation_collected": false,
+  "criteria": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "whole_raster_and_seams_required": true
+  }
+}

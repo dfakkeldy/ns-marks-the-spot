@@ -1,0 +1,58 @@
+{
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+  "selected_at": "2026-09-12T16:37:38.764690+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.1686022,
+        45.8509395
+      ],
+      "source_guide_xy": [
+        2766.998133713845,
+        3355.066168965772
+      ],
+      "objectids": [
+        195622,
+        195769,
+        199073
+      ],
+      "id": "F05",
+      "modern_node_id": "J0582",
+      "role": "check",
+      "pixel_xy": [
+        2767,
+        3496
+      ],
+      "identity_evidence": "First eastern tributary joining the south-flowing brook below the isolated C17 pond; same drainage, local evidence.",
+      "source_uncertainty_px": 20,
+      "status": "Original coordinates accepted unchanged after exact close/wide review, before first score."
+    },
+    {
+      "lonlat": [
+        -61.1718946,
+        45.8429141
+      ],
+      "source_guide_xy": [
+        2692.6640649174806,
+        3606.54582439363
+      ],
+      "objectids": [
+        198226,
+        198341,
+        198343
+      ],
+      "id": "F06",
+      "modern_node_id": "J0616",
+      "role": "check",
+      "pixel_xy": [
+        2617,
+        3656
+      ],
+      "identity_evidence": "Confluence of the road-side western brook and the northeastern C17 pond drainage north of River Denys; downstream of F05, correlated drainage evidence.",
+      "source_uncertainty_px": 20,
+      "status": "Original coordinates accepted unchanged after exact close/wide review, before first score."
+    }
+  ],
+  "reviewed_at": "2026-09-12T16:38:55.525402+00:00",
+  "status": "Fixed fresh checks against original fourteen-control baseline; no re-selection."
+}

@@ -26,7 +26,11 @@ type FetchArcGISFeatureOverlayOptions = {
   orderByFields?: string;
   idField?: string;
   signal?: AbortSignal;
+  /** Optional total byte budget across all pages, before JSON parsing. */
+  responseLimitBytes?: number;
 };
+
+export class ArcGISFeatureSizeError extends Error {}
 
 const PAGE_SIZE = 2_000;
 const MAX_PAGES = 10;
@@ -37,7 +41,7 @@ function featureKey<G extends GeoJSON.Geometry>(
   idField: string,
 ): string {
   const sourceId = feature.properties[idField];
-  return String(feature.id ?? sourceId ?? JSON.stringify(feature.geometry));
+  return String(sourceId ?? feature.id ?? JSON.stringify(feature.geometry));
 }
 
 export async function fetchArcGISFeatureOverlay<
@@ -51,9 +55,12 @@ export async function fetchArcGISFeatureOverlay<
   orderByFields = DEFAULT_ID_FIELD,
   idField = DEFAULT_ID_FIELD,
   signal,
+  responseLimitBytes,
 }: FetchArcGISFeatureOverlayOptions): Promise<ArcGISFeatureCollection<G>> {
   const features: ArcGISFeatureCollection<G>["features"] = [];
   const seen = new Set<string>();
+  let offset = 0;
+  let responseBytes = 0;
 
   for (let page = 0; page < MAX_PAGES; page += 1) {
     const queryUrl = new URL(`${serviceUrl.replace(/\/$/, "")}/query`);
@@ -73,7 +80,7 @@ export async function fetchArcGISFeatureOverlay<
     queryUrl.searchParams.set("outFields", outFields.join(","));
     queryUrl.searchParams.set("returnGeometry", "true");
     queryUrl.searchParams.set("resultRecordCount", String(PAGE_SIZE));
-    queryUrl.searchParams.set("resultOffset", String(page * PAGE_SIZE));
+    queryUrl.searchParams.set("resultOffset", String(offset));
     queryUrl.searchParams.set("orderByFields", orderByFields);
     queryUrl.searchParams.set("f", "geojson");
 
@@ -82,8 +89,28 @@ export async function fetchArcGISFeatureOverlay<
       throw new Error(`ArcGIS feature query failed (${response.status})`);
     }
 
-    const pageCollection =
-      (await response.json()) as ArcGISFeatureCollection<G>;
+    let data: unknown;
+    if (responseLimitBytes !== undefined) {
+      if (Number(response.headers.get("content-length")) + responseBytes > responseLimitBytes) throw new ArcGISFeatureSizeError("ArcGIS response exceeded the size limit");
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("ArcGIS response is unreadable");
+      const chunks: Uint8Array[] = [];
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          responseBytes += value.byteLength;
+          if (responseBytes > responseLimitBytes) { await reader.cancel(); throw new ArcGISFeatureSizeError("ArcGIS response exceeded the size limit"); }
+          chunks.push(value);
+        }
+      } finally { reader.releaseLock(); }
+      signal?.throwIfAborted();
+      data = JSON.parse(await new Blob(chunks as BlobPart[]).text());
+    } else data = await response.json();
+    const pageCollection = data as ArcGISFeatureCollection<G> & {
+        exceededTransferLimit?: boolean;
+        properties?: { exceededTransferLimit?: boolean };
+      };
     if (!Array.isArray(pageCollection.features)) {
       throw new Error("ArcGIS feature query returned an invalid collection");
     }
@@ -96,9 +123,15 @@ export async function fetchArcGISFeatureOverlay<
       }
     }
 
-    if (pageCollection.features.length < PAGE_SIZE) {
+    const limited = pageCollection.exceededTransferLimit === true ||
+      pageCollection.properties?.exceededTransferLimit === true;
+    if (limited && pageCollection.features.length === 0) {
+      throw new Error("ArcGIS returned an incomplete empty page");
+    }
+    if (!limited && pageCollection.features.length < PAGE_SIZE) {
       return { type: "FeatureCollection", features };
     }
+    offset += pageCollection.features.length;
   }
 
   throw new Error("ArcGIS feature query exceeded the overlay safety limit");

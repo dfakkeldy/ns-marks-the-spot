@@ -1,0 +1,59 @@
+{
+  "at_utc": "2026-09-12T13:55:23.375427+00:00",
+  "id": "F07",
+  "decision": "Withdraw fresh classification after scoring: same modern node and physical feature as earlier V01. Preserve its 259.0542882029731 m result and native coordinates; diagnostic re-review only, never independent.",
+  "old_point": {
+    "lonlat": [
+      -60.3946871,
+      46.5828771
+    ],
+    "source_guide_xy": [
+      2933.4180269995704,
+      2170.311127200257
+    ],
+    "objectids": [
+      191460,
+      271554,
+      271555
+    ],
+    "id": "V01",
+    "role": "check",
+    "pixel_xy": [
+      3050,
+      2110
+    ],
+    "modern_node_id": "J0274",
+    "identity_evidence": "Pathend Brook northern tributary upstream of the mouth",
+    "source_uncertainty_px": 20,
+    "status": "Corrected fresh check pending exact crosshair review.",
+    "review_note": "Native crosshair corrected to actual physical stream junction before first validation score; world location and frozen fit unchanged."
+  },
+  "new_point": {
+    "lonlat": [
+      -60.3946871,
+      46.5828771
+    ],
+    "source_guide_xy": [
+      2933.4180269995704,
+      2170.311127200257
+    ],
+    "objectids": [
+      191460,
+      271554,
+      271555
+    ],
+    "id": "F07",
+    "role": "check",
+    "modern_node_id": "J0274",
+    "pixel_xy": [
+      3053,
+      2111
+    ],
+    "identity_evidence": "Pathend Brook northern tributary upstream of coastal mouth",
+    "source_uncertainty_px": 20,
+    "status": "Corrected native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+    "review_note": "Moved from road crossing to the actual northern tributary junction on Pathend Brook before scoring; modern node unchanged.",
+    "review_evidence": "Crosshair now at northern tributary/Pathend junction south of the road crossing; this is the last mapped northern tributary before the coastal mouth. Tributary length/secondary branches differ in source generalization."
+  },
+  "cause": "Identity/history check initially missed previously scored Pathend node; 3 px native change does not confer independence."
+}

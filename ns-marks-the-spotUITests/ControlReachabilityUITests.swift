@@ -14,13 +14,14 @@ final class ControlReachabilityUITests: XCTestCase {
     /// the end of a landscape screen. Share, print and the sources sheet live
     /// inside "More Map Actions" now, so the menu control is the reachable
     /// thing.
-    private let endOfRail = ["More Map Actions", "Save Area", "Toggle Layers Menu"]
+    private let endOfRail = ["More Map Actions", "Save Area", "toggle-layers-menu"]
 
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
 
     override func tearDown() {
+        attachUIFailure()
         XCUIDevice.shared.orientation = .portrait
         super.tearDown()
     }
@@ -42,17 +43,23 @@ final class ControlReachabilityUITests: XCTestCase {
             let control = app.buttons[name]
             XCTAssertTrue(control.exists, "\(name) left the hierarchy in landscape")
             XCTAssertTrue(
-                app.scroll(control, into: rail),
+                app.scroll(control, into: rail, fullyVisible: true),
                 "\(name) cannot be reached in landscape"
             )
         }
 
         // And the route ends somewhere. Opening the panel is the claim the
         // Layers control makes.
-        XCTAssertTrue(app.scroll(app.buttons["Toggle Layers Menu"], into: rail))
-        app.buttons["Toggle Layers Menu"].tap()
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(app.scroll(layers, into: rail, fullyVisible: true))
+        XCTAssertTrue(layers.waitForStableFrame(in: rail), "Layers did not settle inside the rail")
+        layers.tap()
         XCTAssertTrue(
-            app.buttons["Close layers menu"].waitForHittable(timeout: timeout),
+            waitForUI { layers.value as? String == "Open" },
+            "the Layers button did not accept the tap"
+        )
+        XCTAssertTrue(
+            app.buttons["Close layers menu"].waitForHittable(timeout: 30),
             "the layers panel did not open from landscape"
         )
     }
@@ -70,7 +77,7 @@ final class ControlReachabilityUITests: XCTestCase {
             "the first control is not on screen"
         )
         XCTAssertTrue(
-            app.buttons["Toggle Layers Menu"].waitForHittable(timeout: timeout),
+            app.buttons["toggle-layers-menu"].waitForHittable(timeout: timeout),
             "the last control is not on screen in portrait"
         )
     }
@@ -93,6 +100,21 @@ final class ControlReachabilityUITests: XCTestCase {
                 "\(name) is not reachable while an area is being chosen"
             )
         }
+
+        // And the rest of the rail reads as switched off while it is up. The
+        // whole scrolling column is out of the gesture path in this mode, but
+        // a control that is merely inert still announces as available: one
+        // button offering itself in a column of dimmed ones reads as the one
+        // thing still on offer, and taps on it do nothing.
+        let offlineMaps = app.buttons["Offline Maps"]
+        XCTAssertTrue(
+            offlineMaps.exists,
+            "Offline Maps left the hierarchy while an area is being chosen"
+        )
+        XCTAssertFalse(
+            offlineMaps.isEnabled,
+            "Offline Maps still reads as available while an area is being chosen"
+        )
 
         app.buttons["Cancel"].tap()
         XCTAssertTrue(

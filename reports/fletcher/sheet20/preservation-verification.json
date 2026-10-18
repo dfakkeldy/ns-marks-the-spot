@@ -1,0 +1,13 @@
+{
+  "verified_at_utc": "2026-09-11T15:05:55.774154+00:00",
+  "initial_eleven_controls_unchanged": true,
+  "promotion": {
+    "Q04": "C14"
+  },
+  "promoted_coordinates_unchanged": true,
+  "fresh_validation_disjoint_from_fit": true,
+  "original_observations_unchanged": true,
+  "source_sha256_verified": "3be7a138e4fd1a42cef0a549b7317180718a36fc7134777323ff2f1f8eb053dc",
+  "reference_files_verified": 4,
+  "fit_sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208"
+}

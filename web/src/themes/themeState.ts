@@ -1,6 +1,7 @@
 import type { LayerCategoryId } from "../layers/layerCategories";
 import type { MapMode, ShareLayerId } from "../services/mapShareState";
 import type { MapThemeDefinition } from "./mapThemes";
+import { forestryExclusionReason } from "../layers/forestryExclusions";
 
 export interface ThemeComparableState {
   layerIds: readonly ShareLayerId[];
@@ -29,7 +30,7 @@ export function visibilityRecordFor<T extends string>(
   visibleLayerIds: ReadonlySet<string>,
 ): Record<T, boolean> {
   return Object.fromEntries(
-    ids.map((id) => [id, visibleLayerIds.has(id)]),
+    ids.map((id) => [id, forestryExclusionReason(id) === null && visibleLayerIds.has(id)]),
   ) as Record<T, boolean>;
 }
 
@@ -51,10 +52,11 @@ export function resolveTheme(
   capabilities: ThemeCapabilities,
 ): ResolvedTheme {
   const unavailableLayerIds = theme.layerIds.filter(
-    (id) => !capabilities.availableLayerIds.has(id),
+    (id) => forestryExclusionReason(id) !== null || !capabilities.availableLayerIds.has(id),
   );
   const blockedLayerIds = theme.layerIds.filter(
-    (id) => capabilities.availableLayerIds.has(id)
+    (id) => forestryExclusionReason(id) === null
+      && capabilities.availableLayerIds.has(id)
       && capabilities.restrictedLayerIds.has(id)
       && !capabilities.licenceAccepted,
   );

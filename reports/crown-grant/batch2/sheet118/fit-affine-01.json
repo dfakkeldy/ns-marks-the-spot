@@ -1,0 +1,199 @@
+{
+  "sheet": "118",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.592970239803562,
+      1.9033545794154771
+    ],
+    [
+      1.9158774799422587,
+      -4.610916389908439
+    ],
+    [
+      647406.4440314199,
+      5061008.940824907
+    ]
+  ],
+  "source_sha256": "aba3002c5e339f2a0f2e4595e149881530eb9d8c27d5e5e74be4d08b339d5855",
+  "source_dimensions": [
+    5958,
+    4097
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Cape George eastern apex",
+      "role": "control",
+      "pixel_xy": [
+        4724,
+        690
+      ],
+      "lonlat": [
+        -60.809816843227146,
+        45.7341686182333
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 13798,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4721.045218118699,
+        608.7205225955695
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Chapel Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        5029,
+        1410
+      ],
+      "lonlat": [
+        -60.774567075576876,
+        45.70843307357408
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 23383,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5036.341016519174,
+        1328.4733014366357
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Cascaret Island southern western corner",
+      "role": "control",
+      "pixel_xy": [
+        1271,
+        2377
+      ],
+      "lonlat": [
+        -60.976474945614655,
+        45.607737730761485
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 16828,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1259.350508685864,
+        2277.4606184643926
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Birch Island eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        905,
+        2353
+      ],
+      "lonlat": [
+        -60.998323576360455,
+        45.603093899949606
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 16910,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        900.0857061585411,
+        2251.656127757393
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Stone Island northern apex",
+      "role": "control",
+      "pixel_xy": [
+        3356,
+        1806
+      ],
+      "lonlat": [
+        -60.865265670851876,
+        45.66499740354942
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 18341,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3354.9144493943895,
+        1719.4282416101778
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "St Peters Island southern apex",
+      "role": "control",
+      "pixel_xy": [
+        3670,
+        3588
+      ],
+      "lonlat": [
+        -60.80544688611818,
+        45.59566866998701
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 22481,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3686.9956010571914,
+        3466.4977996534435
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Cape le Rond eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        2314,
+        3498
+      ],
+      "lonlat": [
+        -60.88909319258011,
+        45.57753466481105
+      ],
+      "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+      "reference_objectid": 7036,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2308.1118833494256,
+        3377.148521304014
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    36.634335241303624,
+    24.117234326622818,
+    13.904448285631517,
+    31.886991559728187,
+    27.66726521938456,
+    30.50787473886641,
+    45.613927212787814
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

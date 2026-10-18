@@ -1,0 +1,95 @@
+{
+  "input_commit": "a38e8f6b7bd377fa5e4eb89a6659ec8e749530de",
+  "stable_files": [
+    {
+      "path": "freeze.json",
+      "sha256": "ca02d605c4ed7b72205c9fa3cdf2b18fd6293d3c839cc5b12a05185d3b4bffdc"
+    },
+    {
+      "path": "controls.csv",
+      "sha256": "a912847fb7909862674185661d60a7941fa3d68922b90edca13924b0276aa637"
+    },
+    {
+      "path": "observations/IS20.json",
+      "sha256": "29ade27409e15102a8d9e70cbed74c31dae8a8775073d9dae8a017a67d4861e8"
+    },
+    {
+      "path": "observations/IS21.json",
+      "sha256": "287c887747906a8124e02686f39970870bcdc41a4233410455e3593133b60407"
+    },
+    {
+      "path": "observations/IS22.json",
+      "sha256": "5b5f600dc84f91a9147fdb595683f260c7425a9514c8eb53738e20bb81732289"
+    },
+    {
+      "path": "observations/IS23.json",
+      "sha256": "79fc0671c1327ae319c1be2f06c23ce3b38b7f797a820572c9f632c539cd5436"
+    },
+    {
+      "path": "observations/IS24.json",
+      "sha256": "a7541ed1f6f798ce918827352d3a152d46c3962f3ae7548c995f2b03a2af6ea7"
+    },
+    {
+      "path": "observations/IS25.json",
+      "sha256": "07f99b820d7ac4b62131dd0fc8e756950d4646fb0247bcbccd95466b075ab0a2"
+    },
+    {
+      "path": "observations/IS26.json",
+      "sha256": "4a274cf056f65bddca0d432338765bc8a7518bfc72127d1da0547ca0380ee1b6"
+    },
+    {
+      "path": "observations/IS27.json",
+      "sha256": "c0cebe7ed276a12c2fb8e4d5a2f3bf51350809b6ef0c4e14569f32b460319f35"
+    },
+    {
+      "path": "observations/IS28.json",
+      "sha256": "2a96b8594c8a53d47da7325fe819510efd2e80b507ddf84f5413ac914ed4aaaa"
+    },
+    {
+      "path": "observations/IS29.json",
+      "sha256": "e0203d68fbcaea9a2be02141db043a2676a0db7529bd7a25c6c161cba4aaf5b5"
+    },
+    {
+      "path": "IS20-first.json",
+      "sha256": "78af108c264e02c5e1908999b700b164203529e34789838c135d5aca3dc0f0fa"
+    },
+    {
+      "path": "IS21-first.json",
+      "sha256": "4f688374d19351c574d2dd8d1ca789acb0f4174df0bb6f4882a7f919a331c890"
+    },
+    {
+      "path": "IS22-first.json",
+      "sha256": "de0453d2e491f7776230d4a197ee4ce7158a86f3c1d8dad69aff9dd56f2b69f8"
+    },
+    {
+      "path": "IS23-first.json",
+      "sha256": "4361106b9b657bd4f868c0eddb381640a6b7aceb4e2345bf6aaf3c2146cb7ae0"
+    },
+    {
+      "path": "IS24-first.json",
+      "sha256": "b31572e5462256c18d5d6aad67adc18d2a303b1f8b0ef5cc0d2936d5e7eab322"
+    },
+    {
+      "path": "IS25-first.json",
+      "sha256": "858bea6b634668ab54fbc099b7f9dce9c16877bdefb016dbae030644bac90df7"
+    },
+    {
+      "path": "IS26-first.json",
+      "sha256": "12da53891537733cf0c83e7e5238e844dc070124716775f88093da6dba6cc216"
+    },
+    {
+      "path": "IS27-first.json",
+      "sha256": "87bff8d8f252dbb7741c76cc29bdcea084e7fe23c837a1a61f64d6b0c1f832cb"
+    },
+    {
+      "path": "IS28-first.json",
+      "sha256": "de8fbd2dc7fb6b43e7f5c91cb3f936cf771356fc9b94fa7ddc82b8108dfd64bd"
+    },
+    {
+      "path": "IS29-first.json",
+      "sha256": "e52ce6a3fc8cd876f9a358ec5615da12ab672221794d7402051b1e7af95c10e1"
+    }
+  ],
+  "previous_csv_path": "reports/church/south-validation-20260915/fresh-validation.csv",
+  "previous_accuracy_path": "reports/church/south-validation-20260915/accuracy-summary.json"
+}

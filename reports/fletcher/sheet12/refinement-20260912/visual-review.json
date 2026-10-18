@@ -1,0 +1,27 @@
+{
+  "review_completed_at_utc": "2026-09-12T12:07:24.309548+00:00",
+  "reviewer": "Primary agent; personal image inspection, no delegated review",
+  "scope": "All point close/wide stages and corrected crosshairs, 11 sixteen-control regions, 3 extended-reference southern regions, 11 final seventeen-control regions, 4 seams per experiment and 3 browser screenshots per experiment. All 63 hashed figures in packet-verification.json were personally viewed.",
+  "point_review": "Native source remained unrotated. Identity review and pixel corrections preceded first score for each point. Guide projections were search aids only.",
+  "final_regions": {
+    "northwest-rivers": "Local Musk Rat and upper Sam alignment improves; western network still displaced.",
+    "baddeck-forks": "Local fitted confluences close; upstream branches and braided reaches diverge.",
+    "christopher-big-glen": "Some broad bends and upper reaches are more displaced than on fourteen controls; local C02 remains close.",
+    "st-anns-monroe": "Controlled coast closer; interior ponds and tributaries displaced.",
+    "seal-otter": "Near-island controls close; island shape and coast tributaries disagree.",
+    "baddeck-kidston": "Local shore/island correspondence; interior and delta divergence. Stony Island modern counterpart not established.",
+    "port-bevis": "Broad harbour and Bevis lobes remain displaced; no fabricated coastal identity.",
+    "island-point": "Control near outer point; west shore and interior diverge.",
+    "kemp-coffin-extension": "Full extension retained. Fraser/Coffin shapes and neck/island difference unresolved.",
+    "lockman-extension": "Full extension retained. Hook control close; remaining coastline/interior displaced.",
+    "full-sheet": "Complete mapped frame and three southern extensions retained; no visible internal holes."
+  },
+  "seams": {
+    "13-west-north": "Both provisional maps show displaced stream reaches along the boundary; no accepted continuous join.",
+    "13-west-south": "Stream and lower channel placement differ; common mapped strip does not establish alignment.",
+    "10-north-west": "Gap between mapped coverage in this geographic window; upper river branches disagree.",
+    "10-north-east": "Mapped frames approach at St Anns but coast/reaches and other northern gaps remain unresolved."
+  },
+  "browser": "Final actual TIFF import, desktop reload and mobile 390x844 reload show complete rendered map; recorded source bytes, alpha and enabled state persist. Sixteen-control mobile evidence was viewport change after desktop reload, not a separate mobile reload. No native PNG plus CSV mesh acceptance claim.",
+  "acceptance": false
+}

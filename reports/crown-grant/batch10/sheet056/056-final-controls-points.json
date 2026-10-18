@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Shut In Island southern tip (upper in original scan)",
+    "role": "control",
+    "pixel_xy": [
+      4710,
+      1185
+    ],
+    "lonlat": [
+      -63.95349091889194,
+      44.54246846767476
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 22564,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22564,
+    "nearest_unfiltered_distance_guide_px": 1.3634230078566727,
+    "selected_distance_guide_px": 1.3634230078566727,
+    "guide_reference_pixel_xy": [
+      4663.9396842328715,
+      1338.637911784579
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained."
+  },
+  {
+    "id": "C02",
+    "label": "Croucher Island southern tip (upper in original scan)",
+    "role": "control",
+    "pixel_xy": [
+      3978,
+      3054
+    ],
+    "lonlat": [
+      -63.957022196931824,
+      44.63913627228631
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 21973,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 21973,
+    "nearest_unfiltered_distance_guide_px": 0.8838739137437082,
+    "selected_distance_guide_px": 0.8838739137437082,
+    "guide_reference_pixel_xy": [
+      3872.740202179819,
+      3191.5169535960304
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained."
+  },
+  {
+    "id": "C03",
+    "label": "Middle Five Bridge Lake southern horn (upper in original scan)",
+    "role": "control",
+    "pixel_xy": [
+      2185,
+      1616
+    ],
+    "lonlat": [
+      -63.812353730803956,
+      44.60682075627848
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 136067,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136067,
+    "nearest_unfiltered_distance_guide_px": 0.1514947325058764,
+    "selected_distance_guide_px": 0.1514947325058764,
+    "guide_reference_pixel_xy": [
+      2160.137922103924,
+      1709.9373250670033
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained."
+  },
+  {
+    "id": "C04",
+    "label": "Upper Five Bridge Lake southern horn (upper in original scan)",
+    "role": "control",
+    "pixel_xy": [
+      2027,
+      2163
+    ],
+    "lonlat": [
+      -63.81746349658797,
+      44.63419335008724
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 138322,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138322,
+    "nearest_unfiltered_distance_guide_px": 0.6981993254449883,
+    "selected_distance_guide_px": 0.6981993254449883,
+    "guide_reference_pixel_xy": [
+      1993.6498867894989,
+      2259.604072046932
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained."
+  },
+  {
+    "id": "C05",
+    "label": "Hatchet Lake southern horn (upper in original scan)",
+    "role": "control",
+    "pixel_xy": [
+      1304,
+      139
+    ],
+    "lonlat": [
+      -63.71943673848032,
+      44.55728152843865
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 137787,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137787,
+    "nearest_unfiltered_distance_guide_px": 0.7366371645829154,
+    "selected_distance_guide_px": 0.7366371645829154,
+    "guide_reference_pixel_xy": [
+      1306.642866776965,
+      213.64033818757161
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained."
+  },
+  {
+    "id": "C06",
+    "label": "Ash Lake southern tip (upper in original scan)",
+    "role": "control",
+    "pixel_xy": [
+      497,
+      2819
+    ],
+    "lonlat": [
+      -63.742189134565635,
+      44.69241485268114
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 129559,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129559,
+    "nearest_unfiltered_distance_guide_px": 0.5042166638362124,
+    "selected_distance_guide_px": 0.5042166638362124,
+    "guide_reference_pixel_xy": [
+      453.45131718186894,
+      2913.224827145692
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained."
+  },
+  {
+    "id": "C07",
+    "label": "Grassy Lake upper eastern horn in original scan",
+    "role": "control",
+    "pixel_xy": [
+      1827,
+      1414
+    ],
+    "lonlat": [
+      -63.784303714286594,
+      44.60519022019847
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 138240,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138240,
+    "nearest_unfiltered_distance_guide_px": 1.0352654720725347,
+    "selected_distance_guide_px": 1.0352654720725347,
+    "guide_reference_pixel_xy": [
+      1787.5588478823774,
+      1510.8714721120195
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Paired native crosshairs and physical context inspected before first fit and score; original upside-down embedded JPEG coordinates retained."
+  }
+]

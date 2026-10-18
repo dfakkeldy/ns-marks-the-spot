@@ -77,6 +77,155 @@ actor UserVectorStore {
         return directory.appendingPathComponent("\(id).geojson")
     }
 
+    // MARK: - Photos
+
+    /// Photo bytes live as plain files under the store directory:
+    /// `photos/<layerID>/<photoID>.jpg` plus `<photoID>.thumb.jpg`. Files
+    /// rather than rows because the bytes are already their own format, and
+    /// a user whose device is failing can pull them out of a backup and open
+    /// them in anything — the same reasoning as the GeoJSON geometry files.
+    /// The feature's `nsmts:photos` descriptors are the only authority on
+    /// attachment; these files are just the bytes they point at.
+    private func photosDirectory(for layerID: String) -> URL {
+        precondition(
+            !layerID.contains("/") && !layerID.contains(".."), "a record id is not a path"
+        )
+        return directory
+            .appendingPathComponent("photos", isDirectory: true)
+            .appendingPathComponent(layerID, isDirectory: true)
+    }
+
+    private func photoURL(layerID: String, photoID: String, thumb: Bool) -> URL {
+        precondition(
+            !photoID.contains("/") && !photoID.contains(".."), "a photo id is not a path"
+        )
+        return photosDirectory(for: layerID)
+            .appendingPathComponent("\(photoID)\(thumb ? ".thumb" : "").jpg")
+    }
+
+    /// Both renditions in one call, full first: a thumb without its full
+    /// image is a preview of nothing, while the sweep collects the other
+    /// order's leftovers.
+    func addPhoto(layerID: String, photoID: String, full: Data, thumb: Data) throws {
+        try fileManager.createDirectory(
+            at: photosDirectory(for: layerID), withIntermediateDirectories: true
+        )
+        do {
+            try full.write(
+                to: photoURL(layerID: layerID, photoID: photoID, thumb: false), options: .atomic
+            )
+            try thumb.write(
+                to: photoURL(layerID: layerID, photoID: photoID, thumb: true), options: .atomic
+            )
+        } catch {
+            // Nothing half-written survives a throw. A disk that fills between
+            // the two writes leaves a full-size JPEG no descriptor will ever
+            // name, and the only sweep that collects a stray file inside a
+            // claimed layer's directory runs from `replaceGeometry` — so those
+            // bytes would sit there until the reader happened to edit that
+            // layer, which may be never. The caller is told the photo did not
+            // land, and after this that is the whole truth.
+            deletePhoto(layerID: layerID, photoID: photoID)
+            throw error
+        }
+    }
+
+    func photoData(layerID: String, photoID: String, thumb: Bool) -> Data? {
+        try? Data(contentsOf: photoURL(layerID: layerID, photoID: photoID, thumb: thumb))
+    }
+
+    func deletePhoto(layerID: String, photoID: String) {
+        try? fileManager.removeItem(
+            at: photoURL(layerID: layerID, photoID: photoID, thumb: false)
+        )
+        try? fileManager.removeItem(
+            at: photoURL(layerID: layerID, photoID: photoID, thumb: true)
+        )
+    }
+
+    /// How many photos the layer holds on disk — the per-layer cap's
+    /// denominator. Thumbs are the same photo, not a second one.
+    func photoCount(layerID: String) -> Int {
+        guard let files = try? fileManager.contentsOfDirectory(
+            at: photosDirectory(for: layerID), includingPropertiesForKeys: nil
+        ) else { return 0 }
+        return files.filter {
+            $0.pathExtension == "jpg" && !$0.lastPathComponent.hasSuffix(".thumb.jpg")
+        }.count
+    }
+
+    /// Deletes photo files no descriptor in the layer's geometry references.
+    ///
+    /// Reachable state: a photo attached and then removed by an edit that
+    /// only patched the descriptor, or a re-link interrupted between file
+    /// writes and the library write. Run beside every geometry replace, so
+    /// the files always converge on what the features claim.
+    /// Photo files written ahead of the feature that will reference them.
+    /// The sweep keeps them until a write references them, so a write of an
+    /// older working copy cannot take a photo that is still being attached.
+    private var reservedPhotoIDs: Set<String> = []
+
+    func reservePhoto(id: String) {
+        reservedPhotoIDs.insert(id)
+    }
+
+    func releasePhoto(id: String) {
+        reservedPhotoIDs.remove(id)
+    }
+
+    /// Layers whose photo files are being written before the library holds a
+    /// record for them. `sweepOrphanedGeometry` removes a photo directory that
+    /// no record claims — which is right for a delete interrupted halfway, and
+    /// wrong for an import still in flight: a bulk placement writes up to 500
+    /// photos before its `add`, and any `delete` or `load` in that window would
+    /// otherwise take the directory out from underneath it and leave the
+    /// geometry pointing at bytes that are gone.
+    private var reservedLayerIDs: Set<String> = []
+
+    func reserveLayer(id: String) {
+        reservedLayerIDs.insert(id)
+    }
+
+    func releaseLayer(id: String) {
+        reservedLayerIDs.remove(id)
+    }
+
+    /// Gives up a reservation and takes the bytes with it.
+    ///
+    /// For an import that wrote its photos and then failed to write the layer.
+    /// Releasing alone would leave the files for the next `load()` to sweep,
+    /// and the reservation is what stopped a sweep taking them in the meantime
+    /// — so between the release and whenever a sweep next happens to run, they
+    /// are unreachable and uncollected. On a device that just refused a write
+    /// for lack of room, "we will tidy up eventually" is the wrong promise.
+    func abandonLayer(id: String) {
+        reservedLayerIDs.remove(id)
+        try? fileManager.removeItem(at: photosDirectory(for: id))
+    }
+
+    private func sweepOrphanedPhotos(layerID: String, keeping parsed: ParsedVector) {
+        guard let files = try? fileManager.contentsOfDirectory(
+            at: photosDirectory(for: layerID), includingPropertiesForKeys: nil
+        ) else { return }
+        var referenced = Set<String>()
+        for feature in parsed.features {
+            for descriptor in PhotoDescriptor.read(from: feature.properties) {
+                referenced.insert(descriptor.id)
+            }
+        }
+        // Referenced now, so no longer in need of a reservation.
+        reservedPhotoIDs.subtract(referenced)
+        for file in files where file.pathExtension == "jpg" {
+            var name = file.deletingPathExtension().lastPathComponent
+            if name.hasSuffix(".thumb") {
+                name = String(name.dropLast(".thumb".count))
+            }
+            if !referenced.contains(name), !reservedPhotoIDs.contains(name) {
+                try? fileManager.removeItem(at: file)
+            }
+        }
+    }
+
     /// The library as it is on disk right now, and the orphans swept.
     ///
     /// The sweep runs here and only here, on a document this build understood:
@@ -129,8 +278,15 @@ actor UserVectorStore {
     }
 
     private func write(_ library: UserVectorLibrary) throws {
+        // Stamped with this build's version, not the one the document was
+        // read with. Every mutation re-reads and writes back, so without the
+        // stamp a library created at version 1 stays version 1 forever even
+        // once it holds records only version 2 defines — and an old build
+        // that then opens it decodes garbage instead of refusing cleanly.
+        var stamped = library
+        stamped.version = UserVectorLibrary.currentVersion
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
-        let data = try encoder.encode(library)
+        let data = try encoder.encode(stamped)
         try data.write(to: libraryURL, options: .atomic)
     }
 
@@ -144,6 +300,10 @@ actor UserVectorStore {
         geometry: ParsedVector,
         original: Data? = nil
     ) throws -> UserVectorLibrary {
+        // The library first: a document this build cannot read refuses here,
+        // before a geometry file and an original are written beside it for
+        // nothing.
+        var library = try read()
         try writeGeometry(geometry, id: record.id)
         if let original, let originalFileID = record.originalFileID {
             try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -155,10 +315,44 @@ actor UserVectorStore {
                 try original.write(to: url, options: .atomic)
             }
         }
-        var library = try read()
         library.layers.append(record)
         try write(library)
         return library
+    }
+
+    /// Moves a library this build should have been able to read out of the
+    /// way, so a new one can start. Never for a later version's document,
+    /// which a newer build is coming back for; only for one that is damaged
+    /// at this build's own version. Nothing is deleted: the directory moves
+    /// whole, geometry and photos with it, to a `-damaged` sibling.
+    ///
+    /// Answers whether the damaged library is out of the way, which a call
+    /// that found nothing left to move has achieved as much as one that
+    /// moved it.
+    @discardableResult
+    func setAsideDamagedLibrary() throws -> Bool {
+        guard fileManager.fileExists(atPath: directory.path) else { return true }
+        // Read again first: only a document that decodes as no library is
+        // moved. One that reads now, or one a newer build wrote, stays.
+        do {
+            _ = try read()
+            return false
+        } catch StoreRefusal.unreadable {
+            // The case this exists for.
+        } catch {
+            return false
+        }
+        let parent = directory.deletingLastPathComponent()
+        let stem = "\(directory.lastPathComponent)-damaged"
+        var destination = parent.appendingPathComponent(stem, isDirectory: true)
+        if fileManager.fileExists(atPath: destination.path) {
+            // Genuinely unique, not the last of a numbered run.
+            destination = parent.appendingPathComponent(
+                "\(stem)-\(UUID().uuidString)", isDirectory: true
+            )
+        }
+        try fileManager.moveItem(at: directory, to: destination)
+        return true
     }
 
     /// Replaces a layer's features and advances its revision in one operation.
@@ -180,6 +374,9 @@ actor UserVectorStore {
         library.layers[index].featureCount = parsed.featureCount
         library.layers[index].bbox = parsed.bbox
         try write(library)
+        // The features just written are the only authority on attachment;
+        // photo files nothing references any more go with the edit.
+        sweepOrphanedPhotos(layerID: id, keeping: parsed)
         return library
     }
 
@@ -195,6 +392,12 @@ actor UserVectorStore {
 
     func setVisible(_ isVisible: Bool, id: String) throws -> UserVectorLibrary {
         var library = try read()
+        // A layer that is not there cannot be shown or hidden: a switch that
+        // succeeded against a deleted layer let the app report a mark as
+        // saved in it.
+        guard library.layers.contains(where: { $0.id == id }) else {
+            throw StoreRefusal.noSuchLayer(id)
+        }
         var hidden = Set(library.hiddenLayerIDs)
         if isVisible {
             hidden.remove(id)
@@ -213,7 +416,7 @@ actor UserVectorStore {
     /// pull these files out of a backup and open them in anything.
     func writeGeometry(_ parsed: ParsedVector, id: String) throws {
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
-        try VectorExport.geoJson(parsed).write(to: geometryURL(for: id), options: .atomic)
+        try VectorExport.storageGeoJson(parsed).write(to: geometryURL(for: id), options: .atomic)
     }
 
     /// The bytes the user imported, if this build still has them.
@@ -224,9 +427,16 @@ actor UserVectorStore {
         try? Data(contentsOf: originalURL(for: fileID))
     }
 
+    /// The layer's features as stored.
+    ///
+    /// Read with the import parser, but allowing an empty collection: this
+    /// store writes one for every new drawing layer and whenever the last
+    /// feature is erased, and refusing it on the way back made such a layer
+    /// unreadable after relaunch — Edit did nothing, and a mark into Field
+    /// notes failed with a message about GPS.
     func geometry(id: String) throws -> ParsedVector {
         guard let data = try? Data(contentsOf: geometryURL(for: id)),
-              let parsed = try? UserVectorParse.parseGeoJson(data)
+              let parsed = try? UserVectorParse.parseGeoJson(data, allowingEmpty: true)
         else { throw StoreRefusal.geometryMissing(id) }
         return parsed
     }
@@ -242,6 +452,8 @@ actor UserVectorStore {
         library.hiddenLayerIDs.removeAll { $0 == id }
         try write(library)
         try? fileManager.removeItem(at: geometryURL(for: id))
+        // The layer's photos go with it; they belong to no other layer.
+        try? fileManager.removeItem(at: photosDirectory(for: id))
         // The original stays until the last layer sharing it is gone, which the
         // sweep decides on the next load.
         try? sweepOrphanedGeometry(keeping: library.layers)
@@ -270,6 +482,18 @@ actor UserVectorStore {
                 if !keptOriginals.contains(name) { try? fileManager.removeItem(at: file) }
             default:
                 break
+            }
+        }
+        // Whole photo directories for layers no record claims — the delete
+        // interrupted between the library write and the directory removal.
+        if let photoDirectories = try? fileManager.contentsOfDirectory(
+            at: directory.appendingPathComponent("photos", isDirectory: true),
+            includingPropertiesForKeys: nil
+        ) {
+            for layerDirectory in photoDirectories
+            where !keptGeometry.contains(layerDirectory.lastPathComponent)
+                && !reservedLayerIDs.contains(layerDirectory.lastPathComponent) {
+                try? fileManager.removeItem(at: layerDirectory)
             }
         }
     }

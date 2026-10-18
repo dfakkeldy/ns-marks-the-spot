@@ -1,0 +1,32 @@
+[
+  {
+    "image": "09-south-island.jpg",
+    "lonlat_bounds": [
+      -61.08,
+      46.595,
+      -60.96,
+      46.635
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "09-south-interior.jpg",
+    "lonlat_bounds": [
+      -60.97,
+      46.595,
+      -60.83,
+      46.635
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

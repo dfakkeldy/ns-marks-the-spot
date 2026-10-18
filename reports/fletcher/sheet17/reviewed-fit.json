@@ -1,0 +1,226 @@
+{
+  "sheet": "sheet-17",
+  "source_sha256": "a8a3f35cbf6addc45abc8cb2934ddea9a6eec4edc8346efc6de783d35355cd7e",
+  "source_dimensions": [
+    10873,
+    7642
+  ],
+  "points": [
+    {
+      "lonlat": [
+        -60.72723408095741,
+        45.90202050039225
+      ],
+      "guide_xy": [
+        4123.573627032805,
+        1724.3664197241887
+      ],
+      "modern_objectid": 13830,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 13830,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 196.4412523521677
+      },
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        4204,
+        1586
+      ],
+      "identity_evidence": "Benacadie Point southernmost coast west of Benacadie Pond",
+      "source_uncertainty_px": 20,
+      "status": "initial fit control; native crosshair personally inspected"
+    },
+    {
+      "lonlat": [
+        -60.66570221584912,
+        45.90664435711554
+      ],
+      "guide_xy": [
+        5471.121472904226,
+        1579.6581997119356
+      ],
+      "modern_objectid": 13939,
+      "modern_part": 0,
+      "modern_vertex": 82,
+      "modern_properties": {
+        "OBJECTID": 13939,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 2982.6574967240267
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        5506,
+        1421
+      ],
+      "identity_evidence": "Dhu Point southernmost coast south of Armagguadecs Pond",
+      "source_uncertainty_px": 20,
+      "status": "initial fit control; native crosshair personally inspected"
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        7357,
+        4711
+      ],
+      "lonlat": [
+        -60.5801208,
+        45.800244
+      ],
+      "modern_node_id": "J0457",
+      "modern_objectids": [
+        139327,
+        139328,
+        270056
+      ],
+      "identity_evidence": "Northern Loch Lomond west shore Small Brook mouth",
+      "source_uncertainty_px": 15,
+      "status": "initial fit control; native crosshair personally inspected"
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        7893,
+        4438
+      ],
+      "lonlat": [
+        -60.559398,
+        45.8100631
+      ],
+      "modern_node_id": "J0423",
+      "modern_objectids": [
+        139324,
+        139325,
+        295489
+      ],
+      "identity_evidence": "Northern Loch Lomond northern head tributary mouth",
+      "source_uncertainty_px": 15,
+      "status": "initial fit control; native crosshair personally inspected"
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        8091,
+        4909
+      ],
+      "lonlat": [
+        -60.5504286,
+        45.7957361
+      ],
+      "modern_node_id": "J0476",
+      "modern_objectids": [
+        139236,
+        139324,
+        274543
+      ],
+      "identity_evidence": "Northern Loch Lomond easternmost inlet creek mouth",
+      "source_uncertainty_px": 15,
+      "status": "initial fit control; native crosshair personally inspected"
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        7584,
+        6215
+      ],
+      "lonlat": [
+        -60.5716711,
+        45.7544052
+      ],
+      "modern_node_id": "J0693",
+      "modern_objectids": [
+        124293,
+        275422,
+        312824
+      ],
+      "identity_evidence": "Southern Loch Lomond eastern shore brook mouth near mill; NSTDB line node lies roughly 60 m southeast of the polygon shore notch, requiring identity audit",
+      "source_uncertainty_px": 15,
+      "status": "initial fit control; native crosshair personally inspected"
+    },
+    {
+      "lonlat": [
+        -60.774631400274856,
+        45.80632335909514
+      ],
+      "guide_xy": [
+        3085.5723339808173,
+        4719.3041537588
+      ],
+      "modern_objectid": 23627,
+      "modern_part": 0,
+      "modern_vertex": 102,
+      "modern_properties": {
+        "OBJECTID": 23627,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 3072.15148130193
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        3177,
+        4583
+      ],
+      "identity_evidence": "Red Island westernmost outer coast tip",
+      "source_uncertainty_px": 20,
+      "status": "initial fit control; native crosshair personally inspected"
+    },
+    {
+      "lonlat": [
+        -60.759893256798435,
+        45.77186526029751
+      ],
+      "guide_xy": [
+        3408.3376761146355,
+        5797.704813729506
+      ],
+      "modern_objectid": 24160,
+      "modern_part": 0,
+      "modern_vertex": 644,
+      "modern_properties": {
+        "OBJECTID": 24160,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 6421.79192327042
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        3490,
+        5605
+      ],
+      "identity_evidence": "Johnson Island northernmost outer coast tip",
+      "source_uncertainty_px": 20,
+      "status": "initial fit control; native crosshair personally inspected"
+    }
+  ],
+  "limitations": [
+    "Sparse northeast and central control coverage; central source explicitly unexplored.",
+    "Broad coastal tips and NSTDB line versus polygon shoreline differences limit precision."
+  ]
+}

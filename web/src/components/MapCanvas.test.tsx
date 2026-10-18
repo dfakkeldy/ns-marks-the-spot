@@ -1,9 +1,10 @@
+import { renderOpenData } from "../services/renderOpenData";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useEffect, type CSSProperties, type PropsWithChildren } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
+import type { LiveFix, LiveLocationSnapshot } from "../location/liveLocation";
 import {
   MapCanvas,
   IDENTIFY_CLICK_DELAY_MS,
@@ -21,6 +22,7 @@ import type { GeoreferenceBinding } from "../userMaps/components/GeoreferenceMap
 // settle a mocked fetch on a microtask. Applied to every waitFor in the file so
 // no single call site is left encoding an accidental performance assertion.
 const ASYNC_LAYER_TIMEOUT_MS = 5_000;
+vi.mock("../services/renderOpenData", () => ({ renderOpenData: vi.fn(() => new Promise(() => {})) }));
 
 // Backs the useMap() stub's getPane/createPane below. Originally this stored
 // panes for the REAL UserMapLayers' ensurePane; both UserMapLayers and
@@ -34,17 +36,21 @@ const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
   flyTo: vi.fn(),
+  panTo: vi.fn(),
   getCenter: vi.fn(() => ({ lat: 46.21351, lng: -61.09131 })),
   getBounds: vi.fn((): {
     getWest: () => number;
     getSouth: () => number;
     getEast: () => number;
     getNorth: () => number;
+    contains?: (point: [number, number]) => boolean;
   } => ({
     getWest: () => -62,
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
+    // The province-wide default holds every fix these tests push.
+    contains: () => true,
   })),
   getZoom: vi.fn(() => 9),
   getContainer: vi.fn(() => document.body),
@@ -142,6 +148,12 @@ vi.mock("react-leaflet", () => ({
     geoJsonProps.calls.push(props);
     return <div data-testid="parcel-overlay" />;
   },
+  Marker: ({ position }: { position: [number, number] }) => (
+    <div data-testid="location-heading" data-position={position.join(",")} />
+  ),
+  Polyline: ({ positions }: { positions: [number, number][] }) => (
+    <div data-testid="live-trace" data-count={positions.length} />
+  ),
   MapContainer: ({
     children,
     ref,
@@ -207,9 +219,49 @@ vi.mock("react-leaflet", () => ({
   },
 }));
 
-vi.mock("../services/browserLocation", () => ({
-  getBrowserLocation: vi.fn(),
+// The live-location service is mocked at the module seam: tests drive the
+// watch by pushing snapshots into the captured onChange, exactly the shape
+// the real startLiveLocation delivers.
+const liveLocationMock = vi.hoisted(() => ({
+  onChange: undefined as ((snapshot: unknown) => void) | undefined,
+  stop: vi.fn(),
 }));
+
+vi.mock("../location/liveLocation", () => ({
+  RECORDING_WATCH_OPTIONS: {
+    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: 20_000,
+  },
+  startLiveLocation: (onChange: (snapshot: unknown) => void) => {
+    liveLocationMock.onChange = onChange;
+    onChange({ status: "acquiring", fix: null });
+    return { stop: liveLocationMock.stop };
+  },
+}));
+
+function liveFix(overrides: Partial<LiveFix> = {}): LiveFix {
+  return {
+    latitude: 46.12,
+    longitude: -60.91,
+    accuracyM: 24,
+    altitudeM: null,
+    headingDeg: null,
+    speedMps: null,
+    timestampMs: Date.now(),
+    ...overrides,
+  };
+}
+
+function pushLiveSnapshot(snapshot: LiveLocationSnapshot) {
+  act(() => {
+    liveLocationMock.onChange?.(snapshot);
+  });
+}
+
+function pushLiveFix(overrides: Partial<LiveFix> = {}) {
+  pushLiveSnapshot({ status: "active", fix: liveFix(overrides) });
+}
 
 vi.mock("../services/arcGISFeatureOverlay", () => ({
   fetchArcGISFeatureOverlay: vi.fn(),
@@ -316,9 +368,44 @@ const hiddenResourceLayers = {
   "mineral-proximity-parcels": false,
 };
 
+/** The smallest complete prop set: a map with every layer off. */
+function baseMapProps() {
+  return {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: false,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": false,
+      roads: false,
+      buildings: false,
+      contours: false,
+      "place-names": false,
+      "main-roads": false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+}
+
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
+  // The recorder tests that need a wake lock define one on `navigator`, which
+  // jsdom does not have. Left behind it would change what the HUD says about
+  // keeping the screen on in every test after them.
+  if ("wakeLock" in navigator) {
+    Reflect.deleteProperty(navigator, "wakeLock");
+  }
   mapMock.getCenter.mockReturnValue({ lat: 46.35, lng: -61.15 });
   mapMock.getZoom.mockReturnValue(9);
   mapMock.getBounds.mockReturnValue({
@@ -326,6 +413,7 @@ afterEach(() => {
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
+    contains: () => true,
   });
   mapContainerProps.current = undefined;
   geoJsonProps.calls.length = 0;
@@ -333,16 +421,12 @@ afterEach(() => {
   tileLayerProps.calls.length = 0;
   mineralLayerProps.current = undefined;
   oldGrowthLayerProps.current = undefined;
+  liveLocationMock.onChange = undefined;
 });
 
 describe("MapCanvas browser location", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(getBrowserLocation).mockResolvedValue({
-      latitude: 46.12,
-      longitude: -60.91,
-      accuracy: 24,
-    });
     vi.mocked(fetchArcGISFeatureOverlay).mockResolvedValue({
       type: "FeatureCollection",
       features: [],
@@ -382,6 +466,8 @@ describe("MapCanvas browser location", () => {
     );
 
     await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(screen.getByText("Finding your location…")).toBeInTheDocument();
+    pushLiveFix();
 
     expect(await screen.findByTestId("location-accuracy")).toHaveAttribute(
       "data-center",
@@ -399,8 +485,1337 @@ describe("MapCanvas browser location", () => {
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
     expect(
+      screen.getByText("Location stays on this device."),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("button", { name: "Use my location" }).querySelector("svg"),
     ).not.toBeNull();
+  });
+
+  it("clears the watch and the marker when toggled off", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Use my location" });
+    await user.click(toggle);
+    pushLiveFix();
+    expect(screen.getByTestId("location-position")).toBeInTheDocument();
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
+
+    await user.click(toggle);
+    expect(liveLocationMock.stop).toHaveBeenCalled();
+    expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("resets the toggle and explains when permission is denied", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Use my location" });
+    await user.click(toggle);
+    pushLiveSnapshot({ status: "denied", fix: null });
+
+    expect(
+      screen.getByText(
+        "Location permission was not granted. You can keep using the map.",
+      ),
+    ).toBeInTheDocument();
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("dims but keeps the marker through a signal loss", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const fix = liveFix();
+    pushLiveSnapshot({ status: "active", fix });
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "timeout" });
+
+    expect(screen.getByTestId("location-position")).toBeInTheDocument();
+    // Never "GPS": the browser names no source. And a device still trying is
+    // told apart from one that cannot place itself.
+    expect(
+      screen.getByText("Your location is taking longer than expected — still trying."),
+    ).toBeInTheDocument();
+
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toBeInTheDocument();
+
+    // And a fix that comes back takes the failure down, first one or not.
+    pushLiveSnapshot({ status: "active", fix });
+    expect(
+      screen.getByText("Your location is shown on the map."),
+    ).toBeInTheDocument();
+  });
+
+  it("tells a pre-fix timeout from a pre-fix unavailable, and calls neither a loss", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    // Location Services off for the device, or a desktop with no positioning
+    // source: code 2 until the watch gives up, with nothing ever delivered.
+    pushLiveSnapshot({
+      status: "signal-lost",
+      fix: null,
+      reason: "unavailable",
+    });
+
+    // Nothing is drawn, so nothing may be said to have been lost — and the
+    // device did not fail to answer, it answered that it cannot place itself.
+    expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Your location is unavailable — the device cannot work out where it " +
+          "is. Still trying. Move outdoors, or check that location is " +
+          "switched on for this device.",
+      ),
+    ).toBeInTheDocument();
+
+    // A timeout with nothing delivered has had no answer at all, and says so.
+    // Neither code claims a signal that was never had.
+    pushLiveSnapshot({ status: "signal-lost", fix: null, reason: "timeout" });
+    expect(
+      screen.getByText(
+        "Your location hasn't been found yet — still looking. Move outdoors, " +
+          "or check that location is switched on for this device.",
+      ),
+    ).toBeInTheDocument();
+
+    // Once a fix has been had, a loss is a loss again.
+    const fix = liveFix();
+    pushLiveSnapshot({ status: "active", fix });
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toBeInTheDocument();
+  });
+
+  it("lifts the toggle and offers a retry when the watch gives up on an unavailable position", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Use my location" });
+    await user.click(toggle);
+    pushLiveSnapshot({
+      status: "position-unavailable",
+      fix: null,
+      reason: "repeated",
+    });
+
+    expect(
+      screen.getByText(
+        "The device reported your location as unavailable several times, so " +
+          "the map stopped asking. Location may be switched off for this " +
+          "device, or there may be nothing here to place you by. Press Use " +
+          "my location to try again.",
+      ),
+    ).toBeInTheDocument();
+    // A pressed toggle over a search that has stopped is the defect this
+    // closes.
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+    // And giving up is not a refusal: the reader was never asked.
+    expect(
+      screen.queryByText(
+        "Location permission was not granted. You can keep using the map.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // One report and then silence is not several reports. The two endings get
+  // two sentences, because a count nobody made is a claim about the device.
+  it("does not say several times when the device said it once and went quiet", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveSnapshot({
+      status: "position-unavailable",
+      fix: null,
+      reason: "no-answer",
+    });
+
+    expect(
+      screen.getByText(
+        "The device reported your location as unavailable and then stopped " +
+          "answering, so the map stopped asking. Location may be switched " +
+          "off for this device, or there may be nothing here to place you " +
+          "by. Press Use my location to try again.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("follows later fixes with panTo until the user drags, then resumes via the pill", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14, {
+      animate: true,
+    });
+
+    pushLiveFix({ latitude: 46.13 });
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.13, -60.91], {
+      animate: true,
+    });
+
+    const [, dragStartHandler] =
+      mapMock.on.mock.calls.filter(([event]) => event === "dragstart").pop() ??
+      [];
+    expect(dragStartHandler).toBeTypeOf("function");
+    act(() => dragStartHandler?.());
+
+    mapMock.panTo.mockClear();
+    pushLiveFix({ latitude: 46.14 });
+    expect(mapMock.panTo).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole("button", { name: "Follow" }));
+    pushLiveFix({ latitude: 46.15 });
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.15, -60.91], {
+      animate: true,
+    });
+  });
+
+  it("keeps a closer zoom when the first fix arrives, and only pans", async () => {
+    const user = userEvent.setup();
+    // The reader searched a parcel and is reading it at 16.
+    mapMock.getZoom.mockReturnValue(16);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // The fix is brought into view without throwing the parcel away.
+    expect(mapMock.flyTo).not.toHaveBeenCalled();
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+      animate: true,
+    });
+  });
+
+  it("flies to a later fix that drifts out of view, at the zoom the reader has", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    mapMock.flyTo.mockClear();
+    mapMock.panTo.mockClear();
+
+    // The browser corrects itself to somewhere off the screen.
+    mapMock.getZoom.mockReturnValue(12);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -62,
+      getSouth: () => 45,
+      getEast: () => -60,
+      getNorth: () => 47,
+      contains: () => false,
+    });
+    pushLiveFix({ latitude: 43.85 });
+
+    // Flown to, not panned across — and the follow keeps the reader's zoom.
+    expect(mapMock.panTo).not.toHaveBeenCalled();
+    expect(mapMock.flyTo).toHaveBeenCalledWith([43.85, -60.91], 12, {
+      animate: true,
+    });
+  });
+
+  it("flies to a fix outside the view rather than panning across the province", async () => {
+    const user = userEvent.setup();
+    // Reading a parcel in Yarmouth with the device in Cape Breton: Leaflet
+    // will not fetch the tiles between, so a pan is the wrong move.
+    mapMock.getZoom.mockReturnValue(18);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -66.2,
+      getSouth: () => 43.8,
+      getEast: () => -66.1,
+      getNorth: () => 43.9,
+      contains: () => false,
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // And the closer zoom is still the reader's.
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 18, {
+      animate: true,
+    });
+    expect(mapMock.panTo).not.toHaveBeenCalled();
+  });
+
+  it("arrives without animating when the reader asked for less motion", async () => {
+    const user = userEvent.setup();
+    // Leaflet animates in JavaScript, where the stylesheet's media rule
+    // cannot reach it, so the setting has to be read here.
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // Still brought to the fix — it just arrives.
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14, {
+      animate: false,
+    });
+  });
+
+  it("takes the reader back to the fix when Follow is pressed, with no new fix", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    const [, dragStartHandler] =
+      mapMock.on.mock.calls.filter(([event]) => event === "dragstart").pop() ?? [];
+    act(() => dragStartHandler?.());
+    mapMock.panTo.mockClear();
+    mapMock.flyTo.mockClear();
+
+    // Standing still: no new fix will arrive to carry the press.
+    await user.click(screen.getByRole("button", { name: "Follow" }));
+
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+      animate: true,
+    });
+    expect(
+      screen.getByText("Your location is shown on the map."),
+    ).toBeInTheDocument();
+  });
+
+  it("marks the current location with a fresh fix and reports the outcome", async () => {
+    const user = userEvent.setup();
+    const onMarkLocation = vi
+      .fn<(fix: LiveFix | null) => Promise<string | null>>()
+      .mockResolvedValue("Point saved to Field notes (±24 m).");
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onMarkLocation={onMarkLocation}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    await user.click(screen.getByRole("button", { name: "Mark my location" }));
+
+    expect(onMarkLocation).toHaveBeenCalledTimes(1);
+    expect(onMarkLocation.mock.calls[0][0]).toMatchObject({
+      latitude: 46.12,
+      longitude: -60.91,
+      accuracyM: 24,
+    });
+    expect(
+      await screen.findByText("Point saved to Field notes (±24 m)."),
+    ).toBeInTheDocument();
+  });
+
+  it("records a track and saves it through the App callback", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
+      >()
+      .mockResolvedValue({
+        message: 'Track saved as "Boundary walk".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    // ~11 m steps at ~11 m/s with 5 m accuracy: every fix passes the filter.
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    // The HUD is up, the live trace draws, and the locate toggle is locked.
+    expect(screen.getByRole("button", { name: "Stop" })).toBeInTheDocument();
+    expect(screen.getByTestId("live-trace")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(
+      screen.getByText("Stop the track recording first."),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    expect(
+      screen.getByRole("dialog", { name: "Save track" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+    expect(onSaveTrack).toHaveBeenCalledTimes(1);
+    const input = onSaveTrack.mock.calls[0][0];
+    expect(input.name).toMatch(/^Track /);
+    expect(input.collection.features).toHaveLength(1);
+    expect(input.collection.features[0].geometry.type).toBe("LineString");
+    expect(input.rawGpx).toBeInstanceOf(Blob);
+    expect(
+      await screen.findByText('Track saved as "Boundary walk".'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("dialog", { name: "Save track" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Record a track" }),
+    ).toBeInTheDocument();
+  });
+
+  it("retries a refused track save onto the same layer instead of a second copy", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+          interrupted: boolean;
+          replaceLayerId?: string;
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
+      >()
+      .mockResolvedValueOnce({
+        message: "Track is on the map, but it couldn't be written.",
+        persisted: false,
+        layerId: "track-layer-1",
+      })
+      .mockResolvedValue({
+        message: 'Track saved as "Boundary walk".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    // The device refused the write, so the walk is still offered back. That
+    // offer is written once and then sits still, so unlike the ticking HUD it
+    // keeps its live region and is spoken when it appears.
+    const offer = await screen.findByText(
+      "A track recording is waiting to be saved.",
+    );
+    expect(offer.closest('[role="status"]')).not.toBeNull();
+    await user.click(
+      screen.getByRole("button", { name: "Recover unsaved track" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    expect(onSaveTrack).toHaveBeenCalledTimes(2);
+    expect(onSaveTrack.mock.calls[0][0].replaceLayerId).toBeUndefined();
+    expect(onSaveTrack.mock.calls[1][0].replaceLayerId).toBe("track-layer-1");
+    expect(
+      await screen.findByText('Track saved as "Boundary walk".'),
+    ).toBeInTheDocument();
+  });
+
+  it("reopens a refused save with the name and simplification the user chose", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+          interrupted: boolean;
+          replaceLayerId?: string;
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
+      >()
+      .mockResolvedValueOnce({
+        message: "Track is on the map, but it couldn't be written.",
+        persisted: false,
+        layerId: "track-layer-1",
+      })
+      .mockResolvedValue({
+        message: 'Track saved as "North boundary".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    const nameField = screen.getByLabelText("Track name");
+    await user.clear(nameField);
+    await user.type(nameField, "North boundary");
+    await user.click(screen.getByRole("radio", { name: "5 m" }));
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    // The device refused the write, so the walk is offered back. The retry
+    // rewrites the layer that save left on the map, so it has to open on the
+    // name and tolerance that layer was made with.
+    await user.click(
+      await screen.findByRole("button", { name: "Recover unsaved track" }),
+    );
+    expect(screen.getByLabelText("Track name")).toHaveValue("North boundary");
+    expect(screen.getByRole("radio", { name: "5 m" })).toBeChecked();
+
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+    expect(onSaveTrack.mock.calls[1][0].name).toBe("North boundary");
+  });
+
+  it("reads the recording clock only when a screen reader asks, not once a second", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    // The numbers are still there, still reachable, and now say which is
+    // which when they are read out of context.
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(hud).toHaveTextContent(/Elapsed \d+:\d\d/);
+    expect(hud).toHaveTextContent(/Distance \d/);
+
+    // And nothing about them is announced as they tick.
+    expect(hud).not.toHaveAttribute("aria-live");
+    expect(hud.closest('[role="status"], [aria-live]')).toBeNull();
+  });
+
+  // The quality dot goes red for two different situations. This is the one
+  // nothing else covers: the watch is healthy and delivering, and every fix is
+  // being thrown out by the accuracy gate, so the track has stopped growing.
+  // On screen that was a colour and nothing else.
+  it("says in the HUD when fixes are too rough to be added, not only in colour", async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(<MapCanvas {...baseMapProps()} onSaveTrack={vi.fn()} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(hud).not.toHaveTextContent(
+      "Positions are too rough to add to the track right now.",
+    );
+
+    // Past the 25 m gate: the watch is fine and every fix is being discarded.
+    pushLiveFix({ accuracyM: 40 });
+    expect(hud).toHaveTextContent(
+      "Positions are too rough to add to the track right now.",
+    );
+  });
+
+  // Accuracy is one of four ways a fix fails the contract's filter. A fix a
+  // kilometre away one second later is rejected on speed and reports 5 m
+  // accuracy: the dot stayed green over a track that had stopped growing.
+  it("goes red and says why when the filter turns a fix down for something other than accuracy", async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(<MapCanvas {...baseMapProps()} onSaveTrack={vi.fn()} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, timestampMs: base });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    // A second good fix, taken by the filter while the walk is running.
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(
+      hud.querySelector(".location-hud-quality-green"),
+    ).toBeInTheDocument();
+
+    // One second later, a degree of latitude away.
+    pushLiveFix({ accuracyM: 5, latitude: 47.12, timestampMs: base + 2_000 });
+
+    expect(hud).toHaveTextContent(
+      "The last position was too far from the one before it to have been walked",
+    );
+    // And not the sentence for the rule that did not fire.
+    expect(hud).not.toHaveTextContent("Positions are too rough");
+    expect(hud.querySelector(".location-hud-quality-red")).toBeInTheDocument();
+  });
+
+  it("announces a walk starting, pausing and resuming without reading the numbers", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(screen.queryByText("Recording a track.")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    const announcement = screen.getByText("Recording a track.");
+    expect(announcement).toHaveAttribute("role", "status");
+    // No digits: the clock, the distance and the point count are the things
+    // that change every second, and none of them is in here.
+    expect(announcement.textContent).not.toMatch(/\d/);
+
+    await user.click(screen.getByRole("button", { name: "Pause" }));
+    expect(screen.queryByText("Recording a track.")).not.toBeInTheDocument();
+    // Once under the numbers where it is seen, once where it is heard.
+    expect(
+      screen.getAllByText("Paused — the gap will not be connected."),
+    ).toHaveLength(2);
+
+    await user.click(screen.getByRole("button", { name: "Resume" }));
+    expect(screen.getByText("Recording a track.")).toBeInTheDocument();
+  });
+
+  it("still announces a lost signal while a walk is being recorded", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const fix = liveFix({ accuracyM: 5 });
+    pushLiveSnapshot({ status: "active", fix });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+
+    // The quality dot is the only place the HUD shows this, and it is hidden
+    // from a screen reader, so the sentence has to carry it.
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toHaveAttribute("role", "status");
+    // Two regions, two facts: losing the signal does not overwrite the fact
+    // that a walk is still running.
+    expect(screen.getByText("Recording a track.")).toBeInTheDocument();
+  });
+
+  it("pauses into segments and discards a recording with confirmation", async () => {
+    const user = userEvent.setup();
+    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
+    const onSaveTrack = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    await user.click(screen.getByRole("button", { name: "Pause" }));
+    // Scoped to the HUD: the same sentence is also in the announcement a
+    // screen reader hears, which is the point of the split.
+    expect(
+      screen.getByRole("region", { name: "Track recording" }),
+    ).toHaveTextContent("Paused — the gap will not be connected.");
+    await user.click(screen.getByRole("button", { name: "Resume" }));
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+
+    // Nothing was recorded, so the dialog offers only Discard.
+    expect(
+      screen.getByText("Too little movement was recorded to save a track."),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Save track" }),
+    ).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Discard" }));
+    expect(confirmSpy).toHaveBeenCalled();
+    expect(
+      screen.queryByRole("dialog", { name: "Save track" }),
+    ).not.toBeInTheDocument();
+    expect(onSaveTrack).not.toHaveBeenCalled();
+    confirmSpy.mockRestore();
+  });
+
+  it("hands the mark handler null instead of a stale or rough fix", async () => {
+    const user = userEvent.setup();
+    const onMarkLocation = vi
+      .fn<(fix: LiveFix | null) => Promise<string | null>>()
+      .mockResolvedValue(null);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onMarkLocation={onMarkLocation}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    // 61 m accuracy is past the 50 m mark cap: the handler must re-request.
+    pushLiveFix({ accuracyM: 61 });
+    await user.click(screen.getByRole("button", { name: "Mark my location" }));
+
+    expect(onMarkLocation).toHaveBeenCalledWith(null);
   });
 
   it("offers a retry when modern-map tiles fail", async () => {
@@ -438,10 +1853,10 @@ describe("MapCanvas browser location", () => {
     await user.click(
       screen.getByRole("button", { name: "Simulate modern map error" }),
     );
-    expect(screen.getByText("Modern map did not load.")).toBeInTheDocument();
+    expect(screen.getByText("Some modern-map data did not load. The map may be incomplete.")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Retry" }));
-    expect(screen.queryByText("Modern map did not load.")).not.toBeInTheDocument();
+    expect(screen.queryByText("Some modern-map data did not load. The map may be incomplete.")).not.toBeInTheDocument();
   });
 
   it("dismisses the successful location message after four seconds", async () => {
@@ -480,6 +1895,7 @@ describe("MapCanvas browser location", () => {
       fireEvent.click(screen.getByRole("button", { name: "Use my location" }));
       await Promise.resolve();
     });
+    pushLiveFix();
     expect(
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
@@ -528,6 +1944,7 @@ describe("MapCanvas browser location", () => {
     const { rerender } = render(<MapCanvas {...props} />);
 
     await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
     expect(await screen.findByTestId("location-position")).toBeInTheDocument();
 
     rerender(<MapCanvas {...props} renderMode="print" />);
@@ -598,6 +2015,35 @@ describe("MapCanvas viewport reporting", () => {
     });
   });
 
+  // A flight to a parcel takes about a second, and anything putting something
+  // AT the centre — the vector panel's corner mover — must not be handed the
+  // centre the flight is leaving.
+  it("says it has no centre from the moment the map starts moving", () => {
+    const onPositionChange = vi.fn();
+    render(
+      <MapCanvas {...baseMapProps()} onPositionChange={onPositionChange} />,
+    );
+
+    onPositionChange.mockClear();
+    const [, movestartHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "movestart")
+      .pop() ?? [];
+    expect(movestartHandler).toBeTypeOf("function");
+    act(() => movestartHandler?.());
+    expect(onPositionChange).toHaveBeenLastCalledWith(null);
+
+    const [, moveendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "moveend")
+      .pop() ?? [];
+    act(() => moveendHandler?.());
+    expect(onPositionChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        latitude: expect.any(Number),
+        longitude: expect.any(Number),
+      }),
+    );
+  });
+
   it("keeps location recentering out of printable viewport state", async () => {
     const user = userEvent.setup();
     const onPositionChange = vi.fn();
@@ -640,15 +2086,21 @@ describe("MapCanvas viewport reporting", () => {
     onPositionChange.mockClear();
     onViewportChange.mockClear();
     await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    // This view is already closer than the locate scale, so the fix is
+    // panned to rather than flown to; either way it is a location-driven
+    // move, which is what this test is about.
     await waitFor(
       () => {
-        expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+        expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+          animate: true,
+        });
       },
       { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
 
     mapMock.getCenter.mockReturnValue({ lat: 46.12, lng: -60.91 });
-    mapMock.getZoom.mockReturnValue(14);
+    mapMock.getZoom.mockReturnValue(15);
     mapMock.getBounds.mockReturnValue({
       getWest: () => -60.96,
       getSouth: () => 46.07,
@@ -671,8 +2123,19 @@ describe("MapCanvas viewport reporting", () => {
     expect(onPositionChange).toHaveBeenLastCalledWith({
       latitude: 46.12,
       longitude: -60.91,
-      zoom: 14,
+      zoom: 15,
     });
+    expect(onViewportChange).not.toHaveBeenCalled();
+
+    // Renderer/terrain changes may slightly recentre the camera and change
+    // its bounds; neither is permission to publish the browser-location view.
+    mapMock.getCenter.mockReturnValue({ lat: 46.12001, lng: -60.91001 });
+    mapMock.getBounds.mockReturnValue({ getWest: () => -61.1, getSouth: () => 46.05, getEast: () => -60.8, getNorth: () => 46.4 });
+    act(() => withTerrainCameraUpdate(mapMock as unknown as L.Map, () => moveendHandler?.({ type: "moveend" })));
+    expect(onViewportChange).not.toHaveBeenCalled();
+    // Rotating or returning to overhead at that same position stays private.
+    mapMock.getBounds.mockReturnValue({ getWest: () => -61.05, getSouth: () => 46.08, getEast: () => -60.85, getNorth: () => 46.3 });
+    act(() => moveendHandler?.({ type: "moveend" }));
     expect(onViewportChange).not.toHaveBeenCalled();
 
     mapMock.getCenter.mockReturnValue({ lat: 46.2, lng: -61 });
@@ -1168,6 +2631,193 @@ describe("MapCanvas parcel discovery", () => {
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
   });
 
+  it("takes the reader to a focused parcel without animating when they asked for less motion", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [parcel] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid="50251750"
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        focusRequest={{ pid: "50251750", requestId: 1 }}
+      />,
+    );
+
+    // The same parcel, at the same padding and the same closest scale — it
+    // just arrives.
+    expect(mapMock.fitBounds).toHaveBeenCalledWith(expect.anything(), {
+      padding: [64, 64],
+      maxZoom: 16,
+      animate: false,
+    });
+  });
+
+  // Leaflet's own + and - buttons go through its animated zoom path, which no
+  // amount of care about the app's own flights reaches. These are Map
+  // constructor options with no setter, so they are read once — the cost of
+  // covering the built-in controls at all.
+  it("hands Leaflet its own animation switches from the motion setting", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(<MapCanvas {...baseMapProps()} />);
+    expect(mapContainerProps.current).toMatchObject({
+      zoomAnimation: false,
+      markerZoomAnimation: false,
+      fadeAnimation: false,
+    });
+  });
+
+  it("keeps Leaflet's animations when nobody asked for less motion", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: false,
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(<MapCanvas {...baseMapProps()} />);
+    expect(mapContainerProps.current).toMatchObject({
+      zoomAnimation: true,
+      markerZoomAnimation: true,
+      fadeAnimation: true,
+    });
+  });
+
+  it("reads the motion setting again for each move, so changing it mid-session takes effect", () => {
+    let reduced = false;
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: reduced && query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [parcel] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: "50251750",
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: false,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": false,
+        roads: false,
+        buildings: false,
+        contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
+      },
+      resourceLayers: hiddenResourceLayers,
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+    };
+    const { rerender } = render(
+      <MapCanvas {...props} focusRequest={{ pid: "50251750", requestId: 1 }} />,
+    );
+
+    expect(mapMock.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ animate: true }),
+    );
+
+    // The reader turns Reduce Motion on with the map already open. The map
+    // outlives every one of these moves, so an answer captured at mount would
+    // still be sweeping them across the province.
+    reduced = true;
+    rerender(
+      <MapCanvas {...props} focusRequest={{ pid: "50251750", requestId: 2 }} />,
+    );
+
+    expect(mapMock.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ animate: false }),
+    );
+  });
+
   it("suspends parcel identify and selection while measuring", () => {
     vi.useFakeTimers();
     const onIdentifyParcel = vi.fn();
@@ -1329,6 +2979,27 @@ describe("MapCanvas overview markers", () => {
     expect(onSelectPid).toHaveBeenCalledWith("50251750");
   });
 
+  it("retains parcel geometry while selection and presentation styles change", () => {
+    mapMock.getZoom.mockReturnValue(13);
+    const onSelectPid = vi.fn();
+    const { rerender } = render(<MapCanvas {...markerProps} onSelectPid={onSelectPid} />);
+    const overlay = screen.getByTestId("parcel-overlay");
+    const initialStyle = geoJsonProps.calls.at(-1)!.style as (feature: typeof listedParcel) => object;
+    rerender(<MapCanvas {...markerProps} selectedPid="50251750" onSelectPid={onSelectPid} />);
+    expect(screen.getByTestId("parcel-overlay")).toBe(overlay);
+    const selectedStyle = geoJsonProps.calls.at(-1)!.style as typeof initialStyle;
+    expect(selectedStyle(listedParcel)).not.toEqual(initialStyle(listedParcel));
+    rerender(<MapCanvas {...markerProps} selectedPid="50251750" showTaxSale={false} onSelectPid={onSelectPid} />);
+    expect(screen.getByTestId("parcel-overlay")).toBe(overlay);
+
+    // A genuinely different parcel set must still replace immutable GeoJSON data.
+    const otherParcel = { ...listedParcel, properties: { PID: "50334317" } };
+    rerender(<MapCanvas {...markerProps}
+      parcels={{ type: "FeatureCollection", features: [otherParcel] }}
+      taxSalePids={new Set(["50334317"])} onSelectPid={onSelectPid} />);
+    expect(screen.getByTestId("parcel-overlay")).not.toBe(overlay);
+  });
+
   it("hides markers at parcel-detail zooms where polygons are legible", () => {
     mapMock.getZoom.mockReturnValue(13);
 
@@ -1395,6 +3066,17 @@ describe("MapCanvas cartographic furniture", () => {
       "data-position",
       "bottomleft",
     );
+  });
+
+  it("announces the map as a named region a screen reader can jump to", () => {
+    render(<MapCanvas {...furnitureProps} />);
+
+    // The wrapper carried this label long before it carried a role, and a
+    // name on a roleless div is thrown away: by role rather than by class is
+    // the only way to assert that the name actually reaches a reader.
+    expect(
+      screen.getByRole("region", { name: "Nova Scotia municipal parcel map" }),
+    ).toHaveClass("map-canvas");
   });
 
   it("shows an approximate representative fraction and updates it with the map", () => {
@@ -1464,7 +3146,8 @@ describe("MapCanvas Province overlays", () => {
     mapMock.getZoom.mockReturnValue(16);
   });
 
-  it("adds a dedicated trail and track contrast pass above the roads layer", () => {
+  it("renders the complete open roads result as one image above reference overlays", async () => {
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
     render(
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
@@ -1495,10 +3178,12 @@ describe("MapCanvas Province overlays", () => {
       />,
     );
 
-    expect(mapMock.addLayer).toHaveBeenCalledTimes(2);
+    await waitFor(() => expect(mapMock.addLayer).toHaveBeenCalledTimes(1));
+    expect(vi.mocked(renderOpenData).mock.calls.at(-1)?.[0].parts[0].dataset).toBe("484g-adjn");
   });
 
-  it("recovers interactive roads readiness after a later successful load", () => {
+  it("reports roads ready only after the open-data image loads", async () => {
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
     const onLayerStatusChange = vi.fn();
     render(
       <MapCanvas
@@ -1531,27 +3216,10 @@ describe("MapCanvas Province overlays", () => {
       />,
     );
 
-    const roadLayers = mapMock.addLayer.mock.calls.map(
-      ([layer]) =>
-        layer as {
-          fire: (event: string) => void;
-        },
-    );
-    expect(roadLayers).toHaveLength(2);
-
-    act(() => roadLayers[0].fire("tileerror"));
-    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
-      status: "error",
-    });
-
-    act(() => {
-      roadLayers[0].fire("load");
-      roadLayers[1].fire("load");
-    });
-    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
-      status: "ready",
-      count: 0,
-    });
+    await waitFor(() => expect(mapMock.addLayer).toHaveBeenCalledTimes(1));
+    expect(onLayerStatusChange).not.toHaveBeenCalledWith("roads", expect.objectContaining({ status: "ready" }));
+    act(() => mapMock.addLayer.mock.calls[0][0].fire("load"));
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", { status: "ready", count: 5 });
   });
 
   it("does not force the overview map inward when default property boundaries are checked", () => {
@@ -2499,7 +4167,8 @@ describe("MapCanvas print mode", () => {
     });
   });
 
-  it("requires every physical roads tile sublayer and keeps any error sticky", () => {
+  it("keeps an open roads print image failure sticky", async () => {
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
     mapMock.getZoom.mockReturnValue(15);
     const onLayerStatusChange = vi.fn();
     render(
@@ -2534,27 +4203,10 @@ describe("MapCanvas print mode", () => {
       />,
     );
 
-    const roadLayers = mapMock.addLayer.mock.calls
-      .map(([layer]) => layer as {
-        options: { className?: string };
-        fire: (event: string) => void;
-      })
-      .filter(({ options }) => options.className === "print-layer-roads");
-    expect(roadLayers).toHaveLength(2);
-
-    act(() => roadLayers[0].fire("load"));
-    expect(onLayerStatusChange).not.toHaveBeenCalledWith(
-      "roads",
-      expect.objectContaining({ status: "ready" }),
-    );
-
-    act(() => {
-      roadLayers[1].fire("tileerror");
-      roadLayers[1].fire("load");
-    });
-    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
-      status: "error",
-    });
+    await waitFor(() => expect(mapMock.addLayer).toHaveBeenCalledTimes(1));
+    const image = mapMock.addLayer.mock.calls[0][0];
+    act(() => { image.fire("error"); image.fire("load"); });
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", { status: "error" });
   });
 });
 
@@ -2834,3 +4486,121 @@ describe("feature click propagation", () => {
     expect(node.textContent).toBe("PID 50292390");
   });
 });
+
+describe("MapCanvas live conditions overlays", () => {
+  const hiddenProvinceLayers = {
+    "ns-aerial": false,
+    nsprd: false,
+    "crown-lands": false,
+    "flood-risk": false,
+    waterfalls: false,
+    "water-features": false,
+    roads: false,
+    buildings: false,
+    contours: false,
+    "place-names": false,
+    "main-roads": false,
+  };
+  const radarCapabilitiesXml = `<?xml version="1.0" encoding="UTF-8"?>
+<WMS_Capabilities xmlns="http://www.opengis.net/wms">
+  <Capability><Layer>
+    <Name>RADAR_1KM_RRAI</Name>
+    <Dimension name="time" units="ISO8601" default="2026-08-29T15:54:00Z">2026-08-29T12:54:00Z/2026-08-29T15:54:00Z/PT6M</Dimension>
+  </Layer></Capability>
+</WMS_Capabilities>`;
+
+  const baseProps = {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: hiddenProvinceLayers,
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+  };
+
+  type WmsLikeLayer = { wmsParams?: { layers?: string; time?: string } };
+  const addedWmsRadarLayer = (): WmsLikeLayer | undefined =>
+    mapMock.addLayer.mock.calls
+      .map(([layer]) => layer as WmsLikeLayer)
+      .find((layer) => layer?.wmsParams?.layers === "RADAR_1KM_RRAI");
+  const cameraGeoJsonCall = () =>
+    geoJsonProps.calls.find(
+      (call) =>
+        (call.data as { features?: unknown[] } | undefined)?.features
+          ?.length === 57,
+    );
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("reports the bundled camera count when the camera layer is on", () => {
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        {...baseProps}
+        liveConditionsLayers={{ "highway-cameras": true, "weather-radar": false }}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    expect(onLayerStatusChange).toHaveBeenCalledWith("highway-cameras", {
+      status: "ready",
+      count: 57,
+    });
+    expect(cameraGeoJsonCall()).toBeDefined();
+    expect(addedWmsRadarLayer()).toBeUndefined();
+  });
+
+  it("adds the GeoMet WMS layer and pins the frame time from capabilities", async () => {
+    const onLayerStatusChange = vi.fn();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        text: () => Promise.resolve(radarCapabilitiesXml),
+      }),
+    );
+    render(
+      <MapCanvas
+        {...baseProps}
+        liveConditionsLayers={{ "highway-cameras": false, "weather-radar": true }}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    expect(onLayerStatusChange).toHaveBeenCalledWith("weather-radar", {
+      status: "loading",
+    });
+    const radarLayer = addedWmsRadarLayer();
+    expect(radarLayer).toBeDefined();
+    await waitFor(
+      () =>
+        expect(radarLayer?.wmsParams?.time).toBe("2026-08-29T15:54:00Z"),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
+    );
+  });
+
+  it("renders neither live overlay in print mode", () => {
+    render(
+      <MapCanvas
+        {...baseProps}
+        liveConditionsLayers={{ "highway-cameras": true, "weather-radar": true }}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        renderMode="print"
+      />,
+    );
+
+    expect(addedWmsRadarLayer()).toBeUndefined();
+    expect(cameraGeoJsonCall()).toBeUndefined();
+  });
+});
+import { withTerrainCameraUpdate } from "../terrain/terrainViewport";

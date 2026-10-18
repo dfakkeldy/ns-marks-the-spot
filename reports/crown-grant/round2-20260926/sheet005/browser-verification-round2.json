@@ -1,0 +1,46 @@
+{
+  "reviewed_at_utc": "2026-09-26T14:55:05.891692+00:00",
+  "url": "http://127.0.0.1:8843/",
+  "surface": "Existing Leaflet private reviewer, separate comparison manifest; original 8842 collection untouched",
+  "views_observed": [
+    "baseline historical 65 percent",
+    "candidate historical 65 percent at full bounds",
+    "candidate modern-only 0 percent",
+    "candidate historical after two zoom-in activations"
+  ],
+  "decoded_assets": [
+    {
+      "variant": "baseline",
+      "main": [
+        6177,
+        5083
+      ],
+      "inset": [
+        2805,
+        2585
+      ],
+      "source": [
+        5762,
+        3894
+      ]
+    },
+    {
+      "variant": "candidate",
+      "main": [
+        5955,
+        5144
+      ],
+      "inset": [
+        2805,
+        2585
+      ],
+      "source": [
+        5762,
+        3894
+      ]
+    }
+  ],
+  "warning_error_console": [],
+  "interaction_note": "First pointer click on Modern only did not change value. Keyboard Enter activated comparison; 0 percent, Show historical and actual modern-only screenshot observed. Restored 65 percent and inspected zoomed coast.",
+  "limits": "Browser rendering/asset verification only; not geographic acceptance. Screenshots inspected in tool outputs, not saved as durable files. No production import or deployment."
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "Q03",
+    "label": "Triangular lake north of Warren Lake southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      953,
+      1419
+    ],
+    "lonlat": [
+      -60.40429359290367,
+      46.73280058710246
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 142712,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      961.7203608386917,
+      1433.0656251470791
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Jackson Point southeast shoreline corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1312,
+      2510
+    ],
+    "lonlat": [
+      -60.3549480849215,
+      46.6902183634354
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 2821,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1297.5351203005994,
+      2509.7113361970987
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

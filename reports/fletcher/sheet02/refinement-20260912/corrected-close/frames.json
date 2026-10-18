@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-02-R02.jpg",
+    "point_record": "sheet02/refinement-20260912/reviewed-additions.json",
+    "point_id": "R02",
+    "native_box": [
+      3417,
+      5140,
+      3637,
+      5360
+    ],
+    "native_coordinates": [
+      3527,
+      5250
+    ],
+    "modern_lonlat": [
+      -60.3665856,
+      46.8231981
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-04-R01.jpg",
+    "point_record": "sheet04/refinement-20260912/repair-proposals.json",
+    "point_id": "R01",
+    "native_box": [
+      2064,
+      3363,
+      5664,
+      6963
+    ],
+    "native_coordinates": [
+      3864,
+      5163
+    ],
+    "modern_lonlat": [
+      -60.34941307014683,
+      46.65359529636769
+    ],
+    "rotation_degrees": 0
+  }
+]

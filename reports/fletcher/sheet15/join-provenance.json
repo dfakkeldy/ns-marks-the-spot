@@ -1,0 +1,17 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "sha256": "7f27bdaa39bb8358f1cbdd7c70a0dd0614336c60edcac2a044ce3ed70c07883f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+      "sha256": "178cf532aee8967ee38cc3cc76a29a691e8310a08ac49afe3944916e442e5a91"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif",
+      "sha256": "bc1a357cc470536e820ddaccf16e61ab3c4c728a29b473fcc07de9e3703ff82c"
+    }
+  ],
+  "status": "All three are provisional; four actual geographic-window comparisons inspected. No seamless join acceptance."
+}

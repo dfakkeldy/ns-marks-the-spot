@@ -1,0 +1,25 @@
+{
+  "prospective_control": "VM18",
+  "never_fresh": true,
+  "original_observation_sha256": "93210c2f651f1b0687d4f4eb33aec3c3981a3c7adfd685640182512754180dc2",
+  "excluded_from_all_checks": [
+    "VM18",
+    "VM17"
+  ],
+  "controls": [
+    "VM01",
+    "VM02",
+    "VM06",
+    "VM11",
+    "VM17",
+    "VM18"
+  ],
+  "diagnostics": [
+    "VM10",
+    "VM08",
+    "VM07",
+    "VM12",
+    "VM15"
+  ],
+  "geographic_acceptance": false
+}

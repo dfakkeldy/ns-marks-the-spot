@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/search/all-modern-nodes-anchored.json",
+      "sha256": "ce0d9cba29cd13b45e1f409cb4d78dfadcf3544be920c2673c0d3d015511ca52"
+    },
+    {
+      "path": "tools/fletcher/observations/sheet-11.json",
+      "sha256": "ddd8225482a1954e041c596d279138dc63cb7802defcd741192c2b5907d0484c"
+    },
+    {
+      "path": "reports/fletcher/sheet11/reference-receipts.json",
+      "sha256": "39e8a632d3818bfbbe5019914db7e17ecd290449430af6d61662ceda95b48494"
+    }
+  ],
+  "method": "Printed-graticule affine used only to locate source search windows. Scored modern coordinates anchored to NSTDB line endpoints; raster reviews project reference vectors directly."
+}

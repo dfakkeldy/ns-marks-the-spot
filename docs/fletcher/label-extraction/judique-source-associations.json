@@ -1,0 +1,136 @@
+{
+  "title": "Judique source-symbol review for selected first-batch facilities",
+  "reviewed_at": "2026-09-05",
+  "annotation_inventory": "judique-pilot.json",
+  "native_mosaic_receipt": "sheet-19-native-source-2026-09-05.json",
+  "coordinate_system": "Original source-image pixels only, x right/y down; never WGS84.",
+  "limits": "Supported means a visual label-to-symbol association on this scan. It is not independent historical corroboration, a building footprint, current existence, a georeferencing control, or permission to create a modern site pin. Unlisted annotations have not had a symbol review in this batch.",
+  "associations": [
+    {
+      "annotation_id": "F19-JUD-004",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4022,
+        1338
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "The single compact black building mark immediately above-left of School, below the road.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    },
+    {
+      "annotation_id": "F19-JUD-005",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3986,
+        1567
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "The isolated building mark directly left of Forge, south of the stream; other buildings lie north of that stream.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    },
+    {
+      "annotation_id": "F19-JUD-006",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4387,
+          1537,
+          30,
+          38
+        ],
+        [
+          4316,
+          1588,
+          37,
+          19
+        ]
+      ],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "Several nearby building marks lie on opposite sides of the curved road/stream. No unique Sh. Mill mark selected.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    },
+    {
+      "annotation_id": "F19-JUD-008",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3873,
+        1854
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "The isolated building mark immediately right of Stage Stables, west of the main road. This is a symbol association, not a footprint.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    },
+    {
+      "annotation_id": "F19-JUD-009",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3890,
+          1870,
+          26,
+          38
+        ]
+      ],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "Three closely spaced building marks beside Shop and P.O.; proximity alone does not establish which label belongs to which mark.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    },
+    {
+      "annotation_id": "F19-JUD-010",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3890,
+          1870,
+          26,
+          38
+        ]
+      ],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "Shares the same candidate group as Shop. No assertion of shared or separate premises.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    },
+    {
+      "annotation_id": "F19-JUD-015",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3701,
+        2537
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "Distinct cross-like church symbol below the R.C. Church lettering beside the stream and coastal road.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    },
+    {
+      "annotation_id": "F19-JUD-021",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4430,
+          2790,
+          25,
+          26
+        ]
+      ],
+      "method": "Manual visual association on the native unwarped scan; approximate centre of printed mark where selected.",
+      "note": "Small group of building marks between road and brook, just right of Mill. No individual mark selected.",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated"
+    }
+  ]
+}

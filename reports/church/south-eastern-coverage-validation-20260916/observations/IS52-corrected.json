@@ -1,0 +1,52 @@
+{
+  "id": "IS52",
+  "label": "MacIvers Point northwestern shoreline corner",
+  "role": "check",
+  "recorded_at": "2026-09-16T04:27:32.583792+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      31400,
+      15000
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-eastern-coverage-validation-20260916/maciver-native.jpg",
+  "source_crop_sha256": "2fe2c69a18d0135d0a9c788877f74ca88da67b10068d92062b381f80e6d0d9ee",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    616,
+    429
+  ],
+  "pixel_xy": [
+    32016,
+    15429
+  ],
+  "lonlat": [
+    -60.925008415397436,
+    46.038431573009426
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 10117,
+      "vertex": 62
+    }
+  ],
+  "reference_kind": "shoreline-corner",
+  "uncertainty_ground_m": 200,
+  "point_definition": "Northern corner of the western face where the north-facing recess meets the long western shoreline.",
+  "identity_evidence": "The native South crosshair marks the northwestern corner of the western face, immediately below the northern recess. The earlier independently audited Victoria VM27 record identifies the same physical corner at WACO20 10117 v62. Original v80 is the longitude extremum farther south on the rounded face and is not the same corner. Both source crops and the marked original reference geometry were inspected during this audit. Source pixel and 200 m stated uncertainty are unchanged.",
+  "phase": "Corrected-reference diagnostic after initial score; excluded from untouched fresh-validation count; no fit or source-pixel change",
+  "supersedes_reference_in": "observations/IS52.json"
+}

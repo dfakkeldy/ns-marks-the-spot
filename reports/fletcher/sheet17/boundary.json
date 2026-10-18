@@ -1,0 +1,32 @@
+{
+  "sheet": "sheet-17",
+  "source_sha256": "a8a3f35cbf6addc45abc8cb2934ddea9a6eec4edc8346efc6de783d35355cd7e",
+  "source_dimensions": [
+    10873,
+    7642
+  ],
+  "ring_pixel_xy": [
+    [
+      1534,
+      1038
+    ],
+    [
+      9770,
+      1040
+    ],
+    [
+      9778,
+      6507
+    ],
+    [
+      1564,
+      6516
+    ],
+    [
+      1534,
+      1038
+    ]
+  ],
+  "scope": "Complete mapped inner neatline, including the Great Bras d\u2019Or Lake, Red Island, northern peninsula and southern mainland/lake portions. No separate mapped extension or crossing place label visible outside the frame.",
+  "review": "Full native overview, four original-resolution corners and printed coordinate labels inspected before selection. Central source annotation says this region was not explored; no invented interior drainage."
+}

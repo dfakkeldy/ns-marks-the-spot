@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-05-R01.jpg",
+    "point_record": "sheet05/refinement-20260912/repair-proposals.json",
+    "point_id": "R01",
+    "native_box": [
+      6000,
+      2280,
+      6800,
+      3080
+    ],
+    "native_coordinates": [
+      6400,
+      2680
+    ],
+    "modern_lonlat": [
+      -60.6113294,
+      46.7367641
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-05-R02.jpg",
+    "point_record": "sheet05/refinement-20260912/repair-proposals.json",
+    "point_id": "R02",
+    "native_box": [
+      7308,
+      3723,
+      8108,
+      4523
+    ],
+    "native_coordinates": [
+      7708,
+      4123
+    ],
+    "modern_lonlat": [
+      -60.5555391,
+      46.6802137
+    ],
+    "rotation_degrees": 0
+  }
+]

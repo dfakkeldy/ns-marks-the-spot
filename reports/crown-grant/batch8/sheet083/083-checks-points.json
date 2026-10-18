@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Maple Hill Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      835,
+      300
+    ],
+    "lonlat": [
+      -63.01654733778456,
+      44.946387570647275
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 136875,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136875,
+    "nearest_unfiltered_distance_guide_px": 0.8838244847334276,
+    "selected_distance_guide_px": 0.8838244847334276,
+    "guide_reference_pixel_xy": [
+      860.6613344846992,
+      328.8163647399051
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Melville Lake southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1862,
+      420
+    ],
+    "lonlat": [
+      -62.955308902749124,
+      44.95986952412669
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 136509,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136509,
+    "nearest_unfiltered_distance_guide_px": 0.673684682166891,
+    "selected_distance_guide_px": 0.673684682166891,
+    "guide_reference_pixel_xy": [
+      1852.3571419723448,
+      410.798543783254
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Big Ash Lake eastern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      1923,
+      1205
+    ],
+    "lonlat": [
+      -62.93133998754501,
+      44.92728023219553
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 125275,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125275,
+    "nearest_unfiltered_distance_guide_px": 0.8014942317604531,
+    "selected_distance_guide_px": 0.8014942317604531,
+    "guide_reference_pixel_xy": [
+      1907.7809939396102,
+      1220.8198848428437
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Little Kearney Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1974,
+      2912
+    ],
+    "lonlat": [
+      -62.88638214270201,
+      44.85617368789701
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 132771,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132771,
+    "nearest_unfiltered_distance_guide_px": 1.4612878779019698,
+    "selected_distance_guide_px": 1.4612878779019698,
+    "guide_reference_pixel_xy": [
+      1925.3325829459936,
+      2945.422937400639
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Southern Rocky Lake eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3434,
+      3809
+    ],
+    "lonlat": [
+      -62.77999919511811,
+      44.84471788888097
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 129567,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129567,
+    "nearest_unfiltered_distance_guide_px": 0.6432282073138774,
+    "selected_distance_guide_px": 0.6432282073138774,
+    "guide_reference_pixel_xy": [
+      3345.586653141363,
+      3802.73621861625
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Camp Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4555,
+      3318
+    ],
+    "lonlat": [
+      -62.72691370142716,
+      44.88309824903507
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 130860,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 130860,
+    "nearest_unfiltered_distance_guide_px": 2.9573700268166885,
+    "selected_distance_guide_px": 2.9573700268166885,
+    "guide_reference_pixel_xy": [
+      4440.057527265511,
+      3322.7618243170436
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Cranberry Lake west of Little Atlantic southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4867,
+      1680
+    ],
+    "lonlat": [
+      -62.74918969861928,
+      44.95719933111958
+    ],
+    "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+    "reference_objectid": 139608,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139608,
+    "nearest_unfiltered_distance_guide_px": 1.2119822245987073,
+    "selected_distance_guide_px": 1.2119822245987073,
+    "guide_reference_pixel_xy": [
+      4769.381651318457,
+      1668.8496769219637
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

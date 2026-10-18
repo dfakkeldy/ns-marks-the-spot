@@ -1,0 +1,103 @@
+{
+  "fit_sha256": "d1c2b2c7c6d6b7227afbce48293e06d7fc9a79a16937e19ff2d943337b43c198",
+  "boundary_sha256": "f7cd2eca10af9fb59a12d66abc02926d57f739f0da11b01f6eddc2822023f746",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "d43a0d78218b1b3b823fd3133be866e1d882a07f3eea73d1fe3247ed4b67b638",
+  "median_ground_m": 99.54991916092075,
+  "worst_ground_m": 278.3899936321594,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 2.64177688019364,
+      "predicted_lonlat": [
+        -61.170373583182155,
+        46.25642428350961
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 89.91358866521027,
+      "predicted_lonlat": [
+        -60.891069205179114,
+        46.22842821481608
+      ]
+    },
+    {
+      "id": "Q04",
+      "error_ground_m": 278.3899936321594,
+      "predicted_lonlat": [
+        -61.04516040446842,
+        46.176601440844415
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 226.05427328785456,
+      "predicted_lonlat": [
+        -61.07613232920155,
+        46.106951223029235
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 100.19382912571555,
+      "predicted_lonlat": [
+        -61.06666403665502,
+        46.21110689891396
+      ]
+    },
+    {
+      "id": "V04",
+      "error_ground_m": 98.90600919612596,
+      "predicted_lonlat": [
+        -61.11543075623994,
+        46.12771484653755
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71721,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -29.029888759312406,
+      -18.511130388079973
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/sheet-13-full-sheet.tif",
+    "sha256": "c432e6ec72c17c6d8522a5ee3c3351e3ff30209e402ab733bf2cd0885d06c0a3",
+    "size": [
+      8680,
+      5763
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2311011,
+            46.2747938
+          ],
+          [
+            -61.2311011,
+            46.0955848
+          ],
+          [
+            -60.8412323,
+            46.0955848
+          ],
+          [
+            -60.8412323,
+            46.2747938
+          ],
+          [
+            -61.2311011,
+            46.2747938
+          ]
+        ]
+      ]
+    }
+  }
+}

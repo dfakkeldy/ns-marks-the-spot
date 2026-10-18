@@ -1,0 +1,15 @@
+{
+  "reviewed_at": "2026-09-16T06:19:06.031405+00:00",
+  "url": "http://127.0.0.1:49370/?layers=modern&basemap=osm&position=46.52903,-60.83914,14",
+  "active_historical_raster": "inverness-north-tps5-review-20m",
+  "raster_sha256": "8856e0fdd99f3ce01774f4ee22d182755728369961de9113f76af4cc047b62e8",
+  "opacity_percent": 70,
+  "exaggeration": 10,
+  "tilts": [
+    50,
+    0
+  ],
+  "observations": "The exaggerated oblique terrain exposes valley/ridge context but hides valley bottoms; top-down view makes generalized water placement easier to inspect. Historical channels do not follow every modern valley. No perspective-derived GCP measurements.",
+  "new_raster_import": false,
+  "full_coverage_audit": "Inherited unchanged artifact and coverage receipt from previous north report; no new full render."
+}

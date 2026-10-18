@@ -1,0 +1,18 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "production_accepted": false,
+  "median_ground_m": 130.62788913424947,
+  "worst_ground_m": 197.82917209193553,
+  "targets_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "fresh_check_count": 2,
+  "recommendation": "Local Hume/Bell Rock and lower McPhedran improvement only; no accepted whole-sheet replacement.",
+  "blockers": [
+    "Fresh median target fails at 130.628m.",
+    "No independent central inland check; island/drainage checks correlate locally with prior controls.",
+    "Wider shoreline, inland topology and adjacent-sheet continuity remain unsupported.",
+    "Full eastern continuation unavailable in the current sheet collection; mistaken Sheet14 comparisons are rejected setup evidence."
+  ]
+}

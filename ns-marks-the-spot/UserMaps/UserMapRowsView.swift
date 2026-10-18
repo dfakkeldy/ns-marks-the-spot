@@ -33,7 +33,11 @@ struct UserMapRowsView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
 
-            if viewModel.rows.isEmpty {
+            if viewModel.rows.isEmpty, !viewModel.isLibrarySealed {
+                // Not over a library this build could not read: the reader's
+                // maps may all be in it, and inviting an import that the
+                // notice below refuses would be an empty list claiming to be
+                // the answer.
                 Text("Import a GeoTIFF, PDF, PNG or JPEG to draw it on the map.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -64,8 +68,14 @@ struct UserMapRowsView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
                     Spacer()
-                    Button("Dismiss") { viewModel.clearNotices() }
-                        .font(.caption)
+                    Button {
+                        viewModel.clearNotices()
+                    } label: {
+                        Text("Dismiss")
+                            .font(.caption)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
 
@@ -212,11 +222,19 @@ private struct UserMapRow: View {
                 // choosing one is a click rather than a georeferencing session.
                 // Hand placement stays available in the menu, because the frame
                 // the user wants may be one the file never registered.
-                Button("Choose map frame…", action: onChooseFrame)
-                    .font(.caption)
+                Button(action: onChooseFrame) {
+                    Text("Choose map frame…")
+                        .font(.caption)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
             } else if row.needsGeoreferencing {
-                Button("Place on map…", action: onPlace)
-                    .font(.caption)
+                Button(action: onPlace) {
+                    Text("Place on map…")
+                        .font(.caption)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
             } else {
                 // Live whether or not the sheet is showing, as the browser's
                 // is. Setting a scan to a third before revealing it is how a

@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Main Pudsey Point northern tip",
+    [
+      1767,
+      1487
+    ],
+    [
+      1773,
+      1450
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Main Sword Point western tip",
+    [
+      1961,
+      1334
+    ],
+    [
+      1967,
+      1297
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Main Apple Head northeast projecting corner",
+    [
+      2425,
+      1192
+    ],
+    [
+      2435,
+      1149
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Main Squally Point northwest corner",
+    [
+      845,
+      1830
+    ],
+    [
+      855,
+      1782
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "Main Howard Lake northeastern tip",
+    [
+      5358,
+      2810
+    ],
+    [
+      5386,
+      2779
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Main Refugee Cove southern shore bend",
+    [
+      173,
+      3657
+    ],
+    [
+      170,
+      3620
+    ],
+    "WACO20"
+  ]
+]

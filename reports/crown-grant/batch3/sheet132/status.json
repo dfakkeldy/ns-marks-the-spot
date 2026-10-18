@@ -1,0 +1,44 @@
+{
+  "sheet": "132",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; private browser overlay verified; RMS passes 100 m with median and regional qualifications",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/132.pdf",
+    "pdf_sha256": "36d2ebe2fc275978968b64be567b6220b179380c918c335cd936e0497b5e6ce6",
+    "jpeg_sha256": "ec90417e1b9b240982ad4d9a6804459b6d1f421d60204a0c0af5668839625bc8",
+    "dimensions": [
+      5797,
+      3886
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 84.16741211042824,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight independent checks give RMS 84.17 m, median 79.04 m, P95 120.15 m and maximum 128.30 m. RMS passes 100 m; the suggested 75 m median companion bound is not met.",
+    "Lakes and Mira River checks cover eastern and western interior regions but are spatially correlated; the far northern and southern edges and parcel interiors remain insufficiently checked.",
+    "Rounded lake ends and generalized shores carry 12 px working source uncertainty; unsampled local distortions and changed water features remain possible."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 84.17 m, median 79.04 m, P95 120.15 m, maximum 128.30 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped rectangle with East Bay, Sydney Forks, inland lakes, Salmon River, Marion Bridge and all Mira River islands. No displaced inset identified. Mapped lake, river and island content is retained in one affine frame."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "IS31",
+  "label": "Southside River Denys / Marble Mountain road junction",
+  "role": "check",
+  "phase": "Fresh expansion of unchanged affine4 validation; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T21:23:43.182287+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      26600,
+      22300
+    ],
+    "extent": [
+      2000,
+      1800
+    ],
+    "display": [
+      1500,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/IS6-denys-east-native.jpg",
+  "source_crop_sha256": "e14fe1ee0b2f030ed380848c893e00d7e4c7c0e78954ed2a4701f7deaa4f9a3b",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    610,
+    603
+  ],
+  "pixel_xy": [
+    27413.333333333332,
+    23104.0
+  ],
+  "lonlat": [
+    -61.08737176073207,
+    45.851594399654154
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+  "reference_sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc",
+  "reference_kind": "Road centreline junction",
+  "reference_vertices": [
+    {
+      "feature_id": 6525,
+      "vertex": 72,
+      "layer": 8,
+      "street": "Southside River Denys Rd"
+    },
+    {
+      "feature_id": 45577,
+      "vertex": 0,
+      "layer": 8,
+      "street": "Marble Mountain Rd"
+    },
+    {
+      "feature_id": 51612,
+      "vertex": 10,
+      "layer": 8,
+      "street": "Marble Mountain Rd"
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Centre of the three-road meeting southeast of Crowdis Bridge.",
+  "identity_evidence": "The west approach follows the south side of River Denys; a northern arm approaches across the channel near Crowdis Bridge; the east arm follows the shore below the hill before continuing toward Marble Mountain. The source road meeting and original road/water network share this three-way configuration. The separate northwestern road junction and bridge crossing are not used as the point."
+}

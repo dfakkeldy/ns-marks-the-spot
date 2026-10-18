@@ -1,0 +1,216 @@
+{
+  "note": "Selected receipts for first reviewed labels and four-crop revised-budget validation. Raw events/session exports remain local. Costs unknown.",
+  "receipts": [
+    {
+      "crop_id": "F22-R01C01",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "1ab7391056473650e661a8adafbb4abaf59f76fe1e0d1a592bb067833fb4b5cb",
+      "prompt_sha256": "ce49681f37a52d300bd25e26b810969785bfe426b909c0b47315fa00c8fd3ad1",
+      "started_unix": 1788713618.181556,
+      "elapsed_s": 18.23,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f885c320fffeBGK25lT93wAm1n"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3859,
+          "input": 2208,
+          "output": 255,
+          "reasoning": 1396,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "ea7bc504444be9c9ac1a08324dc4ef01579f80ad0253bee6e44bc4d1cdbb4447",
+      "original_validation_error": "'box_xywh'",
+      "format_repair": [
+        "Renamed region_xywh/description to box_xywh/note; preserved all coordinate values and text"
+      ],
+      "raw_final_sha256": "b39446cf5b13093806fde7dab41f2c66c2d54ecb28c3504855e9d91ea0f5e0c6"
+    },
+    {
+      "crop_id": "F22-R01C03",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "604f367e5217e87f53eb39aa924007e9a012f2971b457db15fefdda7ba9c0cb4",
+      "prompt_sha256": "5992ff99b9f3ac211cdc98ca437c2ba3882538f5d5f90abea4a0d8b01ea2456c",
+      "started_unix": 1788713618.1833322,
+      "elapsed_s": 103.41,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f885c12a7ffeTzHise5yp0fvXv"
+      ],
+      "tokens_reported": [
+        {
+          "total": 13119,
+          "input": 928,
+          "output": 543,
+          "reasoning": 10368,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "58837d171bfb0eb72355f31dc116dce75f5a08050dbd139bc077d585676ade37"
+    },
+    {
+      "crop_id": "F22-R04C04",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "4725c625bd0e38d5a33752be31e493d51d43643a767feb2e21c1e4a5529aebc2",
+      "prompt_sha256": "6f1834cab9f5e9127eda2816efc8892d8673f4055b114c3b3add8b008640036f",
+      "started_unix": 1788714370.633461,
+      "elapsed_s": 75.11,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f8850b6e1ffeD6u6W1K9oppvpl"
+      ],
+      "tokens_reported": [
+        {
+          "total": 10582,
+          "input": 2218,
+          "output": 1420,
+          "reasoning": 6944,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "eae5510e0937dc8f69de3915e043ed836308c243cc4a8cf4b413e9acd9df14f4"
+    },
+    {
+      "crop_id": "F22-R04C05",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "475751bde2d5e6b92f7c14f602945f94a66a181250f1d3df23d9f71164d8d119",
+      "prompt_sha256": "a452d5c68e407744e5a89e08fc754a7ef484df69d5f41d7b043643fca400d6ce",
+      "started_unix": 1788714370.6363661,
+      "elapsed_s": 171.58,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f8850976dffe8zswLeeRYDJ9qv"
+      ],
+      "tokens_reported": [
+        {
+          "total": 21690,
+          "input": 938,
+          "output": 1589,
+          "reasoning": 17883,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "5a2fe78eb4e476937ef2e9eea0ec7108d91ef3d5be8b47687274161cf645db6e"
+    },
+    {
+      "crop_id": "F22-R04C06",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "e8972379678f41a747375edb31505687b4cac70dd4bda323b0a69f22a92d264e",
+      "prompt_sha256": "54c17b354bb4d8e618d02b4d1242fcb128d583fe5dcbbcb31276d3aefc3f0868",
+      "started_unix": 1788714370.636271,
+      "elapsed_s": 105.54,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f885087bcffecfaTd5AGgQzT1E"
+      ],
+      "tokens_reported": [
+        {
+          "total": 13182,
+          "input": 938,
+          "output": 1234,
+          "reasoning": 9730,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "17e877827c511cbc3bc3c14a2444cb5f9f6b1856c3ccaad6a0602503701c22c5"
+    },
+    {
+      "crop_id": "F22-R04C07",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "60ab4de14171c805862fa797449c1aac5ed161232da31e5ec90ccee6ac1783c8",
+      "prompt_sha256": "cfc57b87e9c4e6001012fff69d8bb6b64ee608156304cb9209c52dc701292f30",
+      "started_unix": 1788714370.636183,
+      "elapsed_s": 191.05,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f8850a71fffeWBo6r6JaXLNR7z"
+      ],
+      "tokens_reported": [
+        {
+          "total": 24455,
+          "input": 2194,
+          "output": 1934,
+          "reasoning": 20327,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "4ea9cfd67ddfdd244cff1a0ba442d68d63ce97bb1822e4cf214fd1b5ae121a8f"
+    }
+  ]
+}

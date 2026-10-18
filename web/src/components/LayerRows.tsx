@@ -1,3 +1,5 @@
+import { queryLockReason } from "../licensing/layerUse";
+import { openDataSourceLinks, type OpenDataSource } from "../layers/openDataSources";
 import { memo } from "react";
 import { useState } from "react";
 import type {
@@ -5,6 +7,7 @@ import type {
   FloodHazardLayerDescriptor,
   ForestryLayerDescriptor,
   HydroPilotLayerDescriptor,
+  LiveConditionsLayerDescriptor,
   ProvinceLayerId,
   ResourceControlDescriptor,
   WebLayerDescriptor,
@@ -13,6 +16,7 @@ import type {
   FletcherLayerId,
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
+import { radarObservedLabel } from "../services/weatherRadar";
 import {
   WELL_ACCURACY_BANDS,
   type WellLogAccuracyFilter,
@@ -28,14 +32,28 @@ function layerRuntimeLabel(
   switch (status.status) {
     case "loading":
       return "Loading visible area…";
-    case "ready":
-      return status.count === undefined
-        ? "Ready"
-        : `Ready · ${status.count.toLocaleString("en-CA")} loaded`;
+    case "ready": {
+      const parts = [status.message ?? "Ready"];
+      if (status.count !== undefined) {
+        parts.push(`${status.count.toLocaleString("en-CA")} loaded`);
+      }
+      const observed =
+        status.observedAt === undefined
+          ? null
+          : radarObservedLabel(status.observedAt);
+      if (observed !== null) {
+        parts.push(`observed ${observed}`);
+      }
+      return parts.join(" · ");
+    }
     case "zoom":
       return `Zoom to ${status.minZoom}+ to load`;
+    case "returned-empty": return "Source returned no records";
+    case "outside-coverage": return "Outside this source’s mapped coverage";
+    case "licence-blocked": return "Province licence required";
+    case "source-error":
     case "error":
-      return "Source temporarily unavailable";
+      return status.message ?? "Source temporarily unavailable";
     case "idle":
       return "Ready to load";
   }
@@ -43,6 +61,7 @@ function layerRuntimeLabel(
 
 export const LayerMetadata = memo(function LayerMetadata({
   sourceDate,
+  openData,
   scale,
   coverage,
   minZoom,
@@ -51,6 +70,7 @@ export const LayerMetadata = memo(function LayerMetadata({
   status,
 }: {
   sourceDate: string;
+  openData?: OpenDataSource;
   scale: string;
   coverage: string;
   minZoom: number;
@@ -75,6 +95,7 @@ export const LayerMetadata = memo(function LayerMetadata({
         >
           Source &amp; scale
         </summary>
+        {openData ? openDataSourceLinks(openData).map(({ url, name }) => <small key={url}><a href={url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>{name}</a></small>) : null}
         <small>Source date: {sourceDate}</small>
         <small>Scale: {scale}</small>
         <small>Coverage: {coverage}</small>
@@ -99,33 +120,43 @@ export const LayerToggle = memo(function LayerToggle({
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
 }) {
+  const enabled = layer.licence === "province-open" || licenceAccepted;
   return (
     <label className="layer-row">
       <input
         type="checkbox"
         aria-label={layer.name}
-        checked={licenceAccepted && checked}
-        disabled={!licenceAccepted}
+        checked={enabled && checked}
+        disabled={!enabled}
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
         <small>
-          {licenceAccepted ? layer.webCaveat : "Province licence required"}
+          {enabled ? layer.webCaveat : "Province licence required"}
         </small>
         <LayerMetadata
+          openData={layer.openData}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}
           minZoom={layer.minZoom}
           maxZoom={layer.maxZoom}
-          checked={licenceAccepted && checked}
+          checked={enabled && checked}
           status={status}
         />
       </span>
-      {!licenceAccepted && layer.id === "nsprd" ? (
-        <button className="text-button" type="button" onClick={onReviewLicence}>
+      {/* Every province-restricted row used to disable the switch with no
+          in-row accept path except NSPRD. Aerial (and the rest) left phone
+          users hunting a footer control the open layer sheet can cover. */}
+      {!enabled ? (
+        <button
+          aria-label={`Review Province licence for ${layer.name}`}
+          className="text-button"
+          type="button"
+          onClick={onReviewLicence}
+        >
           Review
         </button>
       ) : null}
@@ -313,6 +344,50 @@ export const HydroPilotLayerToggle = memo(function HydroPilotLayerToggle({
 });
 
 /**
+ * Live-conditions overlays (511 cameras, ECCC radar) come from federal and
+ * provincial live services outside the Province map-services licence, so —
+ * like zoning — the toggle takes no licenceAccepted prop.
+ */
+export const LiveConditionsLayerToggle = memo(
+  function LiveConditionsLayerToggle({
+    layer,
+    checked,
+    status,
+    onChange,
+  }: {
+    layer: LiveConditionsLayerDescriptor;
+    checked: boolean;
+    status: MapLayerStatus;
+    onChange: (checked: boolean) => void;
+  }) {
+    return (
+      <label className="layer-row live-conditions-layer-row">
+        <input
+          type="checkbox"
+          aria-label={layer.name}
+          checked={checked}
+          onChange={(event) => onChange(event.target.checked)}
+        />
+        <span className="switch" aria-hidden="true" />
+        <span>
+          <strong>{layer.name}</strong>
+          <small>{layer.webCaveat}</small>
+          <LayerMetadata
+            sourceDate={layer.sourceDate}
+            scale={layer.scale}
+            coverage={layer.coverage}
+            minZoom={layer.minZoom}
+            maxZoom={layer.maxZoom}
+            checked={checked}
+            status={status}
+          />
+        </span>
+      </label>
+    );
+  },
+);
+
+/**
  * Zoning comes from municipal servers, so it sits outside the Province licence
  * gate entirely and takes no licenceAccepted prop.
  */
@@ -332,13 +407,14 @@ export const ZoningLayerToggle = memo(function ZoningLayerToggle({
       <input
         type="checkbox"
         aria-label={`${layer.name} zoning`}
-        checked={checked}
+        checked={!queryLockReason(layer.id) && checked}
+        disabled={!!queryLockReason(layer.id)}
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{layer.webCaveat}</small>
+        <small>{queryLockReason(layer.id) ?? layer.webCaveat}</small>
         <LayerMetadata
           sourceDate={layer.sourceDate}
           scale={layer.scale}
@@ -642,26 +718,12 @@ export function WellLogAccuracyLegend() {
   );
 }
 
-export function RoadLegend() {
-  return (
-    <ul className="road-legend" aria-label="Road type legend">
-      <li>
-        <span className="road-swatch highway" />Highway
-      </li>
-      <li>
-        <span className="road-swatch local" />Local road
-      </li>
-      <li>
-        <span className="road-swatch resource" />Resource road
-      </li>
-      <li>
-        <span className="road-swatch trail" />Trail / track
-      </li>
-      <li>
-        <span className="road-swatch culvert" />Culvert
-      </li>
-    </ul>
-  );
+export function RoadLegend({ imagery = false }: { imagery?: boolean }) {
+  return <ul className={`road-legend${imagery ? " imagery" : ""}`} aria-label="Road type legend">
+    <li><span className="road-swatch open-road" />Mapped road or transport feature</li>
+    <li><span className="road-swatch open-minor" />Trail, track, driveway or unpaved feature</li>
+    <li className="road-legend-note">Resource and seasonal roads appear from zoom 13; tracks, trails and driveways from zoom 14.</li>
+  </ul>;
 }
 
 export function HydroPotentialLegend() {

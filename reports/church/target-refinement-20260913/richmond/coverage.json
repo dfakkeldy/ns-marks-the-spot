@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/rendered/richmond-candidate14-tps-20m.tif",
+  "raster_sha256": "10e22efaf4d64e93c7ef21594a62c5ae947a7f494f1387a6a158c6d5c852614d",
+  "cutline_sha256": "4577e34cd2f48459ee92a8673238d9d563a1acb76cbf96268cd1a0f47d6ef9b7",
+  "expected_interior_cells": 20831588,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

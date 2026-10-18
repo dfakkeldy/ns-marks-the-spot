@@ -1,0 +1,170 @@
+{
+  "count": 5,
+  "rms_ground_m": 90.8721166160513,
+  "median_ground_m": 54.74474741732947,
+  "p95_ground_m": 154.4290763389986,
+  "max_ground_m": 175.14231000240792,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -22.696404527250486,
+  "mean_north_ground_m": 17.998706642922905,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Jersey Point western tip of Petit de Grat Island",
+      "role": "check",
+      "pixel_xy": [
+        4760,
+        2684
+      ],
+      "lonlat": [
+        -60.96152511122093,
+        45.48446192785516
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 20929,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4765.4841814508545,
+        2685.354953636881
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+      "predicted_lonlat": [
+        -60.96090013208459,
+        45.48468408545677
+      ],
+      "error_ground_m": 54.74474741732947,
+      "east_ground_m": 48.86040094185587,
+      "north_ground_m": 24.69106294974543
+    },
+    {
+      "id": "IQ02",
+      "label": "Birch Point east tip",
+      "role": "check",
+      "pixel_xy": [
+        5290,
+        2598
+      ],
+      "lonlat": [
+        -60.92925915313229,
+        45.49738378020494
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 16975,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5341.792048930947,
+        2600.3384205308976
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+      "predicted_lonlat": [
+        -60.93146964612333,
+        45.49712562811943
+      ],
+      "error_ground_m": 175.14231000240792,
+      "east_ground_m": -172.776642562365,
+      "north_ground_m": -28.68903166466796
+    },
+    {
+      "id": "IQ03",
+      "label": "Ranteleau Point north tip",
+      "role": "check",
+      "pixel_xy": [
+        5239,
+        2040
+      ],
+      "lonlat": [
+        -60.947404954830176,
+        45.51955138219331
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 20633,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5257.141542507859,
+        2040.1681929308688
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+      "predicted_lonlat": [
+        -60.94774728279029,
+        45.519580157298726
+      ],
+      "error_ground_m": 26.93694614872386,
+      "east_ground_m": -26.746415210837238,
+      "north_ground_m": 3.1981777919220673
+    },
+    {
+      "id": "IQ04",
+      "label": "Green Island northwest corner",
+      "role": "check",
+      "pixel_xy": [
+        5540,
+        3147
+      ],
+      "lonlat": [
+        -60.904246283327446,
+        45.47790626793955
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 18505,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5548.8544975021505,
+        3143.6314288771246
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+      "predicted_lonlat": [
+        -60.903602194857775,
+        45.478363906973534
+      ],
+      "error_ground_m": 71.57614168536143,
+      "east_ground_m": 50.35998461491728,
+      "north_ground_m": 50.86271727059251
+    },
+    {
+      "id": "IQ05",
+      "label": "Gros Nez offshore island north tip",
+      "role": "check",
+      "pixel_xy": [
+        5704,
+        2307
+      ],
+      "lonlat": [
+        -60.91361252919628,
+        45.51582899671575
+      ],
+      "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+      "reference_objectid": 18575,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5720.175741727813,
+        2307.391264165053
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal and pond topology traced; native source/reference crosshair inspected and corrected before first component fit or score.",
+      "review": "Final physical correspondence audited before fitting; every check excluded from fit.",
+      "predicted_lonlat": [
+        -60.913781201859635,
+        45.516188272621875
+      ],
+      "error_ground_m": 42.04935959390108,
+      "east_ground_m": -13.179350419823356,
+      "north_ground_m": 39.930606867022476
+    }
+  ],
+  "fit_sha256": "2c549271a26dc9e9462ce48c26c7313a969fc808927ad6002b26142035d520fe",
+  "checks_sha256": "efbbb203fd6b43b392569124abfb0f112a25cc9d4da02e8c892dd91a25371ede",
+  "status": "Independent physical checks selected and audited before first frozen component score"
+}

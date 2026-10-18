@@ -1,0 +1,13 @@
+{
+  "stage": "before first fit or score",
+  "rejected": [
+    {
+      "id": "Q06",
+      "reason": "Three Corner Lake northern source line may include adjoining river bank; modern nearest unfiltered feature WARV55 and natural-lake boundary do not establish the same exact lobe."
+    }
+  ],
+  "notes": [
+    "C02 changed before fitting from uncertain northern pond transition to the clear southern edge; both original and revised proposal retained.",
+    "Grassy Lake northern check placed at physical north lobe after native audit before fitting."
+  ]
+}

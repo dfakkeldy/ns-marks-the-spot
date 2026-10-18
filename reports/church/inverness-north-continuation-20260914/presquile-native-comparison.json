@@ -1,0 +1,23 @@
+{
+  "origin": [
+    4700,
+    15900
+  ],
+  "extent": [
+    1300,
+    2000
+  ],
+  "display": [
+    1300,
+    2000
+  ],
+  "rotation": 0,
+  "original_source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+  "working_source": "/var/home/dan/nsmarks-church-20260726/sources/inverness-master.tif",
+  "original_decoded_sha256": "53bea83ce5d3c0907302ed7e32a9e75fc447de299d34fac747c993f6a1e51bb1",
+  "working_decoded_sha256": "53bea83ce5d3c0907302ed7e32a9e75fc447de299d34fac747c993f6a1e51bb1",
+  "decoded_native_arrays_equal": true,
+  "max_channel_difference": 0,
+  "elapsed_seconds": 8.556016210000962,
+  "scope": "Exact native RGB comparison in this one window. No whole-source parity or geographic acceptance."
+}

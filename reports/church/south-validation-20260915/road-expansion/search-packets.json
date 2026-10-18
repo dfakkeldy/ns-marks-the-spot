@@ -1,0 +1,201 @@
+[
+  {
+    "name": "IS5-mabou",
+    "query_name": "mabou",
+    "lonlat": [
+      -61.39223101319825,
+      46.07183272530873
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 44234,
+        "vertex": 0,
+        "street": "Mabou Harbour Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 7,
+        "id": 12984,
+        "vertex": 3,
+        "street": "Highway 19",
+        "kind": "RRRDATY1"
+      },
+      {
+        "layer": 7,
+        "id": 13717,
+        "vertex": 0,
+        "street": "Highway 19",
+        "kind": "RRRDATY1"
+      }
+    ],
+    "guide_pixel_xy": [
+      18737.8659388569,
+      14107.0827319103
+    ],
+    "origin": [
+      16200,
+      11600
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern road-node candidate. Historic alignment must be verified from original source and physical context before adoption."
+  },
+  {
+    "name": "IS5-strathlorne",
+    "query_name": "strathlorne",
+    "lonlat": [
+      -61.287483223885886,
+      46.195400535596846
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 2387,
+        "vertex": 0,
+        "street": "Strathlorne-Scotsville Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 7,
+        "id": 54636,
+        "vertex": 35,
+        "street": "Highway 19",
+        "kind": "RRRDATY1"
+      },
+      {
+        "layer": 7,
+        "id": 57552,
+        "vertex": 0,
+        "street": "Highway 19",
+        "kind": "RRRDATY1"
+      }
+    ],
+    "guide_pixel_xy": [
+      21724.9598153882,
+      9040.46614816536
+    ],
+    "origin": [
+      19200,
+      6500
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern road-node candidate. Historic alignment must be verified from original source and physical context before adoption."
+  },
+  {
+    "name": "IS5-orangedale",
+    "query_name": "orangedale",
+    "lonlat": [
+      -61.09699830709518,
+      45.902205829111175
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 7545,
+        "vertex": 18,
+        "street": "Orangedale Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 13862,
+        "vertex": 7,
+        "street": "Marble Mountain Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 54103,
+        "vertex": 0,
+        "street": "Orangedale Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 148135,
+        "vertex": 0,
+        "street": "Orangedale-Iona Rd",
+        "kind": "RRRDLOY1"
+      }
+    ],
+    "guide_pixel_xy": [
+      27108.6381055725,
+      21027.0078734752
+    ],
+    "origin": [
+      24600,
+      18500
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern road-node candidate. Historic alignment must be verified from original source and physical context before adoption."
+  },
+  {
+    "name": "IS5-granton",
+    "query_name": "granton",
+    "lonlat": [
+      -61.077331866763274,
+      46.33032033857343
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 155474,
+        "vertex": 0,
+        "street": "West Big Intervale Rd",
+        "kind": "RRRDLOZ2"
+      },
+      {
+        "layer": 8,
+        "id": 157716,
+        "vertex": 68,
+        "street": "East Margaree Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 8,
+        "id": 291588,
+        "vertex": 0,
+        "street": "East Margaree Rd",
+        "kind": "RRRDLOY1"
+      }
+    ],
+    "guide_pixel_xy": [
+      27707.3135593405,
+      3491.70065201163
+    ],
+    "origin": [
+      25200,
+      900
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored modern road-node candidate. Historic alignment must be verified from original source and physical context before adoption."
+  }
+]

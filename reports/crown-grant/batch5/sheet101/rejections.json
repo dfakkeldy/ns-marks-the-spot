@@ -1,0 +1,13 @@
+{
+  "stage": "before first fit or score",
+  "rejected": [
+    {
+      "id": "Q04",
+      "reason": "Leonard Lake north inlet has a long gradual channel-to-lake transition; the historical and modern shoreline break cannot be matched precisely."
+    }
+  ],
+  "notes": [
+    "Monument Lake north shoreline distinguished from nearby printed marker; final source correction based on native image before fitting.",
+    "Costley lobe and small pond north edge refined using physical outlines before fitting."
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "sheet": "sheet-02",
+  "source_sha256": "b4094db3ab94e60e3f30727c7edb97d6ac66e19a7e640c3a5ce3b339b91e1922",
+  "points": [
+    {
+      "lonlat": [
+        -60.4564326,
+        46.9563353
+      ],
+      "source_guide_xy": [
+        1530.4593497992028,
+        1295.6512149404734
+      ],
+      "objectids": [
+        2838,
+        2839,
+        285706
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        1632,
+        1121
+      ],
+      "modern_node_id": "J0085",
+      "identity_evidence": "Pollys Brook shoreline mouth on northern mainland strip",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        1605,
+        1108
+      ],
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    },
+    {
+      "lonlat": [
+        -60.30187763145665,
+        46.8480526801866
+      ],
+      "guide_xy": [
+        4849.450226303656,
+        4714.367364353035
+      ],
+      "modern_objectid": 7591,
+      "modern_part": 0,
+      "modern_vertex": 21,
+      "modern_properties": {
+        "OBJECTID": 7591,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 468.3969140755122
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        4914,
+        4691
+      ],
+      "identity_evidence": "Cape Egmont eastern tip on mainland coast",
+      "selection_box_source_guide": [
+        4700,
+        4550,
+        4900,
+        4850
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        4910,
+        4676
+      ],
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    },
+    {
+      "lonlat": [
+        -60.35121694082093,
+        46.88443654785704
+      ],
+      "guide_xy": [
+        3790.2074023101013,
+        3566.2116149638314
+      ],
+      "modern_objectid": 11630,
+      "modern_part": 0,
+      "modern_vertex": 16,
+      "modern_properties": {
+        "OBJECTID": 11630,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 126.94915429262329
+      },
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3788,
+        3393
+      ],
+      "identity_evidence": "White Point mainland northernmost tip below offshore island",
+      "selection_box_source_guide": [
+        3730,
+        3400,
+        3870,
+        3680
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        3780,
+        3416
+      ],
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    },
+    {
+      "lonlat": [
+        -60.40578432293837,
+        46.8762536500533
+      ],
+      "guide_xy": [
+        2610.881127714645,
+        3810.2142540356144
+      ],
+      "modern_objectid": 2829,
+      "modern_part": 0,
+      "modern_vertex": 45,
+      "modern_properties": {
+        "OBJECTID": 2829,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 337.5266552407349
+      },
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        2692,
+        3633
+      ],
+      "identity_evidence": "Black Head northern coastal promontory",
+      "selection_box_source_guide": [
+        2480,
+        3820,
+        2670,
+        3950
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        2690,
+        3633
+      ],
+      "original_modern_selection": {
+        "lonlat": [
+          -60.40490613074747,
+          46.87594069742203
+        ],
+        "modern_objectid": 2829,
+        "modern_vertex": 28
+      },
+      "correction_reason": "Initial search window clipped the headland north edge; use northernmost vertex of the complete headland coast segment 2829.",
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    },
+    {
+      "lonlat": [
+        -60.31607736746931,
+        46.80632234601713
+      ],
+      "guide_xy": [
+        4536.146011126926,
+        6015.90713867289
+      ],
+      "modern_objectid": 7925,
+      "modern_part": 0,
+      "modern_vertex": 50,
+      "modern_properties": {
+        "OBJECTID": 7925,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 490.1662267681817
+      },
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        4623,
+        5824
+      ],
+      "identity_evidence": "Neils Head easternmost mainland tip",
+      "selection_box_source_guide": [
+        4430,
+        5900,
+        4600,
+        6100
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        4598,
+        5830
+      ],
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    },
+    {
+      "lonlat": [
+        -60.3563762,
+        46.8182747
+      ],
+      "source_guide_xy": [
+        3668.1110957998317,
+        5633.511968980078
+      ],
+      "objectids": [
+        272450,
+        272451,
+        285079
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        3788,
+        5453
+      ],
+      "modern_node_id": "J0329",
+      "identity_evidence": "Neils Brook / Rachel Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        3775,
+        5451
+      ],
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    },
+    {
+      "lonlat": [
+        -60.3623748,
+        46.8041109
+      ],
+      "source_guide_xy": [
+        3536.318783399649,
+        6075.015551620396
+      ],
+      "objectids": [
+        169776,
+        169777,
+        180684
+      ],
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        3340,
+        6111
+      ],
+      "modern_node_id": "J0380",
+      "identity_evidence": "Halfway Brook northern tributary east of major western fork",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        3324,
+        6115
+      ],
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    },
+    {
+      "lonlat": [
+        -60.4033473,
+        46.7968641
+      ],
+      "source_guide_xy": [
+        2650.6304717995226,
+        6292.697616520338
+      ],
+      "objectids": [
+        169778,
+        170598,
+        277178
+      ],
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        2665,
+        6148
+      ],
+      "modern_node_id": "J0400",
+      "identity_evidence": "Halfway Brook major western fork",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        2650,
+        6130
+      ],
+      "identity_limitation": "Historical river widths, branch lengths or shoreline detail differ. Local physical identity is provisional, not whole-sheet acceptance."
+    }
+  ],
+  "source_width": 10829,
+  "source_height": 7582,
+  "method": "Eight reviewed physical river/lake junctions and headlands. Prior printed grid is search-only.",
+  "prior_control_count": 0
+}

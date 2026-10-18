@@ -1,0 +1,155 @@
+{
+  "count": 4,
+  "rms_ground_m": 96.76371120366866,
+  "median_ground_m": 68.7780398794854,
+  "p95_ground_m": 151.5478738855352,
+  "max_ground_m": 164.17809115633597,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 7.270875147133833,
+  "mean_north_ground_m": -60.920969518693674,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Lochbroom Islet south shore",
+      "role": "check",
+      "pixel_xy": [
+        5064,
+        2838
+      ],
+      "lonlat": [
+        -62.743752998749656,
+        45.6562743844494
+      ],
+      "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+      "reference_objectid": 27650,
+      "reference_feature_code": "WACORVIS10",
+      "nearest_unfiltered_feature_code": "WACORVIS10",
+      "nearest_unfiltered_objectid": 27650,
+      "nearest_unfiltered_distance_guide_px": 0.32973459516182024,
+      "selected_distance_guide_px": 0.32973459516182024,
+      "guide_reference_pixel_xy": [
+        5025.922431734332,
+        2762.3204809938325
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast-only context, whole islet/headland outlines and paired original native crosshairs inspected before first fit or check score. Coastal river versus coast feature types verified from FEAT_DESC.",
+      "review": "All physical decisions precede fit; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.74368085138285,
+        45.655758802137385
+      ],
+      "error_ground_m": 57.57943707463969,
+      "east_ground_m": 5.623329729129004,
+      "north_ground_m": -57.30418603025337
+    },
+    {
+      "id": "Q02",
+      "label": "Brown Point northern shore",
+      "role": "check",
+      "pixel_xy": [
+        5274,
+        2590
+      ],
+      "lonlat": [
+        -62.7371250428809,
+        45.66995146394586
+      ],
+      "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+      "reference_objectid": 26432,
+      "reference_feature_code": "WACORV20",
+      "nearest_unfiltered_feature_code": "WACORV20",
+      "nearest_unfiltered_objectid": 26432,
+      "nearest_unfiltered_distance_guide_px": 1.4061466376543021,
+      "selected_distance_guide_px": 1.4061466376543021,
+      "guide_reference_pixel_xy": [
+        5236.733069876267,
+        2517.3899701415794
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast-only context, whole islet/headland outlines and paired original native crosshairs inspected before first fit or check score. Coastal river versus coast feature types verified from FEAT_DESC.",
+      "review": "All physical decisions precede fit; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.737948242838584,
+        45.669521705298706
+      ],
+      "error_ground_m": 79.97664268433111,
+      "east_ground_m": -64.14635623691379,
+      "north_ground_m": -47.76513746011963
+    },
+    {
+      "id": "Q03",
+      "label": "Lochbroom coastal lobe north of Granton northern shore",
+      "role": "check",
+      "pixel_xy": [
+        4985,
+        2905
+      ],
+      "lonlat": [
+        -62.747921076023886,
+        45.65273730542596
+      ],
+      "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+      "reference_objectid": 26382,
+      "reference_feature_code": "WACORV20",
+      "nearest_unfiltered_feature_code": "WACORV20",
+      "nearest_unfiltered_objectid": 26382,
+      "nearest_unfiltered_distance_guide_px": 1.4381125661748235,
+      "selected_distance_guide_px": 1.4381125661748235,
+      "guide_reference_pixel_xy": [
+        4935.687633377442,
+        2811.2630629799096
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast-only context, whole islet/headland outlines and paired original native crosshairs inspected before first fit or check score. Coastal river versus coast feature types verified from FEAT_DESC.",
+      "review": "All physical decisions precede fit; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.746508988985056,
+        45.6516412804866
+      ],
+      "error_ground_m": 164.17809115633597,
+      "east_ground_m": 110.06933866443724,
+      "north_ground_m": -121.81619884773774
+    },
+    {
+      "id": "Q04",
+      "label": "Ballast Island south shore",
+      "role": "check",
+      "pixel_xy": [
+        5772,
+        3530
+      ],
+      "lonlat": [
+        -62.685015049480185,
+        45.640692787539095
+      ],
+      "guide_file": ".crown-grant-local/086-adjacent-guide.npy",
+      "reference_objectid": 27558,
+      "reference_feature_code": "WACORVIS10",
+      "nearest_unfiltered_feature_code": "WACORVIS10",
+      "nearest_unfiltered_objectid": 27558,
+      "nearest_unfiltered_distance_guide_px": 0.6529190026741588,
+      "selected_distance_guide_px": 0.6529190026741588,
+      "guide_reference_pixel_xy": [
+        5750.6476854910725,
+        3429.917497098795
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Coast-only context, whole islet/headland outlines and paired original native crosshairs inspected before first fit or check score. Coastal river versus coast feature types verified from FEAT_DESC.",
+      "review": "All physical decisions precede fit; checks reserved and excluded from fit.",
+      "predicted_lonlat": [
+        -62.685303169511464,
+        45.64054164711508
+      ],
+      "error_ground_m": 28.04928981276082,
+      "east_ground_m": -22.46281156811712,
+      "north_ground_m": -16.79835573666397
+    }
+  ],
+  "fit_sha256": "69669ebb23d2bd4923a6babc028f2ae07bc97c924b8388bfd190109c822d5525",
+  "checks_sha256": "065c6ba79038388ce9c361c6363299e587470a0e3091cf05d698bb311e86b245",
+  "status": "Four excluded coastal checks reserved before first constrained similarity fit; checks are clustered in southeast harbour and two share tiny islets with controls"
+}

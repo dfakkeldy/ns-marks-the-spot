@@ -1,0 +1,142 @@
+[
+  {
+    "id": "C01",
+    "label": "Moydart Point western coastal corner",
+    "role": "control",
+    "pixel_xy": [
+      1986,
+      326
+    ],
+    "lonlat": [
+      -62.203638814761746,
+      45.7425551070771
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 13090,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13090,
+    "nearest_unfiltered_distance_guide_px": 1.534947904836589,
+    "selected_distance_guide_px": 1.534947904836589,
+    "guide_reference_pixel_xy": [
+      1995.2157620617072,
+      356.93700996786356
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Coastal corner, stream mouth, island and pond topology traced broadly, then native source and modern crosshairs inspected before fitting.",
+    "review": "Corrections were based on images before first fit and score; checks excluded from fitting."
+  },
+  {
+    "id": "C02",
+    "label": "Knoydart Point northern bulge",
+    "role": "control",
+    "pixel_xy": [
+      1235,
+      547
+    ],
+    "lonlat": [
+      -62.24434020328269,
+      45.7203691980382
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 5692,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5692,
+    "nearest_unfiltered_distance_guide_px": 4.313395009093162,
+    "selected_distance_guide_px": 4.313395009093162,
+    "guide_reference_pixel_xy": [
+      1223.331577545905,
+      577.6993683213368
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Coastal corner, stream mouth, island and pond topology traced broadly, then native source and modern crosshairs inspected before fitting.",
+    "review": "Corrections were based on images before first fit and score; checks excluded from fitting."
+  },
+  {
+    "id": "C03",
+    "label": "Small pond west of Harbour Centre, south edge",
+    "role": "control",
+    "pixel_xy": [
+      5355,
+      3249
+    ],
+    "lonlat": [
+      -61.9340605734851,
+      45.676167683508794
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 66581,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 66581,
+    "nearest_unfiltered_distance_guide_px": 3.326037758274306,
+    "selected_distance_guide_px": 3.326037758274306,
+    "guide_reference_pixel_xy": [
+      5350.61420118378,
+      3268.0235887303716
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Coastal corner, stream mouth, island and pond topology traced broadly, then native source and modern crosshairs inspected before fitting.",
+    "review": "Corrections were based on images before first fit and score; checks excluded from fitting."
+  },
+  {
+    "id": "C04",
+    "label": "Harbour Centre island northeast tip",
+    "role": "control",
+    "pixel_xy": [
+      5788,
+      3196
+    ],
+    "lonlat": [
+      -61.91025303675451,
+      45.6855063112363
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 17976,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17976,
+    "nearest_unfiltered_distance_guide_px": 0.19030015721458632,
+    "selected_distance_guide_px": 0.19030015721458632,
+    "guide_reference_pixel_xy": [
+      5772.140335959673,
+      3212.1285300286254
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Coastal corner, stream mouth, island and pond topology traced broadly, then native source and modern crosshairs inspected before fitting.",
+    "review": "Corrections were based on images before first fit and score; checks excluded from fitting."
+  },
+  {
+    "id": "C05",
+    "label": "Harbour Centre mainland peninsula south tip",
+    "role": "control",
+    "pixel_xy": [
+      5718,
+      3375
+    ],
+    "lonlat": [
+      -61.909562009560595,
+      45.67698667989287
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 3239,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3239,
+    "nearest_unfiltered_distance_guide_px": 1.2961103084878662,
+    "selected_distance_guide_px": 1.2961103084878662,
+    "guide_reference_pixel_xy": [
+      5712.382160792011,
+      3391.2384890232934
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Coastal corner, stream mouth, island and pond topology traced broadly, then native source and modern crosshairs inspected before fitting.",
+    "review": "Corrections were based on images before first fit and score; checks excluded from fitting."
+  }
+]

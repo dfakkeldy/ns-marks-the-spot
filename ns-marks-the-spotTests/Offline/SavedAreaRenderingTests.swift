@@ -54,7 +54,8 @@ struct SavedAreaRenderingTests {
     private static func overlay(
         host: String,
         store: TileStore,
-        migration: Task<Void, Never>? = nil
+        migration: Task<Void, Never>? = nil,
+        progress: LayerLoadProgressBox? = nil
     ) -> OpacityTileOverlay {
         let sessionConfiguration = URLSessionConfiguration.ephemeral
         sessionConfiguration.protocolClasses = [StubURLProtocol.self]
@@ -69,12 +70,12 @@ struct SavedAreaRenderingTests {
                 urlSession: URLSession(configuration: sessionConfiguration)
             ),
             tileStore: store,
-            fletcherMigration: migration
+            fletcherMigration: migration,
+            progress: progress
         )
     }
 
-    /// Runs the real download path: the loader resolves the covering sheets and
-    /// stacks what they answer, and the manager writes the result.
+    /// Runs the real mosaic loader and stores the returned bytes.
     private static func download(
         host: String, store: TileStore
     ) async -> TileDownloadProgress {
@@ -129,9 +130,8 @@ struct SavedAreaRenderingTests {
 
         // What the downloader saves where every covering sheet answered and
         // none of them had ink. The live path calls that square outside
-        // coverage, and a printed legend built from the saved copy has to say
-        // the same thing — otherwise saving an area would quietly turn blank
-        // ground into a source's answer.
+        // coverage. Probe the real viewing API, then classify its bytes without
+        // using the independently held reproduction API.
         let blank = try #require(TileComposite.transparent)
         try await store.store(
             blank,
@@ -140,10 +140,12 @@ struct SavedAreaRenderingTests {
             savedAreaID: "cape-breton"
         )
 
-        let (_, outcome, substance) = try await Self.overlay(host: host, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: host, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .outsideCoverage)
     }
 
@@ -162,10 +164,12 @@ struct SavedAreaRenderingTests {
             savedAreaID: "cape-breton"
         )
 
-        let (_, outcome, substance) = try await Self.overlay(host: host, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: host, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .source)
     }
 
@@ -211,23 +215,18 @@ struct SavedAreaRenderingTests {
         #expect(StubURLProtocol.requestCount(host: host) > 0)
     }
 
-    /// The whole chain in one test: sheets answered, tile stacked, tile stored,
-    /// tile read back.
-    ///
-    /// Each half had tests and the join did not. What this pins is the blank
-    /// tile's identity across it — `FletcherTileLoader` saves
-    /// `TileComposite.transparent` where every covering sheet answered 404, and
-    /// the overlay decides "outside coverage" by comparing against that same
-    /// constant. Two blanks written by two encoders would read as a picture
-    /// drawn, and a printed legend would credit a source for ground it never
-    /// reached.
+    /// An explicitly blank mosaic tile survives download and offline rendering.
+    /// HTTP 404 is a missing object now, not a legitimate blank. The PNG is
+    /// encoded independently so this also covers server-produced blank bytes.
     @Test func groundNoSheetInkedIsSavedAndReadBackAsCoverageAnswered() async throws {
         let downloadHost = "download-blank.tiles.test"
         let drawHost = "draw-blank.tiles.test"
-        // 404 is a sheet saying it has no ink here. 503 on the drawing host is
-        // the guard: if the map went to the network for this square instead of
-        // to the store, the substance would come back a placeholder.
-        StubURLProtocol.stub(host: downloadHost, with: .status(404))
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = false
+        let blank = UIGraphicsImageRenderer(size: CGSize(width: 128, height: 128), format: format)
+            .pngData { _ in }
+        StubURLProtocol.stub(host: downloadHost, with: .success(blank))
         StubURLProtocol.stub(host: drawHost, with: .status(503))
         defer {
             StubURLProtocol.clear(host: downloadHost)
@@ -241,10 +240,12 @@ struct SavedAreaRenderingTests {
         #expect(progress.succeeded == 1)
         #expect(progress.failed == 0)
 
-        let (_, outcome, substance) = try await Self.overlay(host: drawHost, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: drawHost, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .outsideCoverage)
         #expect(StubURLProtocol.requestCount(host: drawHost) == 0)
     }
@@ -278,11 +279,13 @@ struct SavedAreaRenderingTests {
                 layerID: LayerID.fletcher.rawValue
             )
         )
-        let (drawn, outcome, substance) = try await Self.overlay(host: drawHost, store: store)
-            .exportTile(at: Self.path)
+        let loadProgress = LayerLoadProgressBox()
+        let drawn = try await Self.overlay(host: drawHost, store: store, progress: loadProgress)
+            .loadTile(at: Self.path)
+        let substance = OpacityTileOverlay.substance(of: drawn)
 
         #expect(drawn == stored)
-        #expect(outcome == .served)
+        #expect(loadProgress.phase(for: LayerID.fletcher.rawValue) == .ready)
         #expect(substance == .source)
         #expect(StubURLProtocol.requestCount(host: drawHost) == 0)
     }

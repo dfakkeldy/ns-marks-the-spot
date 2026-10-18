@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Q01",
+    "label": "Small northern lake west of Neil Harbour east end",
+    "role": "proposal",
+    "pixel_xy": [
+      2270,
+      626
+    ],
+    "lonlat": [
+      -60.34099906631466,
+      46.78993325755713
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 137262,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2240.646574009792,
+      645.1275865305215
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Lake south of Ann Brook west end",
+    "role": "proposal",
+    "pixel_xy": [
+      475,
+      1338
+    ],
+    "lonlat": [
+      -60.43776501781498,
+      46.72871625040413
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 128547,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      483.67173302249284,
+      1342.3110694341594
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Triangular lake north of Warren Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      911,
+      1394
+    ],
+    "lonlat": [
+      -60.405678935818564,
+      46.73415408354652
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 142712,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      953.5112642073072,
+      1399.7735031669727
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Western narrow lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      360,
+      1785
+    ],
+    "lonlat": [
+      -60.43504280523023,
+      46.70641980873864
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 131867,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      350.3227129171137,
+      1788.6681150045479
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Warren Lake southeast end",
+    "role": "proposal",
+    "pixel_xy": [
+      1080,
+      1933
+    ],
+    "lonlat": [
+      -60.383125228797475,
+      46.71112102346776
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 141416,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1079.7042405013926,
+      1961.1442677787272
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Archibald Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1540,
+      2335
+    ],
+    "lonlat": [
+      -60.34487842636796,
+      46.70054576000793
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 9453,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1510.5334119999898,
+      2360.341811147984
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Jackson Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1396,
+      2502
+    ],
+    "lonlat": [
+      -60.3563817636449,
+      46.6892915713664
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 11337,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1271.3325818257872,
+      2520.4257745767245
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "North Ingonish Bay stream-mouth notch",
+    "role": "proposal",
+    "pixel_xy": [
+      915,
+      2440
+    ],
+    "lonlat": [
+      -60.38140042494662,
+      46.68692455221606
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 8037,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      918.9019786933204,
+      2439.406728357426
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Freshwater Lake northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      280,
+      3130
+    ],
+    "lonlat": [
+      -60.40347796203805,
+      46.64386038516781
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 127172,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      296.3440238267649,
+      3162.8037746044574
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Ingonish Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1425,
+      2630
+    ],
+    "lonlat": [
+      -60.34444193407119,
+      46.686364459859476
+    ],
+    "guide_file": ".crown-grant-local/137-topology-guide.npy",
+    "reference_objectid": 17782,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1408.7435359159135,
+      2637.781990943826
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

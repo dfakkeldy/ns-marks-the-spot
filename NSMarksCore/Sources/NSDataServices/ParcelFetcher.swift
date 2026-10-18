@@ -14,6 +14,10 @@ public nonisolated enum ParcelLookupFailure: Error, Equatable {
     /// The user, or MapKit, moved on before the answer arrived. Not an outage,
     /// and not a fact about the parcel.
     case cancelled
+    /// More parcels in view than `CaptureSpec.Snap.maxParcels`, or the service
+    /// set `exceededTransferLimit`. Fail closed: snapping mounts nothing
+    /// rather than a silent subset. Shown as "too many parcels here, zoom in".
+    case tooManyParcels(count: Int)
     /// Could not reach the service.
     case unreachable(URLError.Code)
     /// Reached, and turned away at the HTTP layer.
@@ -103,6 +107,60 @@ public nonisolated final class ParcelFetcher: Sendable {
             throw .refused(error)
         }
         return try await collection(from: url)
+    }
+
+    /// Polygons intersecting `bounds`, for snap-to-parcel drawing.
+    ///
+    /// One page asking for `maxParcels + 1` records. Over that cap, or an
+    /// `exceededTransferLimit` flag, is `tooManyParcels` — never a truncated
+    /// list that would look like the whole fabric. An honest empty viewport
+    /// is a successful collection with no identified features.
+    public func parcels(
+        in bounds: GeoBoundingBox,
+        clearance: ProvinceLicenceClearance
+    ) async throws(ParcelLookupFailure) -> ParcelFeatureCollection {
+        let url: URL
+        do {
+            url = try ParcelQuery.envelopeQueryURL(bounds: bounds, clearance: clearance)
+        } catch {
+            throw .refused(error)
+        }
+        let page = try await snapPage(from: url)
+        let cap = CaptureSpec.Snap.maxParcels
+        if page.exceededTransferLimit || page.rawCount > cap
+            || page.collection.identifiedFeatures.count > cap
+        {
+            throw .tooManyParcels(
+                count: max(page.rawCount, page.collection.identifiedFeatures.count)
+            )
+        }
+        return page.collection
+    }
+
+    private func snapPage(
+        from url: URL
+    ) async throws(ParcelLookupFailure) -> ParcelResponse.SnapPage {
+        let data: Data
+        let response: URLResponse
+        do {
+            (data, response) = try await transport(URLRequest(url: url))
+        } catch is CancellationError {
+            throw .cancelled
+        } catch let error as URLError {
+            throw error.code == .cancelled ? .cancelled : .unreachable(error.code)
+        } catch {
+            throw .unreachable(.unknown)
+        }
+
+        if let http = response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
+            throw .invalidHTTPStatus(http.statusCode)
+        }
+
+        do {
+            return try ParcelResponse.decodeSnapPage(data)
+        } catch {
+            throw .unreadable(error)
+        }
     }
 
     private func collection(

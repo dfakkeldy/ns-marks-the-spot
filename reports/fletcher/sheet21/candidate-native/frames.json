@@ -1,0 +1,302 @@
+[
+  {
+    "image": "sheet-21-C01.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C01",
+    "native_box": [
+      3620,
+      2185,
+      3840,
+      2405
+    ],
+    "native_coordinates": [
+      3730,
+      2295
+    ],
+    "modern_lonlat": [
+      -61.12050058884525,
+      45.706478090205344
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C02.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C02",
+    "native_box": [
+      3735,
+      1222,
+      3955,
+      1442
+    ],
+    "native_coordinates": [
+      3845,
+      1332
+    ],
+    "modern_lonlat": [
+      -61.11466030676841,
+      45.737682461866385
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C03.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C03",
+    "native_box": [
+      2970,
+      1644,
+      3190,
+      1864
+    ],
+    "native_coordinates": [
+      3080,
+      1754
+    ],
+    "modern_lonlat": [
+      -61.1519997,
+      45.7236303
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C04.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C04",
+    "native_box": [
+      6460,
+      2560,
+      6680,
+      2780
+    ],
+    "native_coordinates": [
+      6570,
+      2670
+    ],
+    "modern_lonlat": [
+      -60.9920609,
+      45.6948582
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C05.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C05",
+    "native_box": [
+      7040,
+      1810,
+      7260,
+      2030
+    ],
+    "native_coordinates": [
+      7150,
+      1920
+    ],
+    "modern_lonlat": [
+      -60.9611606,
+      45.718229
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C06.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C06",
+    "native_box": [
+      8510,
+      2280,
+      8730,
+      2500
+    ],
+    "native_coordinates": [
+      8620,
+      2390
+    ],
+    "modern_lonlat": [
+      -60.8948463,
+      45.7056054
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C07.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C07",
+    "native_box": [
+      4807,
+      3528,
+      5027,
+      3748
+    ],
+    "native_coordinates": [
+      4917,
+      3638
+    ],
+    "modern_lonlat": [
+      -60.9867337,
+      45.6700217
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C08.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C08",
+    "native_box": [
+      4135,
+      4100,
+      4355,
+      4320
+    ],
+    "native_coordinates": [
+      4245,
+      4210
+    ],
+    "modern_lonlat": [
+      -61.098232,
+      45.6453133
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C09.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C09",
+    "native_box": [
+      5780,
+      4195,
+      6000,
+      4415
+    ],
+    "native_coordinates": [
+      5890,
+      4305
+    ],
+    "modern_lonlat": [
+      -61.0337471,
+      45.6444922
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C10.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C10",
+    "native_box": [
+      3010,
+      5100,
+      3230,
+      5320
+    ],
+    "native_coordinates": [
+      3120,
+      5210
+    ],
+    "modern_lonlat": [
+      -61.1475212,
+      45.6144228
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C11.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C11",
+    "native_box": [
+      4400,
+      6022,
+      4620,
+      6242
+    ],
+    "native_coordinates": [
+      4510,
+      6132
+    ],
+    "modern_lonlat": [
+      -61.088087977528666,
+      45.58512220824061
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C12.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C12",
+    "native_box": [
+      2240,
+      6020,
+      2460,
+      6240
+    ],
+    "native_coordinates": [
+      2350,
+      6130
+    ],
+    "modern_lonlat": [
+      -61.18386585745589,
+      45.58573415106713
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C13.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C13",
+    "native_box": [
+      6720,
+      5330,
+      6940,
+      5550
+    ],
+    "native_coordinates": [
+      6830,
+      5440
+    ],
+    "modern_lonlat": [
+      -60.9765015866024,
+      45.607603186687115
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C14.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C14",
+    "native_box": [
+      8570,
+      6290,
+      8790,
+      6510
+    ],
+    "native_coordinates": [
+      8680,
+      6400
+    ],
+    "modern_lonlat": [
+      -60.8890930277233,
+      45.57742998764084
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-C15.jpg",
+    "point_record": "sheet21/candidate-proposals.json",
+    "point_id": "C15",
+    "native_box": [
+      8490,
+      4180,
+      8710,
+      4400
+    ],
+    "native_coordinates": [
+      8600,
+      4290
+    ],
+    "modern_lonlat": [
+      -60.89464500438247,
+      45.64559412877022
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/rendered/cape-breton-tps8-review-20m.tif",
+  "raster_sha256": "d866dbc0dcc4171d203e10bac811062f02a5287bb9e0c2bf4f5b8f5ec80c0299",
+  "cutline_sha256": "32eb6749597dc0ff1d653e6ac33346652ca247d520cef1e303e8ad137c2ce4d5",
+  "expected_interior_cells": 23383761,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

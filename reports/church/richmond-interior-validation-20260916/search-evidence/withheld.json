@@ -1,0 +1,6 @@
+{
+  "black_river": "Candidate tributary-to-main-junction correspondence was not securely distinguished from road crossings and adjacent ink in the source. No observation or score adopted.",
+  "rae_brook": "A unique shared source junction was not established from the faint drainage and nearby named cove/settlement geometry. No observation or score adopted.",
+  "false_bay_lake": "The drawn outline did not yield a secure modern basin correspondence. A bounded source query returned 104 original features, all already present with unchanged geometry in the earlier cache. No match or score adopted; this is not evidence that water is absent.",
+  "buchanan_whole_centroid": "Not used. The precise northwest lake/stream node was selected instead of reconstructing the full southern shoreline beside lettering."
+}

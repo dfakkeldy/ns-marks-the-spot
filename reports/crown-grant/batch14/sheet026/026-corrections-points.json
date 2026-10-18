@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Green Harbour Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      602,
+      1999
+    ],
+    "lonlat": [
+      -65.12922515305873,
+      43.82009400577868
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 125089,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125089,
+    "nearest_unfiltered_distance_guide_px": 1.1163791312488116,
+    "selected_distance_guide_px": 1.1163791312488116,
+    "guide_reference_pixel_xy": [
+      572.3539641635725,
+      1987.0895385440672
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Black Point southern tip at Little Port Joli",
+    "role": "proposal",
+    "pixel_xy": [
+      4910,
+      3439
+    ],
+    "lonlat": [
+      -64.80843606138635,
+      43.8433090820786
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 2373,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2373,
+    "nearest_unfiltered_distance_guide_px": 0.832831346538447,
+    "selected_distance_guide_px": 0.832831346538447,
+    "guide_reference_pixel_xy": [
+      4932.172436097637,
+      3386.0935202613473
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Forbes Lake northwestern horn",
+    "role": "proposal",
+    "pixel_xy": [
+      4517,
+      2721
+    ],
+    "lonlat": [
+      -64.8534808756267,
+      43.86651858943624
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 140888,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140888,
+    "nearest_unfiltered_distance_guide_px": 1.148993588685349,
+    "selected_distance_guide_px": 1.148993588685349,
+    "guide_reference_pixel_xy": [
+      4526.175394687394,
+      2714.1998672952177
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

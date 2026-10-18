@@ -1,0 +1,31 @@
+{
+  "timing": "Before first component fit and score",
+  "created_at_utc": "2026-09-25T08:07:16.446438+00:00",
+  "main": {
+    "model": "Affine EPSG:32620",
+    "controls": 8,
+    "checks": 7,
+    "reason": "Two inland waterbodies, western islands and distributed coastal points support a main affine."
+  },
+  "inset": {
+    "model": "Reflected uniform similarity EPSG:32620, four parameters",
+    "controls": 2,
+    "checks": 3,
+    "reason": "Only the mainland angular shore and southern islet are physically reconciled. Two controls suffice mathematically for similarity but provide no redundancy; an affine is unsupported.",
+    "geographic_support": "Weak local only; northern two island depictions remain unvalidated."
+  },
+  "corrections": [
+    "Town Lake central island source tip refined after native crosshair review."
+  ],
+  "unadopted": [
+    "Inset middle oval and northern cropped island outlines could not be precisely reconciled; no observations placed on them.",
+    "Printed margins establish inset context and guide discovery only, not fitted coordinates."
+  ],
+  "limitations": [
+    "Main: checks include paired control lakes/islands, a separate Spectacle island, White Point pond and Eagle Point; the largely empty southern/eastern ocean and northwestern interior lack independent validation.",
+    "Inset: only two physical controls, one mainland corner and the southern islet west shore, define the constrained four-parameter similarity exactly. There is no fitting redundancy.",
+    "Inset: three excluded checks are on those same two features, and the islet south check is only about 12 ground metres from its west control. This is weak local validation, not independent whole-inset support.",
+    "Inset: the middle oval and northern cropped island outlines remain unmatched and unvalidated. They are retained in full under provisional extrapolation; no geometric acceptance is claimed.",
+    "Generalized natural shorelines and small island tips carry 24 px working source uncertainty."
+  ]
+}

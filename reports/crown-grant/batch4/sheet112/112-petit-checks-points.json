@@ -1,0 +1,112 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Jersey Point western tip of Petit de Grat Island",
+    "role": "proposal",
+    "pixel_xy": [
+      4750,
+      2670
+    ],
+    "lonlat": [
+      -60.96168972106971,
+      45.48465209249558
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 20929,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4764.627847234777,
+      2680.4985257571097
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Birch Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5280,
+      2600
+    ],
+    "lonlat": [
+      -60.9294281649059,
+      45.497272835585996
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 16975,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5338.421958773804,
+      2601.6781210749177
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Ranteleau Point north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5220,
+      2040
+    ],
+    "lonlat": [
+      -60.948278998307565,
+      45.51914223417748
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 20633,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5241.0556365143275,
+      2043.6944559509866
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ04",
+    "label": "Green Island northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5530,
+      3150
+    ],
+    "lonlat": [
+      -60.90410695923171,
+      45.47783350968283
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 18505,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5550.298965392576,
+      3145.9193081397098
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ05",
+    "label": "Gros Nez offshore island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5730,
+      2315
+    ],
+    "lonlat": [
+      -60.91361252919628,
+      45.51582899671575
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 18575,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5720.175741727813,
+      2307.391264165053
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

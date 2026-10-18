@@ -1,0 +1,237 @@
+{
+  "fit_sha256": "4f05ff0c0d63c823d31e664a72e02c221c1fd03d9c1f8e025364c7f861e4ec2a",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        5824,
+        3778
+      ],
+      "lonlat": [
+        -61.0262948,
+        46.3599987
+      ],
+      "modern_node": "J0635",
+      "modern_objectids": [
+        186426,
+        273075,
+        274927
+      ],
+      "identity_evidence": "Marsh Brook lower west fork below C05, west arm passes adjoining road.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        5824,
+        3778
+      ]
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        8653,
+        5436
+      ],
+      "lonlat": [
+        -60.8986383,
+        46.3071876
+      ],
+      "modern_node": "J0932",
+      "modern_objectids": [
+        263331,
+        263471,
+        286517,
+        286518
+      ],
+      "identity_evidence": "Fionnar Brook eastern tributary below west-side branch sequence and north of mouth C07.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        8611,
+        5430
+      ]
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        3662,
+        1877
+      ],
+      "lonlat": [
+        -61.1249697,
+        46.4182353
+      ],
+      "modern_node": "J0311",
+      "modern_objectids": [
+        200550,
+        200551,
+        269305
+      ],
+      "identity_evidence": "Grey interior stream southwestern fork below east tributary C11.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        3662,
+        1877
+      ]
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        3586,
+        6064
+      ],
+      "lonlat": [
+        -61.1311937,
+        46.2824542
+      ],
+      "modern_node": "J1062",
+      "modern_objectids": [
+        287139,
+        287277,
+        287278
+      ],
+      "identity_evidence": "Cameron southern tributary FIRST major eastern arm below control C15; original [3561,6159] selected SECOND eastern fork farther south. Whole native branch ordering and modern road/river context support first-fork identity. Correction after score; retained diagnostic, not independent validation.",
+      "source_uncertainty_px": 10,
+      "review": "Agent enlarged native crosshair and broad drainage comparison completed before revised score. Q06 repair follows failed diagnostic; no fresh validation claim."
+    },
+    {
+      "id": "Q07",
+      "role": "check",
+      "pixel_xy": [
+        9356,
+        1615
+      ],
+      "lonlat": [
+        -60.8715074,
+        46.4314713
+      ],
+      "modern_node": "J0206",
+      "modern_objectids": [
+        285536,
+        285537,
+        293352
+      ],
+      "identity_evidence": "Peter Ross/Peters Brook northern upper branch: eastern arm joins north-south headwater above western spur and main fork C04.",
+      "source_uncertainty_px": 10,
+      "review": "Agent enlarged native crosshair and full branch/shore context inspected before fitting/scoring."
+    },
+    {
+      "id": "Q08",
+      "role": "check",
+      "pixel_xy": [
+        5527,
+        1298
+      ],
+      "lonlat": [
+        -61.0450747,
+        46.4394202
+      ],
+      "modern_node": "J0150",
+      "modern_objectids": [
+        263255,
+        263256,
+        293633
+      ],
+      "identity_evidence": "First west-side Gallant tributary south of Mink mouth and long southwest bend, above eastern branch. Short northwest arm is distinct from farther-south west tributaries.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5524,
+        1289
+      ]
+    },
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        2609,
+        5702
+      ],
+      "lonlat": [
+        -61.1768653,
+        46.2924538
+      ],
+      "modern_node": "J1004",
+      "modern_objectids": [
+        186626,
+        260482,
+        260485
+      ],
+      "identity_evidence": "Southwest Margaree major western tributary follows historical road westward; northern main approaches from northwest, downstream runs southeast past C14. Junction beside road crossing and historical mill.",
+      "source_uncertainty_px": 12,
+      "review": "Broad native topology and enlarged native/modern crosshairs inspected by agent before first validation score."
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        9540,
+        2511
+      ],
+      "lonlat": [
+        -60.858284,
+        46.4006729
+      ],
+      "modern_node": "J0429",
+      "modern_objectids": [
+        200423,
+        274907,
+        274908
+      ],
+      "identity_evidence": "Ranalds eastern large northern tributary, east of Black Brook and long southern tributaries; northern arm has a fork immediately upstream, main Ranalds approaches from west and bends southeast downstream.",
+      "source_uncertainty_px": 12,
+      "review": "Broad native topology and enlarged native/modern crosshairs inspected by agent before first validation score."
+    },
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        5020,
+        3957
+      ],
+      "lonlat": [
+        -61.0633874,
+        46.3544429
+      ],
+      "modern_node": "J0670",
+      "modern_objectids": [
+        186289,
+        186290,
+        283125
+      ],
+      "identity_evidence": "Tompkins Brook southern tributary on the long eastward valley above T01 outlet. Main turns from southeast to east/northeast; southern arm curves southeast before ending. Small historical northern spur farther downstream is distinct. Outlet and island/river-bank context traced before choosing this excluded upstream feature.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before score. V04 placed on southern branch origin; V05 moved from intervening reach to FIRST southwest fork, before nearby second southern fork and road crossings.",
+      "pre_crosshair_pixel_xy": [
+        5016,
+        3955
+      ]
+    },
+    {
+      "id": "V07",
+      "role": "check",
+      "pixel_xy": [
+        4712,
+        3415
+      ],
+      "lonlat": [
+        -61.0784807,
+        46.3670861
+      ],
+      "modern_node": "J0603",
+      "modern_objectids": [
+        159977,
+        159978,
+        186233
+      ],
+      "identity_evidence": "East-bank tributary entry below the large eastward river loop and above the small elongated island, north of Tompkins outlet. Historical brook extends southeast and crosses valley road; bank-entry definition avoids river centreline. The other eastern entry south of the island is not selected.",
+      "source_uncertainty_px": 15,
+      "review": "Agent inspected enlarged native crosshair and modern counterpart before scoring. No pixel moved after scoring."
+    }
+  ],
+  "status": "Ten reused diagnostics; V07 bank/channel identity and Q03 Grey headwater identity unresolved. Not fresh validation."
+}

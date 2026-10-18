@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-02",
+  "fit_sha256": "530a19b70f7095d6690a15bf726df44bf6599e5ae36441917d667a0b1ca28276",
+  "points": [
+    {
+      "lonlat": [
+        -60.3217877,
+        46.8213966
+      ],
+      "source_guide_xy": [
+        4415.313381599728,
+        5543.403878380312
+      ],
+      "objectids": [
+        8000,
+        8002,
+        283255
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        4567,
+        5440
+      ],
+      "modern_node_id": "J0312",
+      "identity_evidence": "Trout Brook mouth at Hungry Cove / New Haven",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze diagnostic proposal; exact native and modern context pending review."
+    },
+    {
+      "lonlat": [
+        -60.3436567,
+        46.8143414
+      ],
+      "source_guide_xy": [
+        3942.0624671997502,
+        5759.233770580264
+      ],
+      "objectids": [
+        180033,
+        272451,
+        272584
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        3965,
+        5595
+      ],
+      "modern_node_id": "J0354",
+      "identity_evidence": "Neils Brook northern tributary downstream of Rachel confluence",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze diagnostic proposal; exact native and modern context pending review."
+    }
+  ]
+}

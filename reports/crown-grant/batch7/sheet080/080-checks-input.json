@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Kemptown pond east shore corner",
+    [
+      4400,
+      847
+    ],
+    [
+      4454,
+      800
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Northeast oval pond southern tip",
+    [
+      5058,
+      570
+    ],
+    [
+      5110,
+      535
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Eastern three-pond cluster middle pond south tip",
+    [
+      5345,
+      1388
+    ],
+    [
+      5400,
+      1358
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Eastern three-pond cluster east pond north tip",
+    [
+      5343,
+      1340
+    ],
+    [
+      5398,
+      1304
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Duck Lake southern shore",
+    [
+      4817,
+      3265
+    ],
+    [
+      4856,
+      3224
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Island Lake southern tip",
+    [
+      5078,
+      3135
+    ],
+    [
+      5119,
+      3105
+    ],
+    "WALK20"
+  ]
+]

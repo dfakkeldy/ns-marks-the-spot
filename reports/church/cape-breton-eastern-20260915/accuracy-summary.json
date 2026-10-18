@@ -1,0 +1,179 @@
+{
+  "scope": "Eight fresh checks of unchanged TPS11, with separate new-two phase. No tuning and no pooling with selection diagnostics.",
+  "cumulative_tps11": {
+    "count": 8,
+    "points": [
+      {
+        "label": "CB18",
+        "east_ground_m": -765.4693642048993,
+        "north_ground_m": -408.7517276897563,
+        "error_ground_m": 867.7680118704616
+      },
+      {
+        "label": "CB19",
+        "east_ground_m": -53.58481697394106,
+        "north_ground_m": 151.98729313088745,
+        "error_ground_m": 161.15666254730232
+      },
+      {
+        "label": "CB20",
+        "east_ground_m": -93.13838146569577,
+        "north_ground_m": -161.9173896510402,
+        "error_ground_m": 186.79400197398266
+      },
+      {
+        "label": "CB21",
+        "east_ground_m": 111.99479159043074,
+        "north_ground_m": 369.89725231442407,
+        "error_ground_m": 386.48002615031055
+      },
+      {
+        "label": "CB22",
+        "east_ground_m": -184.31295270842168,
+        "north_ground_m": 546.5672389418862,
+        "error_ground_m": 576.8076032965012
+      },
+      {
+        "label": "CB23",
+        "east_ground_m": 105.12850999646479,
+        "north_ground_m": -51.01609111052893,
+        "error_ground_m": 116.85309224096119
+      },
+      {
+        "label": "CB24",
+        "east_ground_m": -162.67885321641225,
+        "north_ground_m": 990.977063433185,
+        "error_ground_m": 1004.2409818039024
+      },
+      {
+        "label": "CB25",
+        "east_ground_m": -554.7056981176135,
+        "north_ground_m": -377.0319785379429,
+        "error_ground_m": 670.7097169151382
+      }
+    ],
+    "rms_ground_m": 588.2138994852742,
+    "median_ground_m": 481.64381472340585,
+    "p95_ground_m": 956.475442327198,
+    "max_ground_m": 1004.2409818039024,
+    "mean_east_ground_m": -199.595845637511,
+    "mean_north_ground_m": 132.5889576038893,
+    "scatter_rms_ground_m": 537.1938740095918,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "cumulative_baseline_affine3": {
+    "count": 8,
+    "points": [
+      {
+        "label": "CB18",
+        "east_ground_m": -932.4732609736132,
+        "north_ground_m": 122.21019476190827,
+        "error_ground_m": 940.4476137108901
+      },
+      {
+        "label": "CB19",
+        "east_ground_m": -193.7196107340889,
+        "north_ground_m": -1043.7647297336885,
+        "error_ground_m": 1061.58942092459
+      },
+      {
+        "label": "CB20",
+        "east_ground_m": -277.7900597677216,
+        "north_ground_m": 423.4445528481255,
+        "error_ground_m": 506.4312457209797
+      },
+      {
+        "label": "CB21",
+        "east_ground_m": 69.29389866588035,
+        "north_ground_m": -709.2643673810383,
+        "error_ground_m": 712.6412752772195
+      },
+      {
+        "label": "CB22",
+        "east_ground_m": -476.55953705198795,
+        "north_ground_m": 586.1906172073684,
+        "error_ground_m": 755.465705414323
+      },
+      {
+        "label": "CB23",
+        "east_ground_m": 592.4670336218223,
+        "north_ground_m": -1156.0405666343481,
+        "error_ground_m": 1299.017697197735
+      },
+      {
+        "label": "CB24",
+        "east_ground_m": -230.56872994241886,
+        "north_ground_m": 977.354267837065,
+        "error_ground_m": 1004.1829037016042
+      },
+      {
+        "label": "CB25",
+        "east_ground_m": -626.590470494652,
+        "north_ground_m": 307.0959836941201,
+        "error_ground_m": 697.7990834873378
+      }
+    ],
+    "rms_ground_m": 903.4120240314757,
+    "median_ground_m": 847.9566595626065,
+    "p95_ground_m": 1215.9178005021342,
+    "max_ground_m": 1299.017697197735,
+    "mean_east_ground_m": -259.49259208459745,
+    "mean_north_ground_m": -61.59675592506093,
+    "scatter_rms_ground_m": 863.1469860211369,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "new_two_tps11": {
+    "count": 2,
+    "points": [
+      {
+        "label": "CB24",
+        "east_ground_m": -162.67885321641225,
+        "north_ground_m": 990.977063433185,
+        "error_ground_m": 1004.2409818039024
+      },
+      {
+        "label": "CB25",
+        "east_ground_m": -554.7056981176135,
+        "north_ground_m": -377.0319785379429,
+        "error_ground_m": 670.7097169151382
+      }
+    ],
+    "rms_ground_m": 853.9178748272138,
+    "median_ground_m": 837.4753493595204,
+    "p95_ground_m": 987.5644185594642,
+    "max_ground_m": 1004.2409818039024,
+    "mean_east_ground_m": -358.69227566701284,
+    "mean_north_ground_m": 306.97254244762104,
+    "scatter_rms_ground_m": 711.5359769607495,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "new_two_baseline_affine3": {
+    "count": 2,
+    "points": [
+      {
+        "label": "CB24",
+        "east_ground_m": -230.56872994241886,
+        "north_ground_m": 977.354267837065,
+        "error_ground_m": 1004.1829037016042
+      },
+      {
+        "label": "CB25",
+        "east_ground_m": -626.590470494652,
+        "north_ground_m": 307.0959836941201,
+        "error_ground_m": 697.7990834873378
+      }
+    ],
+    "rms_ground_m": 864.6695510431583,
+    "median_ground_m": 850.9909935944711,
+    "p95_ground_m": 988.8637126908909,
+    "max_ground_m": 1004.1829037016042,
+    "mean_east_ground_m": -428.5796002185354,
+    "mean_north_ground_m": 642.2251257655926,
+    "scatter_rms_ground_m": 389.2555029965103,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  }
+}

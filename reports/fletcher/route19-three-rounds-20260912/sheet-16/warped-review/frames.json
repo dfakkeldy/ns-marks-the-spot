@@ -1,0 +1,40 @@
+[
+  {
+    "image": "area-1.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-16/sheet-16-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "bc1a357cc470536e820ddaccf16e61ab3c4c728a29b473fcc07de9e3703ff82c",
+      "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce"
+    ],
+    "projected_bounds": [
+      -6820796.49674956,
+      5769416.84328439,
+      -6817796.49674956,
+      5772416.84328439
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  },
+  {
+    "image": "area-2.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-16/sheet-16-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "bc1a357cc470536e820ddaccf16e61ab3c4c728a29b473fcc07de9e3703ff82c",
+      "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce"
+    ],
+    "projected_bounds": [
+      -6826905.5559686,
+      5793040.06877397,
+      -6823905.5559686,
+      5796040.06877397
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  }
+]

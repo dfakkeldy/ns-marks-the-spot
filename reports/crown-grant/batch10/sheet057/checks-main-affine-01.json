@@ -1,0 +1,194 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Main Betty Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1044,
+        2049
+      ],
+      "lonlat": [
+        -63.76645926967635,
+        44.4382524490436
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 17222,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17222,
+      "nearest_unfiltered_distance_guide_px": 2.23831333950464,
+      "selected_distance_guide_px": 2.23831333950464,
+      "guide_reference_pixel_xy": [
+        1153.0477165254415,
+        2071.7621953304624
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Physical identity and paired native crosshairs inspected before first fit or score; original proposals retained."
+    },
+    {
+      "id": "Q02",
+      "label": "Main Hopson Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        879,
+        1710
+      ],
+      "lonlat": [
+        -63.78515836779668,
+        44.45008022866252
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 17533,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17533,
+      "nearest_unfiltered_distance_guide_px": 1.3243994794281344,
+      "selected_distance_guide_px": 1.3243994794281344,
+      "guide_reference_pixel_xy": [
+        995.9457552104141,
+        1738.676711866632
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Physical identity and paired native crosshairs inspected before first fit or score; original proposals retained."
+    },
+    {
+      "id": "Q03",
+      "label": "Main Pennant Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2597,
+        2494
+      ],
+      "lonlat": [
+        -63.66057241308648,
+        44.44799864881688
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 20871,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20871,
+      "nearest_unfiltered_distance_guide_px": 0.6350665114816888,
+      "selected_distance_guide_px": 0.6350665114816888,
+      "guide_reference_pixel_xy": [
+        2673.6350393087487,
+        2498.005877954536
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Physical identity and paired native crosshairs inspected before first fit or score; original proposals retained."
+    },
+    {
+      "id": "Q04",
+      "label": "Main Sambro Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3829,
+        3305
+      ],
+      "lonlat": [
+        -63.56363646460435,
+        44.43557634018757
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 20204,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20204,
+      "nearest_unfiltered_distance_guide_px": 0.6560404699130126,
+      "selected_distance_guide_px": 0.6560404699130126,
+      "guide_reference_pixel_xy": [
+        3891.5665314482176,
+        3292.6691961059114
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Physical identity and paired native crosshairs inspected before first fit or score; original proposals retained."
+    },
+    {
+      "id": "Q05",
+      "label": "Main Third Pond eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        4457,
+        886
+      ],
+      "lonlat": [
+        -63.591445089077666,
+        44.55493086699404
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 128589,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128589,
+      "nearest_unfiltered_distance_guide_px": 1.669334727127707,
+      "selected_distance_guide_px": 1.669334727127707,
+      "guide_reference_pixel_xy": [
+        4488.83425511641,
+        861.1948712472804
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Physical identity and paired native crosshairs inspected before first fit or score; original proposals retained."
+    },
+    {
+      "id": "Q06",
+      "label": "Main Charley Pond eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        4478,
+        1050
+      ],
+      "lonlat": [
+        -63.58548022323453,
+        44.548340167229895
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 128886,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 243221,
+      "nearest_unfiltered_distance_guide_px": 0.5786295399800679,
+      "selected_distance_guide_px": 2.2838696760938864,
+      "guide_reference_pixel_xy": [
+        4516.002375965589,
+        1020.8929503558902
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Physical identity and paired native crosshairs inspected before first fit or score; original proposals retained."
+    },
+    {
+      "id": "Q07",
+      "label": "Main small pond west of Fourth Pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4203,
+        1412
+      ],
+      "lonlat": [
+        -63.59221501609561,
+        44.52643350383086
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 128849,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128849,
+      "nearest_unfiltered_distance_guide_px": 0.3655944928690815,
+      "selected_distance_guide_px": 0.3655944928690815,
+      "guide_reference_pixel_xy": [
+        4245.34802250436,
+        1399.1119806665229
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Physical identity and paired native crosshairs inspected before first fit or score; original proposals retained."
+    }
+  ]
+}

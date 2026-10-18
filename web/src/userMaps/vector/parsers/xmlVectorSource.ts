@@ -14,12 +14,13 @@ export type ParsedXmlVector = ParsedVector & { source: UserVectorSource };
  * otherwise perfectly readable.
  */
 export function parseXmlVector(text: string): ParsedXmlVector {
-  const root = parseXmlDocument(text).documentElement?.localName?.toLowerCase();
+  const document = parseXmlDocument(text);
+  const root = document.documentElement?.localName?.toLowerCase();
   if (root === "kml") {
-    return { ...parseKml(text), source: "kml" };
+    return { ...parseKml(document), source: "kml" };
   }
   if (root === "gpx") {
-    return { ...parseGpx(text), source: "gpx" };
+    return { ...parseGpx(document), source: "gpx" };
   }
   throw new UserMapImportError(
     "unsupported-type",

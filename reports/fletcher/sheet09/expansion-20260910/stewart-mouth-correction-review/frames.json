@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-09-C10.jpg",
+    "point_record": "sheet09/expansion-20260910/stewart-mouth-correction.json",
+    "point_id": "C10",
+    "native_box": [
+      8120,
+      6373,
+      8340,
+      6593
+    ],
+    "native_coordinates": [
+      8230,
+      6483
+    ],
+    "modern_lonlat": [
+      -60.9241152,
+      46.4550339
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "sha256": "e5bcdd37da6e814297d3b432f3549ecf81bbc5b1f558b2f78c3fc600e98006a9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "sha256": "4b6057df3d3ad73269cce9cbf43dedf72a0cb73a5f9974a794b31c70d3722180"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "sha256": "990434356bf80c3c5a9fd310b220d3da9fa6b0dff61177286c5f5c90092b6c8a"
+    }
+  ],
+  "status": "Four actual western Sheet9 and southern Sheet10 comparisons personally inspected. Large western gap and southern offset/overlap. No seam accepted. Northern Sheet5 and eastern Sheet7 pending."
+}

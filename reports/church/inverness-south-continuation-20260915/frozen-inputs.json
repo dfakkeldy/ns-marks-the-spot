@@ -1,0 +1,56 @@
+{
+  "input_commit": "bd4f54f2c71872534257e6b0e2b14c775d04dd0a",
+  "inputs": [
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/physical-trial.csv",
+      "sha256": "4db2d28d0bddfded9d7942a7b337c1ea5c324c6c9269835d8c355ab3f232bc11"
+    },
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/historical-checks.csv",
+      "sha256": "7e96e98e0b54d03d58f50f582db9f580eb22a5d82da5ad7cfa981d9d4d1dabf9"
+    },
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/fresh-check.csv",
+      "sha256": "8bd641d6f462e371eb047b5008f38cbee22d15eae8a523261716d6112fc0afd6"
+    },
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/fresh-observation.json",
+      "sha256": "c139275ea37f94a8b1450643b40b483e87ff79bc83b818c42b11118f275ba04a"
+    },
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/fresh-score.json",
+      "sha256": "737eeb79b750b45b4db4726a5d7faf628a23c5a138f23d7bf0ee52f55a045120"
+    },
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/final-artifact-receipt.json",
+      "sha256": "aafcdf9e36046231e33010c4efb0894bbe1f6cca75a1e67ddd43394915cb77b0"
+    },
+    {
+      "path": "reports/church/physical-review-20260913/inverness-south/explicit-affine-coverage.json",
+      "sha256": "a8c082b33ca2063bc33ebe370a4c9d1e7a82fb5913ae946ff9566b89542576df"
+    },
+    {
+      "path": "reports/church/distributed-review-20260913/inverness-south/audited-diagnostic-review.csv",
+      "sha256": "a609690e785aa86abca9b0b5d605dc8abf0d61b5008eabdcf19b40c26402b27e"
+    },
+    {
+      "path": "reports/church/distributed-review-20260913/inverness-south/audit-comparison.json",
+      "sha256": "b017f1a06c2b207a3dc49c55f3d8f53651620ee092e8bfc82660351062345c85"
+    },
+    {
+      "path": "reports/church/distributed-review-20260913/inverness-south/unresolved.json",
+      "sha256": "bc508fbdc23666e651f2ff43cbaabcf23e0b8ef7041da2a37fa0e6c2dcbc9a33"
+    },
+    {
+      "path": "tools/church/gcps/inverness-south.csv",
+      "sha256": "f1d52dd101853995fe785dc41da87d3a14eeb14cb2a1b2bbf1143eb11ce2a847"
+    },
+    {
+      "path": "tools/church/checks/inverness-south.csv",
+      "sha256": "7e96e98e0b54d03d58f50f582db9f580eb22a5d82da5ad7cfa981d9d4d1dabf9"
+    }
+  ],
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+  "raster_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176"
+}

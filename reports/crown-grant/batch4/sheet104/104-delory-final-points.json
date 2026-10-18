@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q08",
+    "label": "Delory Island northeast physical shoreline corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3425,
+      1543
+    ],
+    "lonlat": [
+      -61.6356830060192,
+      45.648791776126146
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 11756,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11756,
+    "nearest_unfiltered_distance_guide_px": 8.907097488145086,
+    "selected_distance_guide_px": 8.907097488145086,
+    "guide_reference_pixel_xy": [
+      3387.1281860342715,
+      1562.2079756185412
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

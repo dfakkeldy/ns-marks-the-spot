@@ -1,0 +1,45 @@
+{
+  "sheet": "107",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric pass with regional limitations; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/107.pdf",
+    "pdf_sha256": "7802bf36a0d3659cfea3c712680c3d4df878c8ab32bf95fa126155594c7acf7b",
+    "jpeg_sha256": "c0f43fd2423b19ddcf06ede758be40b3f9ac3f8dfd8cc1de9ec8334d7cf002cc",
+    "dimensions": [
+      6025,
+      4102
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 69.77838936108445,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 69.78 m, median 37.75 m, P95 128.14 m and maximum 155.93 m. Numerical companion bounds pass; regional limitations remain.",
+    "Green Island south-end check is 155.93 m and remains in the first score. The island has only one northern control and one southern check; its historical shape differs from the modern outline. It is not independently accepted as a whole island.",
+    "Controls and checks occupy the available northern land and island band; the large southern ocean area contains no validation features. Northern inland and minor coastal features remain incompletely checked.",
+    "Goose and Green Island control/check endpoint pairs are spatially correlated. Forsters Island changed sandbar connections were excluded from observations; its western-shore control does not validate the changed barrier geometry."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 69.78 m, median 37.75 m, P95 128.14 m, maximum 155.93 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Seal and Coddle Harbours, Goose and Big Coddle Islands, New Harbour, Larrys River, Tor Bay, Forsters Island, Mars Point, all Sugar Islands, Green Island and Frying Pan, and the entire southern Atlantic frame. All inland lakes and parcel areas remain visible. No displaced inset identified."
+  }
+}

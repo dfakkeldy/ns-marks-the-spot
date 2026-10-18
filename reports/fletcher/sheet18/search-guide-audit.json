@@ -1,0 +1,7 @@
+{
+  "old_observation_file": "tools/fletcher/observations/sheet-18.json",
+  "unchanged": true,
+  "finding": "Current native latitude ticks at left ~1324 / ~3938 and right ~1372 / ~3991 disagree with old parallel y=1137/3837. Old coordinates are not fit controls. Longitude labels inspected.",
+  "replacement": "Preserved prior-native four-control affine used only for candidate search. All new source crosshairs require native physical-feature inspection; modern coordinates come from actual reference vertices, never inferred from this guide.",
+  "fit_sha256": "90c7222ca187b95dc8bfa121f97f5f33abb8159213fcf5ffc6a3e462dae1cac1"
+}

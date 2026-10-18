@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Rocky Lake southwest tip",
+    [
+      490,
+      584
+    ],
+    [
+      385,
+      516
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Northern pond east of Long Lake south tip",
+    [
+      1097,
+      480
+    ],
+    [
+      1000,
+      415
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Long Lake northeast tip",
+    [
+      1157,
+      692
+    ],
+    [
+      1067,
+      623
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Cook Lake southwest tip",
+    [
+      358,
+      1360
+    ],
+    [
+      264,
+      1271
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Frog Lake southeast tip",
+    [
+      325,
+      1904
+    ],
+    [
+      209,
+      1815
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Whippy Lake southern tip",
+    [
+      2017,
+      893
+    ],
+    [
+      1919,
+      823
+    ],
+    "WALK20"
+  ]
+]

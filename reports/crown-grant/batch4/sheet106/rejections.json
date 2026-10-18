@@ -1,0 +1,9 @@
+{
+  "stage": "before first fit or score",
+  "rejected": [
+    {
+      "id": "Q05",
+      "reason": "Historical separate lake outlet versus modern connected East Halfway Cove lake geometry does not establish a precise common endpoint. Both original and corrected proposals retained."
+    }
+  ]
+}

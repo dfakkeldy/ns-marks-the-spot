@@ -1,0 +1,12 @@
+{
+  "fit_sha256": "7bc6e88a856b2394804cf40c45c284cb5d4d10870a1b2fe28ab908ba3b514367",
+  "frozen_at_utc": "2026-09-11T11:30:06.224744+00:00",
+  "controls": 24,
+  "fresh_checks_selected": 0,
+  "targets_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "acceptance": "Diagnostic limits retained. Whole-sheet validation, coverage, distortion, join and importer review are separate requirements.",
+  "preserved_prior_controls_sha256": "ae7b4eb9f843012feada645bee9ddb5e009b6873f5d065c05e3361e0ba7a64e6"
+}

@@ -1,0 +1,67 @@
+[
+  [
+    "Q01",
+    "Canada Creek coast junction east of Black Rock",
+    [
+      815,
+      427
+    ],
+    [
+      740,
+      356
+    ],
+    "WACO20"
+  ],
+  [
+    "Q02",
+    "Baxter Harbour inner coast bend",
+    [
+      4590,
+      724
+    ],
+    [
+      4566,
+      660
+    ],
+    "WACO20"
+  ],
+  [
+    "Q03",
+    "Foote Brook western tributary junction",
+    [
+      1825,
+      855
+    ],
+    [
+      1780,
+      790
+    ],
+    "WARV"
+  ],
+  [
+    "Q04",
+    "Chipman Brook western tributary junction",
+    [
+      2177,
+      1030
+    ],
+    [
+      2120,
+      962
+    ],
+    "WARV"
+  ],
+  [
+    "Q05",
+    "Billtown stream northern tributary junction",
+    [
+      2647,
+      2543
+    ],
+    [
+      2598,
+      2482
+    ],
+    "WARV"
+  ]
+]

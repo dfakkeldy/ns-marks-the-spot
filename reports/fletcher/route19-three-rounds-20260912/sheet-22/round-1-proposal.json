@@ -1,0 +1,99 @@
+{
+  "points": [
+    {
+      "id": "Q03",
+      "role": "control",
+      "pixel_xy": [
+        2594,
+        5707
+      ],
+      "lonlat": [
+        -61.54611119916507,
+        45.592056057710515
+      ],
+      "label": "North Branch Tracadie fork",
+      "identity_evidence": "Historical northwest stem rounds the mill bend and joins eastern and southern arms before the southern arm crosses the road. Modern 264843 connects the former target (a lake outlet, WALK20 121129/121130) to the actual downstream three-way junction of southern 264842 and eastern 212484. The outlet has two shore edges, not two tributaries. Native junction pixel remains unchanged.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          212484,
+          264842,
+          264843
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "review": "2026-09-12 agent feature-type and explicit downstream connectivity audit; before new scoring.",
+      "source_crop": {
+        "native_box": [
+          2454,
+          5617,
+          2734,
+          5797
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "crosshair_audit": {
+        "initial_pixel_xy": [
+          2589,
+          5705
+        ],
+        "reason": "Small correction to centre of visible junction before any scoring."
+      },
+      "consumed_from": "../sheet22/observations.json",
+      "revision_reason": "Retained native/modern evidence re-audited. Adding eastern and mainland controls exposed nonlocal TPS drift here; add physical constraint without moving the correspondence. This observation no longer validates the fit.",
+      "supersedes": {
+        "id": "Q03",
+        "role": "control",
+        "pixel_xy": [
+          2594,
+          5707
+        ],
+        "lonlat": [
+          -61.5475419,
+          45.5933497
+        ],
+        "label": "North Branch Tracadie fork",
+        "identity_evidence": "South branch joins east-west main just beyond the mill and road bend.",
+        "modern_reference": {
+          "layer": "water-lines",
+          "objectids": [
+            121129,
+            121130,
+            264843
+          ],
+          "node": "J0956"
+        },
+        "native_uncertainty_px": 5,
+        "review": "agent topology and native crosshair; not user-reviewed",
+        "source_crop": {
+          "native_box": [
+            2454,
+            5617,
+            2734,
+            5797
+          ],
+          "display_size": [
+            560,
+            360
+          ],
+          "rotation_degrees": 0,
+          "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+        },
+        "crosshair_audit": {
+          "initial_pixel_xy": [
+            2589,
+            5705
+          ],
+          "reason": "Small correction to centre of visible junction before any scoring."
+        },
+        "consumed_from": "../sheet22/observations.json",
+        "revision_reason": "Retained native/modern evidence re-audited. Adding eastern and mainland controls exposed nonlocal TPS drift here; add physical constraint without moving the correspondence. This observation no longer validates the fit."
+      }
+    }
+  ]
+}

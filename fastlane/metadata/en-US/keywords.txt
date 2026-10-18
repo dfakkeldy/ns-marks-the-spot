@@ -1,1 +1,1 @@
-old,topo,atlas,heritage,archive,waterfall,genealogy,crown,land,fletcher,offline,field,hiking
+parcel,tax sale,PID,nova scotia,property,land,crown,lot,boundary,zoning,flood,historical,GIS

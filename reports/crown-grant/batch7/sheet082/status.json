@@ -1,0 +1,45 @@
+{
+  "sheet": "082",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with median exception and regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/082.pdf",
+    "pdf_sha256": "0511d4847909c5f529ef7dc97566ac69595fec4dad39a47945964a2a54f8319f",
+    "jpeg_sha256": "2e075bebfb31e0377e3e99617879641e86caf4e3494d859851d726309942db94",
+    "dimensions": [
+      6034,
+      4184
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 6,
+      "rms_ground_m": 84.87958528791782,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 84.88 m, within 100 m, but median 89.15 m exceeds the 75 m companion bound. P95 is 105.80 m and maximum 107.21 m. The unchanged first result remains qualified.",
+    "All six checks share physical lake systems with controls and are strongly spatially correlated. Northernmost river/parcel band and southeastern/southernmost regions have no accepted independent validation.",
+    "Square Lake outer northern extent is generalized; only its distinctive south lobe and central peninsula are sampled. Intervening connected waters are not validated by nearby points.",
+    "Natural lake observations use 12 px working source uncertainty. Changed/generalized lake-stream transitions and marsh connections remain unvalidated."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 84.88 m, median 89.15 m, P95 105.80 m, maximum 107.21 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Full original mapped frame retains Glenmore, Elmsvale, Upper Musquodoboit, Pleasant Valley, Caribou Mines, Moose River Mines, the entire Mill/Upper Mill and Martin lake systems, Pratt, Sand, Dry, Lindsay, Square, Rocky and Otter lakes, all other original lakes, islands, rivers and inland parcels. No displaced inset identified."
+  }
+}

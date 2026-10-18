@@ -1,0 +1,29 @@
+{
+  "description": "",
+  "id": "a1ab697ee80d4b48934f96e8756e77aa",
+  "kind": "zone",
+  "last_updated": "2026-10-09T12:52:08.895873Z",
+  "name": "Fletcher immutable tile headers",
+  "phase": "http_response_headers_transform",
+  "rules": [
+    {
+      "action": "rewrite",
+      "action_parameters": {
+        "headers": {
+          "Cache-Control": {
+            "operation": "set",
+            "value": "public, max-age=31536000, immutable"
+          }
+        }
+      },
+      "description": "Preserve immutable cache headers for successful Fletcher seam-repair objects",
+      "enabled": true,
+      "expression": "(http.host eq \"tiles.kinnokilabs.com\" and starts_with(http.request.uri.path, \"/fletcher-seams-20261009.2/\")) and http.response.code in {200 206}",
+      "id": "2a2f970e401849a693fbfeacf02e78a3",
+      "last_updated": "2026-10-09T12:52:08.895873Z",
+      "ref": "fletcher_seams_20261009_2_headers",
+      "version": "1"
+    }
+  ],
+  "version": "1"
+}

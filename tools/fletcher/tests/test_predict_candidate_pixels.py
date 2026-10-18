@@ -38,12 +38,27 @@ class FetchPagingTest(unittest.TestCase):
         result = fetch("http://example/0", "0,0,1,1", getter=getter)
         self.assertEqual(len(result["features"]), 1)
 
-    def test_stops_on_an_empty_page_even_if_the_flag_stays_set(self):
-        # A server that pads the flag would otherwise loop forever.
+    def test_empty_truncated_page_is_an_error(self):
         def getter(url, params):
             return {"features": [], "exceededTransferLimit": True}
 
-        self.assertEqual(fetch("http://e/0", "0,0,1,1", getter=getter)["features"], [])
+        with self.assertRaisesRegex(RuntimeError, "empty.*truncated"):
+            fetch("http://e/0", "0,0,1,1", getter=getter)
+
+    def test_service_error_after_a_page_cannot_return_a_partial_extract(self):
+        pages = iter([
+            {"features": [{"id": i} for i in range(PAGE)]},
+            {"error": {"code": 400, "message": "Failed to execute query."}},
+        ])
+        with self.assertRaisesRegex(RuntimeError, "400"):
+            fetch("http://e/0", "0,0,1,1", getter=lambda *_: next(pages))
+
+    def test_missing_features_is_not_an_empty_success(self):
+        with self.assertRaisesRegex(RuntimeError, "features"):
+            fetch("http://e/0", "0,0,1,1", getter=lambda *_: {})
+
+    def test_real_empty_response_remains_valid(self):
+        self.assertEqual(fetch("http://e/0", "0,0,1,1", getter=lambda *_: {"features": []})["features"], [])
 
 
 class SelectionTest(unittest.TestCase):

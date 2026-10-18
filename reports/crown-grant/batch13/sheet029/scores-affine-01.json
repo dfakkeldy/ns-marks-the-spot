@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 57.85924840715645,
+  "median_ground_m": 45.4153101495214,
+  "p95_ground_m": 95.14172616027713,
+  "max_ground_m": 106.15771174041242,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -27.017334462665353,
+  "mean_north_ground_m": 4.274993322810744,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Clear Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        350,
+        2310
+      ],
+      "lonlat": [
+        -65.30459083419333,
+        44.713718228611114
+      ],
+      "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+      "reference_objectid": 141290,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141290,
+      "nearest_unfiltered_distance_guide_px": 1.833070478676513,
+      "selected_distance_guide_px": 1.833070478676513,
+      "guide_reference_pixel_xy": [
+        490.3786113754031,
+        2338.2754642488435
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; corrections and split-shoreline topology review before first fit and score.",
+      "predicted_lonlat": [
+        -65.30443926274276,
+        44.71415919157289
+      ],
+      "error_ground_m": 50.45289118558869,
+      "east_ground_m": 12.010200527538183,
+      "north_ground_m": 49.00254393675061
+    },
+    {
+      "id": "Q02",
+      "label": "Godfrey Lake southeast corner",
+      "role": "check",
+      "pixel_xy": [
+        1789,
+        3584
+      ],
+      "lonlat": [
+        -65.18850915531533,
+        44.68791915013859
+      ],
+      "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+      "reference_objectid": 126188,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126188,
+      "nearest_unfiltered_distance_guide_px": 1.877202854013667,
+      "selected_distance_guide_px": 1.877202854013667,
+      "guide_reference_pixel_xy": [
+        1908.757238314196,
+        3621.861439582426
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; corrections and split-shoreline topology review before first fit and score.",
+      "predicted_lonlat": [
+        -65.18931900802832,
+        44.68815723293593
+      ],
+      "error_ground_m": 69.43775980662822,
+      "east_ground_m": -64.19974120272185,
+      "north_ground_m": 26.457432159348574
+    },
+    {
+      "id": "Q03",
+      "label": "Spectacle western detached lake western tip",
+      "role": "check",
+      "pixel_xy": [
+        2222,
+        3425
+      ],
+      "lonlat": [
+        -65.16835490802534,
+        44.70269939614491
+      ],
+      "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+      "reference_objectid": 124659,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124659,
+      "nearest_unfiltered_distance_guide_px": 2.088522193517395,
+      "selected_distance_guide_px": 2.088522193517395,
+      "guide_reference_pixel_xy": [
+        2329.932402601582,
+        3451.7051001002546
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; corrections and split-shoreline topology review before first fit and score.",
+      "predicted_lonlat": [
+        -65.16858961782278,
+        44.70266238734608
+      ],
+      "error_ground_m": 19.050792134370756,
+      "east_ground_m": -18.60158878533278,
+      "north_ground_m": -4.112611774576386
+    },
+    {
+      "id": "Q04",
+      "label": "Eel Ware Lake main southwestern lobe southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3563,
+        1484
+      ],
+      "lonlat": [
+        -65.14136073437525,
+        44.807456827656296
+      ],
+      "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+      "reference_objectid": 126971,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126971,
+      "nearest_unfiltered_distance_guide_px": 3.6155046038273233,
+      "selected_distance_guide_px": 3.6155046038273233,
+      "guide_reference_pixel_xy": [
+        3663.8511173549923,
+        1490.4281105886912
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; corrections and split-shoreline topology review before first fit and score.",
+      "predicted_lonlat": [
+        -65.1414463925467,
+        44.8072748868809
+      ],
+      "error_ground_m": 21.324095121541077,
+      "east_ground_m": -6.7764788453884055,
+      "north_ground_m": -20.2187132926538
+    },
+    {
+      "id": "Q05",
+      "label": "Unnamed pond west of Roxbury southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3661,
+        1799
+      ],
+      "lonlat": [
+        -65.12766821642913,
+        44.79569853657757
+      ],
+      "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+      "reference_objectid": 128330,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128330,
+      "nearest_unfiltered_distance_guide_px": 0.763575726398872,
+      "selected_distance_guide_px": 0.763575726398872,
+      "guide_reference_pixel_xy": [
+        3752.0380256329663,
+        1819.2373716887087
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; corrections and split-shoreline topology review before first fit and score.",
+      "predicted_lonlat": [
+        -65.12774247464193,
+        44.796088975004956
+      ],
+      "error_ground_m": 43.78460683964346,
+      "east_ground_m": -5.8757552662191355,
+      "north_ground_m": 43.38856181245987
+    },
+    {
+      "id": "Q06",
+      "label": "Small lake southwest of Godfrey southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1347,
+        3659
+      ],
+      "lonlat": [
+        -65.21219025373443,
+        44.676767897948636
+      ],
+      "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+      "reference_objectid": 140858,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140858,
+      "nearest_unfiltered_distance_guide_px": 1.1713880120229334,
+      "selected_distance_guide_px": 1.1713880120229334,
+      "guide_reference_pixel_xy": [
+        1470.1646491094725,
+        3694.874531571637
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; corrections and split-shoreline topology review before first fit and score.",
+      "predicted_lonlat": [
+        -65.21270711352149,
+        44.67694403020462
+      ],
+      "error_ground_m": 45.4153101495214,
+      "east_ground_m": -40.98111334493634,
+      "north_ground_m": 19.572908444753487
+    },
+    {
+      "id": "Q07",
+      "label": "Scrogg Lake elongated southeastern island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5680,
+        3201
+      ],
+      "lonlat": [
+        -64.97514093546677,
+        44.7759879101659
+      ],
+      "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+      "reference_objectid": 311452,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 311452,
+      "nearest_unfiltered_distance_guide_px": 0.4237070165809229,
+      "selected_distance_guide_px": 0.4237070165809229,
+      "guide_reference_pixel_xy": [
+        5744.624549490691,
+        3210.1963785908883
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; corrections and split-shoreline topology review before first fit and score.",
+      "predicted_lonlat": [
+        -64.97595828464732,
+        44.7752305317091
+      ],
+      "error_ground_m": 106.15771174041242,
+      "east_ground_m": -64.69686432159715,
+      "north_ground_m": -84.16516802640716
+    }
+  ],
+  "fit_sha256": "ca06f0df4c4eb02dcefc6d5857783af9f9ef71308deddb73825f7b6d50e0285f",
+  "checks_sha256": "8bfea7e0f79e5275d3607fcb578e49c83ad8a054ffb63365ba0d5e74b94293be",
+  "status": "Reserved before first fit and score"
+}

@@ -1,0 +1,75 @@
+{
+  "richmond": {
+    "control_count": 10,
+    "scored_check_count": 2,
+    "source_hull": {
+      "R26": true,
+      "R27": true
+    },
+    "content_boundary": "reports/church/physical-review-20260912/richmond/content-boundary.json",
+    "content_fraction_inside_control_hull": 0.3988014179492809,
+    "affine_orientation_determinant": null,
+    "limitation": "Hull overlap is a geometric support diagnostic, not accuracy or validated coverage. Affine cannot fold; Richmond TPS retains its prior sampled review only."
+  },
+  "inverness-north": {
+    "control_count": 4,
+    "scored_check_count": 1,
+    "source_hull": {
+      "I13": false
+    },
+    "content_boundary": "tools/church/panels.py",
+    "content_fraction_inside_control_hull": 0.2566437576392683,
+    "affine_orientation_determinant": -14.362393682689914,
+    "limitation": "Hull overlap is a geometric support diagnostic, not accuracy or validated coverage. Affine cannot fold; Richmond TPS retains its prior sampled review only."
+  },
+  "victoria-northwest": {
+    "control_count": 4,
+    "scored_check_count": 1,
+    "source_hull": {
+      "VN08": false
+    },
+    "content_boundary": "tools/church/panels.py",
+    "content_fraction_inside_control_hull": 0.1665398427167118,
+    "affine_orientation_determinant": -14.198742631976014,
+    "limitation": "Hull overlap is a geometric support diagnostic, not accuracy or validated coverage. Affine cannot fold; Richmond TPS retains its prior sampled review only."
+  },
+  "victoria-main": {
+    "control_count": 4,
+    "scored_check_count": 1,
+    "source_hull": {
+      "VM15": false
+    },
+    "content_boundary": "tools/church/panels.py",
+    "content_fraction_inside_control_hull": 0.132967140313794,
+    "affine_orientation_determinant": -15.910046981754816,
+    "limitation": "Hull overlap is a geometric support diagnostic, not accuracy or validated coverage. Affine cannot fold; Richmond TPS retains its prior sampled review only."
+  },
+  "cape-breton": {
+    "control_count": 3,
+    "scored_check_count": 1,
+    "source_hull": {
+      "CB04": false
+    },
+    "content_boundary": "tools/church/panels.py",
+    "content_fraction_inside_control_hull": 0.08471924661384404,
+    "affine_orientation_determinant": -14.883723646072477,
+    "limitation": "Hull overlap is a geometric support diagnostic, not accuracy or validated coverage. Affine cannot fold; Richmond TPS retains its prior sampled review only."
+  },
+  "inverness-south": {
+    "control_count": 4,
+    "scored_check_count": 6,
+    "fresh_check_count": 0,
+    "source_hull": {
+      "island-45-948n-61-096w": true,
+      "island-45-875n-61-085w": true,
+      "island-45-797n-61-049w": true,
+      "island-45-790n-61-057w": true,
+      "island-45-762n-61-068w": false,
+      "island-45-757n-61-084w": true
+    },
+    "content_boundary": "tools/church/panels.py",
+    "content_fraction_inside_control_hull": 0.059091157666058866,
+    "affine_orientation_determinant": -15.364130081040356,
+    "limitation": "Separate audited historical diagnostics, five still approximate hand points. Control-hull overlap is not geographic validation."
+  }
+}

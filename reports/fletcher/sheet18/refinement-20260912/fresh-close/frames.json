@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-18-F01.jpg",
+    "point_record": "sheet18/refinement-20260912/fresh-candidates.json",
+    "point_id": "F01",
+    "native_box": [
+      2025,
+      1580,
+      2245,
+      1800
+    ],
+    "native_coordinates": [
+      2135,
+      1690
+    ],
+    "modern_lonlat": [
+      -61.2002617,
+      45.9040876
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-18-F02.jpg",
+    "point_record": "sheet18/refinement-20260912/fresh-candidates.json",
+    "point_id": "F02",
+    "native_box": [
+      3340,
+      2100,
+      3560,
+      2320
+    ],
+    "native_coordinates": [
+      3450,
+      2210
+    ],
+    "modern_lonlat": [
+      -61.1365131,
+      45.8906221
+    ],
+    "rotation_degrees": 0
+  }
+]

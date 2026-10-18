@@ -1,0 +1,71 @@
+{
+  "fit_sha256": "d2b8b479d734472aec08440df074f0e0184938a46a7871f0dd9545e98daafbe4",
+  "boundary_sha256": "93393f755fa44330e007192757a7564375b38db3c593ac1b19b7c607a59d749b",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "f334896313cae3bb1fb3660ff658cf3ca5b83014914d726386f684b5fb6d4aa0",
+  "median_ground_m": 338.94927860660255,
+  "worst_ground_m": 597.5867938646287,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 80.31176334857645,
+      "predicted_lonlat": [
+        -60.92861715787009,
+        46.62511310789145
+      ]
+    },
+    {
+      "id": "V03",
+      "error_ground_m": 597.5867938646287,
+      "predicted_lonlat": [
+        -60.90781942978814,
+        46.74773559402204
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71502,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -32.43703692769814,
+      -8.402572105186815
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif",
+    "sha256": "f9e7a051e88b43e5a7fa65751fb2c8657b869d90ad527c2f393ef24a35ec648c",
+    "size": [
+      8269,
+      5789
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2249477,
+            46.7932668
+          ],
+          [
+            -61.2249477,
+            46.614956
+          ],
+          [
+            -60.8535392,
+            46.614956
+          ],
+          [
+            -60.8535392,
+            46.7932668
+          ],
+          [
+            -61.2249477,
+            46.7932668
+          ]
+        ]
+      ]
+    }
+  }
+}

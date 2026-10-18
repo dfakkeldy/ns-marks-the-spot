@@ -1,0 +1,54 @@
+[
+  {
+    "id": "IC03",
+    "label": "Inset Lawlor Island northeast narrow finger tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2758,
+      3152
+    ],
+    "lonlat": [
+      -63.496040394218745,
+      44.60630988132625
+    ],
+    "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+    "reference_objectid": 18407,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18407,
+    "nearest_unfiltered_distance_guide_px": 1.9712573041038026,
+    "selected_distance_guide_px": 1.9712573041038026,
+    "guide_reference_pixel_xy": [
+      2744.829040746292,
+      3144.4142163498327
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ01",
+    "label": "Inset Lawlor Island northeast bay southern bend",
+    "role": "proposal",
+    "pixel_xy": [
+      2718,
+      3198
+    ],
+    "lonlat": [
+      -63.49748593239963,
+      44.60525581452857
+    ],
+    "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+    "reference_objectid": 18407,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18407,
+    "nearest_unfiltered_distance_guide_px": 1.1132436074527103,
+    "selected_distance_guide_px": 1.1132436074527103,
+    "guide_reference_pixel_xy": [
+      2698.928301066044,
+      3190.69871487841
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

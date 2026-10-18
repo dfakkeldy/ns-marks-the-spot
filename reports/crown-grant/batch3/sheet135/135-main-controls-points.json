@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C01",
+    "label": "Cape St Lawrence northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2740,
+      1680
+    ],
+    "lonlat": [
+      -60.59550058132633,
+      47.041718209609
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 11596,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2734.457338490989,
+      1684.753890925087
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Cape North northern mainland corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5125,
+      2710
+    ],
+    "lonlat": [
+      -60.414356717939185,
+      47.0369030539153
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 8126,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5090.317802144389,
+      2689.538577118423
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Largest southwestern lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2830,
+      3230
+    ],
+    "lonlat": [
+      -60.55370581163989,
+      46.974633485746274
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 136420,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2787.0044847276295,
+      3213.1069627164397
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Western interior northern pond north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1355,
+      3290
+    ],
+    "lonlat": [
+      -60.64907451887144,
+      46.94703969241751
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 131272,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1321.0763814277598,
+      3273.537154765683
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Lowland Cove narrow coastal notch",
+    "role": "proposal",
+    "pixel_xy": [
+      2104,
+      2075
+    ],
+    "lonlat": [
+      -60.630121797280964,
+      47.01353639072179
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 11564,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2067.4746430337545,
+      2063.58500554855
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Pollett Cove river mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      527,
+      3719
+    ],
+    "lonlat": [
+      -60.69205075024409,
+      46.914519918664084
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 9818,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      510.16408890491584,
+      3694.365695229615
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Round pond west of Brook south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2500,
+      2040
+    ],
+    "lonlat": [
+      -60.60433508853391,
+      47.02295270711061
+    ],
+    "guide_file": ".crown-grant-local/135-main-topology-guide.npy",
+    "reference_objectid": 32359,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2478.057000929839,
+      2008.7763825567672
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

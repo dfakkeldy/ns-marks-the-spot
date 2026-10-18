@@ -1,0 +1,204 @@
+{
+  "check_status": "Same fourteen diagnostic features, excluding G04 in both models",
+  "models": {
+    "eight-tps": {
+      "count": 14,
+      "points": [
+        {
+          "label": "supply-08",
+          "east_ground_m": -54.169138826514946,
+          "north_ground_m": 5.604358157621074,
+          "error_ground_m": 54.45828157007107
+        },
+        {
+          "label": "supply-15",
+          "east_ground_m": 51.76704747179432,
+          "north_ground_m": -0.4307626032526719,
+          "error_ground_m": 51.768839666032385
+        },
+        {
+          "label": "supply-18",
+          "east_ground_m": -3.051774193906975,
+          "north_ground_m": -2.0291412921536796,
+          "error_ground_m": 3.664797417882695
+        },
+        {
+          "label": "supply-23",
+          "east_ground_m": 118.1474987226524,
+          "north_ground_m": 128.17130504385386,
+          "error_ground_m": 174.31785591574888
+        },
+        {
+          "label": "Blake Island corrected centroid",
+          "east_ground_m": -70.98357164793538,
+          "north_ground_m": -45.89751803017481,
+          "error_ground_m": 84.52957828611117
+        },
+        {
+          "label": "D01",
+          "east_ground_m": 2.0504213651320367,
+          "north_ground_m": -72.79535523108758,
+          "error_ground_m": 72.82422653893977
+        },
+        {
+          "label": "F01",
+          "east_ground_m": -13.059375239995424,
+          "north_ground_m": 36.14466009945412,
+          "error_ground_m": 38.4315460964567
+        },
+        {
+          "label": "F03",
+          "east_ground_m": -81.87691932643712,
+          "north_ground_m": 219.16089046865744,
+          "error_ground_m": 233.95582025118065
+        },
+        {
+          "label": "F04",
+          "east_ground_m": 184.97088989254195,
+          "north_ground_m": -77.81166094626273,
+          "error_ground_m": 200.67108582667066
+        },
+        {
+          "label": "G01",
+          "east_ground_m": 199.41219115234406,
+          "north_ground_m": 25.628532026177425,
+          "error_ground_m": 201.05234053349344
+        },
+        {
+          "label": "G02",
+          "east_ground_m": 111.3299114601241,
+          "north_ground_m": -53.95649640700758,
+          "error_ground_m": 123.71601630443203
+        },
+        {
+          "label": "G03",
+          "east_ground_m": -27.43061002163115,
+          "north_ground_m": -142.82235836121086,
+          "error_ground_m": 145.43268000699481
+        },
+        {
+          "label": "G05",
+          "east_ground_m": -643.5503665030377,
+          "north_ground_m": -378.6254375262792,
+          "error_ground_m": 746.6687995143232
+        },
+        {
+          "label": "G06",
+          "east_ground_m": 41.58915786290588,
+          "north_ground_m": -109.07622604610674,
+          "error_ground_m": 116.73594622140637
+        }
+      ],
+      "rms_ground_m": 237.9969406612455,
+      "median_ground_m": 120.22598126291919,
+      "p95_ground_m": 413.4053629932804,
+      "max_ground_m": 746.6687995143232,
+      "mean_east_ground_m": -13.20390270228314,
+      "mean_north_ground_m": -33.48108647484086,
+      "scatter_rms_ground_m": 235.25989366231823,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "nine-tps": {
+      "count": 14,
+      "points": [
+        {
+          "label": "supply-08",
+          "east_ground_m": -56.66409586246993,
+          "north_ground_m": 3.8421668297823914,
+          "error_ground_m": 56.794207502693986
+        },
+        {
+          "label": "supply-15",
+          "east_ground_m": -2.417228848253821,
+          "north_ground_m": -38.701434604789185,
+          "error_ground_m": 38.77684922442261
+        },
+        {
+          "label": "supply-18",
+          "east_ground_m": -0.41734762310056606,
+          "north_ground_m": -0.16843590301330588,
+          "error_ground_m": 0.45005520987052233
+        },
+        {
+          "label": "supply-23",
+          "east_ground_m": 133.6334178531139,
+          "north_ground_m": 139.109028856862,
+          "error_ground_m": 192.89689545610685
+        },
+        {
+          "label": "Blake Island corrected centroid",
+          "east_ground_m": -72.20515759630159,
+          "north_ground_m": -46.760328494291336,
+          "error_ground_m": 86.0239100738904
+        },
+        {
+          "label": "D01",
+          "east_ground_m": 16.687710077867443,
+          "north_ground_m": -62.456920922795916,
+          "error_ground_m": 64.64786646749714
+        },
+        {
+          "label": "F01",
+          "east_ground_m": -21.606401396973837,
+          "north_ground_m": 30.107885473840103,
+          "error_ground_m": 37.05835059784805
+        },
+        {
+          "label": "F03",
+          "east_ground_m": -84.69997159356039,
+          "north_ground_m": 217.16700225512403,
+          "error_ground_m": 233.0999615109942
+        },
+        {
+          "label": "F04",
+          "east_ground_m": 188.5991421278507,
+          "north_ground_m": -75.24896995119768,
+          "error_ground_m": 203.0567504174079
+        },
+        {
+          "label": "G01",
+          "east_ground_m": 235.88460760691427,
+          "north_ground_m": 51.38937394818678,
+          "error_ground_m": 241.41751357483264
+        },
+        {
+          "label": "G02",
+          "east_ground_m": 136.03547341637827,
+          "north_ground_m": -36.50668011163349,
+          "error_ground_m": 140.84881156897026
+        },
+        {
+          "label": "G03",
+          "east_ground_m": 161.35167587842065,
+          "north_ground_m": -9.483385882822269,
+          "error_ground_m": 161.63012688412215
+        },
+        {
+          "label": "G05",
+          "east_ground_m": 620.4856283197361,
+          "north_ground_m": 514.1624878489351,
+          "error_ground_m": 805.8321654428694
+        },
+        {
+          "label": "G06",
+          "east_ground_m": 125.07252961965686,
+          "north_ground_m": -50.11094418361888,
+          "error_ground_m": 134.7376873500273
+        }
+      ],
+      "rms_ground_m": 256.6576211135132,
+      "median_ground_m": 137.79324945949878,
+      "p95_ground_m": 438.9626417286453,
+      "max_ground_m": 805.8321654428694,
+      "mean_east_ground_m": 98.55285585566273,
+      "mean_north_ground_m": 45.452917511326305,
+      "scatter_rms_ground_m": 232.58224645928848,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "geographic_acceptance": false,
+  "frozen_fit_sha256": "01278d9de8761ecc0f0dd815b41d23cbe3d3d8dd613b41a63ac60304d955ae4d",
+  "selected_model": "nine-tps"
+}

@@ -121,11 +121,9 @@ struct OpacityTileOverlayProgressTests {
         #expect(progress.phase(for: "test-layer") == .failing)
     }
 
-    @Test func aFletcherSquareWithNoInkIsAnAnswerRatherThanAnOutage() async throws {
-        // The survey's sheets are rectangles drawn around ragged scans, so a
-        // sheet legitimately 404s for squares inside its own bounds. Reporting
-        // that as an outage would leave every edge of the survey saying the
-        // source was down.
+    @Test func aMissingExpectedFletcherMosaicObjectIsAnOutage() async throws {
+        // The published mosaic includes transparent PNGs for blank areas.
+        // A covered coordinate returning 404 is a missing object, not no ink.
         let host = "fletcher.tiles.test"
         StubURLProtocol.stub(host: host, with: .status(404))
         defer { StubURLProtocol.clear(host: host) }
@@ -142,8 +140,8 @@ struct OpacityTileOverlayProgressTests {
             )
         )
 
-        #expect(StubURLProtocol.requestCount(host: host) > 0)
-        #expect(progress.phase(for: "test-layer") == .ready)
+        #expect(StubURLProtocol.requestCount(host: host) == 1)
+        #expect(progress.phase(for: "test-layer") == .failing)
     }
 
     @Test func aRefusedLayerIsNeitherRequestedNorReportedAsBroken() async throws {

@@ -1,0 +1,10 @@
+{
+  "frozen_at": "2026-09-15T11:28:19.412642+00:00",
+  "frozen_input_commit": "d885da0a37e203527f54e6967ce5c3a1bd1527e0",
+  "method": "affine",
+  "control_csv_sha256": "5ad9128981e1c684db18e254015155113a51bec0ea564d7a85ac673f39bf06ab",
+  "boundary_sha256": "96ce252e8e00633611e38e4406eff15edeba339cb8d93246b6dd067d7ac6e48e",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "scope": "Unchanged three-control physical baseline and preserved repaired content cutline. Prior Hay Island522.63m first failure remains unchanged. Full rendering is not geographic acceptance.",
+  "geographic_acceptance": false
+}

@@ -1,0 +1,234 @@
+{
+  "sheet": "083",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.55528726305253,
+      1.8847163011047565
+    ],
+    [
+      1.9397423889344798,
+      -4.644718180747097
+    ],
+    [
+      494335.77249188145,
+      4976847.284025666
+    ]
+  ],
+  "source_sha256": "29f07cacef96715ec6a6436df3b6ad0d0cefe1cd5d3b940b68bc2fad02d09b16",
+  "source_dimensions": [
+    6066,
+    4089
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Maple Hill Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        824,
+        188
+      ],
+      "lonlat": [
+        -63.019394687648614,
+        44.95101415487396
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 136874,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136874,
+      "nearest_unfiltered_distance_guide_px": 0.8233517390281662,
+      "selected_distance_guide_px": 0.8233517390281662,
+      "guide_reference_pixel_xy": [
+        860.8202858355944,
+        217.07098756288178
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Melville Lake northwest tip",
+      "role": "control",
+      "pixel_xy": [
+        1755,
+        280
+      ],
+      "lonlat": [
+        -62.963831946891176,
+        44.96360296501797
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 136510,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136510,
+      "nearest_unfiltered_distance_guide_px": 1.067902693611537,
+      "selected_distance_guide_px": 1.067902693611537,
+      "guide_reference_pixel_xy": [
+        1763.6758945281035,
+        284.1732093675528
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Big Ash Lake northwestern tip",
+      "role": "control",
+      "pixel_xy": [
+        1823,
+        1145
+      ],
+      "lonlat": [
+        -62.938628151735294,
+        44.927935228860285
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 125275,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125275,
+      "nearest_unfiltered_distance_guide_px": 0.5434693351306089,
+      "selected_distance_guide_px": 0.5434693351306089,
+      "guide_reference_pixel_xy": [
+        1809.5564345134771,
+        1164.6859799729427
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Little Kearney Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2013,
+        2846
+      ],
+      "lonlat": [
+        -62.88555628414732,
+        44.85957884550786
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 132884,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132884,
+      "nearest_unfiltered_distance_guide_px": 0.2656141805070181,
+      "selected_distance_guide_px": 0.2656141805070181,
+      "guide_reference_pixel_xy": [
+        1967.0119841287378,
+        2880.265343689476
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Southern Rocky Lake southwest lobe tip",
+      "role": "control",
+      "pixel_xy": [
+        3204,
+        3845
+      ],
+      "lonlat": [
+        -62.79238074694271,
+        44.839475695862916
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 129567,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129567,
+      "nearest_unfiltered_distance_guide_px": 0.428005898915102,
+      "selected_distance_guide_px": 0.428005898915102,
+      "guide_reference_pixel_xy": [
+        3122.665818826994,
+        3838.2674172640545
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Camp Lake northwest arm northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4434,
+        3054
+      ],
+      "lonlat": [
+        -62.74159982973965,
+        44.89146206981375
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 130854,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 130854,
+      "nearest_unfiltered_distance_guide_px": 1.2499852630683526,
+      "selected_distance_guide_px": 1.2499852630683526,
+      "guide_reference_pixel_xy": [
+        4303.23450908676,
+        3065.1960879205726
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Cranberry Lake west of Little Atlantic northwest shore",
+      "role": "control",
+      "pixel_xy": [
+        4872,
+        1603
+      ],
+      "lonlat": [
+        -62.750483043691794,
+        44.96067692400051
+      ],
+      "guide_file": ".crown-grant-local/083-adjacent-guide.npy",
+      "reference_objectid": 139610,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139610,
+      "nearest_unfiltered_distance_guide_px": 1.384904470608007,
+      "selected_distance_guide_px": 1.384904470608007,
+      "guide_reference_pixel_xy": [
+        4781.319409501739,
+        1589.7938669366995
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical lake shapes and paired original native crosshairs inspected before first fit/check score; discovery guide only locates reference data.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    24.28602894115139,
+    57.35449339905989,
+    25.516612158808144,
+    66.3191301724477,
+    114.18763922467703,
+    107.63563854138734,
+    49.51733795597182
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

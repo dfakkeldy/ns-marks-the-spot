@@ -1,0 +1,88 @@
+{
+  "fit_sha256": "0f9c3ba0d0f266d1817c9eeca0c7e37a4fae3363146f7516e6251e4373424f29",
+  "collected_at_utc": "2026-09-12T11:49:00.658797+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.8397299,
+        46.2137166
+      ],
+      "source_guide_xy": [
+        1604.5817102000583,
+        2560.300476799952
+      ],
+      "objectids": [
+        270241,
+        271920,
+        272550
+      ],
+      "id": "F01",
+      "modern_node_id": "J0555",
+      "pixel_xy": [
+        1644,
+        2701
+      ],
+      "role": "check",
+      "identity_evidence": "Larger eastern branch entering Musk Rat below C16; geographically close to fitted control, limited independent coverage",
+      "status": "Unreviewed new check proposal after 16-control freeze",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.7656454,
+        46.2526996
+      ],
+      "source_guide_xy": [
+        3212.363529199967,
+        1345.9020607997663
+      ],
+      "objectids": [
+        177280,
+        272593,
+        272594
+      ],
+      "id": "F02",
+      "modern_node_id": "J0285",
+      "pixel_xy": [
+        3337,
+        1403
+      ],
+      "role": "check",
+      "identity_evidence": "Northern Sam Brook fork: north main stem and eastern marsh branch above fitted lower confluence",
+      "status": "Unreviewed new check proposal after 16-control freeze",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.59213839278941,
+        46.10006543516579
+      ],
+      "guide_xy": [
+        6977.81259968481,
+        6100.761563715525
+      ],
+      "modern_objectid": 10735,
+      "modern_part": 0,
+      "modern_vertex": 133,
+      "modern_properties": {
+        "OBJECTID": 10735,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1163.0135061040453
+      },
+      "id": "F03",
+      "pixel_xy": [
+        6920,
+        6280
+      ],
+      "role": "check",
+      "identity_evidence": "Point Clear easternmost coastal projection in southern extension",
+      "status": "Rejected unscored: bounded extremum search picked a straight modern coast near a stream mouth. The engraved Point Clear spur has no established shared modern definition; narrow coordinate-window maximum is not a physical identity.",
+      "source_uncertainty_px": 25
+    }
+  ]
+}

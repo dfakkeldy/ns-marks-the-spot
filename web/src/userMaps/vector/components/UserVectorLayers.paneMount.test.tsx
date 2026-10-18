@@ -212,3 +212,57 @@ describe("UserVectorLayers pane mount", () => {
     expect(map.getZoom()).toBe(9);
   });
 });
+
+describe("UserVectorLayers snap targets", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  function childOptions(map: L.Map): Array<{ snapIgnore?: boolean }> {
+    const options: Array<{ snapIgnore?: boolean }> = [];
+    map.eachLayer((layer) => {
+      if (
+        (layer as L.Layer & { feature?: unknown }).feature &&
+        (layer instanceof L.Path || layer instanceof L.CircleMarker)
+      ) {
+        options.push(layer.options as { snapIgnore?: boolean });
+      }
+    });
+    return options;
+  }
+
+  it("stamps snapIgnore false on every child while armed as snap targets", async () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    render(
+      <MapContainer center={[45.8, -61.4]} zoom={12} zoomControl={false}>
+        <UserVectorLayers layers={[LAYER]} snapAsTargets />
+      </MapContainer>,
+      { container: host },
+    );
+    const map = createdMaps[0];
+    await waitFor(() => expect(childOptions(map).length).toBeGreaterThan(1));
+    for (const options of childOptions(map)) {
+      expect(options.snapIgnore).toBe(false);
+    }
+  });
+
+  it("stamps snapIgnore true when not armed", async () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    render(
+      <MapContainer center={[45.8, -61.4]} zoom={12} zoomControl={false}>
+        <UserVectorLayers layers={[LAYER]} />
+      </MapContainer>,
+      { container: host },
+    );
+    const map = createdMaps[0];
+    await waitFor(() => expect(childOptions(map).length).toBeGreaterThan(1));
+    for (const options of childOptions(map)) {
+      expect(options.snapIgnore).toBe(true);
+    }
+  });
+});

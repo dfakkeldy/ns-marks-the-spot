@@ -1,0 +1,227 @@
+{
+  "sheet": "030",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.9026496763921115,
+      2.0153697342571
+    ],
+    [
+      2.0791330839072972,
+      -4.891435809259933
+    ],
+    [
+      318590.1460153981,
+      4945881.028480345
+    ]
+  ],
+  "source_sha256": "0122b5b7df7a7b0c2a513d534e4e78f0f6a44502737d02445988ef2e6f537c79",
+  "source_dimensions": [
+    5683,
+    3853
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Stoney Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        687,
+        759
+      ],
+      "lonlat": [
+        -65.22435122148909,
+        44.623259940843376
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 127685,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127685,
+      "nearest_unfiltered_distance_guide_px": 0.6985471841307208,
+      "selected_distance_guide_px": 0.6985471841307208,
+      "guide_reference_pixel_xy": [
+        680.6322059747763,
+        749.2971258553443
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Handsaw Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        695,
+        1318
+      ],
+      "lonlat": [
+        -65.20812615545896,
+        44.599872411401506
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 138368,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138368,
+      "nearest_unfiltered_distance_guide_px": 1.7593044010104997,
+      "selected_distance_guide_px": 1.7593044010104997,
+      "guide_reference_pixel_xy": [
+        703.6648608187679,
+        1291.7270882156445
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Unnamed lake north of Cushing grant northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2590,
+        946
+      ],
+      "lonlat": [
+        -65.1026318988097,
+        44.65243355863057
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 133295,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133295,
+      "nearest_unfiltered_distance_guide_px": 0.5652291589862948,
+      "selected_distance_guide_px": 0.5652291589862948,
+      "guide_reference_pixel_xy": [
+        2590.72756622982,
+        936.5047588031739
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Small pond in central southern interior northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2225,
+        3013
+      ],
+      "lonlat": [
+        -65.06855957089664,
+        44.55516683187644
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 106959,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 106959,
+      "nearest_unfiltered_distance_guide_px": 2.746198545663947,
+      "selected_distance_guide_px": 2.746198545663947,
+      "guide_reference_pixel_xy": [
+        2233.505966303579,
+        2989.304228670546
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Wild Duck Lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        4684,
+        2798
+      ],
+      "lonlat": [
+        -64.92418688574132,
+        44.61216496280742
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 140965,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140965,
+      "nearest_unfiltered_distance_guide_px": 1.4978012747731766,
+      "selected_distance_guide_px": 1.4978012747731766,
+      "guide_reference_pixel_xy": [
+        4690.274982224451,
+        2782.310632627341
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Cranberry Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4990,
+        3507
+      ],
+      "lonlat": [
+        -64.88437885896674,
+        44.586598052759115
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 125127,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125127,
+      "nearest_unfiltered_distance_guide_px": 0.5872950482253441,
+      "selected_distance_guide_px": 0.5872950482253441,
+      "guide_reference_pixel_xy": [
+        5019.87549256155,
+        3508.573945442913
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Unnamed lake south of Skunk Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4628,
+        547
+      ],
+      "lonlat": [
+        -64.98962063150944,
+        44.70875411992596
+      ],
+      "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+      "reference_objectid": 127988,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127988,
+      "nearest_unfiltered_distance_guide_px": 1.9517938246879138,
+      "selected_distance_guide_px": 1.9517938246879138,
+      "guide_reference_pixel_xy": [
+        4610.340741409047,
+        552.4184186998755
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    45.868833672285675,
+    44.64335236202454,
+    31.962469482096058,
+    55.03214506246952,
+    58.19045167245762,
+    77.00593125003233,
+    24.159601232972
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

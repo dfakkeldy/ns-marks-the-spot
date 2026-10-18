@@ -11,17 +11,42 @@ export type UserVectorSource =
   | "kmz"
   | "gpx"
   | "shapefile-zip"
-  | "drawn";
+  | "drawn"
+  | "recorded"
+  | "photos";
 
 /**
  * Provenance stays attached to the layer for the life of the record: an
  * imported file names its source file, a drawn layer names the device-local
- * act. The UI renders this so user-loaded material is never mistaken for an
- * official layer.
+ * act, a recorded layer names the GPS capture. The UI renders this so
+ * user-loaded material is never mistaken for an official layer.
+ *
+ * Reserved feature properties: app-owned metadata on individual features
+ * lives under the `nsmts:` prefix (capture time, GPS accuracy — see
+ * location/captureSpec.ts for the full pinned list shared with the native
+ * app). Imported files' own properties are carried untouched and never
+ * collide with the namespace.
  */
 export type UserVectorOrigin =
   | { kind: "imported"; filename: string; importedAt: string }
-  | { kind: "drawn"; createdAt: string };
+  | { kind: "drawn"; createdAt: string }
+  | {
+      kind: "recorded";
+      startedAt: string;
+      endedAt: string;
+      /**
+       * Only ever set, never false: this walk was saved from the copy the
+       * device kept while it ran, so it ends at the last position stored and
+       * may be cut short. That is what the flag knows — not that no Stop was
+       * ever pressed. A tab discarded with the save dialog open leaves the
+       * same draft behind, and a walk saved from that draft is marked too,
+       * because the same thing is true of it: what was saved is what the
+       * device had, not necessarily what was walked. A walk saved straight
+       * from the dialog carries no key.
+       */
+      interrupted?: true;
+    }
+  | { kind: "photo-import"; count: number; importedAt: string };
 
 export type UserVectorLayerRecord = {
   id: string;

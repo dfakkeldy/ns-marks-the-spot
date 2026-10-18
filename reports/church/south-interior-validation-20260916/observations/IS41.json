@@ -1,0 +1,98 @@
+{
+  "id": "IS41",
+  "label": "Trout Brook lake-entry mouth midpoint",
+  "role": "check",
+  "recorded_at": "2026-09-16T00:44:46.867299+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      25200,
+      12700
+    ],
+    "extent": [
+      1400,
+      1300
+    ],
+    "display": [
+      1400,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-interior-validation-20260916/trout-mouth-native.jpg",
+  "source_crop_sha256": "0d101879b8a861e6504e1cb34d5320f02a8b2acb2da5da165c2a449d2e800acf",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_banks_display_pixels": [
+    [
+      800,
+      239
+    ],
+    [
+      773,
+      279
+    ]
+  ],
+  "source_display_pixel_xy": [
+    786.5,
+    259.0
+  ],
+  "pixel_xy": [
+    25986.5,
+    12959.0
+  ],
+  "lonlat": [
+    -61.1369892078378,
+    46.09919332626758
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_banks": [
+    {
+      "lonlat": [
+        -61.136735148170686,
+        46.09947629561756
+      ],
+      "river": {
+        "feature_id": 175605,
+        "vertex": 0,
+        "code": "WARV20",
+        "name": "Trout Brook"
+      },
+      "lake": [
+        {
+          "feature_id": 130542,
+          "vertex": 135,
+          "code": "WALK20",
+          "height": 57.4
+        }
+      ]
+    },
+    {
+      "lonlat": [
+        -61.13724326750491,
+        46.0989103569176
+      ],
+      "river": {
+        "feature_id": 175608,
+        "vertex": 41,
+        "code": "WARV20",
+        "name": "Trout Brook"
+      },
+      "lake": [
+        {
+          "feature_id": 131350,
+          "vertex": 0,
+          "code": "WALK20",
+          "height": 57.4
+        }
+      ]
+    }
+  ],
+  "uncertainty_ground_m": 180,
+  "point_definition": "Midpoint between the two lakeward bank turns at Trout Brook entry, before the road crossing; modern midpoint between original lake-shore/river-bank transitions.",
+  "identity_evidence": "The labelled Trout Brook approaches from the east/southeast and crosses the shore road before entering a small inlet north of McLean Point. The source shows the north and south bank turns around that inlet; the midpoint is taken lakeward of the bridge, not from its centre. Original modern Trout Brook bank lines meet the Lake Ainslie shore at the same two sides of the mouth. Historical narrowing/generalization and shoreline changes limit precision.",
+  "reference_midpoint_definition": "Arithmetic midpoint of original transitions 175605 v0 /130542 v135 and175608 v41 /131350 v0; lake bank names are blank, so geometry/context identify the lake rather than a name-field filter.",
+  "isolation": "Distinct Trout Brook entry, approximately9.5 km south of IS15 northern outlet control; no whole-lake centroid or separate Loch Ban basin check.",
+  "phase": "Fresh independent validation; no fitting, promotion or model-selection use"
+}

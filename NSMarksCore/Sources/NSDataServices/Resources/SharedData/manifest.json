@@ -23,8 +23,8 @@
     },
     {
       "path": "halifaxTaxSale.snapshot.json",
-      "bytes": 9358,
-      "sha256": "3a188b2fd8b78e2204538b0fe9006cba24337168031e7da47154a51f28e9c84c"
+      "bytes": 4028,
+      "sha256": "e325d369945024df438fb52a47731ec586a272b4e41c3ad9ac0983f1caacf826"
     },
     {
       "path": "historicalMatchExceptions.json",
@@ -33,13 +33,13 @@
     },
     {
       "path": "historicalSourceLedger.json",
-      "bytes": 66013,
-      "sha256": "c7923103c989e6f76b2a37648c02eb1af392375a446079392eaa86a39e09f61b"
+      "bytes": 68809,
+      "sha256": "b91dc1825410e782e43a6ab38355afefbb0377c4993a15fe1a730312a3e41eca"
     },
     {
       "path": "historicalTaxSales.json",
-      "bytes": 239081,
-      "sha256": "043e678a68232adcd49eb3ae8fed5019178eea2ee895287c31063e47d472b8a2"
+      "bytes": 249469,
+      "sha256": "cb8743b1f240eb7b1b6d0851d32f524032dc0eb678d6f88e60e089764cf6b3dc"
     },
     {
       "path": "invernessHydroPotential.json",
@@ -63,8 +63,8 @@
     },
     {
       "path": "victoriaTaxSale.snapshot.json",
-      "bytes": 3165,
-      "sha256": "4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467"
+      "bytes": 2356,
+      "sha256": "c91f5a8b2b2268454d3282395318b3bc238f7224aaf895d58ee396a4d6466a87"
     }
   ]
 }

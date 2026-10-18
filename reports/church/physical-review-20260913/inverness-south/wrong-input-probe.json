@@ -1,0 +1,35 @@
+{
+  "metrics": {
+    "count": 2,
+    "points": [
+      {
+        "label": "island-46-359n-61-262w",
+        "east_ground_m": 131.1588848063987,
+        "north_ground_m": -74.15500721654516,
+        "error_ground_m": 150.67056168656183
+      },
+      {
+        "label": "island-45-762n-61-068w",
+        "east_ground_m": -101.89920947849527,
+        "north_ground_m": 98.02185821096563,
+        "error_ground_m": 141.39212700667923
+      }
+    ],
+    "rms_ground_m": 146.1050165778317,
+    "median_ground_m": 146.03134434662053,
+    "p95_ground_m": 150.20663995256768,
+    "max_ground_m": 150.67056168656183,
+    "mean_east_ground_m": 14.629837663951719,
+    "mean_north_ground_m": 11.933425497210237,
+    "scatter_rms_ground_m": 144.88007825452547,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "control_csv_sha256": "f1d52dd101853995fe785dc41da87d3a14eeb14cb2a1b2bbf1143eb11ce2a847",
+  "drawn_observations_sha256": "3c2759a0635078871b357eddc0f1b58cfe22bfc9361111d2193d8746980eeef3",
+  "historical_acceptance_preserved": true,
+  "working_target_rms_ground_m": 250,
+  "working_target_met": true,
+  "usable_as_accepted_baseline": false,
+  "reason": "drawn-south.json is an older two-accepted-point audit, not the accepted eleven-check set. Its score is not an accepted-baseline replay."
+}

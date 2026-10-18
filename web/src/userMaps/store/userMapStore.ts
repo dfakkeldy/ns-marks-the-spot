@@ -3,14 +3,13 @@ import type { UserMapRecord } from "../types";
 import {
   BLOBS,
   MAPS,
-  fromStoredBlob,
   isQuotaError,
   openUserContentDatabase,
   request,
-  toStoredBlob,
   transactionDone,
-  type StoredBlob,
 } from "./database";
+
+import { deleteRasterBlob, prepareRasterBlob, putRasterBlob, readRasterBlob } from "./rasterBlob";
 
 // Re-exported because tests and callers historically imported it from here;
 // the implementation moved to database.ts when the vector store arrived.
@@ -35,8 +34,8 @@ export class UserMapStore {
     // Convert before opening the transaction: arrayBuffer() is async, and an
     // IndexedDB transaction auto-commits once it goes a tick without a new
     // request, so any awaited work must happen before transaction() is called.
-    const storedRaster = await toStoredBlob(raster);
-    const storedPreview = await toStoredBlob(preview);
+    const storedRaster = await prepareRasterBlob(raster);
+    const storedPreview = await prepareRasterBlob(preview);
     const tx = this.db.transaction([MAPS, BLOBS], "readwrite");
     try {
       // The put() calls themselves — not just the awaited completion — are
@@ -46,10 +45,13 @@ export class UserMapStore {
       // these calls sat outside the try block, that throw would escape as a
       // raw DOMException instead of the documented UserMapImportError.
       tx.objectStore(MAPS).put(record);
-      tx.objectStore(BLOBS).put(storedRaster, `${record.id}:raster`);
-      tx.objectStore(BLOBS).put(storedPreview, `${record.id}:preview`);
+      putRasterBlob(tx.objectStore(BLOBS), `${record.id}:raster`, storedRaster);
+      putRasterBlob(tx.objectStore(BLOBS), `${record.id}:preview`, storedPreview);
       await transactionDone(tx);
     } catch (error) {
+      // A synchronous put failure can leave earlier requests queued. Abort
+      // them too, so neither a partial import nor a half-replacement commits.
+      try { tx.abort(); } catch { /* Already aborted/completed. */ }
       if (isQuotaError(error)) {
         throw new UserMapImportError(
           "quota",
@@ -132,10 +134,7 @@ export class UserMapStore {
 
   private async getBlob(key: string): Promise<Blob | null> {
     const tx = this.db.transaction(BLOBS, "readonly");
-    const result = await request(
-      tx.objectStore(BLOBS).get(key) as IDBRequest<StoredBlob | undefined>,
-    );
-    return result ? fromStoredBlob(result) : null;
+    return readRasterBlob(tx.objectStore(BLOBS), key);
   }
 
   getPreviewBlob(id: string): Promise<Blob | null> {
@@ -149,8 +148,8 @@ export class UserMapStore {
   async deleteUserMap(id: string): Promise<void> {
     const tx = this.db.transaction([MAPS, BLOBS], "readwrite");
     tx.objectStore(MAPS).delete(id);
-    tx.objectStore(BLOBS).delete(`${id}:raster`);
-    tx.objectStore(BLOBS).delete(`${id}:preview`);
+    deleteRasterBlob(tx.objectStore(BLOBS), `${id}:raster`);
+    deleteRasterBlob(tx.objectStore(BLOBS), `${id}:preview`);
     await transactionDone(tx);
   }
 

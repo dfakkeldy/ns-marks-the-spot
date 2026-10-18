@@ -1,0 +1,48 @@
+{
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines-receipts.json",
+      "sha256": "dbc79b456e55ff9b3adf63bc0b2461db3ea6a614e97233ccfb8cda1e47607517"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+      "sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/interior-water.geojson",
+      "sha256": "48a47d12e3be8128e07e3ab0921afa1c4cee72e7856eb5c1712f9c9dc9650abf"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/eastern-expansion/interior-water-receipt.json",
+      "sha256": "fe90878c04503330b36540b1848c674a5e14de87e9f625f208a1ac2b9ea547e7"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+      "sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332"
+    },
+    {
+      "path": "reports/church/south-tps13-validation-20260915/western-expansion/reference-receipt.json",
+      "sha256": "092f1dd5aef6b9fb64424bc9a60cb6c8ebb8854d30672f4411f5bb3d6ff58b00"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+      "sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/highways.geojson",
+      "sha256": "cb2948e070869b3c2c15fe27a3875e8ccef0a1aea4c72d4dfd2405175a94caad"
+    },
+    {
+      "path": "reports/church/south-tps13-validation-20260915/northern-expansion/roads-receipt.json",
+      "sha256": "13cd242c9dcd71e6fef3f0ffd70037ef0d4bc0aebf130bc5ef4f8d3998aa5a15"
+    },
+    {
+      "path": "reports/church/south-tps13-validation-20260915/northern-expansion/highways-receipt.json",
+      "sha256": "081f6928e48dda59dc0035c82f5f6ebd7c71756559398169ea737341aca5ee3a"
+    }
+  ],
+  "scope": "Original EPSG:4326 NSTDB water and transport geometry, no simplification or clipping. Existing extraction receipts preserved. Public names identify locality, not fitting coordinates.",
+  "source_service": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4",
+  "cranberry_class_audit": "The initial coastline-only polygon search found no closed island. WACOIS10 features 23467 and 23468 supply the original complete exterior; WACO20 mainland coast and WALK20 pond lines are excluded from this island measurement.",
+  "transport_source_service": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer"
+}

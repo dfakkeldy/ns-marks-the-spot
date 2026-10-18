@@ -1,0 +1,22 @@
+[
+  {
+    "sheet": "14",
+    "rms_ground_m": 129.28560964034577,
+    "checks": 13
+  },
+  {
+    "sheet": "16",
+    "rms_ground_m": 102.02835627859604,
+    "checks": 14
+  },
+  {
+    "sheet": "22",
+    "rms_ground_m": 95.60847718179303,
+    "checks": 17
+  },
+  {
+    "sheet": "19",
+    "rms_ground_m": 90.98568432530145,
+    "checks": 20
+  }
+]

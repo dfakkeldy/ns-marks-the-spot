@@ -29,7 +29,8 @@ extension LayerCatalog {
         ),
         ResourcePointLayerDetail(
             id: .abandonedMines,
-            outFields: ["geo_id", "ShaftID", "Name", "Opening_ty", "Degree_Haz", "Protection"],
+            // The provincial version 9 service rejects mixed-case field names.
+            outFields: ["geo_id", "shaftid", "name", "opening_ty", "degree_haz", "protection"],
             markerColor: "#d1495b"
         ),
     ]

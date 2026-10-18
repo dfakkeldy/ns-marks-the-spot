@@ -1,0 +1,218 @@
+[
+  {
+    "id": "C01",
+    "label": "Dunbar Lake northeastern roof",
+    "role": "control",
+    "pixel_xy": [
+      640,
+      928
+    ],
+    "lonlat": [
+      -65.88638900042496,
+      44.40124043614633
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 127941,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127941,
+    "nearest_unfiltered_distance_guide_px": 2.779192679797803,
+    "selected_distance_guide_px": 2.779192679797803,
+    "guide_reference_pixel_xy": [
+      662.094604863727,
+      936.3724209624343
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "C02",
+    "label": "McKeen Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      2756,
+      297
+    ],
+    "lonlat": [
+      -65.77865143899291,
+      44.471483299786236
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 136707,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136707,
+    "nearest_unfiltered_distance_guide_px": 11.256025885037488,
+    "selected_distance_guide_px": 11.256025885037488,
+    "guide_reference_pixel_xy": [
+      2760.1972467096057,
+      255.22736415546387
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "C03",
+    "label": "Dugas Lake island north",
+    "role": "control",
+    "pixel_xy": [
+      2401,
+      1316
+    ],
+    "lonlat": [
+      -65.77080773813735,
+      44.419343748973006
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 144485,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144485,
+    "nearest_unfiltered_distance_guide_px": 1.0083912981305703,
+    "selected_distance_guide_px": 1.0083912981305703,
+    "guide_reference_pixel_xy": [
+      2412.99317164527,
+      1297.1745367960539
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "C04",
+    "label": "Little Uniacke Lake northeastern horn",
+    "role": "control",
+    "pixel_xy": [
+      3760,
+      939
+    ],
+    "lonlat": [
+      -65.69800356877006,
+      44.4633038731071
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 132107,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132107,
+    "nearest_unfiltered_distance_guide_px": 1.986810390611292,
+    "selected_distance_guide_px": 1.986810390611292,
+    "guide_reference_pixel_xy": [
+      3799.518531819922,
+      902.0724098153878
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "C05",
+    "label": "Uniacke Lake southern tip",
+    "role": "control",
+    "pixel_xy": [
+      3145,
+      1764
+    ],
+    "lonlat": [
+      -65.71198617494068,
+      44.41504261149328
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 125685,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125685,
+    "nearest_unfiltered_distance_guide_px": 0.5827073731376649,
+    "selected_distance_guide_px": 0.5827073731376649,
+    "guide_reference_pixel_xy": [
+      3186.248645466112,
+      1737.5269946061308
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "C06",
+    "label": "Colibri Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      1558,
+      2768
+    ],
+    "lonlat": [
+      -65.7816872388626,
+      44.339048993726614
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 128726,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128726,
+    "nearest_unfiltered_distance_guide_px": 2.0710925478471562,
+    "selected_distance_guide_px": 2.0710925478471562,
+    "guide_reference_pixel_xy": [
+      1561.9225332173519,
+      2761.7702534452546
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "C07",
+    "label": "Cranberry Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      5125,
+      3559
+    ],
+    "lonlat": [
+      -65.5433641973155,
+      44.37647682800091
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 129051,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129051,
+    "nearest_unfiltered_distance_guide_px": 2.1074433539040496,
+    "selected_distance_guide_px": 2.1074433539040496,
+    "guide_reference_pixel_xy": [
+      5177.335462363728,
+      3497.707470717025
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  },
+  {
+    "id": "C08",
+    "label": "Unnamed northeastern lake northeastern roof",
+    "role": "control",
+    "pixel_xy": [
+      4619,
+      726
+    ],
+    "lonlat": [
+      -65.65364671320793,
+      44.49037380388225
+    ],
+    "guide_file": ".crown-grant-local/014-frozen-north-guide.npy",
+    "reference_objectid": 132863,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132863,
+    "nearest_unfiltered_distance_guide_px": 2.4936208191433975,
+    "selected_distance_guide_px": 2.4936208191433975,
+    "guide_reference_pixel_xy": [
+      4646.216669672285,
+      655.1421560110757
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad waterbody context and every paired native crosshair inspected before first fit and score; Dunbar northern and Dugas southern source pixels corrected using scan evidence."
+  }
+]

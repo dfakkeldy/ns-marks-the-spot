@@ -1,0 +1,254 @@
+[
+  {
+    "id": "Q01",
+    "label": "North coast shoulder",
+    "role": "check-proposal",
+    "pixel_xy": [
+      5000,
+      384
+    ],
+    "lonlat": [
+      -66.19397104857819,
+      44.14526531835334
+    ],
+    "reference_objectid": 314003,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5220.859918124217,
+      351.52798275765963
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q02",
+    "label": "Northern coastal notch",
+    "role": "check-proposal",
+    "pixel_xy": [
+      5117,
+      230
+    ],
+    "lonlat": [
+      -66.18998642926617,
+      44.152362079417436
+    ],
+    "reference_objectid": 2827,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5351.335344513878,
+      260.4992299125297
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q03",
+    "label": "Coastal step south of bulb",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4467,
+      1000
+    ],
+    "lonlat": [
+      -66.21418280331469,
+      44.0986292975051
+    ],
+    "reference_objectid": 22037,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4459.841295114253,
+      1001.9401707102079
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q04",
+    "label": "Cape St Mary northwestern notch",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4373,
+      1240
+    ],
+    "lonlat": [
+      -66.21265831434316,
+      44.086060056435734
+    ],
+    "reference_objectid": 10305,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4367.593627030787,
+      1238.4439429633785
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q05",
+    "label": "Headland north of Salmon River",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4599,
+      1968
+    ],
+    "lonlat": [
+      -66.17824402691201,
+      44.058418554180015
+    ],
+    "reference_objectid": 5358,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4668.236866180378,
+      2031.5069060077658
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q06",
+    "label": "Salmon River south bank mouth",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4638,
+      2171
+    ],
+    "lonlat": [
+      -66.16844340599461,
+      44.0505252390669
+    ],
+    "reference_objectid": 12348,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4753.770630126237,
+      2257.7540050045354
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q07",
+    "label": "Salmon River southern bend",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4950,
+      2200
+    ],
+    "lonlat": [
+      -66.15213898168146,
+      44.05503263374633
+    ],
+    "reference_objectid": 157753,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      5059.970833908359,
+      2320.9024979338283
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q08",
+    "label": "Bartlett Brook coast entry",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4510,
+      2770
+    ],
+    "lonlat": [
+      -66.16080050851885,
+      44.02049175795011
+    ],
+    "reference_objectid": 12588,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4598.72834616882,
+      2858.2243760454003
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q09",
+    "label": "Beaver Lake northern bay",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4575,
+      3230
+    ],
+    "lonlat": [
+      -66.14534237997059,
+      44.00099511440867
+    ],
+    "reference_objectid": 125736,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4668.493674493919,
+      3340.3045141184703
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q10",
+    "label": "Churchill Lake southern corner",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4487,
+      3640
+    ],
+    "lonlat": [
+      -66.14015263552234,
+      43.984598531046686
+    ],
+    "reference_objectid": 140486,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4600.525762858393,
+      3677.1301283536013
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q11",
+    "label": "Cedar Lake southwestern corner",
+    "role": "check-proposal",
+    "pixel_xy": [
+      5050,
+      3154
+    ],
+    "lonlat": [
+      -66.11862742368652,
+      44.01587724413873
+    ],
+    "reference_objectid": 125122,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5240.0935635764035,
+      3310.627408567234
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "Q12",
+    "label": "Beaver Lake southwestern shore corner",
+    "role": "check-proposal",
+    "pixel_xy": [
+      4537,
+      3325
+    ],
+    "lonlat": [
+      -66.14391803906528,
+      43.99773923790819
+    ],
+    "reference_objectid": 125738,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4661.3841025918955,
+      3410.6470473875524
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  }
+]

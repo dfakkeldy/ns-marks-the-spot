@@ -1,0 +1,29 @@
+{
+  "candidate": "MacKenzie Pond",
+  "namepoint": [
+    -60.91241845089315,
+    46.163746319465126
+  ],
+  "guide_only": "32425.0269822014 10412.8184083105 0",
+  "alpha_at_namepoint": 0,
+  "scope": "Footprint reconnaissance only; no source observation or geographic-absence conclusion",
+  "source_inspection": "The inverse-guide location lies within the separately framed WEST BAY town inset, not the main county drawing. Keep the inset excluded from the south TPS; this is not missing main-map content or evidence that MacKenzie Pond is absent geographically.",
+  "crop_path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260916/mackenzie-context.jpg",
+  "crop_sha256": "59e820e9c797468451a2919a66c72e3a6b2108b2746f31a61828302214c62127",
+  "crop_frame": {
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      30200,
+      8500
+    ],
+    "extent": [
+      4200,
+      4300
+    ],
+    "display": [
+      1260,
+      1290
+    ],
+    "rotation": 0
+  }
+}

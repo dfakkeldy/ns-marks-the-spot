@@ -39,6 +39,32 @@ struct CivicAddressQueryTests {
 
     // MARK: - Search URLs
 
+    @Test func suggestionsKeepTheCivicNumberExactAndMatchAnIncompleteStreet() throws {
+        let url = try CivicAddressQuery.searchURL("12a Mai", suggest: true)
+        let decoded = try #require(url.absoluteString.removingPercentEncoding)
+            .replacingOccurrences(of: "+", with: " ")
+        #expect(!decoded.contains("$q="))
+        #expect(decoded.contains("civicnum=12 AND upper(civsuffix)='A' AND ("))
+        #expect(decoded.contains("starts_with(upper(strname),'MAI')"))
+        #expect(decoded.contains("upper(strname) like '% MAI%'"))
+        #expect(decoded.contains("$limit=12"))
+    }
+
+    @Test func suggestionsKeepCompletedTermsAndExpandRoadAliases() throws {
+        let url = try CivicAddressQuery.searchURL("11064 hwy 19 Mab", suggest: true)
+        let decoded = try #require(url.absoluteString.removingPercentEncoding)
+            .replacingOccurrences(of: "+", with: " ")
+        #expect(decoded.contains("$q=Highway 19"))
+        #expect(decoded.contains("starts_with(upper(comm),'MAB')"))
+        #expect(decoded.contains("civicnum=11064 AND ("))
+    }
+
+    @Test(arguments: ["Main 12", "D.R.'s", "Main %", "Main' OR 'x'='x"])
+    func suggestionPredicatesNeverInterpolatePunctuationOrNumbers(_ query: String) throws {
+        #expect(try CivicAddressQuery.searchURL(query, suggest: true)
+            == CivicAddressQuery.searchURL(query))
+    }
+
     @Test func aLeadingCivicNumberIsAskedAsAColumnRatherThanAsText() throws {
         // Socrata's full-text index ranks 11064 no higher than 110640, so the
         // number is pulled out and matched exactly while the rest stays text.

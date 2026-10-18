@@ -1,0 +1,185 @@
+{
+  "count": 5,
+  "rms_ground_m": 67.38395047691112,
+  "median_ground_m": 70.13197894764045,
+  "p95_ground_m": 84.12340612927379,
+  "max_ground_m": 87.00361884980235,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -11.414079074274364,
+  "mean_north_ground_m": -19.602313665916164,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Shey Lake eastern outlet",
+      "role": "check",
+      "pixel_xy": [
+        1771,
+        2853
+      ],
+      "lonlat": [
+        -64.18341532144996,
+        45.01672322069811
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 141082,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141082,
+      "nearest_unfiltered_distance_guide_px": 0.364046249141453,
+      "selected_distance_guide_px": 0.364046249141453,
+      "guide_reference_pixel_xy": [
+        1786.658328887308,
+        2790.125660344842
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and broad physical identity inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.18404225236802,
+        45.016336658234614
+      ],
+      "error_ground_m": 65.47967924158999,
+      "east_ground_m": -49.41746969131634,
+      "north_ground_m": -42.95930729061331
+    },
+    {
+      "id": "Q02",
+      "label": "Lily Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3458,
+        2289
+      ],
+      "lonlat": [
+        -64.08771344211064,
+        45.078305082743704
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 140691,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140691,
+      "nearest_unfiltered_distance_guide_px": 2.5643130397852354,
+      "selected_distance_guide_px": 2.5643130397852354,
+      "guide_reference_pixel_xy": [
+        3479.4357859731535,
+        2212.9774657918606
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and broad physical identity inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.08828194788042,
+        45.0778192896796
+      ],
+      "error_ground_m": 70.13197894764045,
+      "east_ground_m": -44.76416226362986,
+      "north_ground_m": -53.987630508735045
+    },
+    {
+      "id": "Q03",
+      "label": "Smith Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4687,
+        2754
+      ],
+      "lonlat": [
+        -63.99285515091471,
+        45.0816122997747
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 142567,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142567,
+      "nearest_unfiltered_distance_guide_px": 0.8950662917415627,
+      "selected_distance_guide_px": 0.8950662917415627,
+      "guide_reference_pixel_xy": [
+        4701.557143328071,
+        2674.7778313665185
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and broad physical identity inspected before first fit or score.",
+      "predicted_lonlat": [
+        -63.9935203537955,
+        45.081159876749
+      ],
+      "error_ground_m": 72.60255524715956,
+      "east_ground_m": -52.37504383267639,
+      "north_ground_m": -50.27907926704786
+    },
+    {
+      "id": "Q04",
+      "label": "Wade Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4642,
+        937
+      ],
+      "lonlat": [
+        -64.04897285676711,
+        45.16559279919465
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 141203,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 280972,
+      "nearest_unfiltered_distance_guide_px": 1.5689567930600758,
+      "selected_distance_guide_px": 3.1007678449069074,
+      "guide_reference_pixel_xy": [
+        4655.060413328349,
+        859.501370390295
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and broad physical identity inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.04814276011666,
+        45.16611052653172
+      ],
+      "error_ground_m": 87.00361884980235,
+      "east_ground_m": 65.2611018639391,
+      "north_ground_m": 57.53797247441248
+    },
+    {
+      "id": "Q05",
+      "label": "Woodward Sandford or Knox Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4461,
+        1655
+      ],
+      "lonlat": [
+        -64.04004915457958,
+        45.128526206069814
+      ],
+      "guide_file": ".crown-grant-local/053-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 140323,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140323,
+      "nearest_unfiltered_distance_guide_px": 0.4478927150598441,
+      "selected_distance_guide_px": 0.4478927150598441,
+      "guide_reference_pixel_xy": [
+        4475.6624300887925,
+        1573.7056287390878
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshairs and broad physical identity inspected before first fit or score.",
+      "predicted_lonlat": [
+        -64.0397412222543,
+        45.12845130956406
+      ],
+      "error_ground_m": 25.615236155493935,
+      "east_ground_m": 24.225178552311675,
+      "north_ground_m": -8.323523737597087
+    }
+  ],
+  "fit_sha256": "a96ec704bd8c63b4aacfadc38e9af87d3d5327b3fb9ee4b30ca0f7ea5f085b52",
+  "checks_sha256": "b0dfa590271668f1064287ee39858346fc39d6bb510c79809d86e5d6799843df",
+  "status": "Reserved before first fit and score"
+}

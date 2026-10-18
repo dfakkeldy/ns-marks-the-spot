@@ -1,0 +1,289 @@
+# Native App Store release packet
+
+Re-checked: **2026-10-06**. Scope: the native iPhone/iPad app and its Live
+Activity extension. Browser-map publication does not establish native readiness.
+This packet prepares a release; it does not authorize promotion, upload,
+submission, pricing, agreement acceptance, or legal declarations.
+
+## Release decision
+
+**Hold public release.** A recent internal upload exists, but the current native
+test gate now passes at the earlier documentation head and the native privacy
+link is implemented; native/offline rights remain unresolved. Complete those
+bounded items before choosing a final build. Keep existing features intact while
+resolving them; any alternative release scope needs an explicit decision.
+
+| Evidence | Verified state | Remaining gate |
+|---|---|---|
+| Nightly source | `af8a13750eda50423f599079c1f851eeb7ac7805` | Privacy-link source head `1153d59c` passed all native/UI/package tests; selected signed-device acceptance remains separate |
+| Weekly source | `781d7b5b2206eee48cd20a00b2cfbcebea78d4d3` | 327 nightly commits are ahead; use a separate `nightly -> weekly` promotion |
+| Main source | `1859b08e08f4a50588e762a86e391f8b41db4356` | 827 weekly commits are ahead; use `weekly -> main` after external acceptance |
+| Latest real internal receipt | October 4: `1.0 (109)`, source `3e7fb58130b04bba69b402a57f3473c11703c26f`; uploaded, processed, distributed internally | Not the current source and not App Store approval |
+| Latest inspected real weekly receipt | September 28: `1.0 (103)`, weekly SHA above; uploaded, processed, Fastlane reported external distribution | Confirm the selected build's beta-review state, group eligibility and actual external acceptance in ASC |
+| October 5 native train | Source `37a5c6228fcf83e0e544cac87ae3248e3c0fba0f` compiled; tests failed; upload skipped | `MapChromeUITests.testMeasuringReportsADistanceForTapsOnTheMap`, line 103: badge tap did not update endpoint and card |
+| Current source preparation CI | [37410821481](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37410821481), head `1153d59c`: native and all 18 UI tests + core package tests passed | Counts and source receipt recorded separately; no promotion or device acceptance implied |
+| App Store Release workflow | Present on nightly; no runs returned by the live workflow query | No App Store upload/submission/approval/live outcome established |
+
+The October 5 failure remains historical intermittent evidence. The October 6
+`079da5ba` native/UI rerun and the isolated local two-tap/endpoint-extension
+journey passed without a measurement-source change. Preserve that assertion and
+diagnose a future reproduced failure; the current evidence does not justify a
+speculative measurement repair. The privacy-link source patch `1153d59c` also passed its own native/UI gate
+in run 37410821481. These repeat passes leave the historical intermittent
+record intact and do not substitute for selected signed-device acceptance.
+
+Receipts:
+
+- [Internal upload, October 4](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37199904619)
+- [Weekly upload, September 28](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/36472512037)
+- [Native test failure, October 5](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37318150629)
+- [Historical CI, October 5](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37371862671)
+
+## Promotion and build contract
+
+The ladder remains `feature/* -> nightly` (internal testing) `-> weekly`
+(external testing) `-> main` (App Store). CI permits only `nightly` or `main`
+as PR heads into weekly; main accepts `weekly` or `hotfix/*`. Do not backport a
+feature directly to weekly/main to obtain a green check.
+
+Live classic protections require `Build gate + tests` on all three branches,
+including administrators, with zero mandatory approvals. Weekly/main require an
+up-to-date base (`strict: true`); nightly does not. CI classifies paths: a green
+documentation/web run may skip native compilation and tests. Release trains and
+the App Store workflow separately compile and run native unit/UI tests before
+shipping. The latter uploads with `submit_for_review: false`; upload is not
+submission. The July main Fastfile also has older release behavior, so inspect
+the promoted main payload before using it. Do not dispatch, tag, change branch
+rules, or alter pipelines during preparation.
+
+Source configuration:
+
+- App: `com.danfakkeldy.nsmarksthespot`; extension:
+  `com.danfakkeldy.nsmarksthespot.LiveActivity`.
+- Marketing version `1.0`; checked-in build number `1`, replaced by the release
+  lane using the latest TestFlight number plus one. Source build `1` is not the
+  uploaded build number.
+- iPhone and iPad; deployment target iOS 18.0; Swift 6.0; native CI selects
+  Xcode 26.5. This satisfies the source-configured toolchain/target direction of
+  Apple's current iOS upload requirements; inspect the final archive's SDK.
+- Match is readonly for normal shipping and maps the app and extension to their
+  respective profiles. The October 4 receipt proves a successful archive/upload
+  for that older source. No certificates, private signing assets or credentials
+  were inspected for this audit.
+- No checked-in `.entitlements` or `CODE_SIGN_ENTITLEMENTS` setting was found.
+  Inspect the exported final app/extension entitlements before submission.
+- Background mode is `location` only. When In Use location supports positioning,
+  marking and recording; `CLBackgroundActivitySession` exists only for an active
+  recording. No Always permission request/string is configured. Location purpose
+  string shows your position and, when you ask, saves a point or records a
+  track; viewing your area can send map and layer requests to selected
+  providers. Camera purpose string takes photos to attach to your map features.
+  Photos purpose string shows accessible geotagged library photos on your map;
+  viewing a photo's area can send map and layer requests to selected providers.
+  Live Activity shows elapsed time/distance and pause/resume, not
+  coordinates; stop/save remain in the app.
+
+## Store fields and prepared copy
+
+Existing source fields are in `fastlane/metadata/`:
+
+| Field | Prepared value/status |
+|---|---|
+| Name | NS Marks the Spot |
+| Subtitle | Nova Scotia property research |
+| Primary / secondary category | Reference / Education |
+| Promotional text | Existing 162-character text describes parcel search, dated notices, measuring and locked unconfirmed exports |
+| Keywords | Existing 92-byte list; validate the actual files before use |
+| Privacy URL | `https://dfakkeldy.github.io/ns-marks-the-spot/privacy.html` |
+| Support URL | `https://kinnokilabs.com/nsmarksthespot-help` |
+| Marketing URL | `https://kinnokilabs.com/apps/nsmarksthespot/map/` is a browser map; confirm the chosen public destination accurately presents the native app |
+| Review contact | Existing file-backed name/email; phone is required from the authorized secret or ignored local file. Verify in ASC without copying private values into this packet |
+| Copyright | Required in ASC; no `copyright.txt` is staged. Owner must confirm the exact line |
+| Price / territories / release timing | Unread in ASC; historical free/no-IAP intent is not a newly approved pricing or availability answer |
+
+The native Map Info Privacy Policy link and the prepared App Store privacy URL
+both point to `https://dfakkeldy.github.io/ns-marks-the-spot/privacy.html`, the
+native NS Marks The Spot policy. Source is `docs/privacy.html`, published via
+[PR #610](https://github.com/dfakkeldy/ns-marks-the-spot/pull/610).
+[PR #611](https://github.com/dfakkeldy/ns-marks-the-spot/pull/611) switched
+those two links. The Map Info control keeps accessibility identifier
+`map-info.privacy-policy` and a 44-point target. The published page returned
+HTTP 200 after its Pages deployment. App Privacy answers in App Store Connect,
+selected signed-build checks, and owner confirmation remain release gates.
+Support/marketing browser reachability and actual native link opening remain
+candidate checks. This change is prepared source and metadata; it is not an
+App Store submission, approval or public release.
+
+The current `fastlane/metadata/en-US/description.txt` (after #606) is the
+prepared native store description. Copy it once the selected build's journey
+and content clearance are verified:
+
+```text
+Explore Nova Scotia with historical maps, public reference layers and tools for field notes.
+
+NS Marks the Spot brings Fletcher historical imagery together with modern map backgrounds and public property information. Search by PID or civic address, inspect a selected parcel, and follow each record back to its source. Municipal tax-sale notices are dated public records, with their source identified; they are not listings or offers.
+
+Compare available layers, measure distance and area, import your own maps, and draw your own features. Save Fletcher tiles for an offline area. Recently viewed tiles can redraw from the limited local cache; provincial reference layers and property lookups still need a connection.
+
+With optional location permission, show your position, place a mark or record a track. An active recording can continue off screen when iOS permits it. Tracks and imported files are stored locally. System backups may include them, depending on your device settings. You choose any export or sharing destination. Map services receive separate requests for the area you view.
+
+Every layer identifies its source and licence. Some provincial features require acceptance of the Province of Nova Scotia's viewing terms, which you can withdraw in the app. Sources and export types with unconfirmed permissions remain locked.
+
+This is a screening and research tool. Parcel outlines are representations of records, not surveyed boundaries. Empty results and failed sources are distinguished. Nothing here establishes title, access rights, site conditions or flood risk. Not for navigation or emergency use.
+
+No NS Marks account is required.
+```
+
+Prepared review notes in `fastlane/metadata/review_information/notes.txt`,
+subject to final-build verification and rights clearance:
+
+```text
+NS Marks the Spot is an iPhone and iPad map and research app. No login, account or purchase is required.
+
+The app opens a map of Nova Scotia. The Layers control opens the map-layer panel; Historical Maps contains Fletcher. Offline Maps manages saved Fletcher areas, and Save Area prepares an estimate before a download. Online public-data services and the configured tile host require a network connection. A saved offline area does not make parcel searches or provincial reference services available offline.
+
+Search by PID or civic address, or tap a parcel to inspect its public record. Tax-sale notices are dated municipal records with source links, not listings or offers. The map is for screening and research, not surveying, title decisions, route guidance, emergency use or flood-risk assessment. Map Info lists source credits, licences and limitations.
+
+Province-restricted features require the in-app viewing disclosure before requests or display. Acceptance can be withdrawn in Map Info. Four municipal query services and unconfirmed reproduction/export uses remain locked. Fletcher viewing and saved offline tiles remain available; the app does not treat viewing permission as permission to reproduce restricted material in an export.
+
+Location permission is optional and requested When In Use. It supports showing position, placing a mark and recording a track. During an active recording, location updates can continue off screen when iOS permits it. The app does not request Always authorization. Recorded tracks are stored locally. System backups may include saved library files, depending on device settings. The user chooses any export or sharing destination. When the map follows the device position, separate map and layer requests can disclose the surrounding viewed area to the selected providers.
+
+A recording Live Activity shows elapsed time, distance and recording status, with Pause and Resume. It contains no coordinates and uses no remote activity-push server. Stop and Save are in the app. A local checkpoint can offer recovery after an interrupted recording; that checkpoint directory is excluded from system backup.
+
+Camera access is optional for taking feature photos. Attaching selected images uses the system photo picker. The optional Photo map requests Photos access to display accessible geotagged library images on the map. Imported maps, drawings, marks, tracks and attached photo files are stored locally; the user chooses any export or sharing destination.
+```
+
+Attach the final build/version, actual device/OS acceptance results, and exact
+review paths once known. Do not include an unresolved-rights promise or submit
+these notes as evidence of rights. First-version What's New is unavailable in
+ASC; updates need truthful release notes for the actual changes.
+
+## Assets
+
+Three tracked app icons are 1024×1024 RGB PNGs without alpha (light/dark/tinted).
+The existing screenshot pack contains six 1320×2868 iPhone PNGs and six
+2064×2752 iPad PNGs without alpha, captured July 3. Visual inspection of its
+first iPhone image shows the old Apple map without the current parcel-search
+bar; its historical-first storyboard predates the current core journey.
+
+The old PNGs remain preserved. They are not a current-final-build capture.
+Current Apple specifications list the required iPhone category as Dynamic
+Island medium (1179×2556 or 1206×2622); the existing large images may use a
+documented scaling fallback, but acceptance in the actual ASC category remains
+unverified. iPad 13-inch 2064×2752 is listed. See the
+[screenshot plan](../fastlane/screenshots/en-US/README.md) for a focused fresh
+native storyboard. No capture lane is implemented, and no new screenshot was
+fabricated from the web interface. Four new authentic native draft captures are preserved locally: three phone
+and one iPad. They cover map, layer controls and measurement. Status/candidate
+cleanup, final category acceptance and content-rights review remain; no
+measurement repair is currently supported by the passing rerun and local journey.
+
+## Privacy and conditional features
+
+`ns-marks-the-spot/PrivacyInfo.xcprivacy` declares tracking false, no tracking
+domains, no collected data types, and required-reason categories FileTimestamp
+(`C617.1`) and UserDefaults (`CA92.1`). These are source declarations, not ASC
+answers or final-archive placement proof. The only package dependency in the
+project is local `NSMarksCore`; no remote advertising, analytics, authentication
+or purchase SDK was found. The Live Activity target has no separate manifest;
+check its final linked API usage and bundle coverage in the archive report.
+
+The local-data design supports a proposed no-data-collected label, but verify
+the complete real data flow before making that declaration: device-only marks,
+tracks, imports and photos; user-directed exports; MapKit; provincial PID/civic
+and viewport queries; OSM tile requests; and the developer's own
+`tiles.kinnokilabs.com` requests and server/CDN log retention. An empty manifest
+does not establish that no request data is retained. Confirm provider practices
+and the final Xcode privacy report. No data-collection answer was submitted.
+
+No account creation, login, StoreKit purchase or subscription implementation
+was found in the native targets. Account deletion and purchase/restore flows
+are therefore not applicable to the audited source. Local imports/photo
+attachments and explicit sharing exist; no public social feed was found. Use
+that evidence when the owner reviews the current age/social-media questionnaire;
+do not infer an age rating from the Reference category.
+
+`ITSAppUsesNonExemptEncryption` is absent. Source uses system HTTPS and hashing
+for data integrity; no custom encryption library was found. Export-compliance
+questions, intended territories and any required documentation remain an
+authorized-owner determination. Do not insert a guessed plist answer.
+
+## Content rights: specific unresolved items
+
+1. **Fletcher native/offline distribution.** The published
+   [rights boundary](FLETCHER_GEOREFERENCING.md#evidence-and-rights-boundary)
+   records permission for direct-Rumsey georeferencing for a free web map and
+   explicitly excludes native offline bundling unless supported by the original
+   request and response. Native Release configuration enables the hosted
+   Fletcher mosaic and the app saves historical areas. Confirm the native
+   App Store/offline/export scope against that permission or obtain the missing
+   permission. Preserve Rumsey/Stanford, changes and CC BY-NC-SA 3.0 attribution.
+   Free software alone does not establish the needed distribution rights.
+2. **Municipal zoning without stated terms.** [PR #582](https://github.com/dfakkeldy/ns-marks-the-spot/pull/582)
+   holds app query, cached/retained display, and reproduction for Inverness,
+   Victoria, Richmond, and Cumberland zoning. Halifax/HRM zoning remains
+   available. Catalog entries and official by-law links remain. This is not
+   App Store clearance. See [licensing-locks.md](licensing-locks.md).
+3. **Restricted provincial services.** The bundled licence permits viewing and
+   directs other uses to the provider. Acceptance gates and attribution exist;
+   verify whether the app's evidence/PDF/geometry exports fall within the
+   permitted scope or need separate clearance. A user's acceptance is not a
+   blanket publisher redistribution grant.
+4. **OSM and other credited sources.** Native OSM, Atlas and provincial service
+   requests identify the app with
+   `NSMarksTheSpot/<version> iOS (+https://kinnokilabs.com/apps/nsmarksthespot/)`
+   (provincial requests since #600). OSM uses HTTP caching and is not included
+   in named offline saved-area downloads.
+   Keep on-map/export attribution. Review current host policies and the Atlas
+   raster's provincial/OpenFreeMap/OpenMapTiles/OSM derivative terms for final
+   distribution. Do not interpret the repository MIT licence as a data licence.
+
+Keep underlying correspondence, private evidence and personal data out of public
+PRs. A separate existing provenance/rights workstream should remain intact.
+
+## Finish before the ASC sitting
+
+Agent work: preserve the passing measurement evidence; verify the implemented native
+policy link through normal work; resolve the specified rights scopes with the
+available evidence; verify public URLs; validate and stage the corrected copy;
+capture the selected build's native core journey; inspect one final archive's
+privacy report, signed entitlements and SDK; and prepare the authorized promotion
+PRs only when requested. Public release also needs a selected-build core-device
+acceptance record, rather than assuming an older build was tested.
+
+At one later ASC sitting, the owner confirms the selected build and the prepared
+answers for age/social-media, privacy, content rights, export compliance,
+copyright, availability/price, trader status and any agreements, then explicitly
+authorizes submission/release. Inspect current fields and present exact unresolved
+choices then; signing in is not required to complete independent preparation.
+
+## Current official references
+
+- [Apple upload requirements](https://developer.apple.com/news/upcoming-requirements/)
+- [Screenshot specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications)
+- [App information](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information)
+- [Platform version information](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/)
+- [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) (complete builds, accurate metadata, privacy-policy access and permitted background use)
+- [App Privacy details](https://developer.apple.com/app-store/app-privacy-details/) (on-device processing and retained network data are distinct)
+- [Privacy manifest placement](https://developer.apple.com/documentation/bundleresources/adding-a-privacy-manifest-to-your-app-or-third-party-sdk)
+- [Age rating](https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating/)
+- [September social-media questionnaire notice](https://developer.apple.com/news/?id=tlur8uvi)
+- [Export compliance](https://developer.apple.com/help/app-store-connect/manage-app-information/overview-of-export-compliance/)
+- [External TestFlight](https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers/)
+- [Rumsey permissions](https://www.davidrumsey.com/about/copyright-and-permissions)
+- [OSMF tile policy](https://operations.osmfoundation.org/policies/tiles/)
+
+All references were re-checked during the October 6 release-preparation audit.
+
+## 6 October continuation
+
+The minimal Map Info privacy-link diff passed independent source review. All
+current phone/iPad draft captures are authentic native UI from an isolated
+simulator. They remain draft assets, with neutral status bars/candidate scope
+and content-rights review before upload. No measurement behavior, licence gate,
+source/provider, policy text, signing, pipeline or release action changed.
+
+Exact privacy-link source-head [CI 37410821481](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37410821481)
+completed successfully. All 18 native UI tests ran, including measurement;
+core and native unit suites passed. Web was correctly skipped for this native
+change. Documentation-only follow-ups do not change that source payload.

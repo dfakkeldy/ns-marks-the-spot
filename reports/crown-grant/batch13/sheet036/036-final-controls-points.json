@@ -1,0 +1,164 @@
+[
+  {
+    "id": "C01",
+    "label": "West Allen Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      865,
+      1573
+    ],
+    "lonlat": [
+      -64.95915015468327,
+      44.85636571844785
+    ],
+    "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+    "reference_objectid": 141336,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141336,
+    "nearest_unfiltered_distance_guide_px": 1.650083177161984,
+    "selected_distance_guide_px": 1.650083177161984,
+    "guide_reference_pixel_xy": [
+      893.8139449147275,
+      1646.435363426921
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C02",
+    "label": "Small lake east of South Tremont northern tip",
+    "role": "control",
+    "pixel_xy": [
+      2147,
+      1062
+    ],
+    "lonlat": [
+      -64.89343600556195,
+      44.903398682036986
+    ],
+    "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+    "reference_objectid": 140625,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 243117,
+    "nearest_unfiltered_distance_guide_px": 3.5573559493194393,
+    "selected_distance_guide_px": 4.837953037742918,
+    "guide_reference_pixel_xy": [
+      2169.899188006355,
+      1121.5669301876333
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C03",
+    "label": "Half Moon Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      5326,
+      1102
+    ],
+    "lonlat": [
+      -64.69278144477144,
+      44.96440787346908
+    ],
+    "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+    "reference_objectid": 137762,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137762,
+    "nearest_unfiltered_distance_guide_px": 2.1620911411361767,
+    "selected_distance_guide_px": 2.1620911411361767,
+    "guide_reference_pixel_xy": [
+      5374.7586870157975,
+      1122.1485823573312
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C04",
+    "label": "Milton Lake southern tip",
+    "role": "control",
+    "pixel_xy": [
+      3065,
+      3468
+    ],
+    "lonlat": [
+      -64.76938674146132,
+      44.816717748458586
+    ],
+    "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+    "reference_objectid": 133520,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133520,
+    "nearest_unfiltered_distance_guide_px": 3.254472276538402,
+    "selected_distance_guide_px": 3.254472276538402,
+    "guide_reference_pixel_xy": [
+      3118.544684522727,
+      3549.0890471215826
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C05",
+    "label": "Small lake west of Lake Paul northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4039,
+      2621
+    ],
+    "lonlat": [
+      -64.73205282078601,
+      44.87283795554609
+    ],
+    "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+    "reference_objectid": 135521,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135521,
+    "nearest_unfiltered_distance_guide_px": 1.5546934676325288,
+    "selected_distance_guide_px": 1.5546934676325288,
+    "guide_reference_pixel_xy": [
+      4087.1708899936057,
+      2676.0227846308844
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "C06",
+    "label": "Kerr Lake northern roof",
+    "role": "control",
+    "pixel_xy": [
+      5260,
+      3161
+    ],
+    "lonlat": [
+      -64.64096082387866,
+      44.87362899215394
+    ],
+    "guide_file": ".crown-grant-local/036-east-adjacent-guide.npy",
+    "reference_objectid": 132620,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132620,
+    "nearest_unfiltered_distance_guide_px": 1.2805215337442757,
+    "selected_distance_guide_px": 1.2805215337442757,
+    "guide_reference_pixel_xy": [
+      5320.4563492632005,
+      3199.803554953891
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  }
+]

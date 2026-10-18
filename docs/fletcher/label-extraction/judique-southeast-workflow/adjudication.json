@@ -1,0 +1,723 @@
+{
+  "automatic_import_allowed": false,
+  "candidate_records": 69,
+  "reviewed_annotations": 40,
+  "candidate_dispositions": [
+    {
+      "candidate_id": "west:I01-01",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-053"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "west:I01-02",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-053"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "west:I01-03",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-054"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "west:I01-04",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-075"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "west:I01-05",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-076"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "west:I01-06",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-096"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I01-07",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [],
+      "disposition": "excluded",
+      "note": "Red AB 3 is an excluded geological unit code."
+    },
+    {
+      "candidate_id": "west:I01-08",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-130"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I01-09",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-130"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I01-10",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-130"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I01-11",
+      "reported_crop_id": "I01",
+      "source_crop_id": "I01",
+      "annotation_ids": [
+        "F19-JUD-130"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I04-01",
+      "reported_crop_id": "I04",
+      "source_crop_id": "I04",
+      "annotation_ids": [
+        "F19-JUD-113"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I04-02",
+      "reported_crop_id": "I04",
+      "source_crop_id": "I04",
+      "annotation_ids": [
+        "F19-JUD-114"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I04-03",
+      "reported_crop_id": "I04",
+      "source_crop_id": "I04",
+      "annotation_ids": [
+        "F19-JUD-115"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I04-04",
+      "reported_crop_id": "I04",
+      "source_crop_id": "I04",
+      "annotation_ids": [
+        "F19-JUD-116"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "west:I04-05",
+      "reported_crop_id": "I04",
+      "source_crop_id": "I04",
+      "annotation_ids": [
+        "F19-JUD-130"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-01",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-094"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-02",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-095"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-03",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-096"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-04",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-097"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-05",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-104"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-06",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-104"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-07",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-103"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-08",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-098"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-09",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-099"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-10",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-100"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-11",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-101"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I02-12",
+      "reported_crop_id": "I02",
+      "source_crop_id": "I02",
+      "annotation_ids": [
+        "F19-JUD-102"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-01",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-103"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-02",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-104"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-03",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-102"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-04",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-101"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-05",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-104"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-06",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-117"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-07",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-118"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-08",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-119"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-09",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-120"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-10",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-121"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-11",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-122"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-12",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-123"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-13",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-124"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-14",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-125"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-15",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-131"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-16",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-131"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "middle:I05-17",
+      "reported_crop_id": "I05",
+      "source_crop_id": "I05",
+      "annotation_ids": [
+        "F19-JUD-132"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-01",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-065"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "east:C01-02",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-069"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "east:C01-03",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-068"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "east:C01-04",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-105"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-05",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-106"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-06",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-107"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-07",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-127"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-08",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-128"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-09",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-108"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-10",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-109"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-11",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-110"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-12",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-111"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-13",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-129"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C01-14",
+      "reported_crop_id": "C01",
+      "source_crop_id": "I03",
+      "annotation_ids": [
+        "F19-JUD-066"
+      ],
+      "disposition": "existing-annotation",
+      "note": "Overlap/edge fragment of an earlier source-position annotation; no new ID."
+    },
+    {
+      "candidate_id": "east:C02-01",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-109"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-02",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-110"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-03",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-111"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-04",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-126"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-05",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-112"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-06",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-129"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-07",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-126"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-08",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-121"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-09",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-122"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    },
+    {
+      "candidate_id": "east:C02-10",
+      "reported_crop_id": "C02",
+      "source_crop_id": "I06",
+      "annotation_ids": [
+        "F19-JUD-125"
+      ],
+      "disposition": "retained",
+      "note": "Source-reviewed text and lettering boxes are authoritative; raw spelling, grouping, and boxes are retained only as candidate evidence."
+    }
+  ],
+  "reviewer_additions": [
+    "F19-JUD-133"
+  ],
+  "raw_structural_defects": [
+    {
+      "candidate_id": "east:C01-08",
+      "box_index": 0,
+      "box_xywh": [
+        1032,
+        866,
+        70,
+        40
+      ],
+      "defect": "outside declared native crop bounds"
+    },
+    {
+      "candidate_id": "east:C01-12",
+      "box_index": 0,
+      "box_xywh": [
+        403,
+        1218,
+        96,
+        35
+      ],
+      "defect": "outside declared native crop bounds"
+    }
+  ],
+  "review_note": "Raw model text is preserved byte-for-byte. Candidate boxes are never imported automatically. All source windows, raw candidate excerpts and final retained boxes were inspected. Corrected source text, grouping and whole-sheet lettering rectangles live in judique-southeast.json."
+}

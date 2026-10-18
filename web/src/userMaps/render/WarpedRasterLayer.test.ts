@@ -20,6 +20,7 @@ function stubMap(paneEl: HTMLElement) {
   const ORIGIN = new L.Point(1000, 1000);
   return {
     getPane: vi.fn(() => paneEl),
+    getContainer: vi.fn(() => paneEl),
     getSize: vi.fn(() => new L.Point(800, 600)),
     getZoom: vi.fn(() => 13),
     getPixelOrigin: vi.fn(() => ORIGIN),
@@ -31,6 +32,7 @@ function stubMap(paneEl: HTMLElement) {
         ),
     ),
     containerPointToLayerPoint: vi.fn(() => new L.Point(0, 0)),
+    unproject: vi.fn((point: L.Point) => L.latLng(46 - (point.y - 1200) / 1600, -63.125 + (point.x - 1200) / 1600)),
     on: vi.fn(),
     off: vi.fn(),
   } as unknown as L.Map;
@@ -116,6 +118,20 @@ describe("WarpedRasterLayer", () => {
     // In afterEach, not inline: a failing assertion inside a test that stubs
     // devicePixelRatio would otherwise leak the stub into every later test.
     vi.unstubAllGlobals();
+  });
+
+  it("exports the already-warped pixel frame for terrain without changing its coordinates", () => {
+    const layer = makeLayer(); const map = stubMap(pane);
+    layer.onAdd(map);
+    const drape = layer.getTerrainDrape();
+    expect(drape?.canvas).toBe(paneCanvas(pane));
+    // The backing includes its 3 px transparent border; dropping it would
+    // stretch the pixels away from their verified positions in the 3D view.
+    const pad = 3 / 1600;
+    expect(drape?.coordinates).toEqual([[-63.125 - pad, 46 + pad], [-63 + pad, 46 + pad], [-63 + pad, 45.875 - pad], [-63.125 - pad, 45.875 - pad]]);
+    expect(drape?.opacity).toBe(.7);
+    layer.onRemove(map);
+    expect(layer.getTerrainDrape()).toBeNull();
   });
 
   it("adds a canvas to its pane with the configured opacity", () => {
@@ -281,6 +297,7 @@ describe("WarpedRasterLayer", () => {
     const handlers: Array<() => void> = [];
     const map = {
       getPane: () => pane,
+      getContainer: () => pane,
       getSize: () => new L.Point(800, 600),
       getZoom: () => 13,
       getPixelOrigin: () => ORIGIN,

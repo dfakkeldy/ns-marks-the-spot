@@ -1,0 +1,23 @@
+{
+  "points": [
+    {
+      "id": "CB07",
+      "official_key": "CBQED",
+      "official_name": "Gillis Lake",
+      "named_point_containing_polygons": 1,
+      "control_on_named_lake_boundary": true,
+      "boundary_distance_degrees": 0.0,
+      "scope": "Name point only corroborates lake identity; original shoreline/stream vertex supplies control coordinates."
+    },
+    {
+      "id": "CB08",
+      "official_key": "CBHPK",
+      "official_name": "Scotch Lake",
+      "named_point_containing_polygons": 1,
+      "control_on_named_lake_boundary": true,
+      "boundary_distance_degrees": 0.0,
+      "scope": "Name point only corroborates lake identity; original shoreline/stream vertex supplies control coordinates."
+    }
+  ],
+  "geographic_acceptance": false
+}

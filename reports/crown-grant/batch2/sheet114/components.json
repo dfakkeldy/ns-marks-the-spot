@@ -1,0 +1,109 @@
+{
+  "source_frame": "Original 5959 x 4077 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      45,
+      85
+    ],
+    [
+      5890,
+      85
+    ],
+    [
+      5890,
+      3970
+    ],
+    [
+      45,
+      3970
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 168.85 m exceeds 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          1800,
+          85
+        ],
+        [
+          5890,
+          85
+        ],
+        [
+          5890,
+          3970
+        ],
+        [
+          45,
+          3970
+        ],
+        [
+          45,
+          1205
+        ],
+        [
+          1435,
+          1205
+        ],
+        [
+          1435,
+          1305
+        ],
+        [
+          1800,
+          1305
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "33df3033db59623b0280e1ce8166b2340a73b70b4dbfde16004797473fea177d"
+    },
+    {
+      "id": "cape-mabou-inset",
+      "status": "RMS 93.43 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          45,
+          85
+        ],
+        [
+          1800,
+          85
+        ],
+        [
+          1800,
+          1305
+        ],
+        [
+          1435,
+          1305
+        ],
+        [
+          1435,
+          1205
+        ],
+        [
+          45,
+          1205
+        ]
+      ],
+      "fit_file": "fit-inset-similarity-01.json",
+      "fit_sha256": "db589ce181d4fd5e87590f824445fab12f72f2b799f57d88b3a05a8bc898be5c",
+      "matrix": [
+        [
+          4.648058480487289,
+          2.099903575231204
+        ],
+        [
+          2.099903575231204,
+          -4.648058480487289
+        ],
+        [
+          615071.0539338582,
+          5115992.556021461
+        ]
+      ]
+    }
+  ]
+}

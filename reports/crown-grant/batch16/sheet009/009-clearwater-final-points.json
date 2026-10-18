@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C06",
+    "label": "South Clearwater Lake island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4113,
+      2679
+    ],
+    "lonlat": [
+      -65.65464446694526,
+      43.81164532205391
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 144641,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144641,
+    "nearest_unfiltered_distance_guide_px": 3.103563653690013,
+    "selected_distance_guide_px": 3.103563653690013,
+    "guide_reference_pixel_xy": [
+      4148.057535279077,
+      2683.1030303002335
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "South Clearwater Lake island southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4098,
+      2690
+    ],
+    "lonlat": [
+      -65.65517141182907,
+      43.81065890511035
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 144641,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144641,
+    "nearest_unfiltered_distance_guide_px": 0.5613886121680621,
+    "selected_distance_guide_px": 0.5613886121680621,
+    "guide_reference_pixel_xy": [
+      4132.137308696809,
+      2698.4556623330573
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

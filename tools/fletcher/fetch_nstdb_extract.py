@@ -16,7 +16,6 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
-import sys
 import time
 import urllib.parse
 import urllib.request
@@ -67,15 +66,21 @@ def fetch(layer_url: str, bbox: str, getter=_get) -> dict:
             f"{layer_url}/query",
             {**common, "resultOffset": str(offset), "resultRecordCount": str(PAGE)},
         )
-        batch = page.get("features", [])
+        if not isinstance(page, dict):
+            raise RuntimeError(f"invalid page at offset {offset}: expected an object")  # noqa: TRY004 - remote response, not a caller argument
+        if "error" in page:
+            raise RuntimeError(f"source error at offset {offset}: {page['error']}")
+        batch = page.get("features")
+        if not isinstance(batch, list):
+            raise RuntimeError(f"invalid page at offset {offset}: missing features list")  # noqa: TRY004 - remote response, not a caller argument
+        if not batch and page.get("exceededTransferLimit"):
+            raise RuntimeError(f"empty page still marked truncated at offset {offset}")
         features.extend(batch)
         # Stop on the server's own truncation flag where present, and fall back
         # to a short page. Using only the short page would loop forever against
         # a server that pads, and using only the flag would stop early against
         # one that omits it.
         if not page.get("exceededTransferLimit") and len(batch) < PAGE:
-            break
-        if not batch:
             break
         offset += len(batch)
     return {"type": "FeatureCollection", "features": features}

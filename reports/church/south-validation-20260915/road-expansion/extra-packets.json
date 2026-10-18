@@ -1,0 +1,98 @@
+[
+  {
+    "name": "IS5-ainslie-glen",
+    "query_name": "ainslie-glen",
+    "lonlat": [
+      -61.11695081491892,
+      46.042413093231325
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 293991,
+        "vertex": 7,
+        "street": "West Lake Ainslie Rd",
+        "kind": "RRRDLOY1"
+      },
+      {
+        "layer": 7,
+        "id": 156426,
+        "vertex": 3,
+        "street": "Highway 395",
+        "kind": "RRRDCOY1"
+      },
+      {
+        "layer": 7,
+        "id": 156427,
+        "vertex": 0,
+        "street": "Highway 395",
+        "kind": "RRRDCOY1"
+      }
+    ],
+    "guide_pixel_xy": [
+      26554.9241810991,
+      15300.1973181324
+    ],
+    "origin": [
+      24000,
+      12800
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored search; historic route geometry and context must be verified."
+  },
+  {
+    "name": "IS5-glencoe",
+    "query_name": "glencoe",
+    "lonlat": [
+      -61.31937591551279,
+      45.971335809840454
+    ],
+    "reference_vertices": [
+      {
+        "layer": 8,
+        "id": 28917,
+        "vertex": 0,
+        "street": "Whycocomagh Port Hood Rd",
+        "kind": "RRRDLOY2"
+      },
+      {
+        "layer": 8,
+        "id": 39569,
+        "vertex": 0,
+        "street": "Glencoe Rd",
+        "kind": "RRRDLOY2"
+      },
+      {
+        "layer": 8,
+        "id": 155342,
+        "vertex": 92,
+        "street": "Whycocomagh Port Hood Rd",
+        "kind": "RRRDLOY2"
+      }
+    ],
+    "guide_pixel_xy": [
+      20798.062235316,
+      18213.324457826
+    ],
+    "origin": [
+      18200,
+      15700
+    ],
+    "extent": [
+      5000,
+      5000
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "status": "Unscored search; historic route geometry and context must be verified."
+  }
+]

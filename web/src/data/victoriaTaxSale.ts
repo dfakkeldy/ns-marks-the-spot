@@ -3,7 +3,9 @@ import { halifaxTimestamp } from "./halifaxTime";
 import victoriaTaxSaleSnapshot from "./victoriaTaxSale.snapshot.json";
 
 export const VICTORIA_TAX_SALE_DATASET_SHA256 =
-  "4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467";
+  "c91f5a8b2b2268454d3282395318b3bc238f7224aaf895d58ee396a4d6466a87";
+export const VICTORIA_TAX_SALE_RESULT_DATASET_SHA256 =
+  "f2a15dcbb92426e62284c4d439779ae4840cdf28a36c3accf05f79c0e1dae21d";
 
 const VICTORIA_EVENT_ID = "victoria-county-2026-09-14";
 
@@ -23,7 +25,7 @@ export const victoriaTaxSaleEvent: TaxSaleEvent = {
   municipality: victoriaTaxSaleSnapshot.municipality,
   shortMunicipality: "Victoria County",
   eventType: "sealed-tender",
-  eventStatus: "upcoming",
+  eventStatus: "historical",
   saleStartsAt: halifaxTimestamp(victoriaTaxSaleSnapshot.eventDate, victoriaTaxSaleSnapshot.bidDeadlineTime),
   venue: victoriaTaxSaleSnapshot.venue,
   sourceUrl: victoriaTaxSaleSnapshot.source,

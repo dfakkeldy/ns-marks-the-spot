@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained reflected similarity: uniform scale, rotation and translation",
+  "reason": "All four reliable controls lie in the southeastern harbour cluster. Independent affine scales and shear would be unsupported across the large inland frame.",
+  "corrections": [
+    "Initial island-only filters failed distance guard; actual physical islets are coastal-river islands WACORVIS10, confirmed with FEAT_DESC and native context",
+    "Lochbroom and Ballast northern tips refined before fitting; all intermediate proposals preserved"
+  ],
+  "not_adopted": [
+    "River John junctions obscured by faint parcel/road overlap",
+    "Changed Caribou barriers, causeway, Lank marshes and engineered shorelines"
+  ],
+  "limitations": [
+    "Western interior, northern half and northeast Caribou coast have no accepted independent checks",
+    "Opposite ends of Lochbroom and Ballast tiny islets are strongly correlated and do not constitute separate regional samples",
+    "Generalized coast/headland observations use18px working source uncertainty"
+  ],
+  "discovery": "Initial broad modern plot visually confusing; WACO-filtered copy confirmed the original guide and bbox were usable. No bbox/guide replacement."
+}

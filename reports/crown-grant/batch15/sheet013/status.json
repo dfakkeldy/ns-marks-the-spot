@@ -1,0 +1,44 @@
+{
+  "sheet": "013",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/013.pdf",
+    "pdf_sha256": "8a8748d206b38597a84a844be5b37ad868cfd7f42741a8f190a7b0934ab93da5",
+    "jpeg_sha256": "5f7763c5246bdf3876b57deac23cc33c39bd2401c9c58496a7796c06ac957329",
+    "dimensions": [
+      5722,
+      3900
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 72.20560033164858,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven checks share control waterbodies or coastal localities; Gilbert Point and Gilbert Lake add two separate features. Shared historical cartography limits independence.",
+    "Open bay interiors, much of Digby town shoreline, northeastern river corridors and unsampled central land remain independently unvalidated.",
+    "Generalized lake tips, narrow shores and small coastal features carry 24 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 72.21 m, median 60.39 m, P95 121.92 m, maximum 136.99 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "The entire mapped frame retains St Marys Bay, Annapolis Basin, the long basin island, all lake islands and boundary extensions. Eight controls and nine excluded checks sample coast and inland features; open water and unsampled interior remain provisional."
+  }
+}

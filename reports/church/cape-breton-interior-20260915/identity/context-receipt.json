@@ -1,0 +1,43 @@
+{
+  "files": [
+    {
+      "file": "CB3-uist-context.jpg",
+      "original_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/CB3-uist-context.jpg",
+      "sha256": "96dd840c47173db42876219c7ff99260fd92546f43b0c091ae48a207f67ea765"
+    },
+    {
+      "file": "CB3-uist-context-frame.json",
+      "original_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/CB3-uist-context-frame.json",
+      "sha256": "46efe015c0f7467a19b2a07ba3d0106366399c0767d19ce37d69c22bd30f580d"
+    },
+    {
+      "file": "uist-headwaters-context.jpg",
+      "original_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/uist-headwaters-context.jpg",
+      "sha256": "c8eeda09aec1becf79af8b85674cc8aff922083b6dd4caa838a18fdc4cc4f60c"
+    },
+    {
+      "file": "CB3-north-head-context.jpg",
+      "original_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/CB3-north-head-context.jpg",
+      "sha256": "91da84e95c97291d840294d801f030786e559457bd8bd3cbf26120ff0bee2319"
+    },
+    {
+      "file": "CB3-north-head-context-frame.json",
+      "original_path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/CB3-north-head-context-frame.json",
+      "sha256": "637fd0d3ac8952463b1de2380dc4916f504b59f2fc9946b12f05a7e64238c203"
+    }
+  ],
+  "uist_reference_context": {
+    "centre_lonlat": [
+      -60.557,
+      45.813
+    ],
+    "span_ground_m": 6000,
+    "display": [
+      1500,
+      1500
+    ],
+    "north_up": true,
+    "source": "Original cape-water-lines.geojson; representative name points annotated solely for identity"
+  },
+  "source_frames": "Sidecar files retain exact native origin/extent/display; no screenshot coordinates transferred to the source"
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6070 x 4124 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 131.83 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          85,
+          90
+        ],
+        [
+          5970,
+          90
+        ],
+        [
+          5970,
+          4010
+        ],
+        [
+          85,
+          4010
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Grand Desert, Seaforth, Three Fathom Harbour, Lower East Chezzetcook, Petpeswick Harbour and Head, Musquodoboit Harbour, Ostrea Lake, West and East Jeddore, Porter Lake islands, Brown, Roger, Barren, Duck and Spritsail islands, Jeddore Rock, every other mapped offshore rock and the entire original ocean frame. No displaced inset identified."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q01",
+    "label": "Large Lake (Big Jolicure) northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1169,
+      2338
+    ],
+    "lonlat": [
+      -64.24373763534417,
+      45.97539008256056
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:5538",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:5538",
+    "nearest_unfiltered_distance_guide_px": 0.552567182595828,
+    "selected_distance_guide_px": 0.552567182595828,
+    "guide_reference_pixel_xy": [
+      1036.6659980574623,
+      2317.4401967669837
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Long Lake (Jolicure) southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      955,
+      2779
+    ],
+    "lonlat": [
+      -64.24654906903501,
+      45.94896114950011
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:428",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:428",
+    "nearest_unfiltered_distance_guide_px": 2.435545379471333,
+    "selected_distance_guide_px": 2.435545379471333,
+    "guide_reference_pixel_xy": [
+      798.9973494250444,
+      2776.6139004472643
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Front Lake (Jolicure) southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      860,
+      2928
+    ],
+    "lonlat": [
+      -64.25174420353707,
+      45.93913084199255
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:427",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:427",
+    "nearest_unfiltered_distance_guide_px": 11.503436686058237,
+    "selected_distance_guide_px": 11.503436686058237,
+    "guide_reference_pixel_xy": [
+      659.3100192351849,
+      2925.243329412304
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Small lake north of Large Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      875,
+      2312
+    ],
+    "lonlat": [
+      -64.26520818959638,
+      45.96781931089963
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:8685",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:8685",
+    "nearest_unfiltered_distance_guide_px": 1.379821754518478,
+    "selected_distance_guide_px": 1.379821754518478,
+    "guide_reference_pixel_xy": [
+      713.345314283215,
+      2338.6640860356856
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Large Lake (Big Jolicure) eastern mid-lake point",
+    "role": "proposal",
+    "pixel_xy": [
+      1006,
+      2497
+    ],
+    "lonlat": [
+      -64.25112358939782,
+      45.96428482888549
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:5538",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:5538",
+    "nearest_unfiltered_distance_guide_px": 2.736726285921182,
+    "selected_distance_guide_px": 2.736726285921182,
+    "guide_reference_pixel_xy": [
+      860.1602474630927,
+      2477.267969342298
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,45 @@
+{
+  "sheet": "072",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/072.pdf",
+    "pdf_sha256": "3b14b71d143edf7629db7e91422a1d1ad97fb3f4f63276f6fde9122bd9a1b012",
+    "jpeg_sha256": "79228431e60b6d54880f1b49e2ab3a705020c57871a8a578f6848aa9ed5fe383",
+    "dimensions": [
+      5287,
+      3629
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 6,
+      "rms_ground_m": 31.644835337363066,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 31.64 m, median 28.63 m, P95 43.70 m and maximum 44.41 m; numerical bounds pass with regional qualifications.",
+    "Five checks reuse control pond systems; Noel Shore is a separate coastal location. Salter Head and Irwin Lake controls lack paired independent checks.",
+    "Northeastern estuary shore, large eastern interior and central river corridor remain unvalidated. Full retained tidal and ocean areas do not imply independent accuracy.",
+    "Thick generalized lake and coastal shorelines use 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 31.64 m, median 28.63 m, P95 43.70 m, maximum 44.41 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Noel Shore, Lower Selmah, Selmah and Salter Head, Maitland, Black Rock, Clifton, Old Barns, Lower Onslow, Central Onslow, Crowe Mills, Princeport, Beaver Brook, South Maitland, Green Oaks, Hilden, Burton, Georgefield, Urbania and Upper Pleasant Valley, the entire original Cobequid Bay and Shubenacadie estuary, every mapped pond, lake and inland parcel. No displaced inset identified."
+  }
+}

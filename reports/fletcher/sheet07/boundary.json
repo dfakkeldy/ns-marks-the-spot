@@ -1,0 +1,27 @@
+{
+  "sheet": "sheet-07",
+  "source_sha256": "a75274bc0f1849bc024c1013d84d0904845c3893b9599827ed1521948fec3b61",
+  "ring_pixel_xy": [
+    [
+      1334,
+      1005
+    ],
+    [
+      9555,
+      1056
+    ],
+    [
+      9528,
+      6532
+    ],
+    [
+      1322,
+      6486
+    ],
+    [
+      1334,
+      1005
+    ]
+  ],
+  "method": "Complete mapped frame, including sea and legend; no outside mapped extensions identified in native overview and four corners. No shoreline or control-hull clipping."
+}

@@ -1,0 +1,42 @@
+{
+  "scope": "Four model-selection diagnostics, not fresh validation; original same-three comparisons preserved separately.",
+  "tps15": {
+    "count": 4,
+    "points": [
+      {
+        "label": "VN17",
+        "east_ground_m": 100.99978077579205,
+        "north_ground_m": 10.976558611972006,
+        "error_ground_m": 101.59449077445149
+      },
+      {
+        "label": "VN11",
+        "east_ground_m": 16.627247065475395,
+        "north_ground_m": 282.03635426847353,
+        "error_ground_m": 282.5260527350146
+      },
+      {
+        "label": "VN19",
+        "east_ground_m": 198.19417958748258,
+        "north_ground_m": 141.67038728539276,
+        "error_ground_m": 243.62149218808358
+      },
+      {
+        "label": "VN24",
+        "east_ground_m": -154.6305959214443,
+        "north_ground_m": -211.22758735719648,
+        "error_ground_m": 261.77798772196843
+      }
+    ],
+    "rms_ground_m": 233.46389300139106,
+    "median_ground_m": 252.69973995502602,
+    "p95_ground_m": 279.4138429830577,
+    "max_ground_m": 282.5260527350146,
+    "mean_east_ground_m": 40.29765287682643,
+    "mean_north_ground_m": 55.86392820216046,
+    "scatter_rms_ground_m": 223.0710873999758,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

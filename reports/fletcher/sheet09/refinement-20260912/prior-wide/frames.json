@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-09-V02.jpg",
+    "point_record": "sheet09/refinement-20260912/prior-check-review.json",
+    "point_id": "V02",
+    "native_box": [
+      5201,
+      5493,
+      6601,
+      6893
+    ],
+    "native_coordinates": [
+      5901,
+      6193
+    ],
+    "modern_lonlat": [
+      -61.028377,
+      46.4590557
+    ],
+    "rotation_degrees": 0
+  }
+]

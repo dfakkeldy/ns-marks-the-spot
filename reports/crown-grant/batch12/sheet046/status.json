@@ -1,0 +1,47 @@
+{
+  "sheet": "046",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS passed, median bound failed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/046.pdf",
+    "pdf_sha256": "4445736700070af07eceb8b5d701401c2a03042458f017d761eaa6a495a800d7",
+    "jpeg_sha256": "ee049696134c43df53373d4362f40f704aaf542d2c4d8a6ccb72651a025a7177",
+    "dimensions": [
+      5710,
+      3940
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 6,
+      "rms_ground_m": 96.79169290218512,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Median83.71 m exceeds the75 m companion bound despite RMS96.79 m passing100 m. First fit remains unchanged.",
+    "Four checks pair with control lakes; Veniot and Long lakes provide separate checks. Regional independence is limited.",
+    "The eastern Ponhook area has a control but no independent local check; parts of the northern interior and southwestern margin remain unvalidated.",
+    "Several historical waterbody connections differ from modern reference geometry. Unresolved candidates were rejected; no change-cause conclusion is asserted.",
+    "Source uncertainty18 px; generalized shoreline and outlet geometry limit precision.",
+    "Assessment completion and any numerical pass do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 median exceeds 75 m; eastern control lacks local check",
+    "statistics": "6 independent checks: RMS 96.79 m, median 83.71 m, P95 131.48 m, maximum 137.20 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped frame retains Glengarry, Sherwood, Canaan, Beech Hill, Chester Grant and Chester Basin, Duck, Round, Nine Mile, Russell, Mill, Veniot and Long lakes, Long or Ponhook/St Croix Lake, Cranberry, Timber and Big Whitford lakes, and every intervening river and land area. There is no inset or internal crop."
+  }
+}

@@ -1,0 +1,7 @@
+exec(open('reports/fletcher/sheet04/point_tools.py').read())
+pts=[]
+for i,xy,k,e in [('C01',[2710,1476],'J0235','Black Brook / historical Pine Brook junction'),('C02',[3555,1904],'J0285','Mary Ann Brook western tributary below Black Brook'),('C03',[3130,3495],'J0495','Warren Lake eastern outlet'),('C04',[2830,3420],'J0480','Warren Lake northern inlet'),('C05',[2110,4220],'J0598','Cameron Brook northern tributary'),('C06',[2020,5240],'J0705','Clyburn Brook northern tributary')]:
+ q=nodes[k].copy();q.update(id=i,role='control',pixel_xy=xy,modern_node_id=k,identity_evidence=e,source_uncertainty_px=20,status='Unreviewed initial physical proposal; no fit scored.');pts.append(q)
+for i,xy,box,axis,direction,e in [('C07',[3995,3840],[3800,3750,3950,3950],0,'max','Archibald Point / Red Head easternmost tip'),('C08',[3990,4255],[3800,4280,4070,4500],1,'max','Ingonish Island northernmost headland'),('C09',[3850,5160],[3700,5240,3830,5400],0,'max','Middle Head easternmost tip'),('C10',[3840,6075],[3670,6090,3820,6220],0,'max','Smoky Cape northern eastern headland')]:
+ q=select(box,axis,direction).copy();q.update(id=i,role='control',pixel_xy=xy,identity_evidence=e,selection_box_source_guide=box,selection_axis=axis,selection_direction=direction,source_uncertainty_px=20,status='Unreviewed initial coastal proposal; no fit scored.');pts.append(q)
+(D/'candidate-controls.json').write_text(json.dumps(dict(sheet='sheet-04',source_sha256=json.loads((D/'source-receipt.json').read_text())['source_sha256'],points=pts),indent=2)+'\n')

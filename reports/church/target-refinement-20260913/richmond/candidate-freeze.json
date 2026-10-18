@@ -1,0 +1,21 @@
+{
+  "frozen_at": "2026-09-14T03:57:29.758424+00:00",
+  "candidate": "distributed-14-tps",
+  "selected_for": "Provisional full-content candidate for fresh geographic validation; not replacement of v4",
+  "control_csv_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "working_rms_target_ground_m": 250,
+  "stretch_target_ground_m": 200,
+  "diagnostic_comparison": "distributed-14-results.json",
+  "distortion": "distortion-comparison.json",
+  "choice": "TPS has smallest maximum and RMS among the supported 14-control models. Relative to unchanged v4 on the same 20 retained diagnostics, maximum improves while RMS/median/P95 worsen slightly or moderately; no uniform accuracy gain is claimed. Fresh tests must decide geographic utility.",
+  "promoted": [
+    "R21",
+    "R26",
+    "H03",
+    "G01"
+  ],
+  "fresh_checks_required": "Seek distributed coast, interior, edge and extension identities; target 20\u201330 where defensible, preserve every first result. No geographic acceptance from 20 reused diagnostics.",
+  "geographic_acceptance": false
+}

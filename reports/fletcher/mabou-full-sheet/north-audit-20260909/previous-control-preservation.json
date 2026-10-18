@@ -1,0 +1,26 @@
+[
+  {
+    "sheet": "19",
+    "fit": "judique-full-sheet/revised-fit.json",
+    "preserved_original_controls": 39,
+    "preserved_hand_controls": 15,
+    "current_controls": 44,
+    "coordinates_exactly_equal": true
+  },
+  {
+    "sheet": "16",
+    "fit": "mabou-full-sheet/revised-fit.json",
+    "preserved_original_controls": 32,
+    "preserved_hand_controls": 32,
+    "current_controls": 34,
+    "coordinates_exactly_equal": true
+  },
+  {
+    "sheet": "22",
+    "fit": "hawkesbury-full-sheet/boundary-fit.json",
+    "preserved_original_controls": 17,
+    "preserved_hand_controls": 17,
+    "current_controls": 28,
+    "coordinates_exactly_equal": true
+  }
+]

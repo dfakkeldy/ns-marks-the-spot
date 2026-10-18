@@ -1,0 +1,80 @@
+[
+  [
+    "MQ01",
+    "Point Gabion southern apex",
+    [
+      552,
+      592
+    ],
+    [
+      590,
+      576
+    ],
+    "WACO"
+  ],
+  [
+    "MQ02",
+    "Northern Basque Island north tip",
+    [
+      1808,
+      839
+    ],
+    [
+      1838,
+      841
+    ],
+    "WACO"
+  ],
+  [
+    "MQ03",
+    "Eastern Basque Island eastern tip",
+    [
+      1904,
+      880
+    ],
+    [
+      1943,
+      883
+    ],
+    "WACO"
+  ],
+  [
+    "MQ04",
+    "Southwestern Basque Island eastern tip",
+    [
+      1775,
+      930
+    ],
+    [
+      1792,
+      925
+    ],
+    "WACO"
+  ],
+  [
+    "MQ05",
+    "Red Head southern tip",
+    [
+      2271,
+      544
+    ],
+    [
+      2308,
+      537
+    ],
+    "WACO"
+  ],
+  [
+    "MQ06",
+    "St Esprit Island western tip",
+    [
+      4235,
+      885
+    ],
+    [
+      4265,
+      890
+    ],
+    "WACO"
+  ]
+]

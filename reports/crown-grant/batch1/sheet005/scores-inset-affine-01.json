@@ -1,0 +1,232 @@
+{
+  "count": 7,
+  "rms_ground_m": 35.36081734527906,
+  "median_ground_m": 28.562567515313866,
+  "p95_ground_m": 54.578611551888564,
+  "max_ground_m": 57.87518143457825,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 0.7094676978608783,
+  "mean_north_ground_m": 8.553626836315606,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Seal Cove inner bend on northern Brier shore",
+      "role": "check",
+      "pixel_xy": [
+        1210,
+        886
+      ],
+      "lonlat": [
+        -66.34769245694342,
+        44.2829803288572
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17059,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1209.0436281700968,
+        887.124645695556
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged",
+      "predicted_lonlat": [
+        -66.3476653726163,
+        44.28304885622406
+      ],
+      "error_ground_m": 7.915579933213774,
+      "east_ground_m": 2.161976763002129,
+      "north_ground_m": 7.614608470258691
+    },
+    {
+      "id": "IQ03",
+      "label": "Pero Jack Cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        773,
+        1078
+      ],
+      "lonlat": [
+        -66.36840958354858,
+        44.26622703275927
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17055,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        777.0152064593858,
+        1076.6019659572048
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged",
+      "predicted_lonlat": [
+        -66.3686117432466,
+        44.26608749554749
+      ],
+      "error_ground_m": 22.382208878370175,
+      "east_ground_m": -16.14181887481446,
+      "north_ground_m": -15.504997829334783
+    },
+    {
+      "id": "IQ04",
+      "label": "Cow Cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        612,
+        1145
+      ],
+      "lonlat": [
+        -66.37676451084442,
+        44.25996989273438
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 16988,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        606.9426025834982,
+        1143.5897436891682
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged",
+      "predicted_lonlat": [
+        -66.37642540353903,
+        44.260004286004886
+      ],
+      "error_ground_m": 27.347801962808745,
+      "east_ground_m": 27.079448765404567,
+      "north_ground_m": 3.8217439420812944
+    },
+    {
+      "id": "IQ05",
+      "label": "Lighthouse Cove eastern headland",
+      "role": "check",
+      "pixel_xy": [
+        366,
+        1231
+      ],
+      "lonlat": [
+        -66.38915416564556,
+        44.25145872946403
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17050,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        361.1577104254975,
+        1228.4539641201263
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged",
+      "predicted_lonlat": [
+        -66.38879765924702,
+        44.25143838681278
+      ],
+      "error_ground_m": 28.562567515313866,
+      "east_ground_m": 28.47298817014875,
+      "north_ground_m": -2.2603556643662106
+    },
+    {
+      "id": "IQ06",
+      "label": "Brier western cape",
+      "role": "check",
+      "pixel_xy": [
+        160,
+        1465
+      ],
+      "lonlat": [
+        -66.39485985050183,
+        44.23652289460141
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17092,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        155.29883616429288,
+        1474.6488970669452
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged",
+      "predicted_lonlat": [
+        -66.39483691518835,
+        44.23704348318423
+      ],
+      "error_ground_m": 57.87518143457825,
+      "east_ground_m": 1.8322144471376773,
+      "north_ground_m": 57.8461720108172
+    },
+    {
+      "id": "IQ08",
+      "label": "Hog Yard Cove southern headland",
+      "role": "check",
+      "pixel_xy": [
+        463,
+        1715
+      ],
+      "lonlat": [
+        -66.36996672762116,
+        44.23200052793309
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 17169,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        467.4498123789672,
+        1710.7660249287728
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged",
+      "predicted_lonlat": [
+        -66.37011913360644,
+        44.23172619413891
+      ],
+      "error_ground_m": 32.82496459886756,
+      "east_ground_m": -12.176227441585164,
+      "north_ground_m": -30.48307376574247
+    },
+    {
+      "id": "IQ11",
+      "label": "Peters Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1138,
+        1392
+      ],
+      "lonlat": [
+        -66.33815340614953,
+        44.25875271023692
+      ],
+      "guide_file": ".crown-grant-local/005-inset-frozen-guide.npy",
+      "reference_objectid": 20898,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1139.6899024567683,
+        1400.566895455122
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Native source/modern crosshair and contextual shore geometry inspected and finalized before first score; frozen inset affine unchanged",
+      "predicted_lonlat": [
+        -66.33848227563286,
+        44.25910226191468
+      ],
+      "error_ground_m": 46.88661515894598,
+      "east_ground_m": -26.262307944267356,
+      "north_ground_m": 38.841290690495526
+    }
+  ],
+  "fit_sha256": "20a66e2e30a40e6d000d6725f01a40b82e773b010502d5b82828780549b54ce7",
+  "checks_sha256": "686bd2ce39eb8630077e60209338b6c57db91d32b6e3225bfda0332c6ebd712f",
+  "status": "Seven independent Brier/Peters Island checks, finalized before scoring; no accepted Long Island check"
+}

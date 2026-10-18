@@ -1,0 +1,117 @@
+{
+  "fit_sha256": "9e837c4c50e98110204bf3a7dc7898918a19f26c72d956a4d1891bc4598f285f",
+  "checks_sha256": "696a5f5684e99249d865b063d12a129134f60a4af567dd9f9ed448e5b4f2a0cf",
+  "control_count": 27,
+  "check_count": 13,
+  "rms_ground_m": 129.5623743278457,
+  "median_ground_m": 111.58145873447003,
+  "worst_ground_m": 240.655654696089,
+  "method": "GDAL TPS EPSG:3857; approximate spherical ground metres",
+  "status": "Frozen excluded diagnostics, reused during selection; not fresh validation",
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 65.37301467463104,
+      "predicted_lonlat": [
+        -61.33783750856561,
+        46.18545203330917
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 43.44377400613562,
+      "predicted_lonlat": [
+        -61.379512700660996,
+        46.14324742471216
+      ]
+    },
+    {
+      "id": "F06",
+      "error_ground_m": 166.73989973187236,
+      "predicted_lonlat": [
+        -61.27624264292099,
+        46.24306073593726
+      ]
+    },
+    {
+      "id": "F07",
+      "error_ground_m": 113.29482781232683,
+      "predicted_lonlat": [
+        -61.40524097039624,
+        46.18001113975189
+      ]
+    },
+    {
+      "id": "G01",
+      "error_ground_m": 186.47843173038348,
+      "predicted_lonlat": [
+        -61.43899149548846,
+        46.107018873506036
+      ]
+    },
+    {
+      "id": "T01",
+      "error_ground_m": 48.87294462013016,
+      "predicted_lonlat": [
+        -61.40055706952476,
+        46.17550203433493
+      ]
+    },
+    {
+      "id": "T02",
+      "error_ground_m": 59.62200426399224,
+      "predicted_lonlat": [
+        -61.39375431207893,
+        46.16042094566533
+      ]
+    },
+    {
+      "id": "T03",
+      "error_ground_m": 47.925305539327766,
+      "predicted_lonlat": [
+        -61.3120948780595,
+        46.19750738729616
+      ]
+    },
+    {
+      "id": "T04",
+      "error_ground_m": 111.58145873447003,
+      "predicted_lonlat": [
+        -61.32249303670541,
+        46.18243844186683
+      ]
+    },
+    {
+      "id": "R04",
+      "error_ground_m": 79.97775305359757,
+      "predicted_lonlat": [
+        -61.25679721117238,
+        46.105167776525
+      ]
+    },
+    {
+      "id": "B02",
+      "error_ground_m": 191.18558263106925,
+      "predicted_lonlat": [
+        -61.368486054811264,
+        46.12028285744752
+      ]
+    },
+    {
+      "id": "H01",
+      "error_ground_m": 240.655654696089,
+      "predicted_lonlat": [
+        -61.242746277150545,
+        46.109624976000525
+      ]
+    },
+    {
+      "id": "H02",
+      "error_ground_m": 122.86613707597014,
+      "predicted_lonlat": [
+        -61.24745505367284,
+        46.09883336623535
+      ]
+    }
+  ]
+}

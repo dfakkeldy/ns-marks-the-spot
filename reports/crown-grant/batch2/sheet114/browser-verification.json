@@ -1,0 +1,28 @@
+{
+  "verified_at_utc": "2026-09-23T02:51:16.008697+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet114/main-3857.png",
+      "complete": true,
+      "width": 6184,
+      "height": 5132
+    },
+    {
+      "path": "/sheet114/cape-mabou-inset-3857.png",
+      "complete": true,
+      "width": 1924,
+      "height": 1672
+    }
+  ],
+  "verified": [
+    "Actual main raster with Sea Wolf Island and separate Cape Mabou inset inspected at true locations",
+    "Both overlays respond to 40 percent opacity, modern-only and restore",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Standalone raster review, not native importer/TPS",
+    "Main geographic RMS failure and inset coverage limits remain"
+  ]
+}

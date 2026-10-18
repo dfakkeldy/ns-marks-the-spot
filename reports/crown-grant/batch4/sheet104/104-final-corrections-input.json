@@ -1,0 +1,41 @@
+[
+  [
+    "C06",
+    "William Lake south tip",
+    [
+      2006,
+      3332
+    ],
+    [
+      1944,
+      3343
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Small lake north of William Lake east tip",
+    [
+      2006,
+      3098
+    ],
+    [
+      1947,
+      3100
+    ],
+    "WALK"
+  ],
+  [
+    "Q08",
+    "Delory Island northeast shoreline corner",
+    [
+      3435,
+      1546
+    ],
+    [
+      3375,
+      1551
+    ],
+    "WACO"
+  ]
+]

@@ -1,0 +1,38 @@
+{
+  "sheet": "sheet-07",
+  "fit_sha256": "b36039ccc4f179f600c3136a3126b93efc4abd9a8917e3c4c9fa0426fcdd153a",
+  "collected_at_utc": "2026-09-12T13:53:30.219679+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.4569091,
+        46.4612714
+      ],
+      "source_guide_xy": [
+        1587.5561669997405,
+        5984.83872479992
+      ],
+      "objectids": [
+        125610,
+        125611,
+        282906
+      ],
+      "id": "F08",
+      "role": "check",
+      "modern_node_id": "J0604",
+      "pixel_xy": [
+        1680,
+        5945
+      ],
+      "identity_evidence": "Northern stream inlet of large Breeding Cove pond south of C11",
+      "source_uncertainty_px": 20,
+      "status": "Corrected native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "review_note": "Moved from stream just north of shoreline to actual pond inlet before scoring; modern node unchanged. Pond shore shape/level adds identity uncertainty.",
+      "review_evidence": "Northern stream entering large pond after its C11 upstream junction; distinguish this from the historical western inlet rejected earlier. Modern pond shape is different, so this is a qualified shoreline check."
+    }
+  ],
+  "corrected_at_utc": "2026-09-12T13:54:12.815405+00:00",
+  "review_completed_at_utc": "2026-09-12T13:54:51.070421+00:00",
+  "classification_corrected_at_utc": "2026-09-12T13:56:49.191011+00:00",
+  "scope": "One qualified fresh pond-inlet check only, close to existing controls. F07 withdrew fresh classification because it duplicates old V01; F06 and F09 rejected unscored. Insufficient distributed validation."
+}

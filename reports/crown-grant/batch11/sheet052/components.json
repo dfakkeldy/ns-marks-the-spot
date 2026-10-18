@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5663 x 3848 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 141.32 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          85,
+          105
+        ],
+        [
+          5565,
+          105
+        ],
+        [
+          5565,
+          3745
+        ],
+        [
+          85,
+          3745
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "Complete original mapped frame retains Scotsman Bay, Cape Blomidon, Lower Blomidon, Delhaven, Pereau, Medford, Kingsport, Longspell Point, the partial Long Island and Boot Island depictions, Split Rock, Bramber, Starratt Point, Cambridge, Pembroke and the entire original Minas Basin water area. The large grant list remains in the raster; no internal crop or inset is introduced."
+    }
+  ]
+}

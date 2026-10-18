@@ -1,0 +1,32 @@
+[
+  {
+    "image": "14-northeastern-channel.jpg",
+    "lonlat_bounds": [
+      -60.875,
+      46.035,
+      -60.825,
+      46.1
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/refinement-20260912/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "14-southeastern-interior.jpg",
+    "lonlat_bounds": [
+      -60.875,
+      45.92,
+      -60.825,
+      46.02
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/refinement-20260912/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

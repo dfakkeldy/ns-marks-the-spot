@@ -92,15 +92,17 @@ struct MeasureSessionTests {
         #expect(session.readout == "Tap the map to outline an area")
     }
 
-    @Test func undoingAFourthCornerLeavesAFinishedTriangleFinished() {
+    @Test func undoingAFinishedShapeAllowsTheNextPointToExtendIt() {
         var session = MeasureSession(mode: .area)
         for point in Self.square { session.add(point) }
         session.finish()
 
         session.undoLastPoint()
 
-        #expect(session.isFinished)
+        #expect(!session.isFinished)
         #expect(session.points.count == 3)
+        session.add(Self.square[3])
+        #expect(session.points == Self.square)
     }
 
     @Test func clearingEmptiesTheShapeWithoutChangingTheMode() {

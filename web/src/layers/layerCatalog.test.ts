@@ -22,8 +22,13 @@ import {
   zoningLayerCatalog,
   wellLogLayerCatalog,
   initialWellLogLayerVisibility,
+  initialLiveConditionsLayerVisibility,
+  liveConditionsLayerCatalog,
   type ProvinceLayerId,
+  type TrafficCameraLayerDescriptor,
+  type WeatherRadarLayerDescriptor,
 } from "./layerCatalog";
+import { highwayCameras } from "../data/highwayCameras";
 import {
   OPEN_GOVERNMENT_LICENCE_TERMS_URL,
   PROVINCE_LICENSE_URL,
@@ -116,10 +121,13 @@ describe("web native-layer parity catalog", () => {
     expect(fletcherLayerCatalog.nativeDefaultVisibility).toBe(true);
     expect(fletcherLayerCatalog.webAvailability).toBe("available");
     expect(fletcherLayerCatalog.webCaveat).toBe(
-      "24 direct-Rumsey sheets · zoom 8–16",
+      "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
     );
     expect(fletcherLayerCatalog.minZoom).toBe(8);
-    expect(fletcherLayerCatalog.maxZoom).toBe(16);
+    // Display runs to the map maximum; the sheets' real tile depth stays 16
+    // and Leaflet upscales past it, so the layer survives tracing zoom.
+    expect(fletcherLayerCatalog.maxZoom).toBe(23);
+    expect(fletcherLayerCatalog.maxNativeZoom).toBe(15);
     expect(
       JSON.stringify(nativeLayerCatalog).toLowerCase(),
     ).not.toContain("oldmapsonline");
@@ -184,13 +192,13 @@ describe("web native-layer parity catalog", () => {
     });
   });
 
-  it("offers labelled LiDAR-derived contours as an optional close-range layer", () => {
+  it("offers open NSTDB contours as an optional close-range layer", () => {
     const contours = provinceLayerCatalog.find(({ id }) => id === "contours");
 
     expect(contours).toMatchObject({
       name: "Contours",
       serviceUrl:
-        "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Landforms_UT83/MapServer",
+        "https://data.novascotia.ca/resource/bhx9-mpui.geojson",
       minZoom: 13,
       maxZoom: 24,
       opacity: 0.88,
@@ -200,8 +208,8 @@ describe("web native-layer parity catalog", () => {
         dpi: 144,
       },
     });
-    expect(contours?.webCaveat).toContain("terrain screening only");
-    expect(contours?.scale).toContain("5 m contours");
+    expect(contours?.webCaveat).toContain("interval and survey dates vary");
+    expect(contours?.scale).toContain("NSTDB 1:10,000");
   });
 
   it("adds the web-only NSTDB buildings overlay without changing native parity", () => {
@@ -210,7 +218,7 @@ describe("web native-layer parity catalog", () => {
       expect.objectContaining({
         name: "Buildings",
         serviceUrl:
-          "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Buildings_UT83/MapServer",
+          "https://data.novascotia.ca/resource/t5xr-fjkr.geojson",
         minZoom: 13,
         exportOptions: { transparent: true, dpi: 144 },
       }),
@@ -454,8 +462,30 @@ describe("geology and resources catalog", () => {
       coverage: "Nova Scotia",
     });
     expect(abandonedMines).toMatchObject({
-      sourceDate: "2024 · version 9",
+      sourceDate: "Version 9 · extract June 11, 2024",
       coverage: "Nova Scotia · incomplete inventory",
+    });
+  });
+
+  it("reads abandoned mine openings from the Province's version 9 service", () => {
+    const abandonedMines = resourceLayerCatalog.find(
+      ({ id }) => id === "abandoned-mines",
+    );
+
+    expect(abandonedMines?.serviceUrl).toBe(
+      "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
+    );
+    expect(abandonedMines?.licence).toBe("province-open");
+    // That service rejects mixed-case field names such as ShaftID.
+    expect(abandonedMines).toMatchObject({
+      outFields: [
+        "geo_id",
+        "shaftid",
+        "name",
+        "opening_ty",
+        "degree_haz",
+        "protection",
+      ],
     });
   });
 });
@@ -845,5 +875,70 @@ describe("A.F. Church county map series", () => {
 
   it("leaves Fletcher first so the rail can read it by index", () => {
     expect(nativeLayerCatalog[0].id).toBe("fletcher");
+  });
+});
+
+describe("live conditions catalog", () => {
+  const cameras = liveConditionsLayerCatalog.find(
+    (layer): layer is TrafficCameraLayerDescriptor =>
+      layer.id === "highway-cameras",
+  );
+  const radar = liveConditionsLayerCatalog.find(
+    (layer): layer is WeatherRadarLayerDescriptor =>
+      layer.id === "weather-radar",
+  );
+
+  it("publishes two optional live overlays, both off by default", () => {
+    expect(
+      liveConditionsLayerCatalog.map(({ id, delivery }) => ({ id, delivery })),
+    ).toEqual([
+      { id: "highway-cameras", delivery: "bundled-points-live-images" },
+      { id: "weather-radar", delivery: "wms-raster" },
+    ]);
+    expect(initialLiveConditionsLayerVisibility).toEqual({
+      "highway-cameras": false,
+      "weather-radar": false,
+    });
+  });
+
+  it("keeps camera imagery on 511's origin instead of copying it", () => {
+    expect(cameras?.imageUrlTemplate).toBe(
+      "https://511.novascotia.ca/map/Cctv/{id}",
+    );
+    expect(cameras?.sourceUrl).toBe("https://511.novascotia.ca/map");
+    expect(cameras?.licence).toBe("crown-copyright-live-view");
+    expect(cameras?.licenceUrl).toBe("https://www.novascotia.ca/copyright");
+    expect(cameras?.attribution).toContain("Province of Nova Scotia");
+    expect(cameras?.attribution).toContain("511");
+  });
+
+  it("dates the camera catalogue and matches the bundled list it describes", () => {
+    expect(cameras?.sourceDate).toContain("August 29, 2026");
+    expect(cameras?.scale).toContain(`${highwayCameras.length} `);
+    expect(highwayCameras).toHaveLength(57);
+    expect(new Set(highwayCameras.map(({ id }) => id)).size).toBe(
+      highwayCameras.length,
+    );
+    for (const camera of highwayCameras) {
+      expect(camera.name.length).toBeGreaterThan(0);
+      expect(camera.name).not.toMatch(/[<>&]|&#/u);
+      expect(camera.latitude).toBeGreaterThan(43);
+      expect(camera.latitude).toBeLessThan(47.1);
+      expect(camera.longitude).toBeGreaterThan(-66.5);
+      expect(camera.longitude).toBeLessThan(-59.5);
+    }
+  });
+
+  it("serves radar from ECCC GeoMet under the ECCC end-use licence", () => {
+    expect(radar?.serviceUrl).toBe("https://geo.weather.gc.ca/geomet");
+    expect(radar?.wmsLayer).toBe("RADAR_1KM_RRAI");
+    expect(radar?.licence).toBe("eccc-open");
+    expect(radar?.licenceUrl).toContain("eccc-msc.github.io/open-data/licence");
+    expect(radar?.attribution).toContain("Environment and Climate Change Canada");
+  });
+
+  it("says what a live frame is not: a forecast, or road truth", () => {
+    expect(radar?.webCaveat).toContain("not a forecast");
+    expect(cameras?.webCaveat).toContain("not road truth");
   });
 });

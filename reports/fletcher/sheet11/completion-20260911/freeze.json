@@ -1,0 +1,11 @@
+{
+  "fit": "../refinement-20260910/central-fit.json",
+  "fit_sha256": "06246fcba7c1fd68414cff5d47ee3ddf0820cd33a47cc0dbad03457d3f7d4f2b",
+  "frozen_at_utc": "2026-09-11T11:39:11.904426+00:00",
+  "controls": 25,
+  "criteria_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "independence": "New checks selected after freeze. Existing nine diagnostics are not fresh. T01 is a control and excluded from every check set."
+}

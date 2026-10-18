@@ -1,0 +1,320 @@
+{
+  "sheet": "058",
+  "baseline_report": "reports/crown-grant/batch9/sheet058",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "77b074197e33e3f69aeb9a748c68b9ba32a6005c15931daa09fe5888e2913d81",
+  "reference_sha256": "05f4a830e487ca9bb4557f7dfe8d284a904e29ab96ae76daece71cde5f3f5ca9",
+  "fit_sha256": "0b3b670900f28cb7894a893e018672cb783715d2d2d33ac598d7cb981088bccd",
+  "checks_sha256": "7262de6a0384d48e899471c9e09ad4160ff2e947d0947068fe60c8e80b2e9fb5",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 3,
+    "rms_ground_m": 106.17997510793715,
+    "median_ground_m": 84.68829973574445,
+    "p95_ground_m": 153.77648711793242,
+    "max_ground_m": 161.45295238261997,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -33.932352311377024,
+    "mean_north_ground_m": 74.43946308512277,
+    "points": [
+      {
+        "id": "Q02",
+        "label": "Long Lake (Jolicure) southwest tip",
+        "role": "check",
+        "pixel_xy": [
+          955,
+          2779
+        ],
+        "lonlat": [
+          -64.24654906903501,
+          45.94896114950011
+        ],
+        "guide_file": ".crown-grant-local/058-translated-guide.npy",
+        "reference_objectid": "NB13:428",
+        "reference_feature_code": "NBHN_4",
+        "nearest_unfiltered_feature_code": "NBHN_4",
+        "nearest_unfiltered_objectid": "NB13:428",
+        "nearest_unfiltered_distance_guide_px": 2.435545379471333,
+        "selected_distance_guide_px": 2.435545379471333,
+        "guide_reference_pixel_xy": [
+          798.9973494250444,
+          2776.6139004472643
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring.",
+        "reference_dataset": "New Brunswick Hydrographic Network",
+        "reference_original_objectid": 428,
+        "reference_nid": "82F87A05B2A54A00A15D34054D748778",
+        "reference_name": "Jolicure Lakes",
+        "reference_waterdefinition": 4,
+        "reference_reported_planimetric_accuracy_m": 5,
+        "predicted_lonlat": [
+          -64.24688758055484,
+          45.94968556137595
+        ],
+        "error_ground_m": 84.68829973574445,
+        "east_ground_m": -26.245976898522027,
+        "north_ground_m": 80.51867366501725
+      },
+      {
+        "id": "Q03",
+        "label": "Front Lake (Jolicure) southwest lobe southern tip",
+        "role": "check",
+        "pixel_xy": [
+          860,
+          2928
+        ],
+        "lonlat": [
+          -64.24844785428733,
+          45.939252623199856
+        ],
+        "guide_file": ".crown-grant-local/058-translated-guide.npy",
+        "reference_objectid": "NB13:427",
+        "reference_feature_code": "NBHN_4",
+        "nearest_unfiltered_feature_code": "NBHN_4",
+        "nearest_unfiltered_objectid": "NB13:427",
+        "nearest_unfiltered_distance_guide_px": 1.1831801449533488,
+        "selected_distance_guide_px": 1.1831801449533488,
+        "guide_reference_pixel_xy": [
+          700.9815071212943,
+          2940.6607261355966
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring.",
+        "reference_dataset": "New Brunswick Hydrographic Network",
+        "reference_original_objectid": 427,
+        "reference_nid": "704231BFF8AC495A9537C7FA6FFB4954",
+        "reference_name": "Jolicure Lakes",
+        "reference_waterdefinition": 4,
+        "reference_reported_planimetric_accuracy_m": 5,
+        "predicted_lonlat": [
+          -64.24913617175429,
+          45.9406235110066
+        ],
+        "error_ground_m": 161.45295238261997,
+        "east_ground_m": -53.376346393800596,
+        "north_ground_m": 152.374609035474
+      },
+      {
+        "id": "Q05",
+        "label": "Large Lake (Big Jolicure) eastern mid-lake point",
+        "role": "check",
+        "pixel_xy": [
+          1006,
+          2497
+        ],
+        "lonlat": [
+          -64.25112358939782,
+          45.96428482888549
+        ],
+        "guide_file": ".crown-grant-local/058-translated-guide.npy",
+        "reference_objectid": "NB13:5538",
+        "reference_feature_code": "NBHN_4",
+        "nearest_unfiltered_feature_code": "NBHN_4",
+        "nearest_unfiltered_objectid": "NB13:5538",
+        "nearest_unfiltered_distance_guide_px": 2.736726285921182,
+        "selected_distance_guide_px": 2.736726285921182,
+        "guide_reference_pixel_xy": [
+          860.1602474630927,
+          2477.267969342298
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 20,
+        "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring.",
+        "reference_dataset": "New Brunswick Hydrographic Network",
+        "reference_original_objectid": 5538,
+        "reference_nid": "6C50C4400216428A996EB1127C9AC936",
+        "reference_name": "Big Jolicure Lake",
+        "reference_waterdefinition": 4,
+        "reference_reported_planimetric_accuracy_m": 5,
+        "predicted_lonlat": [
+          -64.25140966610482,
+          45.96419868511724
+        ],
+        "error_ground_m": 24.153620775581658,
+        "east_ground_m": -22.17473364180846,
+        "north_ground_m": -9.574893445122926
+      }
+    ]
+  },
+  "control_axis_ratio": 7.527883275383583,
+  "affine_scale_ratio": 1.0143083730306948,
+  "metres_per_pixel_singular_values": [
+    5.788604348884635,
+    5.7069472192057535
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          5.342768593392087,
+          2.1918095421706454
+        ],
+        [
+          2.003534667220609,
+          -5.336965915086649
+        ],
+        [
+          392638.5058788206,
+          5101953.262785835
+        ]
+      ],
+      "diagnostic_rms_m": 135.5192042127102,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          5.315943661002749,
+          2.1938478862762723
+        ],
+        [
+          2.1070944519139414,
+          -5.333801467505844
+        ],
+        [
+          392440.8112966011,
+          5101931.284970258
+        ]
+      ],
+      "diagnostic_rms_m": 97.7429680263354,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          5.297873916127877,
+          2.184708384080492
+        ],
+        [
+          2.2148432605763686,
+          -5.299191742804365
+        ],
+        [
+          392191.0800978547,
+          5101870.701506858
+        ]
+      ],
+      "diagnostic_rms_m": 118.00025441993775,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          5.302638367761316,
+          2.2166763971225647
+        ],
+        [
+          2.285561510563671,
+          -5.623553638737528
+        ],
+        [
+          391964.0738178222,
+          5102697.045331558
+        ]
+      ],
+      "diagnostic_rms_m": 70.18247480087467,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          5.1261839382784355,
+          2.2979034555349362
+        ],
+        [
+          2.1457925744285893,
+          -5.3581143355657685
+        ],
+        [
+          392537.76403706573,
+          5101890.549193654
+        ]
+      ],
+      "diagnostic_rms_m": 80.34766961531874,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        5.307956282336358,
+        2.1869781780275335
+      ],
+      [
+        2.1869781780275335,
+        -5.307956282336358
+      ],
+      [
+        392232.60323659994,
+        5101883.747073043
+      ]
+    ],
+    "rms_ground_m": 111.63948539180885,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.746556+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q03",
+    "Q02",
+    "Q05"
+  ],
+  "reviewed_control_ids": [
+    "C01",
+    "C02"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "All three check identities are supported by the Big/Long/Front Jolicure lake arrangement. Front Lake southwest lobe has differing notch shape and nearby drainage; its 161.5 m error dominates only three checks. Controls/checks are geographically clustered; no whole-sheet accuracy claim can follow a small metric improvement.",
+  "baseline_limitations": [
+    "Three excluded checks give RMS 106.18 m, exceeding the 100 m ceiling. Median 84.69 m also exceeds 75 m, and P95 153.78 m exceeds 150 m. Maximum is 161.45 m. The unchanged first results remain recorded.",
+    "All three checks reuse NB lake systems with controls; this is a small highly correlated sample. Only four NB lakes and one Nova Scotia headland control the fit.",
+    "Tidnish Head has no separate Nova Scotia check. Nova Scotia accuracy, northern blank administrative context, intervening areas and Baie Verte remain unvalidated.",
+    "Historical NB lake shapes are strongly generalized, with changed shore/outlet configurations. Source observations use 18 px working uncertainty. NBHN reports 5 m planimetric accuracy; 20 m working modern uncertainty was retained."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "5f9936efc7e8c176d01f6e88619bfccfb33a70c096e1d400a8138d2cdfd05b6c"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "18b4a008a964c2dbf6d83df8ec63d215f942bd925b38974e55f42205ef6ee883"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "97b2e850833b83596f9c67f379f195662490467b251d895a1d22df984217d350"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "00c96522767a9ab9e18514c4c5bc4edd1aaf1bee0d4bdb2fafa5bddb69006cb1"
+    }
+  ],
+  "control_findings": "Big Jolicure southern tip and Long Lake northeastern lobe are identifiable but adjacent. This confirms clustering, not whole-frame support.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

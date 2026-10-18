@@ -1,0 +1,68 @@
+{
+  "observations_sha256": "131096ced7335fb4e9d59d52b297c971ca6c40b29e67b9b0bb98941a63b6f2fd",
+  "frozen_commit": "96fa3b7e",
+  "control_count": 12,
+  "check_count": 4,
+  "method": "GDAL TPS in EPSG:3857, check points never supplied as GCPs",
+  "points": [
+    {
+      "id": "Q01",
+      "predicted_lonlat": [
+        -61.41111257680382,
+        45.842544097690315
+      ],
+      "error_m": 101.91982981449381,
+      "four_reviewed_translation_error_m": 134.539042873089,
+      "inside_control_hull": true
+    },
+    {
+      "id": "Q02",
+      "predicted_lonlat": [
+        -61.39285059973069,
+        45.851011522032124
+      ],
+      "error_m": 17.791434016440267,
+      "four_reviewed_translation_error_m": 105.39390345889738,
+      "inside_control_hull": true
+    },
+    {
+      "id": "Q03",
+      "predicted_lonlat": [
+        -61.374102552402604,
+        45.83909040534715
+      ],
+      "error_m": 74.68594305181085,
+      "four_reviewed_translation_error_m": 69.96982714439176,
+      "inside_control_hull": true
+    },
+    {
+      "id": "Q04",
+      "predicted_lonlat": [
+        -61.37685745452312,
+        45.824186910771765
+      ],
+      "error_m": 70.03199802091912,
+      "four_reviewed_translation_error_m": 280.50831956704855,
+      "inside_control_hull": true
+    }
+  ],
+  "median_error_m": 72.35897053636498,
+  "max_error_m": 101.91982981449381,
+  "baseline_median_error_m": 119.9664731659932,
+  "jacobian": {
+    "sample_spacing_source_px": 25,
+    "sample_count": 3444,
+    "folded_or_degenerate_samples": 0,
+    "expected_sign": "negative: source y increases downwards",
+    "minimum_determinant": -33.10166086561837,
+    "maximum_determinant": -23.28720405526784,
+    "limitation": "A sampled numerical diagnostic, not a proof between samples."
+  },
+  "gate": {
+    "median_error": true,
+    "max_error": true,
+    "checks_inside_hull": true,
+    "no_sampled_folds": true
+  },
+  "passed": true
+}

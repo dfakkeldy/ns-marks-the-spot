@@ -1,0 +1,26 @@
+{
+  "feature": "MacMaster Brook / Lamey Brook",
+  "reference_lonlat": [
+    -61.34230237332063,
+    45.7327073818812
+  ],
+  "status": "withheld-unscored",
+  "reason": "Native source depicts widened water adjacent to a labelled mill, with the western tributary entering that outlined water. A unique shared single-line junction equivalent to the modern centreline confluence is not established. No point adopted and no score computed.",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      19600,
+      27400
+    ],
+    "extent": [
+      1300,
+      1500
+    ],
+    "display": [
+      1300,
+      1500
+    ],
+    "rotation": 0
+  }
+}

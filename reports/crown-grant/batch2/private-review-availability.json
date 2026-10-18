@@ -1,0 +1,10 @@
+{
+  "verified_at_utc": "2026-09-23T07:13:20.967160+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "detached_pid": 70619,
+  "selector_sheets": 25,
+  "raster_components": 33,
+  "asset_head_checks": 108,
+  "all_asset_head_status": 200,
+  "scope": "Loopback-only private review; browser receipts separately record actual decoded image dimensions"
+}

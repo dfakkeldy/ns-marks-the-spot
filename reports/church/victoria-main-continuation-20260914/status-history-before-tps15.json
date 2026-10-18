@@ -1,0 +1,21 @@
+{
+  "panel": "Victoria main",
+  "full_georeferencing_complete": false,
+  "selected_trial": "central-river-support: fourteen-control TPS",
+  "controls": 14,
+  "diagnostics": [
+    "VM21",
+    "VM22"
+  ],
+  "diagnostic_rms_ground_m": 192.53695330270062,
+  "current_fresh_count": 3,
+  "current_fresh_rms_ground_m": 603.055437971582,
+  "geographic_acceptance": false,
+  "production_boundaries_and_gcp_inputs_unchanged": true,
+  "tiles": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "baseline": "Original physical affine4 and all first results preserved. Boundary decision adopts draftv2 geometry for review only.",
+  "next_check": "Fresh southern-edge and distributed interior/coast validation; no geographic acceptance from two diagnostics.",
+  "next_panel_after_main": "Cape Breton main"
+}

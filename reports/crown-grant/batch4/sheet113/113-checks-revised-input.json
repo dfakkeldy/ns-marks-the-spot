@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Tanner Island south tip",
+    [
+      181,
+      1069
+    ],
+    [
+      228,
+      1013
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q02",
+    "Goat or Burying Island south tip",
+    [
+      504,
+      897
+    ],
+    [
+      552,
+      846
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q03",
+    "White Head Island north tip",
+    [
+      1398,
+      2003
+    ],
+    [
+      1428,
+      1967
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q04",
+    "Millstone Island southeast tip",
+    [
+      1808,
+      2255
+    ],
+    [
+      1840,
+      2222
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q05",
+    "Whale Island south tip",
+    [
+      2239,
+      2058
+    ],
+    [
+      2258,
+      2044
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q06",
+    "Canso Rock northwest corner",
+    [
+      4905,
+      1039
+    ],
+    [
+      4940,
+      1050
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q07",
+    "Southern Cranberry Island south tip",
+    [
+      5246,
+      783
+    ],
+    [
+      5260,
+      779
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q08",
+    "Publicover Lake south tip",
+    [
+      4185,
+      870
+    ],
+    [
+      4217,
+      866
+    ],
+    "WALK"
+  ],
+  [
+    "Q09",
+    "Crooked central interior lake south tip",
+    [
+      2510,
+      1145
+    ],
+    [
+      2555,
+      1117
+    ],
+    "WALK"
+  ]
+]

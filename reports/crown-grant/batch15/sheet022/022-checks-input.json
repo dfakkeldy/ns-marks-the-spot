@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Hill Lake southern shore",
+    [
+      241,
+      891
+    ],
+    [
+      284,
+      940
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Upper Mink Lake southern tip",
+    [
+      2438,
+      814
+    ],
+    [
+      2455,
+      840
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Central Lake southeastern tip",
+    [
+      2835,
+      2404
+    ],
+    [
+      2866,
+      2415
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Gull Lake southwestern prong",
+    [
+      5242,
+      1315
+    ],
+    [
+      5267,
+      1324
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Unnamed northeastern lake southwestern corner",
+    [
+      4939,
+      249
+    ],
+    [
+      4956,
+      254
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Daniels Lake southeastern corner",
+    [
+      445,
+      3523
+    ],
+    [
+      527,
+      3520
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Frozen Ocean Lake southwestern lobe south",
+    [
+      2938,
+      3784
+    ],
+    [
+      2965,
+      3773
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Charity Lake southern tip",
+    [
+      1393,
+      2543
+    ],
+    [
+      1427,
+      2519
+    ],
+    "WALK20"
+  ]
+]

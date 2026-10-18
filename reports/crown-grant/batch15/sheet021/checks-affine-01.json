@@ -1,0 +1,194 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Goat Island southwestern lobe south",
+      "role": "check",
+      "pixel_xy": [
+        1518,
+        643
+      ],
+      "lonlat": [
+        -65.60965039025793,
+        44.69667332611851
+      ],
+      "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+      "reference_objectid": 18324,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18324,
+      "nearest_unfiltered_distance_guide_px": 0.11573780418108087,
+      "selected_distance_guide_px": 0.11573780418108087,
+      "guide_reference_pixel_xy": [
+        1526.938876829343,
+        595.9017187844729
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Goat Island southern source refined and ambiguous Beeler outlet check rejected before fitting."
+    },
+    {
+      "id": "Q02",
+      "label": "Skull Lake western tip",
+      "role": "check",
+      "pixel_xy": [
+        2108,
+        1803
+      ],
+      "lonlat": [
+        -65.5407623351722,
+        44.65742545269525
+      ],
+      "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+      "reference_objectid": 142557,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142557,
+      "nearest_unfiltered_distance_guide_px": 0.8109912965171496,
+      "selected_distance_guide_px": 0.8109912965171496,
+      "guide_reference_pixel_xy": [
+        2119.60084699461,
+        1778.4553076353623
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Goat Island southern source refined and ambiguous Beeler outlet check rejected before fitting."
+    },
+    {
+      "id": "Q04",
+      "label": "Baillie Lake south-central prong",
+      "role": "check",
+      "pixel_xy": [
+        2420,
+        3363
+      ],
+      "lonlat": [
+        -65.48055255379334,
+        44.595301888307276
+      ],
+      "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+      "reference_objectid": 129831,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129831,
+      "nearest_unfiltered_distance_guide_px": 0.41394451851028,
+      "selected_distance_guide_px": 0.41394451851028,
+      "guide_reference_pixel_xy": [
+        2394.9677052075276,
+        3345.587317178957
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Goat Island southern source refined and ambiguous Beeler outlet check rejected before fitting."
+    },
+    {
+      "id": "Q05",
+      "label": "Lake La Rose southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3939,
+        1522
+      ],
+      "lonlat": [
+        -65.43861409784996,
+        44.705712224118855
+      ],
+      "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+      "reference_objectid": 133268,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133268,
+      "nearest_unfiltered_distance_guide_px": 0.2898430668153592,
+      "selected_distance_guide_px": 0.2898430668153592,
+      "guide_reference_pixel_xy": [
+        3934.287801566825,
+        1487.965659622685
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Goat Island southern source refined and ambiguous Beeler outlet check rejected before fitting."
+    },
+    {
+      "id": "Q06",
+      "label": "Unnamed northeastern northern lake southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        5115,
+        1460
+      ],
+      "lonlat": [
+        -65.3687673759637,
+        44.73121202075984
+      ],
+      "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+      "reference_objectid": 138759,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138759,
+      "nearest_unfiltered_distance_guide_px": 0.5188865505502952,
+      "selected_distance_guide_px": 0.5188865505502952,
+      "guide_reference_pixel_xy": [
+        5108.485363731335,
+        1432.0662779248087
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Goat Island southern source refined and ambiguous Beeler outlet check rejected before fitting."
+    },
+    {
+      "id": "Q07",
+      "label": "Keeman Lake western tip",
+      "role": "check",
+      "pixel_xy": [
+        4168,
+        3299
+      ],
+      "lonlat": [
+        -65.37494550865289,
+        44.63274393595094
+      ],
+      "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+      "reference_objectid": 137292,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137292,
+      "nearest_unfiltered_distance_guide_px": 0.20739002342995566,
+      "selected_distance_guide_px": 0.20739002342995566,
+      "guide_reference_pixel_xy": [
+        4163.200457268802,
+        3284.053174290806
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Goat Island southern source refined and ambiguous Beeler outlet check rejected before fitting."
+    },
+    {
+      "id": "Q08",
+      "label": "Unnamed northeastern southern lake southeastern tip",
+      "role": "check",
+      "pixel_xy": [
+        5186,
+        1663
+      ],
+      "lonlat": [
+        -65.3580597906281,
+        44.72432643245078
+      ],
+      "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+      "reference_objectid": 131899,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 131899,
+      "nearest_unfiltered_distance_guide_px": 0.37206530746879257,
+      "selected_distance_guide_px": 0.37206530746879257,
+      "guide_reference_pixel_xy": [
+        5194.078055011458,
+        1630.6362143375445
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Goat Island southern source refined and ambiguous Beeler outlet check rejected before fitting."
+    }
+  ]
+}

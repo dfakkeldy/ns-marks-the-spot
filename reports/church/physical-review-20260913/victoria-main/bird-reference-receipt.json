@@ -1,0 +1,11 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "bbox": "-60.45,46.30,-60.25,46.43",
+  "count": 518,
+  "sha256": "a2c0797df71cf232000011b7e914f5405b1ab090e517eacfa78d1099af80bfb8",
+  "retrieved": "2026-09-13T03:25:18.974056+00:00",
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "method": "existing paged fetch helper, complete original geometry",
+  "path": "/Users/dfakkeldy/Downloads/church-review-20260913/bird-water-lines.geojson"
+}

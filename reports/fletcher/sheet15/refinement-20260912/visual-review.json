@@ -1,0 +1,133 @@
+{
+  "reviewed_at": "2026-09-12T16:07:25.322733+00:00",
+  "reviewer": "Codex personally viewed every listed figure",
+  "native": "Six unrotated exact native close/wide figures personally inspected before the relevant promotion/scoring; no coordinate edits after scoring.",
+  "regions": {
+    "hume-island": "Hume and Bell Rock shift much closer to their modern locations; historical island widths and western coast still differ. Maciver Point northern coast improves while southern lobes remain mismatched.",
+    "mcphedran": "Lake/outlet remains locally close; lower brook and shore remain displaced, F02 197.829m.",
+    "northeast-shore": "Nyanza and Cow/Deadman vicinity still have estuary and headwater differences; local Cow Point diagnostic improves.",
+    "northwest-lake": "Little visible change; lake northern/eastern shores and upper drainage still differ.",
+    "southwest-blues": "Little visible change; local controls and checks do not validate the wider Skye Mountain network.",
+    "central-interior": "Headwater topology and alignment remain unsupported; no new independent inland validation.",
+    "southeast-mackinnon": "Wider tributary network differs despite existing C09 local support; southern shore unresolved.",
+    "channel-islands": "Existing islands remain fully present; northern Indian Island offset persists.",
+    "little-narrows": "Narrow channel, ponds and shoreline configurations remain different and unaccepted."
+  },
+  "joins": "Eight current same-window comparisons cover north13, west16, south18 and corner-only12/17. Gaps, offsets and unsupported continuations remain. Two mistaken Sheet14 eastern comparisons are retained separately as rejected setup evidence, not geography.",
+  "browser": "Desktop import, desktop reload and mobile reload personally inspected; raster visible, bytes and enabled state persist, no console errors.",
+  "count": 28,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/12-northeastern-corner.jpg",
+      "sha256": "6d9b8a6bafc8ac334ba5c236e9d8215704dd7c2b4b76d595d483a2aa34ee3950"
+    },
+    {
+      "path": "adjacent-sheet-review/13-eastern-interior.jpg",
+      "sha256": "28c3b6d95a9eabeafc66c95f1c25c55332b7ba29a1831c49d8a57400a1cc1cdc"
+    },
+    {
+      "path": "adjacent-sheet-review/13-lake-ainslie.jpg",
+      "sha256": "36793d984299eeed2bf8acfa20c029b55712cd2caff209023daead61e622aca8"
+    },
+    {
+      "path": "adjacent-sheet-review/16-northwestern-interior.jpg",
+      "sha256": "2970ff58c39e111f447ebb6c5316777de886e62d58f5a68a69c5f37026e5676a"
+    },
+    {
+      "path": "adjacent-sheet-review/16-southwestern-interior.jpg",
+      "sha256": "d60c5a4f97834476bbc7bad4edf86b844f2ae8787f7d469078d29ef9be50e95d"
+    },
+    {
+      "path": "adjacent-sheet-review/17-southeastern-corner.jpg",
+      "sha256": "1e4fc4397d3ce70a7f2622feb8da55d30363fcde2e31aa034170c1702eb980f7"
+    },
+    {
+      "path": "adjacent-sheet-review/18-southeastern-channel.jpg",
+      "sha256": "c7a30a3ee220cd5a85f3220415aeb3cb4299dc1b7c5d3f3dff9bffd7933c6792"
+    },
+    {
+      "path": "adjacent-sheet-review/18-southwestern-interior.jpg",
+      "sha256": "2b2bd53d762c367f66fd2906b7db2a713414e36abf6b4e92266bbe989f5dc79d"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "d88b45ab72b51c7e13da161b7dcc87182750f7749ac3c4d222858a034789981e"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "ab77f5cebfab4e25c5507d4bef970f1c309d5c16391df6269ccf75a3c05fa32c"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "0b370e68e30a862e576775b09b6c37519cc42494f5cbb896be3d9c3aa3b87a37"
+    },
+    {
+      "path": "fresh-close/sheet-15-F01.jpg",
+      "sha256": "6a9fb14ea98691cf1ea0560bb6af9c5af7263c3bd4b9c04f44b14f62677e2ea0"
+    },
+    {
+      "path": "fresh-close/sheet-15-F02.jpg",
+      "sha256": "b58831677fcb0275ad73975299f46938fc461084bc0c53c0e58814b25b22e778"
+    },
+    {
+      "path": "fresh-wide/sheet-15-F01.jpg",
+      "sha256": "bc7f2340c63136a2b6e914a42b7a5b71117c9a597d93b16d8070913d36d0b772"
+    },
+    {
+      "path": "fresh-wide/sheet-15-F02.jpg",
+      "sha256": "4b843227cb251c0d142169b43678b31e756bacf46ac2fb16d745c959533847c8"
+    },
+    {
+      "path": "rejected-neighbor-review/14-northeastern-channel.jpg",
+      "sha256": "2a19d628ffbfe5d69c3637b0dc0d2ab21eb570b3779ef7d80a3cda1360977779"
+    },
+    {
+      "path": "rejected-neighbor-review/14-southeastern-interior.jpg",
+      "sha256": "b878266a3e5a8e2d36f74d4e10bcfd735cc96b29f7c163d825e7affe480524e4"
+    },
+    {
+      "path": "repair-close/sheet-15-V03.jpg",
+      "sha256": "3cbe8cbf75a167f76e6347c94fd1316825f46fce12dd4cce72de4b71b652cf07"
+    },
+    {
+      "path": "repair-wide/sheet-15-V03.jpg",
+      "sha256": "3a29b063776c45771dc2e4254cdfd3bf16b1092d2c1c082c3a6047cb31e61e2c"
+    },
+    {
+      "path": "warped-review/central-interior.jpg",
+      "sha256": "27d0c33244b6216bf8a55278155fdde2c953a1b69be3ae7bc79680baa708ed80"
+    },
+    {
+      "path": "warped-review/channel-islands.jpg",
+      "sha256": "991085d60996d53f0414eac065993dabe80d66774cdcf934973f52bda93fc4fa"
+    },
+    {
+      "path": "warped-review/hume-island.jpg",
+      "sha256": "199be5d602d381545e601751d08acf6c0ee5ff1f0ff36e3257ffce269ecd4c18"
+    },
+    {
+      "path": "warped-review/little-narrows.jpg",
+      "sha256": "3afd34f9d777b3685a4195af36bff639a0619ba46a2d5d0ca98526ed723a4b29"
+    },
+    {
+      "path": "warped-review/mcphedran.jpg",
+      "sha256": "66936dd51a7279acc7c555eefc3d363ec9097a99386373e2ada70d4dc215973d"
+    },
+    {
+      "path": "warped-review/northeast-shore.jpg",
+      "sha256": "e8719a1c5e4f06ba17c694bdec5dda0fe09bee397465d845e10cdd2662a288cb"
+    },
+    {
+      "path": "warped-review/northwest-lake.jpg",
+      "sha256": "66c12d9b99a7d565e4ca6d0ee3bf733e4b64068ce703da7bbf4f8e28beee0f93"
+    },
+    {
+      "path": "warped-review/southeast-mackinnon.jpg",
+      "sha256": "8b63306788c017623c8cf678de9e4ac4856139b035a9bc07edd0ee3eb591751b"
+    },
+    {
+      "path": "warped-review/southwest-blues.jpg",
+      "sha256": "133e2a9e334fca21e546320686904400cbcb981ee1f2fbd98584ef880a0eba5c"
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "sheet": "007",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "affine, row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.873396069846256,
+      2.0111223843261743
+    ],
+    [
+      2.005076941609215,
+      -4.902161269860566
+    ],
+    [
+      246066.40170469935,
+      4894889.418026452
+    ]
+  ],
+  "source_sha256": "790fc3e8382440c842e30057582c561d7cef30b064f827c0e5698de151243a52",
+  "source_dimensions": [
+    5712,
+    3893
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Ash Lake northern shore",
+      "role": "control",
+      "pixel_xy": [
+        936,
+        444
+      ],
+      "lonlat": [
+        -66.10817373751074,
+        44.162273686892775
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 129473,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129473,
+      "nearest_unfiltered_distance_guide_px": 0.8160268529680852,
+      "selected_distance_guide_px": 0.8160268529680852,
+      "guide_reference_pixel_xy": [
+        937.2507624555728,
+        439.67666901357006
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C02",
+      "label": "Northern small lake near Corberrie northern shore",
+      "role": "control",
+      "pixel_xy": [
+        3085,
+        399
+      ],
+      "lonlat": [
+        -65.97948999502525,
+        44.20667568020345
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 133111,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133111,
+      "nearest_unfiltered_distance_guide_px": 0.7317021972302262,
+      "selected_distance_guide_px": 0.7317021972302262,
+      "guide_reference_pixel_xy": [
+        3095.677267771098,
+        400.2769412783673
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C03",
+      "label": "Melanson Lake northeastern shore",
+      "role": "control",
+      "pixel_xy": [
+        1901,
+        1472
+      ],
+      "lonlat": [
+        -66.0216182562012,
+        44.13662062024342
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 137474,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137474,
+      "nearest_unfiltered_distance_guide_px": 0.22176217169091592,
+      "selected_distance_guide_px": 0.22176217169091592,
+      "guide_reference_pixel_xy": [
+        1907.2209876832203,
+        1472.0185176850064
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C04",
+      "label": "Tedford Lake northern small island northern shore",
+      "role": "control",
+      "pixel_xy": [
+        1734,
+        2156
+      ],
+      "lonlat": [
+        -66.01367484011838,
+        44.10311018592816
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 150361,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 150361,
+      "nearest_unfiltered_distance_guide_px": 1.1347211736128873,
+      "selected_distance_guide_px": 1.1347211736128873,
+      "guide_reference_pixel_xy": [
+        1725.9037624740158,
+        2160.706989030121
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C05",
+      "label": "Edwards Lake northeastern lobe northern shore",
+      "role": "control",
+      "pixel_xy": [
+        2065,
+        2971
+      ],
+      "lonlat": [
+        -65.9706549847694,
+        44.075320336973626
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 128068,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128068,
+      "nearest_unfiltered_distance_guide_px": 1.7337913618135796,
+      "selected_distance_guide_px": 1.7337913618135796,
+      "guide_reference_pixel_xy": [
+        2078.6101598758833,
+        2960.377120641526
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C06",
+      "label": "Duck Lake northern shore",
+      "role": "control",
+      "pixel_xy": [
+        3818,
+        3441
+      ],
+      "lonlat": [
+        -65.85309140006238,
+        44.08925691733566
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 127936,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127936,
+      "nearest_unfiltered_distance_guide_px": 0.46247987069341207,
+      "selected_distance_guide_px": 0.46247987069341207,
+      "guide_reference_pixel_xy": [
+        3822.658386231342,
+        3430.3117493606405
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C07",
+      "label": "Beaver Lake northern shore",
+      "role": "control",
+      "pixel_xy": [
+        5171,
+        3307
+      ],
+      "lonlat": [
+        -65.77613726038177,
+        44.12038426569909
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 133094,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133094,
+      "nearest_unfiltered_distance_guide_px": 1.7871906991028794,
+      "selected_distance_guide_px": 1.7871906991028794,
+      "guide_reference_pixel_xy": [
+        5154.11373838404,
+        3316.4480364234187
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C08",
+      "label": "Whistler Lake northern shore",
+      "role": "control",
+      "pixel_xy": [
+        4875,
+        2265
+      ],
+      "lonlat": [
+        -65.82222708579376,
+        44.1611538429569
+      ],
+      "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+      "reference_objectid": 141641,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141641,
+      "nearest_unfiltered_distance_guide_px": 1.0123572184547431,
+      "selected_distance_guide_px": 1.0123572184547431,
+      "guide_reference_pixel_xy": [
+        4869.727825395879,
+        2251.024916350958
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    36.75497331273705,
+    49.517998152987374,
+    17.79165260262992,
+    78.64710647799903,
+    66.32440316966839,
+    51.08153989910336,
+    89.20745565662794,
+    60.61918222844271
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: see role plan for two-axis control coverage and limitations"
+}

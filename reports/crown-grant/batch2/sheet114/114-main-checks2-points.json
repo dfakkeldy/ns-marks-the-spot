@@ -1,0 +1,24 @@
+[
+  {
+    "id": "MQ03",
+    "label": "Inverness pond western lobe northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1314,
+      3025
+    ],
+    "lonlat": [
+      -61.31664267308059,
+      46.22828377526824
+    ],
+    "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+    "reference_objectid": 5589,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1330.318861026375,
+      3036.613184247748
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

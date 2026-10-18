@@ -1,0 +1,19 @@
+{
+  "promoted_unchanged": "VM08",
+  "original_source": "reports/church/physical-review-20260913/victoria-main/observations.json",
+  "original_source_sha256": "62008fb796ef51672f5c1cf13779652e2ca4cd23b84ac43065ab9215041abd1c",
+  "preserved_original_first": "reports/church/physical-review-20260913/victoria-main/comparison.json",
+  "preserved_rejected_five_control_trial": "reports/church/physical-review-20260913/victoria-main/interior-support-trial.json",
+  "excluded_from_checks": [
+    "VM08",
+    "VM17",
+    "VM18"
+  ],
+  "diagnostics": [
+    "VM10",
+    "VM07",
+    "VM12",
+    "VM15"
+  ],
+  "geographic_acceptance": false
+}

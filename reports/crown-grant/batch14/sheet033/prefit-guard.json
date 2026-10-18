@@ -1,0 +1,13 @@
+{
+  "stage": "Before first fit and score",
+  "rejected": [
+    "C08 WACOIS10 nearest 154.4 guide px rejected by guard; no initial controls-points file completed.",
+    "Q08 original WACOIS10 proposal hit a neighbouring eastern island, rejected after native review.",
+    "Q02 Little Bonnature southern shoreline has several generalized lobes not precisely reconciled; excluded before fitting."
+  ],
+  "corrections": [
+    "Port Medway small western island uses WACORVIS10 feature27742; north and south reassessed at correct physical island.",
+    "Little Bonnature northern reference changed from western inlet to eastern lobe roof.",
+    "Eight Mile Q07 source moved onto visible island southern tip."
+  ]
+}

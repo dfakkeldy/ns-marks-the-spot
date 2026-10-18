@@ -1,9 +1,12 @@
+import type { BasemapStyle } from "../atlas/basemap";
+import { atlasPalettes } from "../atlas/palette";
 import type { PathOptions } from "leaflet";
 import type { NsprdFeatureProperties } from "../services/nsprd";
 
 export type MapRenderMode = "interactive" | "print";
 
 export type ParcelStyleContext = {
+  outlineColor?: string;
   selectedPid: string | null;
   showTaxSale: boolean;
   taxSalePids: Set<string>;
@@ -68,6 +71,7 @@ function interactiveParcelStyleForFeature(
     | GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>
     | undefined,
   {
+    outlineColor = "#0a7180",
     selectedPid,
     showTaxSale,
     taxSalePids,
@@ -120,9 +124,24 @@ function interactiveParcelStyleForFeature(
   }
 
   return {
-    color: "#0a7180",
-    fillColor: "#eef7f5",
-    fillOpacity: 0.08,
+    color: outlineColor,
+    fillOpacity: 0,
     weight: 1.25,
   };
+}
+
+/** Background contrast only; selected and sale evidence keep their own symbols. */
+export function parcelOutlineColor(style: BasemapStyle, imagery: boolean): string {
+  if (imagery || style === 'night') return '#ffe66d';
+  return style === 'fletcher' ? atlasPalettes.fletcher.crown : '#0a7180';
+}
+
+export function parcelBoundaryRenderer(color: string): string {
+  const rgb = [1, 3, 5].map(offset => Number.parseInt(color.slice(offset, offset + 2), 16));
+  return JSON.stringify([{ id: 0, source: { type: 'mapLayer', mapLayerId: 0 }, drawingInfo: {
+    showLabels: false, labelingInfo: [], renderer: { type: 'simple', symbol: {
+      type: 'esriSFS', style: 'esriSFSNull', color: [0, 0, 0, 0],
+      outline: { type: 'esriSLS', style: 'esriSLSSolid', color: [...rgb, 255], width: 1.2 },
+    } },
+  } }]);
 }

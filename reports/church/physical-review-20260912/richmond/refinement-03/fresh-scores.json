@@ -1,0 +1,65 @@
+{
+  "fit_csv_sha256": "5f69f487670fcb30835e2a7cb861f4eeab99c5c383e81ace1774deae72314f89",
+  "fresh_observations_sha256": "d9a9ccb704ab579741f95de0f7b42d1835819c1462dbcf3b07e2f542cac2e5e7",
+  "validation_status": "Initial six checks on frozen eight-control TPS, with disclosed G05 polygon correction after premature first score. Original result retained in initial-measurement; no model tuning in this stage.",
+  "fresh_checks_used_for_fitting_or_model_selection": false,
+  "metrics": {
+    "count": 6,
+    "points": [
+      {
+        "label": "G01",
+        "east_ground_m": 199.41219115234406,
+        "north_ground_m": 25.628532026177425,
+        "error_ground_m": 201.05234053349344
+      },
+      {
+        "label": "G02",
+        "east_ground_m": 111.3299114601241,
+        "north_ground_m": -53.95649640700758,
+        "error_ground_m": 123.71601630443203
+      },
+      {
+        "label": "G03",
+        "east_ground_m": -27.43061002163115,
+        "north_ground_m": -142.82235836121086,
+        "error_ground_m": 145.43268000699481
+      },
+      {
+        "label": "G04",
+        "east_ground_m": -678.9143147185017,
+        "north_ground_m": -479.5197362943236,
+        "error_ground_m": 831.1821847377809
+      },
+      {
+        "label": "G05",
+        "east_ground_m": -643.5503665030377,
+        "north_ground_m": -378.6254375262792,
+        "error_ground_m": 746.6687995143232
+      },
+      {
+        "label": "G06",
+        "east_ground_m": 41.58915786290588,
+        "north_ground_m": -109.07622604610674,
+        "error_ground_m": 116.73594622140637
+      }
+    ],
+    "rms_ground_m": 472.38468827007387,
+    "median_ground_m": 173.2425102702441,
+    "p95_ground_m": 810.0538384319165,
+    "max_ground_m": 831.1821847377809,
+    "mean_east_ground_m": -166.26067179463277,
+    "mean_north_ground_m": -189.72862043479176,
+    "scatter_rms_ground_m": 399.3841926194914,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "G01": false,
+    "G02": false,
+    "G03": false,
+    "G04": false,
+    "G05": false,
+    "G06": false
+  },
+  "geographic_acceptance": false
+}

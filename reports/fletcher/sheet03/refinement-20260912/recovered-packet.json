@@ -1,0 +1,451 @@
+{
+  "source_directory": "/Users/dfakkeldy/.codex/worktrees/fletcher-alignment-20260912/ns-marks-the-spot/reports/fletcher/sheet03/refinement-20260912",
+  "source_task": "01a09597-ec36-7340-b447-9bd3356285da",
+  "status": "Inactive earlier setup fork; copied without changing original worktree. Existing scored points are historical evidence, never fresh in this continuation. Personal audit pending.",
+  "files": [
+    {
+      "path": "candidate-controls.json",
+      "sha256": "5d445a2b5c8d28d57efd3a42a9fe80b2cdc573efd231dcdb05f092d343692556"
+    },
+    {
+      "path": "sheet-03-diagnostic-review.csv",
+      "sha256": "ea271630a2599ebc7e6cc6fb316baaa6926cfac09a045fd7261eec1cb03a9bab"
+    },
+    {
+      "path": "diagnostics-ten.json",
+      "sha256": "e60e31783dfe2a57cee8d14e7c1c8376e6a4a1c8f9909447a05e37b23d7de0f3"
+    },
+    {
+      "path": "additional-controls.json",
+      "sha256": "cbed99cf7e0d6eb084605cb7aa56e5b745b91692ee5d718b8356c895e597bd57"
+    },
+    {
+      "path": "review_warp.py",
+      "sha256": "ade59bf8017a7e717cf4ab49fedc073b9531b65b2e56f19e392b9e7cb22cffc4"
+    },
+    {
+      "path": "review_join_nine.py",
+      "sha256": "0fc97aa5cc70fa242f89d538d3f9755912d88bee8f11d3f6d3b1a5019c895d27"
+    },
+    {
+      "path": "baseline-final-check-scores.json",
+      "sha256": "c29b780db0befb86f28d5b874b4dd074539bd1e7082a9edd05d67fdb528a3632"
+    },
+    {
+      "path": "search_context.py",
+      "sha256": "15d588a2bc90350947c0e1d41930d35a561222266fa73b31861453b8b2d2893e"
+    },
+    {
+      "path": "validation-ten-scores.json",
+      "sha256": "e508f0e976cf0a0892b527f312b2398c99ab37e7842a11aa23b8d59d3a85760d"
+    },
+    {
+      "path": "diagnostic-scores.json",
+      "sha256": "dd5ae3f4236040bd64243fe37b2afc676349b7776bcc36d0ee35c2b805c0a40a"
+    },
+    {
+      "path": "raster-nine-receipt.json",
+      "sha256": "86e67b4f4c0d6ed6e6bb9c6219fd7c2624e290580d1cdf328ed9dda3ff23e68b"
+    },
+    {
+      "path": "validation-scores.json",
+      "sha256": "8ec7f1b1d2abb43404cd0be806607565b59a3c14a0ac3bf1bf94d148ec9d9e58"
+    },
+    {
+      "path": "baseline-diagnostics.json",
+      "sha256": "cb7f103b9954c7e11bb478bffa9373f3b9b439dd44916184297aa09ec1c18b68"
+    },
+    {
+      "path": "diagnostic-ten-scores.json",
+      "sha256": "911025536ae39f259e2fe35566f1bd3f92fff3c48e1a88196388c0f167180e74"
+    },
+    {
+      "path": "locality-reference.json",
+      "sha256": "812821424a971c7b537e6a032307b8d69f186143dbfa500b22b1f1bc2a8dec3d"
+    },
+    {
+      "path": "verify-browser.mjs",
+      "sha256": "953f89a211bf437c306afeb442b7b3a03fe3232fc646efb966070ac8d4a125c5"
+    },
+    {
+      "path": "baseline-addition-scores.json",
+      "sha256": "3ce91f2150660d91817150ba0ba68a475d606e69c4443b040599d22007adc982"
+    },
+    {
+      "path": "rejected-validation-ten.json",
+      "sha256": "50290af32c964582db5077ea51bd004c71f8bd301d83cbd19269bba6272e3660"
+    },
+    {
+      "path": "rejected-controls.json",
+      "sha256": "b30f60f17a07fd044f88f650ee59133d6f21c991661607c63b832c8953df1126"
+    },
+    {
+      "path": "freeze-ten.json",
+      "sha256": "78d276af8b8389bf6c84f7b90ccd0172a1c51a0e65776b067b9a354c0cda1254"
+    },
+    {
+      "path": "sheet-03-nine-control-failure.csv",
+      "sha256": "0642a639ea7a717185769965114e2fbce2f1c0898dc0917e69cf88c268dd775c"
+    },
+    {
+      "path": "fit-ten.json",
+      "sha256": "4f096b8ccf363047e5c1bbb523cf3c5b07d0b8bcb5f460637e49ccf5b6301b04"
+    },
+    {
+      "path": "diagnostics-nine.json",
+      "sha256": "e8c0a853645f4f3a18e4173c4f1bc9d6113ebe3e110a62b2890743a9b8113119"
+    },
+    {
+      "path": "sheet-03-controls.csv",
+      "sha256": "9e893b1ebe2e57d0ec3eeffd8717566d676b0461bbe6a0727862d11dbcc24f0d"
+    },
+    {
+      "path": "review_warp_nine.py",
+      "sha256": "01e41b35901561dd3f31738fe3755c5b06855b5f0698c6d30222a90cec6fd00f"
+    },
+    {
+      "path": "freeze-nine.json",
+      "sha256": "4e1725e10e45ad29d063dd9bf2fb01d91d0d657a0210395012c78750fde4cd6e"
+    },
+    {
+      "path": "baseline.json",
+      "sha256": "7535a4644e3f07556ea8f07bdb9b921eda9fb770891820543624bc22bf54b674"
+    },
+    {
+      "path": "sheet-03-validation-review.csv",
+      "sha256": "9a3ac3894bff28f17b8f6e4754e1cd26dacae6e6deb89905dba60bed318a2bc3"
+    },
+    {
+      "path": "raster-receipt.json",
+      "sha256": "fb3f9455ccf7479ab0ad771b716799c5cc586e7708186bd25abf3f18235c3095"
+    },
+    {
+      "path": "validation-ten-candidates.json",
+      "sha256": "d28885656214690fbcc187b054e31fbe1c7bf76e84526e69106892b10513b3af"
+    },
+    {
+      "path": "validation.json",
+      "sha256": "654f7eb2963eb5669e0523dc05b4c6a028a51b94936f1bf14742c6e2cb568249"
+    },
+    {
+      "path": "baseline-additions.json",
+      "sha256": "9e8735cd31f12ca4a5f67bcb5cad93998d39ae322f0c6551cf2f10e0980731d5"
+    },
+    {
+      "path": "fit-nine.json",
+      "sha256": "814f03953ecf5bbc10d94842e2dd6aec241248be9ebdff94057ffc9813ef6159"
+    },
+    {
+      "path": "baseline-final-checks.json",
+      "sha256": "5ebe8e9d39b950753181a64bce8202174f0adecd5e97ae282fe3e191116f5656"
+    },
+    {
+      "path": "validation-ten.json",
+      "sha256": "5433a399f83cf8e0a28d4e9d40129c27562375ade28d67954f4ecb13713ef5fb"
+    },
+    {
+      "path": "reviewed-additions.json",
+      "sha256": "e03e4c3efdeb31c725c4705b3a3b5848ca5a53dda330c44218aa130c6e60fa64"
+    },
+    {
+      "path": "coverage.json",
+      "sha256": "a1dd7c9796fa996c9e30b6d9c99b29d9b7f5a93ffcb8698374dd47bb58de20d1"
+    },
+    {
+      "path": "validation-candidates.json",
+      "sha256": "27f80354168100ceef054df4dafdffe9baecc781137813a4d539fe25f5d2240f"
+    },
+    {
+      "path": "review_join.py",
+      "sha256": "11978a7d917c6cec2eeede1992a7f8e6e63f3aa7441cd180021a7eebd1f83064"
+    },
+    {
+      "path": "validation-ten-candidate-review/frames.json",
+      "sha256": "dc3cf7680743522605e70a802de68d4fc0f230426babff220b95c468cd5500ac"
+    },
+    {
+      "path": "validation-ten-candidate-review/sheet-03-U06.jpg",
+      "sha256": "ffa06ca59ad1c757b9a734b6cd10bbbbd6f59ffb3fc64358b101eec895306515"
+    },
+    {
+      "path": "validation-ten-candidate-review/sheet-03-U04.jpg",
+      "sha256": "1363a515ebbe4631f95cf06833db6656f1dbe49d5f296435fa1f7ce7ebc50660"
+    },
+    {
+      "path": "validation-ten-candidate-review/sheet-03-U05.jpg",
+      "sha256": "f16fc6753cc028cf7ba6cbdbb8b404284ca58e3772346b48830daf77209e69f0"
+    },
+    {
+      "path": "candidate-review/sheet-03-R10.jpg",
+      "sha256": "76331d94d4c3978c74303570b17014c6d8ef1a1e6e61a2d64a48a7513008099d"
+    },
+    {
+      "path": "candidate-review/sheet-03-R11.jpg",
+      "sha256": "8b29177c62e3eef5c1e90cd07006f68d3c19304035455d9440836ff1012b28dc"
+    },
+    {
+      "path": "candidate-review/frames.json",
+      "sha256": "cad6f676372d037f4583bf7f0135c30eeca558c95f767e42d660b2e0632a4798"
+    },
+    {
+      "path": "candidate-review/sheet-03-R12.jpg",
+      "sha256": "3d7a5377ddada4b1cd88ec8f9972a2bb5521e30341efab73e7a2592815218009"
+    },
+    {
+      "path": "validation-ten-wide/frames.json",
+      "sha256": "150ebd928800c4ee8a40d8d426b96a044963c8e00a9e4694f6a041600c294c30"
+    },
+    {
+      "path": "validation-ten-wide/sheet-03-U06.jpg",
+      "sha256": "2cd693f9be235c2f05c68f5a3337b8e3881dab0fbc1bf2e6ae10f0740374e5d8"
+    },
+    {
+      "path": "validation-ten-wide/sheet-03-U04.jpg",
+      "sha256": "3fa8be6d71bf0c78f2f9b774043621e11627b9435125e418af2da455731acb97"
+    },
+    {
+      "path": "validation-ten-wide/sheet-03-U05.jpg",
+      "sha256": "2f8465afb8009cfc4b9b8d10d7c9f1926299d3dea976d7ed8a1da3ba8afcb137"
+    },
+    {
+      "path": "warped-review-nine/full-sheet.jpg",
+      "sha256": "2d45237937c7754e6028298f7f96ad3e3cda9ec1ffbaa2fab4d689ac5e0f26a2"
+    },
+    {
+      "path": "warped-review-nine/aspy-south.jpg",
+      "sha256": "cdc2bc6d787b93e029a3eacf290be3af53a081dcdcebd2afc265c5ec6d6f785e"
+    },
+    {
+      "path": "warped-review-nine/red-river.jpg",
+      "sha256": "a667074a7360a9ccad6dec6967285199d966c4b694fc00e3c128ec1ceb60b0b9"
+    },
+    {
+      "path": "warped-review-nine/grande-anse.jpg",
+      "sha256": "221c9200b5ee5d378c5f354e656d523d11671645557f845beca03f64cf3bd3d2"
+    },
+    {
+      "path": "warped-review-nine/frames.json",
+      "sha256": "95384b025792a458e8f2b692d2726dd99a91711f91f2aa44ddf88a22bd8d5c50"
+    },
+    {
+      "path": "warped-review-nine/fishing-extension.jpg",
+      "sha256": "b28e9c60424fb95f575398791669e4b6dfdae818ddcc7e1ba160ab5254aaf5be"
+    },
+    {
+      "path": "warped-review-nine/grays-north-branch.jpg",
+      "sha256": "e982ea772e67eba1256d9a5e77e5d15a342e7aa80bdd06c068d107c0f2fa3e57"
+    },
+    {
+      "path": "warped-review-nine/wilkie-pond.jpg",
+      "sha256": "ede91b6c301ca10e939e01692ef9ee2a37a7e4f195f988d821ecb9d5c0cd0213"
+    },
+    {
+      "path": "warped-review-nine/blair-north.jpg",
+      "sha256": "b0007428e835b4e1befc77f6312de7ec1aa62c703c83cab2b4b02541d05ce0d3"
+    },
+    {
+      "path": "adjacent-sheet-review/01-north-east.jpg",
+      "sha256": "8dd42cd1f11dced49d52f41b460e51364aed5b876bf702537a737aafdf3ccaba"
+    },
+    {
+      "path": "adjacent-sheet-review/01-north-west.jpg",
+      "sha256": "62a592cb6d034651ce07b26c86c69e1149045efdf21720733ec2371a507fd1a5"
+    },
+    {
+      "path": "adjacent-sheet-review/05-south-west.jpg",
+      "sha256": "cc62ef20064ed0a6e974b97cbb08e89229b9bfa72a09721d43cd4f4bdfdeebc8"
+    },
+    {
+      "path": "adjacent-sheet-review/06-extension.jpg",
+      "sha256": "871e88f44024e9be679850230f66facc2b76e699ff636d53183b14da17cefceb"
+    },
+    {
+      "path": "adjacent-sheet-review/frames.json",
+      "sha256": "3f717c98109131dabc2d65ab38f92797f623dedb98dcc6d38ba16f09869972dc"
+    },
+    {
+      "path": "adjacent-sheet-review/02-east-pond.jpg",
+      "sha256": "6112dd4283b6204953fdb682e4e7ad42673b2fe5be5047b18094bd1a0d50cdae"
+    },
+    {
+      "path": "adjacent-sheet-review/05-south-east.jpg",
+      "sha256": "003af295de6796da3c05bc66e4166149f26999e808357a5dc72d2ad1871c4cee"
+    },
+    {
+      "path": "validation-wide/frames.json",
+      "sha256": "887d71a316d1ff1596c6834b090856f079cb71aa39debac90924b8b6d26851a3"
+    },
+    {
+      "path": "validation-wide/sheet-03-U01.jpg",
+      "sha256": "a04a7affffcb4874abe807bed298be23b5cd6df02034a8dc951285724b9a935b"
+    },
+    {
+      "path": "validation-wide/sheet-03-U02.jpg",
+      "sha256": "70934d8d388a5ed503ea3a6b64e85084ce0a1e637e58c1eabbca410361fde729"
+    },
+    {
+      "path": "validation-wide/sheet-03-U03.jpg",
+      "sha256": "ebbde10eff3d24bf7d392fe02e155c1f7ce8f748397b32a3ef11c4b202b6b84c"
+    },
+    {
+      "path": "warped-review/full-sheet.jpg",
+      "sha256": "159224759e24cc005dd55074b8b97d15b6db56e00ee3645474264cb26fc3dcc7"
+    },
+    {
+      "path": "warped-review/aspy-south.jpg",
+      "sha256": "f86b71fbc9732aa9e81b7ae4ee852b0eee2d4af3c38fcdfa36c7de69b7fe12a1"
+    },
+    {
+      "path": "warped-review/red-river.jpg",
+      "sha256": "6f8c14b3556e2d568732a4f124174eecaecb2c63bb924beccc7ae09603525835"
+    },
+    {
+      "path": "warped-review/grande-anse.jpg",
+      "sha256": "5eff493c2c538387c97a708200093075c2e928c8f32c774167969d991c57e288"
+    },
+    {
+      "path": "warped-review/frames.json",
+      "sha256": "16f506539375c72aedae3b248cb6f9e4696748f57bdb4d9fd3437d7d324eed5e"
+    },
+    {
+      "path": "warped-review/fishing-extension.jpg",
+      "sha256": "217ebcaeb0d17b4c0e07f855d51de0303eadd1b5e33974b24e19523e95d75608"
+    },
+    {
+      "path": "warped-review/grays-north-branch.jpg",
+      "sha256": "932f0434da6a2be672e901824fea2404677327777f7d58604f22c1254ca28745"
+    },
+    {
+      "path": "warped-review/wilkie-pond.jpg",
+      "sha256": "4c60b5dd50a3d487f1f4ee8055e553de83ae8914ae51e1e5e2f4bd204bb338e7"
+    },
+    {
+      "path": "warped-review/blair-north.jpg",
+      "sha256": "a80e05690722f01fe9ff25fc9fb4cb1ce18a5df7419f6cb581f074eaa566eda4"
+    },
+    {
+      "path": "adjacent-sheet-review-nine/01-north-east.jpg",
+      "sha256": "6b7a48e75e269115edcc467b3eb9bf2574ea552e85d82b8383530b3e5ca2c610"
+    },
+    {
+      "path": "adjacent-sheet-review-nine/01-north-west.jpg",
+      "sha256": "e4301e1c0948aab54b270d2638f10e2558596e2aa909b6ab231a07c019fe1a1e"
+    },
+    {
+      "path": "adjacent-sheet-review-nine/05-south-west.jpg",
+      "sha256": "911ba168a04ab9666438dd46aa9354e3d19dc4a36519252afa058d23584aadb6"
+    },
+    {
+      "path": "adjacent-sheet-review-nine/06-extension.jpg",
+      "sha256": "8857c31dbc659bf88ceaf4349026c18289ee2ced2b70447ac929a861dcf9b064"
+    },
+    {
+      "path": "adjacent-sheet-review-nine/frames.json",
+      "sha256": "9da4f8a28f480d59d38f64ee3cdea5f78112e11c6c94ee88b0c5bb5dd8e72247"
+    },
+    {
+      "path": "adjacent-sheet-review-nine/02-east-pond.jpg",
+      "sha256": "b99db8752105c97caef53d0985dfe6779e99acc924fe704f57c6d526fe7f0d47"
+    },
+    {
+      "path": "adjacent-sheet-review-nine/05-south-east.jpg",
+      "sha256": "4cd6b72427aa383f23f758a179d583b605a14d58428f7e113c018f2c50ef36d2"
+    },
+    {
+      "path": "additional-review/sheet-03-R10.jpg",
+      "sha256": "e60b912bb292ddfd18329bfbfbb3e4a243bb30f59e44e927f3805a93cb9ea09f"
+    },
+    {
+      "path": "additional-review/frames.json",
+      "sha256": "5a257f573389a4fb2f3e285e48c4055eade8b3007edb8a2da7a02edc5b903538"
+    },
+    {
+      "path": "additional-review/sheet-03-R13.jpg",
+      "sha256": "1785bb1b815959e6d0cdc8b14f7d3ecb13839f7cfe707bda193ce605663456fd"
+    },
+    {
+      "path": "final-point-review/sheet-03-R10.jpg",
+      "sha256": "e60b912bb292ddfd18329bfbfbb3e4a243bb30f59e44e927f3805a93cb9ea09f"
+    },
+    {
+      "path": "final-point-review/frames.json",
+      "sha256": "113cd5b7f548a14c9b31d5bf6d6499717afd6aa6a748f7830bc5e97baa1199a6"
+    },
+    {
+      "path": "final-point-review/sheet-03-R13.jpg",
+      "sha256": "91a975a769e60385f68eb4d276f6a13b5697e50c43de5abea138ecfd8f084d9c"
+    },
+    {
+      "path": "validation-candidate-review/frames.json",
+      "sha256": "1e16996feb0a7077660659d59f929cf1b2875fff371fbd1a4d059b31504a36d7"
+    },
+    {
+      "path": "validation-candidate-review/sheet-03-U01.jpg",
+      "sha256": "c9817ab974f4f0a8389ace0e052005a7293dc4f538314ba616c473c96074ada4"
+    },
+    {
+      "path": "validation-candidate-review/sheet-03-U02.jpg",
+      "sha256": "d3477eda419ab5e61652e3357ec9734fa1c5ebab4841c962245cd268cf55af49"
+    },
+    {
+      "path": "validation-candidate-review/sheet-03-U03.jpg",
+      "sha256": "a38c4d00aa37b94da8156d487194fa367c54f5840e4c4fb51d80f13f82bb30aa"
+    },
+    {
+      "path": "validation-ten-final-review/frames.json",
+      "sha256": "0083826a5055bd58e716c5a4f5edbcce937f2d56b0299edd7c6ecd0bb2643f8b"
+    },
+    {
+      "path": "validation-ten-final-review/sheet-03-U06.jpg",
+      "sha256": "a428909d40af1a1f041a1f14a2547f75559929e00c37f3837abe53f8e1a96b73"
+    },
+    {
+      "path": "validation-ten-final-review/sheet-03-U04.jpg",
+      "sha256": "097764110a853b92acb7cba61d356a2007bac60eb526eba396e03e4f341c2067"
+    },
+    {
+      "path": "candidate-wide/sheet-03-R10.jpg",
+      "sha256": "771adef1e3ba7c0dfae7764241babb0b19f8730dc5200e3ad91c31ba9ac03079"
+    },
+    {
+      "path": "candidate-wide/sheet-03-R11.jpg",
+      "sha256": "826098e5f9677c3bb10c5c730813652fb8a15e2c839174f97e0f20c81eaeef38"
+    },
+    {
+      "path": "candidate-wide/frames.json",
+      "sha256": "3645dff5742ec4774eb792984d2d665372e522a70b1c4e8519182cda8822c0c5"
+    },
+    {
+      "path": "candidate-wide/sheet-03-R12.jpg",
+      "sha256": "ebe8d2825dda6b7b42f2e542dad93f9fd2c37c735b9e831e29ccedd9b531e7c0"
+    },
+    {
+      "path": "validation-final-review/frames.json",
+      "sha256": "7699f9a5f8d8f498c2ab75de9f4f197fd3556f7046c8fd19fe0c6f6ed27286ab"
+    },
+    {
+      "path": "validation-final-review/sheet-03-U01.jpg",
+      "sha256": "c40fb7d2e50c40fad053bfb36582350269756f0ec0f18758586ec50d2d23f013"
+    },
+    {
+      "path": "validation-final-review/sheet-03-U02.jpg",
+      "sha256": "d3477eda419ab5e61652e3357ec9734fa1c5ebab4841c962245cd268cf55af49"
+    },
+    {
+      "path": "validation-final-review/sheet-03-U03.jpg",
+      "sha256": "6ee8cd7a3388e06fde39e3f544d39dcd90f1846f8ddae76a50915b34d6403961"
+    },
+    {
+      "path": "additional-wide/sheet-03-R10.jpg",
+      "sha256": "f841c069b2a488d2ab23581bb1ccbbf622059cc486491a04dbecaaf86295b795"
+    },
+    {
+      "path": "additional-wide/frames.json",
+      "sha256": "b11a63199e812d0247404773c60d056a9f8effb4356bc5efa362808d54a38196"
+    },
+    {
+      "path": "additional-wide/sheet-03-R13.jpg",
+      "sha256": "b7ccb620bc84626658d965bb95b7ccc627b6d169c8ffca3938785c4771489ec1"
+    }
+  ]
+}

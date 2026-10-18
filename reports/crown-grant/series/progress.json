@@ -1,0 +1,597 @@
+{
+  "updated_at_utc": "2026-09-26T04:04:56.576660+00:00",
+  "official_pdf_count": 138,
+  "previously_assessed_count": 25,
+  "newly_assessed": [
+    "131",
+    "132",
+    "133",
+    "140",
+    "139",
+    "138",
+    "137",
+    "136",
+    "135",
+    "113",
+    "112",
+    "111",
+    "103",
+    "104",
+    "105",
+    "106",
+    "107",
+    "102",
+    "101",
+    "100",
+    "099",
+    "098",
+    "092",
+    "093",
+    "094",
+    "095",
+    "096",
+    "097",
+    "091",
+    "090",
+    "089",
+    "088",
+    "087",
+    "086",
+    "085",
+    "077",
+    "078",
+    "079",
+    "080",
+    "081",
+    "082",
+    "083",
+    "084",
+    "076",
+    "075",
+    "074",
+    "073",
+    "072",
+    "071",
+    "070",
+    "069",
+    "068",
+    "058",
+    "059",
+    "060",
+    "061",
+    "062",
+    "063",
+    "064",
+    "065",
+    "066",
+    "067",
+    "057",
+    "056",
+    "055",
+    "054",
+    "053",
+    "052",
+    "051",
+    "050",
+    "049",
+    "041",
+    "042",
+    "043",
+    "044",
+    "045",
+    "046",
+    "047",
+    "048",
+    "040",
+    "039",
+    "038",
+    "037",
+    "036",
+    "035",
+    "028",
+    "029",
+    "030",
+    "031",
+    "032",
+    "033",
+    "034",
+    "027",
+    "026",
+    "025",
+    "024",
+    "023",
+    "022",
+    "021",
+    "020",
+    "013",
+    "014",
+    "015",
+    "016",
+    "017",
+    "018",
+    "019",
+    "011",
+    "010",
+    "009",
+    "008",
+    "007",
+    "006"
+  ],
+  "remaining_sheets": [],
+  "publication_status": "All 138 linked sheets assessed; final four sheets and series closeout prepared for nightly PR. Earlier checkpoints are recorded below.",
+  "delivered_checkpoints": [
+    {
+      "pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/528",
+      "sheets": [
+        "131",
+        "132"
+      ],
+      "merge_commit": "e2540f967544bb95657c665ce41d033a33716dd2",
+      "merged_at_utc": "2026-09-24T12:33:50Z",
+      "verified_head": "7c88292b1256dc7802b3bf2bec02c16214f34a58",
+      "ci_run": 35997342320,
+      "required_checks": "passed",
+      "method": "verified-head squash; auto-merge unavailable"
+    },
+    {
+      "pr": 529,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/529",
+      "sheets": [
+        "133",
+        "140",
+        "139",
+        "138",
+        "137"
+      ],
+      "head": "0f4cef080c96f0c46c93d3b3a3693a0d3a5fbec3",
+      "merge": "3f4854db74ffbe2c734738358964f7acf5497454",
+      "ci_run": 36006931115,
+      "status": "merged after required CI passed",
+      "auto_merge": "unavailable; repository setting disabled",
+      "merged_at_utc": "2026-09-24T13:58:24Z"
+    },
+    {
+      "pr": 530,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/530",
+      "sheets": [
+        "136",
+        "135"
+      ],
+      "head": "2174388e03522cf4d6ccb7dd4c9b4fd5e9e972c8",
+      "merge": "ea6ea3e2683775170b073901583e6f1c80897fa8",
+      "merged_at_utc": "2026-09-24T14:32:35Z",
+      "ci_run": 36010657468,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 531,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/531",
+      "sheets": [
+        "113",
+        "112",
+        "111"
+      ],
+      "head": "08249542f9dfd4846f0cd1874ebc02b184206caf",
+      "merge": "6c681a82c9df709d5e3c46396d4b0376fdce5627",
+      "merged_at_utc": "2026-09-24T15:14:24Z",
+      "ci_run": 36015693713,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 532,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/532",
+      "sheets": [
+        "103",
+        "104"
+      ],
+      "head": "91af3a9f2437d69a79d1ff9fb654723d9d7bee71",
+      "merge": "bb67e35d7730b7c7384b58b229c0a8376d717f7a",
+      "merged_at_utc": "2026-09-24T16:12:27Z",
+      "ci_run": 36022779029,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 533,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/533",
+      "sheets": [
+        "105",
+        "106",
+        "107"
+      ],
+      "head": "0753f771260ea1cbd880bf1263653de57b07bdd4",
+      "merge": "397a13cebc72412101c69392070eafefb6cec7a0",
+      "merged_at_utc": "2026-09-24T17:05:25Z",
+      "ci_run": 36026359018,
+      "ci_attempt": 2,
+      "status": "merged after all required CI passed on unchanged retry",
+      "initial_failure": "Existing MapChromeUITests frame-stability precondition timed out; no app/test changes in this records PR. Initial failure preserved privately.",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 534,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/534",
+      "sheets": [
+        "102",
+        "101",
+        "100",
+        "099"
+      ],
+      "head": "930e89f3cff4844a5e56201aac8266d8b2f398c3",
+      "merge": "60cf45beddb261836bfa1340f13053fcced9f2cd",
+      "merged_at_utc": "2026-09-24T17:34:57Z",
+      "ci_run": 36032493933,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 535,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/535",
+      "sheets": [
+        "098",
+        "092",
+        "093",
+        "094"
+      ],
+      "head": "6c000460efe3f9a56f1b9e654977f8243834890d",
+      "merge": "5a27433ea458fc0c6da6440dd4134d729387b97c",
+      "merged_at_utc": "2026-09-24T18:49:32Z",
+      "ci_run": 36041104662,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 536,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/536",
+      "sheets": [
+        "095",
+        "096",
+        "097"
+      ],
+      "head": "e7dda78b654a350ca7733352095bca27ac1603c1",
+      "merge": "b5d5986556ef079709220ffb53715c6cc6f8336d",
+      "merged_at_utc": "2026-09-24T19:17:42Z",
+      "ci_run": 36044047996,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 537,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/537",
+      "sheets": [
+        "091",
+        "090",
+        "089",
+        "088",
+        "087"
+      ],
+      "head": "bf23371aecc85468a1f9e86091de54689a0a6ec6",
+      "merge": "ee86876d0cb8873d85ad0e18436b5c1154cf8a15",
+      "merged_at_utc": "2026-09-24T20:46:34Z",
+      "ci_run": 36051482862,
+      "ci_attempt": 2,
+      "status": "merged after all required CI passed on unchanged retry",
+      "initial_failure": "Existing launch-performance XCTest returned zero metrics in iteration3; no app/test changes in this report-only PR. Initial failure and diagnostic evidence preserved privately.",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 539,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/539",
+      "sheets": [
+        "086",
+        "085",
+        "077",
+        "078"
+      ],
+      "head": "417a2ebfb3172251f826a46d5bc7d9ec4ed9b39b",
+      "merge": "d9ec5afbba8ea481f45a49b07664b97c41c0ce77",
+      "merged_at_utc": "2026-09-24T21:20:18Z",
+      "ci_run": 36057926939,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 540,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/540",
+      "sheets": [
+        "079",
+        "080",
+        "081",
+        "082"
+      ],
+      "head": "582504e1aa1c10ad7d4f57614437f4dc9fde14fc",
+      "merge": "3eaf749af534bdf09e08ceeb199390e3138595fd",
+      "merged_at_utc": "2026-09-24T22:04:22Z",
+      "ci_run": 36062909685,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 541,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/541",
+      "sheets": [
+        "083",
+        "084",
+        "076"
+      ],
+      "head": "5cda7b7a818b6c432eef09d99ae8bcfcfc2db893",
+      "merge": "a9331b6e5401acdae6ca2d25213bd3b09c3530b3",
+      "merged_at_utc": "2026-09-24T23:07:07Z",
+      "ci_run": 36068912863,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 542,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/542",
+      "sheets": [
+        "075",
+        "074",
+        "073",
+        "072"
+      ],
+      "head": "eb1eadaa76c52b92e4a3119d4e672d69bbc5d008",
+      "merge": "76a5e853e7c3909a44f81797b9c8bb2707ac6c22",
+      "merged_at_utc": "2026-09-24T23:38:19Z",
+      "ci_run": 36071724580,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 543,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/543",
+      "sheets": [
+        "071",
+        "070",
+        "069",
+        "068"
+      ],
+      "head": "d47b5e7b009a831f8ba409235c0f01477c53ea89",
+      "merge": "9a0f69a299a2b08ad203d4665c882523392937dd",
+      "merged_at_utc": "2026-09-25T00:40:15Z",
+      "ci_run": 36076596022,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 544,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/544",
+      "sheets": [
+        "058"
+      ],
+      "head": "2b8d690a38f236a706444399acd1fc56cffdc2b3",
+      "merge": "344ecd8015e3ae33129551bbca7a084f3e855c9f",
+      "merged_at_utc": "2026-09-25T01:08:50Z",
+      "ci_run": 36079041767,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 545,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/545",
+      "sheets": [
+        "059",
+        "060",
+        "061",
+        "062"
+      ],
+      "head": "69dc69f633117edcc3a941b5cda1a77895227331",
+      "merge": "839cca0826cb9ef05d5f1af15180d180184aa717",
+      "merged_at_utc": "2026-09-25T01:50:55Z",
+      "ci_run": 36082536193,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 546,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/546",
+      "sheets": [
+        "063",
+        "064",
+        "065",
+        "066"
+      ],
+      "head": "8abeefc589cc54c9cd412d37bde417f79f2229ce",
+      "merge": "342708b9e15ae07ed6624654d9cae84897273e55",
+      "merged_at_utc": "2026-09-25T02:50:20Z",
+      "ci_run": 36085983364,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 547,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/547",
+      "sheets": [
+        "067",
+        "057"
+      ],
+      "head": "3cf80a1bdd7bd445a3cce2d7edc3e9e824ea666d",
+      "merge": "9bcd3502700515f31cf9c1cf2867a19c381769a6",
+      "merged_at_utc": "2026-09-25T03:57:10Z",
+      "ci_run": 36089602259,
+      "status": "merged after required CI passed on unchanged-head failed-job retry",
+      "auto_merge": "unavailable; repository setting disabled",
+      "initial_ci_failure": "Existing native measurement UI badge-tap assertion, MapChromeUITests.swift:103; no native code/test changed; failure evidence retained privately; cause not established",
+      "ci_attempt": 2
+    },
+    {
+      "pr": 548,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/548",
+      "sheets": [
+        "056",
+        "055",
+        "054",
+        "053",
+        "052",
+        "051",
+        "050",
+        "049",
+        "041",
+        "042"
+      ],
+      "head": "3d0712fb70fa60dfb1616d3b78bfb6d6ff0e42c0",
+      "merge": "34d295ebbd39cd137ab4fa89591cdd84641c857d",
+      "merged_at_utc": "2026-09-25T05:09:54Z",
+      "ci_run": 36095909260,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled",
+      "previous_head_ci": "d12073f821741ede7b57c7c4e4ee641e9423bd6a failed unchanged native UI assertions: Undo on attempt1, map credit on attempt2; logs retained, no cause established. Newly completed records added before the final green run."
+    },
+    {
+      "pr": 549,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/549",
+      "sheets": [
+        "043",
+        "044",
+        "045"
+      ],
+      "head": "eb81eeeef66fcfea98ccc20b976c9e0f35cf2b12",
+      "merge": "22186197e2654cd776ef6b2b246fef579a6c0d20",
+      "merged_at_utc": "2026-09-25T05:42:50Z",
+      "ci_run": 36098298996,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 550,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/550",
+      "sheets": [
+        "046",
+        "047",
+        "048",
+        "040",
+        "039"
+      ],
+      "head": "10f9e0ff3c016f6e66d6e86c1bbd56012efe7a2a",
+      "merge": "3b97306db206f905ba8c244ebf94dd6ffd7eb5ec",
+      "merged_at_utc": "2026-09-25T07:15:06Z",
+      "ci_run": 36101972500,
+      "ci_attempt": 2,
+      "status": "merged after required CI passed on unchanged-head failed-job retry",
+      "initial_ci_failure": "Existing native measurement badge-tap assertion MapChromeUITests.swift:103; no native code/test changes; private log preserved; cause not established",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 551,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/551",
+      "sheets": [
+        "038",
+        "037",
+        "036",
+        "035",
+        "028",
+        "029"
+      ],
+      "head": "b1bca383e0b57206a5945763dd88dc55a5bfb766",
+      "merge": "1617e685cbe7c92ee7c379e0d862a7aa280e2010",
+      "merged_at_utc": "2026-09-25T07:43:54Z",
+      "ci_run": 36107399127,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 552,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/552",
+      "sheets": [
+        "030",
+        "031",
+        "032"
+      ],
+      "head": "cfa670abeade509fe2f9cfa386b357fa4985b2a2",
+      "merge": "a41d4c27850ed825fc5eaefdb00ee4e1e913574c",
+      "merged_at_utc": "2026-09-25T08:13:51Z",
+      "ci_run": 36109641166,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 553,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/553",
+      "sheets": [
+        "033",
+        "034",
+        "027"
+      ],
+      "head": "6e2088fba89f78f770bd2484e455828fa2c0474c",
+      "merge": "91017b71d1f0f618ea27f097ecb6242998b0e4d5",
+      "merged_at_utc": "2026-09-25T08:54:23Z",
+      "ci_run": 36113477039,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 554,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/554",
+      "sheets": [
+        "026",
+        "025",
+        "024",
+        "023"
+      ],
+      "head": "a8522c9549933a457add2549f868fa3985ca8490",
+      "merge": "1c09f10faa4491d0dc5a4dedd2b4ff97183b5ac4",
+      "merged_at_utc": "2026-09-25T09:59:48Z",
+      "ci_run": 36118608266,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled; PR already merged when normal merge command was issued"
+    },
+    {
+      "pr": 555,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/555",
+      "sheets": [
+        "022",
+        "021",
+        "020",
+        "013"
+      ],
+      "head": "3424b61e6d093903ca87cd6bd858d3db6c6d073e",
+      "merge": "20ab5f112add870423bb8290206b1b4fa4de0ac3",
+      "merged_at_utc": "2026-09-25T10:40:51Z",
+      "ci_run": 36122881157,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 558,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/558",
+      "sheets": [
+        "014",
+        "015",
+        "016",
+        "017"
+      ],
+      "head": "1e76b9d4a4b83ab3ee42c656465867f5f55184e6",
+      "merge": "dcd5e881ead0d6429fbf16b6f2fa9e715ee10247",
+      "merged_at_utc": "2026-09-26T03:14:32Z",
+      "ci_run": 36213122142,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    },
+    {
+      "pr": 559,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/559",
+      "sheets": [
+        "018",
+        "019",
+        "011",
+        "010"
+      ],
+      "head": "73e40861f3202ac90255a10ab4a31223bb55539f",
+      "merge": "9fc87bcfe6b6ff8c8ced91ce3120693865998d46",
+      "merged_at_utc": "2026-09-26T03:45:57Z",
+      "ci_run": 36214628194,
+      "ci_attempt": 1,
+      "status": "merged after all required CI passed",
+      "auto_merge": "unavailable; repository setting disabled"
+    }
+  ],
+  "geographic_acceptance": "Per-sheet measured results and limitations remain authoritative; assessment is not an automatic geographic pass"
+}

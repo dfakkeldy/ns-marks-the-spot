@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C01",
+    "label": "Fountain Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      794,
+      2440
+    ],
+    "lonlat": [
+      -63.77769164432648,
+      45.551529187023334
+    ],
+    "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+    "reference_objectid": 127144,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127144,
+    "nearest_unfiltered_distance_guide_px": 1.7829935638847632,
+    "selected_distance_guide_px": 1.7829935638847632,
+    "guide_reference_pixel_xy": [
+      703.6025374821038,
+      2448.2618718126323
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Gamble Lake northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      543,
+      3599
+    ],
+    "lonlat": [
+      -63.762474940922026,
+      45.495382461829855
+    ],
+    "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+    "reference_objectid": 126503,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126503,
+    "nearest_unfiltered_distance_guide_px": 4.609253759107381,
+    "selected_distance_guide_px": 4.609253759107381,
+    "guide_reference_pixel_xy": [
+      447.22226491506444,
+      3621.2957895917352
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Newfound Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2104,
+      2696
+    ],
+    "lonlat": [
+      -63.687718026585195,
+      45.564798882062775
+    ],
+    "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+    "reference_objectid": 134579,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134579,
+    "nearest_unfiltered_distance_guide_px": 0.6050759804649097,
+    "selected_distance_guide_px": 0.6050759804649097,
+    "guide_reference_pixel_xy": [
+      2034.3827135388856,
+      2712.5313345657196
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Snake Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5356,
+      3626
+    ],
+    "lonlat": [
+      -63.45964594808096,
+      45.584182575677346
+    ],
+    "guide_file": ".crown-grant-local/070-adjacent-ppi-guide.npy",
+    "reference_objectid": 125873,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125873,
+    "nearest_unfiltered_distance_guide_px": 3.2693587721465653,
+    "selected_distance_guide_px": 3.2693587721465653,
+    "guide_reference_pixel_xy": [
+      5291.242346873216,
+      3651.0241165697807
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

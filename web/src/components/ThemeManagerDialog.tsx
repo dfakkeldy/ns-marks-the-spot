@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useDialogChrome } from "./useDialogChrome";
 import type { LayerCategoryId } from "../layers/layerCategories";
 import type {
   CustomMapThemeDefinition,
@@ -114,30 +115,20 @@ export function ThemeManagerDialog({
 }: ThemeManagerDialogProps) {
   const [newThemeName, setNewThemeName] = useState("");
   const [deletePendingId, setDeletePendingId] = useState<string | null>(null);
-  const returnFocusRef = useRef<HTMLElement | null>(null);
+  // The shared chrome captures the opener, moves focus in, keeps Tab inside
+  // and gives focus back. This dialog did all of that except the Tab, so a
+  // reader could walk out of it and into the map behind.
+  const dialogRef = useDialogChrome<HTMLElement>(onClose);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const customThemes = themes.filter(
     (theme): theme is CustomMapThemeDefinition => theme.kind === "custom",
   );
 
+  // The name field rather than the first control: this dialog is for making a
+  // theme, and typing a name is the first thing to do in it.
   useEffect(() => {
-    returnFocusRef.current = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null;
     nameInputRef.current?.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      returnFocusRef.current?.focus();
-    };
-  }, [onClose]);
+  }, []);
 
   const submitCurrentSetup = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -148,6 +139,7 @@ export function ThemeManagerDialog({
   return (
     <div className="theme-manager-backdrop">
       <section
+        ref={dialogRef}
         className="theme-manager-dialog"
         role="dialog"
         aria-modal="true"

@@ -1,0 +1,103 @@
+{
+  "fit_sha256": "72159382b2724fcbdaba9bfc52ba095248355cbe15e5618b56ba8d0f8e61f342",
+  "boundary_sha256": "d7dbaf254a8deacd4ff05d011d5adfd2f6450afc077ffd1667a8d14978b26224",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Six reused diagnostics, not fresh independent validation; V03 promoted unchanged with old 432.571646 m failure preserved.",
+  "checks_sha256": "4ed51594f1fd9ffeaa620b06f09459c611da4c20638a3c3307986108bcc26d34",
+  "median_ground_m": 91.7986044950762,
+  "worst_ground_m": 176.2765441298617,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 176.2765441298617,
+      "predicted_lonlat": [
+        -61.0782364250447,
+        45.765059728095565
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 62.579296245267415,
+      "predicted_lonlat": [
+        -61.0423228140436,
+        45.84447441445806
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 92.44347497528685,
+      "predicted_lonlat": [
+        -61.1673901937,
+        45.76789077489427
+      ]
+    },
+    {
+      "id": "V05",
+      "error_ground_m": 56.754752942478675,
+      "predicted_lonlat": [
+        -61.03921119293932,
+        45.84456234688964
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 162.43526600081256,
+      "predicted_lonlat": [
+        -60.96426498777636,
+        45.91496263380529
+      ]
+    },
+    {
+      "id": "V04",
+      "error_ground_m": 91.15373401486555,
+      "predicted_lonlat": [
+        -60.93767346188671,
+        45.83589247493583
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71821,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -46.14987554611796,
+      -20.463761232006675
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/sheet-18-full-sheet.tif",
+    "sha256": "c499949e17ae88a4432b5a42e03a1d4481e3224f38a10f1de23fa101719cc4c1",
+    "size": [
+      8743,
+      5786
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2363114,
+            45.9280083
+          ],
+          [
+            -61.2363114,
+            45.7469494
+          ],
+          [
+            -60.8436128,
+            45.7469494
+          ],
+          [
+            -60.8436128,
+            45.9280083
+          ],
+          [
+            -61.2363114,
+            45.9280083
+          ]
+        ]
+      ]
+    }
+  }
+}

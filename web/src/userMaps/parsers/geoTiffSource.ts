@@ -226,6 +226,30 @@ export async function parseGeoTiff(
       height: previewSize.height,
     })) as TypedArrayWithDimensions;
     rgb = toUint8Rgb(raw);
+    // readRGB defaults to dropping extra samples. A GDAL hull-clipped RGBA
+    // map consequently became an opaque black rectangle outside the hull.
+    // Read only a declared alpha sample; an arbitrary fourth band is not alpha.
+    const extras = Array.from(source.getFileDirectory().ExtraSamples ?? []) as number[];
+    const alphaExtra = extras.findIndex((value) => value === 1 || value === 2);
+    if (alphaExtra >= 0) {
+      const alphaSample = source.getSamplesPerPixel() - extras.length + alphaExtra;
+      const alpha = toUint8Rgb((await source.readRasters({
+        samples: [alphaSample], interleave: true,
+        width: previewSize.width, height: previewSize.height,
+      })) as TypedArrayWithDimensions);
+      const rgba = new Uint8Array(previewSize.width * previewSize.height * 4);
+      for (let i = 0; i < alpha.length; i += 1) {
+        const a = alpha[i];
+        // ImageData expects unassociated RGB, even when TIFF stores colours
+        // premultiplied by alpha (ExtraSamples=1).
+        const factor = extras[alphaExtra] === 1 && a > 0 ? 255 / a : 1;
+        for (let channel = 0; channel < 3; channel += 1) {
+          rgba[i * 4 + channel] = Math.min(255, Math.round(rgb[i * 3 + channel] * factor));
+        }
+        rgba[i * 4 + 3] = a;
+      }
+      rgb = rgba;
+    }
   } catch (error) {
     if (error instanceof UserMapImportError) {
       throw error;
@@ -263,12 +287,13 @@ export async function parseGeoTiff(
   };
 }
 
-/** RGB → RGBA bytes; shared by both preview implementations. */
+/** RGB or decoded RGBA → canvas bytes; shared by DOM and worker previews. */
 export function rgbToRgba(
   rgb: Uint8Array,
   width: number,
   height: number,
 ): Uint8ClampedArray<ArrayBuffer> {
+  if (rgb.length === width * height * 4) return new Uint8ClampedArray(rgb);
   const rgba = new Uint8ClampedArray(width * height * 4);
   for (let i = 0, j = 0; i < rgb.length; i += 3, j += 4) {
     rgba[j] = rgb[i];

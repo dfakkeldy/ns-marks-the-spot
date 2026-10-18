@@ -1,0 +1,40 @@
+{
+  "sheet": "131",
+  "stage": "Before first fit or scoring",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "control_ids": [
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C09",
+    "C11"
+  ],
+  "check_ids": [
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q10"
+  ],
+  "reference": "NSTDB water layer4;8615features5pages; original-frame audit",
+  "rejected_before_fit": {
+    "C01": "Hooked Sutherland proposal unresolved against generalized modern shore; use separately identified McLean shoulder C11",
+    "C08": "Black Lake original west end not securely matched to current water geometry",
+    "Q01": "Initial Man of War proposal not a precise shared physical tip",
+    "Q09": "Initial supposed Balls Lake was a different small lake; modern identity unresolved"
+  },
+  "audit_notes": [
+    "Original coarse proposals retained; revised coordinates selected from native paired crosshairs and broad topology",
+    "C02 corrected from nearby mainland hook to actual Long Island southwest end",
+    "C07 label corrected to printed McIsaac Lake; C08 and Q09 omitted for unresolved identity",
+    "No fitting residual or check score existed during all correspondence corrections",
+    "Northern/eastern/southwestern lakes supplement coasts; urban harbour and central parcel interiors remain unsupported"
+  ]
+}

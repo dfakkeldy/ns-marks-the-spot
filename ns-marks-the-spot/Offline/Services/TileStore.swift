@@ -91,12 +91,34 @@ actor TileStore {
                 try? fileManager.moveItem(at: legacyRoot, to: root)
             }
 
-            try? fileManager.createDirectory(at: root, withIntermediateDirectories: true)
-            var values = URLResourceValues()
-            values.isExcludedFromBackup = true
-            try? root.setResourceValues(values)
             self.rootDirectory = root
         }
+        Self.ensureRoot(self.rootDirectory, fileManager)
+    }
+
+    /// Creates the store's root if it is not there, and marks it excluded from
+    /// backup.
+    ///
+    /// Called at init and again before any write that would otherwise create
+    /// the root as a side effect. The exclusion lives on this one directory,
+    /// so a root that is missing when a tile is stored — creation failed once,
+    /// or something removed it since — comes back through
+    /// `createDirectory(withIntermediateDirectories:)` with default attributes
+    /// and takes every saved area after it into iCloud and device backups. The
+    /// check is a stat on a directory that almost always exists, not a syscall
+    /// per tile.
+    ///
+    /// Static and nonisolated so `init` can call it: an actor's initializer is
+    /// not on the actor yet, and this touches nothing the actor owns.
+    private nonisolated static func ensureRoot(_ root: URL, _ fileManager: FileManager) {
+        guard !fileManager.fileExists(atPath: root.path) else {
+            return
+        }
+        try? fileManager.createDirectory(at: root, withIntermediateDirectories: true)
+        var directory = root
+        var values = URLResourceValues()
+        values.isExcludedFromBackup = true
+        try? directory.setResourceValues(values)
     }
 
     func tile(z: Int, x: Int, y: Int, layerID: String) async -> Data? {
@@ -140,6 +162,9 @@ actor TileStore {
         let tileURL = tileURL(for: coordinate, layerID: layerID)
         let recordURL = recordURL(for: coordinate, layerID: layerID)
 
+        // Before the directories below, which would otherwise bring the root
+        // back without its exclusion.
+        Self.ensureRoot(rootDirectory, fileManager)
         try fileManager.createDirectory(
             at: tileURL.deletingLastPathComponent(),
             withIntermediateDirectories: true
@@ -208,8 +233,25 @@ actor TileStore {
     }
 
     func deleteAll() async throws {
-        guard fileManager.fileExists(atPath: rootDirectory.path) else { return }
-        try fileManager.removeItem(at: rootDirectory)
+        // Empty the root rather than remove it. The root directory is what
+        // carries `isExcludedFromBackup`, applied in `init`; delete it and the
+        // next `storeTile` brings it back through
+        // `createDirectory(withIntermediateDirectories:)` with default
+        // attributes, so every area downloaded after "Delete Cached Tiles"
+        // would ride along into iCloud and device backups until the next
+        // launch re-applies the exclusion. Re-applying it per tile instead is
+        // a syscall on each of up to 100,000 writes.
+        // Records first. A record says which saved areas a tile belongs to,
+        // and it is the authority: if removing the bytes succeeded and this
+        // failed, a later download of the same coordinate would read the stale
+        // record and count the new tile into an area whose tiles are gone.
+        // Losing the record and keeping the bytes is the cheaper way round —
+        // the bytes are then unreferenced and the next summary or clear takes
+        // them.
+        try removeIfExists(rootDirectory
+            .appendingPathComponent("records", isDirectory: true))
+        try removeIfExists(rootDirectory
+            .appendingPathComponent("tiles", isDirectory: true))
     }
 
     func deleteLayer(_ layerID: String) async throws {

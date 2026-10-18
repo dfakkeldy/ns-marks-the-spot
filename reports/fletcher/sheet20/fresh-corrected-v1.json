@@ -1,0 +1,146 @@
+{
+  "sheet": "sheet-20",
+  "fit_sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        5260,
+        1585
+      ],
+      "lonlat": [
+        -60.6740615,
+        45.7294444
+      ],
+      "modern_node_id": "J0212",
+      "modern_objectids": [
+        136767,
+        136769,
+        194152
+      ],
+      "identity_evidence": "McNab long lake northern tributary mouth",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate after twelve-control freeze; unscored"
+    },
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        8068,
+        4582
+      ],
+      "lonlat": [
+        -60.5421881,
+        45.6352747
+      ],
+      "modern_node_id": "J0999",
+      "modern_objectids": [
+        143275,
+        143278,
+        269382
+      ],
+      "identity_evidence": "Little Saint Esprit Lake western tributary mouth",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate after twelve-control freeze; unscored"
+    },
+    {
+      "lonlat": [
+        -60.78819165556398,
+        45.70627716813678
+      ],
+      "guide_xy": [
+        2649.7862237340305,
+        2502.251050062012
+      ],
+      "modern_objectid": 16571,
+      "modern_part": 0,
+      "modern_vertex": 89,
+      "modern_properties": {
+        "OBJECTID": 16571,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1857.3760178795155
+      },
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        2728,
+        2422
+      ],
+      "identity_evidence": "Doctor Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate after twelve-control freeze; unscored",
+      "revision": "Native tip corrected before any fresh-check score; original proposal retained."
+    },
+    {
+      "lonlat": [
+        -60.806406792541694,
+        45.604033851006896
+      ],
+      "guide_xy": [
+        2249.912964689778,
+        5697.150223736884
+      ],
+      "modern_objectid": 22481,
+      "modern_part": 0,
+      "modern_vertex": 389,
+      "modern_properties": {
+        "OBJECTID": 22481,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 3964.255856631327
+      },
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        2327,
+        5497
+      ],
+      "identity_evidence": "St Peters Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate after twelve-control freeze; unscored",
+      "revision": "Native tip corrected before any fresh-check score; original proposal retained."
+    },
+    {
+      "lonlat": [
+        -60.74065013530659,
+        45.56829709158974
+      ],
+      "guide_xy": [
+        3693.455709640635,
+        6813.852482004091
+      ],
+      "modern_objectid": 20365,
+      "modern_part": 0,
+      "modern_vertex": 61,
+      "modern_properties": {
+        "OBJECTID": 20365,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 492.3391593698983
+      },
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        3815,
+        6678
+      ],
+      "identity_evidence": "Red Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate after twelve-control freeze; unscored"
+    }
+  ]
+}

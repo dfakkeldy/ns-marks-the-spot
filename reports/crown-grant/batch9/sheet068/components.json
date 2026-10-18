@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6075 x 4135 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 20.21 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          100
+        ],
+        [
+          5930,
+          100
+        ],
+        [
+          5930,
+          4010
+        ],
+        [
+          90,
+          4010
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Lorneville, Rockwell, Bass Point, Chapman, Amherst Shore Provincial Park, Cold Spring Head, Northport, Head of Amherst, Lower Shinimicas, Shinimicas Bridge, Linden, East Linden and Lake Killarney, all mapped river mouths, inland parcels and the entire original Northumberland Strait ocean frame. No displaced inset identified."
+    }
+  ]
+}

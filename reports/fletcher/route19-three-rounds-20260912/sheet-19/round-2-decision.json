@@ -1,0 +1,11 @@
+{
+  "sheet": "19",
+  "round": 2,
+  "before_rms_ground_m": 90.98568432530145,
+  "after_rms_ground_m": 90.98568432530145,
+  "proposal": "round-2-proposal.json",
+  "accepted_pending_render": false,
+  "note": "Eastern/northeastern audit O05/O06/O07/O08/D03. Corrected O05 from graticule-adjacent upstream pixel to visible southern tributary entry; no change to modern identity. Other controls and all excluded checks unchanged.",
+  "trial_rms_ground_m": 91.62472569737457,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

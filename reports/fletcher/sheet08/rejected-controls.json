@@ -1,0 +1,54 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.8032656,
+        46.4513554
+      ],
+      "source_guide_xy": [
+        2380.7083660797216,
+        6203.405940320576
+      ],
+      "objectids": [
+        188598,
+        188599,
+        188747
+      ],
+      "id": "C09",
+      "modern_node_id": "J3190",
+      "role": "control",
+      "pixel_xy": [
+        2430,
+        6220
+      ],
+      "identity_evidence": "First Fork Brook northern tributary near Rapids",
+      "source_uncertainty_px": 20,
+      "status": "Rejected before fitting: original native pixel is off the junction, and wider modern branching topology does not establish an unambiguous correspondence."
+    },
+    {
+      "lonlat": [
+        -60.7979924,
+        46.478854
+      ],
+      "source_guide_xy": [
+        2494.0308902396355,
+        5344.524731840473
+      ],
+      "objectids": [
+        190150,
+        278229,
+        279148
+      ],
+      "id": "C10",
+      "modern_node_id": "J2873",
+      "role": "control",
+      "pixel_xy": [
+        2760,
+        5390
+      ],
+      "identity_evidence": "Second Fork Brook southern tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Rejected before fitting: original native pixel is off the junction, and wider modern branching topology does not establish an unambiguous correspondence."
+    }
+  ]
+}

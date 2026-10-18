@@ -1,0 +1,530 @@
+{
+  "craignish-church": [
+    4
+  ],
+  "craignish-school": [
+    8
+  ],
+  "denys-north-services": [
+    23,
+    25
+  ],
+  "mcinnes-hill-school": [
+    26
+  ],
+  "askilton-services": [
+    31,
+    32
+  ],
+  "cape-jack-services": [
+    41,
+    42
+  ],
+  "craignish-postal": [
+    4,
+    5
+  ],
+  "long-stretch-bridge": [
+    30,
+    31,
+    32
+  ],
+  "havre-north-industry": [
+    53,
+    55,
+    56
+  ],
+  "havre-south-services": [
+    45,
+    46,
+    47,
+    57,
+    58
+  ],
+  "north-canso-school": [
+    61
+  ],
+  "north-canso-light": [
+    64
+  ],
+  "coastal-school-forge": [
+    67,
+    68
+  ],
+  "horton-mill": [
+    70
+  ],
+  "brown-brook-school": [
+    73
+  ],
+  "browns-mill": [
+    77
+  ],
+  "inland-school": [
+    84
+  ],
+  "new-bridge": [
+    89
+  ],
+  "little-tracadie-services": [
+    102,
+    104,
+    105
+  ],
+  "tracadie-mill-station": [
+    109,
+    114
+  ],
+  "inland-school-station": [
+    116,
+    118
+  ],
+  "archie-pond-post": [
+    129
+  ],
+  "porcupine-station": [
+    134
+  ],
+  "long-pond-forge": [
+    137
+  ],
+  "coastal-forge": [
+    145
+  ],
+  "mcintyre-mill-school": [
+    165,
+    166
+  ],
+  "peters-road-kiln": [
+    172
+  ],
+  "long-point-school": [
+    182
+  ],
+  "new-glasgow-school-mill": [
+    189,
+    191
+  ],
+  "grosvenor-post": [
+    197
+  ],
+  "mulgrave-north-services": [
+    205,
+    206
+  ],
+  "mulgrave-town-services": [
+    207,
+    208,
+    210
+  ],
+  "emery-wharf": [
+    212
+  ],
+  "point-tupper-services": [
+    214,
+    217
+  ],
+  "southern-coastal-school-station": [
+    220,
+    221
+  ],
+  "hawkesbury-church": [
+    227
+  ],
+  "richmond-mine": [
+    235
+  ],
+  "pirate-harbour-services": [
+    268,
+    269
+  ],
+  "caribacou-services": [
+    280,
+    281,
+    282
+  ],
+  "road-7": [
+    7
+  ],
+  "road-14": [
+    14
+  ],
+  "road-15": [
+    15
+  ],
+  "road-27": [
+    27
+  ],
+  "road-85": [
+    85
+  ],
+  "road-108": [
+    108
+  ],
+  "road-121": [
+    121
+  ],
+  "road-147": [
+    147
+  ],
+  "road-159": [
+    159
+  ],
+  "road-160": [
+    160
+  ],
+  "road-188": [
+    188
+  ],
+  "road-198": [
+    198
+  ],
+  "road-231": [
+    231
+  ],
+  "road-243": [
+    243
+  ],
+  "watercourse-11": [
+    11
+  ],
+  "watercourse-13": [
+    13
+  ],
+  "watercourse-18": [
+    18
+  ],
+  "watercourse-71": [
+    71
+  ],
+  "watercourse-76": [
+    76
+  ],
+  "watercourse-79": [
+    79
+  ],
+  "watercourse-81": [
+    81
+  ],
+  "watercourse-88": [
+    88
+  ],
+  "watercourse-90": [
+    90
+  ],
+  "watercourse-100": [
+    100
+  ],
+  "watercourse-107": [
+    107
+  ],
+  "watercourse-120": [
+    120
+  ],
+  "watercourse-123": [
+    123
+  ],
+  "watercourse-155": [
+    155
+  ],
+  "watercourse-156": [
+    156
+  ],
+  "watercourse-157": [
+    157
+  ],
+  "watercourse-168": [
+    168
+  ],
+  "watercourse-192": [
+    192
+  ],
+  "watercourse-246": [
+    246
+  ],
+  "watercourse-278": [
+    278
+  ],
+  "water-detail-24": [
+    24
+  ],
+  "water-detail-35": [
+    35
+  ],
+  "water-detail-39": [
+    39
+  ],
+  "water-detail-50": [
+    50
+  ],
+  "water-detail-66": [
+    66
+  ],
+  "water-detail-78": [
+    78
+  ],
+  "water-detail-86": [
+    86
+  ],
+  "water-detail-127": [
+    127
+  ],
+  "water-detail-128": [
+    128
+  ],
+  "water-detail-136": [
+    136
+  ],
+  "water-detail-162": [
+    162
+  ],
+  "water-detail-164": [
+    164
+  ],
+  "water-detail-167": [
+    167
+  ],
+  "water-detail-186": [
+    186
+  ],
+  "water-detail-187": [
+    187
+  ],
+  "water-detail-193": [
+    193
+  ],
+  "water-detail-199": [
+    199
+  ],
+  "water-detail-200": [
+    200
+  ],
+  "water-detail-202": [
+    202
+  ],
+  "water-detail-223": [
+    223
+  ],
+  "water-detail-233": [
+    233
+  ],
+  "water-detail-234": [
+    234
+  ],
+  "water-detail-241": [
+    241
+  ],
+  "water-detail-271": [
+    271
+  ],
+  "name-3": [
+    3
+  ],
+  "name-9": [
+    9
+  ],
+  "name-22": [
+    22
+  ],
+  "name-29": [
+    29
+  ],
+  "name-44": [
+    44
+  ],
+  "name-54": [
+    54
+  ],
+  "name-59": [
+    59
+  ],
+  "name-74": [
+    74
+  ],
+  "name-82": [
+    82
+  ],
+  "name-83": [
+    83
+  ],
+  "name-87": [
+    87
+  ],
+  "name-97": [
+    97
+  ],
+  "name-106": [
+    106
+  ],
+  "name-112": [
+    112
+  ],
+  "name-113": [
+    113
+  ],
+  "name-117": [
+    117
+  ],
+  "name-124": [
+    124
+  ],
+  "name-131": [
+    131
+  ],
+  "name-135": [
+    135
+  ],
+  "name-138": [
+    138
+  ],
+  "name-153": [
+    153
+  ],
+  "name-161": [
+    161
+  ],
+  "name-163": [
+    163
+  ],
+  "name-171": [
+    171
+  ],
+  "name-190": [
+    190
+  ],
+  "name-195": [
+    195
+  ],
+  "name-196": [
+    196
+  ],
+  "name-209": [
+    209
+  ],
+  "name-226": [
+    226
+  ],
+  "name-279": [
+    279
+  ],
+  "name-72": [
+    72
+  ],
+  "coast-6": [
+    6
+  ],
+  "coast-96": [
+    96
+  ],
+  "coast-101": [
+    101
+  ],
+  "coast-126": [
+    126
+  ],
+  "coast-139": [
+    139
+  ],
+  "coast-142": [
+    142
+  ],
+  "coast-143": [
+    143
+  ],
+  "coast-144": [
+    144
+  ],
+  "coast-149": [
+    149
+  ],
+  "coast-211": [
+    211
+  ],
+  "coast-213": [
+    213
+  ],
+  "coast-215": [
+    215
+  ],
+  "coast-222": [
+    222
+  ],
+  "coast-228": [
+    228
+  ],
+  "coast-270": [
+    270
+  ],
+  "coast-274": [
+    274
+  ],
+  "coast-276": [
+    276
+  ],
+  "coast-277": [
+    277
+  ],
+  "final-16": [
+    16
+  ],
+  "final-91": [
+    91
+  ],
+  "final-92": [
+    92
+  ],
+  "final-133": [
+    133
+  ],
+  "final-140": [
+    140
+  ],
+  "final-141": [
+    141
+  ],
+  "final-146": [
+    146
+  ],
+  "final-150": [
+    150
+  ],
+  "final-169": [
+    169
+  ],
+  "final-170": [
+    170
+  ],
+  "final-194": [
+    194
+  ],
+  "final-216": [
+    216
+  ],
+  "final-237": [
+    237
+  ],
+  "final-292": [
+    292
+  ],
+  "final-293": [
+    293
+  ],
+  "final-294": [
+    294
+  ],
+  "final-295": [
+    295
+  ],
+  "final-296": [
+    296
+  ],
+  "final-298": [
+    298
+  ],
+  "final-300": [
+    300
+  ],
+  "final-301": [
+    301
+  ]
+}

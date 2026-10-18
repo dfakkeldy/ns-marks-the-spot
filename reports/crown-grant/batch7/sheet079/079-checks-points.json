@@ -1,0 +1,158 @@
+[
+  {
+    "id": "Q01",
+    "label": "Rocky Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      490,
+      584
+    ],
+    "lonlat": [
+      -63.41337635207611,
+      45.56859266202171
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 142777,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142777,
+    "nearest_unfiltered_distance_guide_px": 0.6050834711711297,
+    "selected_distance_guide_px": 0.6050834711711297,
+    "guide_reference_pixel_xy": [
+      384.3979976385599,
+      515.9390150518157
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Northern pond east of Long Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1097,
+      480
+    ],
+    "lonlat": [
+      -63.380128312766054,
+      45.583453704834994
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 141553,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141553,
+    "nearest_unfiltered_distance_guide_px": 0.5286471665625467,
+    "selected_distance_guide_px": 0.5286471665625467,
+    "guide_reference_pixel_xy": [
+      999.8064921621699,
+      414.50804213248193
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Long Lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1157,
+      692
+    ],
+    "lonlat": [
+      -63.37082218923347,
+      45.57589373807774
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 137706,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137706,
+    "nearest_unfiltered_distance_guide_px": 1.4747666781058482,
+    "selected_distance_guide_px": 1.4747666781058482,
+    "guide_reference_pixel_xy": [
+      1067.288022116467,
+      621.5536321300315
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Cook Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      358,
+      1360
+    ],
+    "lonlat": [
+      -63.40081247611079,
+      45.53471837133266
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 135994,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135994,
+    "nearest_unfiltered_distance_guide_px": 0.2657052216904755,
+    "selected_distance_guide_px": 0.2657052216904755,
+    "guide_reference_pixel_xy": [
+      263.73501095565734,
+      1271.019495415152
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Frog Lake southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      325,
+      1904
+    ],
+    "lonlat": [
+      -63.38993587129769,
+      45.510895334951925
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 127269,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127269,
+    "nearest_unfiltered_distance_guide_px": 0.8693536228919463,
+    "selected_distance_guide_px": 0.8693536228919463,
+    "guide_reference_pixel_xy": [
+      208.66630178526975,
+      1814.1972414914053
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Whippy Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2017,
+      893
+    ],
+    "lonlat": [
+      -63.31588861877988,
+      45.58198094052604
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 141552,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141552,
+    "nearest_unfiltered_distance_guide_px": 1.4133928144950438,
+    "selected_distance_guide_px": 1.4133928144950438,
+    "guide_reference_pixel_xy": [
+      1919.0238690369297,
+      824.4131912528537
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

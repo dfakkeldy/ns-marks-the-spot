@@ -1,0 +1,61 @@
+{
+  "sheet": "sheet-23",
+  "selected_at": "2026-09-12T17:25:42.693176+00:00",
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        5340,
+        1657
+      ],
+      "lonlat": [
+        -61.0423234,
+        45.5569906
+      ],
+      "modern_node_id": "J0281",
+      "objectids": [
+        126130,
+        126132,
+        199171
+      ],
+      "identity_evidence": "Grand Lake northern lobe northeast stream inlet",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed, fresh and never fitted",
+      "original_pixel_xy": [
+        5320,
+        1652
+      ],
+      "review_note": "Move from land beside the inlet to the actual shoreline-stream junction; before first score."
+    },
+    {
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        6121,
+        1985
+      ],
+      "lonlat": [
+        -61.0072836,
+        45.5460647
+      ],
+      "modern_node_id": "J0337",
+      "objectids": [
+        142295,
+        142296,
+        198616
+      ],
+      "identity_evidence": "Shaw Lake northern tributary inlet",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed, fresh and never fitted",
+      "original_pixel_xy": [
+        6160,
+        1940
+      ],
+      "review_note": "Move from north of road to tributary crossing the road and entering lake shoreline; before first score."
+    }
+  ],
+  "reviewed_at": "2026-09-12T17:28:51.471791+00:00",
+  "fit_sha256": "d806dd99be1fc103230145282ed707d808a77918802bb6fcd3676ee53776648d",
+  "status": "Two fresh local checks personally reviewed after native correction before first score; F02 rejected unscored."
+}

@@ -1,0 +1,11 @@
+{
+  "sheet": "16",
+  "round": 3,
+  "before_rms_ground_m": 102.02835627859604,
+  "after_rms_ground_m": 101.24084308656417,
+  "proposal": "round-3-proposal.json",
+  "accepted_pending_render": true,
+  "note": "Southeastern River Denys review. Added upper northwestern/northeastern confluence above M04 with source branch tracing; retained M04/M06 roles, every hand control, and all 14 check coordinates.",
+  "trial_rms_ground_m": 101.24084308656417,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

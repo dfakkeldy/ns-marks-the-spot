@@ -1,0 +1,222 @@
+[
+  {
+    "id": "MQ01",
+    "label": "Louisbourg Back Harbour northeast apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1163,
+      1398
+    ],
+    "lonlat": [
+      -59.96034274551797,
+      45.92248335003919
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 7363,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1168.163353076612,
+      1351.2067178479629
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ02",
+    "label": "Battery island west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      860,
+      1810
+    ],
+    "lonlat": [
+      -59.96705646978956,
+      45.898822816804774
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 17361,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      907.2891515731462,
+      1777.2151349185733
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ03",
+    "label": "Isle Verte south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      956,
+      1920
+    ],
+    "lonlat": [
+      -59.96066747378081,
+      45.89358090581264
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 18472,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      957.2187152734259,
+      1911.2528065972729
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ04",
+    "label": "Little Lorraine harbour north end",
+    "role": "proposal",
+    "pixel_xy": [
+      2690,
+      1135
+    ],
+    "lonlat": [
+      -59.86607448888877,
+      45.958510243584065
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 7321,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2713.8381172646186,
+      1124.3429642094998
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ05",
+    "label": "Baleine southwest inlet cape",
+    "role": "proposal",
+    "pixel_xy": [
+      2890,
+      1490
+    ],
+    "lonlat": [
+      -59.84991269287352,
+      45.944475055533374
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 21324,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2834.87331182661,
+      1478.2484283189988
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ06",
+    "label": "Portnova island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3624,
+      1908
+    ],
+    "lonlat": [
+      -59.789961499624624,
+      45.937835700945236
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 21820,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3607.603313056112,
+      1907.5225813433062
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ07",
+    "label": "Aux Cannes island east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3785,
+      1437
+    ],
+    "lonlat": [
+      -59.79190902953229,
+      45.96259966299838
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 16962,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3756.8707679465297,
+      1416.1037232134258
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ08",
+    "label": "Scatarie Eastern Harbour southeast cape",
+    "role": "proposal",
+    "pixel_xy": [
+      5510,
+      720
+    ],
+    "lonlat": [
+      -59.69577074181691,
+      46.02512350615666
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 18457,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5514.370815204224,
+      679.2443819287
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ09",
+    "label": "Scatarie Ragged Cove northern point",
+    "role": "proposal",
+    "pixel_xy": [
+      4655,
+      932
+    ],
+    "lonlat": [
+      -59.74985538554331,
+      45.99963681634992
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 20158,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4594.648773494875,
+      905.6507313828915
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ10",
+    "label": "Main-a-Dieu Moue Head east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3680,
+      355
+    ],
+    "lonlat": [
+      -59.825540992834725,
+      46.0106600247619
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 2424,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3638.8082064150367,
+      313.19408391427714
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

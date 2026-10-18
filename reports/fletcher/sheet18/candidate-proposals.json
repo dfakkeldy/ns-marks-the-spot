@@ -1,0 +1,110 @@
+{
+  "sheet": "sheet-18",
+  "points": [
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        1966,
+        2023
+      ],
+      "lonlat": [
+        -61.2078013,
+        45.8920679
+      ],
+      "modern_node_id": "J0372",
+      "modern_objectids": [
+        266193,
+        266194,
+        286443
+      ],
+      "identity_evidence": "River Denys northern tributary system: north branch joins major eastern brook",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        4100,
+        4010
+      ],
+      "lonlat": [
+        -61.0997002,
+        45.8349727
+      ],
+      "modern_node_id": "J0641",
+      "modern_objectids": [
+        197949,
+        261443,
+        261444
+      ],
+      "identity_evidence": "Marble Mountain western north-draining brook: major eastern tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        5540,
+        3505
+      ],
+      "lonlat": [
+        -61.0362663,
+        45.8486709
+      ],
+      "modern_node_id": "J0594",
+      "modern_objectids": [
+        193201,
+        194483,
+        194731
+      ],
+      "identity_evidence": "McKenzie Brook southern arm: major western tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        4960,
+        4505
+      ],
+      "lonlat": [
+        -61.0655263,
+        45.8148989
+      ],
+      "modern_node_id": "J0679",
+      "modern_objectids": [
+        198180,
+        274051,
+        274052
+      ],
+      "identity_evidence": "Sydenham Brook eastern headwater branch junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        3510,
+        4946
+      ],
+      "lonlat": [
+        -61.1358011,
+        45.798516
+      ],
+      "modern_node_id": "J0716",
+      "modern_objectids": [
+        198190,
+        275572,
+        275573
+      ],
+      "identity_evidence": "Lime Hill western brook major northwest tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    }
+  ]
+}

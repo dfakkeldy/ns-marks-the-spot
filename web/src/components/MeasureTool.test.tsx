@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
 
 const mapMock = vi.hoisted(() => ({
-  doubleClickZoom: { enable: vi.fn(), disable: vi.fn() },
+  doubleClickZoom: { enabled: vi.fn(() => true), enable: vi.fn(), disable: vi.fn() },
 }));
 
 const mapEvents = vi.hoisted(() => ({
@@ -19,9 +19,11 @@ const mapEvents = vi.hoisted(() => ({
 vi.mock("react-leaflet", () => ({
   CircleMarker: ({
     center,
+    children,
     eventHandlers,
     interactive,
   }: {
+    children?: React.ReactNode;
     center: { lat: number; lng: number };
     eventHandlers?: { click?: (event: unknown) => void };
     interactive?: boolean;
@@ -34,7 +36,7 @@ vi.mock("react-leaflet", () => ({
       onClick={(event) =>
         eventHandlers?.click?.({ originalEvent: event.nativeEvent })
       }
-    />
+    >{children}</button>
   ),
   Pane: ({ children }: PropsWithChildren<{ name: string; style?: CSSProperties }>) => (
     <div data-testid="measure-pane">{children}</div>
@@ -44,6 +46,9 @@ vi.mock("react-leaflet", () => ({
   ),
   Polyline: ({ positions }: { positions: Array<{ lat: number; lng: number }> }) => (
     <div data-testid="measure-line" data-count={positions.length} />
+  ),
+  Tooltip: ({ children }: PropsWithChildren) => (
+    <div data-testid="measurement-label">{children}</div>
   ),
   useMap: () => mapMock,
   useMapEvents: (handlers: typeof mapEvents.current) => {
@@ -62,6 +67,7 @@ const clickAt = (lat: number, lng: number) =>
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mapMock.doubleClickZoom.enabled.mockReturnValue(true);
   mapEvents.current = {};
 });
 
@@ -88,9 +94,64 @@ describe("MeasureTool controls", () => {
     fireEvent.click(toggle);
     expect(mapMock.doubleClickZoom.enable).toHaveBeenCalledTimes(1);
   });
+
+  it("preserves a pre-existing disabled double-click zoom setting", () => {
+    mapMock.doubleClickZoom.enabled.mockReturnValue(false);
+    const { unmount } = render(<Harness initialMode="distance" />);
+
+    unmount();
+
+    expect(mapMock.doubleClickZoom.enable).not.toHaveBeenCalled();
+  });
 });
 
 describe("distance measuring", () => {
+  it("keeps successive Poker taps when Leaflet synthesizes a double-click", () => {
+    render(<MeasureTool mode="distance" driveway onModeChange={vi.fn()} />);
+    clickAt(46, -61);
+    clickAt(46.0001, -61.0001);
+    act(() => mapEvents.current.dblclick?.());
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+    expect(screen.getByRole("button", { name: "Finish" })).toBeEnabled();
+    fireEvent.click(screen.getByRole("button", { name: "Finish" }));
+    expect(screen.getByRole("button", { name: "Finish" })).toBeDisabled();
+  });
+
+  it.each(["distance", "area"] as const)("undoes %s points after finishing and lets drawing resume", (mode) => {
+    render(<Harness initialMode={mode} />);
+    const undo = screen.getByRole("button", { name: "Undo point" });
+    expect(undo).toBeDisabled();
+    clickAt(45, -61);
+    clickAt(46, -61);
+    clickAt(46, -62);
+    fireEvent.keyDown(window, { key: "Enter" });
+    fireEvent.click(undo);
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+    clickAt(47, -62);
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(3);
+    fireEvent.click(undo);
+    fireEvent.click(undo);
+    fireEvent.click(undo);
+    expect(screen.queryAllByTestId("measure-vertex")).toHaveLength(0);
+    expect(screen.queryByTestId("measurement-label")).not.toBeInTheDocument();
+    expect(undo).toBeDisabled();
+  });
+
+  it("keeps the total at the last placed point through finishing and clears it on restart", () => {
+    render(<Harness initialMode="distance" />);
+    clickAt(45, -61);
+    expect(screen.queryByTestId("measurement-label")).not.toBeInTheDocument();
+    clickAt(46, -61);
+    expect(screen.getByTestId("measurement-label")).toHaveTextContent("Total distance111.19 km");
+    expect(screen.getByTestId("measurement-label").parentElement).toHaveAttribute("data-center", "46,-61");
+    act(() => mapEvents.current.mousemove?.({ latlng: { lat: 47, lng: -61 } }));
+    expect(screen.getByTestId("measurement-label")).toHaveTextContent("111.19 km");
+    fireEvent.keyDown(window, { key: "Enter" });
+    expect(screen.getByTestId("measurement-label")).toHaveTextContent("111.19 km");
+    clickAt(45, -62);
+    expect(screen.queryByTestId("measurement-label")).not.toBeInTheDocument();
+  });
+
   it("accumulates vertices and reads out the running total", () => {
     render(<Harness initialMode="distance" />);
     expect(screen.getByRole("status")).toHaveTextContent(
@@ -102,6 +163,26 @@ describe("distance measuring", () => {
     expect(screen.getByRole("status")).toHaveTextContent("111.19 km");
     expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
     expect(screen.getByTestId("measure-line")).toHaveAttribute("data-count", "2");
+  });
+
+  it("surfaces the finish and clear gestures once measuring is underway", () => {
+    render(<Harness initialMode="distance" />);
+    expect(screen.getByRole("status")).not.toHaveTextContent("Esc to clear");
+
+    clickAt(45, -61);
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "double-click or Enter to finish · Esc to clear",
+    );
+
+    clickAt(46, -61);
+    act(() => {
+      fireEvent.keyDown(window, { key: "Enter" });
+    });
+    // Finished totals stay on the map label and are announced without a duplicate strip.
+    expect(screen.getByRole("status")).toHaveClass("sr-only");
+    expect(document.querySelector(".measure-readout")).toBeNull();
+    expect(screen.getByRole("status")).toHaveTextContent("111.19 km");
+    expect(screen.getByRole("status")).not.toHaveTextContent("Esc to clear");
   });
 
   it("previews the next leg from the cursor without committing it", () => {
@@ -178,6 +259,59 @@ describe("distance measuring", () => {
 
     input.remove();
   });
+
+  it("keeps a measurement when a control consumes Escape before it reaches the window", () => {
+    render(
+      <>
+        <Harness initialMode="distance" />
+        <div role="region" aria-label="Map information" tabIndex={-1} />
+      </>,
+    );
+    clickAt(45, -61);
+    clickAt(46, -61);
+    const consumeEscape = (event: KeyboardEvent) => event.preventDefault();
+    document.addEventListener("keydown", consumeEscape, { once: true });
+
+    fireEvent.keyDown(screen.getByRole("region", { name: "Map information" }), {
+      key: "Escape",
+    });
+
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+  });
+
+  it("leaves Escape in a non-dismissible dialog without clearing the measurement", () => {
+    render(
+      <>
+        <Harness initialMode="distance" />
+        <div role="dialog" aria-modal="true" aria-label="Save track" tabIndex={-1} />
+      </>,
+    );
+    clickAt(45, -61);
+    clickAt(46, -61);
+
+    fireEvent.keyDown(screen.getByRole("dialog", { name: "Save track" }), { key: "Escape" });
+
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+  });
+
+  it.each(["button", "select", "summary"] as const)("does not finish a measurement when Enter activates another %s", (tag) => {
+    render(<Harness initialMode="distance" />);
+    clickAt(45, -61);
+    clickAt(46, -61);
+    const control = document.createElement(tag);
+    const container = tag === "summary" ? document.createElement("details") : control;
+    if (container !== control) container.append(control);
+    document.body.append(container);
+    control.focus();
+    try {
+      fireEvent.keyDown(control, { key: "Enter" });
+      clickAt(45, -60);
+
+      expect(screen.getAllByTestId("measure-vertex")).toHaveLength(3);
+    } finally {
+      container.remove();
+    }
+  });
 });
 
 describe("area measuring", () => {
@@ -227,4 +361,26 @@ describe("area measuring", () => {
     expect(screen.getByRole("status")).toHaveTextContent(/ha · .* ac/);
     expect(firstVertex).toHaveAttribute("data-interactive", "true");
   });
+});
+
+it("supports a driveway session with touch finish, clear and a fresh next address", () => {
+  const { rerender } = render(<MeasureTool key="first" driveway mode="distance" onModeChange={vi.fn()} />);
+  expect(screen.queryByRole("button", { name: "Measure area" })).not.toBeInTheDocument();
+  clickAt(46, -61);
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  clickAt(46.001, -61);
+  fireEvent.click(screen.getByRole("button", { name: "Finish" }));
+  expect(screen.getByRole("button", { name: "Finish" })).toBeDisabled();
+  expect(screen.getByTestId("measurement-label")).toHaveTextContent("Total distance");
+  // The total is the map label; the strip only announces it, on no line of its own.
+  expect(screen.getByRole("status")).toHaveClass("sr-only");
+  expect(screen.getByRole("status")).toHaveTextContent(/\d m$/);
+  expect(document.querySelector(".measure-readout")).toBeNull();
+  fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+  expect(screen.queryByTestId("measure-line")).not.toBeInTheDocument();
+  clickAt(46, -61);
+  clickAt(46.001, -61);
+  rerender(<MeasureTool key="second" driveway mode="distance" onModeChange={vi.fn()} />);
+  expect(screen.queryByTestId("measure-line")).not.toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Undo point" })).toBeDisabled();
 });

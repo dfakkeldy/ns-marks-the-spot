@@ -1,0 +1,194 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Palmer Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1142,
+        1550
+      ],
+      "lonlat": [
+        -64.17472078525999,
+        44.90970653904517
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 134306,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134306,
+      "nearest_unfiltered_distance_guide_px": 0.39104160586118747,
+      "selected_distance_guide_px": 0.39104160586118747,
+      "guide_reference_pixel_xy": [
+        1139.905874403601,
+        1607.3795443447307
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score."
+    },
+    {
+      "id": "Q02",
+      "label": "Murphy Lake eastern lobe northern shore",
+      "role": "check",
+      "pixel_xy": [
+        505,
+        2608
+      ],
+      "lonlat": [
+        -64.1862978560607,
+        44.851107376747066
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 137244,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137244,
+      "nearest_unfiltered_distance_guide_px": 0.23381563790263932,
+      "selected_distance_guide_px": 0.23381563790263932,
+      "guide_reference_pixel_xy": [
+        498.9791546075721,
+        2656.7671154317213
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score."
+    },
+    {
+      "id": "Q03",
+      "label": "Shady Lake western outlet",
+      "role": "check",
+      "pixel_xy": [
+        2333,
+        3075
+      ],
+      "lonlat": [
+        -64.05888592457747,
+        44.866093600274475
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 142291,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142291,
+      "nearest_unfiltered_distance_guide_px": 1.79867547572638,
+      "selected_distance_guide_px": 1.79867547572638,
+      "guide_reference_pixel_xy": [
+        2368.2277517954935,
+        3102.215801976621
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score."
+    },
+    {
+      "id": "Q04",
+      "label": "King Lake southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        3745,
+        2784
+      ],
+      "lonlat": [
+        -63.97893700551201,
+        44.9049407525832
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 132503,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132503,
+      "nearest_unfiltered_distance_guide_px": 0.9199512062128219,
+      "selected_distance_guide_px": 0.9199512062128219,
+      "guide_reference_pixel_xy": [
+        3782.221700375434,
+        2818.89283770381
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score."
+    },
+    {
+      "id": "Q05",
+      "label": "Cochran Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4677,
+        2871
+      ],
+      "lonlat": [
+        -63.91845960833442,
+        44.91987528095618
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 127579,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127579,
+      "nearest_unfiltered_distance_guide_px": 0.0953648235359961,
+      "selected_distance_guide_px": 0.0953648235359961,
+      "guide_reference_pixel_xy": [
+        4733.092798985832,
+        2879.021972660208
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score."
+    },
+    {
+      "id": "Q06",
+      "label": "Pigott Lake southern horn",
+      "role": "check",
+      "pixel_xy": [
+        5410,
+        3006
+      ],
+      "lonlat": [
+        -63.87088185969621,
+        44.927021164833434
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 133551,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133551,
+      "nearest_unfiltered_distance_guide_px": 0.7353059629889521,
+      "selected_distance_guide_px": 0.7353059629889521,
+      "guide_reference_pixel_xy": [
+        5443.469213177159,
+        3013.5661394294584
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score."
+    },
+    {
+      "id": "Q07",
+      "label": "Ryan Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        3203,
+        2810
+      ],
+      "lonlat": [
+        -64.01286479813007,
+        44.89408362582863
+      ],
+      "guide_file": ".crown-grant-local/054-north-adjacent-ppi-guide.npy",
+      "reference_objectid": 141542,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141542,
+      "nearest_unfiltered_distance_guide_px": 0.40445182146502967,
+      "selected_distance_guide_px": 0.40445182146502967,
+      "guide_reference_pixel_xy": [
+        3228.3999980279477,
+        2832.0598569421563
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and complete contextual lake outline inspected before first fit or score."
+    }
+  ]
+}

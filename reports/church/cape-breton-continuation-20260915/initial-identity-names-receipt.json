@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Scatarie+Island%27%2C%27Hay+Island%27%2C%27Gillis+Lake%27%2C%27Scotch+Lake%27%29&%24limit=100",
+  "query": {
+    "$where": "geoname in ('Scatarie Island','Hay Island','Gillis Lake','Scotch Lake')",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-15T11:16:36.493520+00:00",
+  "sha256": "ce6856e79d44fa91bed070b68bb209a7d7b10796a165a9dd2fb32b6ed025bd23",
+  "scope": "Identity audit only, representative points are not GCP coordinates"
+}

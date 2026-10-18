@@ -1,0 +1,76 @@
+{
+  "sheet": "sheet-15",
+  "fit_sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e",
+  "purpose": "Three reused diagnostics after explicit Q01/Q03 promotion; not independent validation.",
+  "points": [
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        5795,
+        3793
+      ],
+      "lonlat": [
+        -61.0285666,
+        46.0085928
+      ],
+      "modern_node": "J0590",
+      "modern_objectids": [
+        274302,
+        274303,
+        287855
+      ],
+      "identity_evidence": "Main brook north of C05: western tributary crossing road before C05 major western arm.",
+      "source_uncertainty_px": 10,
+      "pre_review_pixel_xy": [
+        5800,
+        3785
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        8843,
+        2057
+      ],
+      "lonlat": [
+        -60.88986234648444,
+        46.064620968016634
+      ],
+      "modern_objectid": 10209,
+      "modern_part_index": 0,
+      "modern_vertex_index": 10,
+      "identity_evidence": "Southernmost shoreline of western rounded lobe of Cow Point, west of the smaller eastern lobe. Broad tip has 20px placement uncertainty.",
+      "source_uncertainty_px": 20,
+      "pre_review_pixel_xy": [
+        8840,
+        2044
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        3766,
+        5250
+      ],
+      "lonlat": [
+        -61.12051531835393,
+        45.961580954462306
+      ],
+      "modern_objectid": 17734,
+      "modern_part_index": 0,
+      "modern_vertex_index": 473,
+      "identity_evidence": "Indian Island northernmost tip, slender northern lobe facing head of Whycocomagh Bay.",
+      "source_uncertainty_px": 15,
+      "pre_review_pixel_xy": [
+        3730,
+        5240
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    }
+  ]
+}

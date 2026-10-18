@@ -1,0 +1,197 @@
+{
+  "sheet": "sheet-18",
+  "points": [
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        1966,
+        2023
+      ],
+      "lonlat": [
+        -61.2078013,
+        45.8920679
+      ],
+      "modern_node_id": "J0372",
+      "modern_objectids": [
+        266193,
+        266194,
+        286443
+      ],
+      "identity_evidence": "River Denys northern tributary system: north branch joins major eastern brook",
+      "source_uncertainty_px": 15,
+      "status": "rejected before fitting: modern J0372 includes a southern channel absent at the corresponding historic brook reach; proposed crosshair is on land, not a junction."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        4153,
+        4002
+      ],
+      "lonlat": [
+        -61.0997002,
+        45.8349727
+      ],
+      "modern_node_id": "J0641",
+      "modern_objectids": [
+        197949,
+        261443,
+        261444
+      ],
+      "identity_evidence": "Marble Mountain western north-draining brook: major eastern tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        5560,
+        3436
+      ],
+      "lonlat": [
+        -61.0362663,
+        45.8486709
+      ],
+      "modern_node_id": "J0594",
+      "modern_objectids": [
+        193201,
+        194483,
+        194731
+      ],
+      "identity_evidence": "McKenzie Brook southern arm: major western tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        4972,
+        4520
+      ],
+      "lonlat": [
+        -61.0655263,
+        45.8148989
+      ],
+      "modern_node_id": "J0679",
+      "modern_objectids": [
+        198180,
+        274051,
+        274052
+      ],
+      "identity_evidence": "Sydenham Brook eastern headwater branch junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        3445,
+        4960
+      ],
+      "lonlat": [
+        -61.1358011,
+        45.798516
+      ],
+      "modern_node_id": "J0716",
+      "modern_objectids": [
+        198190,
+        275572,
+        275573
+      ],
+      "identity_evidence": "Lime Hill western brook major northwest tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; requires native audit"
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        2743,
+        1959
+      ],
+      "lonlat": [
+        -61.1707891,
+        45.8948025
+      ],
+      "modern_node_id": "J0359",
+      "modern_objectids": [
+        197934,
+        198047,
+        286308
+      ],
+      "identity_evidence": "Ashfield eastern brook: southern tributary joins west-flowing main brook below road",
+      "source_uncertainty_px": 12,
+      "status": "candidate; requires native audit"
+    },
+    {
+      "lonlat": [
+        -60.93148272620052,
+        45.84515621388909
+      ],
+      "guide_xy": [
+        7885.312907643616,
+        3534.0538446332794
+      ],
+      "modern_objectid": 13709,
+      "modern_part": 0,
+      "modern_vertex": 8,
+      "modern_properties": {
+        "OBJECTID": 13709,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 223.47872265937266
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        7918,
+        3528
+      ],
+      "identity_evidence": "Pellier Point easternmost headland tip; distinct peninsula south of harbour",
+      "source_uncertainty_px": 12,
+      "status": "candidate pending native crosshair audit",
+      "modern_vertex_selection": "Extremum on the physically identified local coast; affine search window does not supply geographic coordinates."
+    },
+    {
+      "lonlat": [
+        -60.90104330679375,
+        45.76987614542048
+      ],
+      "guide_xy": [
+        8512.323027311591,
+        5892.417832624633
+      ],
+      "modern_objectid": 23891,
+      "modern_part": 0,
+      "modern_vertex": 44,
+      "modern_properties": {
+        "OBJECTID": 23891,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 368.47783657662535
+      },
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        8537,
+        5902
+      ],
+      "identity_evidence": "Morrison Head northernmost tip on southern mainland strip",
+      "source_uncertainty_px": 12,
+      "status": "candidate pending native crosshair audit",
+      "modern_vertex_selection": "Extremum on the physically identified local coast; affine search window does not supply geographic coordinates."
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "sheet": "103",
+  "version": "coastal-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      -1.846580059079279,
+      4.442448870944292
+    ],
+    [
+      4.442448870944292,
+      1.846580059079279
+    ],
+    [
+      564241.2410311514,
+      5062178.000574802
+    ]
+  ],
+  "source_sha256": "c85aaf6da0f79d8df12ec5ad3a11d6e6df000542060f81091aa96e152a84bb3e",
+  "source_dimensions": [
+    5992,
+    4111
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IC02",
+      "label": "Coastal creek north of Georgeville at shore",
+      "role": "control",
+      "pixel_xy": [
+        1320,
+        2305
+      ],
+      "lonlat": [
+        -62.07291795731756,
+        45.80048614531299
+      ],
+      "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+      "reference_objectid": 13223,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1251.6348701037932,
+        2344.750063111831
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Continuous original coastal creek trace and modern shoreline junction reviewed in broad context and native paired crosshair before fitting.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC03",
+      "label": "Morar northern coastal creek mouth",
+      "role": "control",
+      "pixel_xy": [
+        1870,
+        3693
+      ],
+      "lonlat": [
+        -62.00584761876664,
+        45.84498313757772
+      ],
+      "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+      "reference_objectid": 4499,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1725.187873993651,
+        3669.8636471753125
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Continuous original coastal creek trace and modern shoreline junction reviewed in broad context and native paired crosshair before fitting.",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    1.320600186622326e-06,
+    2.103011247200166e-06
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: constrained similarity limits free parameters and avoids unsupported affine shear; see component role plan for control distribution and model rationale"
+}

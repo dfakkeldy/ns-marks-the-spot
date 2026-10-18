@@ -217,8 +217,13 @@ Numerical gates:
   neatline, scale bar, legend chrome, north arrow — is drawn as vector
   objects, so text prints crisp, remains selectable, and stays editable in
   Illustrator or Inkscape.
-- One page per export. The research-sheet multi-page appendix stays in the
-  `window.print()` flow.
+- One map page per export. The research-sheet multi-page appendix stays in the
+  `window.print()` flow. The one exception is required attribution: when the
+  licence statements for the layers on the page cannot fit the strip even at
+  its minimum caption size, the remainder continues on plain pages that carry
+  no map and no geo-registration, and the strip says so. Cutting a licence
+  notice mid-sentence is not an available answer — the coastal layers alone
+  carry three required notices, about six times the length of one credit line.
 - Output targets under ~15 MB at 300 DPI for a full-frame export; the test
   suite asserts an upper bound on a fixture export.
 

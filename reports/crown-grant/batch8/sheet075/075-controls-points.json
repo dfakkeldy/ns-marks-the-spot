@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Griswold Lake northern finger",
+    "role": "proposal",
+    "pixel_xy": [
+      822,
+      594
+    ],
+    "lonlat": [
+      -63.343339025090785,
+      44.83206540109669
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 136978,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136978,
+    "nearest_unfiltered_distance_guide_px": 1.5735854658404556,
+    "selected_distance_guide_px": 1.5735854658404556,
+    "guide_reference_pixel_xy": [
+      899.8116773832007,
+      622.3480916303815
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Pond west of Elbow Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      929,
+      938
+    ],
+    "lonlat": [
+      -63.3259610150948,
+      44.817813622879804
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 85229,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 85229,
+    "nearest_unfiltered_distance_guide_px": 0.7138717158495654,
+    "selected_distance_guide_px": 0.7138717158495654,
+    "guide_reference_pixel_xy": [
+      1007.4336852203123,
+      966.5653732670471
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Duck Lake north of Island Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4611,
+      739
+    ],
+    "lonlat": [
+      -63.08643034852756,
+      44.90061215663155
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 82108,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 82108,
+    "nearest_unfiltered_distance_guide_px": 0.6910519481238414,
+    "selected_distance_guide_px": 0.6910519481238414,
+    "guide_reference_pixel_xy": [
+      4693.316281656618,
+      771.1004092721269
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Duck Pond east of Catamaran Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3677,
+      1422
+    ],
+    "lonlat": [
+      -63.129840221954,
+      44.84978196764961
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 140352,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140352,
+    "nearest_unfiltered_distance_guide_px": 0.46959532026954187,
+    "selected_distance_guide_px": 0.46959532026954187,
+    "guide_reference_pixel_xy": [
+      3744.464843147027,
+      1441.0666379282484
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Pond north of Flat Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4960,
+      1242
+    ],
+    "lonlat": [
+      -63.04842449968392,
+      44.88376556439953
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 82502,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 82502,
+    "nearest_unfiltered_distance_guide_px": 0.48920762106668,
+    "selected_distance_guide_px": 0.48920762106668,
+    "guide_reference_pixel_xy": [
+      5042.87522244791,
+      1269.4730271229055
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Western Arm Jeddore main island northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3937,
+      3310
+    ],
+    "lonlat": [
+      -63.0587909034637,
+      44.76406917046173
+    ],
+    "guide_file": ".crown-grant-local/075-adjacent-ppi-guide.npy",
+    "reference_objectid": 22456,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22456,
+    "nearest_unfiltered_distance_guide_px": 1.369533191453629,
+    "selected_distance_guide_px": 1.369533191453629,
+    "guide_reference_pixel_xy": [
+      3973.7769636965822,
+      3332.616281886003
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6018 x 4113 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 141.19 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          55,
+          105
+        ],
+        [
+          5920,
+          105
+        ],
+        [
+          5920,
+          4000
+        ],
+        [
+          55,
+          4000
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full mapped frame retained, with a small exterior margin and no separate inset identified. Coastal and central/southeastern water features are assessed; northeastern terrain remains insufficiently validated."
+    }
+  ]
+}

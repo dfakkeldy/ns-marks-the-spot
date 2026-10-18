@@ -3,7 +3,7 @@ import type { ProvinceLayerId } from "../layers/layerCatalog";
 export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
   contours: 180,
-  nsprd: 200,
+  nsprd: 218,
   "water-features": 210,
   "crown-lands": 220,
   buildings: 225,
@@ -52,8 +52,34 @@ export const MINERAL_PROXIMITY_PANE_Z_INDEX = 390;
 export const WELL_LOG_PANE = "ns-well-logs-pane";
 export const WELL_LOG_PANE_Z_INDEX = 405;
 
+/**
+ * The radar wash renders above every reference raster — it is the newest
+ * information on screen — but below the place-names tile layer (300), whose
+ * labels must stay readable through weather, and below every vector pane.
+ * This is a tile-layer z-index inside Leaflet's tilePane, not a pane.
+ */
+export const WEATHER_RADAR_Z_INDEX = 295;
+
+/**
+ * Camera markers sit above well logs (405) — a tappable live view beats a
+ * historical point when both occupy the same pixel — and below the selected
+ * tax-sale parcels (420), which remain the visual authority.
+ */
+export const TRAFFIC_CAMERA_PANE = "traffic-cameras-pane";
+export const TRAFFIC_CAMERA_PANE_Z_INDEX = 410;
+
 export const ESTABLISHED_PARCEL_PANE = "established-parcel-overlays-pane";
 export const ESTABLISHED_PARCEL_PANE_Z_INDEX = 420;
+
+/**
+ * Parcel snap targets are a drawing aid, not data: faint dashed outlines
+ * that exist so the user can see what a vertex will pull to. Above well
+ * logs (405) and traffic cameras (410) so the snappable geometry reads,
+ * below selected parcels (420) and the user's own features (425) — the
+ * things being drawn stay the visual authority.
+ */
+export const SNAP_TARGET_PANE = "snap-target-pane";
+export const SNAP_TARGET_PANE_Z_INDEX = 412;
 
 /**
  * Active measurements are the user's current focus, so they render above

@@ -1,0 +1,602 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 271,
+  "export_sha256": "7b873f424dbef569eed6a21f663a86d0b4b0371cf74b40cf920c5e0e97ec5ea9",
+  "checks": {
+    "count": 271,
+    "checks": [
+      {
+        "id": "F22-HAW-003",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-009",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-022",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-029",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-044",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-054",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-059",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-072",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-074",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-082",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-083",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-087",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-097",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-106",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-112",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-113",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-117",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-124",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-131",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-135",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-138",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-153",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-161",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-163",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-171",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-195",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-196",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-209",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-226",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-279",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-012",
+      "F22-HAW-017",
+      "F22-HAW-019",
+      "F22-HAW-020",
+      "F22-HAW-024",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F22-HAW-033",
+      "F22-HAW-034",
+      "F22-HAW-036",
+      "F22-HAW-038",
+      "F22-HAW-040",
+      "F22-HAW-043",
+      "F22-HAW-049",
+      "F22-HAW-051",
+      "F22-HAW-052",
+      "F22-HAW-060",
+      "F22-HAW-062",
+      "F22-HAW-063",
+      "F22-HAW-065",
+      "F22-HAW-069",
+      "F22-HAW-075",
+      "F22-HAW-093",
+      "F22-HAW-094",
+      "F22-HAW-095",
+      "F22-HAW-098",
+      "F22-HAW-099",
+      "F22-HAW-103",
+      "F22-HAW-110",
+      "F22-HAW-111",
+      "F22-HAW-115",
+      "F22-HAW-119",
+      "F22-HAW-125",
+      "F22-HAW-130",
+      "F22-HAW-132",
+      "F22-HAW-148",
+      "F22-HAW-151",
+      "F22-HAW-152",
+      "F22-HAW-157",
+      "F22-HAW-158",
+      "F22-HAW-162",
+      "F22-HAW-164",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-177",
+      "F22-HAW-178",
+      "F22-HAW-179",
+      "F22-HAW-181",
+      "F22-HAW-184",
+      "F22-HAW-185",
+      "F22-HAW-190",
+      "F22-HAW-192",
+      "F22-HAW-201",
+      "F22-HAW-203",
+      "F22-HAW-204",
+      "F22-HAW-218",
+      "F22-HAW-225",
+      "F22-HAW-229",
+      "F22-HAW-230",
+      "F22-HAW-236",
+      "F22-HAW-239",
+      "F22-HAW-245",
+      "F22-HAW-247",
+      "F22-HAW-248",
+      "F22-HAW-249",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-252",
+      "F22-HAW-253",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-262",
+      "F22-HAW-265",
+      "F22-HAW-266",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-275",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-285",
+      "F22-HAW-289",
+      "F22-HAW-290"
+    ],
+    "errors": []
+  },
+  "zoom_threshold": {
+    "observations": [
+      {
+        "zoom": 14,
+        "labels": 0
+      },
+      {
+        "zoom": 15,
+        "labels": 267
+      },
+      {
+        "zoom": 16,
+        "labels": 267
+      },
+      {
+        "zoom": 15,
+        "labels": 267
+      },
+      {
+        "zoom": 14,
+        "labels": 0
+      }
+    ]
+  },
+  "prior_multipart_group": {
+    "count": 271,
+    "checks": [
+      {
+        "id": "F19-JUD-112",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-012",
+      "F22-HAW-017",
+      "F22-HAW-019",
+      "F22-HAW-020",
+      "F22-HAW-024",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F22-HAW-033",
+      "F22-HAW-034",
+      "F22-HAW-036",
+      "F22-HAW-038",
+      "F22-HAW-040",
+      "F22-HAW-043",
+      "F22-HAW-049",
+      "F22-HAW-051",
+      "F22-HAW-052",
+      "F22-HAW-060",
+      "F22-HAW-062",
+      "F22-HAW-063",
+      "F22-HAW-065",
+      "F22-HAW-069",
+      "F22-HAW-075",
+      "F22-HAW-093",
+      "F22-HAW-094",
+      "F22-HAW-095",
+      "F22-HAW-098",
+      "F22-HAW-099",
+      "F22-HAW-103",
+      "F22-HAW-110",
+      "F22-HAW-111",
+      "F22-HAW-115",
+      "F22-HAW-119",
+      "F22-HAW-125",
+      "F22-HAW-130",
+      "F22-HAW-132",
+      "F22-HAW-148",
+      "F22-HAW-151",
+      "F22-HAW-152",
+      "F22-HAW-157",
+      "F22-HAW-158",
+      "F22-HAW-162",
+      "F22-HAW-164",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-177",
+      "F22-HAW-178",
+      "F22-HAW-179",
+      "F22-HAW-181",
+      "F22-HAW-184",
+      "F22-HAW-185",
+      "F22-HAW-190",
+      "F22-HAW-192",
+      "F22-HAW-201",
+      "F22-HAW-203",
+      "F22-HAW-204",
+      "F22-HAW-218",
+      "F22-HAW-225",
+      "F22-HAW-229",
+      "F22-HAW-230",
+      "F22-HAW-236",
+      "F22-HAW-239",
+      "F22-HAW-245",
+      "F22-HAW-247",
+      "F22-HAW-248",
+      "F22-HAW-249",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-252",
+      "F22-HAW-253",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-262",
+      "F22-HAW-265",
+      "F22-HAW-266",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-275",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-285",
+      "F22-HAW-289",
+      "F22-HAW-290"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All thirty additions open their own evidence through visible label pointer clicks at alternating desktop/phone widths, with decoded native excerpts, visible notes, a ready basemap and clean consoles.",
+    "A real pre-fix click on the Dortons Bridge label reached the map container and opened no evidence. Interactive labels now route clicks to their source layer.",
+    "Craignish originally shared the first component anchor with the R.C.Church label; a real click selected the church instead. Multipart labels/popups now use the full group bounds centre for presentation; saved geometry remains unchanged.",
+    "The zoom-threshold unit regression failed before the fix. Real zoom controls now show/hide permanent labels across 14/15 in both directions.",
+    "The earlier Judique Coal multipart group remains label-selectable with source evidence.",
+    "L. Murray retains its original wording, boxes, raw inventory kind and previous unlocated review; only its explicitly reviewed derived kind is waterbody.",
+    "All 241 earlier exported records retain geometry/content apart from current evidence bundle hashes."
+  ],
+  "local_checks": {
+    "python": "301 tests pass, eight existing skips",
+    "web": "10 Fletcher component tests and web script tests pass; lint and build pass"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-review.json",
+      "sha256": "568701bd4898c4f4820218e0d2a524318199d3338afdba5786f3420c8418ce01"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-zoom-after.json",
+      "sha256": "0f7e45f824e57f3ca13468dceb474f05bb991fc6180b8a9ffa9c2e171b18459e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-fletcher-coal-label-review.json",
+      "sha256": "cdd1e2534bbdb636f78d3822c91ee0a7934837bab8f94291cdb1e5707a7bf6f1"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-point-before-summary.json",
+      "sha256": "5e90128d4e8f71cc2c5b0fbfd8cae636b8290b35a21e1dea7f512025137834c5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-point-after.json",
+      "sha256": "861de80b2bfc007c4e362748e1a72fe0170079d78eb1a0e63957eecbe702e940"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-overlap-before.json",
+      "sha256": "fb85d2bcf18f0ba69cbc409bb7b08ab8c8ac6b79f329d55af7c6bad1dccc945f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-226.png",
+      "sha256": "f72fd07dd670f574863eac48041f7360694f1bbca4e5c996bc593233ee2d0878"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-59.png",
+      "sha256": "df50b0b2d2b6e7577b4ae6819aacf827ae96008bf0e519f38569ced31d689d61"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-72.png",
+      "sha256": "81dd326ebcc9bf6a02d2d90e741d997c8f208e27473ad23c08a6a21155ca4520"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-138.png",
+      "sha256": "c4b1ac5418386e46fea01fd4a720b7f269a960d1640cac6dd40d7be72cd33349"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-3.png",
+      "sha256": "05e4ebb2c0486330581d7a2577afc62631329999960dc205ab10cdf498a3d583"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-83.png",
+      "sha256": "7843a5b3bf9d8eea0d151f4e3a153e2be98654d9162d5ec06bd3e278d372029b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-54.png",
+      "sha256": "a3ff95da3e5ffc8da4106822faf2c808baaf3a5f6b28cc4751af1610b99d4253"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-names-163.png",
+      "sha256": "780b19bf4b077c26af9b8374e878afae72cb78f1d7286dd7e0eecce08c3a3b23"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-fletcher-coal-label-112.png",
+      "sha256": "d8b62ec2b4378d670d5ab7bb65a73aadc1e7c917b7a829d45c3c8e5e7f034a99"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-point-before.png",
+      "sha256": "192ffd730cd3a6e0f5884f7be6a2458ba5a8fe4aeb9d9b1fb7e74974638c8d71"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-point-after.png",
+      "sha256": "192ffd730cd3a6e0f5884f7be6a2458ba5a8fe4aeb9d9b1fb7e74974638c8d71"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-overlap-before.png",
+      "sha256": "62196d317a55b531e1523768270a2ec408f114274f19be549c863f340844a625"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-zoom-after.png",
+      "sha256": "4354caf3ec8c8ed963c3906b4e7555cb6c0cc12c03a8fd4eac16ec523d7e6dee"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-271-export/source.json",
+      "sha256": "75afe2d53a3206c261f1c899ff040592109943195e2cde66766af6da519abc8b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-271-export/reviewed.geojson",
+      "sha256": "7b873f424dbef569eed6a21f663a86d0b4b0371cf74b40cf920c5e0e97ec5ea9"
+    }
+  ],
+  "limits": "Approximate historical marks, crossings and bounded groups/banks. No residence, current address, ownership, parcel or municipal boundary is inferred. No production publication claim.",
+  "base_reverification": {
+    "nightly_revision": "a8c1d6878cf679ddf2af25c2b725414b70005723",
+    "combined_revision": "a65ddcb7949e7a1e643e8791a64a256d1c9dbf7d",
+    "checks": "After merging PR466, all thirty label selections, real zoom threshold controls, prior Judique Coal selection, ten component tests, lint and build passed. Source geometry and export bytes are unchanged."
+  }
+}

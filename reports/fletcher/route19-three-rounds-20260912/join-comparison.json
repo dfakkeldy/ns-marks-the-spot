@@ -1,0 +1,53 @@
+[
+  {
+    "pair": "14-16",
+    "longitude_interval": [
+      -61.46,
+      -61.24
+    ],
+    "baseline_min_max_ground_m": [
+      85.54015093824046,
+      959.1685896116211
+    ],
+    "revised_min_max_ground_m": [
+      86.53028996027375,
+      959.1864469365165
+    ],
+    "sign": "positive gap, negative overlap",
+    "scope": "Full content boundary separation, not shared-feature alignment. No seam adjustment applied."
+  },
+  {
+    "pair": "16-19",
+    "longitude_interval": [
+      -61.46,
+      -61.24
+    ],
+    "baseline_min_max_ground_m": [
+      -349.6242851957893,
+      -120.53778171499039
+    ],
+    "revised_min_max_ground_m": [
+      -349.90894960997696,
+      -130.307190028231
+    ],
+    "sign": "positive gap, negative overlap",
+    "scope": "Full content boundary separation, not shared-feature alignment. No seam adjustment applied."
+  },
+  {
+    "pair": "19-22",
+    "longitude_interval": [
+      -61.46,
+      -61.23
+    ],
+    "baseline_min_max_ground_m": [
+      -56.06319291185266,
+      380.5061552942349
+    ],
+    "revised_min_max_ground_m": [
+      -59.96094778471599,
+      380.6513748841059
+    ],
+    "sign": "positive gap, negative overlap",
+    "scope": "Full content boundary separation, not shared-feature alignment. No seam adjustment applied."
+  }
+]

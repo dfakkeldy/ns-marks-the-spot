@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Oak Island southeast projecting tip",
+    [
+      1718,
+      1280
+    ],
+    [
+      1744,
+      1202
+    ],
+    "WACO"
+  ],
+  [
+    "Q02",
+    "Meisner Island southern tip",
+    [
+      2600,
+      1436
+    ],
+    [
+      2637,
+      1380
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q03",
+    "Snake Island southern tip",
+    [
+      3420,
+      1455
+    ],
+    [
+      3468,
+      1395
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q04",
+    "Rouse Island southern tip",
+    [
+      879,
+      2602
+    ],
+    [
+      925,
+      2518
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q05",
+    "Black or Little Kaulback Island southern tip",
+    [
+      1805,
+      2625
+    ],
+    [
+      1833,
+      2542
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q06",
+    "Big Tancook Island northern tip",
+    [
+      2990,
+      2830
+    ],
+    [
+      3017,
+      2755
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q07",
+    "Little Tancook Island southern tip",
+    [
+      3486,
+      3105
+    ],
+    [
+      3530,
+      3030
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q08",
+    "Gravel Island southern tip",
+    [
+      5008,
+      3161
+    ],
+    [
+      5067,
+      3112
+    ],
+    "WACOIS10"
+  ]
+]

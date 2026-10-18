@@ -1,0 +1,29 @@
+{
+  "verified_at_utc": "2026-09-20T16:47:39.389357+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex in-app browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet005/main-3857.png",
+      "complete": true,
+      "naturalWidth": 6177,
+      "naturalHeight": 5083
+    },
+    {
+      "path": "/sheet005/brier-long-inset-3857.png",
+      "complete": true,
+      "naturalWidth": 2805,
+      "naturalHeight": 2585
+    }
+  ],
+  "verified": [
+    "Actual main and inset raster at their distinct geographic placements, overview and 2 km scale",
+    "Both overlays respond to 35 percent opacity and modern-only/restore",
+    "Original complete scan loads at 5762 x 3894",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Browser rendering is not geographic acceptance",
+    "NS Marks The Spot raw-scan importer/TPS path was not exercised"
+  ]
+}

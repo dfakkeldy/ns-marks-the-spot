@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q03",
+    "label": "NB Peck Point southeast shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3692,
+      1975
+    ],
+    "lonlat": [
+      -64.48084425873141,
+      45.74191717836914
+    ],
+    "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+    "reference_objectid": "NB13:8696",
+    "reference_feature_code": "NBHN_100",
+    "nearest_unfiltered_feature_code": "NBHN_100",
+    "nearest_unfiltered_objectid": "NB13:8696",
+    "nearest_unfiltered_distance_guide_px": 0.667816249323612,
+    "selected_distance_guide_px": 0.667816249323612,
+    "guide_reference_pixel_xy": [
+      3745.1207042555907,
+      1971.6568173456471
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

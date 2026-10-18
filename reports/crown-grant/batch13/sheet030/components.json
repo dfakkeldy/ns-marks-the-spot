@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5683 x 3853 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 95.12 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          115,
+          115
+        ],
+        [
+          5570,
+          115
+        ],
+        [
+          5570,
+          3730
+        ],
+        [
+          115,
+          3730
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The complete mapped frame, including all intervening interior and water, is retained. Seven lake controls and eight excluded checks sample western, northern and southeastern areas; coverage does not establish uniform geographic accuracy."
+    }
+  ]
+}

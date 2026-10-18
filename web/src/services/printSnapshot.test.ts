@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  PRINT_SOURCE_UNANSWERED,
   boundsForParcelGeometry,
   buildPrintMapShareUrl,
   printBoundsForTemplate,
@@ -8,6 +9,7 @@ import {
   printedLayerIds,
   sealPrintSnapshot,
   startPrintCapture,
+  unansweredEvidenceNames,
   updatePrintCaptureEvidence,
   type PrintCaptureBase,
   type PrintEvidence,
@@ -69,8 +71,34 @@ const pendingEvidence: PrintEvidence = {
   dwellings: { status: "pending" },
   civicAddresses: { status: "pending" },
   mappedContext: { status: "pending" },
-  floodHazard: { status: "pending" },
+  riverFlood: { status: "pending" },
+  coastalFlood: { status: "pending" },
   resources: { status: "pending" },
+};
+
+const readyEvidence: PrintEvidence = {
+  mappedArea: null,
+  buildings: { status: "ready", value: { count: 0, pointCount: 0, polygonCount: 0 } },
+  assessments: { status: "ready", value: { matchMethod: "spatial", accounts: [] } },
+  dwellings: { status: "ready", value: [] },
+  civicAddresses: {
+    status: "ready",
+    value: { addresses: [], unreadableRows: 0 },
+  },
+  mappedContext: { status: "ready", value: { roads: [], water: [] } },
+  riverFlood: {
+    status: "ready",
+    value: { status: "within-published-layer-extent", aep: [] },
+  },
+  coastalFlood: { status: "ready", value: [] },
+  resources: {
+    status: "ready",
+    value: {
+      "mineral-occurrences": { status: "ready", intersections: [] },
+      "mineral-tenure": { status: "ready", intersections: [] },
+      "abandoned-mines": { status: "ready", intersections: [] },
+    },
+  },
 };
 
 describe("print capture", () => {
@@ -111,21 +139,100 @@ describe("print capture", () => {
     );
   });
 
-  it("converts timed-out research slots to explicit errors", () => {
+  // A source that ran out of time never answered. Sealing it as an outage put
+  // it under the sentence a failed service gets, and the reader holding the
+  // page could not tell the two apart.
+  it("seals timed-out research slots as unanswered, not as failures", () => {
     const capture = startPrintCapture(base, pendingEvidence);
     const snapshot = sealPrintSnapshot(capture, "research", {
       timedOut: true,
       generatedAt: "2026-07-23T13:42:15.000Z",
     });
     expect(snapshot.evidence.buildings).toEqual({
-      status: "error",
-      message: "Source unavailable at export time.",
+      status: "unanswered",
+      message: PRINT_SOURCE_UNANSWERED,
     });
-    expect(snapshot.evidence.civicAddresses.status).toBe("error");
+    expect(snapshot.evidence.civicAddresses.status).toBe("unanswered");
     expect(snapshot.evidence.dwellings).toEqual({
-      status: "error",
-      message: "Source unavailable at export time.",
+      status: "unanswered",
+      message: PRINT_SOURCE_UNANSWERED,
     });
+    expect(JSON.stringify(snapshot.evidence))
+      .not.toContain("Source unavailable at export time.");
+  });
+
+  // A lookup that could not start because its input never arrived did not go
+  // silent, and the sealed page must not say it did.
+  it("seals a blocked pending slot with the reason it never started", () => {
+    const capture = startPrintCapture(base, {
+      ...pendingEvidence,
+      dwellings: {
+        status: "pending",
+        message: "The dwelling lookup had not started: assessment had not answered.",
+      },
+    });
+    const snapshot = sealPrintSnapshot(capture, "research", {
+      timedOut: true,
+      generatedAt: "2026-07-23T13:42:15.000Z",
+    });
+
+    // Not "unanswered": a lookup that never started did not go silent, and it
+    // must stay out of the front page's list of sources that did.
+    expect(snapshot.evidence.dwellings).toEqual({
+      status: "not-asked",
+      message: "The dwelling lookup had not started: assessment had not answered.",
+    });
+    expect(unansweredEvidenceNames(snapshot)).not.toContain(
+      "PVSC dwelling characteristics",
+    );
+    expect(snapshot.evidence.buildings).toEqual({
+      status: "unanswered",
+      message: PRINT_SOURCE_UNANSWERED,
+    });
+  });
+
+  it("keeps a settled source error out of the unanswered state", () => {
+    const capture = startPrintCapture(base, {
+      ...pendingEvidence,
+      assessments: { status: "error", message: "Assessment source unavailable." },
+    });
+    const snapshot = sealPrintSnapshot(capture, "research", {
+      timedOut: true,
+      generatedAt: "2026-07-23T13:42:15.000Z",
+    });
+
+    expect(snapshot.evidence.assessments).toEqual({
+      status: "error",
+      message: "Assessment source unavailable.",
+    });
+    expect(snapshot.evidence.buildings.status).toBe("unanswered");
+  });
+
+  it("names the unanswered sources under their appendix headings", () => {
+    const capture = startPrintCapture(base, {
+      ...readyEvidence,
+      buildings: { status: "pending" },
+      riverFlood: { status: "pending" },
+  coastalFlood: { status: "pending" },
+    });
+    const snapshot = sealPrintSnapshot(capture, "research", {
+      timedOut: true,
+      generatedAt: "2026-07-23T13:42:15.000Z",
+    });
+
+    expect(unansweredEvidenceNames(snapshot)).toEqual([
+      "Mapped buildings",
+      "Published river mapping",
+      "Coastal scenarios",
+    ]);
+    expect(
+      unansweredEvidenceNames(
+        sealPrintSnapshot(startPrintCapture(base, readyEvidence), "research", {
+          timedOut: false,
+          generatedAt: "2026-07-23T13:42:15.000Z",
+        }),
+      ),
+    ).toEqual([]);
   });
 
   it("seals a snapshot whose nested graph cannot be mutated", () => {
@@ -158,13 +265,16 @@ describe("print capture", () => {
   it("clones inputs so live state cannot mutate the capture", () => {
     const evidence: PrintEvidence = {
       ...pendingEvidence,
-      civicAddresses: { status: "ready", value: [] },
+      civicAddresses: {
+        status: "ready",
+        value: { addresses: [], unreadableRows: 0 },
+      },
     };
     const capture = startPrintCapture(base, evidence);
     evidence.civicAddresses = { status: "error", message: "changed later" };
     expect(capture.evidence.civicAddresses).toEqual({
       status: "ready",
-      value: [],
+      value: { addresses: [], unreadableRows: 0 },
     });
   });
 
@@ -188,15 +298,16 @@ describe("print capture", () => {
           }],
         }],
       },
-      civicAddresses: { status: "ready", value: [] },
-      mappedContext: { status: "ready", value: { roads: [], water: [] } },
-      floodHazard: {
+      civicAddresses: {
         status: "ready",
-        value: {
-          river: { status: "within-published-layer-extent", aep: [] },
-          coastal: [],
-        },
+        value: { addresses: [], unreadableRows: 0 },
       },
+      mappedContext: { status: "ready", value: { roads: [], water: [] } },
+      riverFlood: {
+        status: "ready",
+        value: { status: "within-published-layer-extent", aep: [] },
+      },
+      coastalFlood: { status: "ready", value: [] },
       resources: {
         status: "ready",
         value: {
@@ -216,7 +327,10 @@ describe("print capture", () => {
       status: "ready",
       value: { count: 3, pointCount: 2, polygonCount: 1 },
     });
-    expect(snapshot.evidence.civicAddresses).toEqual({ status: "ready", value: [] });
+    expect(snapshot.evidence.civicAddresses).toEqual({
+      status: "ready",
+      value: { addresses: [], unreadableRows: 0 },
+    });
     expect(snapshot.evidence.dwellings).toEqual({
       status: "ready",
       value: [{
@@ -232,13 +346,11 @@ describe("print capture", () => {
         }],
       }],
     });
-    expect(snapshot.evidence.floodHazard).toEqual({
+    expect(snapshot.evidence.riverFlood).toEqual({
       status: "ready",
-      value: {
-        river: { status: "within-published-layer-extent", aep: [] },
-        coastal: [],
-      },
+      value: { status: "within-published-layer-extent", aep: [] },
     });
+    expect(snapshot.evidence.coastalFlood).toEqual({ status: "ready", value: [] });
   });
 
   it("preserves an outside-coverage flood result and settled source errors", () => {
@@ -251,15 +363,16 @@ describe("print capture", () => {
         message:
           "Dwelling lookup was not run because assessment account evidence was unavailable.",
       },
-      civicAddresses: { status: "ready", value: [] },
-      mappedContext: { status: "ready", value: { roads: [], water: [] } },
-      floodHazard: {
+      civicAddresses: {
         status: "ready",
-        value: {
-          river: { status: "outside-published-layer-extents", aep: [] },
-          coastal: [],
-        },
+        value: { addresses: [], unreadableRows: 0 },
       },
+      mappedContext: { status: "ready", value: { roads: [], water: [] } },
+      riverFlood: {
+        status: "ready",
+        value: { status: "outside-published-layer-extents", aep: [] },
+      },
+      coastalFlood: { status: "ready", value: [] },
       resources: {
         status: "ready",
         value: {
@@ -277,12 +390,9 @@ describe("print capture", () => {
     expect(sealPrintSnapshot(capture, "research", {
       timedOut: false,
       generatedAt: "2026-07-23T13:42:15.000Z",
-    }).evidence.floodHazard).toEqual({
+    }).evidence.riverFlood).toEqual({
       status: "ready",
-      value: {
-        river: { status: "outside-published-layer-extents", aep: [] },
-        coastal: [],
-      },
+      value: { status: "outside-published-layer-extents", aep: [] },
     });
   });
 });
@@ -322,6 +432,14 @@ describe("print map derivation", () => {
       west: -61.2,
     });
     expect(printBoundsForTemplate(capture, "field")).toEqual(capture.viewport.bounds);
+  });
+
+  it("uses the captured viewport for a research map with no parcel geometry", () => {
+    const capture = {
+      selectedParcelGeometry: { type: "FeatureCollection" as const, features: [] },
+      viewport: base.viewport,
+    };
+    expect(printBoundsForTemplate(capture, "research")).toEqual(base.viewport.bounds);
   });
 
   it("derives bounds from a sealed snapshot without a cast", () => {
@@ -377,7 +495,7 @@ describe("print map derivation", () => {
       { latitude: 46.35, longitude: -61.15, zoom: 15 },
       ["nsprd", "roads"],
     )).toBe(
-      "https://example.com/map/?taxSale=on&mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
+      "https://example.com/map/?basemap=osm&taxSale=on&mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
     );
   });
 
@@ -395,4 +513,11 @@ describe("print map derivation", () => {
       ["nsprd"],
     )).toContain("layers=nsprd&");
   });
+});
+
+it("freezes the captured atlas mode before later application changes", () => {
+  const input: PrintCaptureBase = { ...base, basemapStyle: "night" };
+  const capture = startPrintCapture(input, pendingEvidence);
+  input.basemapStyle = "day";
+  expect(capture.basemapStyle).toBe("night");
 });

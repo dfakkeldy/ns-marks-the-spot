@@ -1,0 +1,97 @@
+[
+  {
+    "name": "water-lines",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+    "bbox": "-61.63,45.54,-61.18,45.78",
+    "count": 3223,
+    "sha256": "9441acf248cdc6c1cdd238cd44233cf37a4732c80ae138106d3ff8c2e1ffd31e",
+    "retrieved_utc": "2026-09-06T13:10:08.550872+00:00"
+  },
+  {
+    "name": "roads",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/8/query",
+    "bbox": "-61.63,45.54,-61.18,45.78",
+    "count": 4146,
+    "sha256": "47790c23c04c173db32d16bb0994e0793b702551179affcc5f0e182f05b51507",
+    "retrieved_utc": "2026-09-06T13:10:20.837730+00:00"
+  },
+  {
+    "name": "rail",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/6/query",
+    "bbox": "-61.63,45.54,-61.18,45.78",
+    "count": 328,
+    "sha256": "0a259c6d3d31f708fa96a643141aaae82e04ff903d9df165581719c46439803f",
+    "retrieved_utc": "2026-09-06T13:10:22.894079+00:00"
+  },
+  {
+    "name": "water-polygons",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/8/query",
+    "bbox": "-61.63,45.54,-61.18,45.78",
+    "count": 1687,
+    "sha256": "88e5f560eddf452c93c7a054e6fb929734ae4364ebee362d70f5203e8f591144",
+    "retrieved_utc": "2026-09-06T13:10:30.280695+00:00"
+  },
+  {
+    "name": "highways",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/7/query",
+    "bbox": "-61.63,45.54,-61.18,45.78",
+    "count": 288,
+    "sha256": "dca2e3686d0a331b9b3f725c0f82dfd1322cdb7e158bee10632a1337c79a6612",
+    "retrieved_utc": "2026-09-13T01:47:51.137542+00:00",
+    "outSR": 4326,
+    "outFields": "*",
+    "pagination": "1000 records per page; exceededTransferLimit honored; unique OBJECTIDs verified",
+    "highway19_object_ids": [
+      3684,
+      3718,
+      3839,
+      4542,
+      6513,
+      41903,
+      41905,
+      43169,
+      44638,
+      48684,
+      48721,
+      54194,
+      54498,
+      57762,
+      60495,
+      61245,
+      61246,
+      148738,
+      157124,
+      157125,
+      157126,
+      157139,
+      157163,
+      157164,
+      157165,
+      259837,
+      259838,
+      277418,
+      277419,
+      277420,
+      314139,
+      314140,
+      314681,
+      314682,
+      314699,
+      314701
+    ]
+  },
+  {
+    "name": "bridges",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/5/query",
+    "bbox": "-61.63,45.54,-61.18,45.78",
+    "count": 103,
+    "sha256": "78ddd46c42fd307ecbac0a98bc7730e89ad4729a82e3412d10bd54a564248745",
+    "retrieved_utc": "2026-09-13T01:47:51.558430+00:00",
+    "outSR": 4326,
+    "outFields": "*",
+    "pagination": "1000 records per page; exceededTransferLimit honored; unique OBJECTIDs verified",
+    "highway19_object_ids": [
+      41904
+    ]
+  }
+]

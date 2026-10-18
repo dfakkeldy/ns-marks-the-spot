@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-11-Q03.jpg",
+    "point_record": "sheet11/refinement-20260912/prior-diagnostic-review.json",
+    "point_id": "Q03",
+    "native_box": [
+      3552,
+      1767,
+      3772,
+      1987
+    ],
+    "native_coordinates": [
+      3662,
+      1877
+    ],
+    "modern_lonlat": [
+      -61.1249697,
+      46.4182353
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-11-Q04.jpg",
+    "point_record": "sheet11/refinement-20260912/prior-diagnostic-review.json",
+    "point_id": "Q04",
+    "native_box": [
+      3290,
+      2220,
+      3510,
+      2440
+    ],
+    "native_coordinates": [
+      3400,
+      2330
+    ],
+    "modern_lonlat": [
+      -61.1388306,
+      46.4034616
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Cameron or St Christopher Lake northern roof",
+    [
+      1502,
+      437
+    ],
+    [
+      1590,
+      428
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Molega Lake Round Island northern tip",
+    [
+      3342,
+      687
+    ],
+    [
+      3400,
+      683
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C03",
+    "Big Lamoner Island northwestern tip",
+    [
+      2350,
+      1093
+    ],
+    [
+      2430,
+      1082
+    ],
+    "WARVLKIS10"
+  ],
+  [
+    "C04",
+    "Sixteen Mile Lake central island northern tip",
+    [
+      1224,
+      2011
+    ],
+    [
+      1334,
+      2027
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C05",
+    "Black Lake northwestern lobe roof",
+    [
+      311,
+      2673
+    ],
+    [
+      450,
+      2694
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Long Lake northern roof",
+    [
+      4271,
+      2217
+    ],
+    [
+      4332,
+      2209
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Big Winnifred Lake northwestern horn tip",
+    [
+      3931,
+      3276
+    ],
+    [
+      3993,
+      3288
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,114 @@
+{
+  "windows": [
+    {
+      "panel": "richmond",
+      "name": "mcdonald-rocky-lakes",
+      "lonlat_bounds": [
+        -60.99,
+        45.701,
+        -60.945,
+        45.731
+      ],
+      "raster": "/Users/dfakkeldy/Downloads/church-refinement-04/rendered/richmond-refined-v4-tps-5m.tif",
+      "raster_sha256": "32ca1073e47b9b3d7f03dc1eb0e6d4f2d51d3012f34640d15e6bb2b3b205d2a8",
+      "geotransform": [
+        -6789380.0,
+        5.01,
+        0.0,
+        5737350.0,
+        0.0,
+        -5.010471204188481
+      ],
+      "window_size": [
+        1000,
+        955
+      ],
+      "figure": "richmond/warped-review/mcdonald-rocky-lakes.jpg",
+      "figure_sha256": "f9751e058336d23153ee9f02cfa6fa3e71a107c54722d3d04df410145820b4ff",
+      "method": "Actual raster window; vectors directly projected to EPSG:3857. No search-guide warp."
+    },
+    {
+      "panel": "inverness-south",
+      "name": "cow-island",
+      "lonlat_bounds": [
+        -61.065,
+        45.785,
+        -61.02,
+        45.815
+      ],
+      "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+      "raster_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+      "geotransform": [
+        -6797740.0,
+        5.0,
+        0.0,
+        5750760.0,
+        0.0,
+        -5.0
+      ],
+      "window_size": [
+        1000,
+        960
+      ],
+      "figure": "inverness-south/warped-review/cow-island.jpg",
+      "figure_sha256": "4555dff1d1bf96d44b690a60847caf624055588f3c8c33b4e29a1a3dd3782c61",
+      "method": "Actual raster window; vectors directly projected to EPSG:3857. No search-guide warp."
+    },
+    {
+      "panel": "inverness-south",
+      "name": "mabou-mainland",
+      "lonlat_bounds": [
+        -61.45,
+        46.035,
+        -61.355,
+        46.095
+      ],
+      "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+      "raster_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+      "geotransform": [
+        -6840600.0,
+        10.58,
+        0.0,
+        5795600.0,
+        0.0,
+        -10.583058305830583
+      ],
+      "window_size": [
+        1000,
+        909
+      ],
+      "figure": "inverness-south/warped-review/mabou-mainland.jpg",
+      "figure_sha256": "2129923bb5391a521cb5b641b733fbd52d1ac4ba5ce6fe676b1b3fb30858937e",
+      "method": "Actual raster window; vectors directly projected to EPSG:3857. No search-guide warp."
+    },
+    {
+      "panel": "inverness-south",
+      "name": "whyco-river-context",
+      "lonlat_bounds": [
+        -61.18,
+        45.968,
+        -61.105,
+        46.02
+      ],
+      "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+      "raster_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+      "geotransform": [
+        -6810540.0,
+        8.34,
+        0.0,
+        5783560.0,
+        0.0,
+        -8.34
+      ],
+      "window_size": [
+        1000,
+        1000
+      ],
+      "figure": "inverness-south/warped-review/whyco-river-context.jpg",
+      "figure_sha256": "909ac951d2d90c46dbfa73ad98dc36b82882fd580b9185153a7c8249889c8d61",
+      "method": "Actual raster window; vectors directly projected to EPSG:3857. No search-guide warp."
+    }
+  ],
+  "new_warp": false,
+  "scope": "Local windows and unchanged raster identities; previous full-content alpha/distortion/browser receipts remain historical evidence."
+}

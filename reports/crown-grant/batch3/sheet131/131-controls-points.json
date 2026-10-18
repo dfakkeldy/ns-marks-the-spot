@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "Sutherland Point hooked north-shore tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1105,
+      350
+    ],
+    "lonlat": [
+      -60.52074708547691,
+      46.20161496724788
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 2304,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1102.6496476602624,
+      294.98802147537936
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Long Island southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2185,
+      1600
+    ],
+    "lonlat": [
+      -60.42293886525103,
+      46.162029015967576
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 19224,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2141.227823875728,
+      1558.8283139683772
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Groves Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3450,
+      780
+    ],
+    "lonlat": [
+      -60.34493534008611,
+      46.22452829092915
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 6085,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3648.292122586048,
+      746.2575428879354
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Small lake northeast of George River northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4438,
+      1122
+    ],
+    "lonlat": [
+      -60.27890558690399,
+      46.22450297008698
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 126508,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4542.428932500072,
+      1081.2318720401963
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Point Edward northeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4915,
+      2100
+    ],
+    "lonlat": [
+      -60.232119891201755,
+      46.18771284954166
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 12791,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4912.541696543922,
+      2029.9641884021694
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Cowan Lake north tip near southeast edge",
+    "role": "proposal",
+    "pixel_xy": [
+      5598,
+      3400
+    ],
+    "lonlat": [
+      -60.15745429538542,
+      46.13691545227127
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 41277,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5561.834035662643,
+      3390.68862480158
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "McLeod Lake west end",
+    "role": "proposal",
+    "pixel_xy": [
+      2307,
+      2450
+    ],
+    "lonlat": [
+      -60.3864030532659,
+      46.12833371729143
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 136306,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2393.5596054798225,
+      2396.4335164676886
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Southwest marginal pond west end",
+    "role": "proposal",
+    "pixel_xy": [
+      152,
+      3550
+    ],
+    "lonlat": [
+      -60.49338178142034,
+      46.04239106896208
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 124440,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      321.3902928198222,
+      3512.5439112783642
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

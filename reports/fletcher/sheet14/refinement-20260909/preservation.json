@@ -1,0 +1,18 @@
+{
+  "unchanged_prior_sheet14_controls": 21,
+  "corrected_modern_location_only": [
+    "C09"
+  ],
+  "added_controls": [
+    "R01",
+    "R02",
+    "R03"
+  ],
+  "unchanged_other_sheet_records": [
+    "19",
+    "16",
+    "22"
+  ],
+  "all_64_other_sheet_hand_controls_preserved": true,
+  "baseline_fit_sha256": "46837fbcd06c83ae9256fa324edebba820e7e1ab25e14dc010c136400c2b84af"
+}

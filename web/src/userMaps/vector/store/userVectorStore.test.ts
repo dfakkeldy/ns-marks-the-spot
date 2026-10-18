@@ -124,4 +124,56 @@ describe("UserVectorStore", () => {
     expect((await store.listVectorLayers())[0].id).toBe("a");
     maps.close();
   });
+
+  // Both halves of the attach exemption, so it cannot be turned into a
+  // permanent one: a reserved row survives a write that does not mention it,
+  // and the moment a write does reference the id the reservation ends — after
+  // which the sweep collects it again if the feature that held it is deleted.
+  it("holds a reserved photo, then sweeps it once a write has referenced it", async () => {
+    const { UserPhotoStore, reservePhotoId, resetPhotoReservationsForTests } =
+      await import("../photos/photoStore");
+    resetPhotoReservationsForTests();
+    await store.saveVectorLayer(record("a", "2026-07-30T00:00:00.000Z"), collection());
+    const photos = await UserPhotoStore.open(factory);
+    reservePhotoId("attaching");
+    await photos.savePhoto(
+      {
+        id: "attaching",
+        layerId: "a",
+        addedAt: "2026-08-30T00:00:00.000Z",
+        width: 10,
+        height: 10,
+        fullBytes: 1,
+        thumbBytes: 1,
+      },
+      new Blob(["full"], { type: "image/jpeg" }),
+      new Blob(["thumb"], { type: "image/jpeg" }),
+    );
+
+    await store.sweepLayerPhotos("a", collection());
+    expect(await photos.listLayerPhotos("a")).toHaveLength(1);
+    expect(await (await photos.getFullBlob("attaching"))?.text()).toBe("full");
+
+    const referencing: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "f1",
+          geometry: { type: "Point", coordinates: [-63.5, 44.5] },
+          properties: {
+            "nsmts:photos": [{ id: "attaching", width: 10, height: 10 }],
+          },
+        },
+      ],
+    };
+    await store.sweepLayerPhotos("a", referencing);
+    expect(await photos.listLayerPhotos("a")).toHaveLength(1);
+
+    // The feature holding it is gone, and the reservation ended above: this
+    // is the deletion the sweep exists for.
+    await store.sweepLayerPhotos("a", collection());
+    expect(await photos.listLayerPhotos("a")).toHaveLength(0);
+    expect(await photos.getFullBlob("attaching")).toBeNull();
+  });
 });

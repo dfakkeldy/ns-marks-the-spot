@@ -1,0 +1,14 @@
+{
+  "initial": "Sheet053 affine scaled140/150 and translated west for discovery only",
+  "adjustment": {
+    "original_guide": "044-west-adjacent-guide.npy",
+    "adjusted_guide": "044-island-discovery-guide.npy",
+    "translation_in_original_guide_pixels": [
+      65,
+      -110
+    ],
+    "reason": "Distinctive eastern Gaspereau heart-shaped island and neighbouring shore establish a rough discovery offset; old crop windows cut off corresponding islands. No guide coordinate is an observation.",
+    "before_any_point_selection_fit_or_score": true
+  },
+  "no_guide_coordinate_adopted": true
+}

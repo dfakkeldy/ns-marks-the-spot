@@ -24,7 +24,18 @@ import type { UserMapRecord } from "./types";
  */
 export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
   if (record.georef.kind === "embedded") {
-    return buildLatLngMesh(record.georef, record.pixelSize, 8, record.sourceRect);
+    // Fail CLOSED like the GCP branches below. buildLatLngMesh throws — an
+    // unparseable CRS, a non-finite projection, an out-of-bounds persisted
+    // sourceRect — and until this catch, one corrupt embedded record in
+    // IndexedDB threw during render on EVERY load: the whole map fell to
+    // the error boundary until storage was cleared by hand. Null keeps the
+    // record listed (so the user can remove it) and draws nothing, which is
+    // this function's documented contract for an unplaceable record.
+    try {
+      return buildLatLngMesh(record.georef, record.pixelSize, 8, record.sourceRect);
+    } catch {
+      return null;
+    }
   }
   if (
     record.georef.method === "tps" &&

@@ -1,0 +1,40 @@
+[
+  {
+    "image": "area-1.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-14/sheet-14-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7",
+      "1a72c3356ee5e7ea3e3dddb916fda949bf12465a7309f3e83ef5e21309fbb1b6"
+    ],
+    "projected_bounds": [
+      -6828489.24294168,
+      5809129.57123705,
+      -6825489.24294168,
+      5812129.57123705
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  },
+  {
+    "image": "area-2.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-14/sheet-14-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7",
+      "1a72c3356ee5e7ea3e3dddb916fda949bf12465a7309f3e83ef5e21309fbb1b6"
+    ],
+    "projected_bounds": [
+      -6819011.27306239,
+      5796434.30555903,
+      -6816011.27306239,
+      5799434.30555903
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  }
+]

@@ -1,0 +1,173 @@
+{
+  "sheet": "002",
+  "version": "affine-02",
+  "source_sha256": "89d0bdc5b09121e9e8809409fb4c672083be281a6a854828b9624f69d572ac37",
+  "source_dimensions": [
+    5731,
+    3919
+  ],
+  "source_frame": "Original JPEG, x right / y down; pixel-edge coordinate convention",
+  "crs": "EPSG:32620",
+  "transform": "affine; row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.977770982946863,
+      1.7578723477977898
+    ],
+    [
+      2.0459822862862262,
+      -4.889479294732358
+    ],
+    [
+      218439.56242666297,
+      4884885.26797905
+    ]
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "label": "Cape St Mary southern headland",
+      "role": "control",
+      "pixel_xy": [
+        4414,
+        1332
+      ],
+      "lonlat": [
+        -66.20851560626484,
+        44.083134508933846
+      ],
+      "reference_objectid": 10309,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4407.489296908083,
+        1326.7730190027505
+      ],
+      "source_uncertainty_px": 5,
+      "modern_uncertainty_m": 15,
+      "review": "Agent inspected paired native crosshair and modern vector geometry; coastline generalization remains a limitation."
+    },
+    {
+      "id": "C02",
+      "label": "Northern bulb headland",
+      "role": "control",
+      "pixel_xy": [
+        4572,
+        849
+      ],
+      "lonlat": [
+        -66.21224368518004,
+        44.107199724316885
+      ],
+      "reference_objectid": 4762,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4570.9824158234405,
+        866.8438591329614
+      ],
+      "source_uncertainty_px": 5,
+      "modern_uncertainty_m": 15,
+      "review": "Agent inspected paired native crosshair and modern vector geometry; coastline generalization remains a limitation."
+    },
+    {
+      "id": "C03",
+      "label": "Black Point western corner",
+      "role": "control",
+      "pixel_xy": [
+        4393,
+        2594
+      ],
+      "lonlat": [
+        -66.17327614864382,
+        44.02814025947854
+      ],
+      "reference_objectid": 12588,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4467.427455072175,
+        2612.7785040934104
+      ],
+      "source_uncertainty_px": 5,
+      "modern_uncertainty_m": 15,
+      "review": "Agent inspected paired native crosshair and modern vector geometry; coastline generalization remains a limitation."
+    },
+    {
+      "id": "C05",
+      "label": "Churchill Lake western arm",
+      "role": "control",
+      "pixel_xy": [
+        4425,
+        3544
+      ],
+      "lonlat": [
+        -66.14673111593677,
+        43.98808610190966
+      ],
+      "reference_objectid": 140485,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4526.116391537478,
+        3557.3701378166443
+      ],
+      "source_uncertainty_px": 5,
+      "modern_uncertainty_m": 15,
+      "review": "Agent inspected paired native crosshair and modern vector geometry; coastline generalization remains a limitation."
+    },
+    {
+      "id": "C06",
+      "label": "Cedar Lake southwestern corner",
+      "role": "control",
+      "pixel_xy": [
+        5054,
+        3155
+      ],
+      "lonlat": [
+        -66.11823302246277,
+        44.01561253572329
+      ],
+      "reference_objectid": 125122,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5244.037592352426,
+        3318.7929043453187
+      ],
+      "source_uncertainty_px": 8,
+      "modern_uncertainty_m": 30,
+      "review": "Cedar Lake southwest shoreline corner: inspect Q11 paired crosshair; promoted after affine-01 diagnostic failure. Not independent validation in subsequent fits.",
+      "reference": "NSTDB water lines layer 4, downloaded 2026-09-19",
+      "previous_check_id": "Q11"
+    }
+  ],
+  "rejected_proposals": [
+    {
+      "id": "C04",
+      "label": "Cedar Lake northern prong",
+      "role": "control-proposal",
+      "pixel_xy": [
+        5417,
+        2807
+      ],
+      "lonlat": [
+        -66.11151709887325,
+        44.03195348548866
+      ],
+      "reference_objectid": 125124,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5504.560510369134,
+        3087.461925186799
+      ],
+      "source_uncertainty_px": 5,
+      "modern_uncertainty_m": 15,
+      "reason": "Native crosshair audit: proposed shoreline belongs to an unresolved outer line; Cedar Lake prong identity not established. Excluded before fitting."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    28.517455862097737,
+    30.140841743581547,
+    91.65128608860297,
+    65.46361555542185,
+    10.87120041797497
+  ],
+  "status": "provisional; repaired inland support; failed/limited diagnostic checks; no fresh validation; inset unsupported",
+  "repair": "Q11 promoted to C06 after preserved affine-01 failure. No other control coordinate changed."
+}

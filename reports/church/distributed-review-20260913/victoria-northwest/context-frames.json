@@ -1,0 +1,70 @@
+{
+  "VN08": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      10500,
+      8700
+    ],
+    "extent": [
+      1000,
+      1500
+    ],
+    "display": [
+      1000,
+      1500
+    ],
+    "rotation": 0
+  },
+  "VN09": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      9000,
+      18100
+    ],
+    "extent": [
+      2000,
+      2000
+    ],
+    "display": [
+      1400,
+      1400
+    ],
+    "rotation": 0
+  },
+  "VN09-detail": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      9350,
+      19100
+    ],
+    "extent": [
+      650,
+      550
+    ],
+    "display": [
+      1300,
+      1100
+    ],
+    "rotation": 0
+  },
+  "VN10": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      6700,
+      13500
+    ],
+    "extent": [
+      1300,
+      1000
+    ],
+    "display": [
+      1300,
+      1000
+    ],
+    "rotation": 0
+  }
+}

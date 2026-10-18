@@ -1,0 +1,200 @@
+[
+  {
+    "id": "C01",
+    "label": "Northwest McInnis Lake east end",
+    "role": "proposal",
+    "pixel_xy": [
+      451,
+      459
+    ],
+    "lonlat": [
+      -60.37988222381632,
+      45.85808587232939
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 136746,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      463.93692124664085,
+      469.23199175216723
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Mira long island northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1605,
+      958
+    ],
+    "lonlat": [
+      -60.29034973962845,
+      45.71782731343025
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 27599,
+    "reference_feature_code": "WACORVIS10",
+    "guide_reference_pixel_xy": [
+      668.1422482312773,
+      3661.3577994210646
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Mohawk Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2534,
+      1325
+    ],
+    "lonlat": [
+      -60.22518678344708,
+      45.8549615231496
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 135687,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2558.1242491187877,
+      1323.8812788692303
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Oceanview Wilkinson Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3340,
+      1030
+    ],
+    "lonlat": [
+      -60.1808478202575,
+      45.88228932747699
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 136108,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3363.3404248857405,
+      1018.0017901341198
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Cape Gabarus east shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4330,
+      2800
+    ],
+    "lonlat": [
+      -60.0750562250551,
+      45.81799709058845
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 14158,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4347.160886079073,
+      2811.2845766688697
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Guyon Island west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3417,
+      3605
+    ],
+    "lonlat": [
+      -60.11413582053899,
+      45.767152298068815
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 21417,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3443.585635776224,
+      3603.3250218256144
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Southwest Goose Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      967,
+      2980
+    ],
+    "lonlat": [
+      -60.28788678854563,
+      45.75456856293166
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 126544,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      969.3228642868344,
+      2958.311606763513
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Middle Lake western narrow bend",
+    "role": "proposal",
+    "pixel_xy": [
+      422,
+      2470
+    ],
+    "lonlat": [
+      -60.334026048253456,
+      45.767861474943246
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 136279,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      433.70265356998425,
+      2462.137264706311
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C09",
+    "label": "Northeast McInnis Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4410,
+      773
+    ],
+    "lonlat": [
+      -60.11817079890978,
+      45.911403984766075
+    ],
+    "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+    "reference_objectid": 132193,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4431.957231751119,
+      770.162193010794
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

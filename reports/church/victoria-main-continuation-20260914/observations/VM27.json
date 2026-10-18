@@ -1,0 +1,72 @@
+{
+  "id": "VM27",
+  "role": "check",
+  "label": "MacIvers Point northwestern mainland corner, labelled Macivor Point",
+  "pixel_xy": [
+    16172.0,
+    25055.333333333332
+  ],
+  "lonlat": [
+    -60.925008415397436,
+    46.038431573009426
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      16050,
+      24940
+    ],
+    "extent": [
+      350,
+      350
+    ],
+    "display": [
+      1050,
+      1050
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    366,
+    346
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-macivor-corner-native.jpg",
+  "source_crop_sha256": "a65250ae3bbc595526c8e119ae50078a46b90bcfc7630136412ecf3929ec8e60",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/reference-full/water-lines.geojson",
+  "reference_sha256": "f9bb31b25cf1febe7f11eba2aa47c9aeeabec5587909e58e65cbfd4fa50c4719",
+  "reference_feature_ids": [
+    10117
+  ],
+  "reference_vertex": {
+    "feature_id": 10117,
+    "vertex": 62
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "The source labels Macivor Point southeast of Hume Island and east of Bell Rock. Its northwestern corner connects a north-facing recess to the long western face; the northern lobe farther east is a different part of the promontory. The same Hume/Bell Rock/mainland relation and north-coast/vertical-west-face shape occurs in the original coast data. Select the northern corner of the west face, not the tiny interior ring, the westernmost vertex farther south, or the official MacIvers Point representative coordinate. WACO20 vertex10117v62 defines that corner. Historical angular versus modern small rounded nose warrants140m uncertainty.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-review-20260913/VM02.jpg",
+    "sha256": "bca27a0d97a85775d5e9524acae35e652d6068e374f5c80b33382ea6e2529751",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        15500,
+        24400
+      ],
+      "extent": [
+        1200,
+        1000
+      ],
+      "display": [
+        1200,
+        1000
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh western check after fifteen-control TPS freeze; never fitted or used to select the candidate",
+  "recorded_at": "2026-09-15T03:13:59.312058+00:00",
+  "freeze_sha256": "615e7133a8321a93934a0f60b1d88caa8e019c28a76385ed81603454e52d9e1c"
+}

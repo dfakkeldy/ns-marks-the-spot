@@ -1,0 +1,46 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Middle coastal creek at shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1430,
+      2563
+    ],
+    "lonlat": [
+      -62.06100370547828,
+      45.80918341722484
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 13222,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1351.4352308684029,
+      2587.201914127858
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Georgeville coastal creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      1750,
+      3421
+    ],
+    "lonlat": [
+      -62.01909378287109,
+      45.83652902282757
+    ],
+    "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+    "reference_objectid": 13187,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1638.195841866429,
+      3411.1829433733947
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,3 +1,6 @@
+// Installs Map upsert methods that PDF.js needs; keep it before PDF.js loads.
+import "./mapUpsertPolyfill";
+import PDF_WORKER_URL from "./pdfjsWorkerEntry?worker&url";
 import { UserMapImportError } from "../errors";
 import type { GeoPdfCanvas } from "./geoPdfSource";
 import { parseGeoPdf } from "./geoPdfSource";
@@ -6,11 +9,6 @@ import type {
   GeoPdfWorkerReply,
   GeoPdfWorkerRequest,
 } from "./parseGeoPdfAuto";
-
-const PDF_WORKER_URL = new URL(
-  "../../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url,
-).href;
 
 type WorkerScope = {
   onmessage:

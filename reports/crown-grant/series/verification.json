@@ -1,0 +1,2841 @@
+{
+  "verified_at_utc": "2026-09-26T04:07:33.290422+00:00",
+  "linked_official_sheets": 138,
+  "assessed_sheets": 138,
+  "remaining_sheets": 0,
+  "score_replays": 166,
+  "active_raster_components": 157,
+  "all_source_and_active_raster_hashes_match": true,
+  "all_saved_coverage_receipts_passed": true,
+  "all_browser_receipts_present": true,
+  "all_principal_reference_extracts_available": true,
+  "main_rms_pass_count": 102,
+  "main_all_numeric_limits_pass_count": 82,
+  "main_rms_fail_sheets": [
+    "004a",
+    "005",
+    "008",
+    "010",
+    "011",
+    "015",
+    "019",
+    "022",
+    "024",
+    "026",
+    "031",
+    "043",
+    "044",
+    "049",
+    "052",
+    "056",
+    "058",
+    "060",
+    "067",
+    "076",
+    "077",
+    "087",
+    "090",
+    "092",
+    "097",
+    "103",
+    "109",
+    "111",
+    "112",
+    "114",
+    "117",
+    "118",
+    "119",
+    "120",
+    "130",
+    "131"
+  ],
+  "accepted_batch1_basis": "57765b8d5edc54798491ef524463b98330601633",
+  "accepted_batch1_artifacts_preserved": 34,
+  "rows": [
+    {
+      "sheet": "002",
+      "status": "accepted-qualified",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 72.70230231766323,
+        "median_ground_m": 73.6631886590589,
+        "p95_ground_m": 96.69847067776085,
+        "max_ground_m": 99.76261351884153,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": true
+    },
+    {
+      "sheet": "003",
+      "status": "accepted-qualified",
+      "main_metrics": {
+        "count": 12,
+        "rms_ground_m": 52.5201758911758,
+        "median_ground_m": 47.92793220209982,
+        "p95_ground_m": 81.0936224012147,
+        "max_ground_m": 86.11155986493219,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": true
+    },
+    {
+      "sheet": "004",
+      "status": "accepted-qualified",
+      "main_metrics": {
+        "count": 21,
+        "rms_ground_m": 92.7871424735755,
+        "median_ground_m": 66.05411693883464,
+        "p95_ground_m": 167.70383151405426,
+        "max_ground_m": 229.12622329238178,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": true
+    },
+    {
+      "sheet": "004a",
+      "status": "accepted-qualified",
+      "main_metrics": {
+        "count": 10,
+        "rms_ground_m": 101.95600982886253,
+        "median_ground_m": 77.3611298690249,
+        "p95_ground_m": 168.14209251196408,
+        "max_ground_m": 187.0723193971134,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 3,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": true
+    },
+    {
+      "sheet": "005",
+      "status": "accepted-qualified",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 123.45814689513249,
+        "median_ground_m": 62.89290815385633,
+        "p95_ground_m": 228.59533626307066,
+        "max_ground_m": 264.0167637879153,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": true
+    },
+    {
+      "sheet": "006",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 80.34155798349282,
+        "median_ground_m": 73.868662201648,
+        "p95_ground_m": 128.72998069505883,
+        "max_ground_m": 132.0069556440447,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "007",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 75.10690945078306,
+        "median_ground_m": 73.85759930717568,
+        "p95_ground_m": 93.1203048320751,
+        "max_ground_m": 97.78634191075265,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "008",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 136.55326733516887,
+        "median_ground_m": 89.84858026625682,
+        "p95_ground_m": 238.48130442752117,
+        "max_ground_m": 271.6513692208511,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "009",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 74.91942531663305,
+        "median_ground_m": 65.66436360882955,
+        "p95_ground_m": 123.60784853481412,
+        "max_ground_m": 129.36927786343512,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "010",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 101.25945336625703,
+        "median_ground_m": 91.42812019159106,
+        "p95_ground_m": 143.54071734133225,
+        "max_ground_m": 159.75951835161945,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "011",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 142.86475263080376,
+        "median_ground_m": 133.59051973140464,
+        "p95_ground_m": 208.41668508552996,
+        "max_ground_m": 230.57403747983312,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "013",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 72.20560033164858,
+        "median_ground_m": 60.39244817807995,
+        "p95_ground_m": 121.91617458268564,
+        "max_ground_m": 136.98646769020843,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "014",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 96.0136398958437,
+        "median_ground_m": 102.63137462465224,
+        "p95_ground_m": 133.2149089922076,
+        "max_ground_m": 138.81707090758448,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "015",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 139.25205310372968,
+        "median_ground_m": 93.43924134349305,
+        "p95_ground_m": 251.92534409417178,
+        "max_ground_m": 284.9246435592622,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "016",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 98.07389707566091,
+        "median_ground_m": 88.46098607956792,
+        "p95_ground_m": 131.3315253834508,
+        "max_ground_m": 131.77782493940506,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "017",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 77.47311988039998,
+        "median_ground_m": 78.5382807000569,
+        "p95_ground_m": 113.21374546488798,
+        "max_ground_m": 114.14304506951848,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "018",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 41.710409847200324,
+        "median_ground_m": 39.52775431406433,
+        "p95_ground_m": 62.69188043881398,
+        "max_ground_m": 63.9530964714916,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "019",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 103.4403508678554,
+        "median_ground_m": 96.22291162554168,
+        "p95_ground_m": 143.33752908142674,
+        "max_ground_m": 144.55901448269165,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "020",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 52.944798130328884,
+        "median_ground_m": 37.624852557178954,
+        "p95_ground_m": 82.01340928013207,
+        "max_ground_m": 86.66130848626396,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "021",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 71.92914502751435,
+        "median_ground_m": 62.78799361681489,
+        "p95_ground_m": 96.7182233972038,
+        "max_ground_m": 99.44413550257536,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "022",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 101.95968066477984,
+        "median_ground_m": 76.12024801735143,
+        "p95_ground_m": 166.11745912143166,
+        "max_ground_m": 185.86083277409173,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "023",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 88.20405601631789,
+        "median_ground_m": 70.48945651305826,
+        "p95_ground_m": 147.30790899267137,
+        "max_ground_m": 184.81552286264048,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "024",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 155.1936308224329,
+        "median_ground_m": 83.1000303985347,
+        "p95_ground_m": 285.42537616790446,
+        "max_ground_m": 342.0567381465598,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "025",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 72.77579433053918,
+        "median_ground_m": 48.74268413014647,
+        "p95_ground_m": 131.7447742726973,
+        "max_ground_m": 162.10518837812776,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "026",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 103.52941962631171,
+        "median_ground_m": 104.79513546566895,
+        "p95_ground_m": 133.91363640729884,
+        "max_ground_m": 135.47450223525055,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "027",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 82.2113760609723,
+        "median_ground_m": 60.017721914481854,
+        "p95_ground_m": 133.9691254781313,
+        "max_ground_m": 151.0483325414771,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "028",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 88.01444149654242,
+        "median_ground_m": 74.20071932610864,
+        "p95_ground_m": 128.89782439683472,
+        "max_ground_m": 137.83677444476538,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "029",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 57.85924840715645,
+        "median_ground_m": 45.4153101495214,
+        "p95_ground_m": 95.14172616027713,
+        "max_ground_m": 106.15771174041242,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "030",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 95.11671467759331,
+        "median_ground_m": 63.95789054006633,
+        "p95_ground_m": 160.65691491828497,
+        "max_ground_m": 169.13954762521476,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "031",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 130.8870923964516,
+        "median_ground_m": 77.48115256347084,
+        "p95_ground_m": 219.14757874561082,
+        "max_ground_m": 225.3632793256863,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "032",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 56.82217051403146,
+        "median_ground_m": 55.40044001823316,
+        "p95_ground_m": 80.19015088422792,
+        "max_ground_m": 80.51374563434418,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "033",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 48.13636614758933,
+        "median_ground_m": 48.18748134941949,
+        "p95_ground_m": 63.688419806015794,
+        "max_ground_m": 64.06094837423764,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "034",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 81.92880400800229,
+        "median_ground_m": 56.942310970343776,
+        "p95_ground_m": 127.49905976009853,
+        "max_ground_m": 138.3853233337232,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "035",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 3,
+        "rms_ground_m": 75.05774417015296,
+        "median_ground_m": 76.38872315791511,
+        "p95_ground_m": 93.19776641113427,
+        "max_ground_m": 95.06543788371418,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "036",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 25.828851950224298,
+        "median_ground_m": 23.619070644734766,
+        "p95_ground_m": 36.88722521434464,
+        "max_ground_m": 39.319161972931106,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "037",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 46.22874562472398,
+        "median_ground_m": 36.11967737393788,
+        "p95_ground_m": 79.97741772779696,
+        "max_ground_m": 92.25560250172661,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "038",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 48.366599368909625,
+        "median_ground_m": 47.59546357247432,
+        "p95_ground_m": 63.882763727787356,
+        "max_ground_m": 64.59017342662081,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "039",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 35.11490313049672,
+        "median_ground_m": 39.17225554834482,
+        "p95_ground_m": 44.58714154770708,
+        "max_ground_m": 45.25867302562869,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "040",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 61.47220506610824,
+        "median_ground_m": 44.55719619888811,
+        "p95_ground_m": 103.58097117779913,
+        "max_ground_m": 114.09236252223435,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "041",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 52.83412595190792,
+        "median_ground_m": 44.264572618577716,
+        "p95_ground_m": 83.72834824451223,
+        "max_ground_m": 91.33981642004076,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "042",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 42.9343829769111,
+        "median_ground_m": 46.04459929784905,
+        "p95_ground_m": 47.91565479521479,
+        "max_ground_m": 48.05672216936132,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "043",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 129.31830269537113,
+        "median_ground_m": 84.8562921774039,
+        "p95_ground_m": 225.34415861342845,
+        "max_ground_m": 238.3340646609312,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "044",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 103.25700421444355,
+        "median_ground_m": 86.15338345740838,
+        "p95_ground_m": 160.3875145864105,
+        "max_ground_m": 173.1162494137593,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "045",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 66.49156392064721,
+        "median_ground_m": 40.551459377475155,
+        "p95_ground_m": 120.39800920223541,
+        "max_ground_m": 150.91127413307947,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "046",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 96.79169290218512,
+        "median_ground_m": 83.71422603207017,
+        "p95_ground_m": 131.4838901911435,
+        "max_ground_m": 137.19962423067753,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "047",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 72.28190366101757,
+        "median_ground_m": 47.40220704499198,
+        "p95_ground_m": 130.57390759158744,
+        "max_ground_m": 159.10013335247604,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "048",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 79.54104580899761,
+        "median_ground_m": 56.38709889661305,
+        "p95_ground_m": 132.73543804720364,
+        "max_ground_m": 144.3429239289696,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "049",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 424.2597356082433,
+        "median_ground_m": 349.6162895523925,
+        "p95_ground_m": 615.1952255718552,
+        "max_ground_m": 626.4957246351383,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "050",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 61.67815692779736,
+        "median_ground_m": 38.25286254037134,
+        "p95_ground_m": 95.8813796626278,
+        "max_ground_m": 103.6684527429128,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "051",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 49.77692931992484,
+        "median_ground_m": 38.2666156223556,
+        "p95_ground_m": 82.82645667264279,
+        "max_ground_m": 88.14030332996985,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "052",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 141.3227388784321,
+        "median_ground_m": 101.6643026285746,
+        "p95_ground_m": 220.49334714303592,
+        "max_ground_m": 238.03821333510865,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "053",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 67.38395047691112,
+        "median_ground_m": 70.13197894764045,
+        "p95_ground_m": 84.12340612927379,
+        "max_ground_m": 87.00361884980235,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "054",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 97.69563230188984,
+        "median_ground_m": 86.63977816972452,
+        "p95_ground_m": 153.64049150311195,
+        "max_ground_m": 170.95525097284113,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "055",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 67.23209444880312,
+        "median_ground_m": 54.79268152856538,
+        "p95_ground_m": 105.70264665828913,
+        "max_ground_m": 118.64065650104344,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "056",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 103.05652311467188,
+        "median_ground_m": 72.08571724122024,
+        "p95_ground_m": 168.21954994578763,
+        "max_ground_m": 184.23503174698467,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "057",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 59.35648090816673,
+        "median_ground_m": 55.42188469848871,
+        "p95_ground_m": 83.25129737947823,
+        "max_ground_m": 86.4857280107233,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "058",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 3,
+        "rms_ground_m": 106.17997510793715,
+        "median_ground_m": 84.68829973574445,
+        "p95_ground_m": 153.77648711793242,
+        "max_ground_m": 161.45295238261997,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "059",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 92.98986585858853,
+        "median_ground_m": 72.95930154739473,
+        "p95_ground_m": 146.6143855220936,
+        "max_ground_m": 156.1436955574556,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "060",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 235.59208581379104,
+        "median_ground_m": 103.88919821527874,
+        "p95_ground_m": 396.3505526950802,
+        "max_ground_m": 445.64490930764657,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "061",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 79.73393836684093,
+        "median_ground_m": 73.26905706673786,
+        "p95_ground_m": 118.75265354475204,
+        "max_ground_m": 124.87568854822507,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "062",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 52.62172767997084,
+        "median_ground_m": 50.14576277564896,
+        "p95_ground_m": 67.02962871019963,
+        "max_ground_m": 68.1707693919981,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "063",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 46.18328792778325,
+        "median_ground_m": 47.4648342291231,
+        "p95_ground_m": 52.55565108256135,
+        "max_ground_m": 52.68535864030582,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "064",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 53.990787120621974,
+        "median_ground_m": 40.00001094351084,
+        "p95_ground_m": 91.94606349369985,
+        "max_ground_m": 103.5949427852624,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "065",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 55.123568652470794,
+        "median_ground_m": 57.92898785585502,
+        "p95_ground_m": 63.67300619689733,
+        "max_ground_m": 64.51067471910928,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "066",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 76.8335400164426,
+        "median_ground_m": 59.60753624347107,
+        "p95_ground_m": 127.59963069203282,
+        "max_ground_m": 137.09711300809164,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "067",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 100.17459813305791,
+        "median_ground_m": 97.8420706642767,
+        "p95_ground_m": 131.2023603043518,
+        "max_ground_m": 135.9941525422729,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "068",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 20.214786750610905,
+        "median_ground_m": 17.90202680669735,
+        "p95_ground_m": 27.78083324434883,
+        "max_ground_m": 28.970465721264198,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "069",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 41.33338772818585,
+        "median_ground_m": 41.098053529465716,
+        "p95_ground_m": 50.78544889092272,
+        "max_ground_m": 52.0663659609071,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "070",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 77.72458104411957,
+        "median_ground_m": 78.0914694763988,
+        "p95_ground_m": 95.06455656165646,
+        "max_ground_m": 99.13632369835544,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "071",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 41.419930395599955,
+        "median_ground_m": 25.592764353260957,
+        "p95_ground_m": 66.3682080132555,
+        "max_ground_m": 73.21975237991238,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "072",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 31.644835337363066,
+        "median_ground_m": 28.631468101755956,
+        "p95_ground_m": 43.70115198917853,
+        "max_ground_m": 44.41073250275768,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "073",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 46.73223917251022,
+        "median_ground_m": 31.535219764796285,
+        "p95_ground_m": 79.8544306460941,
+        "max_ground_m": 93.25461901640263,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "074",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 61.26836122984472,
+        "median_ground_m": 61.938688659853,
+        "p95_ground_m": 81.17931208518077,
+        "max_ground_m": 83.73997545388457,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "075",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 43.62663046339071,
+        "median_ground_m": 41.54364823142211,
+        "p95_ground_m": 68.3109544697303,
+        "max_ground_m": 75.4164193588624,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "076",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 131.8263871369466,
+        "median_ground_m": 51.449308790716984,
+        "p95_ground_m": 248.45372948029637,
+        "max_ground_m": 316.03149646502226,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "077",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 164.7098820520001,
+        "median_ground_m": 146.2041768873656,
+        "p95_ground_m": 251.61569887203254,
+        "max_ground_m": 265.41820101071295,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "078",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 96.78355069832212,
+        "median_ground_m": 87.48599690788285,
+        "p95_ground_m": 134.46744815848177,
+        "max_ground_m": 139.77213505774054,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "079",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 52.83086759299413,
+        "median_ground_m": 49.12028453429071,
+        "p95_ground_m": 76.98527857624613,
+        "max_ground_m": 80.38011459312324,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "080",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 38.50239460983922,
+        "median_ground_m": 38.83062029635598,
+        "p95_ground_m": 56.06812378730886,
+        "max_ground_m": 59.63790411208428,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "081",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 38.272895656477615,
+        "median_ground_m": 30.872624766766993,
+        "p95_ground_m": 62.64555461396235,
+        "max_ground_m": 76.54847513018707,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "082",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 84.87958528791782,
+        "median_ground_m": 89.15352499932374,
+        "p95_ground_m": 105.80451191818398,
+        "max_ground_m": 107.20649965685334,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "083",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 73.83756938652589,
+        "median_ground_m": 62.72418340787868,
+        "p95_ground_m": 108.70571566045955,
+        "max_ground_m": 113.0628951303449,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "084",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 51.01750131888178,
+        "median_ground_m": 48.72116470514101,
+        "p95_ground_m": 73.76009454616633,
+        "max_ground_m": 77.27170503319049,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "085",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 55.62686911885509,
+        "median_ground_m": 54.01259510566125,
+        "p95_ground_m": 73.85483161858349,
+        "max_ground_m": 74.72595158425662,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "086",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 96.76371120366866,
+        "median_ground_m": 68.7780398794854,
+        "p95_ground_m": 151.5478738855352,
+        "max_ground_m": 164.17809115633597,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "087",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 117.04764688698587,
+        "median_ground_m": 105.78670762120267,
+        "p95_ground_m": 158.76155893166907,
+        "max_ground_m": 163.9376292139114,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "088",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 75.41467996366467,
+        "median_ground_m": 55.230897523835914,
+        "p95_ground_m": 116.0358047278865,
+        "max_ground_m": 126.87728795125246,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "089",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 83.4623421113853,
+        "median_ground_m": 86.28702965099788,
+        "p95_ground_m": 116.39377845985656,
+        "max_ground_m": 119.06310902559096,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "090",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 105.24248474377777,
+        "median_ground_m": 85.68643715772612,
+        "p95_ground_m": 155.45717905741265,
+        "max_ground_m": 162.8525464086134,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "091",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 96.68041014853144,
+        "median_ground_m": 69.95624338595188,
+        "p95_ground_m": 158.7793700688052,
+        "max_ground_m": 174.8427988718754,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "092",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 107.25976787432812,
+        "median_ground_m": 83.43515899724407,
+        "p95_ground_m": 171.94807976779393,
+        "max_ground_m": 197.31409131310403,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "093",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 71.56080797873472,
+        "median_ground_m": 46.67043364566064,
+        "p95_ground_m": 113.87680703431197,
+        "max_ground_m": 118.68875182251244,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "094",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 41.14115849257734,
+        "median_ground_m": 39.095917448419684,
+        "p95_ground_m": 51.122761076781764,
+        "max_ground_m": 53.673956949479134,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "095",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 64.4772255308227,
+        "median_ground_m": 50.93007793659636,
+        "p95_ground_m": 105.14590209855533,
+        "max_ground_m": 106.30060366337008,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "096",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 75.01974065967788,
+        "median_ground_m": 63.4762154654949,
+        "p95_ground_m": 115.46413626573198,
+        "max_ground_m": 121.79578534135358,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "097",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 107.9189301421114,
+        "median_ground_m": 72.51242411539067,
+        "p95_ground_m": 188.77372708352473,
+        "max_ground_m": 209.4167373663172,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "098",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 59.79765350754585,
+        "median_ground_m": 36.82217068133807,
+        "p95_ground_m": 103.61492242838351,
+        "max_ground_m": 118.06711879556578,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "099",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 49.56441473412552,
+        "median_ground_m": 48.83795725533941,
+        "p95_ground_m": 61.524504268894624,
+        "max_ground_m": 65.30657441460666,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "100",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 39.1892378543928,
+        "median_ground_m": 37.550772185685844,
+        "p95_ground_m": 56.590273187998676,
+        "max_ground_m": 63.23889510560329,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "101",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 43.247499712452594,
+        "median_ground_m": 45.03931863157855,
+        "p95_ground_m": 66.56458273235876,
+        "max_ground_m": 72.78988310422497,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "102",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 81.3003369036623,
+        "median_ground_m": 81.2766038884732,
+        "p95_ground_m": 117.72784082956856,
+        "max_ground_m": 123.90870085313085,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "103",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 4,
+        "rms_ground_m": 174.4338699571609,
+        "median_ground_m": 97.05326888507939,
+        "p95_ground_m": 285.4140682890866,
+        "max_ground_m": 311.2773481554522,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "104",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 51.32587817095849,
+        "median_ground_m": 35.23786621213838,
+        "p95_ground_m": 86.12586131075051,
+        "max_ground_m": 91.88913192291879,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "105",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 31.71926771515894,
+        "median_ground_m": 29.094895405747653,
+        "p95_ground_m": 47.05440483168795,
+        "max_ground_m": 48.69382123086518,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "106",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 42.67999436338826,
+        "median_ground_m": 35.89472076969777,
+        "p95_ground_m": 56.531437481437045,
+        "max_ground_m": 58.33486658058201,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "107",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 69.77838936108445,
+        "median_ground_m": 37.7471062622779,
+        "p95_ground_m": 128.14229412247707,
+        "max_ground_m": 155.9336552608936,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "108",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 13,
+        "rms_ground_m": 52.24499514948199,
+        "median_ground_m": 46.672496244924716,
+        "p95_ground_m": 78.996325472734,
+        "max_ground_m": 79.57260797803093,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "109",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 141.1876082582987,
+        "median_ground_m": 116.37173590509192,
+        "p95_ground_m": 230.20382470970807,
+        "max_ground_m": 279.87107908252193,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "110",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 53.83985300033751,
+        "median_ground_m": 52.58348310480619,
+        "p95_ground_m": 75.29852256341789,
+        "max_ground_m": 77.4575513091516,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "111",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 10,
+        "rms_ground_m": 175.20614129354308,
+        "median_ground_m": 81.76206724853168,
+        "p95_ground_m": 340.68357443954307,
+        "max_ground_m": 382.85081862966877,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "112",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 105.23991735118904,
+        "median_ground_m": 83.3707928588667,
+        "p95_ground_m": 183.81395195073057,
+        "max_ground_m": 206.32172811342141,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "113",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 65.42356201055506,
+        "median_ground_m": 60.162706083887706,
+        "p95_ground_m": 100.67283640013365,
+        "max_ground_m": 114.61079366062374,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "114",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 168.84910065357266,
+        "median_ground_m": 161.2757934939262,
+        "p95_ground_m": 237.71804723171223,
+        "max_ground_m": 242.5902787130925,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "115",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 61.66023701275235,
+        "median_ground_m": 48.737085611595475,
+        "p95_ground_m": 99.78501324192906,
+        "max_ground_m": 117.26545278247431,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "116",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 54.374843966466116,
+        "median_ground_m": 37.66940670560528,
+        "p95_ground_m": 96.16572493965133,
+        "max_ground_m": 118.42978018398433,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "117",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 106.78540876468259,
+        "median_ground_m": 110.2010881109093,
+        "p95_ground_m": 143.72556140636462,
+        "max_ground_m": 152.09426310270166,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "118",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 104.53576946596525,
+        "median_ground_m": 43.46117227557592,
+        "p95_ground_m": 205.37926525842363,
+        "max_ground_m": 229.41178669621345,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "119",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 5,
+        "rms_ground_m": 128.15367108852973,
+        "median_ground_m": 81.64988406337294,
+        "p95_ground_m": 211.9038082817348,
+        "max_ground_m": 229.83373368584114,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "120",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 248.9544224830488,
+        "median_ground_m": 169.26337803073224,
+        "p95_ground_m": 433.9869475093882,
+        "max_ground_m": 511.8277552380315,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "121",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 97.03821293828396,
+        "median_ground_m": 69.3658352995146,
+        "p95_ground_m": 166.49517410788565,
+        "max_ground_m": 184.02961864176257,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "122",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 52.02231072552444,
+        "median_ground_m": 52.34607554518588,
+        "p95_ground_m": 73.93978924541213,
+        "max_ground_m": 76.20395826814158,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "123",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 56.622492396638314,
+        "median_ground_m": 27.856246949363065,
+        "p95_ground_m": 106.49002734935152,
+        "max_ground_m": 140.03568759375668,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "124",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 62.44397730005698,
+        "median_ground_m": 62.03617878861266,
+        "p95_ground_m": 92.59176785069418,
+        "max_ground_m": 97.60416197921484,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "125",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 3,
+        "rms_ground_m": 53.32768567864609,
+        "median_ground_m": 53.96174992943279,
+        "p95_ground_m": 54.72900670090321,
+        "max_ground_m": 54.81425745328882,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "126",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 99.94387565080184,
+        "median_ground_m": 87.09371348335645,
+        "p95_ground_m": 150.69483832143567,
+        "max_ground_m": 162.19720981211017,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "127",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 48.502285501227725,
+        "median_ground_m": 42.947929390809215,
+        "p95_ground_m": 71.2101961482347,
+        "max_ground_m": 73.64129521897073,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "128",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 81.92281797944271,
+        "median_ground_m": 81.23746699102145,
+        "p95_ground_m": 115.00492777402096,
+        "max_ground_m": 117.36258746693686,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "129",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 63.3320364953275,
+        "median_ground_m": 54.205998628259394,
+        "p95_ground_m": 99.15920603452038,
+        "max_ground_m": 111.00473073087561,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "130",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 110.15749385625024,
+        "median_ground_m": 109.80136247798958,
+        "p95_ground_m": 156.66938098376062,
+        "max_ground_m": 165.00177716788696,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "131",
+      "status": "provisional-rms-failed",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 158.1710764742942,
+        "median_ground_m": 61.18401762474257,
+        "p95_ground_m": 305.8742053735825,
+        "max_ground_m": 351.11139847088174,
+        "rms_pass": false,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "132",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 84.16741211042824,
+        "median_ground_m": 79.03672868249909,
+        "p95_ground_m": 120.14554881892921,
+        "max_ground_m": 128.2979071569331,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "133",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 46.38303834990685,
+        "median_ground_m": 45.822618211636,
+        "p95_ground_m": 65.72421797749126,
+        "max_ground_m": 72.82828328281231,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "135",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 6,
+        "rms_ground_m": 92.12473518787186,
+        "median_ground_m": 51.23310313061765,
+        "p95_ground_m": 149.70511407437823,
+        "max_ground_m": 153.1857912248168,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 2,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "136",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 62.0424756404173,
+        "median_ground_m": 43.22381467544497,
+        "p95_ground_m": 109.11101762592997,
+        "max_ground_m": 119.12586034251731,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "137",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 62.06008442169424,
+        "median_ground_m": 66.01464828730012,
+        "p95_ground_m": 76.87392637949522,
+        "max_ground_m": 76.92027966944278,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "138",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 9,
+        "rms_ground_m": 88.1845057886657,
+        "median_ground_m": 75.65592394674418,
+        "p95_ground_m": 144.02594085798495,
+        "max_ground_m": 149.74017881138647,
+        "rms_pass": true,
+        "all_numeric_limits_pass": false
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "139",
+      "status": "provisional-rms-pass",
+      "main_metrics": {
+        "count": 8,
+        "rms_ground_m": 63.74258836776726,
+        "median_ground_m": 57.58848495908232,
+        "p95_ground_m": 93.2931438823274,
+        "max_ground_m": 98.34019834336857,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 1,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    },
+    {
+      "sheet": "140",
+      "status": "provisional-components",
+      "main_metrics": {
+        "count": 7,
+        "rms_ground_m": 70.07260740068206,
+        "median_ground_m": 55.66268434816226,
+        "p95_ground_m": 108.3108996046246,
+        "max_ground_m": 114.40992642898978,
+        "rms_pass": true,
+        "all_numeric_limits_pass": true
+      },
+      "components": 3,
+      "source_and_raster_hashes_match": true,
+      "coverage_receipt_passed": true,
+      "browser_receipt_present": true,
+      "reference_extract_available": true,
+      "geographic_accepted": false,
+      "user_accepted": false
+    }
+  ],
+  "limitations": [
+    "Assessment completion is not geographic or user acceptance; all regional and component limitations remain authoritative.",
+    "Numeric summaries describe active main maps only. Separate insets retain their own assessment records and are not pooled.",
+    "Sheet 002 uses its fresh-check result for main summary; its unsupported inset remains unsupported and whole-sheet accuracy completion is not claimed.",
+    "Browser receipts include historical checks; only the named recovery smoke checks were rerun for byte-identical recovered rasters.",
+    "Some original private discovery guides and historical screenshots were lost; see recovery-20260926.json.",
+    "No scan publication, production activation or deployment claimed."
+  ],
+  "verified_asset_storage": "Durable private directory outside disposable worktrees; active source, raster and reference paths resolve within that durable directory.",
+  "durable_reviewer_smoke_check": {
+    "verified_at_utc": "2026-09-26T04:09:47.711386+00:00",
+    "sheet": "006",
+    "served_from_durable_storage": true,
+    "visible_raster_inspected": true,
+    "decoded_raster_dimensions": [
+      6005,
+      5188
+    ],
+    "decoded_source_dimensions": [
+      5359,
+      3639
+    ],
+    "opacity": 0.65,
+    "console_errors": []
+  }
+}

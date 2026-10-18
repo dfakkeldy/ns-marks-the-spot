@@ -1,0 +1,7 @@
+{
+  "fit_sha256": "606f269ad100a7901a3b9afad6fd5a0920135cf40d46f7765a9e1a7636e9d4f2",
+  "frozen_at": "2026-09-11T19:34:59.621413+00:00",
+  "control_count": 10,
+  "repair": "No change after two diagnostic checks scored 29.78/44.01 m; neither check promoted. Fresh checks collected only after this final freeze.",
+  "fresh_checks_not_collected_yet": true
+}

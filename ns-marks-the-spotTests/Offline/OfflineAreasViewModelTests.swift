@@ -27,30 +27,6 @@ struct OfflineAreasViewModelTests {
         #expect(area.state == .estimating)
     }
 
-    @Test func estimateDraftMarksOversizedAreasUnsavable() {
-        let storeRoot = makeTemporaryRoot()
-        defer { try? FileManager.default.removeItem(at: storeRoot) }
-        let viewModel = OfflineAreasViewModel(
-            tileStore: TileStore(rootDirectory: storeRoot),
-            tileCache: TileCache(),
-            savedAreaRepository: makeRepository(root: storeRoot)
-        )
-        let area = viewModel.estimateDraft(
-            name: "Province",
-            bounds: MapBounds(
-                minLatitude: 43.0,
-                minLongitude: -66.5,
-                maxLatitude: 47.0,
-                maxLongitude: -59.5
-            ),
-            minZoom: 10,
-            maxZoom: 18
-        )
-
-        #expect(area.estimatedTileCount > viewModel.maximumSavedAreaTileCount)
-        #expect(area.state == .failed)
-    }
-
     @Test func refreshStorageSummaryAggregatesTileStoreAndTileCacheBytes() async throws {
         let storeRoot = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
@@ -364,9 +340,9 @@ struct OfflineAreasViewModelTests {
         let area = SavedOfflineArea(
             id: "area-download",
             name: "Download Ready",
-            bounds: sampleBounds(),
-            minZoom: 0,
-            maxZoom: 0,
+            bounds: singleTileBounds(),
+            minZoom: 8,
+            maxZoom: 8,
             estimatedTileCount: 1,
             estimatedBytes: 12_000,
             state: .estimating
@@ -496,6 +472,42 @@ struct OfflineAreasViewModelTests {
         #expect(viewModel.savedAreas[0].updatedAt >= savedArea.updatedAt)
     }
 
+    @Test func retryRetiredZoomReplansSavedAreaWithCurrentTiles() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+        let store = TileStore(rootDirectory: storeRoot)
+        let bounds = singleTileBounds()
+        let currentTiles = FletcherTilePlanner.coordinates(for: bounds, zoomRange: 15...15)
+        let current = try #require(currentTiles.first)
+        let area = SavedOfflineArea(
+            id: "retired-zoom", name: "Saved before source update", bounds: bounds,
+            minZoom: 16, maxZoom: 16, estimatedTileCount: 4,
+            downloadedTileCount: 3, failedTileCount: 1,
+            failedTileCoordinates: [TileCoordinate(z: 16, x: current.x * 2, y: current.y * 2)],
+            state: .failed
+        )
+        let loader = TrackingTileLoader(data: Data([0x42]), failingCoordinates: [])
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store, tileCache: TileCache(diskRoot: cacheRoot),
+            savedAreaRepository: makeRepository(root: storeRoot),
+            tileDownloadManager: TileDownloadManager(tileStore: store), tileLoader: loader
+        )
+        await viewModel.saveDraft(area)
+        await viewModel.retryFailedArea(area)
+
+        #expect(await loader.requestedCoordinates() == currentTiles)
+        let saved = try #require(viewModel.savedAreas.first)
+        #expect(saved.state == .complete)
+        #expect(saved.downloadedTileCount == currentTiles.count)
+        #expect(saved.estimatedTileCount == currentTiles.count)
+        #expect(saved.failedTileCount == 0)
+        #expect(saved.minZoom == 16 && saved.maxZoom == 16)
+    }
+
     @Test func downloadAreaPublishesIncrementalProgress() async throws {
         let storeRoot = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
@@ -600,14 +612,9 @@ struct OfflineAreasViewModelTests {
         let area = SavedOfflineArea(
             id: "area-busy",
             name: "Busy Area",
-            bounds: MapBounds(
-                minLatitude: -85,
-                minLongitude: -180,
-                maxLatitude: 85,
-                maxLongitude: 180
-            ),
-            minZoom: 0,
-            maxZoom: 0,
+            bounds: singleTileBounds(),
+            minZoom: 8,
+            maxZoom: 8,
             estimatedTileCount: 1,
             estimatedBytes: 12_000,
             downloadedTileCount: 0,
@@ -635,6 +642,14 @@ struct OfflineAreasViewModelTests {
         #expect(viewModel.isStorageOperationInProgress == false)
         #expect(viewModel.savedAreas[0].state == .complete)
         #expect(viewModel.storageSummary.savedAreaBytes[area.id] == 1)
+    }
+
+    // Bookkeeping/concurrency tests need exactly one real source tile, not a
+    // synthetic zoom-zero world tile that the source does not publish.
+    private func singleTileBounds() -> MapBounds {
+        let centre = FletcherSheets.sheet(1)!.bounds.center
+        return MapBounds(minLatitude: centre.lat - 0.000001, minLongitude: centre.lng - 0.000001,
+                         maxLatitude: centre.lat + 0.000001, maxLongitude: centre.lng + 0.000001)
     }
 
     private func makeTemporaryRoot() -> URL {

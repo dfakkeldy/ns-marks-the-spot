@@ -65,6 +65,16 @@ struct GeoreferenceMapPane: UIViewRepresentable {
     /// when a reference layer is switched on but too far out to draw.
     let onZoomChange: (Double) -> Void
 
+    /// The level every overlay in the pane is installed at.
+    ///
+    /// The pane's ground is always OpenStreetMap, which names its own
+    /// places, so the pane is always on the far side of Apple's lettering —
+    /// the ground, the reference layers and the scan alike, for the reason
+    /// the main map gives in `MapBaseType.showsAppleLabels`. Apple's names
+    /// over the ground the points are being lined up on would be a second
+    /// survey's opinion of where the village is.
+    static var overlayLevel: MKOverlayLevel { MapController.overlayLevel(for: .openStreetMap) }
+
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.setRegion(region, animated: false)
@@ -76,7 +86,7 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         // a placement made on one and displayed on the other carries that gap
         // into every corner of the sheet. The browser's georeferencer places
         // points on this ground too.
-        mapView.installInDrawOrder(OSMBaseOverlay())
+        mapView.installInDrawOrder(OSMBaseOverlay(), level: Self.overlayLevel)
         let tap = UITapGestureRecognizer(
             target: context.coordinator, action: #selector(Coordinator.handleTap(_:))
         )
@@ -294,7 +304,7 @@ struct GeoreferenceMapPane: UIViewRepresentable {
                 // the scan, boundaries over it. A lot line drawn on top is the
                 // point of turning parcels on — an 1884 edge is being compared
                 // against the modern one, and the modern one has to be visible.
-                mapView.installInDrawOrder(installed.overlay)
+                mapView.installInDrawOrder(installed.overlay, level: GeoreferenceMapPane.overlayLevel)
             }
         }
 
@@ -340,7 +350,7 @@ struct GeoreferenceMapPane: UIViewRepresentable {
             // every warp: appended, the scan would climb above the property
             // boundaries the moment a point moved, and the order would depend
             // on which the reader turned on first.
-            mapView.installInDrawOrder(overlay)
+            mapView.installInDrawOrder(overlay, level: GeoreferenceMapPane.overlayLevel)
         }
 
         func apply(focus: (point: GeoPoint, request: PaneFocusRequest)?) {

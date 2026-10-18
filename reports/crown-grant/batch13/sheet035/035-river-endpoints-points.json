@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C04",
+    "label": "Annapolis north tributary junction at Middleton",
+    "role": "proposal",
+    "pixel_xy": [
+      323,
+      3041
+    ],
+    "lonlat": [
+      -65.05558337140347,
+      44.9467583793607
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 272556,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV10",
+    "nearest_unfiltered_objectid": 156910,
+    "nearest_unfiltered_distance_guide_px": 0.0,
+    "selected_distance_guide_px": 0.0,
+    "guide_reference_pixel_xy": [
+      372.8678847568808,
+      3076.0478593591833
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Annapolis north tributary east of the western river bridge",
+    "role": "proposal",
+    "pixel_xy": [
+      855,
+      3178
+    ],
+    "lonlat": [
+      -65.02022644957557,
+      44.95082201758388
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 249016,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV10",
+    "nearest_unfiltered_objectid": 156909,
+    "nearest_unfiltered_distance_guide_px": 0.0,
+    "selected_distance_guide_px": 0.0,
+    "guide_reference_pixel_xy": [
+      911.4030023244559,
+      3221.597084163339
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

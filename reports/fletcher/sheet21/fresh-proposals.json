@@ -1,0 +1,164 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        8780,
+        2955
+      ],
+      "lonlat": [
+        -60.8879165,
+        45.688661
+      ],
+      "modern_node_id": "J0331",
+      "modern_objectids": [
+        128310,
+        128419,
+        198746
+      ],
+      "identity_evidence": "Cook Lakes southern basin southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check proposal after corrected fit freeze; not scored"
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        7272,
+        1615
+      ],
+      "lonlat": [
+        -60.9595277,
+        45.7303951
+      ],
+      "modern_node_id": "J0108",
+      "modern_objectids": [
+        140455,
+        140527,
+        194728
+      ],
+      "identity_evidence": "Pringle Lake western/southwestern outlet into downstream pond connection",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check proposal after corrected fit freeze; not scored"
+    },
+    {
+      "lonlat": [
+        -61.21455077013243,
+        45.59007947443411
+      ],
+      "guide_xy": [
+        1616.8813366105314,
+        6085.08236015751
+      ],
+      "modern_objectid": 17309,
+      "modern_part": 0,
+      "modern_vertex": 26,
+      "modern_properties": {
+        "OBJECTID": 17309,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 427.3623049840898
+      },
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        1664,
+        5998
+      ],
+      "identity_evidence": "Bumbo Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check proposal after corrected fit freeze; not scored"
+    },
+    {
+      "lonlat": [
+        -60.89410844238521,
+        45.63831177305093
+      ],
+      "guide_xy": [
+        8616.879897783278,
+        4605.701296982123
+      ],
+      "modern_objectid": 10275,
+      "modern_part": 0,
+      "modern_vertex": 18,
+      "modern_properties": {
+        "OBJECTID": 10275,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 565.0030741017365
+      },
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        8707,
+        4518
+      ],
+      "identity_evidence": "Brick Point easternmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check proposal after corrected fit freeze; not scored"
+    },
+    {
+      "lonlat": [
+        -61.04154238429219,
+        45.726768000439456
+      ],
+      "guide_xy": [
+        5396.214923613239,
+        1892.571890521329
+      ],
+      "modern_objectid": 310655,
+      "modern_part": 0,
+      "modern_vertex": 42,
+      "modern_properties": {
+        "OBJECTID": 310655,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 264.35242770481693
+      },
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        5413,
+        1690
+      ],
+      "identity_evidence": "Small island at McIntosh Cove northernmost coast, distinct from reused south-tip check",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check proposal after corrected fit freeze; not scored"
+    },
+    {
+      "id": "V06",
+      "role": "check",
+      "pixel_xy": [
+        5860,
+        4310
+      ],
+      "lonlat": [
+        -61.0300549,
+        45.6442431
+      ],
+      "modern_node_id": "J0697",
+      "modern_objectids": [
+        143051,
+        143144,
+        198081
+      ],
+      "identity_evidence": "False Bay Lake smaller eastern basin eastern outlet toward downstream tiny pond",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check proposal after corrected fit freeze; not scored"
+    }
+  ]
+}

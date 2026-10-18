@@ -1,0 +1,7 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=county%3D%27Richmond%27+AND+geoname+in+%28%27False+Bay+Lake%27%2C%27Trout+Lake%27%2C%27Buchanan+Lake%27%29&%24limit=100",
+  "retrieved": "2026-09-16T05:05:19.508119+00:00",
+  "sha256": "d5d898d1783a665fc4c5f4e8e37539e4bca372432631613724296525c0f574a8",
+  "count": 1,
+  "scope": "Locality identification only; not measured coordinates"
+}

@@ -1,0 +1,146 @@
+[
+  {
+    "id": "C01",
+    "label": "Sheep Island north tip in North Pond",
+    "role": "control",
+    "pixel_xy": [
+      1269,
+      1094
+    ],
+    "lonlat": [
+      -60.48724871669732,
+      46.91426702439496
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 20918,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1267.2917433945695,
+      1033.9005592911271
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "C02",
+    "label": "White Point northern mainland tip",
+    "role": "control",
+    "pixel_xy": [
+      2860,
+      2347
+    ],
+    "lonlat": [
+      -60.35129653753487,
+      46.88441949172998
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 11630,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2846.6227703061886,
+      2303.670321461046
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "C03",
+    "label": "Cape Egmont southeast shoreline corner",
+    "role": "control",
+    "pixel_xy": [
+      3261,
+      3300
+    ],
+    "lonlat": [
+      -60.30222603670866,
+      46.84769641254781
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 7591,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3225.9826701193815,
+      3271.820383343729
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "C04",
+    "label": "Largest western interior lake east tip",
+    "role": "control",
+    "pixel_xy": [
+      590,
+      2938
+    ],
+    "lonlat": [
+      -60.48609779050508,
+      46.818634330468
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 126181,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      572.5785807773937,
+      2918.940796069219
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "C05",
+    "label": "Northwestern elongated lake east tip",
+    "role": "control",
+    "pixel_xy": [
+      360,
+      2563
+    ],
+    "lonlat": [
+      -60.510490233810515,
+      46.83197329004388
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 124562,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      348.3124342348892,
+      2533.781732829055
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  },
+  {
+    "id": "C06",
+    "label": "Kidney-shaped lake on Ellen Brook north tip",
+    "role": "control",
+    "pixel_xy": [
+      545,
+      2490
+    ],
+    "lonlat": [
+      -60.49997702530948,
+      46.83839558734082
+    ],
+    "guide_file": ".crown-grant-local/136-adjacent-guide.npy",
+    "reference_objectid": 139547,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      535.3488700016751,
+      2460.6341092835646
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad shoreline and western lake-chain topology traced; native paired crosshair inspected before first fit and score.",
+    "review": "Final correspondence audited before fitting; check locations excluded from fitting."
+  }
+]

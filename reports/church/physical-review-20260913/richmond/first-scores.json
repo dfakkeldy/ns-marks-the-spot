@@ -1,0 +1,32 @@
+{
+  "count": 3,
+  "points": [
+    {
+      "label": "R21",
+      "east_ground_m": 379.4147299237858,
+      "north_ground_m": 343.05228260121197,
+      "error_ground_m": 511.50797245110573
+    },
+    {
+      "label": "R22",
+      "east_ground_m": -58.80740898756772,
+      "north_ground_m": 136.87232954544425,
+      "error_ground_m": 148.97095672320745
+    },
+    {
+      "label": "R23",
+      "east_ground_m": -226.2962091724594,
+      "north_ground_m": 29.289544103274732,
+      "error_ground_m": 228.1838111689854
+    }
+  ],
+  "rms_ground_m": 334.61450631419234,
+  "median_ground_m": 228.1838111689854,
+  "p95_ground_m": 483.17555632289367,
+  "max_ground_m": 511.50797245110573,
+  "mean_east_ground_m": 31.437037254586215,
+  "mean_north_ground_m": 169.73805208331032,
+  "scatter_rms_ground_m": 286.64886917535165,
+  "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+  "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+}

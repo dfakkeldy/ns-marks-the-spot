@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "file": "trials/tps5-controls.csv",
+      "controls": 5,
+      "checks": 0,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "trials/plus-calumruadh-controls.csv",
+      "controls": 6,
+      "checks": 0,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "trials/plus-presquile-controls.csv",
+      "controls": 6,
+      "checks": 0,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "trials/plus-both-controls.csv",
+      "controls": 7,
+      "checks": 0,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "selected/reserved-validation.csv",
+      "controls": 6,
+      "checks": 1,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "retained-diagnostic-review.csv",
+      "controls": 5,
+      "checks": 5,
+      "semanticRoundtrip": true
+    }
+  ],
+  "scope": "Production editable CSV parser; no raw-scan browser mesh acceptance."
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-03-R10.jpg",
+    "point_record": "sheet03/refinement-20260912/fit-ten.json",
+    "point_id": "R10",
+    "native_box": [
+      9077,
+      2397,
+      9297,
+      2617
+    ],
+    "native_coordinates": [
+      9187,
+      2507
+    ],
+    "modern_lonlat": [
+      -60.48690580938019,
+      46.91435398740696
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-03-R13.jpg",
+    "point_record": "sheet03/refinement-20260912/fit-ten.json",
+    "point_id": "R13",
+    "native_box": [
+      7597,
+      5567,
+      7817,
+      5787
+    ],
+    "native_coordinates": [
+      7707,
+      5677
+    ],
+    "modern_lonlat": [
+      -60.565557,
+      46.8117269
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-03-R14.jpg",
+    "point_record": "sheet03/refinement-20260912/fit-ten.json",
+    "point_id": "R14",
+    "native_box": [
+      4386,
+      2790,
+      4606,
+      3010
+    ],
+    "native_coordinates": [
+      4496,
+      2900
+    ],
+    "modern_lonlat": [
+      -60.717832404932196,
+      46.891299340691205
+    ],
+    "rotation_degrees": 0
+  }
+]

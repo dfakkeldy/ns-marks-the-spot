@@ -1,0 +1,31 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/rendered/cape-breton-tps8-review-20m.tif",
+  "sha256": "d866dbc0dcc4171d203e10bac811062f02a5287bb9e0c2bf4f5b8f5ec80c0299",
+  "sourceCodeBaseCommit": "865bfc5044bddc1ee88baf2c30cbf92e4115f3e4",
+  "pixelSize": {
+    "width": 6680,
+    "height": 5353
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6772600,
+      20,
+      0,
+      5841560,
+      0,
+      -20
+    ]
+  },
+  "preview": {
+    "width": 4096,
+    "height": 3282,
+    "channels": 4,
+    "transparentPixels": 4643164,
+    "opaquePixels": 8799908
+  },
+  "embeddedMeshNodes": 81,
+  "maxMeshDifferenceProjectedMetres": 2.08250058582033e-9,
+  "scope": "Real production GeoTIFF decode, alpha extraction and embedded projection lattice. PNG writer stubbed in this Node probe; actual browser import, persistence, 2D overview/regional view and 10x terrain were checked separately through CUA. No raw-scan GCP mesh or geographic acceptance."
+}

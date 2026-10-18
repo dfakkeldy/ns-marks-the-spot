@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Caribou or Long Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      563,
+      166
+    ],
+    "lonlat": [
+      -64.58418239452068,
+      44.8573664920052
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 128298,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128298,
+    "nearest_unfiltered_distance_guide_px": 1.1666702295457363,
+    "selected_distance_guide_px": 1.1666702295457363,
+    "guide_reference_pixel_xy": [
+      579.6307543225121,
+      110.10669645981397
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Porcupine Lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2370,
+      709
+    ],
+    "lonlat": [
+      -64.4575562835618,
+      44.868737639668325
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 311448,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 311448,
+    "nearest_unfiltered_distance_guide_px": 0.6858164113141343,
+    "selected_distance_guide_px": 0.6858164113141343,
+    "guide_reference_pixel_xy": [
+      2389.6409448168706,
+      650.4156854224857
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Duck Pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3684,
+      711
+    ],
+    "lonlat": [
+      -64.3756091249321,
+      44.894380441073544
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 140355,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140355,
+    "nearest_unfiltered_distance_guide_px": 0.9939275473060497,
+    "selected_distance_guide_px": 0.9939275473060497,
+    "guide_reference_pixel_xy": [
+      3716.866875038424,
+      647.5137699751649
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Five Island Lake southwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5011,
+      1517
+    ],
+    "lonlat": [
+      -64.27110836827326,
+      44.88404007535596
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 127401,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127401,
+    "nearest_unfiltered_distance_guide_px": 4.455220574645192,
+    "selected_distance_guide_px": 4.455220574645192,
+    "guide_reference_pixel_xy": [
+      5043.380760704691,
+      1468.1888736122055
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Little Salter Lake eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4550,
+      1910
+    ],
+    "lonlat": [
+      -64.28923044525374,
+      44.85805934213266
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 138754,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138754,
+    "nearest_unfiltered_distance_guide_px": 3.7044834974365983,
+    "selected_distance_guide_px": 3.7044834974365983,
+    "guide_reference_pixel_xy": [
+      4577.438240453717,
+      1859.3591822073795
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Bill Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4208,
+      2063
+    ],
+    "lonlat": [
+      -64.30639272433153,
+      44.84501190712618
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 125967,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125967,
+    "nearest_unfiltered_distance_guide_px": 1.1914143330772395,
+    "selected_distance_guide_px": 1.1914143330772395,
+    "guide_reference_pixel_xy": [
+      4234.164367644,
+      2007.7475795121863
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Big Otter Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3980,
+      3332
+    ],
+    "lonlat": [
+      -64.28670036309208,
+      44.785678753822374
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 125197,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125197,
+    "nearest_unfiltered_distance_guide_px": 1.5895285497530227,
+    "selected_distance_guide_px": 1.5895285497530227,
+    "guide_reference_pixel_xy": [
+      3997.2356542279013,
+      3264.4280368657783
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Lawson Lake southern outlet",
+    "role": "proposal",
+    "pixel_xy": [
+      1270,
+      3624
+    ],
+    "lonlat": [
+      -64.44894385812624,
+      44.721017189504664
+    ],
+    "guide_file": ".crown-grant-local/045-west-adjacent-guide.npy",
+    "reference_objectid": 132960,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV10",
+    "nearest_unfiltered_objectid": 172747,
+    "nearest_unfiltered_distance_guide_px": 1.3914398762497195,
+    "selected_distance_guide_px": 1.7076568080773566,
+    "guide_reference_pixel_xy": [
+      1246.4758498555748,
+      3536.3747743540443
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

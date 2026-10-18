@@ -1,0 +1,167 @@
+{
+  "passed": true,
+  "controls": 11,
+  "reused_checks": 2,
+  "qualified_fresh_checks": 2,
+  "old_ten_controls_unchanged": true,
+  "new_control_matches_reviewed_repair": true,
+  "figure_count": 30,
+  "figures": [
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/adjacent-sheet-review/05-east-north.jpg",
+      "sha256": "54c61aa5c7e84dfd72598e14d63f805422de8222b0fc087ba3aefb38d3a7c216"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/adjacent-sheet-review/05-east-south.jpg",
+      "sha256": "3e4023b3b9f88b0305cbce201d73b7ea40790344c80fe71c28dedcac7e2aaa58"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/adjacent-sheet-review/09-south-island.jpg",
+      "sha256": "02963b6c8e9f3223f51c6e57a8038d5e5b66c129e962486cb17355b28d63ca12"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/adjacent-sheet-review/09-south-interior.jpg",
+      "sha256": "410b6b246cb4b94992beaa4b67c7c065a931b23c36b1d1dc05e2a52aa428bae7"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-additional-close/sheet-06-F05.jpg",
+      "sha256": "f272576692e533c5df46847c1b9b4cd0dd424d0cc284605b51a620b3a3ab2953"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-additional-close/sheet-06-F06.jpg",
+      "sha256": "dfe1ada7622afaa32fd7521dc45ba01a0cd087a10de7141afc7664112630ae0e"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-additional-wide/sheet-06-F05.jpg",
+      "sha256": "c360a5b9dcecbf3cea0908e6d93d8bb0c47726f81919bf393893d901e6a0b9a6"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-additional-wide/sheet-06-F06.jpg",
+      "sha256": "ead01c44ef1d53e6c8761e4e8dec456fe2a4fb426280cebf3afcfa2909f4d93b"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-close/sheet-06-F04.jpg",
+      "sha256": "ba8e87f45f13971816fada9265afa84838d3d52a71c7ccedc6293146a4632da6"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-corrected-close/sheet-06-F04.jpg",
+      "sha256": "8ffe203f4d8a8bd2fa18b3cdfb0afdd4727a4487f962ed265325a4b46b5a4f70"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-corrected-wide/sheet-06-F04.jpg",
+      "sha256": "e36d3d3e1e4b446952953c845e3597f91d8a7c251434a16efdcd533a55d42fad"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/fresh-wide/sheet-06-F04.jpg",
+      "sha256": "28f95e6d24b01b55c679a5a90cbd9226a64d96145e16786b8bcf9ea1998a0f27"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/prior-close/sheet-06-V02.jpg",
+      "sha256": "36d3c67e509c65bfc40d4359db55031163c874944a585a25b72f79b6a018f7a6"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/prior-close/sheet-06-V03.jpg",
+      "sha256": "2507c32d543bfff2eee3788342ece192ae54940da6dd92e6e8e5d9eb8fa5fb56"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/prior-wide/sheet-06-V02.jpg",
+      "sha256": "266271058e2c14af57dee94c068e53e6ecd3a2d181f64ce59850bc0a2159810b"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/prior-wide/sheet-06-V03.jpg",
+      "sha256": "01f5b2846dc159f7c16ab4213af3c214fdac9cd3ad26f185f491b4dd1819f4d8"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/north-coast.jpg",
+      "sha256": "450563abb1d7e4687cca7ca467e7787a22b76450c842ed88915e22960d4cbecf"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/jumping-corney.jpg",
+      "sha256": "ca03edfffbe57c9a3090e1f719d4cfefc75298024284d13294fa03e851e6444b"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/trout-robert.jpg",
+      "sha256": "c217b80de816e63ded8137fb7c04952b8528b3396c37f4a5695b2e887d65a647"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/jerome-coast.jpg",
+      "sha256": "96fb28fa7772c7c838317618dbf9321693fd561ba0fd25c3fb39400f90fc6abc"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/island-harbour.jpg",
+      "sha256": "07f3a2f99117973cba45315121821e7048dd6895703927bd57cf6aa3c35d52f2"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/cheticamp-faribault.jpg",
+      "sha256": "1bd8139041fd92dbff4f23ea12c03df6169f8db77031e5976393566008cc29bc"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/daphine-repair.jpg",
+      "sha256": "d743fc47fceff1425061f6ae9a3905978f657e81f088280dca531531eec09d3f"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/warped-review/full-sheet.jpg",
+      "sha256": "020dd991ee5368a36b731529b917e82a57a232ce058374c40df4ab81821b6f90"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/browser/import-desktop.png",
+      "sha256": "711c1aa5ea11f8af32a73566870964339243a0eafd36b6ac2ce9b82c97bae3c8"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/browser/reload-desktop.png",
+      "sha256": "6923ab49416e195fae977d3cb1212105bf8c20b968841ca29a0fcc2704b571d5"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/browser/reload-mobile.png",
+      "sha256": "772b4a7deb917bf2768aa2d3092c8b62359bcde016811046d53624409d708b1c"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/browser-initial-position/import-desktop.png",
+      "sha256": "18abbb87dce94602869aaf84b25a7235157c3182e33c8a6694b4d711f349805e"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/browser-initial-position/reload-desktop.png",
+      "sha256": "50082ccf029a8604a9e5cb53e44e790bbd45770b6b70cebeaa1cfd29cf00c61a"
+    },
+    {
+      "path": "reports/fletcher/sheet06/refinement-20260912/browser-initial-position/reload-mobile.png",
+      "sha256": "f49fad95a2778974aaa54af74ddaa11c85d413c000d2dab7b2627b9b269d3b83"
+    }
+  ],
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif",
+    "sha256": "f9e7a051e88b43e5a7fa65751fb2c8657b869d90ad527c2f393ef24a35ec648c",
+    "size": [
+      8269,
+      5789
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2249477,
+            46.7932668
+          ],
+          [
+            -61.2249477,
+            46.614956
+          ],
+          [
+            -60.8535392,
+            46.614956
+          ],
+          [
+            -60.8535392,
+            46.7932668
+          ],
+          [
+            -61.2249477,
+            46.7932668
+          ]
+        ]
+      ]
+    }
+  },
+  "scope": "Provenance, computation, coverage and import only. Eleven-control Daphine experiment not recommended as replacement. Fresh local test fails and does not establish distributed coverage; whole raster and seams unaccepted."
+}

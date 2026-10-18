@@ -1,0 +1,53 @@
+{
+  "id": "CB22",
+  "role": "check",
+  "label": "South Head eastern shore apex, engraved Cape Morien",
+  "pixel_xy": [
+    30850.0,
+    13796.363636363636
+  ],
+  "lonlat": [
+    -59.79770096374211,
+    46.128802261414954
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      30200,
+      13300
+    ],
+    "extent": [
+      1300,
+      1300
+    ],
+    "display": [
+      1430,
+      1430
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    715,
+    546
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-validation-20260915/CB6-south-head-native.jpg",
+  "source_crop_sha256": "ef119191db0b787b54311763c9fd3d6147de3b4e2ace0501af6365c66405bf8b",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    20348
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 20348,
+      "vertex": 24
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "official_identity_key": "CBJQJ",
+  "identity_evidence": "The original main geographic panel explicitly labels Cape Morien or South Head on the long promontory south of Cow Bay, separate from the enlarged Cow Bay town inset to its east. Its north-facing coast curves into an eastern tip and returns southwest along the outer south shore. The original reference follows the same continuous long promontory south of Morien Bay. Measure the easternmost innermost shoreline boundary, excluding offshore engraving rings and the large name lettering. Reference vertex20348v24 is on that tip, recorded as WACOIS10 coastal-island shore geometry; the geographic context is the headland, not a separately selected small island. The official South Head CBJQJ name point supplies identity only.",
+  "phase": "Fresh check of unchanged TPS11 frozen in the preceding regional report; no fitting or selection use",
+  "recorded_at": "2026-09-15T16:10:19.588296+00:00"
+}

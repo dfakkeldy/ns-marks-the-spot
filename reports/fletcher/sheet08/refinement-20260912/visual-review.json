@@ -1,0 +1,27 @@
+{
+  "reviewed_at_utc": "2026-09-12T13:06:32.416861+00:00",
+  "personally_inspected_all_packet_figures": true,
+  "figure_count": 42,
+  "native_review": "Original unrotated close/wide crosshairs for V01/V03, broader C12, R01/R02 original and corrected, F01/F02 original and F01 corrected; full original boundary and Three Brooks/Coulmeach/Second Fork/Little River search context inspected. Scores first seen after fresh review completed.",
+  "regions": {
+    "north-branch": "Two Brooks locality remains close; long northeastern arms and top edge disagree.",
+    "northeast-margaree": "Three Brooks mouth and lower main bends improve substantially. Carmruadh/South Branch arms still displaced.",
+    "coulmeach": "Main alignment and northern/southern side-arm identities remain unresolved; V03 worsens from 344 to 521 m.",
+    "first-second-forks": "Western and southern reaches shift but do not follow reference throughout.",
+    "upper-ingonish": "Fitted vicinity partly close; northern branches and central eastern arm differ.",
+    "ingonish-mckinnon": "Little change; northern frame and tributary/pond geometry disagree. V01 has independent branch-order concern.",
+    "reservoir-interior": "West Indian reaches change but remain wrong between anchors. Altered flowage outlines are not ground truth for old shorelines.",
+    "indian-brook": "Central main reach remains locally close; lower bends and western parallel drainage remain displaced.",
+    "french-little-rivers": "Little change. French/upper Little channels disagree between anchors; fresh western Little River arm check fails.",
+    "gisborne-lake": "Altered lake/flowage shapes retained as contextual caution, no shoreline control added.",
+    "full-sheet": "Entire mapped frame preserved. Geographic acceptance false."
+  },
+  "seams": {
+    "05": "Northwest gap and northeast offset remain; stream continuations not accepted.",
+    "07": "East-edge separation and different crossing positions persist in both windows.",
+    "09": "Some Margaree locality improves, but west/south separation and tributary crossing disagreement remain.",
+    "10": "Both southern boundary comparisons remain unaccepted; preserved 12-control Sheet10 chosen because its new experiment is not a recommended replacement."
+  },
+  "browser": "Actual imported raster visible across full desktop frame; desktop reload retained it; 390px mobile reload displays the narrower central viewport with alpha and georeference preserved. No console/page errors.",
+  "next_repair": "Resolve the preserved C12/Coulmeach and V01/Ingonish branch identities before compounding local interpolating anchors. Keep fresh checks intact as failed independent evidence for this freeze."
+}

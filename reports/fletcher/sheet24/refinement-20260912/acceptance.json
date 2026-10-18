@@ -1,0 +1,11 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "thresholds": {
+    "median_ground_m": 100,
+    "worst_ground_m": 200
+  },
+  "recommendation": "Retain earlier fourteen-control provisional baseline; preserve sixteen-control experiment and Byron Island regression.",
+  "fresh_median_ground_m": 121.29785725942938,
+  "fresh_worst_ground_m": 123.93111751070282,
+  "reason": "Fresh median fails, McPherson inlet barely changes and Byron south worsens. Sparse northern support, changed water shapes and unaccepted seams remain."
+}

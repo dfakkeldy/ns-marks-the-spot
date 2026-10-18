@@ -90,6 +90,14 @@ describe("custom theme storage", () => {
     });
   });
 
+  it("reports a store that could not be reached at all as an unread library", () => {
+    expect(loadCustomThemes(null)).toEqual({
+      status: "fatal",
+      themes: [],
+      warning: "Your custom-theme library could not be loaded.",
+    });
+  });
+
   it("skips duplicate stored IDs without discarding the valid theme", () => {
     localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, JSON.stringify({
       version: 1,
@@ -160,6 +168,10 @@ describe("custom theme storage", () => {
     } as unknown as Storage;
 
     expect(saveCustomThemes(themes, quotaLimitedStorage)).toEqual({
+      ok: false,
+      message: "Your custom themes could not be saved in this browser.",
+    });
+    expect(saveCustomThemes(themes, null)).toEqual({
       ok: false,
       message: "Your custom themes could not be saved in this browser.",
     });

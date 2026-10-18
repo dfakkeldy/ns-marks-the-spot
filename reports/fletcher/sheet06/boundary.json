@@ -1,0 +1,28 @@
+{
+  "sheet": "sheet-06",
+  "source_sha256": "f0eba470a9ff0ae9e89a2c211c2d6eab6b7a647cd71c706c8913708a625091e3",
+  "ring_pixel_xy": [
+    [
+      1286,
+      1021
+    ],
+    [
+      9459,
+      1047
+    ],
+    [
+      9485,
+      6517
+    ],
+    [
+      1288,
+      6489
+    ],
+    [
+      1286,
+      1021
+    ]
+  ],
+  "scope": "Complete mapped frame, retaining western offshore area, legend and southwestern Cheticamp Island segment. No outside mapped extension identified.",
+  "status": "Native overview, four corners and labels personally inspected; boundary overlay pending review."
+}

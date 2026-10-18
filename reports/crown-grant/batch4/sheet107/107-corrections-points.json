@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C03",
+    "label": "Big Coddle Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      975,
+      735
+    ],
+    "lonlat": [
+      -61.54392893076014,
+      45.15814075746252
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 16212,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16212,
+    "nearest_unfiltered_distance_guide_px": 1.118776513151468,
+    "selected_distance_guide_px": 1.118776513151468,
+    "guide_reference_pixel_xy": [
+      946.4890289238538,
+      751.0062363529578
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Green Island south end",
+    "role": "proposal",
+    "pixel_xy": [
+      514,
+      1989
+    ],
+    "lonlat": [
+      -61.54131722835973,
+      45.099368421661524
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 16600,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16600,
+    "nearest_unfiltered_distance_guide_px": 2.2577550543024123,
+    "selected_distance_guide_px": 2.2577550543024123,
+    "guide_reference_pixel_xy": [
+      500.2399889078806,
+      1979.414149511489
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Berry Head southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4656,
+      1403
+    ],
+    "lonlat": [
+      -61.31045890814683,
+      45.19161290852903
+    ],
+    "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+    "reference_objectid": 11352,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11352,
+    "nearest_unfiltered_distance_guide_px": 0.4891495981698039,
+    "selected_distance_guide_px": 0.4891495981698039,
+    "guide_reference_pixel_xy": [
+      4640.139448017173,
+      1419.5311486590654
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

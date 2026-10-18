@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C06",
+    "label": "Black River junction with Gaspereau River south bank",
+    "role": "proposal",
+    "pixel_xy": [
+      4403,
+      1165
+    ],
+    "lonlat": [
+      -64.412535860702,
+      45.047194384708156
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 279892,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141052,
+    "nearest_unfiltered_distance_guide_px": 1.0148167749040808,
+    "selected_distance_guide_px": 33.86365171578351,
+    "guide_reference_pixel_xy": [
+      4409.101051682606,
+      1211.810366795049
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Black River first eastern bank bend south of mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      4447,
+      1221
+    ],
+    "lonlat": [
+      -64.41701651156886,
+      45.04789052276041
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 170284,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 279892,
+    "nearest_unfiltered_distance_guide_px": 2.472641640379207,
+    "selected_distance_guide_px": 135.03784395127684,
+    "guide_reference_pixel_xy": [
+      4353.970072417811,
+      1171.66470491793
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

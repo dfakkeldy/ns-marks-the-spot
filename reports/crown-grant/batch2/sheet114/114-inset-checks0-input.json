@@ -1,0 +1,54 @@
+[
+  [
+    "IQ01",
+    "Cape Mabou northeastern coastal prominence",
+    [
+      710,
+      878
+    ],
+    [
+      723,
+      857
+    ],
+    "WACO"
+  ],
+  [
+    "IQ02",
+    "McKinnon Brook coastal prominence",
+    [
+      843,
+      829
+    ],
+    [
+      849,
+      810
+    ],
+    "WACO"
+  ],
+  [
+    "IQ03",
+    "Coastal step southwest of Sight Point",
+    [
+      974,
+      734
+    ],
+    [
+      979,
+      726
+    ],
+    "WACO"
+  ],
+  [
+    "IQ04",
+    "Eastern inset northern coastal prominence",
+    [
+      1436,
+      440
+    ],
+    [
+      1432,
+      447
+    ],
+    "WACO"
+  ]
+]

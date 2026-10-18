@@ -1,0 +1,206 @@
+{
+  "sheet": "sheet-10",
+  "fit_sha256": "684472b4fdbe8b6e6afe8c13de4d123c0b43144880dc3340a3f21f8585ac982d",
+  "points": [
+    {
+      "lonlat": [
+        -60.7591921,
+        46.4330211
+      ],
+      "source_guide_xy": [
+        3340.676227740012,
+        1509.9601531599183
+      ],
+      "objectids": [
+        201446,
+        266722,
+        266723
+      ],
+      "id": "V01",
+      "role": "check",
+      "modern_node_id": "J0633",
+      "pixel_xy": [
+        3644,
+        1599
+      ],
+      "identity_evidence": "Small eastern tributary of upper Middle River above Camp",
+      "source_uncertainty_px": 20,
+      "status": "Corrected native pixel before first score; review pending.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7591921,
+          46.4330211
+        ],
+        "source_guide_xy": [
+          3340.676227740012,
+          1509.9601531599183
+        ],
+        "objectids": [
+          201446,
+          266722,
+          266723
+        ],
+        "id": "V01",
+        "role": "check",
+        "modern_node_id": "J0633",
+        "pixel_xy": [
+          3650,
+          1600
+        ],
+        "identity_evidence": "Small eastern tributary of upper Middle River above Camp",
+        "source_uncertainty_px": 20,
+        "status": "Fresh validation proposal collected after twelve-control freeze; review pending."
+      }
+    },
+    {
+      "lonlat": [
+        -60.651048,
+        46.4195315
+      ],
+      "source_guide_xy": [
+        5674.352046000073,
+        1939.9535164001863
+      ],
+      "objectids": [
+        165370,
+        166924,
+        266380
+      ],
+      "id": "V02",
+      "role": "check",
+      "modern_node_id": "J0800",
+      "pixel_xy": [
+        5843,
+        1936
+      ],
+      "identity_evidence": "Small eastern tributary of Barasois below western confluence",
+      "source_uncertainty_px": 20,
+      "status": "Corrected native pixel before first score; review pending.",
+      "original_candidate": {
+        "lonlat": [
+          -60.651048,
+          46.4195315
+        ],
+        "source_guide_xy": [
+          5674.352046000073,
+          1939.9535164001863
+        ],
+        "objectids": [
+          165370,
+          166924,
+          266380
+        ],
+        "id": "V02",
+        "role": "check",
+        "modern_node_id": "J0800",
+        "pixel_xy": [
+          5849,
+          1940
+        ],
+        "identity_evidence": "Small eastern tributary of Barasois below western confluence",
+        "source_uncertainty_px": 20,
+        "status": "Fresh validation proposal collected after twelve-control freeze; review pending."
+      }
+    },
+    {
+      "lonlat": [
+        -60.4846539,
+        46.3215664
+      ],
+      "source_guide_xy": [
+        9260.019901860738,
+        5006.972896840423
+      ],
+      "objectids": [
+        10970,
+        10971,
+        262354
+      ],
+      "id": "V03",
+      "role": "check",
+      "modern_node_id": "J1676",
+      "pixel_xy": [
+        9063,
+        5205
+      ],
+      "identity_evidence": "Smith Brook mouth on eastern St Anns Bay shore",
+      "source_uncertainty_px": 20,
+      "status": "Corrected native pixel before first score; review pending.",
+      "original_candidate": {
+        "lonlat": [
+          -60.4846539,
+          46.3215664
+        ],
+        "source_guide_xy": [
+          9260.019901860738,
+          5006.972896840423
+        ],
+        "objectids": [
+          10970,
+          10971,
+          262354
+        ],
+        "id": "V03",
+        "role": "check",
+        "modern_node_id": "J1676",
+        "pixel_xy": [
+          9095,
+          5200
+        ],
+        "identity_evidence": "Smith Brook mouth on eastern St Anns Bay shore",
+        "source_uncertainty_px": 20,
+        "status": "Fresh validation proposal collected after twelve-control freeze; review pending."
+      }
+    },
+    {
+      "lonlat": [
+        -60.7684391,
+        46.3176222
+      ],
+      "source_guide_xy": [
+        3133.5796912205406,
+        5104.311413320247
+      ],
+      "objectids": [
+        187096,
+        272888,
+        272890
+      ],
+      "id": "V04",
+      "modern_node_id": "J1709",
+      "role": "check",
+      "pixel_xy": [
+        3205,
+        5350
+      ],
+      "identity_evidence": "Upper North Branch Baddeck western tributary below Stillwater",
+      "source_uncertainty_px": 20,
+      "status": "Corrected native pixel before first score; review pending.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7684391,
+          46.3176222
+        ],
+        "source_guide_xy": [
+          3133.5796912205406,
+          5104.311413320247
+        ],
+        "objectids": [
+          187096,
+          272888,
+          272890
+        ],
+        "id": "V04",
+        "modern_node_id": "J1709",
+        "role": "check",
+        "pixel_xy": [
+          3205,
+          5350
+        ],
+        "identity_evidence": "Upper North Branch Baddeck western tributary below Stillwater",
+        "source_uncertainty_px": 20,
+        "status": "Fresh proposal after final fit freeze; review pending."
+      }
+    }
+  ]
+}

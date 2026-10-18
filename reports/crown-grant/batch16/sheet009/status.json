@@ -1,0 +1,45 @@
+{
+  "sheet": "009",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical and browser assessment complete; not geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/009.pdf",
+    "pdf_sha256": "738bcfb661a839648b9028f4895077e9fe6202a87c109f26e49c3b3718bc0eb7",
+    "jpeg_sha256": "2a46741d819166e937f8e16fb7badf5fe0e1d0759fd319f2f252689fa938544e",
+    "dimensions": [
+      5629,
+      3871
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 74.91942531663305,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six checks share control waterbodies; Big and Little Gooseberry supply separate islands. Small paired-island endpoints are close and share historical cartography.",
+    "The northwestern quarter, central inland lake complex and far southern/eastern inland areas lack distributed independent checks.",
+    "Generalized lake extrema and small island outlines carry 24 px source uncertainty.",
+    "Waterbody connectivity changes and unresolved small islands remain unvalidated."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 74.92 m, median 65.66 m, P95 123.61 m, maximum 129.37 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Full mapped frame retains Argyle, all coastal/tidal islands, lake complexes, rivers and boundary continuations. Seven controls and eight excluded checks sample western islands and eastern lakes; the northwestern quarter and extensive inland shorelines remain provisional."
+  }
+}

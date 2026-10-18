@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "d0444b73a17a459f812c6668154d3fcaf6cc5d784fa4ce2771bacd469a769c56",
+  "fit_sha256": "ff33da67fdf9fe7fc58ce6fdcd1d7c84505b9326ac4df9939911f165edad34fb",
+  "components_sha256": "6f042bfeb7d01541a0cc24cdf64a9c802272bd4ea0fff7baf79e8f328b0fd9a9",
+  "components": [
+    {
+      "id": "main",
+      "status": "PROVISIONAL; RMS 123.46 m exceeds 100 m; sparse coastal validation",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          44.31941995733645,
+          -66.37933024211688
+        ],
+        [
+          44.58018742755581,
+          -65.93541876131637
+        ]
+      ],
+      "dimensions": [
+        6177,
+        5083
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 13608950,
+      "source_mask_pixels": 15721520,
+      "affine_determinant": -28.251106886225124,
+      "png_sha256": "2dcc129552c22e434444bda2bb09c4a03a8e563a812b49be36daa921179ea4c7",
+      "tif_sha256": "486b0cb71b24ad444ef6b0f064bb2f2db7e58f515c28d9bf2bdeb7cc59a48a3e"
+    },
+    {
+      "id": "brier-long-inset",
+      "status": "PROVISIONAL; independent Brier/Peters Island checks only; Long Island unvalidated",
+      "png": "brier-long-inset-3857.png",
+      "tif": "brier-long-inset-3857.tif",
+      "bounds": [
+        [
+          44.211948912076444,
+          -66.43153432395387
+        ],
+        [
+          44.34495299840422,
+          -66.22995237419744
+        ]
+      ],
+      "dimensions": [
+        2805,
+        2585
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 3493843,
+      "source_mask_pixels": 4072768,
+      "affine_determinant": -28.161518756245176,
+      "png_sha256": "0a009caed61119dee617fddd838e5a5305e2d2baaff641336343b6c959c6d09d",
+      "tif_sha256": "1ffc9822f159f3ff2e4e0d0fa6295b091b890881aa211e0a9c9135306b01ee96"
+    }
+  ]
+}

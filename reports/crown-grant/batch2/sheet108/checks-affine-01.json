@@ -1,0 +1,329 @@
+{
+  "status": "Thirteen independent shoreline/pond checks finalized before first scoring; inland coverage limited",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Henry Island Diamond Point southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1142,
+        2934
+      ],
+      "lonlat": [
+        -61.59133444245105,
+        45.97306052867142
+      ],
+      "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+      "reference_objectid": 22569,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1170.189454068488,
+        2917.318035655655
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q02",
+      "label": "Henry Island western corner",
+      "role": "check",
+      "pixel_xy": [
+        993,
+        2851
+      ],
+      "lonlat": [
+        -61.60187905670124,
+        45.97409548698315
+      ],
+      "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+      "reference_objectid": 22574,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1026.0664048513863,
+        2835.4833959895186
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q03",
+      "label": "Port Hood Island northern corner",
+      "role": "check",
+      "pixel_xy": [
+        1796,
+        2061
+      ],
+      "lonlat": [
+        -61.57285198141274,
+        46.01988009342334
+      ],
+      "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+      "reference_objectid": 20912,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1821.913455314294,
+        2057.8900674760807
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q04",
+      "label": "Port Hood Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1762,
+        2789
+      ],
+      "lonlat": [
+        -61.55757901318703,
+        45.989017545010256
+      ],
+      "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+      "reference_objectid": 20910,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1789.7005753381527,
+        2781.789545886684
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q05",
+      "label": "Port Hood Island interior pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1894,
+        2168
+      ],
+      "lonlat": [
+        -61.56455797344283,
+        46.016973657122634
+      ],
+      "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+      "reference_objectid": 120407,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1918.035479046579,
+        2165.3253200238105
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q06",
+      "label": "Coal Mine Point northwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        4119,
+        511
+      ],
+      "lonlat": [
+        -61.46918696740623,
+        46.123344689829565
+      ],
+      "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+      "reference_objectid": 3685,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4167.878124956449,
+        516.0764577954542
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q07",
+      "label": "Beaton Point western shoulder",
+      "role": "check",
+      "pixel_xy": [
+        3898,
+        776
+      ],
+      "lonlat": [
+        -61.477443066629206,
+        46.10880963603182
+      ],
+      "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+      "reference_objectid": 3057,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3929.72227222746,
+        768.8975439857459
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q08",
+      "label": "Cape Linzee northwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        2269,
+        1732
+      ],
+      "lonlat": [
+        -61.55260749951432,
+        46.04126060950569
+      ],
+      "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+      "reference_objectid": 2333,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2261.979603757325,
+        1736.5443270357791
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q09",
+      "label": "Colindale western cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        2453,
+        1653
+      ],
+      "lonlat": [
+        -61.5440728766908,
+        46.04763425999707
+      ],
+      "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+      "reference_objectid": 12850,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2437.059928162431,
+        1653.2554108527256
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q10",
+      "label": "Isthmus Point coastal pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2273,
+        1998
+      ],
+      "lonlat": [
+        -61.54598384607833,
+        46.030520060678604
+      ],
+      "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+      "reference_objectid": 13411,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2270.130461871391,
+        1994.9871270597214
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q12",
+      "label": "Harbour View western inner bight",
+      "role": "check",
+      "pixel_xy": [
+        2138,
+        3605
+      ],
+      "lonlat": [
+        -61.516110340190544,
+        45.960805546766814
+      ],
+      "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+      "reference_objectid": 13577,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2134.3252028036513,
+        3598.866240018746
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q13",
+      "label": "Hughes Point southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4502,
+        1719
+      ],
+      "lonlat": [
+        -61.41842831330116,
+        46.078134351826726
+      ],
+      "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+      "reference_objectid": 25483,
+      "reference_feature_code": "WACORV20",
+      "guide_reference_pixel_xy": [
+        4498.342240446189,
+        1729.4344905744074
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q14",
+      "label": "Murphy Point recurved tip",
+      "role": "check",
+      "pixel_xy": [
+        4267,
+        1855
+      ],
+      "lonlat": [
+        -61.42975546809639,
+        46.068419697013525
+      ],
+      "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+      "reference_objectid": 25203,
+      "reference_feature_code": "WACORV20",
+      "guide_reference_pixel_xy": [
+        4256.045577650133,
+        1866.2496825719718
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad geometry and final native crosshair inspected before first score; frozen affine unchanged"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "Q11",
+      "label": "Harbour View pond southwestern corner",
+      "role": "rejected-check",
+      "pixel_xy": [
+        2094,
+        3744
+      ],
+      "lonlat": [
+        -61.5154253279077,
+        45.9542730798359
+      ],
+      "guide_file": ".crown-grant-local/108-frozen-guide.npy",
+      "reference_objectid": 13579,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2091.0878395634354,
+        3737.2752292081714
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Historic pond southwestern point and modern outlet/channel/U-shaped shoreline do not supply an unambiguous common corner"
+    }
+  ]
+}

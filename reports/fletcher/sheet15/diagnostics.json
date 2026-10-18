@@ -1,0 +1,126 @@
+{
+  "sheet": "sheet-15",
+  "fit_sha256": "e80fc52c43f502eedf2e88de6234d8b9f2e7af765ea11be2c000e898aeeb9c5f",
+  "purpose": "Diagnostic affine/TPS comparison after nine-control freeze, not final validation.",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        4040,
+        2277
+      ],
+      "lonlat": [
+        -61.1118323,
+        46.0633503
+      ],
+      "modern_node": "J0272",
+      "modern_objectids": [
+        130767,
+        130768,
+        287029
+      ],
+      "identity_evidence": "Lake Ainslie eastern shoreline next distinct eastern brook mouth south of two close preceding mouths.",
+      "source_uncertainty_px": 10,
+      "pre_review_pixel_xy": [
+        4110,
+        2235
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        5795,
+        3793
+      ],
+      "lonlat": [
+        -61.0285666,
+        46.0085928
+      ],
+      "modern_node": "J0590",
+      "modern_objectids": [
+        274302,
+        274303,
+        287855
+      ],
+      "identity_evidence": "Main brook north of C05: western tributary crossing road before C05 major western arm.",
+      "source_uncertainty_px": 10,
+      "pre_review_pixel_xy": [
+        5800,
+        3785
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        1748,
+        5884
+      ],
+      "lonlat": [
+        -61.2120906,
+        45.9396871
+      ],
+      "modern_node": "J1239",
+      "modern_objectids": [
+        261050,
+        261051,
+        286041
+      ],
+      "identity_evidence": "Blues Brook northwestern reach, northern tributary before downstream sequence toward mills.",
+      "source_uncertainty_px": 10,
+      "pre_review_pixel_xy": [
+        1750,
+        5875
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        8843,
+        2057
+      ],
+      "lonlat": [
+        -60.88986234648444,
+        46.064620968016634
+      ],
+      "modern_objectid": 10209,
+      "modern_part_index": 0,
+      "modern_vertex_index": 10,
+      "identity_evidence": "Southernmost shoreline of western rounded lobe of Cow Point, west of the smaller eastern lobe. Broad tip has 20px placement uncertainty.",
+      "source_uncertainty_px": 20,
+      "pre_review_pixel_xy": [
+        8840,
+        2044
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        3766,
+        5250
+      ],
+      "lonlat": [
+        -61.12051531835393,
+        45.961580954462306
+      ],
+      "modern_objectid": 17734,
+      "modern_part_index": 0,
+      "modern_vertex_index": 473,
+      "identity_evidence": "Indian Island northernmost tip, slender northern lobe facing head of Whycocomagh Bay.",
+      "source_uncertainty_px": 15,
+      "pre_review_pixel_xy": [
+        3730,
+        5240
+      ],
+      "review": "Original native crop and modern topology inspected; corrections made before any fit score."
+    }
+  ]
+}

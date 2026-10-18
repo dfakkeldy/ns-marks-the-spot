@@ -1,0 +1,54 @@
+{
+  "working_target_rms_ground_m": 250,
+  "stretch_target_rms_ground_m": 200,
+  "selected_controls": 14,
+  "datasets": [
+    {
+      "label": "Current diagnostics",
+      "role": "selection diagnostic",
+      "source": "reference-correction/model-comparison.json",
+      "source_key": "models.corrected14_tps",
+      "count": 6,
+      "rms_ground_m": 284.92479319941543,
+      "median_ground_m": 271.1385960630132,
+      "p95_ground_m": 426.41613809937667,
+      "max_ground_m": 452.9376704421775,
+      "mean_east_ground_m": 24.05391088338344,
+      "mean_north_ground_m": 21.416777575171476,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    {
+      "label": "Current fresh Crow Point",
+      "role": "fresh after reference repair",
+      "source": "reference-correction/VM29-first.json",
+      "source_key": "corrected14_tps",
+      "count": 1,
+      "rms_ground_m": 64.46107929405004,
+      "median_ground_m": 64.46107929405004,
+      "p95_ground_m": 64.46107929405004,
+      "max_ground_m": 64.46107929405004,
+      "mean_east_ground_m": 63.78915813987403,
+      "mean_north_ground_m": -9.282997767959941,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    {
+      "label": "Same six valid diagnostics on original affine4",
+      "role": "baseline diagnostic",
+      "source": "reference-correction/model-comparison.json",
+      "source_key": "models.affine4_same_six",
+      "count": 6,
+      "rms_ground_m": 705.860415417994,
+      "median_ground_m": 595.4582971369399,
+      "p95_ground_m": 1033.6394334853721,
+      "max_ground_m": 1058.7542605816502,
+      "mean_east_ground_m": -23.464812212848766,
+      "mean_north_ground_m": 71.37727440576684,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  ],
+  "geographic_acceptance": false,
+  "limitation": "One current fresh check and six selection diagnostics do not establish whole-panel accuracy. Current diagnostic RMS remains above250m."
+}

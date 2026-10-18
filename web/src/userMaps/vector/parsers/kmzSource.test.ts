@@ -1,7 +1,7 @@
 import { zipSync, strToU8 } from "fflate";
 import { describe, expect, it } from "vitest";
 import { UserMapImportError } from "../../errors";
-import { extractKmzDocument, parseKmz } from "./kmzSource";
+import { classifyArchive, parseKmzWithAssets } from "./kmzSource";
 
 const PLACEMARK = `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark>
@@ -30,29 +30,31 @@ async function expectCode(promise: Promise<unknown>, code: string): Promise<void
   expect((caught as UserMapImportError).code).toBe(code);
 }
 
-describe("extractKmzDocument", () => {
+describe("parseKmzWithAssets", () => {
   it("prefers doc.kml at the archive root", async () => {
-    const text = await extractKmzDocument(
+    const { parsed } = await parseKmzWithAssets(
       kmzBuffer({ "doc.kml": PLACEMARK, "other.kml": "<kml/>" }),
     );
-    expect(text).toContain("Inside the archive");
+    expect(parsed.collection.features[0].properties?.name).toBe("Inside the archive");
   });
 
   it("falls back to the only .kml entry when it is not called doc.kml", async () => {
-    const text = await extractKmzDocument(kmzBuffer({ "MyPlaces.kml": PLACEMARK }));
-    expect(text).toContain("Inside the archive");
+    const { parsed } = await parseKmzWithAssets(kmzBuffer({ "MyPlaces.kml": PLACEMARK }));
+    expect(parsed.collection.features[0].properties?.name).toBe("Inside the archive");
   });
 
-  it("ignores nested overlay images and picks the KML", async () => {
-    const text = await extractKmzDocument(
-      kmzBuffer({ "files/pin.png": "not really a png", "doc.kml": PLACEMARK }),
+  it("retains nested assets with case-insensitive keys", async () => {
+    const { parsed, assets } = await parseKmzWithAssets(
+      kmzBuffer({ "Files/Pin.png": "image bytes", "doc.kml": PLACEMARK }),
     );
-    expect(text).toContain("Inside the archive");
+    expect(Array.from(assets.get("files/pin.png") ?? [])).toEqual(Array.from(strToU8("image bytes")));
+    expect(assets.has("doc.kml")).toBe(false);
+    expect(parsed.collection.features[0].properties?.name).toBe("Inside the archive");
   });
 
   it("refuses an archive with no KML inside as corrupt-file", async () => {
     await expectCode(
-      extractKmzDocument(kmzBuffer({ "readme.txt": "nothing here" })),
+      parseKmzWithAssets(kmzBuffer({ "readme.txt": "nothing here" })),
       "corrupt-file",
     );
   });
@@ -60,27 +62,48 @@ describe("extractKmzDocument", () => {
   it("refuses bytes that are not a readable archive as corrupt-file", async () => {
     const notAZip = new Uint8Array([0x50, 0x4b, 0x03, 0x04, 0x09, 0x09, 0x09]);
     await expectCode(
-      extractKmzDocument(notAZip.buffer as ArrayBuffer),
+      parseKmzWithAssets(notAZip.buffer as ArrayBuffer),
       "corrupt-file",
     );
   });
 });
 
-describe("parseKmz", () => {
+describe("KMZ content", () => {
   it("parses the KML inside the archive", async () => {
-    const parsed = await parseKmz(kmzBuffer({ "doc.kml": PLACEMARK }));
+    const { parsed } = await parseKmzWithAssets(kmzBuffer({ "doc.kml": PLACEMARK }));
     expect(parsed.featureCount).toBe(1);
     expect(parsed.collection.features[0].properties?.name).toBe("Inside the archive");
   });
 
   it("propagates the KML reader's fail-closed states", async () => {
     await expectCode(
-      parseKmz(
+      parseKmzWithAssets(
         kmzBuffer({
           "doc.kml": '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document/></kml>',
         }),
       ),
       "empty-file",
     );
+  });
+});
+
+
+describe("archive classification", () => {
+  it("reads entry names without inflating damaged file contents", async () => {
+    const buffer = kmzBuffer({ "doc.kml": PLACEMARK });
+    const header = new DataView(buffer);
+    expect(header.getUint16(8, true)).toBe(8); // DEFLATE
+    const dataStart = 30 + header.getUint16(26, true) + header.getUint16(28, true);
+    // Reserved DEFLATE block type: directory metadata stays intact, but
+    // trying to inflate the payload must fail.
+    new Uint8Array(buffer)[dataStart] = 7;
+    expect(await classifyArchive(buffer)).toBe("kmz");
+    await expectCode(parseKmzWithAssets(buffer), "corrupt-file");
+  });
+
+  it("classifies shapefile and unrecognized entries, including unreadable archives", async () => {
+    expect(await classifyArchive(kmzBuffer({ "parcel.shp": "shape bytes" }))).toBe("shapefile");
+    expect(await classifyArchive(kmzBuffer({ "readme.txt": "notes" }))).toBe("unknown-zip");
+    expect(await classifyArchive(new Uint8Array([80, 75, 3, 4]).buffer)).toBe("unknown-zip");
   });
 });

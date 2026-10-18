@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Caribou or Long Lake northern tip",
+    [
+      563,
+      166
+    ],
+    [
+      580,
+      109
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Porcupine Lake northeast tip",
+    [
+      2370,
+      709
+    ],
+    [
+      2390,
+      651
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Duck Pond northern tip",
+    [
+      3684,
+      711
+    ],
+    [
+      3716,
+      648
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Five Island Lake southwest corner",
+    [
+      5011,
+      1517
+    ],
+    [
+      5039,
+      1469
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Little Salter Lake eastern tip",
+    [
+      4550,
+      1910
+    ],
+    [
+      4579,
+      1856
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Bill Lake northern tip",
+    [
+      4208,
+      2063
+    ],
+    [
+      4233,
+      2008
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Big Otter Lake northern tip",
+    [
+      3980,
+      3332
+    ],
+    [
+      3997,
+      3266
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Lawson Lake southern outlet",
+    [
+      1270,
+      3624
+    ],
+    [
+      1247,
+      3538
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 74.91942531663305,
+  "median_ground_m": 65.66436360882955,
+  "p95_ground_m": 123.60784853481412,
+  "max_ground_m": 129.36927786343512,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 27.01329900859258,
+  "mean_north_ground_m": 17.33653670059556,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Rankin Island southeastern end",
+      "role": "check",
+      "pixel_xy": [
+        838,
+        2900
+      ],
+      "lonlat": [
+        -65.84631208469146,
+        43.73756026749399
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 20280,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20280,
+      "nearest_unfiltered_distance_guide_px": 1.8760789604300927,
+      "selected_distance_guide_px": 1.8760789604300927,
+      "guide_reference_pixel_xy": [
+        836.9276253516437,
+        2906.12531757995
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.84629384872167,
+        43.737582974261784
+      ],
+      "error_ground_m": 2.919435836704114,
+      "east_ground_m": 1.4690688666479044,
+      "north_ground_m": 2.5228837209982733
+    },
+    {
+      "id": "Q02",
+      "label": "Lear Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        270,
+        3616
+      ],
+      "lonlat": [
+        -65.86242353892658,
+        43.695240816733175
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 19740,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19740,
+      "nearest_unfiltered_distance_guide_px": 2.4107109087713665,
+      "selected_distance_guide_px": 2.4107109087713665,
+      "guide_reference_pixel_xy": [
+        242.10709586110897,
+        3602.85853651911
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.86081878609228,
+        43.69523588860311
+      ],
+      "error_ground_m": 129.36927786343512,
+      "east_ground_m": 129.36812442404633,
+      "north_ground_m": -0.546294710895407
+    },
+    {
+      "id": "Q03",
+      "label": "East Goose Lake upper large island southern end",
+      "role": "check",
+      "pixel_xy": [
+        1383,
+        2703
+      ],
+      "lonlat": [
+        -65.81926241609064,
+        43.756270989074395
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 146769,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 146769,
+      "nearest_unfiltered_distance_guide_px": 0.2668367800746205,
+      "selected_distance_guide_px": 0.2668367800746205,
+      "guide_reference_pixel_xy": [
+        1376.7335946432431,
+        2719.984832498827
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.81893694429947,
+        43.756915388171606
+      ],
+      "error_ground_m": 76.24464452651154,
+      "east_ground_m": 26.21119800660709,
+      "north_ground_m": 71.59761810306641
+    },
+    {
+      "id": "Q04",
+      "label": "Gull Lake western cape",
+      "role": "check",
+      "pixel_xy": [
+        4680,
+        660
+      ],
+      "lonlat": [
+        -65.67616793250944,
+        43.91073329516112
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 132997,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132997,
+      "nearest_unfiltered_distance_guide_px": 0.7815746731283646,
+      "selected_distance_guide_px": 0.7815746731283646,
+      "guide_reference_pixel_xy": [
+        4713.223972464446,
+        687.9070471423911
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.67629976215318,
+        43.910769231361485
+      ],
+      "error_ground_m": 11.317171107236208,
+      "east_ground_m": -10.589387632192128,
+      "north_ground_m": 3.992897625238892
+    },
+    {
+      "id": "Q05",
+      "label": "Nessisse Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        5462,
+        1529
+      ],
+      "lonlat": [
+        -65.6051220895572,
+        43.88830046492763
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 135173,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135173,
+      "nearest_unfiltered_distance_guide_px": 12.852994743465901,
+      "selected_distance_guide_px": 12.852994743465901,
+      "guide_reference_pixel_xy": [
+        5503.579016544158,
+        1541.6553609023103
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.60543559411302,
+        43.888336731585355
+      ],
+      "error_ground_m": 25.512365407521074,
+      "east_ground_m": -25.192117882129818,
+      "north_ground_m": 4.0296383584328
+    },
+    {
+      "id": "Q06",
+      "label": "South Clearwater Lake island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4098,
+        2690
+      ],
+      "lonlat": [
+        -65.65517141182907,
+        43.81065890511035
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 144641,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 144641,
+      "nearest_unfiltered_distance_guide_px": 0.5613886121680621,
+      "selected_distance_guide_px": 0.5613886121680621,
+      "guide_reference_pixel_xy": [
+        4132.137308696809,
+        2698.4556623330573
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.65598205013741,
+        43.81100156031757
+      ],
+      "error_ground_m": 75.52283366650364,
+      "east_ground_m": -65.22424983973124,
+      "north_ground_m": 38.07224235401292
+    },
+    {
+      "id": "Q07",
+      "label": "Big Gooseberry Island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        632,
+        3694
+      ],
+      "lonlat": [
+        -65.83828433588968,
+        43.698676639589415
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 17140,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17140,
+      "nearest_unfiltered_distance_guide_px": 1.2392995868075807,
+      "selected_distance_guide_px": 1.2392995868075807,
+      "guide_reference_pixel_xy": [
+        607.9603952473844,
+        3686.23866659333
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.8369574930004,
+        43.69900218095869
+      ],
+      "error_ground_m": 112.90805121023232,
+      "east_ground_m": 106.95755071589726,
+      "north_ground_m": 36.17057330135519
+    },
+    {
+      "id": "Q08",
+      "label": "Little Gooseberry Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        398,
+        3517
+      ],
+      "lonlat": [
+        -65.85650125223229,
+        43.70222361911853
+      ],
+      "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+      "reference_objectid": 19257,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19257,
+      "nearest_unfiltered_distance_guide_px": 1.1318235447451412,
+      "selected_distance_guide_px": 1.1318235447451412,
+      "guide_reference_pixel_xy": [
+        385.66427971830126,
+        3507.916382557829
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad/twelve detail pairs, all fifteen initial and five correction crosshairs inspected before first fit/score. Intermediate Clearwater source correction rejected before fitting.",
+      "predicted_lonlat": [
+        -65.85584241905362,
+        43.70206928532875
+      ],
+      "error_ground_m": 55.805893551155435,
+      "east_ground_m": 53.10620540959525,
+      "north_ground_m": -17.147265147444596
+    }
+  ],
+  "fit_sha256": "2d89fae19c2418a34b77063de686ac75b8f2f35a16fbcf332671e91135de9e5e",
+  "checks_sha256": "c1f03afef6cd94ff87fcb40086c26b4203fa4c63fd8e26a79c065950321d067a",
+  "status": "Reserved before first fit and score"
+}

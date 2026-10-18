@@ -1,0 +1,27 @@
+{
+  "source_frame": "Original 5564 x 3989 JPEG, pixel edges",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; accuracy gates failed and offshore references incomplete",
+      "ring_pixel_xy": [
+        [
+          0,
+          155
+        ],
+        [
+          5455,
+          230
+        ],
+        [
+          5450,
+          3855
+        ],
+        [
+          0,
+          3780
+        ]
+      ]
+    }
+  ]
+}

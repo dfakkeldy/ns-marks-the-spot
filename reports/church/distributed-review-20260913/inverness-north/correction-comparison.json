@@ -1,0 +1,46 @@
+{
+  "phase": "same retained Pleasant Bay diagnostic; not fresh",
+  "models": {
+    "prior-affine": {
+      "count": 1,
+      "points": [
+        {
+          "label": "N03",
+          "east_ground_m": 115.61535177600712,
+          "north_ground_m": 120.84602996991683,
+          "error_ground_m": 167.24434975741306
+        }
+      ],
+      "rms_ground_m": 167.24434975741306,
+      "median_ground_m": 167.24434975741306,
+      "p95_ground_m": 167.24434975741306,
+      "max_ground_m": 167.24434975741306,
+      "mean_east_ground_m": 115.61535177600712,
+      "mean_north_ground_m": 120.84602996991683,
+      "scatter_rms_ground_m": 0.0,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "corrected-affine": {
+      "count": 1,
+      "points": [
+        {
+          "label": "N03",
+          "east_ground_m": 69.94104288206297,
+          "north_ground_m": 104.47645051184827,
+          "error_ground_m": 125.72620327913053
+        }
+      ],
+      "rms_ground_m": 125.72620327913053,
+      "median_ground_m": 125.72620327913053,
+      "p95_ground_m": 125.72620327913053,
+      "max_ground_m": 125.72620327913053,
+      "mean_east_ground_m": 69.94104288206297,
+      "mean_north_ground_m": 104.47645051184827,
+      "scatter_rms_ground_m": 0.0,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "geographic_acceptance": false
+}

@@ -302,6 +302,66 @@ struct ParcelIdentifyTests {
 
     // MARK: - Civic addresses
 
+    @Test func typingAnIncompleteAddressSuggestsWithoutSelectingAParcel() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.twoAddresses)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.editSearchText("1234 Bar")
+        #expect(StubURLProtocol.requestCount(channel: channel) == 0)
+        #expect(viewModel.parcelMessage == nil)
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.addressResults.map(\.pntid) == ["1001"])
+        #expect(viewModel.parcels.selectedPID == nil)
+        #expect(viewModel.searchText == "1234 Bar")
+        #expect(StubURLProtocol.requestCount(channel: channel) == 1)
+    }
+
+    @Test func rapidTypingOnlyRequestsTheLatestAddress() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.twoAddresses)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.editSearchText("1235 Bar")
+        viewModel.editSearchText("1234 Bar")
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.addressResults.map(\.pntid) == ["1001"])
+        #expect(StubURLProtocol.requestCount(channel: channel) == 1)
+    }
+
+    @Test(arguments: ["", "Ba", "12345678", "123-4567",
+        "https://kinnokilabs.com/apps/nsmarksthespot/map/?position=46.1,-61.3,12"])
+    func changingToNonAddressInputCancelsPendingSuggestions(_ text: String) async {
+        let channel = #function + text
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.twoAddresses)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.editSearchText("1234 Bar")
+        viewModel.editSearchText(text)
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.addressResults.isEmpty)
+        #expect(viewModel.parcels.selectedPID == nil)
+        #expect(!viewModel.isSearchingAddresses)
+        #expect(StubURLProtocol.requestCount(channel: channel) == 0)
+    }
+
+    @Test func submittingImmediatelyReplacesThePendingSuggestion() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.twoAddresses)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.editSearchText("Barrington Street")
+        viewModel.submitSearch()
+        #expect(viewModel.isSearchingAddresses)
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.addressResults.count == 2)
+        #expect(StubURLProtocol.requestCount(channel: channel) == 1)
+    }
+
     /// Two civic points on the same road, which is why a search lists rather
     /// than jumps: picking one for the user would present a guess as an answer.
     private static let twoAddresses = StubURLProtocol.Response.success(Data("""

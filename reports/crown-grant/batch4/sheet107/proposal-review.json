@@ -1,0 +1,9 @@
+{
+  "stage": "before any fit or score",
+  "notes": [
+    "Goose Island geometry crosses the source western frame; mainland coast filter returned a distant feature and was rejected. WACOIS10 correctly identifies the observed island shore.",
+    "Forsters northern connection and southern barrier differ from modern geometry; neither used as a point. Its western shore point is retained with 18 px uncertainty.",
+    "Big Coddle north apex and Green Island south end corrected using native image evidence before fitting.",
+    "Berry Head physical southeast corner compared through adjoining shore faces; source point corrected before fitting."
+  ]
+}

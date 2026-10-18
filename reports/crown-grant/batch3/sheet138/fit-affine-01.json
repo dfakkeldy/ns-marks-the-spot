@@ -1,0 +1,231 @@
+{
+  "sheet": "138",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.854767525042481,
+      2.0076743966561565
+    ],
+    [
+      2.0545550783316107,
+      -4.891615193488849
+    ],
+    [
+      712273.0990494394,
+      5129871.5832545785
+    ]
+  ],
+  "source_sha256": "9a2c3be1d410eebff4f5b3f0cee9e43acb9e50414485d1ddb80948fb35a548a4",
+  "source_dimensions": [
+    5790,
+    3939
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Cranberry Point northern tip",
+      "role": "control",
+      "pixel_xy": [
+        307,
+        700
+      ],
+      "lonlat": [
+        -60.20742581310198,
+        46.26242062647259
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 3712,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        266.82106365863,
+        701.5745343164308
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Low Point northern apex",
+      "role": "control",
+      "pixel_xy": [
+        1454,
+        1027
+      ],
+      "lonlat": [
+        -60.126425046406986,
+        46.26763975908702
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 12911,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1409.5542087359936,
+        1012.4692072392209
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Petrie Lake northeast corner",
+      "role": "control",
+      "pixel_xy": [
+        880,
+        1460
+      ],
+      "lonlat": [
+        -60.152688237179134,
+        46.23883628560237
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 134750,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        839.1154541907017,
+        1436.426537283929
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Kilkenny Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        755,
+        2180
+      ],
+      "lonlat": [
+        -60.14153339343664,
+        46.204802376353626
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 133149,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        740.4108631724375,
+        2151.7617160744267
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Lingan North Head east tip",
+      "role": "control",
+      "pixel_xy": [
+        2624,
+        2010
+      ],
+      "lonlat": [
+        -60.027713498485,
+        46.242756892453066
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 7861,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2573.0830087987124,
+        1994.7221549556125
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "McPherson Point east tip",
+      "role": "control",
+      "pixel_xy": [
+        3480,
+        3368
+      ],
+      "lonlat": [
+        -59.93957704299453,
+        46.1959614182081
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 11432,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3433.6003844956867,
+        3346.914502483676
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "New Aberdeen pond north apex",
+      "role": "control",
+      "pixel_xy": [
+        3220,
+        3015
+      ],
+      "lonlat": [
+        -59.96593426261841,
+        46.20740483688662
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 35739,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3157.3041233558906,
+        2991.9994637456257
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Inglis Lake eastern spur tip",
+      "role": "control",
+      "pixel_xy": [
+        440,
+        2861
+      ],
+      "lonlat": [
+        -60.147125262782126,
+        46.16861793948417
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 137225,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        397.3157666195184,
+        2823.5230248178123
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    68.39914680834954,
+    34.46896762052259,
+    38.38029177820354,
+    111.09749415052337,
+    7.967701313223438,
+    46.59166848384239,
+    53.226827946359734,
+    61.80297838965143
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

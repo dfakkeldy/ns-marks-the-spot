@@ -1,0 +1,122 @@
+[
+  [
+    "Q01",
+    "Swivel Point south tip",
+    [
+      275,
+      947
+    ],
+    [
+      215,
+      925
+    ],
+    "WACO"
+  ],
+  [
+    "Q03",
+    "Waterford Lake south tip",
+    [
+      1245,
+      1665
+    ],
+    [
+      1230,
+      1635
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Brown Lake north tip",
+    [
+      322,
+      2398
+    ],
+    [
+      289,
+      2361
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Keefe Lake south tip",
+    [
+      600,
+      2605
+    ],
+    [
+      567,
+      2575
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Howies Lake north tip",
+    [
+      791,
+      2485
+    ],
+    [
+      755,
+      2470
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "David Head southeast coastal shoulder",
+    [
+      2461,
+      1817
+    ],
+    [
+      2413,
+      1806
+    ],
+    "WACO"
+  ],
+  [
+    "Q09",
+    "Brian Point east tip",
+    [
+      2810,
+      2549
+    ],
+    [
+      2750,
+      2541
+    ],
+    "WACO"
+  ],
+  [
+    "Q10",
+    "Table Head east tip",
+    [
+      3460,
+      2890
+    ],
+    [
+      3415,
+      2870
+    ],
+    "WACO"
+  ],
+  [
+    "Q11",
+    "MacRae Point shared physical check with sheet139",
+    [
+      4253,
+      3732
+    ],
+    [
+      4208.905003684631,
+      3723.531101149856
+    ],
+    "WACO",
+    [
+      7476
+    ]
+  ]
+]

@@ -1,0 +1,227 @@
+{
+  "sheet": "048",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.891959072857462,
+      2.1586077530300263
+    ],
+    [
+      2.0899833332996933,
+      -4.841024867135448
+    ],
+    [
+      394382.65220878395,
+      4914362.719104717
+    ]
+  ],
+  "source_sha256": "8989ac44c0f03350f83629fcda5a265439c5d0fe3e2a4add5d4c08ba95d4b283",
+  "source_dimensions": [
+    5607,
+    3896
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Green or Flat Island northwestern roof corner",
+      "role": "control",
+      "pixel_xy": [
+        3055,
+        209
+      ],
+      "lonlat": [
+        -64.13383816142955,
+        44.42732073880967
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 18196,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18196,
+      "nearest_unfiltered_distance_guide_px": 1.4118839232732885,
+      "selected_distance_guide_px": 1.4118839232732885,
+      "guide_reference_pixel_xy": [
+        3057.245584608172,
+        147.80657064332627
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Ironbound Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        3888,
+        384
+      ],
+      "lonlat": [
+        -64.07821799770163,
+        44.436167242288555
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 21749,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 21749,
+      "nearest_unfiltered_distance_guide_px": 0.9793701969963794,
+      "selected_distance_guide_px": 0.9793701969963794,
+      "guide_reference_pixel_xy": [
+        3880.6609704364673,
+        310.72269223385956
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Pearl Island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3819,
+        1492
+      ],
+      "lonlat": [
+        -64.05142141274624,
+        44.386470613454414
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 20666,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20666,
+      "nearest_unfiltered_distance_guide_px": 1.504641214869686,
+      "selected_distance_guide_px": 1.504641214869686,
+      "guide_reference_pixel_xy": [
+        3837.502801323484,
+        1432.9256133908639
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Great Duck Island western projecting tip",
+      "role": "control",
+      "pixel_xy": [
+        2115,
+        1717
+      ],
+      "lonlat": [
+        -64.15031459905487,
+        44.343662297575115
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 17077,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17077,
+      "nearest_unfiltered_distance_guide_px": 1.0303569210581653,
+      "selected_distance_guide_px": 1.0303569210581653,
+      "guide_reference_pixel_xy": [
+        2150.880395036773,
+        1666.4647057220573
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Little Duck Island western tip",
+      "role": "control",
+      "pixel_xy": [
+        1847,
+        1140
+      ],
+      "lonlat": [
+        -64.18271924775854,
+        44.362864931302674
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 19897,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19897,
+      "nearest_unfiltered_distance_guide_px": 0.18091360033379336,
+      "selected_distance_guide_px": 0.18091360033379336,
+      "guide_reference_pixel_xy": [
+        1869.819824819453,
+        1099.983671034919
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Cross Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1376,
+        2241
+      ],
+      "lonlat": [
+        -64.18194877529618,
+        44.30554853046468
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 16147,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16147,
+      "nearest_unfiltered_distance_guide_px": 0.8338958573067231,
+      "selected_distance_guide_px": 0.8338958573067231,
+      "guide_reference_pixel_xy": [
+        1411.3008023179718,
+        2212.7777533454355
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Ovens Point southern tip",
+      "role": "control",
+      "pixel_xy": [
+        434,
+        1563
+      ],
+      "lonlat": [
+        -64.25572976351454,
+        44.315427954591556
+      ],
+      "guide_file": ".crown-grant-local/048-frozen-north-discovery-guide.npy",
+      "reference_objectid": 313625,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 313625,
+      "nearest_unfiltered_distance_guide_px": 0.4887462548337599,
+      "selected_distance_guide_px": 0.4887462548337599,
+      "guide_reference_pixel_xy": [
+        494.25383760384284,
+        1576.4176593977027
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    21.144132856204727,
+    19.105197296504617,
+    83.62450641242836,
+    71.66440094829937,
+    51.523372968573575,
+    72.0402251547718,
+    103.4866554738595
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

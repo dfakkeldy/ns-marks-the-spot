@@ -1,0 +1,16 @@
+{
+  "basis": "Frozen sheet045 affine translated west 5410 original pixels for discovery only",
+  "actual_source_frame_bounds": [
+    -64.96108503524714,
+    44.57914607928114,
+    -64.50285362528795,
+    44.85912784544589
+  ],
+  "reference_query_bbox": [
+    -64.96637624762005,
+    44.57162647618279,
+    -64.48480429652474,
+    44.878703578946784
+  ],
+  "inside_query": true
+}

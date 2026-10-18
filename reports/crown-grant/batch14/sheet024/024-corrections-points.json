@@ -1,0 +1,132 @@
+[
+  {
+    "id": "C01",
+    "label": "Grays Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1124,
+      402
+    ],
+    "lonlat": [
+      -65.34649263048846,
+      44.22857514116878
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 110502,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 110502,
+    "nearest_unfiltered_distance_guide_px": 0.3245930604675375,
+    "selected_distance_guide_px": 0.3245930604675375,
+    "guide_reference_pixel_xy": [
+      1128.2013748828322,
+      345.74542425200343
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Lake Martin northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      564,
+      3581
+    ],
+    "lonlat": [
+      -65.29107383894736,
+      44.07445570676013
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 174699,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 174699,
+    "nearest_unfiltered_distance_guide_px": 1.205478517025499,
+    "selected_distance_guide_px": 1.205478517025499,
+    "guide_reference_pixel_xy": [
+      549.2399212149321,
+      3598.935659497627
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Beartrack Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1123,
+      1957
+    ],
+    "lonlat": [
+      -65.30018746679227,
+      44.157039735597884
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 143461,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143461,
+    "nearest_unfiltered_distance_guide_px": 1.2469141257672387,
+    "selected_distance_guide_px": 1.2469141257672387,
+    "guide_reference_pixel_xy": [
+      1139.3134364200523,
+      1983.9591228277422
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Lake Martin southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      593,
+      3642
+    ],
+    "lonlat": [
+      -65.28708199301973,
+      44.0727216092176
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 174699,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 174699,
+    "nearest_unfiltered_distance_guide_px": 1.5974940593848368,
+    "selected_distance_guide_px": 1.5974940593848368,
+    "guide_reference_pixel_xy": [
+      588.7093868108932,
+      3656.5708377523115
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "First Porcupine Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1616,
+      2320
+    ],
+    "lonlat": [
+      -65.26121247695357,
+      44.15042581342055
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 139250,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139250,
+    "nearest_unfiltered_distance_guide_px": 2.676459502756843,
+    "selected_distance_guide_px": 2.676459502756843,
+    "guide_reference_pixel_xy": [
+      1613.2015573295648,
+      2351.668859328027
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -289,3 +289,67 @@ describe("transactionDone", () => {
     await expect(promise).rejects.toThrow("transaction aborted");
   });
 });
+
+describe("large native scans", () => {
+  it("preserves bytes across reload and clears chunks on replacement and deletion", async () => {
+    const factory = new IDBFactory();
+    let store = await UserMapStore.open(factory);
+    const boundary = 64 * 1024 * 1024;
+    const data = new Uint8Array(boundary + 3);
+    data[0] = 17;
+    data.set([29, 41, 53, 67], boundary - 1);
+    const raster = new Blob([data], { type: "image/png" });
+    const originalPut = IDBObjectStore.prototype.put;
+    // A real Chromium import of Judique fails at the per-value size limit,
+    // despite several GB of free quota. fake-indexeddb has no such limit.
+    const limitedPut = vi.spyOn(IDBObjectStore.prototype, "put").mockImplementation(function (this: IDBObjectStore, value, key) {
+      const bytes = value instanceof ArrayBuffer ? value.byteLength : value?.data?.byteLength ?? 0;
+      if (bytes > boundary) throw new DOMException("Serialized value too large", "DataCloneError");
+      return originalPut.call(this, value, key);
+    });
+    try {
+      await store.saveUserMap(record("large", "2026-09-05"), raster, new Blob(["preview"]));
+      store.close();
+      store = await UserMapStore.open(factory);
+      const restored = await store.getRasterBlob("large");
+      expect(restored?.size).toBe(raster.size);
+      expect(restored?.type).toBe("image/png");
+      expect([...new Uint8Array(await restored!.slice(boundary - 1).arrayBuffer())]).toEqual([29, 41, 53, 67]);
+      expect([...new Uint8Array(await restored!.slice(0, 1).arrayBuffer())]).toEqual([17]);
+      expect(await (await store.getPreviewBlob("large"))!.text()).toBe("preview");
+      await store.saveUserMap(record("large", "2026-09-05"), new Blob(["small"]), new Blob(["preview"]));
+      expect(await (await store.getRasterBlob("large"))!.text()).toBe("small");
+      const { openUserContentDatabase, BLOBS, request } = await import("./database");
+      const db = await openUserContentDatabase(factory);
+      expect(await request(db.transaction(BLOBS).objectStore(BLOBS).getAllKeys())).toEqual(["large:preview", "large:raster"]);
+      await store.saveUserMap(record("large", "2026-09-05"), raster, new Blob(["preview"]));
+      await store.deleteUserMap("large");
+      expect(await request(db.transaction(BLOBS).objectStore(BLOBS).getAllKeys())).toEqual([]);
+      expect(await store.listUserMaps()).toEqual([]);
+      db.close();
+    } finally {
+      limitedPut.mockRestore();
+      store.close();
+    }
+  });
+});
+
+describe("atomic raster replacement", () => {
+  it("retains the previous map and bytes if a later put throws", async () => {
+    const store = await UserMapStore.open(new IDBFactory());
+    await store.saveUserMap(record("a", "2026-09-01"), new Blob(["original"]), new Blob(["preview"]));
+    const put = IDBObjectStore.prototype.put;
+    const failure = vi.spyOn(IDBObjectStore.prototype, "put").mockImplementation(function (this: IDBObjectStore, value, key) {
+      if (key === "a:preview") throw new DOMException("Full", "QuotaExceededError");
+      return put.call(this, value, key);
+    });
+    try {
+      await expect(store.saveUserMap(record("a", "2026-09-05"), new Blob(["replacement"]), new Blob(["new preview"]))).rejects.toMatchObject({code: "quota"});
+      expect((await store.listUserMaps())[0].createdAt).toBe("2026-09-01");
+      expect(await (await store.getRasterBlob("a"))!.text()).toBe("original");
+    } finally {
+      failure.mockRestore();
+      store.close();
+    }
+  });
+});

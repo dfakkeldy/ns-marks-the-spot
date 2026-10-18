@@ -1,0 +1,18 @@
+{
+  "timing": "Before first inset fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Three Lawlor Island controls establish uniform scale and rotation across this enlarged inset without fitting an underconstrained affine.",
+  "corrections": [
+    "Northeastern Lawlor finger source and northeastern bay check reference refined to shoreline extrema from native detail before inset fit."
+  ],
+  "not_adopted": [
+    "McCormacks Beach and Eastern Passage mainland harbour have altered or generalized outlines without a sufficiently precise independent check",
+    "Small western jetty excluded from northwest natural shore check definition"
+  ],
+  "limitations": [
+    "All controls and checks are on Lawlor Island; mainland streets, harbour and river are unvalidated.",
+    "Main and inset observations share Lawlor reference geography; component scores are not statistically independent.",
+    "Printed scale1:15840 and near-vertical GRID NORTH arrow used only for discovery; physical points determine the fit.",
+    "12 px working source uncertainty for the enlarged inset shoreline."
+  ]
+}

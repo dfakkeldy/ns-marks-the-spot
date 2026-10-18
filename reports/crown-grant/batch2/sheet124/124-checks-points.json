@@ -1,0 +1,156 @@
+[
+  {
+    "id": "Q01",
+    "label": "Christmas Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3476,
+      1470
+    ],
+    "lonlat": [
+      -60.60421556532896,
+      45.93743795077875
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 23683,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3513.290715491865,
+      1472.370058413595
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "McPhee Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4075,
+      1622
+    ],
+    "lonlat": [
+      -60.56471859538336,
+      45.9403243990371
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 13674,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4116.8518855408765,
+      1626.3726828924846
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Large Indian Island southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4352,
+      1410
+    ],
+    "lonlat": [
+      -60.55193410335902,
+      45.95411196403852
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 23847,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4417.604883635533,
+      1408.6498758749804
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Cossit Point eastern spit tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5677,
+      1322
+    ],
+    "lonlat": [
+      -60.47467543469355,
+      45.97931306198521
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 13963,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5758.086620476213,
+      1301.5629598258529
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Big Pond southern spit end",
+    "role": "proposal",
+    "pixel_xy": [
+      3747,
+      2507
+    ],
+    "lonlat": [
+      -60.564320325698255,
+      45.89722133613694
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 19731,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3769.167482426041,
+      2525.536035590456
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Southern upright pond southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3036,
+      3410
+    ],
+    "lonlat": [
+      -60.589093090212934,
+      45.848077077647375
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 135269,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3001.762348273187,
+      3413.7824856963707
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Irish Cove southern pond northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2210,
+      3735
+    ],
+    "lonlat": [
+      -60.629545523123504,
+      45.821794529956996
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 133920,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2190.943878319231,
+      3740.7347052084515
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

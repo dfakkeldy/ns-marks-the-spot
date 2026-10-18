@@ -1,0 +1,54 @@
+[
+  [
+    "IQ01",
+    "Inset Peggy Point southern shore",
+    [
+      327,
+      2941
+    ],
+    [
+      333,
+      2974
+    ],
+    "WACO20"
+  ],
+  [
+    "IQ02",
+    "Inset Indian Island northern tip",
+    [
+      654,
+      3167
+    ],
+    [
+      648,
+      3178
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ03",
+    "Inset Indian Island southern tip",
+    [
+      679,
+      3202
+    ],
+    [
+      683,
+      3239
+    ],
+    "WACOIS10"
+  ],
+  [
+    "IQ04",
+    "Inset Corney Rock northern tip",
+    [
+      767,
+      3324
+    ],
+    [
+      764,
+      3367
+    ],
+    "WACOIS10"
+  ]
+]

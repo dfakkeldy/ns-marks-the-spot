@@ -1,0 +1,14 @@
+{
+  "original_opaque": 1110494793,
+  "lost_coverage": 0,
+  "added_coverage": 14051684,
+  "changed_original_covered_pixels": 150789203,
+  "unchanged_original_covered_pixels": 959705590,
+  "source_sha256": "501749928dd3efd5b01017bf2b6906695c41248064d7a279d078b3d4f4c50324",
+  "final_sha256": "0ae2190cc5194eaaacdf1f2ca2c04a0fae80eecd4f5bb6c3603388b01f68a764",
+  "same_crs_extent_and_resolution": true,
+  "grid": [
+    34412,
+    56464
+  ]
+}

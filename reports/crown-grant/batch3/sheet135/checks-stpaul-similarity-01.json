@@ -1,0 +1,101 @@
+{
+  "status": "Independent physical checks selected and audited before first frozen component score",
+  "points": [
+    {
+      "id": "SQ02",
+      "label": "Trinity Cove inner eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        4805,
+        780
+      ],
+      "lonlat": [
+        -60.1634344163087,
+        47.19738810526526
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 22017,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4810.799616442993,
+        807.8022377766902
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+    },
+    {
+      "id": "SQ03",
+      "label": "St Paul western central north cape",
+      "role": "check",
+      "pixel_xy": [
+        4901,
+        595
+      ],
+      "lonlat": [
+        -60.16073690540792,
+        47.207008964269775
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 17109,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4917.000719622243,
+        631.7607108546654
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+    },
+    {
+      "id": "SQ04",
+      "label": "St Paul west coast southwestern corner",
+      "role": "check",
+      "pixel_xy": [
+        4640,
+        900
+      ],
+      "lonlat": [
+        -60.168639080767676,
+        47.189279897679825
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 22584,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4682.6233769525425,
+        941.6442036096705
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+    },
+    {
+      "id": "SQ05",
+      "label": "Northeastern neck west inner corner",
+      "role": "check",
+      "pixel_xy": [
+        5170,
+        549
+      ],
+      "lonlat": [
+        -60.145176039494466,
+        47.21314106185758
+      ],
+      "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+      "reference_objectid": 20920,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5167.1826156075695,
+        588.0269051212817
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad coastal/lake topology traced; native crosshair inspected before first fit and score.",
+      "review": "Final source/reference pair audited before fitting, checks excluded from fit."
+    }
+  ]
+}

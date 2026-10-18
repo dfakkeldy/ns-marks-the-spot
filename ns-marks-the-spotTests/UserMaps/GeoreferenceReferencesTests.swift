@@ -16,7 +16,8 @@ struct GeoreferenceReferencesTests {
     private func services(
         licence: ProvinceLicenceState = .accepted,
         installing ids: [LayerID] = [],
-        visible: Set<LayerID> = []
+        visible: Set<LayerID> = [],
+        tileFetcher: TileFetcher? = nil
     ) -> GeoreferenceReferenceServices {
         let cache = TileCache()
         let controller = MapController()
@@ -35,7 +36,7 @@ struct GeoreferenceReferencesTests {
         }
         return GeoreferenceReferenceServices(
             tileCache: cache,
-            tileFetcher: TileFetcher(tileCache: cache),
+            tileFetcher: tileFetcher ?? TileFetcher(tileCache: cache),
             clearanceBox: LicenceClearanceBox(),
             licenceStore: store,
             controller: controller
@@ -83,7 +84,7 @@ struct GeoreferenceReferencesTests {
         let mapView = MKMapView()
         let coordinator = Self.coordinator(on: mapView)
         let scan = try #require(Self.placedScan())
-        mapView.installInDrawOrder(scan)
+        mapView.installInDrawOrder(scan, level: GeoreferenceMapPane.overlayLevel)
         coordinator.apply(references: Set(GeoreferenceReference.allCases), services: services())
 
         let ids = Self.installedIDs(on: mapView)
@@ -102,7 +103,7 @@ struct GeoreferenceReferencesTests {
             for overlay in mapView.overlays where overlay is UserMapOverlay {
                 mapView.removeOverlay(overlay)
             }
-            mapView.installInDrawOrder(try #require(Self.placedScan()))
+            mapView.installInDrawOrder(try #require(Self.placedScan()), level: GeoreferenceMapPane.overlayLevel)
         }
         #expect(Self.installedIDs(on: mapView) == ["ns-aerial", "scan", "nsprd"])
     }
@@ -190,17 +191,23 @@ struct GeoreferenceReferencesTests {
     /// action, must not reach the service either.
     @Test("An unaccepted reference layer draws nothing and fetches nothing")
     func anUnacceptedReferenceLayerDrawsNothingAndFetchesNothing() async throws {
-        let services = services(licence: .unknown)
+        let channel = #function
+        StubURLProtocol.stub(channel: channel, with: .status(503))
+        defer { StubURLProtocol.clear(channel: channel) }
+        let services = services(
+            licence: .unknown,
+            tileFetcher: TileFetcher(urlSession: StubURLProtocol.session(channel: channel))
+        )
+        let path = MKTileOverlayPath(x: 41, y: 46, z: 14, contentScaleFactor: 1)
         for reference in GeoreferenceReference.allCases {
             let installed = try #require(services.overlay(for: reference))
-            let (data, outcome, substance) = try await installed.overlay.exportTile(
-                at: MKTileOverlayPath(x: 41, y: 46, z: 14, contentScaleFactor: 1)
-            )
-            // Refused, and said so — not "the source had nothing here", which
-            // is what a reader would otherwise conclude from a blank square.
-            #expect(substance == .licenceRefused)
-            #expect(outcome == .served)
-            #expect(!data.isEmpty)
+            let data = try await installed.overlay.loadTile(at: path)
+            #expect(data == TileComposite.transparent)
+            #expect(StubURLProtocol.requestCount(channel: channel) == 0)
+            // Viewing refusal and reproduction refusal are independent gates.
+            await #expect(throws: LayerUse.Refusal.self) {
+                try await installed.overlay.exportTile(at: path)
+            }
         }
     }
 
@@ -238,8 +245,8 @@ struct GeoreferenceReferencesTests {
         let mapView = MKMapView()
         let coordinator = Self.coordinator(on: mapView)
         // As `makeUIView` installs it: first, before anything else is drawn.
-        mapView.installInDrawOrder(OSMBaseOverlay())
-        mapView.installInDrawOrder(try #require(Self.placedScan()))
+        mapView.installInDrawOrder(OSMBaseOverlay(), level: GeoreferenceMapPane.overlayLevel)
+        mapView.installInDrawOrder(try #require(Self.placedScan()), level: GeoreferenceMapPane.overlayLevel)
         coordinator.apply(references: Set(GeoreferenceReference.allCases), services: services())
         #expect(Self.installedIDs(on: mapView) == ["osm", "ns-aerial", "scan", "nsprd"])
     }

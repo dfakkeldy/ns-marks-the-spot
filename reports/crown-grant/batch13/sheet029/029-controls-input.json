@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Clear Lake northwestern roof",
+    [
+      346,
+      2214
+    ],
+    [
+      491,
+      2240
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Godfrey Lake northern notch roof",
+    [
+      1724,
+      3425
+    ],
+    [
+      1840,
+      3454
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Spectacle western detached lake eastern end",
+    [
+      2335,
+      3368
+    ],
+    [
+      2444,
+      3391
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Eel Ware Lake northwestern lobe northern tip",
+    [
+      3538,
+      1357
+    ],
+    [
+      3644,
+      1364
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Unnamed pond west of Roxbury northern tip",
+    [
+      3632,
+      1688
+    ],
+    [
+      3731,
+      1701
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Small lake southwest of Godfrey northern roof",
+    [
+      1339,
+      3600
+    ],
+    [
+      1453,
+      3625
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Scrogg Lake elongated southeastern island northern tip",
+    [
+      5730,
+      3146
+    ],
+    [
+      5774,
+      3164
+    ],
+    "WALKIS10"
+  ]
+]

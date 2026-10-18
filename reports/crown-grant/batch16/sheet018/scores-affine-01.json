@@ -1,0 +1,321 @@
+{
+  "count": 9,
+  "rms_ground_m": 41.710409847200324,
+  "median_ground_m": 39.52775431406433,
+  "p95_ground_m": 62.69188043881398,
+  "max_ground_m": 63.9530964714916,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -20.749303390688393,
+  "mean_north_ground_m": -9.451899054118245,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Harper Lake eastern peninsula tip",
+      "role": "check",
+      "pixel_xy": [
+        1313,
+        466
+      ],
+      "lonlat": [
+        -65.4546948132833,
+        43.802058835382205
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 138575,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138575,
+      "nearest_unfiltered_distance_guide_px": 1.0035424032494045,
+      "selected_distance_guide_px": 1.0035424032494045,
+      "guide_reference_pixel_xy": [
+        1314.168426655815,
+        478.5617678598501
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.45475288743813,
+        43.802032445260785
+      ],
+      "error_ground_m": 5.517057995199199,
+      "east_ground_m": -4.673366590121186,
+      "north_ground_m": -2.9321619390358507
+    },
+    {
+      "id": "Q02",
+      "label": "Courtney Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        2531,
+        752
+      ],
+      "lonlat": [
+        -65.36882948055374,
+        43.814796669371646
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 128925,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128925,
+      "nearest_unfiltered_distance_guide_px": 3.543963580848552,
+      "selected_distance_guide_px": 3.543963580848552,
+      "guide_reference_pixel_xy": [
+        2522.144609416311,
+        747.9008519640192
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.36859209642807,
+        43.81442102431377
+      ],
+      "error_ground_m": 45.89964631534428,
+      "east_ground_m": 19.098922367453948,
+      "north_ground_m": -41.73737768805876
+    },
+    {
+      "id": "Q03",
+      "label": "Dirty Creek Lake large island southern end",
+      "role": "check",
+      "pixel_xy": [
+        355,
+        1570
+      ],
+      "lonlat": [
+        -65.48333060695616,
+        43.72935686293314
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 146747,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 146747,
+      "nearest_unfiltered_distance_guide_px": 2.563747812118138,
+      "selected_distance_guide_px": 2.563747812118138,
+      "guide_reference_pixel_xy": [
+        358.6973212484154,
+        1603.872847210383
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.48355175915567,
+        43.729674430266115
+      ],
+      "error_ground_m": 39.52775431406433,
+      "east_ground_m": -17.818112871508273,
+      "north_ground_m": 35.28396540655858
+    },
+    {
+      "id": "Q04",
+      "label": "Morris Lake central large island southwestern end",
+      "role": "check",
+      "pixel_xy": [
+        802,
+        2052
+      ],
+      "lonlat": [
+        -65.44081694350656,
+        43.71664537988677
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 144749,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 144749,
+      "nearest_unfiltered_distance_guide_px": 0.9986223385360099,
+      "selected_distance_guide_px": 0.9986223385360099,
+      "guide_reference_pixel_xy": [
+        804.0706257398706,
+        2075.634609716013
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.44095106884485,
+        43.71647783331532
+      ],
+      "error_ground_m": 21.52598418697909,
+      "east_ground_m": -10.808778168915046,
+      "north_ground_m": -18.615539468768006
+    },
+    {
+      "id": "Q05",
+      "label": "Lake George central island southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3388,
+        1452
+      ],
+      "lonlat": [
+        -65.29325215095444,
+        43.79976627020558
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 153671,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 153671,
+      "nearest_unfiltered_distance_guide_px": 0.9875028707138095,
+      "selected_distance_guide_px": 0.9875028707138095,
+      "guide_reference_pixel_xy": [
+        3374.619514043967,
+        1450.230997874518
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.29339491474545,
+        43.79958940955922
+      ],
+      "error_ground_m": 22.76283591546067,
+      "east_ground_m": -11.489012965099175,
+      "north_ground_m": -19.650681413171636
+    },
+    {
+      "id": "Q06",
+      "label": "Church Over Lake island southern end",
+      "role": "check",
+      "pixel_xy": [
+        1406,
+        2564
+      ],
+      "lonlat": [
+        -65.38668811312625,
+        43.705169644122954
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 152569,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 152569,
+      "nearest_unfiltered_distance_guide_px": 4.853791271534288,
+      "selected_distance_guide_px": 4.853791271534288,
+      "guide_reference_pixel_xy": [
+        1409.549036915123,
+        2592.368154165568
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.38748134000967,
+        43.70518299033049
+      ],
+      "error_ground_m": 63.9530964714916,
+      "east_ground_m": -63.935895993326206,
+      "north_ground_m": 1.4831560344366128
+    },
+    {
+      "id": "Q07",
+      "label": "Rodney Lake northeastern bay eastern end",
+      "role": "check",
+      "pixel_xy": [
+        3290,
+        2573
+      ],
+      "lonlat": [
+        -65.26645439296183,
+        43.74492472078257
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 142785,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142785,
+      "nearest_unfiltered_distance_guide_px": 0.746645928093875,
+      "selected_distance_guide_px": 0.746645928093875,
+      "guide_reference_pixel_xy": [
+        3279.727680053329,
+        2579.167218066985
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.26699320831506,
+        43.744669344657304
+      ],
+      "error_ground_m": 51.85316384858519,
+      "east_ground_m": -43.401229188743905,
+      "north_ground_m": -28.374000528905793
+    },
+    {
+      "id": "Q08",
+      "label": "Veitch Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4978,
+        1078
+      ],
+      "lonlat": [
+        -65.20258238859984,
+        43.85063941745773
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 139081,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139081,
+      "nearest_unfiltered_distance_guide_px": 2.776515067648486,
+      "selected_distance_guide_px": 2.776515067648486,
+      "guide_reference_pixel_xy": [
+        4950.560929685598,
+        1066.7192634680541
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.20261354144188,
+        43.85083965409164
+      ],
+      "error_ground_m": 22.388726720132098,
+      "east_ground_m": -2.5049021544508063,
+      "north_ground_m": 22.24815833603727
+    },
+    {
+      "id": "Q09",
+      "label": "Enslow Point southern end",
+      "role": "check",
+      "pixel_xy": [
+        3848,
+        2415
+      ],
+      "lonlat": [
+        -65.23531447379904,
+        43.76421172646643
+      ],
+      "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+      "reference_objectid": 5122,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 5122,
+      "nearest_unfiltered_distance_guide_px": 0.404168035706298,
+      "selected_distance_guide_px": 0.404168035706298,
+      "guide_reference_pixel_xy": [
+        3836.0060975881643,
+        2415.404122036649
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad waterbody context, seventeen initial native paired crosshairs and seven physical corrections inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.23595045370296,
+        43.763916761980745
+      ],
+      "error_ground_m": 60.800056389797554,
+      "east_ground_m": -51.2113549514849,
+      "north_ground_m": -32.77261022615662
+    }
+  ],
+  "fit_sha256": "0c68005c7038add26b9db0d182a10118429ddd097808c2cee9af6488d8455e72",
+  "checks_sha256": "6d632fd87b2f053958e6f4bdb5ca72bb289f82a1ff354941e8af831a4a9902ba",
+  "status": "Reserved before first fit and score"
+}

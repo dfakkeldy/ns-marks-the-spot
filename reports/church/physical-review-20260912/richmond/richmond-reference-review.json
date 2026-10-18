@@ -1,0 +1,200 @@
+[
+  {
+    "label": "supply-02",
+    "feature_id": 173,
+    "polygon": 0,
+    "ring": 12,
+    "centroid_lonlat": [
+      -60.840537699354506,
+      45.675996519024345
+    ],
+    "csv_rounding_error_ground_m": 0.05836044032402135,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-06",
+    "feature_id": 83,
+    "polygon": 0,
+    "ring": 10,
+    "centroid_lonlat": [
+      -60.76820575324094,
+      45.71492240112524
+    ],
+    "csv_rounding_error_ground_m": 0.04854356309838493,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-08",
+    "feature_id": 83,
+    "polygon": 0,
+    "ring": 9,
+    "centroid_lonlat": [
+      -60.762353776462824,
+      45.70910337249141
+    ],
+    "csv_rounding_error_ground_m": 0.04490900616757604,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-09",
+    "feature_id": 505,
+    "polygon": 0,
+    "ring": 1,
+    "centroid_lonlat": [
+      -61.23229192258837,
+      45.62137814234215
+    ],
+    "csv_rounding_error_ground_m": 0.016934010679071135,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-10",
+    "feature_id": 106,
+    "polygon": 0,
+    "ring": 9,
+    "centroid_lonlat": [
+      -61.15265777234441,
+      45.554742721916256
+    ],
+    "csv_rounding_error_ground_m": 0.03564182940557423,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-13",
+    "feature_id": 26,
+    "polygon": 0,
+    "ring": 49,
+    "centroid_lonlat": [
+      -60.490472781281156,
+      45.62114135749747
+    ],
+    "csv_rounding_error_ground_m": 0.04323824965630241,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-15",
+    "feature_id": 528,
+    "polygon": 0,
+    "ring": 10,
+    "centroid_lonlat": [
+      -60.49169379450924,
+      45.64269283886084
+    ],
+    "csv_rounding_error_ground_m": 0.024005101949197402,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-17",
+    "feature_id": 106,
+    "polygon": 0,
+    "ring": 7,
+    "centroid_lonlat": [
+      -61.02159985021715,
+      45.61421310592937
+    ],
+    "csv_rounding_error_ground_m": 0.016566935018261036,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-18",
+    "feature_id": 106,
+    "polygon": 0,
+    "ring": 6,
+    "centroid_lonlat": [
+      -60.95768747953302,
+      45.610067697130994
+    ],
+    "csv_rounding_error_ground_m": 0.050254397910278976,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-21",
+    "feature_id": 434,
+    "polygon": 0,
+    "ring": 7,
+    "centroid_lonlat": [
+      -61.31714784617942,
+      45.59496754843528
+    ],
+    "csv_rounding_error_ground_m": 0.0516183677905721,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  },
+  {
+    "label": "supply-23",
+    "feature_id": 41,
+    "polygon": 0,
+    "ring": 20,
+    "centroid_lonlat": [
+      -60.6520395011609,
+      45.57631958317549
+    ],
+    "csv_rounding_error_ground_m": 0.06046187201338,
+    "window_ground_m": 3600,
+    "display": [
+      900,
+      900
+    ],
+    "crs": "EPSG:4326 coordinates shown in local equirectangular plane with cos(latitude) scale",
+    "definition": "shoelace centroid in lon/lat of identified water-polygon interior ring"
+  }
+]

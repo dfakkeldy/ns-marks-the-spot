@@ -1,0 +1,49 @@
+{
+  "sheet": "sheet-11",
+  "fit_sha256": "06246fcba7c1fd68414cff5d47ee3ddf0820cd33a47cc0dbad03457d3f7d4f2b",
+  "status": "Fresh 25-control checks; T01 excluded as a control. Geographic scope central Tompkins valley and western interior.",
+  "points": [
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        5016,
+        3955
+      ],
+      "lonlat": [
+        -61.0633874,
+        46.3544429
+      ],
+      "modern_node": "J0670",
+      "modern_objectids": [
+        186289,
+        186290,
+        283125
+      ],
+      "identity_evidence": "Tompkins Brook southern tributary on the long eastward valley above T01 outlet. Main turns from southeast to east/northeast; southern arm curves southeast before ending. Small historical northern spur farther downstream is distinct. Outlet and island/river-bank context traced before choosing this excluded upstream feature.",
+      "source_uncertainty_px": 12,
+      "review": "Selected after 25-control freeze; native crosshair review pending; no score consulted."
+    },
+    {
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        1420,
+        5537
+      ],
+      "lonlat": [
+        -61.231677,
+        46.297661
+      ],
+      "modern_node": "J0982",
+      "modern_objectids": [
+        272825,
+        272826,
+        288121
+      ],
+      "identity_evidence": "Murdoch MacLeods Brook major eastern arm in western Broad Cove Marsh interior, below the coastal-outlet control C17 and small eastern tributary, above the long southerly reach and later east tributary. Upstream main approaches from northwest, major east arm follows the road southeast and has a nearby southern fork; main turns south. Match stream fork, not adjacent crossing roads.",
+      "source_uncertainty_px": 12,
+      "review": "Selected after 25-control freeze; native crosshair review pending; no score consulted."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T08:41:35.544376+00:00",
+  "model": "Reflected uniform similarity EPSG:32620",
+  "controls": 6,
+  "checks": 5,
+  "reason": "Reliable matches span the southern lakes and coast; a four-parameter similarity avoids unsupported shear in the unsampled northern half.",
+  "corrections": [
+    "Sinclair Island and Port Hebert bank corrected to coast rather than tidal-river feature codes after distance guard rejection.",
+    "Stewart reference refined to eastern projecting tip; Cameron southern source refined.",
+    "Green Harbour northeastern source roof and Black Point source refined; Forbes reference moved from neighbouring northeastern horn to northwestern horn."
+  ],
+  "unadopted": [
+    "Northern Sable/Tidney river junctions and Little Lake outlet could not be precisely reconciled.",
+    "Western supposed fork was grant/road detail rather than a confidently identifiable shared water junction.",
+    "Port Joli head, Bijou and St Catherine river islands not confidently reconciled."
+  ],
+  "limitations": [
+    "All adopted controls and checks are in the southern half. The northern half, northwestern interior, river corridors and much of the coast remain independently unvalidated.",
+    "Four checks pair with control waterbodies; Forbes Lake is separate. The small Sinclair Island north/south pair provides little spatially independent information.",
+    "Thin generalized lake shores, small island depictions and cape extrema carry 24 px working source uncertainty.",
+    "A constrained similarity limits unsupported shear; a numerical pass would not establish accuracy outside the southern sampled strip."
+  ]
+}

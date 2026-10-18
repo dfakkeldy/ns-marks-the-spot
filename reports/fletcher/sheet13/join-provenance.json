@@ -1,0 +1,19 @@
+{
+  "frames": "adjacent-sheet-review/frames.json",
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+      "sha256": "178cf532aee8967ee38cc3cc76a29a691e8310a08ac49afe3944916e442e5a91"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "sha256": "8721b668ddcb7fac3bfa8bbf3bb29fec7351483d62893ffe1f0a787a8b70acda"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif",
+      "sha256": "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7"
+    }
+  ],
+  "review": "All four actual raster pairs inspected. Margaree and Middle River northern approaches show channel offsets and incomplete coverage continuity; western inland brooks and lake shore remain discontinuous. No cosmetic adjustment or seamless-join acceptance.",
+  "accepted": false
+}

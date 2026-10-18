@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Hardwood Lake large eastern island southern tip",
+    [
+      1123,
+      660
+    ],
+    [
+      1145,
+      629
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q02",
+    "Rush Lake southern tip",
+    [
+      775,
+      1309
+    ],
+    [
+      790,
+      1294
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Brandy Lake northern tip",
+    [
+      584,
+      1119
+    ],
+    [
+      608,
+      1103
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Conway Lake southern tip",
+    [
+      2508,
+      856
+    ],
+    [
+      2526,
+      850
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Bullrush Lake southwestern island northern tip",
+    [
+      2908,
+      1484
+    ],
+    [
+      2925,
+      1466
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q06",
+    "Kempton Lake eastern island southern tip",
+    [
+      4785,
+      739
+    ],
+    [
+      4791,
+      729
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q07",
+    "South West Lake southern tip",
+    [
+      3824,
+      2413
+    ],
+    [
+      3840,
+      2400
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "First Lake southern roof",
+    [
+      3609,
+      429
+    ],
+    [
+      3590,
+      399
+    ],
+    "WALK20"
+  ],
+  [
+    "Q09",
+    "Mud Lake southern shore",
+    [
+      2373,
+      1946
+    ],
+    [
+      2383,
+      1937
+    ],
+    "WALK20"
+  ]
+]

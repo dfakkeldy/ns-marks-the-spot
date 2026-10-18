@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "37a9f69b0144d3e770cdd768cb81ad5ab4350910875634e645347b9bdc309e9c",
+  "fit_sha256": "27eb95e05ec73a086b8e0d3fb8c346e2280bc69a844c0d2ed61c714304da328f",
+  "components_sha256": "53daa94b8832dcd6edcb971a0b5f6a727fac1116d6032c6f563ee9c9c2dcacee",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 63.33 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          46.35687878074716,
+          -60.759187436715465
+        ],
+        [
+          46.610629674318666,
+          -60.316641395146824
+        ]
+      ],
+      "dimensions": [
+        6158,
+        5128
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 17648519,
+      "source_mask_pixels": 18938550,
+      "affine_determinant": -28.2867075674541,
+      "png_sha256": "2551123c91f46eaf6d525d51d673540cfbefebf674469e04468fee937e847b5f",
+      "tif_sha256": "fd8901fb7894ff574a85086c713d7cf78afde503d33da4de324b65457eee1e17"
+    },
+    {
+      "id": "smokey-inset",
+      "status": "RMS 90.80 m passes 100 m; limitations retained",
+      "png": "smokey-inset-3857.png",
+      "tif": "smokey-inset-3857.tif",
+      "bounds": [
+        [
+          46.57199243654616,
+          -60.406686938075595
+        ],
+        [
+          46.63065170091964,
+          -60.316280487881805
+        ]
+      ],
+      "dimensions": [
+        1258,
+        1188
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 891489,
+      "source_mask_pixels": 907800,
+      "affine_determinant": -29.686291062804628,
+      "png_sha256": "cf1d1ee3764cb422e67f15f4a918e9f7920b905f7d50035a9c173c88bc1d3613",
+      "tif_sha256": "9550a2e031880cad999d9e656920e7c924f0a71b77c21d15e8ce1bae9343a05a"
+    }
+  ]
+}

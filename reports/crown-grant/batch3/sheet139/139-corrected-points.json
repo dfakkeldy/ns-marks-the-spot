@@ -1,0 +1,46 @@
+[
+  {
+    "id": "C03",
+    "label": "Round pond labelled John Allen McDonald north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2325,
+      1070
+    ],
+    "lonlat": [
+      -59.9795864233795,
+      46.11888784895027
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 137703,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2292.048398391169,
+      1025.8183200155618
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Mira park peninsula northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      788,
+      2315
+    ],
+    "lonlat": [
+      -60.047450502036,
+      46.03650544892537
+    ],
+    "guide_file": ".crown-grant-local/139-adjacent-guide.npy",
+    "reference_objectid": 25471,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      769.5459627141827,
+      2284.115213886136
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

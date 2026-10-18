@@ -1,0 +1,286 @@
+{
+  "source_path": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "frames": [
+    {
+      "index": 0,
+      "origin": [
+        11580,
+        1940
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        12280,
+        2640
+      ]
+    },
+    {
+      "index": 1,
+      "origin": [
+        17230,
+        1940
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        17930,
+        2640
+      ]
+    },
+    {
+      "index": 2,
+      "origin": [
+        17230,
+        2270
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        17930,
+        2970
+      ]
+    },
+    {
+      "index": 3,
+      "origin": [
+        21060,
+        2270
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        21760,
+        2970
+      ]
+    },
+    {
+      "index": 4,
+      "origin": [
+        21060,
+        7690
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        21760,
+        8390
+      ]
+    },
+    {
+      "index": 5,
+      "origin": [
+        34000,
+        7690
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        34700,
+        8390
+      ]
+    },
+    {
+      "index": 6,
+      "origin": [
+        34070,
+        21870
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        34770,
+        22570
+      ]
+    },
+    {
+      "index": 7,
+      "origin": [
+        16300,
+        21790
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        17000,
+        22490
+      ]
+    },
+    {
+      "index": 8,
+      "origin": [
+        16260,
+        24670
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        16960,
+        25370
+      ]
+    },
+    {
+      "index": 9,
+      "origin": [
+        180,
+        24620
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        880,
+        25320
+      ]
+    },
+    {
+      "index": 10,
+      "origin": [
+        120,
+        13200
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        820,
+        13900
+      ]
+    },
+    {
+      "index": 11,
+      "origin": [
+        3560,
+        13200
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        4260,
+        13900
+      ]
+    },
+    {
+      "index": 12,
+      "origin": [
+        3560,
+        9210
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        4260,
+        9910
+      ]
+    },
+    {
+      "index": 13,
+      "origin": [
+        11580,
+        9130
+      ],
+      "extent": [
+        1400,
+        1400
+      ],
+      "display": [
+        700,
+        700
+      ],
+      "rotation": 0,
+      "source_corner": [
+        12280,
+        9830
+      ]
+    }
+  ]
+}

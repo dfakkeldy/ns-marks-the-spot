@@ -1,0 +1,176 @@
+{
+  "fit_sha256": "4db2d28d0bddfded9d7942a7b337c1ea5c324c6c9269835d8c355ab3f232bc11",
+  "check_status": "Same seven retained historical hand-point diagnostics; not fresh validation. Four promoted feature aliases excluded in every comparison.",
+  "models": {
+    "accepted-graticule-tps": {
+      "count": 7,
+      "points": [
+        {
+          "label": "island-45-948n-61-096w",
+          "east_ground_m": -147.24126789391158,
+          "north_ground_m": 438.915830249941,
+          "error_ground_m": 462.9547461847666
+        },
+        {
+          "label": "island-45-875n-61-085w",
+          "east_ground_m": -93.4579214238653,
+          "north_ground_m": 276.4149050351052,
+          "error_ground_m": 291.7868790786104
+        },
+        {
+          "label": "island-45-801n-61-038w",
+          "east_ground_m": 43.58589470400637,
+          "north_ground_m": 179.47206998743812,
+          "error_ground_m": 184.68880345793735
+        },
+        {
+          "label": "island-45-797n-61-049w",
+          "east_ground_m": -50.53836956157839,
+          "north_ground_m": 192.99061135738154,
+          "error_ground_m": 199.49812748504323
+        },
+        {
+          "label": "island-45-790n-61-057w",
+          "east_ground_m": 15.649724434479602,
+          "north_ground_m": 274.81746588871243,
+          "error_ground_m": 275.2626989484205
+        },
+        {
+          "label": "island-45-762n-61-068w",
+          "east_ground_m": -107.86014995148811,
+          "north_ground_m": 151.56473479070317,
+          "error_ground_m": 186.0260217811844
+        },
+        {
+          "label": "island-45-757n-61-084w",
+          "east_ground_m": -230.91682845734405,
+          "north_ground_m": 328.8565025391936,
+          "error_ground_m": 401.8322795982288
+        }
+      ],
+      "rms_ground_m": 303.6023131733382,
+      "median_ground_m": 275.2626989484205,
+      "p95_ground_m": 444.6180062088052,
+      "max_ground_m": 462.9547461847666,
+      "mean_east_ground_m": -81.53984544995735,
+      "mean_north_ground_m": 263.2903028354964,
+      "scatter_rms_ground_m": 127.29428345762963,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "physical-affine": {
+      "count": 7,
+      "points": [
+        {
+          "label": "island-45-948n-61-096w",
+          "east_ground_m": -110.62737600616907,
+          "north_ground_m": 137.01152114270175,
+          "error_ground_m": 176.09819206297186
+        },
+        {
+          "label": "island-45-875n-61-085w",
+          "east_ground_m": -40.11581563576273,
+          "north_ground_m": 45.0658704336056,
+          "error_ground_m": 60.334163970846845
+        },
+        {
+          "label": "island-45-801n-61-038w",
+          "east_ground_m": 105.40994465122814,
+          "north_ground_m": 21.355450440256757,
+          "error_ground_m": 107.55143743754076
+        },
+        {
+          "label": "island-45-797n-61-049w",
+          "east_ground_m": 17.96126655760554,
+          "north_ground_m": 34.89083269018172,
+          "error_ground_m": 39.24254454246835
+        },
+        {
+          "label": "island-45-790n-61-057w",
+          "east_ground_m": 89.52222995820802,
+          "north_ground_m": 118.41358603081929,
+          "error_ground_m": 148.44529973484683
+        },
+        {
+          "label": "island-45-762n-61-068w",
+          "east_ground_m": -18.956461538599193,
+          "north_ground_m": 4.515523285797288,
+          "error_ground_m": 19.4868515827716
+        },
+        {
+          "label": "island-45-757n-61-084w",
+          "east_ground_m": -137.26710739416555,
+          "north_ground_m": 176.64882471914422,
+          "error_ground_m": 223.71201587535774
+        }
+      ],
+      "rms_ground_m": 131.0511808590996,
+      "median_ground_m": 107.55143743754076,
+      "p95_ground_m": 209.42786873164195,
+      "max_ground_m": 223.71201587535774,
+      "mean_east_ground_m": -13.439045629664975,
+      "mean_north_ground_m": 76.84308696321523,
+      "scatter_rms_ground_m": 105.30405520725189,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "physical-tps": {
+      "count": 7,
+      "points": [
+        {
+          "label": "island-45-948n-61-096w",
+          "east_ground_m": -60.928215162114554,
+          "north_ground_m": 68.89520356369422,
+          "error_ground_m": 91.97171563542669
+        },
+        {
+          "label": "island-45-875n-61-085w",
+          "east_ground_m": -16.463311709947302,
+          "north_ground_m": 12.648404530705559,
+          "error_ground_m": 20.761087872056727
+        },
+        {
+          "label": "island-45-801n-61-038w",
+          "east_ground_m": 87.81417102353873,
+          "north_ground_m": 45.47138766877413,
+          "error_ground_m": 98.88870374858422
+        },
+        {
+          "label": "island-45-797n-61-049w",
+          "east_ground_m": 1.8291984103371317,
+          "north_ground_m": 57.000873970756516,
+          "error_ground_m": 57.030216554511235
+        },
+        {
+          "label": "island-45-790n-61-057w",
+          "east_ground_m": 73.18983378495862,
+          "north_ground_m": 140.7978618851687,
+          "error_ground_m": 158.68456031039977
+        },
+        {
+          "label": "island-45-762n-61-068w",
+          "east_ground_m": -41.57867254592054,
+          "north_ground_m": 35.52092704803382,
+          "error_ground_m": 54.68566785760806
+        },
+        {
+          "label": "island-45-757n-61-084w",
+          "east_ground_m": -156.45394226152652,
+          "north_ground_m": 202.94577169274723,
+          "error_ground_m": 256.2514825267119
+        }
+      ],
+      "rms_ground_m": 128.59536473703645,
+      "median_ground_m": 91.97171563542669,
+      "p95_ground_m": 226.98140586181822,
+      "max_ground_m": 256.2514825267119,
+      "mean_east_ground_m": -16.084419780096347,
+      "mean_north_ground_m": 80.46863290855431,
+      "scatter_rms_ground_m": 99.0093853632948,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "accepted_baseline_unchanged": true,
+  "new_geographic_acceptance": false
+}

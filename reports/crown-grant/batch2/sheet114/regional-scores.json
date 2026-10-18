@@ -1,0 +1,22 @@
+{
+  "Sea Wolf Island": {
+    "count": 2,
+    "rms_ground_m": 197.081365025703,
+    "max_ground_m": 223.1013527875715,
+    "point_ids": [
+      "MQ01",
+      "MQ02"
+    ]
+  },
+  "Mainland": {
+    "count": 4,
+    "rms_ground_m": 152.7890570920682,
+    "max_ground_m": 242.5902787130925,
+    "point_ids": [
+      "MQ03",
+      "MQ04",
+      "MQ05",
+      "MQ06"
+    ]
+  }
+}

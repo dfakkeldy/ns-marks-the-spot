@@ -1,0 +1,83 @@
+{
+  "checked": "2026-09-26",
+  "version": "2024 assessed six-turbine layout",
+  "sources": {
+    "rwp-Part-1-EARD-to-Appendix-A-part-a-.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-1-EARD-to-Appendix-A-part-a-.pdf",
+      "sha256": "536c9c6589f277dfe58a366d8854eff4bef0d68ef93ce5c4be508d5596fd38f0"
+    },
+    "rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf",
+      "sha256": "854858e379162b17fe88080dad2143d0c4c41373dba3de8b24d62c0dc9f95031"
+    },
+    "appendix-j-m.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf",
+      "sha256": "0df93483d88efd52240ff6d58040944cd90c5b49375d7153d749c1ebc647acda"
+    },
+    "EA_Approval_RhodenaWind.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/EA_Approval_RhodenaWind.pdf",
+      "sha256": "45b265e1b44ad116818c4644c005b213a574e9ce8e7319659bcd5c6d13deca89"
+    },
+    "Comments_Part_1_Rhodena_Wind.pdf": {
+      "url": "https://novascotia.ca/nse/ea/rhodena-wind-project/Comments_Part_1_Rhodena_Wind.pdf",
+      "sha256": "f0fcdc7ae00a1f483886a23a4128d2bf0ef897db2c0da3b8e81b7847cd633557"
+    }
+  },
+  "registration": {
+    "2.2": {
+      "metresPerPixel": 10.908407,
+      "fitResidualsM": [
+        6.141584,
+        6.770425,
+        3.689446,
+        8.822609,
+        4.391558,
+        7.398171
+      ],
+      "leaveOneOutM": [
+        10.241993,
+        9.529713,
+        4.864365,
+        12.142972,
+        6.884624,
+        13.048054
+      ],
+      "limitation": "Symbol-centre cross-validation only; not ground-survey accuracy."
+    },
+    "2.3A": {
+      "metresPerPixel": 1.741265,
+      "fitResidualsM": [
+        1.117915,
+        1.006871,
+        1.111777,
+        1.077486
+      ],
+      "leaveOneOutM": [
+        3.323081,
+        1.489809,
+        1.629023,
+        3.529608
+      ],
+      "limitation": "Symbol-centre cross-validation only; not ground-survey accuracy."
+    },
+    "2.3B": {
+      "metresPerPixel": 1.751055,
+      "fitResidualsM": [
+        0,
+        0
+      ],
+      "leaveOneOutM": [],
+      "limitation": "Two control points: fit residual is not independent accuracy evidence. Checked against the independent overview substation symbol below."
+    }
+  },
+  "substationCrossCheckM": 9.913571,
+  "featureCount": 25,
+  "geometrySha256": "19abbd3788c0a9e990647ebcf1c2fc62e07840f79aba0838ae2886e7c7314b52",
+  "limitations": [
+    "Simplified study boundary omits small holes; not for parcel inclusion or area calculation.",
+    "Digitized lines are approximate centrelines, not construction footprints, assessment boundaries, legal setbacks, or authorizations.",
+    "Sensitive species locations and the three potential WSS identities are not reconstructed.",
+    "Noise and shadow model maps are linked, not traced as purported impact boundaries.",
+    "PDFs, aerial imagery and original cartography are not redistributed or relicensed. Factual extracts and project annotations retain source attribution."
+  ]
+}

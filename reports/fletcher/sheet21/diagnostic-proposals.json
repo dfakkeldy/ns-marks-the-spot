@@ -1,0 +1,164 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        6698,
+        2617
+      ],
+      "lonlat": [
+        -60.9853977,
+        45.6974916
+      ],
+      "modern_node_id": "J0283",
+      "modern_objectids": [
+        53703,
+        53704,
+        193434
+      ],
+      "identity_evidence": "Sutherland Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic proposal after initial fit freeze; not scored"
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7178,
+        1977
+      ],
+      "lonlat": [
+        -60.9611606,
+        45.718229
+      ],
+      "modern_node_id": "J0162",
+      "modern_objectids": [
+        59409,
+        59410,
+        223488
+      ],
+      "identity_evidence": "Small pond immediately south of McDonald Lake, southern outlet; distinct from fitted main lake mouth",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic proposal after initial fit freeze; not scored"
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        3130,
+        5175
+      ],
+      "lonlat": [
+        -61.1478017,
+        45.6147468
+      ],
+      "modern_node_id": "J0897",
+      "modern_objectids": [
+        141255,
+        141257,
+        197902
+      ],
+      "identity_evidence": "White Lake connection between upper basin and narrow southern arm",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic proposal after initial fit freeze; not scored"
+    },
+    {
+      "lonlat": [
+        -61.208914544288895,
+        45.58940794764046
+      ],
+      "guide_xy": [
+        1740.0035629174672,
+        6105.679429972544
+      ],
+      "modern_objectid": 18368,
+      "modern_part": 0,
+      "modern_vertex": 30,
+      "modern_properties": {
+        "OBJECTID": 18368,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 442.83167421283906
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        1773,
+        6010
+      ],
+      "identity_evidence": "Freeman Island northernmost mainland-facing projection",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic proposal after initial fit freeze; not scored"
+    },
+    {
+      "lonlat": [
+        -61.04154974224805,
+        45.72585903531084
+      ],
+      "guide_xy": [
+        5396.054190539289,
+        1920.4516689463053
+      ],
+      "modern_objectid": 310655,
+      "modern_part": 0,
+      "modern_vertex": 4,
+      "modern_properties": {
+        "OBJECTID": 310655,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 264.35242770481693
+      },
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        5444,
+        1752
+      ],
+      "identity_evidence": "Small island at McIntosh Cove southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic proposal after initial fit freeze; not scored"
+    },
+    {
+      "lonlat": [
+        -60.98143632797189,
+        45.61468075590798
+      ],
+      "guide_xy": [
+        6709.219702719245,
+        5330.51185479085
+      ],
+      "modern_objectid": 5626,
+      "modern_part": 0,
+      "modern_vertex": 36,
+      "modern_properties": {
+        "OBJECTID": 5626,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 668.8120831110623
+      },
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        6800,
+        5378
+      ],
+      "identity_evidence": "Cascarette Island westernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic proposal after initial fit freeze; not scored"
+    }
+  ]
+}

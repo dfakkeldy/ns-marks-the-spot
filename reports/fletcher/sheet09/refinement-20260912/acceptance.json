@@ -1,0 +1,13 @@
+{
+  "at_utc": "2026-09-12T13:45:16.089630+00:00",
+  "geographic_acceptance": false,
+  "controls": 25,
+  "fresh_thresholds_passed": false,
+  "median_ground_m": 468.84521426169323,
+  "worst_ground_m": 519.4471606507897,
+  "whole_sheet_accepted": false,
+  "neighbor_seams_accepted": false,
+  "local_import_and_coverage_passed": true,
+  "personally_reviewed_figures": 40,
+  "scope": "Local coast improvement only; unresolved interior geometry, identities and seams. Original controls, rejected unscored proposals and failed fresh checks preserved."
+}

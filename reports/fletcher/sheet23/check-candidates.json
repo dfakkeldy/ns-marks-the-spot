@@ -1,0 +1,166 @@
+{
+  "sheet": "sheet-23",
+  "fit_sha256": "e3e67e57c90da467be5dbc5d5671fcbdaa5dbc5e74da4651b627e6b303b4fefa",
+  "points": [
+    {
+      "lonlat": [
+        -61.14828169468217,
+        45.55159845820576
+      ],
+      "guide_xy": [
+        2955.7552303685807,
+        1879.9279406270944
+      ],
+      "modern_objectid": 17667,
+      "modern_part": 0,
+      "modern_vertex": 32,
+      "modern_properties": {
+        "OBJECTID": 17667,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 105.06056091385855
+      },
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2865,
+        1761
+      ],
+      "identity_evidence": "Campbell Island southernmost coast; distinct from northern control",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed independent candidate selected after eleven-control freeze."
+    },
+    {
+      "lonlat": [
+        -61.07225194115543,
+        45.55087043778242
+      ],
+      "guide_xy": [
+        4621.9608352940995,
+        1921.2860755291767
+      ],
+      "modern_objectid": 197103,
+      "modern_part": 0,
+      "modern_vertex": 49,
+      "modern_properties": {
+        "OBJECTID": 197103,
+        "FEAT_CODE": "WARV50",
+        "FEAT_DESC": "River - Single Line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 9999,
+        "FID": null,
+        "SHAPE_Length": 567.5992349831968
+      },
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        4760,
+        1876
+      ],
+      "identity_evidence": "Grand Lake westernmost long western lobe",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed independent candidate selected after eleven-control freeze."
+    },
+    {
+      "lonlat": [
+        -61.043956338212745,
+        45.5371827522019
+      ],
+      "guide_xy": [
+        5236.428987371735,
+        2360.070246185176
+      ],
+      "modern_objectid": 116839,
+      "modern_part": 0,
+      "modern_vertex": 47,
+      "modern_properties": {
+        "OBJECTID": 116839,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 20.9,
+        "FID": null,
+        "SHAPE_Length": 234.83651755644217
+      },
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        5210,
+        2268
+      ],
+      "identity_evidence": "Lac Le Blanc northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed independent candidate selected after eleven-control freeze."
+    },
+    {
+      "lonlat": [
+        -60.955508634593336,
+        45.53262968141554
+      ],
+      "guide_xy": [
+        7173.21960281604,
+        2525.138155725319
+      ],
+      "modern_objectid": 21823,
+      "modern_part": 0,
+      "modern_vertex": 18,
+      "modern_properties": {
+        "OBJECTID": 21823,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 553.9241741164167
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        7200,
+        2390
+      ],
+      "identity_evidence": "Rocky Islets easternmost main island coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed independent candidate selected after eleven-control freeze."
+    },
+    {
+      "lonlat": [
+        -60.99613105969002,
+        45.471230569089954
+      ],
+      "guide_xy": [
+        6257.020915460074,
+        4452.887440995546
+      ],
+      "modern_objectid": 7236,
+      "modern_part": 0,
+      "modern_vertex": 79,
+      "modern_properties": {
+        "OBJECTID": 7236,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1035.5679251059394
+      },
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        6344,
+        4280
+      ],
+      "identity_evidence": "Guet Point easternmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed independent candidate selected after eleven-control freeze."
+    }
+  ]
+}

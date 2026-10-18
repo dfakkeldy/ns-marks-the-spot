@@ -1,0 +1,40 @@
+[
+  {
+    "image": "area-1.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-22/sheet-22-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1",
+      "705cecae97ccaa97499cd3a54db40da715906a365f8f4072da7134a2de4243c3"
+    ],
+    "projected_bounds": [
+      -6852781.75899725,
+      5713715.18890313,
+      -6849781.75899725,
+      5716715.18890313
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  },
+  {
+    "image": "area-2.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-22/sheet-22-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1",
+      "705cecae97ccaa97499cd3a54db40da715906a365f8f4072da7134a2de4243c3"
+    ],
+    "projected_bounds": [
+      -6838799.93085902,
+      5737866.40049434,
+      -6835799.93085902,
+      5740866.40049434
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  }
+]

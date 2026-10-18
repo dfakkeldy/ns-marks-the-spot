@@ -1,0 +1,14 @@
+{
+  "fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+  "frozen_at": "2026-09-11T21:26:22.975413+00:00",
+  "control_ids": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07"
+  ],
+  "diagnostics_not_collected_yet": true
+}

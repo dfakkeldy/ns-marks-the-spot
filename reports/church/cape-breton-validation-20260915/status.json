@@ -1,0 +1,36 @@
+{
+  "panel": "cape-breton/main",
+  "state": "Frozen TPS11 validation expanded to six fresh checks; geographic acceptance incomplete",
+  "frozen_input_commit": "8cda9fc422c8627883b79c79b43cc8cb3b196999",
+  "fit_changed": false,
+  "fresh_checks": [
+    "CB18",
+    "CB19",
+    "CB20",
+    "CB21",
+    "CB22",
+    "CB23"
+  ],
+  "new_checks": [
+    "CB21",
+    "CB22",
+    "CB23"
+  ],
+  "cumulative_rms_ground_m": 467.1925474724042,
+  "new_three_rms_ground_m": 406.50070397646016,
+  "diagnostics_excluded": [
+    "CB04",
+    "CB13"
+  ],
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_work": [
+    "Expand geographically distributed independent coverage of the unchanged fit; preserve all failures.",
+    "Resolve the Stewarts, Gaspereaux and South Head discrepancies with evidence before any separate refinement.",
+    "Track the unvalidated southern extension, unresolved Round Island correspondence and shared-feature seams.",
+    "Continue to Inverness south if defensible Cape Breton refinement stalls, preserving its accepted baseline."
+  ]
+}

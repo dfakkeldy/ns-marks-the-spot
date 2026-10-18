@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "McDonald Island northeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2150,
+      2200
+    ],
+    "lonlat": [
+      -61.09379175869626,
+      45.94982805712993
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 20139,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2159.6218665926135,
+      2159.6771481438773
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "MacIvor Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2779,
+      2369
+    ],
+    "lonlat": [
+      -61.0494501864773,
+      45.9524061692294
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 19515,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2781.5952898634714,
+      2342.328402349609
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "McIvor Point southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5088,
+      1446
+    ],
+    "lonlat": [
+      -60.9239514901305,
+      46.03321638633487
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 10117,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5090.889975592087,
+      1447.2558144608047
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "McLean Point eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2623,
+      3614
+    ],
+    "lonlat": [
+      -61.02869466464718,
+      45.89456557476479
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 13838,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2630.661982755002,
+      3559.702175420942
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Island south of Whycocomagh northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1878,
+      1837
+    ],
+    "lonlat": [
+      -61.12029648651791,
+      45.96152605090156
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 17734,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1887.2960628048168,
+      1796.6446522180922
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Bucklaw hook northeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4558,
+      1362
+    ],
+    "lonlat": [
+      -60.95993751761478,
+      46.02835364796053
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 10375,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4565.874678288295,
+      1353.250565978
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Southside northern peninsula apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2256,
+      2452
+    ],
+    "lonlat": [
+      -61.08122432425185,
+      45.94002934352794
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 11320,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2256.927617745532,
+      2413.286118403543
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Cranberry Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3319,
+      3544
+    ],
+    "lonlat": [
+      -60.986243729858515,
+      45.908877802089805
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 23467,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3315.3945767505793,
+      3507.220736756688
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

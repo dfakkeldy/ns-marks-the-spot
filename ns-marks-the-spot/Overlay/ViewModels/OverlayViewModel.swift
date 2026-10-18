@@ -54,7 +54,7 @@ nonisolated struct LayerRow: Identifiable, Equatable, Sendable {
 
     var id: String { descriptor.id.rawValue }
     var name: String { descriptor.name }
-    var isAvailable: Bool { installed != nil || feature != nil }
+    var isAvailable: Bool { descriptor.availability == .available && (installed != nil || feature != nil) }
 
     /// Whether this row's layer can be drawn at an opacity the user chooses.
     ///
@@ -493,6 +493,10 @@ final class OverlayViewModel {
         cancelAddressLookup()
         parcelMessage = address.map(ParcelLookupMessage.searching(for:))
             ?? ParcelLookupMessage.searchingAtPoint
+        // Claimed before the wait: the sale fit landing meanwhile must not
+        // move the map, nor the claim, out from under this answer.
+        controller.readerClaimsTheCamera()
+        let claim = controller.cameraClaimGeneration
         startLookup(forPointTap: true) { [parcelFetcher, clearance = clearanceBox.clearance] in
             // `do throws(…)` rather than a bare `do`: inside a closure the
             // thrown type is not inferred, and an untyped catch would widen the
@@ -520,7 +524,10 @@ final class OverlayViewModel {
                     : ParcelLookupMessage.unidentifiedAtPoint(collection.unidentifiedFeatureCount)
                 return
             }
-            adopt(collection, selecting: pid, focus: focus, labelling: address)
+            adopt(
+                collection, selecting: pid,
+                focus: focus && controller.cameraClaimGeneration == claim, labelling: address
+            )
         }
     }
 
@@ -534,7 +541,7 @@ final class OverlayViewModel {
     /// the moment it wrote the result into the field.
     private(set) var searchText = ""
 
-    /// The user typed. Write it, then use `submitSearch`.
+    /// Suggest addresses after typing pauses. PIDs and links still need submission.
     func editSearchText(_ text: String) {
         guard text != searchText else { return }
         searchText = text
@@ -549,6 +556,9 @@ final class OverlayViewModel {
         // lookup. Its hold on the extent dies with it — left standing, it
         // would swallow the focus of the next parcel the reader opens.
         isHoldingLinkPosition = false
+        if case .address(let query) = ParcelSearchInput.classify(text) {
+            searchCivicAddress(query, suggest: true)
+        }
     }
 
     func submitSearch() {
@@ -617,6 +627,12 @@ final class OverlayViewModel {
         }
 
         parcelMessage = ParcelLookupMessage.loading(pid: pid)
+        // The camera as it stands when the lookup leaves: a locate, a pan or
+        // another search meanwhile outranks this answer's focus. The parcel
+        // is still adopted and selected; only the move is dropped. Claimed
+        // before the wait, so the sale fit yields to this search.
+        controller.readerClaimsTheCamera()
+        let claim = controller.cameraClaimGeneration
         startLookup(forPointTap: false) { [parcelFetcher, clearance = clearanceBox.clearance] in
             do throws(ParcelLookupFailure) {
                 return .success(try await parcelFetcher.parcels(pids: [pid], clearance: clearance))
@@ -647,7 +663,7 @@ final class OverlayViewModel {
                     : ParcelLookupMessage.unidentifiedForPID(collection.unidentifiedFeatureCount)
                 return
             }
-            adopt(collection, selecting: pid, focus: true)
+            adopt(collection, selecting: pid, focus: controller.cameraClaimGeneration == claim)
         }
     }
 
@@ -694,16 +710,26 @@ final class OverlayViewModel {
     /// Needs no Province licence — the file is open data — so this works even
     /// for a user who declined. Choosing a result then asks NSPRD, which is
     /// where the licence applies, and refuses in the usual words.
-    private func searchCivicAddress(_ typed: String) {
+    private func searchCivicAddress(_ typed: String, suggest: Bool = false) {
         addressResults = []
         parcelLookup?.cancel()
         cancelAddressLookup()
-        isSearchingAddresses = true
-        parcelMessage = ParcelLookupMessage.searchingAddresses
+        if !suggest {
+            isSearchingAddresses = true
+            parcelMessage = ParcelLookupMessage.searchingAddresses
+        }
         addressLookup = Task { [weak self, civicFetcher] in
+            if suggest {
+                do {
+                    try await Task.sleep(for: .milliseconds(300))
+                } catch { return }
+                guard !Task.isCancelled, self != nil else { return }
+                self?.isSearchingAddresses = true
+                self?.parcelMessage = ParcelLookupMessage.searchingAddresses
+            }
             let outcome: Result<[CivicAddressResponse.CivicAddress], CivicAddressFailure>
             do throws(CivicAddressFailure) {
-                outcome = .success(try await civicFetcher.search(typed))
+                outcome = .success(try await civicFetcher.search(typed, suggest: suggest))
             } catch {
                 outcome = .failure(error)
             }
@@ -1109,14 +1135,19 @@ final class OverlayViewModel {
     /// and moving off it would answer a question the sender did not ask. Not in
     /// historical mode either — the fit is to what is advertised now.
     private func frameListedParcelsOnce() {
+        // Not once the reader has taken the map themselves or asked for their
+        // location: this fit lands whenever its request returns, and a late
+        // return must not move the map off what they chose.
         guard !hasFramedListedParcels, !isHoldingLinkPosition, showsTaxSale,
+              !controller.readerHasClaimedTheCamera,
               mapRecordMode == .current,
               let listed = taxSale?.highlightedPIDs, !listed.isEmpty,
               let bounds = parcels.bounds(forPIDs: listed)
         else { return }
         hasFramedListedParcels = true
-        // The web's own cap on this fit.
-        controller.focus(on: bounds, maxZoom: 13)
+        // The web's own cap on this fit. Not the reader's choice, so it does
+        // not count as one against a later search or link.
+        controller.focus(on: bounds, maxZoom: 13, asReader: false)
     }
 
     /// A tap on the dot standing in for a parcel too small to see.
@@ -1193,6 +1224,10 @@ final class OverlayViewModel {
         }
 
         return MapShareState(
+            // Resolved, as the browser resolves its own before writing a
+            // link: a system-appearance Atlas travels as the Day or Night it
+            // is right now, so the recipient sees the map that was sent.
+            basemapStyle: baseMapType.shareStyle(systemPrefersDark: controller.systemPrefersDark),
             taxSaleEnabled: showsTaxSale,
             // The mode the map is holding, not the one it is acting on.
             // `mapRecordMode` reads `.current` while tax sales are off, and
@@ -1202,7 +1237,7 @@ final class OverlayViewModel {
             mode: (historical?.mode ?? .current) == .historical ? .historical : .current,
             pid: parcels.selectedPID,
             eventIDs: eventIDs,
-            layerIDs: (baseMapType == .openStreetMap ? [MapShareState.modernBaseLayerID] : [])
+            layerIDs: (baseMapType.isModernMap ? [MapShareState.modernBaseLayerID] : [])
                 + rows.filter(\.isVisible).map(\.id),
             position: mapPosition
         )
@@ -1227,6 +1262,10 @@ final class OverlayViewModel {
 
     @ObservationIgnored private let sessionStore: MapSessionStore
 
+    /// The last view the reader chose, as opposed to one their location put
+    /// on screen. See `mapPosition`.
+    @ObservationIgnored var readerPosition: MapPosition?
+
     /// Writes down the current view so the next launch can open on it.
     ///
     /// Called when the map settles and when the app leaves the foreground,
@@ -1241,7 +1280,20 @@ final class OverlayViewModel {
         // background inside that window wrote the session back without it, and
         // the reader returned to the right ground with the card gone.
         if view.pid == nil { view.pid = restoringPID }
-        sessionStore.save(MapSession(view: view, background: baseMapType))
+        // A licence gate changes what can be drawn, not what the reader had
+        // chosen. Retain only dormant preferences in storage; they never enter
+        // the live share state or acquire request clearance from this save.
+        var background = baseMapType
+        if licenceStore.state == .unknown {
+            for id in dormantRestrictedLayerIDs where !view.layerIDs.contains(id) {
+                view.layerIDs.append(id)
+            }
+            if let dormantRestrictedBackground {
+                background = dormantRestrictedBackground
+                view.layerIDs.removeAll { $0 == MapShareState.modernBaseLayerID }
+            }
+        }
+        sessionStore.save(MapSession(view: view, background: background))
     }
 
     /// The parcel a restored view named, until the reader names another one.
@@ -1276,6 +1328,7 @@ final class OverlayViewModel {
     /// in parsing, and a layer the Province licence still stands in front of
     /// stays off — a link cannot accept a licence on the reader's behalf.
     func restore(from url: URL) {
+        discardDormantRestrictedChoices()
         let state = MapShareState.parse(
             url.absoluteString,
             validEventIDs: Set(
@@ -1319,11 +1372,44 @@ final class OverlayViewModel {
     /// withdrew that permission themselves, and asking again every time the app
     /// opens would be arguing with them.
     func resume(_ session: MapSession) {
+        discardDormantRestrictedChoices()
         apply(
             session.view,
             background: session.background.flatMap(permittedBackground),
             arrivedFrom: .lastSession
         )
+        guard licenceStore.state == .unknown else { return }
+        // Capture after applying the permitted subset: its automatic fallback
+        // must not count as the reader choosing another background.
+        dormantRestrictedLayerIDs = session.view.layerIDs.filter {
+            guard let id = LayerID(rawValue: $0),
+                  let descriptor = LayerCatalog.descriptor(for: id) else { return false }
+            return descriptor.requiresProvinceClearance
+        }
+        if let background = session.background, permittedBackground(background) == nil {
+            dormantRestrictedBackground = background
+        }
+    }
+
+    @ObservationIgnored private var dormantRestrictedLayerIDs: [String] = []
+    @ObservationIgnored private var dormantRestrictedBackground: MapBaseType?
+
+    private func discardDormantRestrictedChoices() {
+        dormantRestrictedLayerIDs = []
+        dormantRestrictedBackground = nil
+    }
+
+    private func restoreDormantRestrictedChoicesIfAllowed() {
+        guard clearanceBox.clearance.allowsRestrictedLayers else { return }
+        let wanted = dormantRestrictedLayerIDs
+        let background = dormantRestrictedBackground
+        discardDormantRestrictedChoices()
+        for id in wanted {
+            guard let row = rows.first(where: { $0.id == id }),
+                  row.isAvailable, !row.isVisible else { continue }
+            toggleVisibility(id)
+        }
+        if let background { setBaseMapType(background) }
     }
 
     /// A background as far as the Province licence allows it, or `nil`.
@@ -1383,10 +1469,17 @@ final class OverlayViewModel {
         // A session says which background it was on outright. A link only says
         // whether the modern map was drawn, because that is all the browser has
         // a word for, so anything else it leaves where it is.
+        //
+        // Which modern map: a link that names a style names the ground
+        // outright. One that names only the modern map keeps whichever modern
+        // ground the reader is on, or the default if they are on none — the
+        // browser keeps its own preference the same way.
+        let modernGround = state.basemapStyle.map(MapBaseType.init(shareStyle:))
+            ?? (baseMapType.isModernMap ? baseMapType : defaultGround)
         let restored =
             background
             ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
-                ? .openStreetMap : baseMapType)
+                ? modernGround : baseMapType)
         // Unless the link names layers and no ground to draw them over, which
         // the browser answers by turning its modern map on. Answering it with
         // whatever this reader happened to be on would put the sender's
@@ -1397,12 +1490,12 @@ final class OverlayViewModel {
         // Only for a link. A session says outright which background it was on,
         // and resuming it is not the moment to argue.
         //
-        // Either way the ground is OpenStreetMap — the sender's modern map and
-        // this app's are now the same tiles, so a link restores the very map
+        // Either way the ground is the modern map — the sender's and this
+        // app's are now the same cartography, so a link restores the very map
         // it was sent from rather than a stand-in.
         let ground: MapBaseType =
             origin == .sharedLink && browserWouldDrawItsModernMap(state)
-            ? .openStreetMap : restored
+            ? modernGround : restored
         setBaseMapType(ground)
         // A link opens in the browser as a fresh page, so the reader who
         // follows it starts on every notice and no narrowing at all. Here it
@@ -1543,6 +1636,7 @@ final class OverlayViewModel {
               let first = refused.first.flatMap(LayerID.init(rawValue:))
         else { return }
         pendingSharedLayerIDs = refused
+        licencePromptIsClearanceOnly = false
         licencePromptedLayerID = first
     }
 
@@ -1578,7 +1672,7 @@ final class OverlayViewModel {
     /// map shows, not where it is looking, and picking one should leave the
     /// reader over the same ground.
     var themeState: MapThemeState {
-        let layerIDs = (baseMapType == .openStreetMap ? [MapShareState.modernBaseLayerID] : [])
+        let layerIDs = (baseMapType.isModernMap ? [MapShareState.modernBaseLayerID] : [])
             + rows.filter(\.isVisible).map(\.id)
         return MapThemeState(
             layerIDs: layerIDs,
@@ -1792,6 +1886,7 @@ final class OverlayViewModel {
     /// rather than left looking at a map missing the imagery it named.
     func selectTheme(_ id: String) {
         guard let theme = themes.theme(id) else { return }
+        discardDormantRestrictedChoices()
         let capabilities = themeCapabilities
 
         if !capabilities.licenceAccepted,
@@ -1803,6 +1898,7 @@ final class OverlayViewModel {
                })
         {
             pendingThemeID = id
+            licencePromptIsClearanceOnly = false
             licencePromptedLayerID = restricted
             return
         }
@@ -1831,6 +1927,7 @@ final class OverlayViewModel {
     }
 
     func apply(_ resolved: ResolvedTheme) {
+        discardDormantRestrictedChoices()
         themeApplications += 1
         let wanted = Set(resolved.target.layerIDs)
 
@@ -1872,7 +1969,9 @@ final class OverlayViewModel {
         // name in this vocabulary — a shared link cannot carry them either —
         // so a setup saved over one of those comes back without it.
         if wanted.contains(MapShareState.modernBaseLayerID) {
-            setBaseMapType(.openStreetMap)
+            // A setup names the modern map, not a style of it: the reader's
+            // own modern ground stands, and the default stands in for none.
+            setBaseMapType(baseMapType.isModernMap ? baseMapType : defaultGround)
         } else if !wanted.contains(LayerID.nsAerial.rawValue) {
             setBaseMapType(.blank)
         }
@@ -2063,9 +2162,18 @@ final class OverlayViewModel {
                 self?.mirrorClearanceIntoBox()
             }
         }
+        let previouslyAllowed = clearanceBox.clearance.allowsRestrictedLayers
         clearanceBox.update(clearance)
+        let withdrew = !clearance.allowsRestrictedLayers
+            && (licenceStore.state == .declined || previouslyAllowed)
+        if clearance.allowsRestrictedLayers {
+            restoreDormantRestrictedChoicesIfAllowed()
+        } else if withdrew {
+            discardDormantRestrictedChoices()
+        }
         hideRefusedLayers()
         dropRefusedParcelEvidence(clearance)
+        if withdrew { rememberSession() }
     }
 
     /// Province data already on screen when permission is withdrawn.
@@ -2132,6 +2240,7 @@ final class OverlayViewModel {
     func acceptProvinceLicence() {
         licenceStore.accept()
         clearanceBox.update(licenceStore.clearance)
+        restoreDormantRestrictedChoicesIfAllowed()
         // The layer the user was reaching for when the sheet appeared. Turning
         // it on here is what makes accepting read as an answer to the tap
         // rather than a dialog that dismissed and did nothing.
@@ -2145,6 +2254,10 @@ final class OverlayViewModel {
         loadHistoricalParcels()
         let pending = licencePromptedLayerID
         licencePromptedLayerID = nil
+        // A clearance-only prompt (parcel snapping) named a layer so the
+        // sheet could say which licence, not so accepting would draw it.
+        let clearanceOnly = licencePromptIsClearanceOnly
+        licencePromptIsClearanceOnly = false
         // A whole setup was waiting on the answer, not one switch. Applying it
         // turns on the layer the sheet named along with the rest of it.
         if let pendingThemeID, let theme = themes.theme(pendingThemeID) {
@@ -2170,7 +2283,7 @@ final class OverlayViewModel {
             setupCameFromALink = fromALink
             return
         }
-        guard let pending else { return }
+        guard let pending, !clearanceOnly else { return }
         if let features, OverlayZIndex.vectorLayers.contains(pending) {
             features.setVisible(pending, to: true)
         } else if let layer = installedLayer(pending) {
@@ -2179,9 +2292,11 @@ final class OverlayViewModel {
     }
 
     func declineProvinceLicence() {
+        discardDormantRestrictedChoices()
         licenceStore.decline()
         clearanceBox.update(licenceStore.clearance)
         licencePromptedLayerID = nil
+        licencePromptIsClearanceOnly = false
         // Refusing is about what is on the screen, not only about what gets
         // requested next. Nothing restricted should be on at this point — they
         // install hidden and cannot be switched on without accepting — so this
@@ -2202,10 +2317,12 @@ final class OverlayViewModel {
             self.pendingThemeID = nil
             applyTheme(theme)
         }
+        rememberSession()
     }
 
     func dismissLicenceSheet() {
         licencePromptedLayerID = nil
+        licencePromptIsClearanceOnly = false
         // Dismissed without an answer, so nothing is applied: the setup was
         // waiting on a decision that was not made, and so were the link's
         // layers. The link's notice stays, because they are still off.
@@ -2220,6 +2337,20 @@ final class OverlayViewModel {
     /// a state the user is not in.
     var hasAcceptedProvinceLicence: Bool {
         clearanceBox.clearance.allowsRestrictedLayers
+    }
+
+    /// True while the licence sheet was raised for a feature that only needs
+    /// the clearance — parcel snapping — so accepting must not also switch
+    /// the named catalogued overlay on.
+    @ObservationIgnored private var licencePromptIsClearanceOnly = false
+
+    /// Raises the Province licence sheet for a restricted layer the user just
+    /// reached for — parcel snapping, here — without turning a catalogued
+    /// overlay on.
+    func promptProvinceLicence(for layerID: LayerID) {
+        guard licenceStore.needsDecision else { return }
+        licencePromptIsClearanceOnly = true
+        licencePromptedLayerID = layerID
     }
 
     /// Tiles a revocation was supposed to delete and could not.
@@ -2243,6 +2374,7 @@ final class OverlayViewModel {
     /// Province layer. If a restricted layer ever becomes downloadable, this
     /// has to grow a second sweep — `TileStore`, not `TileCache`.
     func revokeProvinceLicence() async {
+        discardDormantRestrictedChoices()
         licenceSweepFailure = nil
         licenceStore.revoke()
         // Synchronously, as `decline` does: the mirror runs a hop later and the
@@ -2282,10 +2414,6 @@ final class OverlayViewModel {
             could not be deleted from this device. The map will not draw or \
             request them again, but the files are still there.
             """
-    }
-
-    func dismissLicenceSweepFailure() {
-        licenceSweepFailure = nil
     }
 
     /// The installed layers a revocation has to sweep.
@@ -2334,6 +2462,17 @@ final class OverlayViewModel {
 
     // MARK: - Layers
 
+    /// The grounds the picker offers on this build.
+    var availableBaseMapTypes: [MapBaseType] {
+        MapBaseType.available(atlasHosted: controller.atlasRasterBaseURL != nil)
+    }
+
+    /// The ground the map falls back to: the browser's default, or its own
+    /// fallback on a build with no Atlas host.
+    private var defaultGround: MapBaseType {
+        .defaultGround(atlasHosted: controller.atlasRasterBaseURL != nil)
+    }
+
     /// Switching the base map is a way of turning a layer on, so it goes through
     /// the same gate the switch does.
     ///
@@ -2343,11 +2482,22 @@ final class OverlayViewModel {
     /// blank map with the picker insisting it had loaded — and no way to reach
     /// the licence sheet except noticing the separate locked row further down.
     func setBaseMapType(_ type: MapBaseType) {
+        // An Atlas ground on a build with no host — a link, a setup or a
+        // session from a build that had one — becomes the raster the browser
+        // itself falls back to, rather than a picker entry that draws Apple's
+        // map under an Atlas name.
+        let type = type.isAtlas && controller.atlasRasterBaseURL == nil ? .openStreetMap : type
         if let layerID = Self.basemapLayerID(for: type),
            requiresUnansweredLicence(layerID.rawValue) {
             licencePromptedLayerID = layerID
             return
         }
+
+        // This path is an actual background choice (resume captures dormant
+        // choices afterwards). It supersedes the saved aerial preference only;
+        // unrelated dormant restricted layers remain the reader's choices.
+        dormantRestrictedBackground = nil
+        dormantRestrictedLayerIDs.removeAll { $0 == LayerID.nsAerial.rawValue }
 
         // A link cannot name satellite or hybrid, and a reader who picks one has
         // left the sender's view, so the background counts as a change like any
@@ -2367,22 +2517,6 @@ final class OverlayViewModel {
     static func basemapLayerID(for type: MapBaseType) -> LayerID? {
         NativeLayerTraits.basemapCapable.first {
             LayerCatalog.descriptor(for: $0)?.name == type.rawValue
-        }
-    }
-
-    func offlineStatus(for layerId: String) -> String {
-        guard let layerID = LayerID(rawValue: layerId),
-              let descriptor = LayerCatalog.descriptor(for: layerID) else {
-            return "Online"
-        }
-
-        switch NativeLayerTraits.offlinePolicy(for: descriptor) {
-        case .savedAreaDownloadable:
-            return "Downloadable"
-        case .viewedCacheOnly:
-            return "Cached when viewed"
-        case .onlineOnly:
-            return "Online"
         }
     }
 
@@ -2486,7 +2620,7 @@ final class OverlayViewModel {
                 // Back to the map's default ground, which is the browser's:
                 // the imagery going away should leave the reader on the same
                 // modern map the other surface shows.
-                controller.baseMapType = .openStreetMap
+                controller.baseMapType = defaultGround
             }
         }
     }

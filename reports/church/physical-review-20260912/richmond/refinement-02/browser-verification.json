@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-12",
+  "tool": "Codex in-app browser via cua_repl",
+  "origin": "http://127.0.0.1:4197",
+  "artifact_path": "/Users/dfakkeldy/Downloads/church-refinement-02/rendered/richmond-refined-v2-tps-5m.tif",
+  "artifact_sha256": "b0bf1c8dfb7fa8e255498731e9848a940fb0aa60710c81839710f366ab5c3702",
+  "artifact_bytes": 398149054,
+  "file_chooser_import": true,
+  "preceding_three_drafts_disabled": true,
+  "dimensions_after_import_and_reload": [
+    25877,
+    18042
+  ],
+  "enabled_after_reload": true,
+  "render_locations": [
+    "Saint Esprit and Blue Lake"
+  ],
+  "zoom_levels_inspected": [
+    12,
+    13,
+    14
+  ],
+  "transparent_edge_visually_retained": true,
+  "console_errors_observed": [],
+  "scope": "Full 5 projected-metre GeoTIFF embedded import/render/reload; browser displays large rasters at reduced resolution. Stored IndexedDB blob hash not separately read; raw native-scan TPS mesh not exercised. Not geographic acceptance."
+}

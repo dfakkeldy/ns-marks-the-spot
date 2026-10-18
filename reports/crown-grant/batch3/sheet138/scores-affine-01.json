@@ -1,0 +1,294 @@
+{
+  "count": 9,
+  "rms_ground_m": 88.1845057886657,
+  "median_ground_m": 75.65592394674418,
+  "p95_ground_m": 144.02594085798495,
+  "max_ground_m": 149.74017881138647,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -8.880494266109244,
+  "mean_north_ground_m": 9.766772076101937,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Swivel Point south tip",
+      "role": "check",
+      "pixel_xy": [
+        275,
+        947
+      ],
+      "lonlat": [
+        -60.20523912092929,
+        46.251413876660685
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 12096,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        215.32942086423282,
+        925.6426873866003
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -60.20348551353055,
+        46.251485016735245
+      ],
+      "error_ground_m": 135.4545839278827,
+      "east_ground_m": 135.22347997665653,
+      "north_ground_m": 7.909157355786079
+    },
+    {
+      "id": "Q03",
+      "label": "Waterford Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        1245,
+        1665
+      ],
+      "lonlat": [
+        -60.12280633588547,
+        46.236441320716835
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 141528,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1229.0885646019597,
+        1634.658646167023
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -60.12408966322188,
+        46.23543053455605
+      ],
+      "error_ground_m": 149.74017881138647,
+      "east_ground_m": -98.9883002765664,
+      "north_ground_m": -112.35407228410689
+    },
+    {
+      "id": "Q04",
+      "label": "Brown Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        322,
+        2398
+      ],
+      "lonlat": [
+        -60.16537709618902,
+        46.18777238855005
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 125618,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        289.3603888772777,
+        2359.946323864977
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -60.16514457783242,
+        46.187506468429085
+      ],
+      "error_ground_m": 34.582104597697665,
+      "east_ground_m": 17.95070051600822,
+      "north_ground_m": -29.558320476486553
+    },
+    {
+      "id": "Q05",
+      "label": "Keefe Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        600,
+        2605
+      ],
+      "lonlat": [
+        -60.14219588382077,
+        46.1826408344498
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 137180,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        568.0089321332052,
+        2577.253878287971
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -60.14238494473102,
+        46.18284924765366
+      ],
+      "error_ground_m": 27.381426905461392,
+      "east_ground_m": -14.596965286860046,
+      "north_ground_m": 23.166163769457555
+    },
+    {
+      "id": "Q06",
+      "label": "Howies Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        791,
+        2485
+      ],
+      "lonlat": [
+        -60.13286319410855,
+        46.1906765944283
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 137404,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        754.6597200523247,
+        2469.2291090772487
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -60.133121967989325,
+        46.19135176215272
+      ],
+      "error_ground_m": 77.66146872345946,
+      "east_ground_m": -19.976265913795498,
+      "north_ground_m": 75.04833458795875
+    },
+    {
+      "id": "Q07",
+      "label": "David Head southeast coastal shoulder",
+      "role": "check",
+      "pixel_xy": [
+        2461,
+        1817
+      ],
+      "lonlat": [
+        -60.04253603540555,
+        46.24860580384492
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 5360,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2413.7664029207663,
+        1806.397491321899
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -60.042760103082024,
+        46.24863505209936
+      ],
+      "error_ground_m": 17.582312442930792,
+      "east_ground_m": -17.27911294951178,
+      "north_ground_m": 3.2511484922798037
+    },
+    {
+      "id": "Q09",
+      "label": "Brian Point east tip",
+      "role": "check",
+      "pixel_xy": [
+        2810,
+        2549
+      ],
+      "lonlat": [
+        -60.00319747676691,
+        46.22106956154695
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 12209,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2748.5728807141422,
+        2538.8123293145327
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -60.00273739093075,
+        46.221670622738905
+      ],
+      "error_ground_m": 75.65592394674418,
+      "east_ground_m": 35.49717610578382,
+      "north_ground_m": 66.81144600104469
+    },
+    {
+      "id": "Q10",
+      "label": "Table Head east tip",
+      "role": "check",
+      "pixel_xy": [
+        3460,
+        2890
+      ],
+      "lonlat": [
+        -59.95283234544712,
+        46.21715927292498
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 11749,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3407.739115014032,
+        2869.2912901602685
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -59.95298730717393,
+        46.217086629176265
+      ],
+      "error_ground_m": 14.427991644443757,
+      "east_ground_m": -11.956815547366825,
+      "north_ground_m": -8.074744878842045
+    },
+    {
+      "id": "Q11",
+      "label": "MacRae Point shared physical check with sheet139",
+      "role": "check",
+      "pixel_xy": [
+        4253,
+        3732
+      ],
+      "lonlat": [
+        -59.880665639765745,
+        46.19187534836937
+      ],
+      "guide_file": ".crown-grant-local/138-adjacent-guide.npy",
+      "reference_objectid": 7476,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4208.905003684573,
+        3723.531101149856
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad physical shoreline/lake topology and enlarged original-frame paired crosshair reviewed before fitting.",
+      "review": "Reserved and excluded before first fit; source/reference pixel audit complete before first score.",
+      "predicted_lonlat": [
+        -59.88203618539452,
+        46.19243043705588
+      ],
+      "error_ground_m": 122.47614620464061,
+      "east_ground_m": -105.79834501933121,
+      "north_ground_m": 61.70183611782603
+    }
+  ],
+  "fit_sha256": "4caa3918f66fb03337b5ac7f0cf2bc329943f1bfd0b78c8748135f815059b43e",
+  "checks_sha256": "59999b349b41ae064f3bcc251bca482ab77e50f4123a2fd3ee5ed2971c52aafa",
+  "status": "Independent physical checks; MacRae shared with139 but excluded from both fits; no pooled cross-sheet count"
+}

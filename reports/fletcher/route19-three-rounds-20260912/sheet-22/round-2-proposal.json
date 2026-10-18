@@ -1,0 +1,86 @@
+{
+  "points": [
+    {
+      "id": "Q01",
+      "role": "control",
+      "pixel_xy": [
+        5402,
+        1178
+      ],
+      "lonlat": [
+        -61.4205103,
+        45.743667
+      ],
+      "label": "Northern Queensville fork",
+      "identity_evidence": "North tributary joins northwest stem immediately below road crossing; main continues southeast.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          270728,
+          270729,
+          316146
+        ],
+        "node": "J0114"
+      },
+      "native_uncertainty_px": 5,
+      "review": "Native 120px-wide crop inspected enlarged before trial scoring. Original 5396,1175 was on northwest incoming arm; 5402,1178 centres its meeting with the northeast arm and downstream stem. Modern target unchanged; same identity.",
+      "source_crop": {
+        "native_box": [
+          5256,
+          1085,
+          5536,
+          1265
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "consumed_from": "../sheet22/observations.json",
+      "review_full_sheet": "Prior native/modern evidence re-audited; road/tributary order supports unchanged correspondence. Consumed diagnostic, not a check.",
+      "supersedes": {
+        "id": "Q01",
+        "role": "control",
+        "pixel_xy": [
+          5396,
+          1175
+        ],
+        "lonlat": [
+          -61.4205103,
+          45.743667
+        ],
+        "label": "Northern Queensville fork",
+        "identity_evidence": "North tributary joins northwest stem immediately below road crossing; main continues southeast.",
+        "modern_reference": {
+          "layer": "water-lines",
+          "objectids": [
+            270728,
+            270729,
+            316146
+          ],
+          "node": "J0114"
+        },
+        "native_uncertainty_px": 5,
+        "review": "agent topology and native crosshair; not user-reviewed",
+        "source_crop": {
+          "native_box": [
+            5256,
+            1085,
+            5536,
+            1265
+          ],
+          "display_size": [
+            560,
+            360
+          ],
+          "rotation_degrees": 0,
+          "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+        },
+        "consumed_from": "../sheet22/observations.json",
+        "review_full_sheet": "Prior native/modern evidence re-audited; road/tributary order supports unchanged correspondence. Consumed diagnostic, not a check."
+      }
+    }
+  ]
+}

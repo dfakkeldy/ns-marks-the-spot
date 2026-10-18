@@ -1,0 +1,16 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Six controls span northwest Jack Lake, southwestern Georges Island and northern/eastern East Lake island, Grassy, Pound and Gammon lakes, with non-collinear support.",
+  "corrections": [],
+  "not_adopted": [
+    "Developed harbour waterfront, piers and reclaimed shoreline not used as persistent controls",
+    "Fox Lake, southwestern pond and other complex outline candidates lacked sufficiently precise shared geometry"
+  ],
+  "limitations": [
+    "Six checks share lake/island systems with controls; Snow Lake is a separate southeastern check.",
+    "Urban interiors, most developed harbour waterfront, western/southwestern mainland edge and central river regions lack independent validation.",
+    "18 px working source uncertainty for generalized thick shorelines.",
+    "Preston shaded regions and large-scale external index-card callouts remain in the complete original image; no displaced inset panel identified."
+  ]
+}

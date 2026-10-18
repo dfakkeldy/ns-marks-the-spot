@@ -1,0 +1,29 @@
+{
+  "scope": "Actual recovered comparison rasters; all neighbors provisional, not accepted. Sheet 5 here is its earlier eleven-control baseline, not PR 423 twelve-control experiment.",
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/regional-eight/sheet-01-full-sheet.tif",
+      "sha256": "50fe7caa175899f9e98667992346326d6e70f8274832b5423a94b314db1b234f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "sha256": "ec5096c078ea3628b00f39ef28a9475f641bbd0daa0db19a2c24f655143a1465"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "sha256": "25de65fd6844b73eceb8035faca4808f3c5514491400f90e8d6095091c4fb39a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-ten/sheet-03-full-sheet.tif",
+      "sha256": "9a8857e158f231e30dfd742b231d2b7691040e93ff284e5e00fbad31b5b2af9c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "sha256": "edda68be62add08f293ec6fba64bad9dc40678e12f97114aaa92271e9598269b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "sha256": "9f3cbc615328c16e806daf15954b0cf58595105e41205fc0f922521de44d3544"
+    }
+  ]
+}

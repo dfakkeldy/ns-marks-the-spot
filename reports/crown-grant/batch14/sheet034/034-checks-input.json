@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Town Lake southern shore",
+    [
+      1969,
+      612
+    ],
+    [
+      2003,
+      619
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Coffin Island southern tip",
+    [
+      3607,
+      1028
+    ],
+    [
+      3626,
+      1066
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q03",
+    "Mouton Island southern tip",
+    [
+      744,
+      2941
+    ],
+    [
+      769,
+      2908
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q04",
+    "Eastern Spectacle Island northern tip",
+    [
+      438,
+      2132
+    ],
+    [
+      461,
+      2079
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q05",
+    "White Point Beach pond southern tip",
+    [
+      1614,
+      1750
+    ],
+    [
+      1633,
+      1732
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Eagle Point southern shore low point",
+    [
+      4229,
+      694
+    ],
+    [
+      4248,
+      758
+    ],
+    "WACO20"
+  ],
+  [
+    "Q07",
+    "Andrew Head western southern lobe",
+    [
+      4733,
+      795
+    ],
+    [
+      4773,
+      865
+    ],
+    "WACO20"
+  ]
+]

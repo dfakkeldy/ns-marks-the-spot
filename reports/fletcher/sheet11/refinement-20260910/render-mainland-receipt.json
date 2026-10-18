@@ -1,0 +1,127 @@
+{
+  "fit_sha256": "06246fcba7c1fd68414cff5d47ee3ddf0820cd33a47cc0dbad03457d3f7d4f2b",
+  "boundary_sha256": "c4f19abbac51325f1492174adbb522719fdb615a73e2517261d845649019eafb",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Nine excluded diagnostics; V01/V02 originally fresh for western-fit, now replay after V03-informed central repair. Q03 precise identity remains uncertain. Original V03 now T01 is omitted, never counted as held-out.",
+  "checks_sha256": "ea30df2b475a41ca0811488d9a18371f7947ea4615b6bb42f86e8d98942341ca",
+  "median_ground_m": 100.70697602043043,
+  "worst_ground_m": 174.38160350331995,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 118.11121247289367,
+      "predicted_lonlat": [
+        -61.027819021786875,
+        46.359851183806356
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 35.8326320994192,
+      "predicted_lonlat": [
+        -60.8981718786968,
+        46.30718191385203
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 93.40957173973963,
+      "predicted_lonlat": [
+        -61.124420274099016,
+        46.41748548744101
+      ]
+    },
+    {
+      "id": "Q04",
+      "error_ground_m": 174.38160350331995,
+      "predicted_lonlat": [
+        -61.137598402688596,
+        46.40214349173509
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 91.58070484694748,
+      "predicted_lonlat": [
+        -61.13001422564203,
+        46.28257198359372
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 91.53920480335235,
+      "predicted_lonlat": [
+        -60.87158108234051,
+        46.432292962874726
+      ]
+    },
+    {
+      "id": "Q08",
+      "error_ground_m": 100.70697602043043,
+      "predicted_lonlat": [
+        -61.04458037451544,
+        46.43858102841177
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 139.9225405637576,
+      "predicted_lonlat": [
+        -61.17685332541714,
+        46.29371212469807
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 114.53861207966465,
+      "predicted_lonlat": [
+        -60.85833075456494,
+        46.40170246433368
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 72604,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -40.588688403626456,
+      -20.044179722336587
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260910/central-mainland/sheet-11-full-sheet.tif",
+    "sha256": "49ac39ea94fe5e5a9c14e9707795182fffc41509d136c39b104f1fa7a697a59b",
+    "size": [
+      9450,
+      5956
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.273816,
+            46.4528926
+          ],
+          [
+            -61.273816,
+            46.2682738
+          ],
+          [
+            -60.8493621,
+            46.2682738
+          ],
+          [
+            -60.8493621,
+            46.4528926
+          ],
+          [
+            -61.273816,
+            46.4528926
+          ]
+        ]
+      ]
+    }
+  }
+}

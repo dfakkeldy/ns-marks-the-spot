@@ -1,0 +1,112 @@
+[
+  {
+    "id": "S16A",
+    "sheet": "16",
+    "native_box": [
+      4212,
+      6263,
+      4392,
+      6403
+    ],
+    "display_size": [
+      720,
+      560
+    ],
+    "rotation_degrees": 0,
+    "crosshair_display_xy": [
+      360,
+      280
+    ],
+    "modern_reference_lonlat": [
+      -61.4678419,
+      45.9252338
+    ]
+  },
+  {
+    "id": "S19A",
+    "sheet": "19",
+    "native_box": [
+      4008,
+      1111,
+      4188,
+      1251
+    ],
+    "display_size": [
+      720,
+      560
+    ],
+    "rotation_degrees": 0,
+    "crosshair_display_xy": [
+      360,
+      280
+    ],
+    "modern_reference_lonlat": [
+      -61.4726654,
+      45.92115
+    ]
+  },
+  {
+    "id": "L16P",
+    "sheet": "16",
+    "native_box": [
+      2910,
+      3790,
+      3088,
+      4360
+    ],
+    "display_size": [
+      534,
+      1710
+    ],
+    "rotation_degrees": 0,
+    "trace": "original native vertices minus crop origin, multiplied by 3"
+  },
+  {
+    "id": "L16S",
+    "sheet": "16",
+    "native_box": [
+      4040,
+      6090,
+      4239,
+      6420
+    ],
+    "display_size": [
+      597,
+      990
+    ],
+    "rotation_degrees": 0,
+    "trace": "original native vertices minus crop origin, multiplied by 3"
+  },
+  {
+    "id": "L19N",
+    "sheet": "19",
+    "native_box": [
+      3967,
+      1090,
+      4141,
+      1250
+    ],
+    "display_size": [
+      522,
+      480
+    ],
+    "rotation_degrees": 0,
+    "trace": "original native vertices minus crop origin, multiplied by 3"
+  },
+  {
+    "id": "L19S",
+    "sheet": "19",
+    "native_box": [
+      3900,
+      1230,
+      4097,
+      1557
+    ],
+    "display_size": [
+      591,
+      981
+    ],
+    "rotation_degrees": 0,
+    "trace": "original native vertices minus crop origin, multiplied by 3"
+  }
+]

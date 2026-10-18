@@ -12,8 +12,8 @@ nonisolated enum TileLoadPhase: Equatable, Sendable {
     case loading
     case ready
     /// At least one tile in this cycle failed for a reason other than "there is
-    /// no tile here" — a 404 from a Fletcher sheet with no ink in that square
-    /// is a complete answer, not an outage.
+    /// no tile here". Missing objects inside the complete Fletcher mosaic
+    /// are failures; legitimate blanks are explicit transparent PNGs.
     case failing
 }
 

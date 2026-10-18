@@ -124,28 +124,16 @@ img {
 
 .hero-map {
   z-index: -3;
-  background: #bcdfe1;
+  background: #e9e4d6;
 }
 
 .modern-map {
-  background:
-    radial-gradient(circle at 67% 38%, rgba(47, 128, 237, 0.24) 0 3px, transparent 4px),
-    radial-gradient(circle at 38% 65%, rgba(190, 77, 60, 0.3) 0 4px, transparent 5px),
-    linear-gradient(28deg, transparent 0 24%, rgba(47, 128, 237, 0.2) 24% 25%, transparent 25% 100%),
-    linear-gradient(146deg, transparent 0 38%, rgba(113, 139, 86, 0.42) 38% 41%, transparent 41% 100%),
-    linear-gradient(92deg, transparent 0 16%, rgba(255, 255, 255, 0.52) 16% 17%, transparent 17% 100%),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.42) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.36) 1px, transparent 1px),
-    linear-gradient(135deg, #cfe8e1 0%, #8cc2c3 46%, #4d9aa0 100%);
-  background-size: auto, auto, auto, auto, auto, 84px 84px, 84px 84px, auto;
+  background: url("assets/hero-modern.jpg") center / cover no-repeat;
 }
 
 .historical-map {
   clip-path: polygon(var(--split) 0, 100% 0, 100% 100%, calc(var(--split) - 14%) 100%);
-  background:
-    linear-gradient(90deg, rgba(251, 246, 234, 0.06), rgba(190, 77, 60, 0.13)),
-    url("assets/fletcher-map-tile.png") center / min(64vw, 720px) repeat;
-  filter: saturate(0.95) contrast(1.06);
+  background: url("assets/hero-fletcher.jpg") center / cover no-repeat;
   opacity: 0.96;
 }
 
@@ -154,52 +142,6 @@ img {
   background:
     linear-gradient(90deg, rgba(238, 247, 245, 0.95) 0%, rgba(238, 247, 245, 0.84) 35%, rgba(238, 247, 245, 0.18) 68%, rgba(18, 52, 59, 0.12) 100%),
     linear-gradient(0deg, rgba(18, 52, 59, 0.14), rgba(255, 255, 255, 0) 42%);
-}
-
-.soundings span {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  color: rgba(18, 52, 59, 0.42);
-  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: clamp(0.7rem, 1vw, 0.92rem);
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.route-line {
-  position: absolute;
-  left: 7%;
-  top: 29%;
-  width: 48%;
-  height: 34%;
-  border: 8px solid transparent;
-  border-left-color: rgba(47, 128, 237, 0.48);
-  border-bottom-color: rgba(47, 128, 237, 0.42);
-  border-radius: 50% 0 0 50%;
-  transform: rotate(-18deg);
-}
-
-.hero-pin {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 4px solid var(--white);
-  border-radius: 50% 50% 50% 0;
-  background: var(--survey-red);
-  box-shadow: 0 12px 20px rgba(18, 52, 59, 0.28);
-  transform: rotate(-45deg);
-}
-
-.hero-pin-one {
-  left: 66%;
-  top: 38%;
-}
-
-.hero-pin-two {
-  left: 33%;
-  top: 66%;
-  background: var(--lichen);
 }
 
 .split-handle {
@@ -342,6 +284,25 @@ h1 {
   accent-color: var(--survey-red);
 }
 
+.hero-credit {
+  position: absolute;
+  top: 18px;
+  right: clamp(18px, 5vw, 70px);
+  width: min(360px, 38vw);
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(238, 247, 245, 0.78);
+  color: rgba(18, 52, 59, 0.78);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  backdrop-filter: blur(10px);
+}
+
+.hero-credit a {
+  color: inherit;
+}
+
 .proof-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -420,19 +381,13 @@ h1 {
 }
 
 .modern-pane {
-  background:
-    linear-gradient(40deg, transparent 0 34%, rgba(47, 128, 237, 0.38) 34% 37%, transparent 37%),
-    linear-gradient(112deg, transparent 0 58%, rgba(113, 139, 86, 0.48) 58% 62%, transparent 62%),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.44) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.42) 1px, transparent 1px),
-    linear-gradient(145deg, #cde9e2, #73b2b9);
-  background-size: auto, auto, 48px 48px, 48px 48px, auto;
+  background: url("assets/hero-modern.jpg") 50% 42% / 190% auto no-repeat;
 }
 
 .historical-pane {
   clip-path: polygon(42% 0, 100% 0, 100% 100%, 18% 100%);
-  background: url("assets/fletcher-map-tile.png") center / 430px repeat;
-  opacity: 0.78;
+  background: url("assets/hero-fletcher.jpg") 50% 42% / 190% auto no-repeat;
+  opacity: 0.96;
 }
 
 .phone-toolbar {
@@ -650,6 +605,17 @@ h1 {
     margin-left: clamp(18px, 5vw, 44px);
   }
 
+  .hero {
+    align-items: start;
+  }
+
+  .overlay-control,
+  .hero-credit {
+    position: static;
+    width: auto;
+    margin: 0 18px 14px;
+  }
+
   .field-grid,
   .open-source {
     grid-template-columns: 1fr;
@@ -717,7 +683,6 @@ h1 {
   }
 
   .overlay-control {
-    bottom: 18px;
     padding: 12px;
   }
 

@@ -1,0 +1,39 @@
+{
+  "input_commit": "749036f0f3e3936b5160098da6c69b1337a97b19",
+  "inputs": {
+    "controls": {
+      "path": "reports/church/south-western-coast-validation-20260916/controls.csv",
+      "sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527"
+    },
+    "prior_inventory": {
+      "path": "reports/church/south-western-coast-validation-20260916/fresh-validation.csv",
+      "sha256": "fba2a4cd59f0f42e8b45b4e0419ec9886f0240874c78e0607bdcb31e0e7c195c"
+    },
+    "prior_accuracy": {
+      "path": "reports/church/south-western-coast-validation-20260916/accuracy-summary.json",
+      "sha256": "8f8346e2f752464a42a06d551af10d29b80a30e770d0868ddea221a76522a60a"
+    },
+    "prior_status": {
+      "path": "reports/church/south-western-coast-validation-20260916/status.json",
+      "sha256": "230ffe85705b855f3359faea18ec8611b105922be1cdd2670027b44cab33d40b"
+    },
+    "selection_freeze": {
+      "path": "reports/church/south-distributed-refinement-20260915/selected-tps13/freeze.json",
+      "sha256": "cd15fd212b4f0b25c271d3c3109c65eff9f13cfc0fa6d3f2b13031199b9f3178"
+    },
+    "baseline_controls": {
+      "path": "tools/church/gcps/inverness-south.csv",
+      "sha256": "f1d52dd101853995fe785dc41da87d3a14eeb14cb2a1b2bbf1143eb11ce2a847"
+    },
+    "baseline_checks": {
+      "path": "tools/church/checks/inverness-south.csv",
+      "sha256": "7e96e98e0b54d03d58f50f582db9f580eb22a5d82da5ad7cfa981d9d4d1dabf9"
+    }
+  },
+  "method": "tps",
+  "raster": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "scope": "New northeastern interior checks against unchanged frozen TPS13; preceding sixteen first results retained"
+}

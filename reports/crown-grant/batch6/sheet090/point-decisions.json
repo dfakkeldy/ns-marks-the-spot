@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit or score",
+  "rejected": [
+    {
+      "id": "Q05",
+      "reason": "Black Lake western transition has different stream/lake boundary geometry; nearest unfiltered target is WARV50 and no precise stable common lake extremity established"
+    },
+    {
+      "id": "Q08",
+      "reason": "Little Beaver southern shore is nearly flat and lacks a distinct corresponding point; an arbitrary location along it is not an acceptable check"
+    }
+  ],
+  "preliminary_regions_not_adopted": [
+    "Complex Ashton outline and large changed lake/river corridors were not forced into control points"
+  ],
+  "limitations": [
+    "All retained checks share natural lake systems with controls; high spatial correlation",
+    "Far western edge, central river corridors and southernmost band remain insufficiently checked"
+  ]
+}

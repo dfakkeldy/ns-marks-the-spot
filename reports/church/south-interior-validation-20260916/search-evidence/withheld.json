@@ -1,0 +1,17 @@
+{
+  "candidates": [
+    {
+      "name": "Frasers Brook /Broad Cove River",
+      "reason": "The expected west tributary and main river occur in the right neighbourhood, but the exact source junction is under STRATH LORNE lettering. No source coordinate or score adopted."
+    },
+    {
+      "name": "East-shore Glenmore /Gillanders road loops",
+      "reason": "The historical parallel routes and the current track/Glenmore/Gillanders entries did not establish the same precise junction confidently. Names alone cannot select a modern node. No source point or score adopted."
+    },
+    {
+      "name": "Previously withheld Strathlorne highway junction",
+      "reason": "Remains withheld; this pass examined a distinct stream candidate instead."
+    }
+  ],
+  "all_unscored": true
+}

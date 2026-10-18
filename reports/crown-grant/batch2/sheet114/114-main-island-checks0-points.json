@@ -1,0 +1,46 @@
+[
+  {
+    "id": "MQ01",
+    "label": "Sea Wolf Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3076,
+      759
+    ],
+    "lonlat": [
+      -61.26502397807037,
+      46.352357147545746
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 19024,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3056.0199430934736,
+      769.4000712329289
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ02",
+    "label": "Sea Wolf Island western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3027,
+      714
+    ],
+    "lonlat": [
+      -61.268610010238234,
+      46.35311625908472
+    ],
+    "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+    "reference_objectid": 19024,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3010.5992500081775,
+      733.8812578431098
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

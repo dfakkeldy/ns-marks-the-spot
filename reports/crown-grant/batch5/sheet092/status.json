@@ -1,0 +1,45 @@
+{
+  "sheet": "092",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS fails 100 m; first fit and all checks retained; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/092.pdf",
+    "pdf_sha256": "9603eea378b07590ebb97b9a74c9312ddb8595dcb687818dce1210bb50d2216d",
+    "jpeg_sha256": "d64415e6833fbf5076e16a0588eb73f6561b3855fd212973c08fee94b6d3d03d",
+    "dimensions": [
+      5967,
+      4113
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 107.25976787432812,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven independent checks give RMS 107.26 m, exceeding the 100 m ceiling; median 83.44 m and P95 171.95 m also exceed suggested companion bounds. Maximum is 197.31 m. This sheet fails the numerical RMS gate.",
+    "Pictou Island checks Q01/Q02/Q03 have diagnostic subset RMS 129.55 m; Q03 at the southwestern broad corner is 197.31 m. All remain in the first score. Mainland checks have subset RMS 86.87 m. These subsets reuse the same first check observations, not new validation.",
+    "Pictou Island is controlled at its west/east endpoints; the three island checks are spatially correlated. Mainland validation follows coastal headlands, leaving inland parcels, minor islands and changing barriers insufficiently checked.",
+    "All adopted points use 18 px working source uncertainty because original shores and rounded corners are generalized. Changed Boat Harbour/Caribou and barrier shorelines are retained without local geographic acceptance."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 107.26 m, median 83.44 m, P95 171.95 m, maximum 197.31 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains all of Pictou Island in its original main-map position, the Caribou shoreline and Doctor Island, Logan and Cole Points, Pictou Landing, Mackenzie Head, Chance Harbour, Evans Point, the printed portion of Roy Island and Colquhoun Point, all minor islands and the full Northumberland Strait area. No displaced inset identified."
+  }
+}

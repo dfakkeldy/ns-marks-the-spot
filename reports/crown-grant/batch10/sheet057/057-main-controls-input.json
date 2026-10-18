@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Main Betty Island northern tip",
+    [
+      1142,
+      1775
+    ],
+    [
+      1249,
+      1790
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C02",
+    "Main Hopson Island northern tip",
+    [
+      887,
+      1642
+    ],
+    [
+      1005,
+      1668
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Main Pennant Island northern tip",
+    [
+      2632,
+      2351
+    ],
+    [
+      2706,
+      2342
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C04",
+    "Main Sambro Island northern tip",
+    [
+      3836,
+      3230
+    ],
+    [
+      3909,
+      3204
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Main Third Pond western tip",
+    [
+      4357,
+      869
+    ],
+    [
+      4376,
+      842
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Main Charley Pond western tip",
+    [
+      4399,
+      1040
+    ],
+    [
+      4435,
+      1012
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Main small pond west of Fourth Pond northern tip",
+    [
+      4200,
+      1378
+    ],
+    [
+      4241,
+      1363
+    ],
+    "WALK20"
+  ]
+]

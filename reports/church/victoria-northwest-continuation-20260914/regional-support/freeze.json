@@ -1,0 +1,20 @@
+{
+  "frozen_at": "2026-09-14T17:20:14.937193+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "90c3a871a8be30aebda51b7df0a7e0ac6fe5dcb22c08f362f6e75f0e8efe52ef",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "boundary_sha256": "848770cbdb371abdec736a2af1d79461ed1d0967ebee0fb1fa06b6529f3acad4",
+  "selection": "TPS14 adds verified northeastern, lower Black Brook and southern coastal support. Same-three retained diagnostics126.59m RMS. No post-freeze checks yet; preserve all earlier first failures and trials.",
+  "diagnostics": [
+    "VN17",
+    "VN11",
+    "VN19"
+  ],
+  "new_controls": [
+    "VN20",
+    "VN21",
+    "VN22"
+  ],
+  "fresh_count": 0,
+  "geographic_acceptance": false
+}

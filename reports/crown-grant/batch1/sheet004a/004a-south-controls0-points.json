@@ -1,0 +1,86 @@
+[
+  {
+    "id": "SA01",
+    "label": "Northern Southern-Seal island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1000,
+      4035
+    ],
+    "lonlat": [
+      -66.01922726707177,
+      43.430686871775066
+    ],
+    "reference_objectid": 20031,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      949.3951977356337,
+      4016.2766144432826
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SA02",
+    "label": "Northern Southern-Seal island southwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      900,
+      4450
+    ],
+    "lonlat": [
+      -66.00883364800931,
+      43.41152471934647
+    ],
+    "reference_objectid": 20485,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      920.2862393583637,
+      4445.224488851032
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SA03",
+    "label": "Southern Seal island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      750,
+      4795
+    ],
+    "lonlat": [
+      -66.00966191632885,
+      43.392674267020894
+    ],
+    "reference_objectid": 20526,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      739.9130996340537,
+      4794.317354754196
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SA04",
+    "label": "Southern Seal island eastern projection",
+    "role": "proposal",
+    "pixel_xy": [
+      886,
+      4740
+    ],
+    "lonlat": [
+      -66.00474466520505,
+      43.39750094504037
+    ],
+    "reference_objectid": 18578,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      850.7298523320933,
+      4735.965344445896
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

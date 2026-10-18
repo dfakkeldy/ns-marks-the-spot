@@ -1,0 +1,142 @@
+{
+  "changes": [
+    {
+      "before": {
+        "id": "C14",
+        "role": "control",
+        "pixel_xy": [
+          9264,
+          5946
+        ],
+        "lonlat": [
+          -61.2353734,
+          46.1092675
+        ],
+        "modern_node": "J0558",
+        "modern_objectids": [
+          161179,
+          161180,
+          198990
+        ],
+        "identity_evidence": "Long southern tributary reaches southern bank of Hay River, downstream of the eastern broad meanders and upstream of western settlement. Bank versus historical thick single channel uncertainty retained.",
+        "source_uncertainty_px": 12,
+        "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+      },
+      "after": {
+        "id": "C14",
+        "role": "control",
+        "pixel_xy": [
+          9264,
+          5946
+        ],
+        "lonlat": [
+          -61.2489105,
+          46.1081554
+        ],
+        "modern_node": "J0563",
+        "modern_objectids": [
+          269424,
+          276971,
+          276972
+        ],
+        "identity_evidence": "MacKinnons Brook enters Hays River from south, east of Schoolhouse Brook. Long southern arm has a lower SW/SE fork H02; unlike the short swamp drain at old J0558. Oval historical feature on the arm is not itself a control.",
+        "source_uncertainty_px": 12,
+        "review": "Native topology re-audit supported by NRCan Lake Ainslie edition4, published1998 (information current1994). Modern coordinates remain NSTDB. Hypothesis frozen before this trial; not user audited."
+      }
+    },
+    {
+      "before": {
+        "id": "F05",
+        "role": "control",
+        "pixel_xy": [
+          8948,
+          6115
+        ],
+        "lonlat": [
+          -61.2489105,
+          46.1081554
+        ],
+        "modern_node": "J0563",
+        "modern_objectids": [
+          269424,
+          276971,
+          276972
+        ],
+        "identity_evidence": "Western long southern tributary of Hay River, separate from eastern C14 arm. Main approaches from northeast and continues west toward mill and road; southern arm continues to its own lower fork J0596.",
+        "source_uncertainty_px": 8,
+        "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink.",
+        "consumed_from": "fresh-checks.json"
+      },
+      "after": {
+        "id": "F05",
+        "role": "control",
+        "pixel_xy": [
+          8948,
+          6115
+        ],
+        "lonlat": [
+          -61.261503,
+          46.1037737
+        ],
+        "modern_node": "J0578",
+        "modern_objectids": [
+          277086,
+          277087,
+          315551
+        ],
+        "identity_evidence": "MacKays Brook approaches from NW through mill and crosses railway/road; joins Hays main arriving from south beside the road. Main continues NE to Schoolhouse then MacKinnons. Earlier classification of south arm as MacKinnons was incorrect.",
+        "source_uncertainty_px": 8,
+        "review": "Native topology re-audit supported by NRCan Lake Ainslie edition4, published1998 (information current1994). Modern coordinates remain NSTDB. Hypothesis frozen before this trial; not user audited.",
+        "consumed_from": "fresh-checks.json"
+      }
+    },
+    {
+      "before": {
+        "id": "R04",
+        "role": "check",
+        "pixel_xy": [
+          9067,
+          6058
+        ],
+        "lonlat": [
+          -61.2402308,
+          46.1109067
+        ],
+        "modern_node": "J0550",
+        "modern_objectids": [
+          169928,
+          169929,
+          191399
+        ],
+        "identity_evidence": "Hay River northern tributary 191399 crosses railway then road and turns southeast to the northern bank of Hay River (169928/169929). The bold diagonal farther northwest is railway, not river. Nearby modern J0553 is a southwest tributary, not this north arm. Single historical ink junction versus modern double-line north bank gives placement uncertainty.",
+        "source_uncertainty_px": 12,
+        "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search. Originally trialled as control in failed 26-point candidate. Excluded because the interpolating TPS becomes nearly singular around native (9212,5988) and the actual GDAL render develops large holes. This is a consumed model-diagnostic observation, not an independent check. Match remains provisional pending further Hay River network/bank audit."
+      },
+      "after": {
+        "id": "R04",
+        "role": "check",
+        "pixel_xy": [
+          9067,
+          6058
+        ],
+        "lonlat": [
+          -61.2568236,
+          46.1058868
+        ],
+        "modern_node": "J0571",
+        "modern_objectids": [
+          276972,
+          277086,
+          279143
+        ],
+        "identity_evidence": "Schoolhouse Brook descends from Mount Young beside the road and crosses the railway/road before joining Hays. West of MacKinnons C14, east of MacKays F05. A distinct further-eastern northern stream is H01; earlier J0550 identity belongs to that stream.",
+        "source_uncertainty_px": 12,
+        "review": "Native topology re-audit supported by NRCan Lake Ainslie edition4, published1998 (information current1994). Modern coordinates remain NSTDB. Hypothesis frozen before this trial; not user audited."
+      }
+    }
+  ],
+  "reference_url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/raster/topographic/50k/011/k/03/011k03_0400_canmatrix_geotiff.zip",
+  "publication_year": 1998,
+  "information_current": 1994,
+  "interpretation": "Correct branch order: MacKays NW, Schoolhouse NW, MacKinnons S, unnamed N. 1998 map establishes named topology, not 1880s channel stability. Native mill and road context distinguishes main river from tributaries."
+}

@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-25T02:07:42.175174+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "065",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6075,
+        5186
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5614,
+        3843
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Complete historical frame, Grand Lake islands and modern-only NSTDB reference inspected in actual browser; inland and urban edge limitations retained."
+  ]
+}

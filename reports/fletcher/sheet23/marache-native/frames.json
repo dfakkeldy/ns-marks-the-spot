@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-23-C12.jpg",
+    "point_record": "sheet23/candidate-marache.json",
+    "point_id": "C12",
+    "native_box": [
+      5356,
+      3934,
+      5576,
+      4154
+    ],
+    "native_coordinates": [
+      5466,
+      4044
+    ],
+    "modern_lonlat": [
+      -61.03505900972803,
+      45.481005574167604
+    ],
+    "rotation_degrees": 0
+  }
+]

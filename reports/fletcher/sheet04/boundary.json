@@ -1,0 +1,28 @@
+{
+  "sheet": "sheet-04",
+  "source_sha256": "6f6a3436e048c23cc5c8d8aef1382be9803801bac401c2cdae285e0ed30399cf",
+  "ring_pixel_xy": [
+    [
+      1190,
+      977
+    ],
+    [
+      9435,
+      1023
+    ],
+    [
+      9405,
+      6475
+    ],
+    [
+      1188,
+      6441
+    ],
+    [
+      1190,
+      977
+    ]
+  ],
+  "scope": "Complete mapped frame. No outside mapped extension identified; includes broad eastern sea, interior legend, Ingonish Island and offshore rocks.",
+  "status": "Native overview, four corners and labels personally inspected; boundary overlay pending review."
+}

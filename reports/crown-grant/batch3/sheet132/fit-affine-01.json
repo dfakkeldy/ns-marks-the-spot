@@ -1,0 +1,231 @@
+{
+  "sheet": "132",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.912126281009099,
+      2.0440121317461424
+    ],
+    [
+      2.0286536423269332,
+      -4.9396230336431435
+    ],
+    [
+      692863.8209529876,
+      5100770.779500727
+    ]
+  ],
+  "source_sha256": "ec90417e1b9b240982ad4d9a6804459b6d1f421d60204a0c0af5668839625bc8",
+  "source_dimensions": [
+    5797,
+    3886
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "McAdam Lake west end",
+      "role": "control",
+      "pixel_xy": [
+        861,
+        526
+      ],
+      "lonlat": [
+        -60.43940620832445,
+        46.023800133346874
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 136365,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        806.8290993088158,
+        509.4145141830668
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "East Bay northeast lobe north apex",
+      "role": "control",
+      "pixel_xy": [
+        1910,
+        811
+      ],
+      "lonlat": [
+        -60.365245220377375,
+        46.0292329320193
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 14139,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1870.2301198081695,
+        787.0690505271778
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Beadman Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        4995,
+        1017
+      ],
+      "lonlat": [
+        -60.162697131616696,
+        46.07165050551538
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 129098,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4980.636276362173,
+        1005.7807927951217
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Middle Lake southeast corner",
+      "role": "control",
+      "pixel_xy": [
+        5228,
+        1328
+      ],
+      "lonlat": [
+        -60.13936309096209,
+        46.06238229106191
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 136174,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5233.707327933982,
+        1304.7860662520397
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "McInnis Lake southwest tip",
+      "role": "control",
+      "pixel_xy": [
+        4240,
+        3393
+      ],
+      "lonlat": [
+        -60.153606160883214,
+        45.95244362345561
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 136745,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4219.867554385157,
+        3362.658026001882
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Rock Elm McAdam Lake northwest corner",
+      "role": "control",
+      "pixel_xy": [
+        1170,
+        3087
+      ],
+      "lonlat": [
+        -60.358601179276455,
+        45.91363301552394
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 131999,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1096.6137533554574,
+        3059.358397388831
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Southeast McDonalds Lake east end",
+      "role": "control",
+      "pixel_xy": [
+        5289,
+        3271
+      ],
+      "lonlat": [
+        -60.08904261096232,
+        45.97486964975017
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 135194,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5279.03521169076,
+        3258.5908369635
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Western Island Lake northern point",
+      "role": "control",
+      "pixel_xy": [
+        1042,
+        2271
+      ],
+      "lonlat": [
+        -60.386123880141255,
+        45.94985327984287
+      ],
+      "guide_file": ".crown-grant-local/132-topology-guide.npy",
+      "reference_objectid": 137132,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        987.6166614137474,
+        2215.9924491299316
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired topology and original-frame crosshair audited; geographic feature type inspected before fitting.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    58.33945306719164,
+    14.12091489511348,
+    61.600615727940536,
+    62.331595238285004,
+    29.952605674389662,
+    74.71187731747342,
+    52.527739254707605,
+    115.9050417201642
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

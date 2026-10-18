@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Feature, FeatureCollection } from "geojson";
-import { parseKml } from "../parsers/kmlSource";
+import { parseXmlVector } from "../parsers/xmlVectorSource";
 import { kmlDocumentString } from "./kmlWriter";
 
 function collection(features: FeatureCollection["features"]): FeatureCollection {
@@ -108,7 +108,7 @@ describe("kmlDocumentString", () => {
         properties: { name: "Track" },
       },
     ]);
-    const reparsed = parseKml(kmlDocumentString(LAYER_NAME, original));
+    const reparsed = parseXmlVector(kmlDocumentString(LAYER_NAME, original));
     expect(reparsed.featureCount).toBe(2);
     expect(reparsed.collection.features[0].properties?.name).toBe("Pin");
     expect(reparsed.collection.features[0].properties?.description).toBe("A & B <c>");
@@ -142,5 +142,108 @@ describe("kmlDocumentString", () => {
     );
     expect((kml.match(/<Placemark>/g) ?? []).length).toBe(1);
     expect(kml).toContain("Something");
+  });
+});
+
+describe("traced provenance", () => {
+  it("refuses an outgoing document containing traced parcel coordinates", () => {
+    expect(() => kmlDocumentString("Traced", { type: "FeatureCollection", features: [{
+      type: "Feature", geometry: { type: "Point", coordinates: [-61, 46] },
+      properties: { "nsmts:traced": "nsprd-parcel" },
+    }] })).toThrow(/permission/i);
+  });
+
+  it("writes no note for an untraced layer", () => {
+    const kml = kmlDocumentString("Plain", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "plain",
+          geometry: { type: "Point", coordinates: [-61, 46] },
+          properties: {},
+        },
+      ],
+    });
+    expect(kml).not.toContain("not a survey");
+  });
+});
+
+describe("ExtendedData", () => {
+  const attributed: FeatureCollection = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: "f1",
+        geometry: { type: "Point", coordinates: [-61, 46] },
+        properties: {
+          name: "Stand A",
+          description: "Thinned 2024",
+          species: "red spruce",
+          "stand-age": 45,
+          verified: true,
+          metadata: { crew: "A" },
+          skipped: null,
+          coordinateProperties: { times: ["2026-08-30T00:00:00.000Z"] },
+          "nsmts:traced": "manual",
+          "nsmts:photos": [{ id: "p1" }],
+        },
+      },
+    ],
+  };
+
+  it("writes every carried property once, string-typed, with escaping", () => {
+    const kml = kmlDocumentString("Stands", attributed);
+    expect(kml).toContain('<Data name="species"><value>red spruce</value></Data>');
+    expect(kml).toContain('<Data name="stand-age"><value>45</value></Data>');
+    expect(kml).toContain('<Data name="verified"><value>true</value></Data>');
+    // Objects ride as JSON text; GeoJSON stays the type-faithful format.
+    expect(kml).toContain('<Data name="metadata"><value>{"crew":"A"}</value></Data>');
+    // Provenance survives a KML round trip.
+    expect(kml).toContain('<Data name="nsmts:traced"><value>manual</value></Data>');
+    // name/description have their own KML homes; times are GPX/GeoJSON-only;
+    // photo references never dangle in a plain KML; nulls are skipped.
+    expect(kml).not.toContain('<Data name="name"');
+    expect(kml).not.toContain('<Data name="description"');
+    expect(kml).not.toContain("coordinateProperties");
+    expect(kml).not.toContain("nsmts:photos");
+    expect(kml).not.toContain('<Data name="skipped"');
+  });
+
+  it("omits ExtendedData entirely when nothing carries", () => {
+    const kml = kmlDocumentString("Plain", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "f1",
+          geometry: { type: "Point", coordinates: [-61, 46] },
+          properties: { name: "Gate" },
+        },
+      ],
+    });
+    expect(kml).not.toContain("ExtendedData");
+  });
+
+  it("keeps markup in values structural, and round-trips through togeojson", async () => {
+    const kml = kmlDocumentString("Escapes", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "f1",
+          geometry: { type: "Point", coordinates: [-61, 46] },
+          properties: { note: '<script>bad()</script>' },
+        },
+      ],
+    });
+    expect(kml).not.toContain("<script>");
+
+    const { kml: parseKml } = await import("@tmcw/togeojson");
+    const parsed = parseKml(
+      new DOMParser().parseFromString(kml, "text/xml"),
+    );
+    expect(parsed.features[0].properties?.note).toBe("<script>bad()</script>");
   });
 });

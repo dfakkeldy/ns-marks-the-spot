@@ -1,0 +1,212 @@
+{
+  "count": 50,
+  "review": "Personally inspected all exact unrotated point frames before relevant first score, all actual warped-region comparisons, final sixteen-control joins, full native boundary/corners, and both browser import/reload sets. Image hash inventory recorded after completion.",
+  "figures": [
+    {
+      "path": "16-control/adjacent-sheet-review/15-northeast.jpg",
+      "sha256": "aa9368b100e007d816d5e14353fb5ba86742cefea0fa0555283f9326304be37b"
+    },
+    {
+      "path": "16-control/adjacent-sheet-review/15-northwest.jpg",
+      "sha256": "abbe0c3e6cc26b8eabda23a9077b319863566a33ba47f055469ccc3872e7b35a"
+    },
+    {
+      "path": "16-control/adjacent-sheet-review/17-east-north.jpg",
+      "sha256": "ffcc8b18a58f772fe511381b993123b1795c2b3b9101389f9688bf6746ad3945"
+    },
+    {
+      "path": "16-control/adjacent-sheet-review/17-east-south.jpg",
+      "sha256": "5d16ffd33f7d699b1109ccbf41600093f8f12e244b4e152d7657b34f5b85b479"
+    },
+    {
+      "path": "16-control/adjacent-sheet-review/19-west-north.jpg",
+      "sha256": "8c226612c0544f2ac5411177003f0b1cd00954c7fe1165b31bcdb7fec689b80d"
+    },
+    {
+      "path": "16-control/adjacent-sheet-review/19-west-south.jpg",
+      "sha256": "01737cfa6aed8670579840b0cbde1aa248b417a7266dd5922470f46a79b3a4d6"
+    },
+    {
+      "path": "16-control/adjacent-sheet-review/21-southeast.jpg",
+      "sha256": "69c55afde3fc87e4bd1c399aa46f46d7e5474dd332a63b190314bdcc25fe9eca"
+    },
+    {
+      "path": "16-control/adjacent-sheet-review/21-southwest.jpg",
+      "sha256": "e3ecbdeff4f596f785b39a15d5e2312c12104121fb6c933cdd48df500a72ca58"
+    },
+    {
+      "path": "16-control/browser/import-desktop.png",
+      "sha256": "3bc25c3d9f3291c25b47b5dad45b99ae492833ebf1d7c2caba5f268359f45786"
+    },
+    {
+      "path": "16-control/browser/reload-desktop.png",
+      "sha256": "7365878f032c1c2722de507e9b30e08897c1052df0866bb112ba68eca529dfa7"
+    },
+    {
+      "path": "16-control/browser/reload-mobile.png",
+      "sha256": "24b6aa454af55ec045434670ebe0471dc60d5244ce13ac5c66b712117ab4e16e"
+    },
+    {
+      "path": "16-control/fresh-close/sheet-18-F05.jpg",
+      "sha256": "7f54f98c7a48083742f55bdb5d2ff1b2409db872fe0b5cb42fec6d72925ae752"
+    },
+    {
+      "path": "16-control/fresh-close/sheet-18-F06.jpg",
+      "sha256": "bb5ee35859774e06d05a0b06c21c9781e214112f4557490408a1c0e82de5d0cc"
+    },
+    {
+      "path": "16-control/fresh-wide/sheet-18-F05.jpg",
+      "sha256": "061da73c38a479e38d97014d97995bcb296d661ef87fc1ae1f90737fc3157c59"
+    },
+    {
+      "path": "16-control/fresh-wide/sheet-18-F06.jpg",
+      "sha256": "1814b783c4b1a690d6c1132e11a9f1c19d3c8f64648c6c2d6769c6d89aad90fc"
+    },
+    {
+      "path": "16-control/warped-review/central-marble.jpg",
+      "sha256": "42e9afad0682193d812232b45166fa58bf83721afcf88f5ae06848ccc6816366"
+    },
+    {
+      "path": "16-control/warped-review/east-harbours.jpg",
+      "sha256": "5e83338f2706a877ac8caf11b0b9f3dc2832c94032d5b8fa9fb3972724562bcb"
+    },
+    {
+      "path": "16-control/warped-review/northeast-islands.jpg",
+      "sha256": "4badf2657ae264722c1523538641921bfe0dee9af38dfe74b187d29080c60447"
+    },
+    {
+      "path": "16-control/warped-review/northwest-ashfield.jpg",
+      "sha256": "e6a1e38529e41bd102c92f2f5622e7bc80127e49fd4a7f311f9ed4553ec82811"
+    },
+    {
+      "path": "16-control/warped-review/ross-brook.jpg",
+      "sha256": "6bf010bde3014efe28e2470c292fc796093d865b9e3dea09f1013b41fcd2fcc8"
+    },
+    {
+      "path": "16-control/warped-review/southeast-mainland.jpg",
+      "sha256": "3cfa4b1134730299b9d38cfdaf28cf5d346c01a3dc054a5370db0b6c2989efbf"
+    },
+    {
+      "path": "16-control/warped-review/southern-islands.jpg",
+      "sha256": "f2c0108c5010225836aed7a49f830bc2982c30d61f481f3b1a09824f166bf0af"
+    },
+    {
+      "path": "16-control/warped-review/southwest-highlands.jpg",
+      "sha256": "e54e704febc77eb9d36a8be10affccb6358b70eeb0bfeed70affe7b9db1b9997"
+    },
+    {
+      "path": "16-control/warped-review/west-river-denys.jpg",
+      "sha256": "0c2920fb796d5ed8f7b3e8ca54047564258820c1677f81bd05d19361d1ae90ab"
+    },
+    {
+      "path": "adjusted-close/sheet-18-F04.jpg",
+      "sha256": "d584501fcae0ffc7a61a8803e98d362dd6a6feafe901c9a2fe15f6cfdfa1fbc5"
+    },
+    {
+      "path": "adjusted-wide/sheet-18-F04.jpg",
+      "sha256": "b2929748bca222c2b63bec122a4d0c0724184acd6e79557a02034836743088a4"
+    },
+    {
+      "path": "boundary-corners.jpg",
+      "sha256": "b85d75476dc206d801e3a08827a4e207cc49c6062d7fbdbc0fe7e37519cbd682"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "9fa26d55ca4ce3017cca6c778d16ccffe9583babf26688d1377a5ae8ccb1952e"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "710c79df69bb8908c7d35b6a1f0eb452f46781dae01e1afc1b8bc3ef5ba8372f"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "4cc3ea552d1341b92bf117191d61f6864401a645f7764112638c06d6e6369137"
+    },
+    {
+      "path": "fresh-close/sheet-18-F01.jpg",
+      "sha256": "d8eaabb8f3525822a9288e7abb02702273b983e3dd0bba7f0285c444cefe8fe7"
+    },
+    {
+      "path": "fresh-close/sheet-18-F02.jpg",
+      "sha256": "65f3d8988e6027430c89e0ba9abbc58f6aa7bf5c1260a349f755e7eea9c27356"
+    },
+    {
+      "path": "fresh-wide/sheet-18-F01.jpg",
+      "sha256": "849cb6a9a05bf23e69acd5ed53968779f67dcf646f01e06fec642a8492014970"
+    },
+    {
+      "path": "fresh-wide/sheet-18-F02.jpg",
+      "sha256": "45d038a2445c61c4208a0b0cccdb3ce6e32cdf48f67bf6a3eaa23fcab2a531dd"
+    },
+    {
+      "path": "full-boundary-review.jpg",
+      "sha256": "beeb3ad28551e5eb71d4415a0a25d80e27b94248ad18c247672f585f71383e47"
+    },
+    {
+      "path": "pond-close/sheet-18-F03.jpg",
+      "sha256": "4f151fccb49bc14eaa6fa9d3e3beed899f64c0fd2cbe4c6390b1d555921b8eea"
+    },
+    {
+      "path": "pond-close/sheet-18-F04.jpg",
+      "sha256": "ba83f2bc5456bce46ef9826e7e1938a93b61b8e350d08442a08bebf6b584a6bb"
+    },
+    {
+      "path": "pond-wide/sheet-18-F03.jpg",
+      "sha256": "e34bd4d843a176a425ced3c094409f1643d221eba378dd9e2a046ccfe6132c7a"
+    },
+    {
+      "path": "pond-wide/sheet-18-F04.jpg",
+      "sha256": "cefeeaaf5a69f0c001b5a6c8a52dc6e80c1b9756516ffeb1e18b0ce7be1f5fc3"
+    },
+    {
+      "path": "repair-close/sheet-18-V03.jpg",
+      "sha256": "f7bcaa9d1d1db48a376ab75f915e41f72f34f82d964122372be1adcdce950302"
+    },
+    {
+      "path": "repair-wide/sheet-18-V03.jpg",
+      "sha256": "88473078c8475c658cb9db41d24e82164a3128037778de7eea755ece6742bba0"
+    },
+    {
+      "path": "warped-review/central-marble.jpg",
+      "sha256": "d21b17401939fa615aeaf47f63656810388de22370c4d78cb54ef3bd79ff7f05"
+    },
+    {
+      "path": "warped-review/east-harbours.jpg",
+      "sha256": "3d3c8700a5b9fac507040a3a55c8c8df942fcfb3271beed8dae8549fb01fdb85"
+    },
+    {
+      "path": "warped-review/northeast-islands.jpg",
+      "sha256": "13f7cfdc2d1c17a74070e1ccae0d376e1ea95e511dd55c4014688b1be6ddeb01"
+    },
+    {
+      "path": "warped-review/northwest-ashfield.jpg",
+      "sha256": "2a0371cd75536324e4106390eaa3085c79d79e3e0bae9b3dc284bcc30066d392"
+    },
+    {
+      "path": "warped-review/ross-brook.jpg",
+      "sha256": "e36583b6efbdb9b30ef4a7d96d1f5f27f615a944d048807d5bf6dda8b1458c29"
+    },
+    {
+      "path": "warped-review/southeast-mainland.jpg",
+      "sha256": "1545054cb17ccfc6649126377f31a95f5f42b06feeebdac6ca7760a95e0e478e"
+    },
+    {
+      "path": "warped-review/southern-islands.jpg",
+      "sha256": "e1731a508d5dcb1edd3fdc0d0c7562016403c585378eb8ef1ba2169b637caeb1"
+    },
+    {
+      "path": "warped-review/southwest-highlands.jpg",
+      "sha256": "04acd622b4ca76ea5330a03f8c561f9b788e6ad523395d591f9beab0fe467785"
+    },
+    {
+      "path": "warped-review/west-river-denys.jpg",
+      "sha256": "456fa486889d9da24c725bad840444eba60bc36ab82dc2524203ceb32d3a72b2"
+    }
+  ],
+  "findings": {
+    "15-control": "Ashfield anchor recovered locally, pronounced northwest shear remains; separate southern pond regressed to 944 m.",
+    "16-control": "Southern pond anchor recovered but upstream junction 403 m and downstream confluence 108 m; northwest remains stretched/rotated and broader drainage displaced.",
+    "joins": "Northern/western/southern gaps and displaced coast/stream continuations. Eastern north open water; southern eastern window retains Macrae label but offers limited physical correspondence. All neighbors remain provisional.",
+    "browser": "Both rasters visible after import and desktop/mobile reload. No captured console/page errors."
+  }
+}

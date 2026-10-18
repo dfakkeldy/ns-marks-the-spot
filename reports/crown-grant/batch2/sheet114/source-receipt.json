@@ -1,0 +1,121 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/114.pdf",
+  "source_dimensions": [
+    5959,
+    4077
+  ],
+  "ppi": 160,
+  "reference": {
+    "retrieved_at_utc": "2026-09-23T02:11:50.568831+00:00",
+    "bbox": [
+      -61.52,
+      46.09,
+      -60.9797,
+      46.4661
+    ],
+    "reference_count": 4038,
+    "truncated": false,
+    "pages": [
+      {
+        "file": "114-water-page0.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-61.52%2C46.09%2C-60.9797%2C46.4661&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=0",
+        "count": 2000,
+        "sha256": "1b17b5f37b6bed3ca1c2d5021eb29e44991f9f86e2ff6ffe5ef131e6c1ce5275"
+      },
+      {
+        "file": "114-water-page1.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-61.52%2C46.09%2C-60.9797%2C46.4661&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=2000",
+        "count": 2000,
+        "sha256": "e3801aa9c2ba5197397cc261b0d20198ce88ca0591c4f7889ebc14ee6682f684"
+      },
+      {
+        "file": "114-water-page2.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-61.52%2C46.09%2C-60.9797%2C46.4661&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=4000",
+        "count": 38,
+        "sha256": "bacef99a1416cc083aa62a6210360b406415df078f8a60c64cc40c6b96018583"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "114.pdf",
+      "bytes": 3411908,
+      "sha256": "b7404f2a2c542ef2ec7f6091fb1d6e67132b70aba965d525c8716fe08253a4ce"
+    },
+    {
+      "name": "114-000.jpg",
+      "bytes": 3410733,
+      "sha256": "e1459819159ce55bae7f55aff2f228fb3b0192ed142c19906d6053cef1799033"
+    },
+    {
+      "name": "114-water-tight.geojson",
+      "bytes": 12916338,
+      "sha256": "d46ed1e93029652670094a82b9af252b48488357d49c61737522dd3544f5c5d0"
+    },
+    {
+      "name": "114-reference-receipt.json",
+      "bytes": 1607,
+      "sha256": "fcc700456c380c1cccbca915ea8928ee8e17b57caca58a265e4e39cdb78c7173"
+    },
+    {
+      "name": "114-water-page0.geojson",
+      "bytes": 5049784,
+      "sha256": "1b17b5f37b6bed3ca1c2d5021eb29e44991f9f86e2ff6ffe5ef131e6c1ce5275"
+    },
+    {
+      "name": "114-water-page1.geojson",
+      "bytes": 7511337,
+      "sha256": "e3801aa9c2ba5197397cc261b0d20198ce88ca0591c4f7889ebc14ee6682f684"
+    },
+    {
+      "name": "114-water-page2.geojson",
+      "bytes": 86024,
+      "sha256": "bacef99a1416cc083aa62a6210360b406415df078f8a60c64cc40c6b96018583"
+    },
+    {
+      "name": "114-inset-frozen-guide.npy",
+      "bytes": 176,
+      "sha256": "a4c096da4d28d764dfd0bdfd5d091bf77cc24904eb62cf8c4319dd557492b30a"
+    },
+    {
+      "name": "114-inset-locality-guide.npy",
+      "bytes": 176,
+      "sha256": "943fa8c1cfcdf95c64d47dfbcef5ca6588795f8e5b4223019a8f720df82ff9e3"
+    },
+    {
+      "name": "114-inset-physical-guide.npy",
+      "bytes": 176,
+      "sha256": "a4c096da4d28d764dfd0bdfd5d091bf77cc24904eb62cf8c4319dd557492b30a"
+    },
+    {
+      "name": "114-main-adjacent-guide.npy",
+      "bytes": 176,
+      "sha256": "535319474ee4c4f2708e04d6b666f49d06b04a5cd03fb2d51240050da8e8114f"
+    },
+    {
+      "name": "114-main-frozen-guide.npy",
+      "bytes": 176,
+      "sha256": "12b9e9c6e5ea1b403dad267c5aade1b24cde26db8aa7423699b179ed09567a9f"
+    },
+    {
+      "name": "114-search-guide.npy",
+      "bytes": 176,
+      "sha256": "535319474ee4c4f2708e04d6b666f49d06b04a5cd03fb2d51240050da8e8114f"
+    },
+    {
+      "name": "114-cape-mabou-name.json",
+      "bytes": 6645,
+      "sha256": "cf19eb90a9db63b918b47352c60f3c30aa167218b8afbbce96aaa18d70390e74"
+    },
+    {
+      "name": "114-marsh-point-name.json",
+      "bytes": 3924,
+      "sha256": "1ceef409a4ff0ab2a3910e18c8d050ed6eb0774c5e72fd81f1a09ae4f94bd30c"
+    },
+    {
+      "name": "114-sight-point-name.json",
+      "bytes": 6528,
+      "sha256": "b9eca28e664f92cb4646c1588ecb0270beb13a458b03174198a112854debf805"
+    }
+  ]
+}

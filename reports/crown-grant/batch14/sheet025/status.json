@@ -1,0 +1,44 @@
+{
+  "sheet": "025",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/025.pdf",
+    "pdf_sha256": "65718c6ea60facc7aa4dc55ceb2283361fcd623fdcff96a12f3e49df3fedee69",
+    "jpeg_sha256": "ef581e50c07cdbbebdcbb46bfd28d3883cef2d9a4b24912a042d1ff5a621bb0e",
+    "dimensions": [
+      5527,
+      3995
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 72.77579433053918,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks share control lakes or associated islands; Mud Lake adds a separate waterbody. Shared historical cartography limits independence.",
+    "The southern portion below South West Lake and intervening interior between sampled lakes remain independently unvalidated.",
+    "Thin generalized shores, lake outlets and small island extrema carry 24 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 72.78 m, median 48.74 m, P95 131.74 m, maximum 162.11 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame, including all lake islands, river corridors and southern interior, is retained. Eight controls and nine excluded checks cover western, northern, central and eastern waterbodies; the southern portion remains provisional."
+  }
+}

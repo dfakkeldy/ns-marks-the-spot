@@ -1,0 +1,11 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=county%3D%27Cape+Breton%27+and+concise_ds%3D%27Cape%27&%24limit=5000",
+  "query": {
+    "$where": "county='Cape Breton' and concise_ds='Cape'",
+    "$limit": 5000
+  },
+  "retrieved_at": "2026-09-15T12:09:42.735357+00:00",
+  "sha256": "26e22167f1ef6628110603430b8280e185e7ae8c30a36e5132ece983a925a6f0",
+  "count": 181,
+  "scope": "Identity/search inventory only; exact county filter may omit cross-county records"
+}

@@ -1,0 +1,138 @@
+{
+  "source_sha256": "3143db91ad2b7afa48c52fbf1191348b5cdb50aa46af51d0865066e8e6645447",
+  "size": 640,
+  "crops": [
+    {
+      "id": "C1",
+      "stratum": "coastal",
+      "box": [
+        3080,
+        1530,
+        3720,
+        2170
+      ],
+      "split": "development"
+    },
+    {
+      "id": "C2",
+      "stratum": "coastal",
+      "box": [
+        3330,
+        2730,
+        3970,
+        3370
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "C3",
+      "stratum": "coastal",
+      "box": [
+        3730,
+        4530,
+        4370,
+        5170
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "C4",
+      "stratum": "coastal",
+      "box": [
+        4180,
+        5780,
+        4820,
+        6420
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "I1",
+      "stratum": "clear-inland",
+      "box": [
+        6280,
+        3280,
+        6920,
+        3920
+      ],
+      "split": "development"
+    },
+    {
+      "id": "I2",
+      "stratum": "clear-inland",
+      "box": [
+        5830,
+        4130,
+        6470,
+        4770
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "I3",
+      "stratum": "clear-inland",
+      "box": [
+        6130,
+        4980,
+        6770,
+        5620
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "I4",
+      "stratum": "clear-inland",
+      "box": [
+        6180,
+        5780,
+        6820,
+        6420
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "H1",
+      "stratum": "hatched-inland",
+      "box": [
+        4330,
+        2680,
+        4970,
+        3320
+      ],
+      "split": "development"
+    },
+    {
+      "id": "H2",
+      "stratum": "hatched-inland",
+      "box": [
+        4880,
+        3480,
+        5520,
+        4120
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "H3",
+      "stratum": "hatched-inland",
+      "box": [
+        7830,
+        4880,
+        8470,
+        5520
+      ],
+      "split": "evaluation"
+    },
+    {
+      "id": "H4",
+      "stratum": "hatched-inland",
+      "box": [
+        8480,
+        2580,
+        9120,
+        3220
+      ],
+      "split": "evaluation"
+    }
+  ]
+}

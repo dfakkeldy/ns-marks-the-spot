@@ -218,11 +218,19 @@ struct TaxSaleNoticesView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            Link("Open direct official source", destination: event.sourceURL)
-                .font(.footnote)
-            if let landing = event.landingPageURL, landing != event.sourceURL {
-                Link("Open the municipality's tax-sale page", destination: landing)
+            Link(destination: event.sourceURL) {
+                Text("Open direct official source")
                     .font(.footnote)
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            if let landing = event.landingPageURL, landing != event.sourceURL {
+                Link(destination: landing) {
+                    Text("Open the municipality's tax-sale page")
+                        .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
             }
             Text("\(event.sourceLabel) · \(event.eventType.label)")
                 .font(.caption2)

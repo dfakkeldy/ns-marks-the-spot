@@ -1,0 +1,83 @@
+{
+  "sheet": "sheet-11",
+  "status": "provisional-geography-not-accepted",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "controls": 26,
+  "diagnostic_checks": 10,
+  "fresh_validation_checks_after_control_repairs": 2,
+  "fit_file": "completion-20260911/western-fit.json",
+  "fit_sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f",
+  "check_file": "completion-20260911/western-diagnostics.json",
+  "check_sha256": "a88928b0e23b060bc4b07f5b14025815d5b49d9d73af9f7bfb617590adf9682d",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "transform": "GDAL TPS in EPSG:3857, 5 projected m output cells",
+  "scope": "Full main-sheet interior, western mapped mainland extension, separate Sea Wolf/Margaree Island component with printed name. Crop is a draft, not a seamless mosaic claim.",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+  "raster_sha256": "8721b668ddcb7fac3bfa8bbf3bb29fec7351483d62893ffe1f0a787a8b70acda",
+  "raster_size": [
+    9365,
+    5983
+  ],
+  "raster_bounds_wgs84": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -61.2700431,
+          46.4529235
+        ],
+        [
+          -61.2700431,
+          46.2674665
+        ],
+        [
+          -60.849407,
+          46.2674665
+        ],
+        [
+          -60.849407,
+          46.4529235
+        ],
+        [
+          -61.2700431,
+          46.4529235
+        ]
+      ]
+    ]
+  },
+  "orientation": [
+    {
+      "component": "mainland",
+      "samples": 72604,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -40.58237741925258,
+        -20.03240369272934
+      ]
+    },
+    {
+      "component": "island",
+      "samples": 814,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -25.41498324752713,
+        -23.69537707764053
+      ]
+    }
+  ],
+  "remaining": [
+    "Fresh replacement checks fail: V06 western interior 154.079 m; V07 river-bank tributary 408.093 m. V07 island/channel identity or historical change remains unresolved; retain failure.",
+    "Ten reused diagnostic median 100.488 m remains above 100 m goal; worst 174.240 m. No rounding into acceptance.",
+    "W03 is failed V05 converted to control; T01 is an earlier failed check converted to control. Neither is independent validation.",
+    "Q03 Grey headwater precise fork remains ambiguous and retained as diagnostic only.",
+    "Actual Sheet11\u201314 coastal and interior joins remain discontinuous; Sheet09 join also remains provisional.",
+    "Whole-sheet geographic acceptance remains blocked; no tiling or production label projection."
+  ],
+  "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3",
+  "browser_scope": "Real GeoTIFF imported, rendered on desktop/mobile, and reloaded in isolated Chromium. Stored bytes, embedded georef, alpha and enabled state preserved; zero captured browser errors. See completion-20260911/browser-verification.json.",
+  "fresh_check_file": "completion-20260911/western-validation-checks.json",
+  "fresh_check_sha256": "4f70f1a9a03e119f048e2e71d9b8244701b88b1c6f12031506843642b1864c66"
+}

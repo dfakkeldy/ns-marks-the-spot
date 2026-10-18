@@ -21,7 +21,7 @@ final class ns_marks_the_spotUITests: XCTestCase {
     func testMapEntryPointsAreReachableOnLaunch() throws {
         let app = XCUIApplication.launchedForUITests()
 
-        for name in ["Offline Maps", "Save Area", "Toggle Layers Menu"] {
+        for name in ["Offline Maps", "Save Area", "toggle-layers-menu"] {
             XCTAssertTrue(
                 app.buttons[name].waitForHittable(timeout: timeout),
                 "\(name) is not on screen at launch"
@@ -33,8 +33,27 @@ final class ns_marks_the_spotUITests: XCTestCase {
     func testLayersMenuControlsAreAccessible() throws {
         let app = XCUIApplication.launchedForUITests()
 
-        XCTAssertTrue(app.buttons["Toggle Layers Menu"].waitForHittable(timeout: timeout))
-        app.buttons["Toggle Layers Menu"].tap()
+        // The rail button is named rather than described, and the panel's
+        // state is its value: open and closed used to sound identical.
+        //
+        // Waited for rather than read once, as the licence switch is: the
+        // button is published before its value is.
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+        XCTAssertEqual(layers.label, "Layers", "the control is described rather than named")
+        let closed = expectation(
+            for: NSPredicate(format: "value == %@", "Closed"),
+            evaluatedWith: layers
+        )
+        wait(for: [closed], timeout: 10)
+
+        layers.tap()
+
+        let opened = expectation(
+            for: NSPredicate(format: "value == %@", "Open"),
+            evaluatedWith: layers
+        )
+        wait(for: [opened], timeout: 10)
 
         XCTAssertTrue(app.buttons["Close layers menu"].waitForHittable(timeout: timeout))
         // Background Maps is the one section the panel opens expanded, so NS

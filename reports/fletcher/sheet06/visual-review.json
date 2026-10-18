@@ -1,0 +1,14 @@
+{
+  "personally_inspected_point_frames": 51,
+  "personally_inspected_warped_frames": 7,
+  "personally_inspected_adjacent_frames": 2,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Two fresh checks: median 442.674045 m and worst 596.295010 m exceed 100/200 m thresholds",
+    "Sparse eastern and northern support; broad western sea is unsupported extrapolation",
+    "Substantial historical/modern river path and tributary differences",
+    "Reused Q02 is 83.587395 m away; not fresh evidence",
+    "Southern Sheet9 joins unaccepted; eastern Sheet5 pending; Sheet3 is northeast, not a direct northern seam"
+  ]
+}

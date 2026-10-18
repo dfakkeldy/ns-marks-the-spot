@@ -1,0 +1,221 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Pettits or Grey Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        1743,
+        1666
+      ],
+      "lonlat": [
+        -65.30400615017919,
+        43.59758549488558
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 312572,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 312572,
+      "nearest_unfiltered_distance_guide_px": 1.0089220657182607,
+      "selected_distance_guide_px": 1.0089220657182607,
+      "guide_reference_pixel_xy": [
+        1753.927591048472,
+        1657.0063203657046
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q02",
+      "label": "Blue or Green Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        4210,
+        958
+      ],
+      "lonlat": [
+        -65.17571845399593,
+        43.67752896336812
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 17153,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17153,
+      "nearest_unfiltered_distance_guide_px": 1.1233263385660022,
+      "selected_distance_guide_px": 1.1233263385660022,
+      "guide_reference_pixel_xy": [
+        4231.393815478601,
+        950.9457284964155
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q03",
+      "label": "Western Gull Rock southwestern end",
+      "role": "check",
+      "pixel_xy": [
+        1293,
+        2090
+      ],
+      "lonlat": [
+        -65.32074125298799,
+        43.56855352197789
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 23424,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23424,
+      "nearest_unfiltered_distance_guide_px": 0.4346681370552942,
+      "selected_distance_guide_px": 0.4346681370552942,
+      "guide_reference_pixel_xy": [
+        1270.265819119988,
+        2099.656086370116
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q04",
+      "label": "Cape Negro Island northern shore",
+      "role": "check",
+      "pixel_xy": [
+        412,
+        2803
+      ],
+      "lonlat": [
+        -65.35467797276434,
+        43.52056119364379
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 16761,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16761,
+      "nearest_unfiltered_distance_guide_px": 2.4185311300094066,
+      "selected_distance_guide_px": 2.4185311300094066,
+      "guide_reference_pixel_xy": [
+        382.6350519034313,
+        2791.6663329486037
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q05",
+      "label": "Dexter Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        1384,
+        569
+      ],
+      "lonlat": [
+        -65.35592009157598,
+        43.638146666694986
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 127720,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127720,
+      "nearest_unfiltered_distance_guide_px": 0.39615469839417483,
+      "selected_distance_guide_px": 0.39615469839417483,
+      "guide_reference_pixel_xy": [
+        1378.8943932803813,
+        566.3818190223537
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q06",
+      "label": "Little Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        368,
+        1057
+      ],
+      "lonlat": [
+        -65.40400476586133,
+        43.597315248005586
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 132889,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132889,
+      "nearest_unfiltered_distance_guide_px": 1.6998095889323233,
+      "selected_distance_guide_px": 1.6998095889323233,
+      "guide_reference_pixel_xy": [
+        355.8200141295674,
+        1034.3097462542355
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q07",
+      "label": "Eastern Gull Rock southern end",
+      "role": "check",
+      "pixel_xy": [
+        5060,
+        1882
+      ],
+      "lonlat": [
+        -65.09868066015137,
+        43.65425738192037
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 23415,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23415,
+      "nearest_unfiltered_distance_guide_px": 0.4061480983108602,
+      "selected_distance_guide_px": 0.4061480983108602,
+      "guide_reference_pixel_xy": [
+        5107.1857594479225,
+        1870.6388217818458
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q08",
+      "label": "Blue Gull Island northern end",
+      "role": "check",
+      "pixel_xy": [
+        3666,
+        887
+      ],
+      "lonlat": [
+        -65.20972629777975,
+        43.671301206477445
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 17931,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17931,
+      "nearest_unfiltered_distance_guide_px": 0.5149177198113946,
+      "selected_distance_guide_px": 0.5149177198113946,
+      "guide_reference_pixel_xy": [
+        3703.4894636582467,
+        856.1598924183054
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score."
+    }
+  ]
+}

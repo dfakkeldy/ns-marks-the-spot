@@ -1,0 +1,222 @@
+[
+  {
+    "image": "sheet-19-F01.jpg",
+    "point_record": "judique-full-sheet/revised-fit.json",
+    "point_id": "F01",
+    "native_box": [
+      5783,
+      6068,
+      6003,
+      6288
+    ],
+    "native_coordinates": [
+      5893,
+      6178
+    ],
+    "modern_lonlat": [
+      -61.39497753558493,
+      45.761448361915065
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-19-D01.jpg",
+    "point_record": "judique-full-sheet/revised-fit.json",
+    "point_id": "D01",
+    "native_box": [
+      4844,
+      1041,
+      5064,
+      1261
+    ],
+    "native_coordinates": [
+      4954,
+      1151
+    ],
+    "modern_lonlat": [
+      -61.4373118,
+      45.9233856
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-19-D03.jpg",
+    "point_record": "judique-full-sheet/revised-fit.json",
+    "point_id": "D03",
+    "native_box": [
+      8043,
+      3306,
+      8263,
+      3526
+    ],
+    "native_coordinates": [
+      8153,
+      3416
+    ],
+    "modern_lonlat": [
+      -61.2903126,
+      45.8499052
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-19-D04.jpg",
+    "point_record": "judique-full-sheet/revised-fit.json",
+    "point_id": "D04",
+    "native_box": [
+      9106,
+      6391,
+      9326,
+      6611
+    ],
+    "native_coordinates": [
+      9216,
+      6501
+    ],
+    "modern_lonlat": [
+      -61.2419871,
+      45.7527618
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-16-M01.jpg",
+    "point_record": "mabou-full-sheet/revised-fit.json",
+    "point_id": "M01",
+    "native_box": [
+      9118,
+      1495,
+      9338,
+      1715
+    ],
+    "native_coordinates": [
+      9228,
+      1605
+    ],
+    "modern_lonlat": [
+      -61.2508908,
+      46.0732851
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-16-M04.jpg",
+    "point_record": "mabou-full-sheet/revised-fit.json",
+    "point_id": "M04",
+    "native_box": [
+      8754,
+      5813,
+      8974,
+      6033
+    ],
+    "native_coordinates": [
+      8864,
+      5923
+    ],
+    "modern_lonlat": [
+      -61.2628011,
+      45.9365731
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-22-H01.jpg",
+    "point_record": "hawkesbury-full-sheet/boundary-fit.json",
+    "point_id": "H01",
+    "native_box": [
+      8887,
+      3096,
+      9107,
+      3316
+    ],
+    "native_coordinates": [
+      8997,
+      3206
+    ],
+    "modern_lonlat": [
+      -61.2526379,
+      45.6800346
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-22-H02.jpg",
+    "point_record": "hawkesbury-full-sheet/boundary-fit.json",
+    "point_id": "H02",
+    "native_box": [
+      9064,
+      4819,
+      9284,
+      5039
+    ],
+    "native_coordinates": [
+      9174,
+      4929
+    ],
+    "modern_lonlat": [
+      -61.2445026,
+      45.6239926
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-22-H03.jpg",
+    "point_record": "hawkesbury-full-sheet/boundary-fit.json",
+    "point_id": "H03",
+    "native_box": [
+      8554,
+      6233,
+      8774,
+      6453
+    ],
+    "native_coordinates": [
+      8664,
+      6343
+    ],
+    "modern_lonlat": [
+      -61.266713425498494,
+      45.577644284503236
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-22-J22-C01.jpg",
+    "point_record": "hawkesbury-full-sheet/boundary-fit.json",
+    "point_id": "J22-C01",
+    "native_box": [
+      7582,
+      1030,
+      7802,
+      1250
+    ],
+    "native_coordinates": [
+      7692,
+      1140
+    ],
+    "modern_lonlat": [
+      -61.3133425,
+      45.7436686
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-22-J22-E01.jpg",
+    "point_record": "full-sheets/boundary-matching/hawkesbury-east-checks.json",
+    "point_id": "J22-E01",
+    "native_box": [
+      8873,
+      1006,
+      9093,
+      1226
+    ],
+    "native_coordinates": [
+      8983,
+      1116
+    ],
+    "modern_lonlat": [
+      -61.2545114,
+      45.7460043
+    ],
+    "rotation_degrees": 0
+  }
+]

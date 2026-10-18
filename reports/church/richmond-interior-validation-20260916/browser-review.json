@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-09-16T05:34:37.526762+00:00",
+  "raster_sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "scope": "Persisted Richmond affine14 was the sole active historical raster at 70% opacity, 2D and 10× terrain at 50° tilt, north up, zoom 15. Modern map enabled. No new import, raw-scan mesh claim or coordinate measurement from screenshots.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-interior-validation-20260916/browser/R56-2d.png",
+      "sha256": "28ec8678f635236ed2717bd6f0dff121d618ad45535379f823ed2b395c6554a9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-interior-validation-20260916/browser/R56-terrain10x.png",
+      "sha256": "d3ea4214cc0b4c7d593b42ae7097833083303010575d3a39acb8c9658099cb18"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-interior-validation-20260916/browser/R56-import-state.txt",
+      "sha256": "cb24720fa2bf449fa27471fe642a4caa05dc7fd510923a66d5b5c336f6e62523"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-richmond-interior-validation-20260916/browser/R56-terrain10x-state.txt",
+      "sha256": "69f7359a502acd863f9baeb795c26acbc7ebbc7bcc3bc808511c975671c866c7"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

@@ -1,0 +1,32 @@
+{
+  "IS45-enlarged": {
+    "origin": [
+      19690,
+      20275
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "IS46-enlarged": {
+    "origin": [
+      20673,
+      24692
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  }
+}

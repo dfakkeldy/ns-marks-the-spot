@@ -1,0 +1,198 @@
+[
+  {
+    "id": "Q01",
+    "label": "Copper Lake northeast lobe",
+    "role": "check",
+    "pixel_xy": [
+      2411,
+      777
+    ],
+    "lonlat": [
+      -61.98274316809681,
+      45.407207749368354
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 129143,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129143,
+    "nearest_unfiltered_distance_guide_px": 3.709959089293501,
+    "selected_distance_guide_px": 3.709959089293501,
+    "guide_reference_pixel_xy": [
+      2414.2628921754076,
+      802.2993670611177
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+    "review": "Image-based corrections completed before fitting; checks excluded from every fitting input."
+  },
+  {
+    "id": "Q02",
+    "label": "Kent Lake south tip",
+    "role": "check",
+    "pixel_xy": [
+      1204,
+      2524
+    ],
+    "lonlat": [
+      -62.012941795237815,
+      45.31456058312778
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 137524,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137524,
+    "nearest_unfiltered_distance_guide_px": 1.6722685592641562,
+    "selected_distance_guide_px": 1.6722685592641562,
+    "guide_reference_pixel_xy": [
+      1205.7443545206334,
+      2541.8955378845567
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+    "review": "Image-based corrections completed before fitting; checks excluded from every fitting input."
+  },
+  {
+    "id": "Q03",
+    "label": "Grassy Lake north tip",
+    "role": "check",
+    "pixel_xy": [
+      1998,
+      3638
+    ],
+    "lonlat": [
+      -61.939396571302105,
+      45.28088747313474
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 137829,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137829,
+    "nearest_unfiltered_distance_guide_px": 1.2685281019421846,
+    "selected_distance_guide_px": 1.2685281019421846,
+    "guide_reference_pixel_xy": [
+      2002.4482411085046,
+      3669.1422458890593
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+    "review": "Image-based corrections completed before fitting; checks excluded from every fitting input."
+  },
+  {
+    "id": "Q04",
+    "label": "Round Lake north shore",
+    "role": "check",
+    "pixel_xy": [
+      3988,
+      2656
+    ],
+    "lonlat": [
+      -61.844360867088845,
+      45.354985140660915
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 143101,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143101,
+    "nearest_unfiltered_distance_guide_px": 1.038604171513145,
+    "selected_distance_guide_px": 1.038604171513145,
+    "guide_reference_pixel_xy": [
+      4004.073786464811,
+      2690.5300775464857
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+    "review": "Image-based corrections completed before fitting; checks excluded from every fitting input."
+  },
+  {
+    "id": "Q05",
+    "label": "Mahers Lake island north end",
+    "role": "check",
+    "pixel_xy": [
+      5736,
+      1948
+    ],
+    "lonlat": [
+      -61.75772244228923,
+      45.41389310635009
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 149383,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 149383,
+    "nearest_unfiltered_distance_guide_px": 1.5860420073893673,
+    "selected_distance_guide_px": 1.5860420073893673,
+    "guide_reference_pixel_xy": [
+      5755.207378377207,
+      1974.626216824865
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+    "review": "Image-based corrections completed before fitting; checks excluded from every fitting input."
+  },
+  {
+    "id": "Q07",
+    "label": "Goins Lake north end",
+    "role": "check",
+    "pixel_xy": [
+      1637,
+      3122
+    ],
+    "lonlat": [
+      -61.97253619471216,
+      45.29613379300238
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 126552,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126552,
+    "nearest_unfiltered_distance_guide_px": 6.367375233485727,
+    "selected_distance_guide_px": 6.367375233485727,
+    "guide_reference_pixel_xy": [
+      1643.8509531423915,
+      3159.745768789202
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+    "review": "Image-based corrections completed before fitting; checks excluded from every fitting input."
+  },
+  {
+    "id": "Q08",
+    "label": "Cranberry Lake south end",
+    "role": "check",
+    "pixel_xy": [
+      1247,
+      2180
+    ],
+    "lonlat": [
+      -62.018562556488305,
+      45.329509090864235
+    ],
+    "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+    "reference_objectid": 128446,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128446,
+    "nearest_unfiltered_distance_guide_px": 3.819073387350455,
+    "selected_distance_guide_px": 3.819073387350455,
+    "guide_reference_pixel_xy": [
+      1247.5015386349405,
+      2199.7859979576897
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+    "review": "Image-based corrections completed before fitting; checks excluded from every fitting input."
+  }
+]

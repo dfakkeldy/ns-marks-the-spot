@@ -5,6 +5,7 @@ import {
   Pane,
   Polygon,
   Polyline,
+  Tooltip,
   useMap,
   useMapEvents,
 } from "react-leaflet";
@@ -43,7 +44,11 @@ const VERTEX_STYLE = {
 export function MeasureTool({
   mode,
   onModeChange,
+  driveway = false,
+  suspended = false,
 }: {
+  driveway?: boolean;
+  suspended?: boolean;
   mode: MeasureMode;
   onModeChange: (mode: MeasureMode) => void;
 }) {
@@ -52,7 +57,7 @@ export function MeasureTool({
 
   return (
     <>
-      <div
+      {!driveway && <div
         className="measure-control"
         role="group"
         aria-label="Measure on the map"
@@ -71,6 +76,7 @@ export function MeasureTool({
         <button
           type="button"
           aria-label="Measure distance"
+          title="Measure distance"
           aria-pressed={mode === "distance"}
           onClick={() => toggle("distance")}
         >
@@ -87,6 +93,7 @@ export function MeasureTool({
         <button
           type="button"
           aria-label="Measure area"
+          title="Measure area"
           aria-pressed={mode === "area"}
           onClick={() => toggle("area")}
         >
@@ -101,10 +108,10 @@ export function MeasureTool({
             />
           </svg>
         </button>
-      </div>
+      </div>}
       {mode !== "off" ? (
         // key remounts capture state when switching distance ↔ area.
-        <MeasureCapture key={mode} mode={mode} onExit={() => onModeChange("off")} />
+        <MeasureCapture key={mode} mode={mode} driveway={driveway} suspended={suspended} onExit={() => onModeChange("off")} />
       ) : null}
     </>
   );
@@ -117,9 +124,13 @@ interface Measurement {
 
 function MeasureCapture({
   mode,
+  driveway,
+  suspended,
   onExit,
 }: {
   mode: ActiveMeasureMode;
+  driveway: boolean;
+  suspended: boolean;
   onExit: () => void;
 }) {
   const map = useMap();
@@ -130,11 +141,13 @@ function MeasureCapture({
   const [cursor, setCursor] = useState<GeoPoint | null>(null);
 
   useEffect(() => {
+    if (suspended) return;
+    const doubleClickZoomWasEnabled = map.doubleClickZoom.enabled();
     map.doubleClickZoom.disable();
     return () => {
-      map.doubleClickZoom.enable();
+      if (doubleClickZoomWasEnabled) map.doubleClickZoom.enable();
     };
-  }, [map]);
+  }, [map, suspended]);
 
   const finish = () =>
     setMeasurement((current) =>
@@ -144,35 +157,39 @@ function MeasureCapture({
     );
 
   useMapEvents({
-    click: ({ latlng }) =>
+    click: ({ latlng }) => !suspended &&
       setMeasurement((current) => {
         const point = { lat: latlng.lat, lng: latlng.lng };
         return current.finished
           ? { points: [point], finished: false }
           : { points: [...current.points, point], finished: false };
       }),
-    dblclick: () =>
+    dblclick: () => !suspended &&
       // The double-click's own second click just added a duplicate vertex;
       // drop it before finishing.
       setMeasurement((current) => {
-        if (current.finished) {
+        // Leaflet can synthesize dblclick from two quick touch taps at
+        // different positions. Poker uses Finish; never discard that point.
+        if (driveway || current.finished) {
           return current;
         }
         const points = current.points.slice(0, -1);
         return { points, finished: points.length >= MIN_FINISH_POINTS[mode] };
       }),
-    mousemove: ({ latlng }) => setCursor({ lat: latlng.lat, lng: latlng.lng }),
+    mousemove: ({ latlng }) => !suspended && setCursor({ lat: latlng.lat, lng: latlng.lng }),
   });
 
   const isEmpty = measurement.points.length === 0;
   useEffect(() => {
+    if (suspended) return;
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented) return;
       const target = event.target;
       if (
         target instanceof HTMLElement &&
-        (target instanceof HTMLInputElement ||
-          target instanceof HTMLTextAreaElement ||
-          target.isContentEditable)
+        (target.isContentEditable || target.closest(
+          'input, textarea, select, button, summary, a[href], [role="dialog"], [role="alertdialog"], [contenteditable]:not([contenteditable="false"])',
+        ))
       ) {
         return;
       }
@@ -191,6 +208,8 @@ function MeasureCapture({
     // finish is recreated per render; subscribing per render is harmless here.
   });
 
+  if (suspended) return null;
+
   const { points, finished } = measurement;
   const preview =
     !finished && cursor !== null && points.length > 0
@@ -199,6 +218,35 @@ function MeasureCapture({
 
   return (
     <>
+      <div
+        className="measure-control measure-actions"
+        ref={(node) => {
+          // Poker's containing dock owns propagation, including touch taps.
+          if (node && !driveway) {
+            L.DomEvent.disableClickPropagation(node);
+            L.DomEvent.disableScrollPropagation(node);
+          }
+        }}
+      >
+        <button type="button" disabled={finished || points.length < MIN_FINISH_POINTS[mode]} onClick={finish}>Finish</button>
+        <button type="button" disabled={isEmpty} onClick={() => {
+          setCursor(null);
+          setMeasurement({ points: [], finished: false });
+        }}>Clear</button>
+        <button
+          type="button"
+          disabled={isEmpty}
+          onClick={() => {
+            setCursor(null);
+            setMeasurement((current) => ({
+              points: current.points.slice(0, -1),
+              finished: false,
+            }));
+          }}
+        >
+          Undo point
+        </button>
+      </div>
       <Pane name={MEASURE_PANE} style={{ zIndex: MEASURE_PANE_Z_INDEX }}>
         {mode === "area" && preview.length >= 3 ? (
           <Polygon positions={preview} pathOptions={SHAPE_STYLE} interactive={false} />
@@ -235,13 +283,35 @@ function MeasureCapture({
                     }
                   : undefined
               }
-            />
+            >
+              {index === points.length - 1 && points.length >= MIN_FINISH_POINTS[mode] ? (
+                <Tooltip
+                  permanent
+                  direction="top"
+                  offset={[0, -12]}
+                  opacity={1}
+                  className="measure-endpoint-label"
+                >
+                  <span>{mode === "distance" ? "Total distance" : "Area"}</span>
+                  <strong>{readoutText(mode, points)}</strong>
+                </Tooltip>
+              ) : null}
+            </CircleMarker>
           );
         })}
       </Pane>
-      <p className="measure-readout" role="status">
+      {driveway ? (
+        // Poker reads the total off the map label at the last vertex; the
+        // strip only announces it so it does not spend a line on it.
+        points.length >= MIN_FINISH_POINTS[mode] && <p className="sr-only" role="status">{readoutText(mode, points)}</p>
+      ) : <p className={finished ? "sr-only" : "measure-readout"} role="status">
         {readoutText(mode, points)}
-      </p>
+        {/* The gestures are otherwise undiscoverable; surface them once a
+            measurement is underway. */}
+        {!finished && points.length > 0
+          ? " · double-click or Enter to finish · Esc to clear"
+          : null}
+      </p>}
     </>
   );
 }

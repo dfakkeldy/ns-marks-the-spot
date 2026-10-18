@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C01",
+    "label": "Cape George eastern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4720,
+      676
+    ],
+    "lonlat": [
+      -60.80968358248569,
+      45.73397959019635
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 13798,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4721.508553639054,
+      613.3185858224751
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Chapel Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5037,
+      1414
+    ],
+    "lonlat": [
+      -60.774859293289545,
+      45.708343996855334
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 23383,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5031.32902854617,
+      1328.6956339804456
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Cascaret Island southern western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1265,
+      2380
+    ],
+    "lonlat": [
+      -60.97644992805474,
+      45.607720185395074
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 16828,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1259.5795257838327,
+      2277.9574788898462
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Birch Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      896,
+      2355
+    ],
+    "lonlat": [
+      -60.998648905168324,
+      45.60267205075905
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 16910,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      891.9209972285316,
+      2258.480413880665
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Stone Island northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3354,
+      1813
+    ],
+    "lonlat": [
+      -60.863855634249035,
+      45.66490892856205
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 18341,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3374.997056304477,
+      1728.9900538983056
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "St Peters Island southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3668,
+      3544
+    ],
+    "lonlat": [
+      -60.80687106249994,
+      45.59547911532896
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 22481,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3664.4661999706295,
+      3462.550761569175
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Cape le Rond eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2300,
+      3490
+    ],
+    "lonlat": [
+      -60.88941723100949,
+      45.57781851054719
+    ],
+    "guide_file": ".crown-grant-local/118-adjacent-guide.npy",
+    "reference_objectid": 7036,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2305.5859082869138,
+      3369.5575816967757
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

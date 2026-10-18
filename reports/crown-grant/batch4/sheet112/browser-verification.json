@@ -1,0 +1,45 @@
+{
+  "verified_at_utc": "2026-09-24T14:29:51.631409+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "112",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6130,
+        5119
+      ],
+      "complete": true
+    },
+    {
+      "file": "petit-inset-3857.png",
+      "dimensions": [
+        1924,
+        1970
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6029,
+        4090
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Both full rasters decoded and visibly inspected; main source hole and separate Petit-de-Grat/Green Island inset present.",
+    "Main RMS failure remains plainly reported in the browser."
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "count": 3,
+  "rms_ground_m": 53.32768567864609,
+  "median_ground_m": 53.96174992943279,
+  "p95_ground_m": 54.72900670090321,
+  "max_ground_m": 54.81425745328882,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 17.343321770055212,
+  "mean_north_ground_m": 44.0063116059549,
+  "points": [
+    {
+      "id": "F01",
+      "label": "Bishops Lake southern apex",
+      "role": "check",
+      "pixel_xy": [
+        411,
+        1832
+      ],
+      "lonlat": [
+        -60.69796321008205,
+        45.70355669396414
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 125690,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        463.8353862243239,
+        1832.5080732237548
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Selected after affine-02 freeze; source and modern paired geometry inspected before fresh score. Different physical feature from control, on same lake; spatial correlation retained as limitation.",
+      "predicted_lonlat": [
+        -60.697417865521004,
+        45.70381298453998
+      ],
+      "error_ground_m": 51.137587975180814,
+      "east_ground_m": 42.469024134681476,
+      "north_ground_m": 28.48569628721053
+    },
+    {
+      "id": "F02",
+      "label": "Heifer Lake eastern corner",
+      "role": "check",
+      "pixel_xy": [
+        4740,
+        1005
+      ],
+      "lonlat": [
+        -60.444425039163384,
+        45.81189263212975
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 138492,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4749.68698055821,
+        1009.5706202507718
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Selected after affine-02 freeze; source and modern paired geometry inspected before fresh score. Different physical feature from control, on same lake; spatial correlation retained as limitation.",
+      "predicted_lonlat": [
+        -60.44415931874019,
+        45.812341161345934
+      ],
+      "error_ground_m": 53.96174992943279,
+      "east_ground_m": 20.653055010190783,
+      "north_ground_m": 49.853001656797694
+    },
+    {
+      "id": "F03",
+      "label": "MacDonald Lake western bend",
+      "role": "check",
+      "pixel_xy": [
+        4940,
+        1946
+      ],
+      "lonlat": [
+        -60.40838324063983,
+        45.77296141184155
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 136192,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4960.419651264907,
+        1960.0665573349688
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Selected after affine-02 freeze; source and modern paired geometry inspected before fresh score. Different physical feature from control, on same lake; spatial correlation retained as limitation.",
+      "predicted_lonlat": [
+        -60.40852585157697,
+        45.77344437837574
+      ],
+      "error_ground_m": 54.81425745328882,
+      "east_ground_m": -11.092113834706627,
+      "north_ground_m": 53.68023687385646
+    }
+  ],
+  "fit_sha256": "843cc8da945b0322e9ad532c527ff61dd9b3714032a43dfc7dee4a19af91a891",
+  "checks_sha256": "90ab945659a6a23a782e732b8936d673d7d46320d60a12ae57bd8e23d28fc838",
+  "status": "Three fresh excluded checks selected after affine-02 freeze; sparse, correlated with other endpoints on their lakes"
+}

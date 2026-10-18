@@ -1,0 +1,112 @@
+[
+  {
+    "id": "Q01",
+    "label": "Enrage Cape eastern island tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3094,
+      3564
+    ],
+    "lonlat": [
+      -61.01364759607275,
+      46.64640580751109
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 4141,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3072.532417673152,
+      3516.7219305952312
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Western Caveau Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3356,
+      3500
+    ],
+    "lonlat": [
+      -60.99681484128584,
+      46.65321767313929
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 11621,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3349.864581682603,
+      3470.6657450153725
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Cap Rouge northern coastal point",
+    "role": "proposal",
+    "pixel_xy": [
+      4188,
+      2915
+    ],
+    "lonlat": [
+      -60.957741376343684,
+      46.693407354751905
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 9882,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4170.288624845038,
+      2883.1307990459027
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Shag Roost shoreline stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      5425,
+      1784
+    ],
+    "lonlat": [
+      -60.90510545658246,
+      46.76445271016105
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 263568,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      5396.782442374271,
+      1757.5045777846826
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Coastal bend north of Jerome Brook",
+    "role": "proposal",
+    "pixel_xy": [
+      4049,
+      3238
+    ],
+    "lonlat": [
+      -60.95873975668566,
+      46.67715481730344
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 11625,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4038.9015756792505,
+      3198.164139773813
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

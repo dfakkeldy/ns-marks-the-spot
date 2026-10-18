@@ -1,0 +1,199 @@
+{
+  "sheet": "129",
+  "version": "main-affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.881478841565556,
+      1.983696566418498
+    ],
+    [
+      2.0512695369485003,
+      -4.961121827262409
+    ],
+    [
+      670985.1497514837,
+      5154638.075447041
+    ]
+  ],
+  "source_sha256": "37a9f69b0144d3e770cdd768cb81ad5ab4350910875634e645347b9bdc309e9c",
+  "source_dimensions": [
+    5705,
+    3877
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Northwestern forked lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2248,
+        201
+      ],
+      "lonlat": [
+        -60.62117831110258,
+        46.551408601943436
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 135488,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2299.50777082023,
+        181.07278514048085
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Big Lake northwestern point",
+      "role": "control",
+      "pixel_xy": [
+        1012,
+        2744
+      ],
+      "lonlat": [
+        -60.63786813483173,
+        46.416329450588925
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 125386,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1085.0532266932423,
+        2707.8168651585
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Southwestern island lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1828,
+        2798
+      ],
+      "lonlat": [
+        -60.58362785098197,
+        46.427712026779005
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 42157,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1901.8640698401723,
+        2759.2634510189528
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Southern triangular lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2687,
+        2730
+      ],
+      "lonlat": [
+        -60.52958271685003,
+        46.44509861779355
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 39726,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2759.749548863678,
+        2693.045609320281
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Eastern Rocky Brook pond western end",
+      "role": "control",
+      "pixel_xy": [
+        3642,
+        1628
+      ],
+      "lonlat": [
+        -60.495317504788375,
+        46.510660564088006
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 35725,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3701.0500524276868,
+        1596.1123518425738
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Wreck Point southern coastal shoulder",
+      "role": "control",
+      "pixel_xy": [
+        4792,
+        1824
+      ],
+      "lonlat": [
+        -60.41745138349232,
+        46.52022106790536
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 11580,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4822.702948856051,
+        1798.11422271817
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring. Rounded coastal shoulders have greater definition uncertainty."
+    },
+    {
+      "id": "C07",
+      "label": "Little River Point coastal shoulder",
+      "role": "control",
+      "pixel_xy": [
+        3577,
+        3347
+      ],
+      "lonlat": [
+        -60.45812518192253,
+        46.430893886734125
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 2607,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3622.858739468036,
+        3323.774837615667
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring. Rounded coastal shoulders have greater definition uncertainty."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    38.261766196754635,
+    31.37811381889981,
+    26.314802695387183,
+    63.61600804692068,
+    67.42632048938556,
+    32.10557243448034,
+    69.38198677850889
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

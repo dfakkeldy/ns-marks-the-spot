@@ -1,0 +1,12 @@
+{
+  "geographic_acceptance": false,
+  "production_eligible": false,
+  "recommended_replacement": false,
+  "recommended_baseline": "Prior eleven-control packet, also geographically unaccepted.",
+  "fit_sha256": "bcc49f0869d2b40b817de4ea0902fa8f313fe7dfb60126df8251a4636cbed4cb",
+  "fresh_checks": 1,
+  "fresh_numeric_error_m": 89.9406814693564,
+  "fresh_coverage_accepted": false,
+  "reason": "One qualified pond inlet near controls cannot establish distributed acceptance. Reused Pathend V01 252.22 m, lower Morrison V02 240.01 m; repeated Pathend F07 259.05 m is NOT fresh. No accepted seam.",
+  "preservation": "Twelve-control experiment remains available; baseline, rejected candidates and all failed scores preserved."
+}

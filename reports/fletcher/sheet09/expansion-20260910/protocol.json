@@ -1,0 +1,19 @@
+{
+  "recorded_before_first_score": true,
+  "controls": 13,
+  "excluded_checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04"
+  ],
+  "model_comparison": [
+    "affine baseline",
+    "TPS controls only"
+  ],
+  "working_diagnostic_targets_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "acceptance": "Targets are diagnostic gates, not sufficient acceptance. Four checks include nearby checks and an extrapolated western coast point. Central interior and southwest remain under-supported; no production tiling or label promotion from this trial. Preserve failed checks and do not select pixels from residuals. New independent validation required after fitting/model repairs."
+}

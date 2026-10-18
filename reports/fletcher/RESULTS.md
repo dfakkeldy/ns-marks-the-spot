@@ -17,6 +17,11 @@ Final 13-sheet completion: 2026-07-26
 > sheet's own 1884 engraved frame. A feature-led result may be tiled and
 > published once it passes its own structural gate **and** records human
 > overlay acceptance at useful zooms. Neither gate is waived by this scoping.
+>
+> **Superseded in part by owner decision, 2026-08-28.** The owner directed
+> publication of all 24 sheets with the accuracy caveats carried into the
+> rendered UI — see [2026-08-28 publication decision](#2026-08-28-publication-decision).
+> The 636 m displacement finding itself stands unrevised.
 
 `PASS` in this report is a lattice-fit diagnostic, not product geographic
 acceptance. It measures sparse checks against the historical sheet's own
@@ -162,3 +167,32 @@ changed.
 6. If a later run improves an alignment, retain the superseded result, source
    checksum and reason in the manifest/report history rather than replacing it
    with an unqualified success claim.
+
+## 2026-08-28 publication decision
+
+The owner directed publication of all 24 sheets on 2026-08-28, overriding the
+2026-07-26 do-not-upload order for the engraved-grid family as a deliberate,
+recorded decision. The accuracy caveats travel with the layer in the rendered
+UI ("positions can sit several hundred metres off modern ground"); the 636 m
+displacement finding is unrevised, and `PASS` above remains a lattice-fit
+diagnostic, not geographic acceptance.
+
+Web revision `fletcher-direct-rumsey-20260828.1` (source commit
+`25a3d56d96d3629d40fdcc0ca103df11c0c57485`, 148,410 tiles, oxipng) replaces the
+engraved-grid warps of sheets 16 and 19 with feature-led TPS refits from the
+hand-measured controls committed under `tools/fletcher/measured/`:
+
+| Sheet | Method | Controls | Held-out checks | Check RMS / P95 / max (m) | Notes |
+| ---: | --- | ---: | ---: | --- | --- |
+| 19 | tps · feature-led | 60 | 8 (frozen 2026-07-27, never fitted) | 43.6 / 93.9 / 93.9 | The scorer first reproduced the recorded 45-control result (43.0 / 90.8 / 90.8) bit-for-bit |
+| 16 | tps · feature-led | 38 | 0 — none exist | none claimed | Leave-one-out RMS 151.7 m is the only number and is not a held-out score |
+
+The remaining 22 sheets publish their July engraved-grid trees byte-identically
+(132,044 objects verified). Sheet 16's tree is now the full sheet rather than
+the July cutline crop, so its collar overlaps neighbouring sheets 13 and 15
+where tile keys collide; per-sheet trees keep draw order unchanged. Neither
+feature-led sheet has recorded human overlay acceptance at working zooms, and
+seam quality against neighbours is unmeasured — the gates named in the
+2026-07-30 scoping were consciously not met before this publication. Refit
+receipts: `/var/home/dan/nsmarks-refit-20260828/` on the compute host;
+package receipts travel with the deployable package.

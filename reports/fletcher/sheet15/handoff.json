@@ -1,0 +1,33 @@
+{
+  "sheet": "sheet-15",
+  "status": "provisional-geography-not-accepted",
+  "source_pixels": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/native/sheet15.png",
+    "sha256": "7a5e7ec0e1a8ce9c6095d4b8e65abb11f86841a337a7b937ddbb084261bb1b72",
+    "dimensions": [
+      10832,
+      7582
+    ],
+    "coordinates": "Original image-edge x right / y down. Never use preview or warped pixels."
+  },
+  "transform": {
+    "file": "regional-fit.json",
+    "sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e",
+    "method": "GDAL exact TPS in EPSG:3857, 5 projected metre cells"
+  },
+  "editable_controls": "sheet-15-controls.csv",
+  "diagnostics": "sheet-15-diagnostic-review.csv",
+  "fresh_validation": "sheet-15-validation-review.csv",
+  "raster_receipt": "raster-receipt.json",
+  "label_projection_allowed": false,
+  "future_label_draft_contract": "Retain original spelling, source-native pixel coordinates, source hash and transform hash for each future draft label. No production label projection from this provisional fit.",
+  "remaining": [
+    "Fresh validation median 103.603 m and worst 284.007 m fail the 100/200 m target. Hume Island V03 is visibly southeast of modern geometry; preserve all four checks and residuals.",
+    "Lake Ainslie upper eastern shore and northwestern headwaters retain displaced geometry despite Q01/C12 local support. Audit the distinct stream-mouth sequence before adding more shoreline controls.",
+    "Central Lewis Mountain / McKay headwaters and Little Narrows have substantial branch and shoreline configuration differences. Resolve source generalization or landscape change separately from transform error.",
+    "C03 northern tributary, C06 Cave/McAskill fork ordering, Q06 western-arm tributary and V04 paired MacKinnon branches remain rejected or unresolved. Do not silently restore them to a fit or acceptance set.",
+    "Southeastern interior has sparse independent support; C09 anchors one identified tributary but does not validate the surrounding valley or harbour.",
+    "Four actual joins against Sheets 13 and 16 retain gaps or displaced stream/shoreline continuations. No seamless mosaic acceptance."
+  ],
+  "next_adjacent_sheet": "18, immediately south. Inspect and preserve any existing source/fit work before proceeding."
+}

@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Wallace Lake western end",
+    [
+      2125,
+      361
+    ],
+    [
+      2170,
+      406
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Elongated lake northeast of Five Mile Lake, south tip",
+    [
+      4850,
+      672
+    ],
+    [
+      4917,
+      699
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Round Lake southeast corner",
+    [
+      1135,
+      2890
+    ],
+    [
+      1180,
+      2923
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Pond north of Grant Lake, south end",
+    [
+      2162,
+      2543
+    ],
+    [
+      2215,
+      2570
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "McPherson Lake northern end",
+    [
+      5022,
+      3359
+    ],
+    [
+      5100,
+      3370
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Heays Lake east outlet",
+    [
+      1756,
+      391
+    ],
+    [
+      1795,
+      433
+    ],
+    "WALK"
+  ],
+  [
+    "Q08",
+    "Square Lake southwest corner",
+    [
+      629,
+      2505
+    ],
+    [
+      676,
+      2538
+    ],
+    "WALK"
+  ]
+]

@@ -1,0 +1,26 @@
+{
+  "at_utc": "2026-09-12T13:08:58.392027+00:00",
+  "base_commit": "98a34ae2ab2bdec0846a475fc63985d45436a6bf",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/native/sheet11.png",
+      "sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916"
+    },
+    {
+      "path": "reports/fletcher/sheet11/completion-20260911/western-fit.json",
+      "sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "sha256": "8721b668ddcb7fac3bfa8bbf3bb29fec7351483d62893ffe1f0a787a8b70acda"
+    },
+    {
+      "path": "reports/fletcher/sheet11/boundary-mainland.json",
+      "sha256": "c4f19abbac51325f1492174adbb522719fdb615a73e2517261d845649019eafb"
+    },
+    {
+      "path": "reports/fletcher/sheet11/boundary-island.json",
+      "sha256": "f4fb41dcc790c8d3520fafaa28cc5b88192bdf2c85135b093d94cef4e121eb6c"
+    }
+  ]
+}

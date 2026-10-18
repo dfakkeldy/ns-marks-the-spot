@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-04-Q01.jpg",
+    "point_record": "sheet04/candidate-diagnostics.json",
+    "point_id": "Q01",
+    "native_box": [
+      2045,
+      4135,
+      2265,
+      4355
+    ],
+    "native_coordinates": [
+      2155,
+      4245
+    ],
+    "modern_lonlat": [
+      -60.430528,
+      46.6878138
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-04-Q02.jpg",
+    "point_record": "sheet04/candidate-diagnostics.json",
+    "point_id": "Q02",
+    "native_box": [
+      2516,
+      3236,
+      2736,
+      3456
+    ],
+    "native_coordinates": [
+      2626,
+      3346
+    ],
+    "modern_lonlat": [
+      -60.4054141,
+      46.7168695
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-04-Q03.jpg",
+    "point_record": "sheet04/candidate-diagnostics.json",
+    "point_id": "Q03",
+    "native_box": [
+      2850,
+      5570,
+      3070,
+      5790
+    ],
+    "native_coordinates": [
+      2960,
+      5680
+    ],
+    "modern_lonlat": [
+      -60.3932305,
+      46.6423729
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -183,11 +183,13 @@ public enum CivicAddressResponse {
     /// everything with a `19` in it — so the ranking is what makes the list
     /// usable. It only ever discards and reorders what the file returned; it
     /// never invents a match.
-    public static func ranked(_ addresses: [CivicAddress], for query: String) -> [CivicAddress] {
+    public static func ranked(
+        _ addresses: [CivicAddress], for query: String, suggest: Bool = false
+    ) -> [CivicAddress] {
         var seen = Set<String>()
         let scored = addresses
             .filter { seen.insert($0.pntid).inserted }
-            .map { (address: $0, score: matchScore($0, query: query)) }
+            .map { (address: $0, score: matchScore($0, query: query, suggest: suggest)) }
             .filter { $0.score > 0 }
             .enumerated()
             .sorted { left, right in
@@ -219,11 +221,16 @@ public enum CivicAddressResponse {
 
     /// 3 for the road itself, 2 for a road starting with what was typed, 1 for
     /// an address containing every word of it, 0 for no match.
-    static func matchScore(_ address: CivicAddress, query: String) -> Int {
+    static func matchScore(_ address: CivicAddress, query: String, suggest: Bool = false) -> Int {
         let queryKey = matchKey(query)
         let queryTerms = queryKey.split(separator: " ").map(String.init)
         let labelTerms = Set(matchKey(address.label).split(separator: " ").map(String.init))
-        guard !queryTerms.isEmpty, queryTerms.allSatisfy(labelTerms.contains) else { return 0 }
+        let hasPrefix = suggest && CivicAddressQuery.suggestionPrefix(in: query) != nil
+        guard !queryTerms.isEmpty, queryTerms.enumerated().allSatisfy({ index, term in
+            labelTerms.contains(term)
+                || (hasPrefix && index == queryTerms.count - 1
+                    && labelTerms.contains { $0.hasPrefix(term) })
+        }) else { return 0 }
 
         let roadKey = matchKey(address.roadName ?? "")
         if roadKey == queryKey { return 3 }

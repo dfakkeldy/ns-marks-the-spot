@@ -58,10 +58,9 @@ public struct MeasureSession: Equatable, Sendable {
     public mutating func undoLastPoint() {
         guard !points.isEmpty else { return }
         points.removeLast()
-        // Dropping a corner off a finished shape leaves an unfinished one; the
-        // readout has to go back to counting rather than keep reporting an area
-        // for a ring that is now two points.
-        isFinished = isFinished && canFinish
+        // Undo reopens even a shape with enough points to finish, so the next
+        // tap extends it instead of discarding it and starting over.
+        isFinished = false
     }
 
     public mutating func clear() {

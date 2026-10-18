@@ -1,0 +1,12 @@
+# Sheet 18 exploratory manual draft — 2026-09-05; NOT accepted for production.
+# Source: Rumsey RUMSEY~8~1~2643~290011; sheet18-rumsey-half-resolution.jpg (5416 x 3842).
+# Coordinates transcribed from rendered NSMtS table: integer pixels and 4-decimal WGS84; NOT an exact browser export.
+# Four controls selected and refined visually in NSMtS against NS Marks Atlas / OpenStreetMap.
+# Crane Island was temporarily entered for measurement, then removed from the fitting set; retained only as a check here.
+# Mountain streams and northern/western sheet margins remain unvalidated. Do not use this file with the full-resolution scan.
+pixel_x,pixel_y,lon,lat,role,label
+4095,1316,-60.9180,45.8740,control,Big Harbour Island hooked peninsula northern tip
+3830,2917,-60.9404,45.7717,control,Black Pond headland northern tip
+2544,2565,-61.0603,45.7944,control,Calder Island northern tip
+2245,1628,-61.0887,45.8540,control,River Denys estuary narrow crossing
+2319,3011,-61.0805,45.7652,check,Crane Island northern tip

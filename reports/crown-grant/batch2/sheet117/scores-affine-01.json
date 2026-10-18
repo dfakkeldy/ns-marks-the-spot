@@ -1,0 +1,255 @@
+{
+  "count": 8,
+  "rms_ground_m": 106.78540876468259,
+  "median_ground_m": 110.2010881109093,
+  "p95_ground_m": 143.72556140636462,
+  "max_ground_m": 152.09426310270166,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -8.922176850872644,
+  "mean_north_ground_m": -38.49547594236647,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Pellier Point southeastern corner",
+      "role": "check",
+      "pixel_xy": [
+        3793,
+        1545
+      ],
+      "lonlat": [
+        -60.93151078380115,
+        45.84485069633375
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 13709,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3816.0439842414926,
+        1528.580853633117
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -60.932611351143954,
+        45.84465956528571
+      ],
+      "error_ground_m": 88.09161177402203,
+      "east_ground_m": -85.49183764813824,
+      "north_ground_m": -21.24329919031854
+    },
+    {
+      "id": "Q02",
+      "label": "Robert Island western tip",
+      "role": "check",
+      "pixel_xy": [
+        2768,
+        1525
+      ],
+      "lonlat": [
+        -60.99348808764859,
+        45.82953889942103
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23894,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2791.1882751637604,
+        1507.0913177160546
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -60.99396992125525,
+        45.829139906595444
+      ],
+      "error_ground_m": 58.03755262808888,
+      "east_ground_m": -37.43913860348029,
+      "north_ground_m": -44.34713537183185
+    },
+    {
+      "id": "Q03",
+      "label": "Clark Island southern apex",
+      "role": "check",
+      "pixel_xy": [
+        2064,
+        1952
+      ],
+      "lonlat": [
+        -61.02427076688419,
+        45.79994179556656
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23385,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2107.6181825681706,
+        1952.2046142284526
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -61.025867709664446,
+        45.79965475223344
+      ],
+      "error_ground_m": 128.18368682745304,
+      "east_ground_m": -124.15016592873972,
+      "north_ground_m": -31.902881821944455
+    },
+    {
+      "id": "Q04",
+      "label": "Floda Island southern apex",
+      "role": "check",
+      "pixel_xy": [
+        1165,
+        2549
+      ],
+      "lonlat": [
+        -61.066931083224205,
+        45.759745913605684
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23535,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1166.1406716475612,
+        2551.4290374590782
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -61.06535102447656,
+        45.75978178587626
+      ],
+      "error_ground_m": 122.9898311965805,
+      "east_ground_m": 122.92514824853876,
+      "north_ground_m": 3.9882961071280536
+    },
+    {
+      "id": "Q05",
+      "label": "Dumpling Island western tip",
+      "role": "check",
+      "pixel_xy": [
+        541,
+        2255
+      ],
+      "lonlat": [
+        -61.1102584321553,
+        45.76279952515155
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23941,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        558.256071927899,
+        2249.6911986714695
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -61.10917992450422,
+        45.762314415927655
+      ],
+      "error_ground_m": 99.73277139748961,
+      "east_ground_m": 83.90176309462322,
+      "north_ground_m": -53.91771360357969
+    },
+    {
+      "id": "Q06",
+      "label": "Isle Madelaine northern apex",
+      "role": "check",
+      "pixel_xy": [
+        2308,
+        2944
+      ],
+      "lonlat": [
+        -60.98934219884682,
+        45.76208859522644
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23895,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2317.1323036638787,
+        2928.967706623138
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -60.988402443294085,
+        45.76122485973301
+      ],
+      "error_ground_m": 120.66940482432896,
+      "east_ground_m": 73.10906181349362,
+      "north_ground_m": -96.0008871907367
+    },
+    {
+      "id": "Q07",
+      "label": "Cameron Island southern apex",
+      "role": "check",
+      "pixel_xy": [
+        2415,
+        1826
+      ],
+      "lonlat": [
+        -61.008315235347176,
+        45.81055474591444
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 24159,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2424.4932008580654,
+        1819.6039715823717
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -61.007953642314384,
+        45.81064851462988
+      ],
+      "error_ground_m": 29.97576777735844,
+      "east_ground_m": 28.105581541908624,
+      "north_ground_m": 10.422232967711185
+    },
+    {
+      "id": "Q08",
+      "label": "Eastern Cow Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1935,
+        1870
+      ],
+      "lonlat": [
+        -61.03372416041873,
+        45.801762877409104
+      ],
+      "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+      "reference_objectid": 23629,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1984.1945285578258,
+        1862.555352712865
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+      "predicted_lonlat": [
+        -61.03542646469344,
+        45.801088423461614
+      ],
+      "error_ground_m": 152.09426310270166,
+      "east_ground_m": -132.3378273251871,
+      "north_ground_m": -74.96241943535972
+    }
+  ],
+  "fit_sha256": "a87f4cf61be5532dc39bc73778f8d4daf6beccdc1e0d2daf6370e32f726d8297",
+  "checks_sha256": "eadf022461e7bce18e23a88288ef50e02e6999d0588e6f9f8e37f72f4253b75a",
+  "status": "Eight reserved independent physical checks; sparse coastal/island coverage"
+}

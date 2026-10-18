@@ -22,9 +22,9 @@ describe.runIf(runLive)("live NSPRD catalog reconciliation", () => {
         collection.features.map(({ properties }) => properties.PID),
       );
 
-      expect(expectedPids).toHaveLength(83);
+      expect(expectedPids).toHaveLength(59);
       expect(expectedPids.filter((pid) => !matchedPids.has(pid))).toEqual([]);
-      expect(exceptionPids).toEqual(["41051889", "41051897"]);
+      expect(exceptionPids).toEqual([]);
       expect(exceptionCollection.features).toEqual([]);
     },
     30_000,

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   classifyOutcome,
   containsResultsTable,
+  isUpcomingNotice,
   moneyToCents,
   parseResults,
 } from "./cumberland.mjs";
@@ -127,5 +128,28 @@ describe("containsResultsTable", () => {
         "<html><body>One moment, please... your request is being verified</body></html>",
       ),
     ).toBe(false);
+  });
+});
+
+const NOTICE_FIXTURE = `
+<table>
+<tr><th>AAN</th><th>PID</th><th>District</th><th>Assessed Owner and Location/Description</th><th>Total Due</th><th>Redeemable</th></tr>
+<tr><td>10738199</td><td>25465188</td><td>4</td><td>OWNER OMITTED – 9175 Hwy 204, South Victoria, Land</td><td>$289.67 HST appl</td><td>YES</td></tr>
+</table>`;
+
+describe("isUpcomingNotice", () => {
+  it("recognizes the owner-bearing pre-sale table that replaced ingested results", () => {
+    expect(isUpcomingNotice(NOTICE_FIXTURE)).toBe(true);
+    expect(containsResultsTable(NOTICE_FIXTURE)).toBe(false);
+  });
+
+  it("does not treat a results table as an upcoming notice", () => {
+    expect(isUpcomingNotice(FIXTURE)).toBe(false);
+  });
+
+  it("rejects an unrecognized table shape", () => {
+    expect(isUpcomingNotice("<table><tr><td>PID</td><td>Status</td></tr></table>")).toBe(
+      false,
+    );
   });
 });

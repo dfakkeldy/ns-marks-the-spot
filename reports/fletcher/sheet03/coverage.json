@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+  "raster_sha256": "86f27229ea21c2e36d822be8f9871c16241a28bb1b4daa8abd7ec2761eaed951",
+  "cutline_sha256": "6522531eb4b8840bbfad040aba38b35e0388b5c3b4c91b6b76056c7bd11bca1e",
+  "expected_interior_cells": 50374176,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

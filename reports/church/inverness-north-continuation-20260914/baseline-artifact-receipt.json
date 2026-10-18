@@ -1,0 +1,28 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness-master.tif",
+  "source_sha256": "64354868fb4a1d3bc7a8e71378e06ea15b5e691241fd1a0595e6c4b8c9bdd932",
+  "control_csv_sha256": "7a784da6a9afc92965b8294e0ccd153fc61d70152626fe390bbd96ff470e5fa5",
+  "boundary_sha256": "e28de04110de0f2b5e214fbefe952bb19a290a876e720ec69c0a7f4127585da4",
+  "transform": "Frozen affine encoded as explicit GeoTransform; exact -et 0",
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260914/inverness-north-review/rendered/inverness-north-affine4-review-20m.tif",
+  "output_sha256": "b46bdd402b3d5d4bb235c92e0ff82310c2002a48d8c95dda0648cdbc3917deb1",
+  "size": [
+    3212,
+    5355
+  ],
+  "geotransform": [
+    -6806080.0,
+    20.0,
+    0.0,
+    5948920.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260914/inverness-north-review/rendered/affine14-cutline.geojson",
+  "cutline_sha256": "43b73a76e8f22fa865cd48544d77f8d2f30079debefc5643fb3d9f269808d4a8",
+  "orientation_determinant": -14.362393682689914,
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false
+}

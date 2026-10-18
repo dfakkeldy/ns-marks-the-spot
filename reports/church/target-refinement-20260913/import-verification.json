@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "file": "promote-R26.csv",
+      "controls": 11,
+      "checks": 23,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "promote-R27.csv",
+      "controls": 11,
+      "checks": 23,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "promote-R26-R27.csv",
+      "controls": 12,
+      "checks": 22,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "distributed-14-tps.csv",
+      "controls": 14,
+      "checks": 20,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "candidate-controls.csv",
+      "controls": 14,
+      "checks": 0,
+      "semanticRoundtrip": true
+    },
+    {
+      "file": "fresh-validation-review.csv",
+      "controls": 14,
+      "checks": 6,
+      "semanticRoundtrip": true
+    }
+  ],
+  "scope": "Current production CSV parser and serializer. No browser mesh or geographic acceptance."
+}

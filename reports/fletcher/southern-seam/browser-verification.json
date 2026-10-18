@@ -1,0 +1,70 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "before": {
+    "record": {
+      "id": "d378c825-045f-486f-8154-aa0638332bc2",
+      "name": "hawkesbury-mabou-joined-diagnostic",
+      "source": "geotiff",
+      "createdAt": "2026-09-07T02:03:52.116Z",
+      "pixelSize": {
+        "width": 4010,
+        "height": 14749
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6849730,
+          5,
+          0,
+          5793180,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      1114,
+      4096
+    ],
+    "storedRasterSha256": "df654367879697a98f99a110ebd17d9bb4a9ad53d43551f87855c00458f23ebe",
+    "rasterBytes": 7143035,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 4365970,
+    "opaquePixels": 196974
+  },
+  "after": {
+    "record": {
+      "id": "d378c825-045f-486f-8154-aa0638332bc2",
+      "name": "hawkesbury-mabou-joined-diagnostic",
+      "source": "geotiff",
+      "createdAt": "2026-09-07T02:03:52.116Z",
+      "pixelSize": {
+        "width": 4010,
+        "height": 14749
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6849730,
+          5,
+          0,
+          5793180,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      1114,
+      4096
+    ],
+    "storedRasterSha256": "df654367879697a98f99a110ebd17d9bb4a9ad53d43551f87855c00458f23ebe",
+    "rasterBytes": 7143035,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 4365970,
+    "opaquePixels": 196974
+  },
+  "enabledStateSurvived": true
+}

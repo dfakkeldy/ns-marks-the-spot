@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5712 x 3893 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 75.11 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          85,
+          125
+        ],
+        [
+          5550,
+          125
+        ],
+        [
+          5550,
+          3745
+        ],
+        [
+          95,
+          3745
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Corberrie, Richfield, Maxwellton, all inland lakes, islands and river corridors. Eight controls and nine excluded checks sample distributed lakes; Wentworth/Cedar complexes and unmeasured edges remain provisional."
+    }
+  ]
+}

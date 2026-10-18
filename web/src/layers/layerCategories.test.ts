@@ -1,3 +1,4 @@
+import { contextLayerCatalog } from "./contextLayerCatalog";
 import { describe, expect, it } from "vitest";
 import {
   churchLayerCatalog,
@@ -6,6 +7,7 @@ import {
   floodHazardLayerCatalog,
   forestryLayerCatalog,
   hydroPilotLayerCatalog,
+  liveConditionsLayerCatalog,
   provinceLayerCatalog,
   allResourceLayerCatalog,
   wellLogLayerCatalog,
@@ -17,6 +19,7 @@ import {
 } from "./layerCategories";
 
 const catalogueIds = [
+  ...contextLayerCatalog.map(({ id }) => id),
   "modern",
   fletcherLayerCatalog.id,
   ...provinceLayerCatalog.map((layer) => layer.id),
@@ -28,6 +31,7 @@ const catalogueIds = [
   ...zoningLayerCatalog.map((layer) => layer.id),
   ...wellLogLayerCatalog.map((layer) => layer.id),
   ...churchLayerCatalog.map((layer) => layer.id),
+  ...liveConditionsLayerCatalog.map((layer) => layer.id),
 ];
 
 describe("layer category contract", () => {
@@ -48,6 +52,8 @@ describe("layer category contract", () => {
       "forestry-ecology",
       "geology-resources",
       "historical-maps",
+      "rhodena-project",
+      "elections-districts",
       "tax-sale",
       "my-maps",
     ]);

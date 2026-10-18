@@ -1,0 +1,83 @@
+[
+  {
+    "id": "IC01",
+    "label": "Inset Peggy Point western head",
+    "role": "control",
+    "pixel_xy": [
+      260,
+      2899
+    ],
+    "lonlat": [
+      -63.9197036329906,
+      44.49154197249818
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 9907,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 9907,
+    "nearest_unfiltered_distance_guide_px": 0.5380440157754419,
+    "selected_distance_guide_px": 0.5380440157754419,
+    "guide_reference_pixel_xy": [
+      259.014358538785,
+      2929.537852391717
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native crosshairs and physical context inspected before first inset fit or score."
+  },
+  {
+    "id": "IC02",
+    "label": "Inset Dover peninsula southern tip",
+    "role": "control",
+    "pixel_xy": [
+      878,
+      3252
+    ],
+    "lonlat": [
+      -63.87190311354892,
+      44.48758119228639
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 2203,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2203,
+    "nearest_unfiltered_distance_guide_px": 0.5740920948263563,
+    "selected_distance_guide_px": 0.5740920948263563,
+    "guide_reference_pixel_xy": [
+      875.55634731584,
+      3282.141631202423
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native crosshairs and physical context inspected before first inset fit or score."
+  },
+  {
+    "id": "IC03",
+    "label": "Inset Taylor Island western tip",
+    "role": "control",
+    "pixel_xy": [
+      804,
+      3319
+    ],
+    "lonlat": [
+      -63.87500539084633,
+      44.48318754574124
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 16827,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16827,
+    "nearest_unfiltered_distance_guide_px": 2.227934854455359,
+    "selected_distance_guide_px": 2.227934854455359,
+    "guide_reference_pixel_xy": [
+      797.2001305784797,
+      3347.6491166100604
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native crosshairs and physical context inspected before first inset fit or score."
+  }
+]

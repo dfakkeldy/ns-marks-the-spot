@@ -1,0 +1,146 @@
+{
+  "sheet": "005",
+  "version": "inset-affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.847179818285233,
+      1.9403302483666074
+    ],
+    [
+      1.9238209945496942,
+      -5.039769846359796
+    ],
+    [
+      225309.57811127388,
+      4910880.360134912
+    ]
+  ],
+  "source_sha256": "d0444b73a17a459f812c6668154d3fcaf6cc5d784fa4ce2771bacd469a769c56",
+  "source_dimensions": [
+    5762,
+    3894
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IA01",
+      "label": "Brier Island North Point northeastern tip",
+      "role": "control",
+      "pixel_xy": [
+        1324,
+        862
+      ],
+      "lonlat": [
+        -66.34115254978744,
+        44.28700985321712
+      ],
+      "reference_objectid": 17128,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1271.4613528134068,
+        845.3347330644028
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "IA02",
+      "label": "Lighthouse Cove western headland (not lighthouse symbol)",
+      "role": "control",
+      "pixel_xy": [
+        303,
+        1237
+      ],
+      "lonlat": [
+        -66.39261485156946,
+        44.24967328230454
+      ],
+      "reference_objectid": 16991,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        235.10851999459555,
+        1244.6191066298634
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "IA03",
+      "label": "Brier Island South Point",
+      "role": "control",
+      "pixel_xy": [
+        1033,
+        1477
+      ],
+      "lonlat": [
+        -66.342154795026,
+        44.25332399017041
+      ],
+      "reference_objectid": 17130,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        941.438907725038,
+        1487.119841984706
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "IA04",
+      "label": "Long Island Dartmouth Point",
+      "role": "control",
+      "pixel_xy": [
+        1218,
+        1644
+      ],
+      "lonlat": [
+        -66.32718272950234,
+        44.24946094804078
+      ],
+      "reference_objectid": 19320,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1104.5543523382512,
+        1654.1360371058108
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "IA05",
+      "label": "Long Island north-coast stepped headland",
+      "role": "control",
+      "pixel_xy": [
+        1873,
+        778
+      ],
+      "lonlat": [
+        -66.31125829299806,
+        44.30009700455027
+      ],
+      "reference_objectid": 19318,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1792.3622514344752,
+        778.5022637174698
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    82.7411328098318,
+    36.367354620503235,
+    26.19567579029933,
+    15.746906472367552,
+    60.173043216551775
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

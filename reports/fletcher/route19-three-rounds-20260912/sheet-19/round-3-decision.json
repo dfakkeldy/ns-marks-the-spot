@@ -1,0 +1,11 @@
+{
+  "sheet": "19",
+  "round": 3,
+  "before_rms_ground_m": 90.98568432530145,
+  "after_rms_ground_m": 90.77677156719852,
+  "proposal": "round-3-proposal.json",
+  "accepted_pending_render": true,
+  "note": "Western/central and lake-area audit O01,V04,V06,V07,F01. V07 original point lay on incoming northwest arm, so tested a native correction to actual southern-branch entry. All modern targets and all checks are unchanged.",
+  "trial_rms_ground_m": 90.77677156719852,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

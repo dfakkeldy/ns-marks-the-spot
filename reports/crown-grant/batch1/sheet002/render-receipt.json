@@ -1,0 +1,59 @@
+{
+  "source_sha256": "89d0bdc5b09121e9e8809409fb4c672083be281a6a854828b9624f69d572ac37",
+  "fit_sha256": "26d25ed420612a5eaff8de4276db754606296896c6b439079d178393b7cfd1e4",
+  "components_sha256": "504eba5555d59c89702e671c581b9e8af05486d87d7ccc2348c25dfb679c2b87",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; failed diagnostic gates",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          43.89819744107487,
+          -66.50660650690787
+        ],
+        [
+          44.15820495613293,
+          -66.06600082635292
+        ]
+      ],
+      "dimensions": [
+        6131,
+        5032
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 16826631,
+      "source_mask_pixels": 19349114,
+      "affine_determinant": -28.792909904448173,
+      "png_sha256": "30d4039631d0d2f1dd2fb8319acc385b23c66539796640eeb5e7210343374a71",
+      "tif_sha256": "fe24d1c7ff9e08e45aaf2c52dbc2287a69d589aab4e23ecf077f8aa26a8f9703"
+    },
+    {
+      "id": "inset",
+      "status": "UNSUPPORTED seam-based placement only; no independent geographic validation",
+      "png": "inset-3857.png",
+      "tif": "inset-3857.tif",
+      "bounds": [
+        [
+          44.14273586421694,
+          -66.22162159006676
+        ],
+        [
+          44.18253524314373,
+          -66.1604642855239
+        ]
+      ],
+      "dimensions": [
+        851,
+        772
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 377871,
+      "source_mask_pixels": 432490,
+      "affine_determinant": -28.792909904448173,
+      "png_sha256": "4073fd41a716643d2c2d29ddc553ce29e7407a50b78c4c5424f60c46679fce28",
+      "tif_sha256": "3952d1f41649abc84116f134c0ec092dc84a86a96c9193172eb9d68b843d97c6"
+    }
+  ]
+}

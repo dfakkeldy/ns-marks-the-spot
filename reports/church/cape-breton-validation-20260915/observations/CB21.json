@@ -1,0 +1,63 @@
+{
+  "id": "CB21",
+  "role": "check",
+  "label": "Gaspereaux Lake eastern stream junction",
+  "pixel_xy": [
+    10691.666666666666,
+    25190.0
+  ],
+  "lonlat": [
+    -60.49631620444238,
+    45.862155279278575
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      10000,
+      24600
+    ],
+    "extent": [
+      1200,
+      1200
+    ],
+    "display": [
+      1440,
+      1440
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    830,
+    708
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-validation-20260915/CB6-gaspereaux-native.jpg",
+  "source_crop_sha256": "5d3ac804ea5832c28fe592da630e40951e3ad4436644628c1ee41b2af5b9387b",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    126340,
+    126341,
+    201821
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 126340,
+      "vertex": 0
+    },
+    {
+      "feature_id": 126341,
+      "vertex": 275
+    },
+    {
+      "feature_id": 201821,
+      "vertex": 0
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "official_identity_key": "CANLB",
+  "identity_evidence": "The source lake has a long closed northern finger, a shorter western arm and a rounded southeastern basin. The eastern shore connects northeast to a small pond; another pond lies northwest across the road. These distinctive lobes and connections agree with the original geometry at official Gaspereaux Lake CANLB. Match the eastern lake/stream junction, not the closed northern tip, the nearby pond or a road crossing. Original WALK20 banks126340v0/126341v275 and single-line stream201821v0 share the reference coordinate. The representative name point identifies the basin only; no centroid or predicted point is used.",
+  "phase": "Fresh check of unchanged TPS11 frozen in the preceding regional report; no fitting or selection use",
+  "recorded_at": "2026-09-15T16:10:19.558405+00:00"
+}

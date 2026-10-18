@@ -1,0 +1,43 @@
+{
+  "status": "Correspondence retained; no observation or control changed",
+  "official_name": "MacLeods Lake",
+  "key": "CAWXU",
+  "name_point_inside_original_reference_ring": true,
+  "official_coordinates_used_for_fit": false,
+  "other_same_named_lakes_excluded": [
+    "CAWXV",
+    "CAWWS"
+  ],
+  "original_reference_ids": [
+    135206,
+    135207,
+    135208
+  ],
+  "connected_original_rivers": [
+    {
+      "feature_id": 177241,
+      "name": " ",
+      "vertex_indices": [
+        123
+      ]
+    },
+    {
+      "feature_id": 177369,
+      "name": " ",
+      "vertex_indices": [
+        163
+      ]
+    },
+    {
+      "feature_id": 279481,
+      "name": "Christopher MacLeod Brook",
+      "vertex_indices": [
+        0
+      ]
+    }
+  ],
+  "source_evidence": "Original VM08 native contour and expanded Goose Cove context show the labelled north-south lake west of the St Anns ridge, southeast of Baddeck Lakes, with its southern Christopher Meadow drainage. Those observations agree with this original lake geometry and the official name location.",
+  "conclusion": "No evidence of a wrong lake was found. The harbour error remains a regional warp/support problem; do not move this control to compensate.",
+  "original_observation_manifest_sha256": "62008fb796ef51672f5c1cf13779652e2ca4cd23b84ac43065ab9215041abd1c",
+  "name_receipt": "name-identity-audit/interior-lake-identity-names-receipt.json"
+}

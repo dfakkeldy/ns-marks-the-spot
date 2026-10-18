@@ -1,3 +1,4 @@
+import { openSourceMetadata, openProvinceSources, type OpenDataSource } from "./openDataSources";
 import { OPEN_GOVERNMENT_LICENCE_TERMS_URL } from "../licensing/provinceLicense";
 
 export type ChurchCountyLayerId =
@@ -96,8 +97,9 @@ export type ZoningLayerDescriptor = {
   /** The authoritative land use by-law this layer is a rendering of. */
   bylawUrl: string;
   bylawLabel: string;
+  availability?: "available" | "rights-pending";
   licence: "municipal-open" | "municipal-no-stated-licence";
-  /** Null when the publisher states no licence terms at all. */
+  /** No applicable app query/cache/export grant is recorded here when null. */
   licenceUrl: string | null;
   /**
    * "live-query-only" sources are rendered straight from the publisher's
@@ -123,6 +125,8 @@ export type ZoningLayerDescriptor = {
 };
 
 export type WellLogLayerId = "ns-well-logs";
+
+export type LiveConditionsLayerId = "highway-cameras" | "weather-radar";
 
 export type FloodHazardLayerId =
   | "published-river-flood-zones"
@@ -226,6 +230,49 @@ export type WellLogLayerDescriptor = {
   coverage: string;
 };
 
+type LiveConditionsLayerBase = {
+  name: string;
+  sourceUrl: string;
+  /** Licence-mandated statement rendered whenever the layer is on screen. */
+  attribution: string;
+  licenceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+};
+
+export type TrafficCameraLayerDescriptor = LiveConditionsLayerBase & {
+  id: "highway-cameras";
+  licence: "crown-copyright-live-view";
+  delivery: "bundled-points-live-images";
+  /** Live JPEG endpoint; `{id}` is the 511 map item id for one camera site. */
+  imageUrlTemplate: string;
+  markerColor: string;
+};
+
+export type WeatherRadarLayerDescriptor = LiveConditionsLayerBase & {
+  id: "weather-radar";
+  licence: "eccc-open";
+  delivery: "wms-raster";
+  serviceUrl: string;
+  wmsLayer: string;
+};
+
+/**
+ * Live-conditions overlays are moment-in-time context, not evidence: the
+ * radar frame and camera images have already changed by the time anyone acts
+ * on them. They are therefore excluded from the native parity fixture and
+ * from print/export capture — a sealed PDF must not carry a layer whose
+ * content cannot be re-derived from its stated source date.
+ */
+export type LiveConditionsLayerDescriptor =
+  | TrafficCameraLayerDescriptor
+  | WeatherRadarLayerDescriptor;
+
 export type ArcGISExportOptions = {
   transparent: boolean;
   layers?: string;
@@ -240,14 +287,26 @@ export type WebLayerDescriptor = {
   nativeDefaultVisibility: boolean;
   minZoom: number;
   maxZoom: number;
+  /**
+   * Deepest zoom the source has real tiles for, when it is shallower than
+   * maxZoom. Beyond it the tiles upscale on screen — same pattern the modern
+   * basemap and NS Aerial use — so a layer being traced or measured against
+   * stays visible at max zoom instead of vanishing at its native depth.
+   */
+  maxNativeZoom?: number;
   opacity: number;
-  licence: "province-restricted" | "rumsey-reference";
+  licence: "province-restricted" | "province-open" | "rumsey-reference";
+  openData?: OpenDataSource;
+  sourceUrl?: string;
+  licenceUrl?: string;
+  attribution?: string;
   webAvailability: "available" | "rights-pending" | "hosting-pending";
   webCaveat: string;
   sourceDate: string;
   scale: string;
   coverage: string;
   exportOptions?: ArcGISExportOptions;
+  /** Shared catalogue field; the web draws this contrast pass below source labels. */
   exportOverlayOptions?: ArcGISExportOptions;
 };
 
@@ -458,14 +517,16 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     serviceUrl: "",
     nativeDefaultVisibility: true,
     minZoom: 8,
-    maxZoom: 16,
+    maxZoom: 23,
+    maxNativeZoom: 15,
     opacity: 0.72,
     licence: "rumsey-reference",
     webAvailability: "available",
-    webCaveat: "24 direct-Rumsey sheets · zoom 8–16",
+    webCaveat:
+      "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
     sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
-    scale: "Independently georeferenced historical sheets",
-    coverage: "Cape Breton Island · 24 individual sheets",
+    scale: "Georeferenced with cartographic seam adjustments · accuracy varies",
+    coverage: "Cape Breton Island · 24 source sheets in one mosaic",
   },
   {
     id: "ns-aerial",
@@ -475,6 +536,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     nativeDefaultVisibility: false,
     minZoom: 10,
     maxZoom: 23,
+    // Was hardcoded at the render site; in the catalog it rides the parity
+    // fixture, so the native app inherits the same upscale boundary.
+    maxNativeZoom: 19,
     opacity: 1,
     licence: "province-restricted",
     webAvailability: "available",
@@ -844,7 +908,7 @@ export const webOnlyProvinceLayerCatalog: readonly (
   ...georeferenceAidLayerCatalog,
 ] as const;
 
-export const provinceLayerCatalog: readonly (
+export const nativeProvinceLayerCatalog: readonly (
   WebLayerDescriptor & { id: ProvinceLayerId }
 )[] = [
   ...nativeLayerCatalog.filter(
@@ -854,6 +918,8 @@ export const provinceLayerCatalog: readonly (
   ),
   ...webOnlyProvinceLayerCatalog,
 ];
+
+export const provinceLayerCatalog = nativeProvinceLayerCatalog.map((layer) => openSourceMetadata(layer, openProvinceSources[layer.id]));
 
 const CHURCH_COUNTY_LAYER_IDS: readonly ChurchCountyLayerId[] = [
   "church-inverness",
@@ -892,14 +958,29 @@ const COASTAL_HAZARD_SOURCE_URL = "https://nsgi.novascotia.ca/chm";
 export const COASTAL_HAZARD_LICENCE_URL =
   "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
 /**
- * The Unrestricted Map Services licence's own required statement. NOT the
+ * The Unrestricted Map Services licence's own required statements. NOT the
  * OGL-NS sentence: the coastal layers are published under this licence, and
  * anything that infers their attribution from the restricted/open flag
  * asserts the wrong licence over them (layerParity.test.ts documents exactly
  * this trap).
+ *
+ * Three notices, not one. Section 3.1(a) of the licence makes both section
+ * 4.1's permission and section 6.1's no-warranty caveat conditions of every
+ * reproduction, and section 4.2 requires the endorsement disclaimer on a
+ * value-added product. Only the parcel panel carried all three; the credit
+ * line, the source dialog, the printed page and the exported strip carried
+ * the permission alone. The wording is the native app's
+ * (NSMarksCore CoastalFloodLicence), apostrophe included, so the same
+ * coastal finding reads the same in the browser and on the phone.
  */
-export const COASTAL_HAZARD_ATTRIBUTION =
-  "Reproduced and distributed with the permission of the Department of Service Nova Scotia.";
+export const COASTAL_HAZARD_NOTICES: readonly string[] = [
+  "Reproduced and distributed with the permission of the Department of Service Nova Scotia.",
+  "This product has been produced by KinNoKi Labs and includes data provided by the Department of Service Nova Scotia. The incorporation of that data shall not be construed as constituting an endorsement by the Department of Service Nova Scotia of this product.",
+  "Service Nova Scotia makes no representation and gives no warranty of any kind respecting the data's accuracy, usefulness, novelty, validity, scope, completeness, or currency.",
+];
+
+/** The three notices as one paragraph, where a source carries one credit line. */
+export const COASTAL_HAZARD_ATTRIBUTION = COASTAL_HAZARD_NOTICES.join(" ");
 
 export const floodHazardLayerCatalog: readonly FloodHazardLayerDescriptor[] = [
   {
@@ -1208,8 +1289,11 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
   {
     id: "abandoned-mines",
     name: "Abandoned mine openings",
+    // The Province's own copy of DP ME 10 version 9 (extract 2024-06-11,
+    // 8,564 openings). The older ArcGIS Online copy is version 8 (2020).
+    // This service only accepts lower-case field names.
     serviceUrl:
-      "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
+      "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
     sourceUrl:
       "https://novascotia.ca/natr/meb/download/dp010.asp",
     minZoom: 11,
@@ -1219,15 +1303,15 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
     delivery: "feature-query",
     outFields: [
       "geo_id",
-      "ShaftID",
-      "Name",
-      "Opening_ty",
-      "Degree_Haz",
-      "Protection",
+      "shaftid",
+      "name",
+      "opening_ty",
+      "degree_haz",
+      "protection",
     ],
     markerColor: "#d1495b",
     webCaveat: "Provincial hazard inventory; locations and conditions may change",
-    sourceDate: "2024 · version 9",
+    sourceDate: "Version 9 · extract June 11, 2024",
     scale: "Approximate point inventory",
     coverage: "Nova Scotia · incomplete inventory",
   },
@@ -1308,6 +1392,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
     bylawLabel: "Plan Inverness Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1338,6 +1423,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
     bylawLabel: "Plan Victoria Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1368,6 +1454,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
     bylawLabel: "Plan Richmond Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1399,6 +1486,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
     bylawLabel: "Cumberland Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution:
@@ -1486,4 +1574,77 @@ export const wellLogLayerCatalog: readonly WellLogLayerDescriptor[] = [
 
 export const initialWellLogLayerVisibility: Record<WellLogLayerId, boolean> = {
   "ns-well-logs": false,
+};
+
+/**
+ * Live conditions: what the province looks like right now.
+ *
+ * Two sources with two very different clearances, kept deliberately explicit:
+ *
+ * - 511 Nova Scotia publishes no open-data feed (its REST API is key-gated
+ *   and CORS-closed). The camera *locations and names* here are a
+ *   project-derived list catalogued from the public 511 map on
+ *   August 29, 2026; the *images* are never copied — each browser loads the
+ *   live JPEG straight from 511, the same request the 511 site itself makes.
+ *   Crown copyright, so the list carries attribution and a source link, not
+ *   an open licence.
+ * - Weather radar is served live from ECCC's MSC GeoMet WMS under its open
+ *   end-use licence, which requires the data-source statement carried in
+ *   `attribution`.
+ *
+ * Road conditions and BurnSafe restrictions were evaluated and rejected for
+ * now: both are CORS-closed with no open feed, and a bundled snapshot of a
+ * daily burn ban would show yesterday's "burning allowed" — a stale-green
+ * state the evidence contract treats as fail-open. See web/README.md.
+ */
+export const liveConditionsLayerCatalog: readonly LiveConditionsLayerDescriptor[] = [
+  {
+    id: "highway-cameras",
+    name: "Highway cameras",
+    sourceUrl: "https://511.novascotia.ca/map",
+    attribution:
+      "Camera imagery © Province of Nova Scotia, loaded live from 511 Nova Scotia.",
+    licenceUrl: "https://www.novascotia.ca/copyright",
+    licence: "crown-copyright-live-view",
+    delivery: "bundled-points-live-images",
+    imageUrlTemplate: "https://511.novascotia.ca/map/Cctv/{id}",
+    markerColor: "#1d7fbf",
+    minZoom: 7,
+    maxZoom: 23,
+    opacity: 0.95,
+    webCaveat:
+      "Tap a camera for its live image · a frozen or missing image is a camera fault, not road truth",
+    sourceDate:
+      "Camera list catalogued August 29, 2026 · images live from 511 Nova Scotia",
+    scale: "57 provincial highway camera sites",
+    coverage: "Nova Scotia provincial highways",
+  },
+  {
+    id: "weather-radar",
+    name: "Weather radar",
+    sourceUrl: "https://eccc-msc.github.io/open-data/msc-geomet/readme_en/",
+    attribution:
+      "Radar data source: Environment and Climate Change Canada, MSC GeoMet.",
+    licenceUrl: "https://eccc-msc.github.io/open-data/licence/readme_en/",
+    licence: "eccc-open",
+    delivery: "wms-raster",
+    serviceUrl: "https://geo.weather.gc.ca/geomet",
+    wmsLayer: "RADAR_1KM_RRAI",
+    minZoom: 7,
+    maxZoom: 23,
+    opacity: 0.7,
+    webCaveat:
+      "Observed rain rate, refreshed about every 6 minutes · not a forecast",
+    sourceDate: "Live service · new frame about every 6 minutes",
+    scale: "1 km North American radar composite (RADAR_1KM_RRAI)",
+    coverage: "Canadian radar network · full Nova Scotia coverage",
+  },
+] as const;
+
+export const initialLiveConditionsLayerVisibility: Record<
+  LiveConditionsLayerId,
+  boolean
+> = {
+  "highway-cameras": false,
+  "weather-radar": false,
 };

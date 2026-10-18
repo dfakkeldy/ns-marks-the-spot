@@ -1,0 +1,107 @@
+{
+  "id": "VM17",
+  "role": "check",
+  "label": "MacLeods Brook meets the open coast",
+  "pixel_xy": [
+    31282.666666666668,
+    3436.6666666666665
+  ],
+  "lonlat": [
+    -60.400596654546,
+    46.55840938580212
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      31080,
+      3250
+    ],
+    "extent": [
+      420,
+      450
+    ],
+    "display": [
+      1260,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    608,
+    560
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-macleods-mouth.jpg",
+  "source_crop_sha256": "87a34c12cd88aa72c0e4050fadd71a672a1df02bc218e6159c51e13fdf734e11",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/reference-full/water-lines.geojson",
+  "reference_sha256": "673209e63acee749e37559280b5c808c5b9d67d903682d362ec0be64720b1538",
+  "reference_feature_ids": [
+    298879,
+    11301,
+    11302,
+    160080,
+    168856
+  ],
+  "reference_vertex": {
+    "feature_id": 298879,
+    "vertex": 1
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 11301,
+      "vertex": 0
+    },
+    {
+      "feature_id": 11302,
+      "vertex": 52
+    }
+  ],
+  "uncertainty_ground_m": 180,
+  "identity_evidence": "The source explicitly labels the long westward McLeod Brook catchment. Its lower channel crosses the coastal road and reaches the coast just south of the small closed pond, north of the next southern drainage. Original named MacLeods Brook geometry follows the same long northwestern catchment and lower southeast reach; the small modern pond39862/39863 is likewise north of this outlet. The much larger modern pond136 is farther south across intervening drainage and is not adopted as the historical pond. Use the source engraved channel/coast junction, not the road crossing. The final39.87m modern WARV55 segment is classified indefinite and reaches the original coast junction11301/11302; beach/channel mobility and generalized historical shore justify180m uncertainty, not a reduced residual. Other nearby Morrison/Ferry names are not assumed interchangeable.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-northeast-coast.jpg",
+    "sha256": "d415c78db7c14438c7edfe49d9502e6ea55401db106e00637f5a0161eefa0a42",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        27800,
+        650
+      ],
+      "extent": [
+        5450,
+        6700
+      ],
+      "display": [
+        1362,
+        1674
+      ],
+      "rotation": 0
+    }
+  },
+  "additional_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-pond-stream-context.jpg",
+    "sha256": "457954b10802fd6ecd7ee15f51ab4671eeb661537f1fa116fda856abd08a2d59",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        30100,
+        2200
+      ],
+      "extent": [
+        2450,
+        2300
+      ],
+      "display": [
+        1470,
+        1380
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "First new physical check against unchanged frozen affine4; no fitting or tuning",
+  "recorded_at": "2026-09-14T23:07:55.621036+00:00",
+  "frozen_controls_sha256": "1fecf8c1dba9fa7cccd6fb064d6c49deedae929566eca517e0dd08cf0ffbf368"
+}

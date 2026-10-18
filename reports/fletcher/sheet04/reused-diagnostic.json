@@ -1,0 +1,66 @@
+{
+  "sheet": "sheet-04",
+  "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+  "points": [
+    {
+      "lonlat": [
+        -60.430528,
+        46.6878138
+      ],
+      "source_guide_xy": [
+        2006.0975807991344,
+        4282.387893600389
+      ],
+      "objectids": [
+        191511,
+        261648,
+        261766
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2155,
+        4237
+      ],
+      "modern_node_id": "J0602",
+      "identity_evidence": "Cameron Brook southern tributary just east of C05",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact corrected crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2155,
+        4245
+      ],
+      "limitation": "Historical tributary length differs; local tributary order supports identity."
+    },
+    {
+      "lonlat": [
+        -60.4054141,
+        46.7168695
+      ],
+      "source_guide_xy": [
+        2550.727661759127,
+        3369.2253540002275
+      ],
+      "objectids": [
+        141321,
+        141322,
+        282122
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        2629,
+        3353
+      ],
+      "modern_node_id": "J0470",
+      "identity_evidence": "Warren Brook inlet at Warren Lake northwestern lobe",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact corrected crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2626,
+        3346
+      ],
+      "limitation": "Historical lake shoreline and upstream meanders differ; named inlet is supported."
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "source_review_sha256": "5918e83f04d5d9c8731f22e1e01b9f92e5820305dc277781077c35eaf1659498",
+  "image_sha256": "52c4b152c9d28744076a8e78d04ba3e40c5fed7f1564e85270da6345d6e124ab",
+  "frames": [
+    {
+      "annotation_id": "F22-HAW-005",
+      "native_xywh": [
+        4162,
+        1415,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          4420,
+          1620,
+          43,
+          66
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F22-HAW-030",
+      "native_xywh": [
+        8082,
+        1713,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": [
+        8255,
+        1914
+      ],
+      "source_group_xywh": []
+    },
+    {
+      "annotation_id": "F22-HAW-045",
+      "native_xywh": [
+        2391,
+        2735,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": [
+        2788,
+        2963
+      ],
+      "source_group_xywh": []
+    },
+    {
+      "annotation_id": "F22-HAW-046",
+      "native_xywh": [
+        2527,
+        2724,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          2808,
+          2975,
+          60,
+          45
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F22-HAW-053",
+      "native_xywh": [
+        2660,
+        2488,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          2978,
+          2720,
+          40,
+          50
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F22-HAW-055",
+      "native_xywh": [
+        2801,
+        2603,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          3001,
+          2837,
+          50,
+          24
+        ]
+      ]
+    }
+  ],
+  "scope": "Source-mark crosshair/group review, not geographic validation. Original scans remain unchanged."
+}

@@ -1,0 +1,18 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Eight controls span northern harbour, west/east coast and offshore islands with two-dimensional support.",
+  "corrections": [
+    "Stoney Island C08 source corrected onto actual northern shore before fit"
+  ],
+  "not_adopted": [
+    "No mainland road/parcel intersections or unstable harbour heads forced into controls"
+  ],
+  "limitations": [
+    "Eight checks share islands with controls; Bald Rock is a separate island but single check",
+    "Mainland northern interior and harbour heads lack accepted independent validation",
+    "Egg main body outer north/south sampled; changed internal fragmentation unvalidated",
+    "Mussell Island follows modern WACO20 connected coast; original western causeway not validated",
+    "Generalized coastal shore observations use18px working uncertainty"
+  ]
+}

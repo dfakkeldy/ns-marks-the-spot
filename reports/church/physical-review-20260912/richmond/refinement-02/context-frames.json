@@ -1,0 +1,82 @@
+[
+  {
+    "image": "blue-lake-context.jpg",
+    "origin": [
+      27000,
+      14500
+    ],
+    "extent": [
+      1600,
+      1700
+    ],
+    "display": [
+      1200,
+      1275
+    ],
+    "rotation": 0
+  },
+  {
+    "image": "saint-esprit.jpg",
+    "origin": [
+      24500,
+      12500
+    ],
+    "extent": [
+      8000,
+      6500
+    ],
+    "display": [
+      1600,
+      1300
+    ],
+    "rotation": 0
+  },
+  {
+    "image": "north-harbour.jpg",
+    "origin": [
+      13800,
+      6070
+    ],
+    "extent": [
+      1400,
+      1000
+    ],
+    "display": [
+      1400,
+      1000
+    ],
+    "rotation": 0
+  },
+  {
+    "image": "western-basin.jpg",
+    "origin": [
+      5300,
+      17000
+    ],
+    "extent": [
+      2300,
+      2200
+    ],
+    "display": [
+      1400,
+      1339
+    ],
+    "rotation": 0
+  },
+  {
+    "image": "island-west-check.jpg",
+    "origin": [
+      8900,
+      17500
+    ],
+    "extent": [
+      2400,
+      1800
+    ],
+    "display": [
+      1400,
+      1050
+    ],
+    "rotation": 0
+  }
+]

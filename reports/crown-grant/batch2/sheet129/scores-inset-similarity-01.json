@@ -1,0 +1,105 @@
+{
+  "count": 3,
+  "rms_ground_m": 90.7960687107869,
+  "median_ground_m": 59.79063742486092,
+  "p95_ground_m": 130.93546993508323,
+  "max_ground_m": 138.84045132510795,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 35.105685461609426,
+  "mean_north_ground_m": 59.32298742778667,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Smokey inset central stream mouth",
+      "role": "independent-check",
+      "pixel_xy": [
+        4968,
+        3325
+      ],
+      "lonlat": [
+        -60.37116613454081,
+        46.59643974974879
+      ],
+      "guide_file": ".crown-grant-local/129-inset-refined-guide.npy",
+      "reference_objectid": 11269,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4941.388680107368,
+        3332.8067319081165
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair, whole coastal shape and stream-mouth order inspected before inset fitting/scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.37014777052111,
+        46.59747279875553
+      ],
+      "error_ground_m": 138.84045132510795,
+      "east_ground_m": 78.03245471547189,
+      "north_ground_m": 114.83730637400679
+    },
+    {
+      "id": "IQ02",
+      "label": "Smokey inset central major coastal elbow",
+      "role": "independent-check",
+      "pixel_xy": [
+        5153,
+        3201
+      ],
+      "lonlat": [
+        -60.3606927402233,
+        46.60607945033328
+      ],
+      "guide_file": ".crown-grant-local/129-inset-refined-guide.npy",
+      "reference_objectid": 11268,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5152.68668961653,
+        3198.0699746466707
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair, whole coastal shape and stream-mouth order inspected before inset fitting/scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.361025696792744,
+        46.60639487919743
+      ],
+      "error_ground_m": 43.361123511400834,
+      "east_ground_m": -25.508711247644317,
+      "north_ground_m": 35.06412244239491
+    },
+    {
+      "id": "IQ03",
+      "label": "Smokey inset southern shelf eastern corner",
+      "role": "independent-check",
+      "pixel_xy": [
+        4927,
+        3379
+      ],
+      "lonlat": [
+        -60.37218229960635,
+        46.594029532650815
+      ],
+      "guide_file": ".crown-grant-local/129-inset-refined-guide.npy",
+      "reference_objectid": 11270,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4910.180941807106,
+        3374.4168385415105
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair, whole coastal shape and stream-mouth order inspected before inset fitting/scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.37149335992032,
+        46.59428202064223
+      ],
+      "error_ground_m": 59.79063742486092,
+      "east_ground_m": 52.79331291700071,
+      "north_ground_m": 28.06753346695832
+    }
+  ],
+  "fit_sha256": "d2a32d264ace6df47c4557005a03d9fe7bff8d71e88391069571f8c70a66adae",
+  "checks_sha256": "b081857c73724866338848b5ea7ba38196331b9faa8ec4cd6c31d820f4670a60",
+  "status": "Frozen before first inset scoring"
+}

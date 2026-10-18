@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5358 x 3610 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 67.38 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          150,
+          90
+        ],
+        [
+          5290,
+          90
+        ],
+        [
+          5290,
+          3510
+        ],
+        [
+          150,
+          3510
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains the Avon estuary and Minas Basin water, Grand Pre, Hortonville, Avonport, Hantsport, Mount Denson, Falmouth and Windsor edge, Cheverie, Kempt Shore, Burlington, Cogmagun and Kennetcook rivers, and all depicted islands and lake areas. No inset, estuary or internal region is removed."
+    }
+  ]
+}

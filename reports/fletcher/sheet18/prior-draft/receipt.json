@@ -1,0 +1,31 @@
+{
+  "source": "Existing exploratory manual draft, dated 2026-09-05, inspected before new work. Four rounded half-resolution controls and one separately retained Crane Island check. Not an exact browser export.",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18-review/README.md",
+      "sha256": "18c24a05e15fc21e5078764e21facb238804cc8d4175b2590581d387e500631e",
+      "preserved_unchanged": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18-review/sheet18-draft-rounded-controls-and-check.csv",
+      "sha256": "bba1688331bc1f8577524af5cca8c7f3bfbedd251ad6822fc2086b4dd6184040",
+      "preserved_unchanged": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18-review/draft-validation.json",
+      "sha256": "d573d1d1b0fa7d2082fd17a943235e5d9e84becb4e7e07b8df5d78c8c5122ca4",
+      "preserved_unchanged": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18-review/manifest.json",
+      "sha256": "5c6518c509809efb15619b4e69a48961974f788650a702e97aaf324fe33e82b5",
+      "preserved_unchanged": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18-review/sheet18-rumsey-half-resolution.jpg",
+      "sha256": "5df5fe1e6d33e61b2f7c3c3811e2152b3c5f3ff2f999806ba404460aff02f49c",
+      "preserved_unchanged": true
+    }
+  ],
+  "browser_session": "Original live-browser placements not changed or replaced; new work uses isolated profiles."
+}

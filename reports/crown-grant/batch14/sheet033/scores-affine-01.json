@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 48.13636614758933,
+  "median_ground_m": 48.18748134941949,
+  "p95_ground_m": 63.688419806015794,
+  "max_ground_m": 64.06094837423764,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 14.776471156322243,
+  "mean_north_ground_m": 3.0290205225615474,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Ten Mile Lake middle elongated island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1758,
+        983
+      ],
+      "lonlat": [
+        -64.84693530734647,
+        44.159028168854384
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 150599,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 150599,
+      "nearest_unfiltered_distance_guide_px": 1.0524498872032129,
+      "selected_distance_guide_px": 1.0524498872032129,
+      "guide_reference_pixel_xy": [
+        1786.4377059091348,
+        933.9571124814684
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and all native paired crosshairs inspected; reference-code, lobe and source-tip corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.84668592927122,
+        44.15896910604702
+      ],
+      "error_ground_m": 20.999994626398884,
+      "east_ground_m": 19.94818370687097,
+      "north_ground_m": -6.56275407932596
+    },
+    {
+      "id": "Q03",
+      "label": "Unnamed pond west of Green Brook northeastern outlet",
+      "role": "check",
+      "pixel_xy": [
+        1393,
+        1753
+      ],
+      "lonlat": [
+        -64.84757406147206,
+        44.11449807616965
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 129105,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129105,
+      "nearest_unfiltered_distance_guide_px": 0.42926816500162607,
+      "selected_distance_guide_px": 0.42926816500162607,
+      "guide_reference_pixel_xy": [
+        1421.3966961319093,
+        1714.835977634415
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and all native paired crosshairs inspected; reference-code, lobe and source-tip corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.84815828824212,
+        44.1148920686185
+      ],
+      "error_ground_m": 64.06094837423764,
+      "east_ground_m": -46.76808674552253,
+      "north_ground_m": 43.778432689739134
+    },
+    {
+      "id": "Q04",
+      "label": "Barnaby Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2859,
+        1127
+      ],
+      "lonlat": [
+        -64.77124718997409,
+        44.175955537514014
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 124959,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124959,
+      "nearest_unfiltered_distance_guide_px": 0.48737219533728976,
+      "selected_distance_guide_px": 0.48737219533728976,
+      "guide_reference_pixel_xy": [
+        2900.2180779585033,
+        1066.4358596801758
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and all native paired crosshairs inspected; reference-code, lobe and source-tip corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.77072480429845,
+        44.175739374998386
+      ],
+      "error_ground_m": 48.18748134941949,
+      "east_ground_m": 41.77469639174939,
+      "north_ground_m": -24.018911302925705
+    },
+    {
+      "id": "Q05",
+      "label": "Horse Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4844,
+        847
+      ],
+      "lonlat": [
+        -64.64942597446233,
+        44.23074137728215
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 137906,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137906,
+      "nearest_unfiltered_distance_guide_px": 0.5905819677867311,
+      "selected_distance_guide_px": 0.5905819677867311,
+      "guide_reference_pixel_xy": [
+        4911.958989663573,
+        791.5891563569894
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and all native paired crosshairs inspected; reference-code, lobe and source-tip corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.64923164753499,
+        44.23128918304501
+      ],
+      "error_ground_m": 62.81918648016482,
+      "east_ground_m": 15.525547571486104,
+      "north_ground_m": 60.87041615296584
+    },
+    {
+      "id": "Q06",
+      "label": "Crane Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3658,
+        2553
+      ],
+      "lonlat": [
+        -64.67801239066,
+        44.125483712421136
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 129062,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129062,
+      "nearest_unfiltered_distance_guide_px": 1.1259637181670716,
+      "selected_distance_guide_px": 1.1259637181670716,
+      "guide_reference_pixel_xy": [
+        3703.1480261560646,
+        2485.736162253772
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and all native paired crosshairs inspected; reference-code, lobe and source-tip corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.67742602391458,
+        44.1255933444624
+      ],
+      "error_ground_m": 48.48618518553069,
+      "east_ground_m": 46.930922841195304,
+      "north_ground_m": 12.181897845547244
+    },
+    {
+      "id": "Q07",
+      "label": "Eight Mile Lake north-central island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2327,
+        1094
+      ],
+      "lonlat": [
+        -64.80663933944047,
+        44.16607393183591
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 144282,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 144282,
+      "nearest_unfiltered_distance_guide_px": 2.4162638205558347,
+      "selected_distance_guide_px": 2.4162638205558347,
+      "guide_reference_pixel_xy": [
+        2363.694404832553,
+        1039.2771156562958
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and all native paired crosshairs inspected; reference-code, lobe and source-tip corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.80637528093612,
+        44.16591922442922
+      ],
+      "error_ground_m": 27.231661751446442,
+      "east_ground_m": 21.120016999222226,
+      "north_ground_m": -17.190354379644283
+    },
+    {
+      "id": "Q08",
+      "label": "Port Medway Harbour small western island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4576,
+        2858
+      ],
+      "lonlat": [
+        -64.6088239244662,
+        44.13119600123548
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 27742,
+      "reference_feature_code": "WACORVIS10",
+      "nearest_unfiltered_feature_code": "WACORVIS10",
+      "nearest_unfiltered_objectid": 27742,
+      "nearest_unfiltered_distance_guide_px": 1.046833701298339,
+      "selected_distance_guide_px": 1.046833701298339,
+      "guide_reference_pixel_xy": [
+        4644.301221167843,
+        2777.220532911597
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and all native paired crosshairs inspected; reference-code, lobe and source-tip corrections before first fit and score.",
+      "predicted_lonlat": [
+        -64.60876264709437,
+        44.130765315266984
+      ],
+      "error_ground_m": 48.10619747939786,
+      "east_ground_m": 4.904017329254227,
+      "north_ground_m": -47.85558326842543
+    }
+  ],
+  "fit_sha256": "62a10b2e70714d41d570a8f44694121460c87796687e0c82415130a656849471",
+  "checks_sha256": "1742d22606175acf36bd274be13cd987cce6d889cafee57ec5d82ec7d2bc61c8",
+  "status": "Reserved before first fit and score"
+}

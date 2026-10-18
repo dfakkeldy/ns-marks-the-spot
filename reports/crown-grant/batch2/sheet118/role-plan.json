@@ -1,0 +1,22 @@
+{
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08"
+  ],
+  "timing": "Roles fixed before fit/scoring; placement refinements from native imagery only; Q06 refined from smooth northeast shore to definite northern spike before any score"
+}

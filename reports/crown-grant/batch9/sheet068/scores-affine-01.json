@@ -1,0 +1,151 @@
+{
+  "count": 4,
+  "rms_ground_m": 20.214786750610905,
+  "median_ground_m": 17.90202680669735,
+  "p95_ground_m": 27.78083324434883,
+  "max_ground_m": 28.970465721264198,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -5.245697509902399,
+  "mean_north_ground_m": -9.628423249616644,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Cold Spring Head lower eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        3217,
+        1394
+      ],
+      "lonlat": [
+        -63.862543103569614,
+        45.96136272515879
+      ],
+      "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+      "reference_objectid": 3551,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3551,
+      "nearest_unfiltered_distance_guide_px": 0.1689713534453185,
+      "selected_distance_guide_px": 0.1689713534453185,
+      "guide_reference_pixel_xy": [
+        3265.168971343548,
+        1442.000057833502
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring.",
+      "predicted_lonlat": [
+        -63.86280503572436,
+        45.96141233171527
+      ],
+      "error_ground_m": 21.03958254182844,
+      "east_ground_m": -20.30422889768859,
+      "north_ground_m": 5.51383010299372
+    },
+    {
+      "id": "Q02",
+      "label": "Lake Killarney southeast lobe southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2715,
+        3843
+      ],
+      "lonlat": [
+        -63.83094958730458,
+        45.85166986335859
+      ],
+      "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+      "reference_objectid": 133372,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133372,
+      "nearest_unfiltered_distance_guide_px": 2.3927469268486656,
+      "selected_distance_guide_px": 2.3927469268486656,
+      "guide_reference_pixel_xy": [
+        2750.6914189071395,
+        3861.370960101718
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring.",
+      "predicted_lonlat": [
+        -63.830976764549064,
+        45.851567221603105
+      ],
+      "error_ground_m": 11.602107128716911,
+      "east_ground_m": -2.110861286520743,
+      "north_ground_m": -11.40846854118868
+    },
+    {
+      "id": "Q03",
+      "label": "Linden southern peninsula northern apex",
+      "role": "check",
+      "pixel_xy": [
+        3564,
+        3108
+      ],
+      "lonlat": [
+        -63.798909399023074,
+        45.89702543011529
+      ],
+      "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+      "reference_objectid": 8549,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8549,
+      "nearest_unfiltered_distance_guide_px": 2.5074011762237807,
+      "selected_distance_guide_px": 2.5074011762237807,
+      "guide_reference_pixel_xy": [
+        3610.1189065773506,
+        3137.7560952048516
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring.",
+      "predicted_lonlat": [
+        -63.79872616086109,
+        45.89679834715997
+      ],
+      "error_ground_m": 28.970465721264198,
+      "east_ground_m": 14.220598692768728,
+      "north_ground_m": -25.240096214677315
+    },
+    {
+      "id": "Q04",
+      "label": "Lake Killarney western lobe southern shore",
+      "role": "check",
+      "pixel_xy": [
+        2401,
+        3695
+      ],
+      "lonlat": [
+        -63.85332186224144,
+        45.85222142074172
+      ],
+      "guide_file": ".crown-grant-local/068-adjacent-ppi-guide.npy",
+      "reference_objectid": 133370,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133370,
+      "nearest_unfiltered_distance_guide_px": 2.722513194004277,
+      "selected_distance_guide_px": 2.722513194004277,
+      "guide_reference_pixel_xy": [
+        2434.434947699716,
+        3712.6875450861407
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected before first fit/scoring.",
+      "predicted_lonlat": [
+        -63.85348651274673,
+        45.85215503229623
+      ],
+      "error_ground_m": 14.764471071566259,
+      "east_ground_m": -12.788298548168994,
+      "north_ground_m": -7.378958345594296
+    }
+  ],
+  "fit_sha256": "52d0067d726e7f992759c5c865a5a307e9725504fba4146dbe38ada2c9a7ce08",
+  "checks_sha256": "40aadf94a4ac2a209dd494ec7cb0fa17be9970f5a03e2fc653511a7457d9fc15",
+  "status": "Four excluded checks reserved before first affine fit; Cold Spring paired cape, separate Linden peninsula and two correlated Killarney shoreline checks"
+}

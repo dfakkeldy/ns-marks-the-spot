@@ -263,6 +263,21 @@ struct EvidenceNoteTests {
         #expect(note.markdown.contains("$300,000") == false)
     }
 
+    /// A dwelling lookup never made because the account lookup was out is
+    /// said as that: an outage upstream, not an answer of "no account".
+    @Test func anUpstreamOutageIsNotANoAccountAnswer() {
+        let note = EvidenceNote.build(
+            Self.input(assessments: .error, dwellings: .upstreamUnavailable)
+        )
+        #expect(
+            note.markdown.contains(
+                "Dwelling records were not looked up because the PVSC assessment account lookup "
+                    + "was unavailable."
+            )
+        )
+        #expect(!note.markdown.contains("no PVSC assessment account could be resolved"))
+    }
+
     /// A source that failed and a source that was never asked are different
     /// sentences. Neither is an empty result.
     @Test func aFailureAndAnUnaskedSourceReadDifferently() {
@@ -293,6 +308,27 @@ struct EvidenceNoteTests {
             dwellingFailure.markdown
                 .contains("PVSC residential dwelling source unavailable at export time.")
         )
+    }
+
+    /// A PID with no NSPRD geometry was never asked about: the note says so,
+    /// in the web's words, and never prints an outage for a question that
+    /// was not put.
+    @Test func aNeverAskedSourceIsNotAnOutage() throws {
+        let note = EvidenceNote.build(
+            Self.input(assessments: .geometryUnavailable, dwellings: .geometryUnavailable)
+        )
+        let sentence =
+            "Not evaluated — this PID's NSPRD geometry is unavailable, and no municipal "
+            + "notice supplied an AAN."
+        // Each section on its own: the dwelling section must not be the one
+        // supplying the sentence for both.
+        let assessmentStart = try #require(note.markdown.range(of: "## PVSC assessment accounts"))
+        let dwellingStart = try #require(note.markdown.range(of: "## PVSC residential dwelling records"))
+        let assessment = note.markdown[assessmentStart.upperBound..<dwellingStart.lowerBound]
+        let dwelling = note.markdown[dwellingStart.upperBound...]
+        #expect(assessment.contains(sentence))
+        #expect(dwelling.contains(sentence))
+        #expect(!note.markdown.contains("unavailable at export time"))
     }
 
     /// Nothing was asked, so nothing is claimed — including about the layers.

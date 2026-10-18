@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Cape Forchu western cape tip",
+    [
+      2327,
+      3177
+    ],
+    [
+      2354,
+      3299
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Red Head western shore turn",
+    [
+      3653,
+      370
+    ],
+    [
+      3653,
+      400
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Brenton Lake southern tip",
+    [
+      4848,
+      997
+    ],
+    [
+      4860,
+      996
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Porcupine Lake southern tip",
+    [
+      4473,
+      3229
+    ],
+    [
+      4470,
+      3258
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Cranberry Point outer corner",
+    [
+      3077,
+      1440
+    ],
+    [
+      3100,
+      1492
+    ],
+    "WACO"
+  ]
+]

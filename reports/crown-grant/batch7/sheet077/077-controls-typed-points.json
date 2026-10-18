@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Smith Point eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2965,
+      2312
+    ],
+    "lonlat": [
+      -63.41436422931116,
+      45.86086320403733
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 10584,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 10584,
+    "nearest_unfiltered_distance_guide_px": 1.5227974706566376,
+    "selected_distance_guide_px": 1.5227974706566376,
+    "guide_reference_pixel_xy": [
+      2968.5031677358784,
+      2364.7562811159296
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "McKenzie Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2858,
+      2600
+    ],
+    "lonlat": [
+      -63.41538839396107,
+      45.84780823084836
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 13078,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13078,
+    "nearest_unfiltered_distance_guide_px": 3.7864668002055466,
+    "selected_distance_guide_px": 3.7864668002055466,
+    "guide_reference_pixel_xy": [
+      2835.885730726586,
+      2623.784742179094
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Fox Harbour island northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2625,
+      2545
+    ],
+    "lonlat": [
+      -63.42953894126166,
+      45.846564646284214
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 18415,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18415,
+    "nearest_unfiltered_distance_guide_px": 1.529500710347414,
+    "selected_distance_guide_px": 1.529500710347414,
+    "guide_reference_pixel_xy": [
+      2621.1910591132473,
+      2563.517520622001
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Oak Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3290,
+      2867
+    ],
+    "lonlat": [
+      -63.381462727211925,
+      45.843252044966164
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 20951,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20951,
+    "nearest_unfiltered_distance_guide_px": 1.7905450539082957,
+    "selected_distance_guide_px": 1.7905450539082957,
+    "guide_reference_pixel_xy": [
+      3282.63528806885,
+      2921.270695864572
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Docherty Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2536,
+      2703
+    ],
+    "lonlat": [
+      -63.43103904315376,
+      45.83822300439515
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 5289,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5289,
+    "nearest_unfiltered_distance_guide_px": 1.9147318897283334,
+    "selected_distance_guide_px": 1.9147318897283334,
+    "guide_reference_pixel_xy": [
+      2524.259050828754,
+      2723.897127006203
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Horton Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2617,
+      3211
+    ],
+    "lonlat": [
+      -63.41565011282745,
+      45.817975956251445
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 13079,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13079,
+    "nearest_unfiltered_distance_guide_px": 1.036692261839682,
+    "selected_distance_guide_px": 1.036692261839682,
+    "guide_reference_pixel_xy": [
+      2562.7185126369586,
+      3228.252691204194
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

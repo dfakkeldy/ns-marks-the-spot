@@ -1,0 +1,41 @@
+[
+  {
+    "name": "north",
+    "native_box": [
+      7750,
+      1047,
+      9485,
+      3300
+    ],
+    "source_image": "north-grid.jpg",
+    "modern_image": "north-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior individually recorded slanted printed-graticule intersections; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      7000,
+      3050,
+      9485,
+      5150
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior individually recorded slanted printed-graticule intersections; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "south",
+    "native_box": [
+      5050,
+      4950,
+      9485,
+      6517
+    ],
+    "source_image": "south-grid.jpg",
+    "modern_image": "south-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior individually recorded slanted printed-graticule intersections; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]

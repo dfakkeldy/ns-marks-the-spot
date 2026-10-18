@@ -1,0 +1,107 @@
+[
+  {
+    "id": "MA01",
+    "label": "Half Bald Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      849,
+      402
+    ],
+    "lonlat": [
+      -66.03578017582294,
+      43.61795433200569
+    ],
+    "reference_objectid": 14499,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      802.5131716621108,
+      385.3775525188539
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA02",
+    "label": "Pumpkin Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3664,
+      389
+    ],
+    "lonlat": [
+      -65.86574849034378,
+      43.67504727028148
+    ],
+    "reference_objectid": 20514,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3640.297502778005,
+      426.8589439857751
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA03",
+    "label": "St John Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3427,
+      3353
+    ],
+    "lonlat": [
+      -65.80075230659703,
+      43.540008414405435
+    ],
+    "reference_objectid": 17834,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3325.238653198001,
+      3394.5055027472554
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA04",
+    "label": "Bon Portage Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3495,
+      5322
+    ],
+    "lonlat": [
+      -65.7435260990925,
+      43.45614228895911
+    ],
+    "reference_objectid": 21066,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3363.564356688352,
+      5348.500672318973
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MA05",
+    "label": "Bald Tusket Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      848,
+      861
+    ],
+    "lonlat": [
+      -66.02339925133745,
+      43.598089976502315
+    ],
+    "reference_objectid": 21024,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      793.7227367720334,
+      840.3965093608713
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,198 @@
+[
+  {
+    "id": "Q01",
+    "label": "Little Seven Mile Lake south tip",
+    "role": "check",
+    "pixel_xy": [
+      354,
+      346
+    ],
+    "lonlat": [
+      -62.79763702123201,
+      45.19645721995514
+    ],
+    "guide_file": ".crown-grant-local/089-adjacent-guide.npy",
+    "reference_objectid": 132099,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132099,
+    "nearest_unfiltered_distance_guide_px": 5.539792035760119,
+    "selected_distance_guide_px": 5.539792035760119,
+    "guide_reference_pixel_xy": [
+      361.94168780447217,
+      431.81163375719916
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake/island context and paired native crosshairs visually audited before first fit and scoring; modern lake/island feature codes verified.",
+    "review": "Checks reserved and excluded from fit; all physical corrections precede first fit."
+  },
+  {
+    "id": "Q02",
+    "label": "Little Lake north of western McDonald north tip",
+    "role": "check",
+    "pixel_xy": [
+      1590,
+      1700
+    ],
+    "lonlat": [
+      -62.69262450573244,
+      45.16253422643077
+    ],
+    "guide_file": ".crown-grant-local/089-adjacent-guide.npy",
+    "reference_objectid": 131835,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 131835,
+    "nearest_unfiltered_distance_guide_px": 0.9695449944816661,
+    "selected_distance_guide_px": 0.9695449944816661,
+    "guide_reference_pixel_xy": [
+      1606.3013764217612,
+      1720.6722667567665
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake/island context and paired native crosshairs visually audited before first fit and scoring; modern lake/island feature codes verified.",
+    "review": "Checks reserved and excluded from fit; all physical corrections precede first fit."
+  },
+  {
+    "id": "Q03",
+    "label": "Biggar Lake western island north tip",
+    "role": "check",
+    "pixel_xy": [
+      1757,
+      2360
+    ],
+    "lonlat": [
+      -62.666657929962035,
+      45.13671385356324
+    ],
+    "guide_file": ".crown-grant-local/089-adjacent-guide.npy",
+    "reference_objectid": 147162,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 147162,
+    "nearest_unfiltered_distance_guide_px": 1.7659559403529559,
+    "selected_distance_guide_px": 1.7659559403529559,
+    "guide_reference_pixel_xy": [
+      1767.368420849496,
+      2396.72709769872
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake/island context and paired native crosshairs visually audited before first fit and scoring; modern lake/island feature codes verified.",
+    "review": "Checks reserved and excluded from fit; all physical corrections precede first fit."
+  },
+  {
+    "id": "Q04",
+    "label": "Fraser Lake southeast corner",
+    "role": "check",
+    "pixel_xy": [
+      3610,
+      401
+    ],
+    "lonlat": [
+      -62.605733776099676,
+      45.247934682459324
+    ],
+    "guide_file": ".crown-grant-local/089-adjacent-guide.npy",
+    "reference_objectid": 127253,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127253,
+    "nearest_unfiltered_distance_guide_px": 1.0903631821212107,
+    "selected_distance_guide_px": 1.0903631821212107,
+    "guide_reference_pixel_xy": [
+      3593.2303521806025,
+      458.0657531336183
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake/island context and paired native crosshairs visually audited before first fit and scoring; modern lake/island feature codes verified.",
+    "review": "Checks reserved and excluded from fit; all physical corrections precede first fit."
+  },
+  {
+    "id": "Q05",
+    "label": "Bruin Lake island south tip",
+    "role": "check",
+    "pixel_xy": [
+      4888,
+      1146
+    ],
+    "lonlat": [
+      -62.51247077441303,
+      45.23866762684063
+    ],
+    "guide_file": ".crown-grant-local/089-adjacent-guide.npy",
+    "reference_objectid": 143988,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 143988,
+    "nearest_unfiltered_distance_guide_px": 1.1748352462149174,
+    "selected_distance_guide_px": 1.1748352462149174,
+    "guide_reference_pixel_xy": [
+      4874.945978010772,
+      1171.4810823745793
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake/island context and paired native crosshairs visually audited before first fit and scoring; modern lake/island feature codes verified.",
+    "review": "Checks reserved and excluded from fit; all physical corrections precede first fit."
+  },
+  {
+    "id": "Q06",
+    "label": "North Lake southwest lobe south shore",
+    "role": "check",
+    "pixel_xy": [
+      4498,
+      2104
+    ],
+    "lonlat": [
+      -62.51150111468081,
+      45.1912251106667
+    ],
+    "guide_file": ".crown-grant-local/089-adjacent-guide.npy",
+    "reference_objectid": 134263,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134263,
+    "nearest_unfiltered_distance_guide_px": 1.1047138770148603,
+    "selected_distance_guide_px": 1.1047138770148603,
+    "guide_reference_pixel_xy": [
+      4490.803741914802,
+      2150.757886326872
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake/island context and paired native crosshairs visually audited before first fit and scoring; modern lake/island feature codes verified.",
+    "review": "Checks reserved and excluded from fit; all physical corrections precede first fit."
+  },
+  {
+    "id": "Q07",
+    "label": "Bruin Lake northeast lobe north tip",
+    "role": "check",
+    "pixel_xy": [
+      4965,
+      1078
+    ],
+    "lonlat": [
+      -62.51013746010662,
+      45.24287216773963
+    ],
+    "guide_file": ".crown-grant-local/089-adjacent-guide.npy",
+    "reference_objectid": 74076,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 74076,
+    "nearest_unfiltered_distance_guide_px": 0.7713340457243595,
+    "selected_distance_guide_px": 0.7713340457243595,
+    "guide_reference_pixel_xy": [
+      4944.2688939087675,
+      1098.245845669997
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Broad lake/island context and paired native crosshairs visually audited before first fit and scoring; modern lake/island feature codes verified.",
+    "review": "Checks reserved and excluded from fit; all physical corrections precede first fit."
+  }
+]

@@ -1,0 +1,105 @@
+{
+  "source_frame": "Original 5616 x 3931 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      120,
+      130
+    ],
+    [
+      5560,
+      130
+    ],
+    [
+      5560,
+      3820
+    ],
+    [
+      120,
+      3820
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 52.83 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          120,
+          130
+        ],
+        [
+          5560,
+          130
+        ],
+        [
+          5560,
+          3820
+        ],
+        [
+          120,
+          3820
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "635c9fc81675ae704d7ec10c860453be4cb86ab02f936df8829ff4f5f52a20fc",
+      "holes_pixel_xy": [
+        [
+          [
+            190,
+            220
+          ],
+          [
+            1065,
+            220
+          ],
+          [
+            1065,
+            1320
+          ],
+          [
+            190,
+            1320
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "cape-chignecto-inset",
+      "status": "RMS 37.75 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          190,
+          220
+        ],
+        [
+          1065,
+          220
+        ],
+        [
+          1065,
+          1320
+        ],
+        [
+          190,
+          1320
+        ]
+      ],
+      "fit_file": "fit-inset-similarity-01.json",
+      "fit_sha256": "b0f8e81d983b39205fa57eaaa47c2e3103d9c3db3ef7e3003e984df2201f85b1",
+      "matrix": [
+        [
+          4.959391143714947,
+          2.0050025182033
+        ],
+        [
+          2.0050025182033,
+          -4.959391143714947
+        ],
+        [
+          342968.73191536986,
+          5025732.901098299
+        ]
+      ]
+    }
+  ]
+}

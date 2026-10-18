@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Cleveland Lake northern shore extremity",
+    "role": "control",
+    "pixel_xy": [
+      3478,
+      675
+    ],
+    "lonlat": [
+      -64.01480114617232,
+      45.57668022984595
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 128399,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128399,
+    "nearest_unfiltered_distance_guide_px": 1.3320567952053157,
+    "selected_distance_guide_px": 1.3320567952053157,
+    "guide_reference_pixel_xy": [
+      3460.0999235759955,
+      652.751361053437
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical geometry inspected before first fit and score"
+  },
+  {
+    "id": "C02",
+    "label": "British Lake northwest lobe northern extremity",
+    "role": "control",
+    "pixel_xy": [
+      3185,
+      1837
+    ],
+    "lonlat": [
+      -64.00063761471684,
+      45.522287432670325
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 124654,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124654,
+    "nearest_unfiltered_distance_guide_px": 0.8834650685290855,
+    "selected_distance_guide_px": 0.8834650685290855,
+    "guide_reference_pixel_xy": [
+      3188.4858755902387,
+      1844.7378586843843
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical geometry inspected before first fit and score"
+  },
+  {
+    "id": "C03",
+    "label": "Farmington small lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4347,
+      1627
+    ],
+    "lonlat": [
+      -63.938087743418066,
+      45.55071281502455
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 134039,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134039,
+    "nearest_unfiltered_distance_guide_px": 0.8905613135082062,
+    "selected_distance_guide_px": 0.8905613135082062,
+    "guide_reference_pixel_xy": [
+      4329.2651696918765,
+      1649.5031141733052
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical geometry inspected before first fit and score"
+  },
+  {
+    "id": "C04",
+    "label": "Fitch parcel lake northeast horn northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4112,
+      1922
+    ],
+    "lonlat": [
+      -63.944180113313095,
+      45.53446231848491
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 141340,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141340,
+    "nearest_unfiltered_distance_guide_px": 0.38625244431687067,
+    "selected_distance_guide_px": 0.38625244431687067,
+    "guide_reference_pixel_xy": [
+      4100.953773101268,
+      1942.6165237626992
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical geometry inspected before first fit and score"
+  },
+  {
+    "id": "C05",
+    "label": "Pinnacle Island northern tip",
+    "role": "control",
+    "pixel_xy": [
+      134,
+      3946
+    ],
+    "lonlat": [
+      -64.12644844644912,
+      45.38038429623892
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 18128,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18128,
+    "nearest_unfiltered_distance_guide_px": 0.5393875228443451,
+    "selected_distance_guide_px": 0.5393875228443451,
+    "guide_reference_pixel_xy": [
+      151.51653715025168,
+      3954.8446672210703
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical geometry inspected before first fit and score"
+  },
+  {
+    "id": "C06",
+    "label": "Newton Lake eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      4268,
+      3638
+    ],
+    "lonlat": [
+      -63.892801279207625,
+      45.46635239238177
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 134682,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134682,
+    "nearest_unfiltered_distance_guide_px": 0.7594869553409872,
+    "selected_distance_guide_px": 0.7594869553409872,
+    "guide_reference_pixel_xy": [
+      4243.730981773057,
+      3641.2061215243302
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical geometry inspected before first fit and score"
+  },
+  {
+    "id": "C07",
+    "label": "Economy Lake northern lobe eastern extremity",
+    "role": "control",
+    "pixel_xy": [
+      4921,
+      3356
+    ],
+    "lonlat": [
+      -63.86100162444111,
+      45.48863053412482
+    ],
+    "guide_file": ".crown-grant-local/061-adjacent-ppi-guide.npy",
+    "reference_objectid": 140882,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140882,
+    "nearest_unfiltered_distance_guide_px": 3.0941338185643907,
+    "selected_distance_guide_px": 3.0941338185643907,
+    "guide_reference_pixel_xy": [
+      4891.960840939486,
+      3382.327121486538
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and broad physical geometry inspected before first fit and score"
+  }
+]

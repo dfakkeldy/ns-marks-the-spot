@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Leeks Lake southern tip",
+    [
+      3027,
+      1421
+    ],
+    [
+      3111,
+      1302
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Summit Lake southern tip",
+    [
+      3394,
+      870
+    ],
+    [
+      3474,
+      751
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Small pond west of Cranberry Lake southern tip",
+    [
+      4289,
+      1157
+    ],
+    [
+      4385,
+      1038
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Cape Sharp southern tip",
+    [
+      1902,
+      2525
+    ],
+    [
+      1956,
+      2415
+    ],
+    "WACO20"
+  ],
+  [
+    "Q05",
+    "Partridge Island southeast corner",
+    [
+      2667,
+      2818
+    ],
+    [
+      2732,
+      2708
+    ],
+    "WACO20"
+  ],
+  [
+    "Q06",
+    "Two Brothers larger island southern tip",
+    [
+      4373,
+      3134
+    ],
+    [
+      4465,
+      3015
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q07",
+    "Two Brothers smaller island southwest tip",
+    [
+      4356,
+      3226
+    ],
+    [
+      4454,
+      3110
+    ],
+    "WACOIS10"
+  ]
+]

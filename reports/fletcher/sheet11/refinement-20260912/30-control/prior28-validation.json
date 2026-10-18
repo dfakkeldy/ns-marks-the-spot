@@ -1,0 +1,84 @@
+{
+  "fit_sha256": "4f05ff0c0d63c823d31e664a72e02c221c1fd03d9c1f8e025364c7f861e4ec2a",
+  "collected_at_utc": "2026-09-12T13:18:13.726180+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.1329593,
+        46.3850438
+      ],
+      "source_guide_xy": [
+        3520.857218839228,
+        2865.3129424005747
+      ],
+      "objectids": [
+        186299,
+        272495,
+        272777
+      ],
+      "id": "F11",
+      "modern_node": "J0517",
+      "pixel_xy": [
+        3459,
+        2928
+      ],
+      "role": "check",
+      "identity_evidence": "Mill Valley next western tributary below newly fitted W07/F10 and above separate lower western fork; main bends west into junction then runs south.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original unrotated native crosshair close and wide with marked modern topology before first score. Coordinates unchanged. Never fitted."
+    },
+    {
+      "lonlat": [
+        -61.2487151,
+        46.2845555
+      ],
+      "source_guide_xy": [
+        1081.0690638793167,
+        5996.563903600443
+      ],
+      "objectids": [
+        186886,
+        268677,
+        268678
+      ],
+      "id": "F12",
+      "modern_node": "J1047",
+      "pixel_xy": [
+        1029,
+        6017
+      ],
+      "role": "check",
+      "identity_evidence": "Coastal creek southwestern tributary immediately downstream/west of W06/F09; main continues northwest to coast, southeastern reach leads to separately fitted fork.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original unrotated native crosshair close and wide with marked modern topology before first score. Coordinates unchanged. Never fitted."
+    },
+    {
+      "lonlat": [
+        -61.1335265,
+        46.3702364
+      ],
+      "source_guide_xy": [
+        3510.6201301990077,
+        3327.112520800438
+      ],
+      "objectids": [
+        186915,
+        272496,
+        272497
+      ],
+      "id": "F13",
+      "modern_node": "J0590",
+      "pixel_xy": [
+        3474,
+        3342
+      ],
+      "role": "check",
+      "identity_evidence": "Mill Valley large eastern tributary below sequence of western forks and long straight southern reach; eastern arm has a distinct southern tributary farther upstream, above main continuation south.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original unrotated native crosshair close and wide with marked modern topology before first score. Coordinates unchanged. Never fitted."
+    }
+  ],
+  "review_completed_at_utc": "2026-09-12T13:24:01.638578+00:00",
+  "comparison_only": true,
+  "frozen_candidate_sha256": "00b50e12cca689d24748f570ddbc496dc5778f13d86fc9d2423837172b6eddfa"
+}

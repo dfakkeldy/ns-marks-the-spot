@@ -1,0 +1,129 @@
+{
+  "finding": "VM12 historical Stony Island was matched to a mainland coastal pond, not a marine island. Both original reference features60256/60257 are WALK20. Reject this correspondence and all candidates using it as a control; retain original measurements, first scores and trials.",
+  "original_manifest_sha256": "62008fb796ef51672f5c1cf13779652e2ca4cd23b84ac43065ab9215041abd1c",
+  "original_inputs_changed": false,
+  "source_island_pixel_retained": true,
+  "replacement_reference": null,
+  "reference_absence_note": "No replacement marine-island ring found in the inspected local reference neighbourhood. This does not establish that the island no longer exists; do not substitute a nearby pond or a name point.",
+  "island_exterior_audit": [
+    {
+      "id": "VM01",
+      "label": "Kidston Island",
+      "feature_ids": [
+        17422,
+        18000,
+        18001,
+        18002,
+        117138,
+        117139,
+        117140,
+        117141
+      ],
+      "feature_codes": {
+        "17422": "WACOIS10",
+        "18000": "WACOIS10",
+        "18001": "WACOIS10",
+        "18002": "WACOIS10",
+        "117138": "WALK20",
+        "117139": "WALK20",
+        "117140": "WALK20",
+        "117141": "WALK20"
+      },
+      "exterior_vertices": 278,
+      "marine_exterior_vertices": 278,
+      "lake_exterior_vertices": 0,
+      "marine_exterior_supported": true
+    },
+    {
+      "id": "VM02",
+      "label": "Hume Island",
+      "feature_ids": [
+        22123
+      ],
+      "feature_codes": {
+        "22123": "WACOIS10"
+      },
+      "exterior_vertices": 64,
+      "marine_exterior_vertices": 64,
+      "lake_exterior_vertices": 0,
+      "marine_exterior_supported": true
+    },
+    {
+      "id": "VM06",
+      "label": "Northeastern Bird Island (Ciboux)",
+      "feature_ids": [
+        16599,
+        117284,
+        117285
+      ],
+      "feature_codes": {
+        "16599": "WACOIS10",
+        "117284": "WALK20",
+        "117285": "WALK20"
+      },
+      "exterior_vertices": 621,
+      "marine_exterior_vertices": 621,
+      "lake_exterior_vertices": 0,
+      "marine_exterior_supported": true
+    },
+    {
+      "id": "VM10",
+      "label": "Southwestern Bird Island (Hertford)",
+      "feature_ids": [
+        17952
+      ],
+      "feature_codes": {
+        "17952": "WACOIS10"
+      },
+      "exterior_vertices": 320,
+      "marine_exterior_vertices": 320,
+      "lake_exterior_vertices": 0,
+      "marine_exterior_supported": true
+    },
+    {
+      "id": "VM07",
+      "label": "Bone Island",
+      "feature_ids": [
+        17212
+      ],
+      "feature_codes": {
+        "17212": "WACOIS10"
+      },
+      "exterior_vertices": 62,
+      "marine_exterior_vertices": 62,
+      "lake_exterior_vertices": 0,
+      "marine_exterior_supported": true
+    },
+    {
+      "id": "VM12",
+      "label": "Stony Island",
+      "feature_ids": [
+        60256,
+        60257
+      ],
+      "feature_codes": {
+        "60256": "WALK20",
+        "60257": "WALK20"
+      },
+      "exterior_vertices": 38,
+      "marine_exterior_vertices": 0,
+      "lake_exterior_vertices": 38,
+      "marine_exterior_supported": false
+    }
+  ],
+  "classification_note": "Feature-ID lists may include interior holes. Kidston/Ciboux have pond-related IDs, but every recorded exterior vertex is supported by marine-island lines. Audit the actual exterior, not only the whole ID list.",
+  "invalid_source_aliases": [
+    "VM12",
+    "Stony Island"
+  ],
+  "invalid_control_candidates": [
+    "regional-tps11",
+    "southern-support-trial",
+    "southern-island-support",
+    "central-river-support",
+    "harbour-support"
+  ],
+  "scope": "Audit applies to report candidates only; production inputs and historical accepted baselines remain unchanged.",
+  "geographic_acceptance": false,
+  "invalid_check_sets": "Original four-check physical comparison and early northern/interior/lake/Baddeck comparisons also included VM12 as a check. Their numerical values are preserved, but those aggregates are not valid geographic-check sets."
+}

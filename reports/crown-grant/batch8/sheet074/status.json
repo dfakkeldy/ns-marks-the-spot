@@ -1,0 +1,45 @@
+{
+  "sheet": "074",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/074.pdf",
+    "pdf_sha256": "8f4cff8e7c9f19d6ca89182e7feeea5e2cd1e4922af76ef0f6d204e49532ace6",
+    "jpeg_sha256": "4f6aac7c0daae6353263fe5bcfcdf308b8c72e0205c75f6c2124a6caf4b1e305",
+    "dimensions": [
+      5712,
+      3869
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 6,
+      "rms_ground_m": 61.26836122984472,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 61.27 m, median 61.94 m, P95 81.18 m and maximum 83.74 m; numerical bounds pass with regional qualifications.",
+    "Five checks share lakes or islands with controls; McMullin is a separate nearby lake. Spatial correlation limits independent regional evidence.",
+    "Northern third and northwestern river/parcel region lack independent checks. The central Musquodoboit River corridor also remains unvalidated.",
+    "Generalized natural lake observations use 12 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 61.27 m, median 61.94 m, P95 81.18 m, maximum 83.74 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Lantz Siding, Dutch Settlement, Carrolls Corner, Gays River, Cooks Brook, Lake Egmont, Middle Musquodoboit, Devon, Wyses Corner, Elderbank, Murchyville, Meaghers Grant and Lower Meaghers Grant, all southern lake systems, islands, rivers and inland parcels. No displaced inset identified."
+  }
+}

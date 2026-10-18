@@ -1,0 +1,117 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/110.pdf",
+  "acquired_date": "2026-09-22",
+  "source_dimensions": [
+    5683,
+    3880
+  ],
+  "ppi": 150,
+  "reference_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "query": {
+    "geometry": [
+      -61.7,
+      45.5,
+      -60.95,
+      45.95
+    ],
+    "inSR": 4326,
+    "outSR": 4326,
+    "where": "1=1",
+    "outFields": "*",
+    "orderByFields": "OBJECTID",
+    "resultRecordCount": 2000,
+    "resultOffsets": [
+      0,
+      2000,
+      4000,
+      6000,
+      8000,
+      10000
+    ]
+  },
+  "reference_count": 10687,
+  "truncated": false,
+  "locality_use": "Geonames are discovery guides only; every adopted control/check uses physical NSTDB features",
+  "files": [
+    {
+      "name": "110.pdf",
+      "bytes": 4006302,
+      "sha256": "d830307ebac8c5804a37cc460c2410e3c25dbbe0f3723644d5668f85056d3e9a"
+    },
+    {
+      "name": "110-000.jpg",
+      "bytes": 4005136,
+      "sha256": "8cf432bfefff1a90cbca146e2332311960193a0f99a2fa78db9ad5f9ac2ea327"
+    },
+    {
+      "name": "110-water-page0.geojson",
+      "bytes": 6275093,
+      "sha256": "fabe3275e234ffbb879b5093f3a8c64d44d1a66eb1bc7a9921e064a7a11f91fd"
+    },
+    {
+      "name": "110-water-page1.geojson",
+      "bytes": 2432169,
+      "sha256": "33f3295575b072b5651eb63bcf0329c6f31822af1146719e730cf45b299fc6fe"
+    },
+    {
+      "name": "110-water-page2.geojson",
+      "bytes": 6640457,
+      "sha256": "01c757a7627662034b2d3d89f8fbb32529276f3b183baedbeb877e939fd4ad86"
+    },
+    {
+      "name": "110-water-page3.geojson",
+      "bytes": 6378575,
+      "sha256": "751b18b16c92ada2aa4405691c0456ef68ec47e566a4335947a6bc5c591cc4c2"
+    },
+    {
+      "name": "110-water-page4.geojson",
+      "bytes": 8109192,
+      "sha256": "e4e624387de3d538a6c878b64d059425e9942daab076f7e082669213530ba0f8"
+    },
+    {
+      "name": "110-water-page5.geojson",
+      "bytes": 1963375,
+      "sha256": "0d784930505c39a12f80e122ae9a19915bd16e9b0b7f8263686655f41cd3f2aa"
+    },
+    {
+      "name": "110-water-tight.geojson",
+      "bytes": 32451666,
+      "sha256": "75cf9ad4fdb95b81e4d31939cca780842545dc452daa24ce4a0bbf2d587b1083"
+    },
+    {
+      "name": "110-locality-0.json",
+      "bytes": 3905,
+      "sha256": "e7a4c4837cb01103231172dca663c8c6d0d8b4b911de511f19af19585372c3ae"
+    },
+    {
+      "name": "110-locality-1.json",
+      "bytes": 19911,
+      "sha256": "ad89393991f7e50d4adaf07300d31943ebd7aade73deab996e7019a8893687a4"
+    },
+    {
+      "name": "110-locality-2.json",
+      "bytes": 27920,
+      "sha256": "1ad24161b0e61299f2041a8d704e438aa7a3a4798c01b0a8f5dab8d9ef552cb3"
+    },
+    {
+      "name": "110-locality-3.json",
+      "bytes": 9222,
+      "sha256": "0c33ab28343edea2d644de81dc56595f68eefe42b9843779a5a5525f223a5043"
+    },
+    {
+      "name": "110-locality-guide.npy",
+      "bytes": 176,
+      "sha256": "df00b07183f81e3ac418b0ffebd6c458640dbebe772fa6ee4adb643a36bd37e4"
+    },
+    {
+      "name": "110-physical-search-guide.npy",
+      "bytes": 176,
+      "sha256": "7777f2d4a91ac6ad99b4d189d3fc936a5fe103c309ad37f0d8de8a55798bb719"
+    },
+    {
+      "name": "110-frozen-guide.npy",
+      "bytes": 176,
+      "sha256": "994ed2b94315ea5b13f790f9a73762cff32cf730a1df7371d3cd978c87fb58fb"
+    }
+  ]
+}

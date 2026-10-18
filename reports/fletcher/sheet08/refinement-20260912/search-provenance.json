@@ -1,0 +1,7 @@
+{
+  "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/search/all-modern-nodes-anchored.json",
+  "sha256": "05df7301fcf59aae0fa21c60cbc5db7ca61d2ab60d45c753a4e38e57942e8f0c",
+  "method": "Endpoint triples from unchanged original NSTDB water lines, rounded to seven decimals; printed-graticule affine used only for search visualization; coordinates never derived by inverse TPS.",
+  "script": "search_context.py",
+  "reference_receipts": "../reference-receipts.json"
+}

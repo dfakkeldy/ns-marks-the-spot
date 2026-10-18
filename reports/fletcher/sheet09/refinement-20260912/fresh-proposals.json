@@ -1,0 +1,56 @@
+{
+  "fit_sha256": "3ca430d2f637410bec54e0381e0629d2c73e357d0ef981dc26f4f40842be82ec",
+  "collected_at_utc": "2026-09-12T13:35:47.001129+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.0698382,
+        46.4809749
+      ],
+      "source_guide_xy": [
+        4792.730380679248,
+        5569.210366900312
+      ],
+      "objectids": [
+        186864,
+        272051,
+        272168
+      ],
+      "modern_node": "J1300",
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        4895,
+        5355
+      ],
+      "identity_evidence": "Murphys Brook northern tributary above coastal outlet, main eastern arm continues east with separate larger fork; northern arm curves northwest then toward small wet hollow.",
+      "status": "Fresh after 25-control freeze; close/wide review pending; unscored",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -60.8866274,
+        46.5208409
+      ],
+      "source_guide_xy": [
+        8720.874823559308,
+        4327.872066100361
+      ],
+      "objectids": [
+        188782,
+        189234,
+        189376
+      ],
+      "modern_node": "J1033",
+      "id": "F04",
+      "role": "check",
+      "pixel_xy": [
+        8855,
+        4435
+      ],
+      "identity_evidence": "Rocky Brook western arm northern tributary upstream of C23 and downstream of smaller southern forks; distinct long northwest arm and another northern spur nearer main Rocky confluence.",
+      "status": "Fresh after 25-control freeze; close/wide review pending; unscored",
+      "source_uncertainty_px": 15
+    }
+  ]
+}

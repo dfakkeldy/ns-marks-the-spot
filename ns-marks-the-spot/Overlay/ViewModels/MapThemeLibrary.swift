@@ -47,8 +47,6 @@ final class MapThemeLibrary {
 
     func theme(_ id: String) -> MapTheme? { all.first { $0.id == id } }
 
-    func clearNotice() { notice = nil }
-
     /// Saves the map's current setup under a name of the reader's choosing.
     /// Returns the saved theme, or `nil` when it could not be saved.
     @discardableResult

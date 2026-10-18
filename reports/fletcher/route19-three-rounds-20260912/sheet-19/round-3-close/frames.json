@@ -1,0 +1,25 @@
+[
+  {
+    "image": "V07.jpg",
+    "record": "route19-three-rounds-20260912/sheet-19/round-2-fit.json",
+    "record_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+    "id": "V07",
+    "native_box": [
+      5040,
+      4291,
+      5170,
+      4421
+    ],
+    "pixel_xy": [
+      5105,
+      4356
+    ],
+    "lonlat": [
+      -61.4285647,
+      45.8175827
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 300
+  }
+]

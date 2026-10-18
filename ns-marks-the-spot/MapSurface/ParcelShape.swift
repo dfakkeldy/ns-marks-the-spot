@@ -136,11 +136,16 @@ nonisolated final class ParcelOverviewAnnotation: MKPointAnnotation,
     MapKitAnnotationIdentifying
 {
     let mapAnnotationID: String
+    /// The parcel this marker stands for, kept as itself rather than sliced
+    /// back out of the prefixed annotation id, so what is read out is the PID
+    /// the record carries.
+    let pid: String
     let role: ParcelShape.Role
     let isSelected: Bool
 
     init(marker: ParcelOverviewMarker) {
         mapAnnotationID = MapController.parcelOverviewPrefix + marker.pid
+        pid = marker.pid
         role = marker.role
         isSelected = marker.role == .selected || marker.role == .selectedHistorical
         super.init()

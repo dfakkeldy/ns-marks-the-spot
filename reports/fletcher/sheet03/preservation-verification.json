@@ -1,0 +1,11 @@
+{
+  "verified_at_utc": "2026-09-11T21:34:45.769922+00:00",
+  "initial_seven_controls_unchanged": true,
+  "promotions": [],
+  "initial_fit_and_scores_preserved": true,
+  "fresh_validation_disjoint_from_fit": true,
+  "original_two_prior_files_unchanged": true,
+  "source_sha256_verified": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413",
+  "reference_files_verified": 4,
+  "fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422"
+}

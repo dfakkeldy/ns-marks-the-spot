@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+like+%27%25Stony%25Island%25%27+or+geoname+like+%27%25Stoney%25Island%25%27+or+geoname+like+%27%25Bone%25Island%25%27&%24limit=100",
+  "query": {
+    "$where": "geoname like '%Stony%Island%' or geoname like '%Stoney%Island%' or geoname like '%Bone%Island%'",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-15T04:06:24.579222+00:00",
+  "sha256": "d93a3d59bebabae71718c4cb3294eb71046fa1e60e8155d5c9f929f5ef7bce73",
+  "scope": "Independent identity audit, name coordinates not GCPs"
+}

@@ -1,0 +1,105 @@
+{
+  "source_frame": "Original 5665 x 3961 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      140,
+      135
+    ],
+    [
+      5580,
+      135
+    ],
+    [
+      5580,
+      3820
+    ],
+    [
+      140,
+      3820
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 42.93 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          140,
+          135
+        ],
+        [
+          5580,
+          135
+        ],
+        [
+          5580,
+          3820
+        ],
+        [
+          140,
+          3820
+        ]
+      ],
+      "fit_file": "fit-main-similarity-01.json",
+      "fit_sha256": "777e4689e86e18ab544b2b2f145f7f13426460665719384a3945441bfff6b982",
+      "holes_pixel_xy": [
+        [
+          [
+            140,
+            2025
+          ],
+          [
+            965,
+            2025
+          ],
+          [
+            965,
+            2615
+          ],
+          [
+            140,
+            2615
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "isle-haute-inset",
+      "status": "RMS 88.07 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          140,
+          2025
+        ],
+        [
+          965,
+          2025
+        ],
+        [
+          965,
+          2615
+        ],
+        [
+          140,
+          2615
+        ]
+      ],
+      "fit_file": "fit-inset-similarity-01.json",
+      "fit_sha256": "bd8595c31735f66a8b400ac1b6558a3e91b0afd42498bbcedf1f52c1553e4ed1",
+      "matrix": [
+        [
+          5.323609194593425,
+          1.9649720436140696
+        ],
+        [
+          1.9649720436140696,
+          -5.323609194593425
+        ],
+        [
+          335665.05868454755,
+          5024309.412224457
+        ]
+      ]
+    }
+  ]
+}

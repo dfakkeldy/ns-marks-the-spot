@@ -98,8 +98,9 @@ public enum ResourceIntersectionQuery {
         "geo_id,Occ_num,Name,Status,Comm_prim,Comm_list"
     private static let mineralTenureFields =
         "OBJECTID,TENURE_NUMBER_ID,MTA_TENURE_TYPE_CODE,MINERAL_TENURE_STATUS_CODE"
+    /// The provincial version 9 service only accepts lower-case field names.
     private static let abandonedMineFields =
-        "geo_id,ShaftID,Name,Opening_ty,Degree_Haz,Protection"
+        "geo_id,shaftid,name,opening_ty,degree_haz,protection"
 
     private static let descriptors: [Descriptor] = [
         Descriptor(

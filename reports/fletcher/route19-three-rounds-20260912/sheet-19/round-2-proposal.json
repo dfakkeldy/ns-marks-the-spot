@@ -1,0 +1,42 @@
+{
+  "points": [
+    {
+      "id": "O05",
+      "role": "control",
+      "review": "Enlarged native audit before scoring: southern tributary joins main just below the printed horizontal graticule. Original point8930,1332 was upstream/northwest of the branch entry, close to the grid. Corrected to8932,1336 from visible water ink, keeping modern identity.",
+      "pixel_xy": [
+        8932,
+        1336
+      ],
+      "lonlat": [
+        -61.2546889,
+        45.9160407
+      ],
+      "modern_objectids": [
+        195775,
+        274529,
+        274668
+      ],
+      "description": "Southern tributary joins the northern river at the marked falls.",
+      "supersedes": {
+        "id": "O05",
+        "role": "control",
+        "review": "agent-proposed",
+        "pixel_xy": [
+          8930,
+          1332
+        ],
+        "lonlat": [
+          -61.2546889,
+          45.9160407
+        ],
+        "modern_objectids": [
+          195775,
+          274529,
+          274668
+        ],
+        "description": "Southern tributary joins the northern river at the marked falls."
+      }
+    }
+  ]
+}

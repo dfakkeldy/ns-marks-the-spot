@@ -1,0 +1,82 @@
+{
+  "sheet": "sheet-07",
+  "fit_sha256": "bcc49f0869d2b40b817de4ea0902fa8f313fe7dfb60126df8251a4636cbed4cb",
+  "collected_at_utc": "2026-09-12T13:53:30.219679+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.4038861,
+        46.6068524
+      ],
+      "source_guide_xy": [
+        2734.443656999385,
+        1418.253916800255
+      ],
+      "objectids": [
+        191090,
+        283812,
+        284812
+      ],
+      "id": "F06",
+      "role": "check",
+      "modern_node_id": "J0205",
+      "pixel_xy": [
+        2718,
+        1333
+      ],
+      "identity_evidence": "Northern interior brook western arm tributary upstream of C13",
+      "source_uncertainty_px": 20,
+      "status": "Fresh proposal pending close/wide native and modern identity review; unscored"
+    },
+    {
+      "lonlat": [
+        -60.3946871,
+        46.5828771
+      ],
+      "source_guide_xy": [
+        2933.4180269995704,
+        2170.311127200257
+      ],
+      "objectids": [
+        191460,
+        271554,
+        271555
+      ],
+      "id": "F07",
+      "role": "check",
+      "modern_node_id": "J0274",
+      "pixel_xy": [
+        3035,
+        2075
+      ],
+      "identity_evidence": "Pathend Brook northern tributary upstream of coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Fresh proposal pending close/wide native and modern identity review; unscored"
+    },
+    {
+      "lonlat": [
+        -60.4569091,
+        46.4612714
+      ],
+      "source_guide_xy": [
+        1587.5561669997405,
+        5984.83872479992
+      ],
+      "objectids": [
+        125610,
+        125611,
+        282906
+      ],
+      "id": "F08",
+      "role": "check",
+      "modern_node_id": "J0604",
+      "pixel_xy": [
+        1680,
+        5935
+      ],
+      "identity_evidence": "Northern stream inlet of large Breeding Cove pond south of C11",
+      "source_uncertainty_px": 20,
+      "status": "Fresh proposal pending close/wide native and modern identity review; unscored"
+    }
+  ]
+}

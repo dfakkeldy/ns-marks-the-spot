@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.5177975,
+        46.9968842
+      ],
+      "source_guide_xy": [
+        5968.465941600036,
+        5554.309552299557
+      ],
+      "objectids": [
+        181098,
+        280552,
+        280553
+      ],
+      "id": "F02",
+      "modern_node_id": "J0144",
+      "role": "check",
+      "pixel_xy": [
+        5980,
+        5628
+      ],
+      "identity_evidence": "Wreck Cove Brook inland western tributary fork; historical short eastern stem versus modern longer south stem needs identity review.",
+      "source_uncertainty_px": 25,
+      "status": "Post-freeze proposal, unscored; exact crosshair and hierarchy pending.",
+      "rejection_reason": "Native crosshair is off-channel, and neither nearby historical fork has the modern north-outflow with long south and west branches. Historical channel bends west toward lakes, whereas modern southern main continues far south. Identity unresolved; rejected without scoring."
+    }
+  ]
+}

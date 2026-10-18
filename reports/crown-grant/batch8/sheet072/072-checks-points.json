@@ -1,0 +1,158 @@
+[
+  {
+    "id": "Q01",
+    "label": "Western Burton pond southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      799,
+      2338
+    ],
+    "lonlat": [
+      -63.57960417377758,
+      45.22942044470226
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 133594,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133594,
+    "nearest_unfiltered_distance_guide_px": 2.8351415336723833,
+    "selected_distance_guide_px": 2.8351415336723833,
+    "guide_reference_pixel_xy": [
+      788.8008537334972,
+      2336.189738191315
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Northern pond east of Georgefield southwestern bay",
+    "role": "proposal",
+    "pixel_xy": [
+      1792,
+      2894
+    ],
+    "lonlat": [
+      -63.49803572958261,
+      45.22295687301015
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 141685,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141685,
+    "nearest_unfiltered_distance_guide_px": 0.6184398485591435,
+    "selected_distance_guide_px": 0.6184398485591435,
+    "guide_reference_pixel_xy": [
+      1780.3825412889128,
+      2886.965177788865
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Southeastern pond east of Georgefield southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2026,
+      3018
+    ],
+    "lonlat": [
+      -63.479248337218955,
+      45.22177343230019
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 142616,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142616,
+    "nearest_unfiltered_distance_guide_px": 0.28235026099709293,
+    "selected_distance_guide_px": 0.28235026099709293,
+    "guide_reference_pixel_xy": [
+      2011.1697066739434,
+      3008.225657516392
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Pond northwest of South Maitland southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      2160,
+      2346
+    ],
+    "lonlat": [
+      -63.488497294820895,
+      45.25603375798966
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 141271,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141271,
+    "nearest_unfiltered_distance_guide_px": 0.21196586838052126,
+    "selected_distance_guide_px": 0.21196586838052126,
+    "guide_reference_pixel_xy": [
+      2151.832042673952,
+      2345.870694679208
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Pond at southeast sheet corner southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5084,
+      3469
+    ],
+    "lonlat": [
+      -63.26084833560386,
+      45.26096266027879
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 139947,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139947,
+    "nearest_unfiltered_distance_guide_px": 0.6993715525668708,
+    "selected_distance_guide_px": 0.6993715525668708,
+    "guide_reference_pixel_xy": [
+      5093.513858442486,
+      3465.4972207695246
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Noel Shore cape east of unnamed creek northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      318,
+      250
+    ],
+    "lonlat": [
+      -63.67082522075991,
+      45.318649811011454
+    ],
+    "guide_file": ".crown-grant-local/072-adjacent-ppi-guide.npy",
+    "reference_objectid": 3545,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3545,
+    "nearest_unfiltered_distance_guide_px": 0.19583210433612255,
+    "selected_distance_guide_px": 0.19583210433612255,
+    "guide_reference_pixel_xy": [
+      303.1820926485234,
+      253.07205886789598
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

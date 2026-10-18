@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Seven controls span southwestern and northern islands and eastern/central lakes in the original frame.",
+  "corrections": [
+    "Middle Five Bridge and Hatchet lake check tips refined to the actual shoreline extrema; all intermediate proposals retained."
+  ],
+  "rejections": [
+    {
+      "id": "Q04",
+      "reason": "Generalized Upper Five Bridge peninsula corner lacks a precise equivalent vertex; rejected before fitting or scoring."
+    }
+  ],
+  "limitations": [
+    "Six checks are paired with the same islands or lakes as controls.",
+    "Western bay shore, northwestern mainland and much northern interior lack independent checks.",
+    "Several inland lake and river configurations differ; no change cause inferred, unresolved points not forced."
+  ]
+}

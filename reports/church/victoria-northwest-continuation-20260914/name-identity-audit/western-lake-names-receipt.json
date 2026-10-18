@@ -1,0 +1,7 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=upper%28geoname%29+IN+%28%27SUNDAY+LAKE%27%2C%27LAKE+OF+ISLANDS%27%29&%24limit=100",
+  "retrieved_at": "2026-09-14T15:02:25.241573+00:00",
+  "sha256": "8f345a09856bf19da92b378637ca1dcb4389327bd35ce78635f1053fd599c87f",
+  "count": 4,
+  "scope": "Lake identity audit only; gazetteer coordinates are not GCP values."
+}

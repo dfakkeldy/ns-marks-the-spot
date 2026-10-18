@@ -1,0 +1,21 @@
+{
+  "geographic_acceptance": false,
+  "local_improvement": true,
+  "production_eligible": false,
+  "controls": 12,
+  "fresh_checks": 2,
+  "fresh_median_ground_m": 223.05127658238217,
+  "fresh_worst_ground_m": 368.21752412616263,
+  "reason": "Sunday Lake inlet improves to 77.885 m, but Big Southwest junction remains 368.218 m. Whole raster and all four neighboring seams remain unaccepted. New checks are concentrated near the repair, not whole-sheet coverage.",
+  "native_modern_figures_reviewed": 16,
+  "raster_figures_reviewed": 9,
+  "seam_figures_reviewed": 8,
+  "browser_screenshots_reviewed": 3,
+  "reviewed_figure_count": 36,
+  "seams": {
+    "03": "unaccepted: northern gaps and tilted edges; displaced drainage",
+    "04": "unaccepted: some Black/Clyburn continuation near controls; other streams displaced",
+    "06": "unaccepted: western drainage mismatch; Deep Brook/Cheticamp local correspondence only",
+    "08": "unaccepted: southern gaps, tilted boundaries and displaced stream continuations"
+  }
+}

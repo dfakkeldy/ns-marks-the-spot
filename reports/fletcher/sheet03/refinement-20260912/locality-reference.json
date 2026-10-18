@@ -1,0 +1,104 @@
+{
+  "url": "https://geogratis.gc.ca/services/geoname/en/geonames.json?q=Chain%20Lakes&province=12",
+  "retrieved_at_utc": "2026-09-12T12:40:18.572735+00:00",
+  "sha256": "349d622612a92b6ef56443c032b91c02b54d224604aba61581cab877b163b15b",
+  "record": {
+    "id": "CAGRY",
+    "links": {
+      "self": {
+        "href": "https://geogratis.gc.ca/services/geoname/en/geonames/CAGRY"
+      },
+      "feature": {
+        "href": "https://geogratis.gc.ca/services/geoname/en/features/6871516caf5411d892e2080020a0f4c9"
+      },
+      "language": {
+        "href": "https://geogratis.gc.ca/services/geoname/en/codes/language/und"
+      },
+      "status": {
+        "href": "https://geogratis.gc.ca/services/geoname/en/codes/status/official"
+      },
+      "concise": {
+        "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/LAKE"
+      },
+      "generic": {
+        "href": "https://geogratis.gc.ca/services/geoname/en/codes/generic/952"
+      },
+      "province": {
+        "href": "https://geogratis.gc.ca/services/geoname/en/codes/province/12"
+      }
+    },
+    "name": "Chain Lakes",
+    "language": {
+      "code": "und",
+      "links": {
+        "self": {
+          "href": "https://geogratis.gc.ca/services/geoname/en/codes/language/und"
+        }
+      }
+    },
+    "feature": {
+      "id": "6871516caf5411d892e2080020a0f4c9",
+      "links": {
+        "self": {
+          "href": "https://geogratis.gc.ca/services/geoname/en/features/6871516caf5411d892e2080020a0f4c9"
+        }
+      }
+    },
+    "category": "O",
+    "status": {
+      "code": "official",
+      "links": {
+        "self": {
+          "href": "https://geogratis.gc.ca/services/geoname/en/codes/status/official"
+        }
+      }
+    },
+    "concise": {
+      "code": "LAKE",
+      "links": {
+        "self": {
+          "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/LAKE"
+        }
+      }
+    },
+    "generic": {
+      "code": "952",
+      "links": {
+        "self": {
+          "href": "https://geogratis.gc.ca/services/geoname/en/codes/generic/952"
+        }
+      }
+    },
+    "location": "Victoria",
+    "province": {
+      "code": "12",
+      "links": {
+        "self": {
+          "href": "https://geogratis.gc.ca/services/geoname/en/codes/province/12"
+        }
+      }
+    },
+    "latitude": 46.81026,
+    "longitude": -60.555037,
+    "map": [
+      "011K15"
+    ],
+    "relevance": 50000,
+    "bbox": [
+      -60.5716023,
+      46.8033093,
+      -60.5379729,
+      46.8190068
+    ],
+    "accuracy": 100,
+    "position": {
+      "type": "Point",
+      "coordinates": [
+        -60.555037,
+        46.81026
+      ]
+    },
+    "decision": "1975-07-04"
+  },
+  "use": "Locality identification only; 100 m place-name accuracy is not a physical control coordinate."
+}

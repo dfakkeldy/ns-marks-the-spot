@@ -1,0 +1,14 @@
+{
+  "prospective_control": "CB10",
+  "source_sha256": "1908f828252ed5d29091f64206682645a05855436cebd665d140a8a72e94ab07",
+  "never_fresh": true,
+  "diagnostics": [
+    "CB04",
+    "CB09"
+  ],
+  "preserved_first": [
+    "../CB09-first.json",
+    "reports/church/distributed-review-20260913/cape-breton/first-scores.json"
+  ],
+  "geographic_acceptance": false
+}

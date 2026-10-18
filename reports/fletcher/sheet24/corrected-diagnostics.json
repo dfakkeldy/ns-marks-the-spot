@@ -1,0 +1,145 @@
+{
+  "sheet": "sheet-24",
+  "fit_sha256": "5a1f70fba35b34f645266790d0e32ed49e8572d923471034ab041b72d2047e42",
+  "points": [
+    {
+      "lonlat": [
+        -61.559929,
+        45.5259244
+      ],
+      "source_guide_xy": [
+        2108.6458843608852,
+        2578.338412000565
+      ],
+      "objectids": [
+        142409,
+        142410,
+        292741
+      ],
+      "id": "Q01",
+      "role": "rejected",
+      "modern_node_id": "J0505",
+      "pixel_xy": [
+        2290,
+        2470
+      ],
+      "identity_evidence": "Shepherd Lake northeastern tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: changed northern Shepherd basin and nearby competing tributaries prevent secure matching."
+    },
+    {
+      "lonlat": [
+        -61.2645943,
+        45.5078578
+      ],
+      "source_guide_xy": [
+        8553.394364139996,
+        3184.8029101602733
+      ],
+      "objectids": [
+        135748,
+        135750,
+        293281
+      ],
+      "id": "Q02",
+      "role": "check",
+      "modern_node_id": "J0669",
+      "pixel_xy": [
+        8596,
+        3107
+      ],
+      "identity_evidence": "Knight Lake western tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -61.5503315,
+        45.4403133
+      ],
+      "source_guide_xy": [
+        2308.6944074204657,
+        5262.0183352003805
+      ],
+      "objectids": [
+        127433,
+        127435,
+        223474
+      ],
+      "id": "Q03",
+      "role": "check",
+      "modern_node_id": "J1129",
+      "pixel_xy": [
+        2366,
+        5088
+      ],
+      "identity_evidence": "Fraser Lake southwestern tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -61.49514132519521,
+        45.396519103790745
+      ],
+      "guide_xy": [
+        3508.583777902415,
+        6641.728106741793
+      ],
+      "modern_objectid": 18114,
+      "modern_part": 0,
+      "modern_vertex": 29,
+      "modern_properties": {
+        "OBJECTID": 18114,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 346.38038708987983
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        3553,
+        6525
+      ],
+      "identity_evidence": "Byron Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -61.296680926410716,
+        45.43981534654455
+      ],
+      "guide_xy": [
+        7845.476344009163,
+        5312.319611333311
+      ],
+      "modern_objectid": 4226,
+      "modern_part": 0,
+      "modern_vertex": 10,
+      "modern_properties": {
+        "OBJECTID": 4226,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 284.2338696872527
+      },
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        8049,
+        5220
+      ],
+      "identity_evidence": "Grady Point southernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    }
+  ]
+}

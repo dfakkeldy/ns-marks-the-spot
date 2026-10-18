@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Smith Point eastern tip",
+    [
+      2965,
+      2312
+    ],
+    [
+      2967,
+      2365
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "McKenzie Point southern tip",
+    [
+      2858,
+      2600
+    ],
+    [
+      2836,
+      2620
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Fox Harbour island northwest tip",
+    [
+      2625,
+      2545
+    ],
+    [
+      2621,
+      2562
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C04",
+    "Oak Island eastern tip",
+    [
+      3290,
+      2867
+    ],
+    [
+      3281,
+      2922
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Docherty Point northern tip",
+    [
+      2536,
+      2703
+    ],
+    [
+      2524,
+      2722
+    ],
+    "WACO20"
+  ],
+  [
+    "C06",
+    "Horton Point northern tip",
+    [
+      2617,
+      3211
+    ],
+    [
+      2562,
+      3229
+    ],
+    "WACO20"
+  ]
+]

@@ -1,0 +1,165 @@
+{
+  "sheet": "005",
+  "version": "round2-main-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "Reflected similarity EPSG:32620; row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.860989421351012,
+      2.0137358719518454
+    ],
+    [
+      2.0137358719518454,
+      -4.860989421351012
+    ],
+    [
+      231047.4372966257,
+      4930354.649565288
+    ]
+  ],
+  "source_sha256": "d0444b73a17a459f812c6668154d3fcaf6cc5d784fa4ce2771bacd469a769c56",
+  "source_dimensions": [
+    5762,
+    3894
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "MA01",
+      "label": "Boar Head northeastern corner",
+      "role": "control",
+      "pixel_xy": [
+        1678,
+        2440
+      ],
+      "lonlat": [
+        -66.21535119740184,
+        44.40464770236256
+      ],
+      "reference_objectid": 19316,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1560.4477714907262,
+        2380.71958592569
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MA02",
+      "label": "East Ferry peninsula southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1588,
+        3098
+      ],
+      "lonlat": [
+        -66.20245186476583,
+        44.375419890448484
+      ],
+      "reference_objectid": 4803,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1507.4655222983565,
+        3000.064390336862
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MA03",
+      "label": "Sandy Cove western lip",
+      "role": "control",
+      "pixel_xy": [
+        3973,
+        1338
+      ],
+      "lonlat": [
+        -66.10558578007463,
+        44.49863865525664
+      ],
+      "reference_objectid": 2201,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3892.599611377169,
+        1306.5928636167664
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MA04",
+      "label": "Trout Cove western lip",
+      "role": "control",
+      "pixel_xy": [
+        5465,
+        734
+      ],
+      "lonlat": [
+        -66.0362158912771,
+        44.551010237829054
+      ],
+      "reference_objectid": 4452,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5307.456056583731,
+        755.9428336935816
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MA05",
+      "label": "New Edinburgh estuary headland",
+      "role": "control",
+      "pixel_xy": [
+        4542,
+        2948
+      ],
+      "lonlat": [
+        -66.02227991490592,
+        44.43925031522789
+      ],
+      "reference_objectid": 27124,
+      "reference_feature_code": "WACORV20",
+      "guide_reference_pixel_xy": [
+        4603.118411857926,
+        2910.3370670522563
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "MA06",
+      "label": "Major Point northern headland",
+      "role": "control",
+      "pixel_xy": [
+        3320,
+        3648
+      ],
+      "lonlat": [
+        -66.08086504547973,
+        44.38690575244883
+      ],
+      "reference_objectid": 6841,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3341.1687506416347,
+        3525.348475953797
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "status": "Candidate frozen; fresh independent checks pending",
+  "model_choice": "All six original controls retained. A similarity preserves local shapes and removes 5.17% principal-axis anisotropy in the affine, whose six coast/headland anchors include generalized and possibly engineered shore detail. Known-check trial motivated this candidate; new reserved peninsula checks are untouched. Uniform map scale is a modelling hypothesis, not proof of paper isotropy. Candidate frozen before fresh check scoring; no adjustment after scoring.",
+  "frozen_at_utc": "2026-09-26T14:47:07.568503+00:00",
+  "parent_fit_sha256": "ff33da67fdf9fe7fc58ce6fdcd1d7c84505b9326ac4df9939911f165edad34fb",
+  "fresh_reservation_sha256": "150f30b015d4a5b5888d2f5368a23ab04d443de9719103ba0f3bf015c8bcbf7a"
+}

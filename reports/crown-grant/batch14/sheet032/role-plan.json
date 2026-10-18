@@ -1,0 +1,21 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T07:45:29.659243+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 7,
+  "reason": "Cameron, Molega/Ponhook islands, Sixteen Mile island, southwestern Black, southeastern Long and southern Big Winnifred span the frame.",
+  "corrections": [
+    "Big Lamoner initial lake-island type guard rejected distant geometry; visible island uses WARVLKIS10 feature 314538. Original inputs and guard failure retained."
+  ],
+  "unadopted": [
+    "Bradley and Telfer lake geometries not confidently reconciled.",
+    "Little Winnifred outline not reconciled with modern stream network.",
+    "Cow Moose southern projection is a peninsula, not an island. Its northern land tip is a check only."
+  ],
+  "limitations": [
+    "Six checks share control lakes or islands; Cow Moose Lake provides one separate nearby waterbody. Shared historical cartography limits independence.",
+    "Easternmost margin, much of the southern interior and intervening central areas lack independent checks. Big Winnifred has a control only.",
+    "Generalized shorelines and small island tips, including lettering across Sixteen Mile island, carry 24 px source uncertainty."
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "fit_sha256": "d19f28006254479a15efb976e438e15230bb29dfbf94b1202419ca2f56e4cb91",
+  "points": [
+    {
+      "id": "J22-C01",
+      "role": "check",
+      "pixel_xy": [
+        7692,
+        1140
+      ],
+      "lonlat": [
+        -61.3133425,
+        45.7436686
+      ],
+      "modern_objectids": [
+        161946,
+        161947,
+        279105
+      ],
+      "modern_node": "J0113",
+      "source_uncertainty_px": 10,
+      "identity_evidence": "Southern tributary joins Lamey Brook west of the north\u2013south road; upstream main has tight westward loop, downstream main crosses road then bends northeast to River Inhabitants. Historical thick single waterline compared with modern bank junction introduces bank/centreline uncertainty. Separate modern eastern tributary J0121 is east of this point and not this western fork.",
+      "source_crop": {
+        "native_box": [
+          7620,
+          1080,
+          7760,
+          1230
+        ],
+        "display_size": [
+          560,
+          600
+        ],
+        "rotation_degrees": 0
+      },
+      "review": "Native crosshair inspected at 4x before scoring; agent reviewed."
+    }
+  ],
+  "scope": "Central northern-edge physical check, with bank/centreline uncertainty."
+}

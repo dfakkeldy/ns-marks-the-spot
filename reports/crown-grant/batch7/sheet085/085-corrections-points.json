@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q03",
+    "label": "Sandies Point west corner",
+    "role": "proposal",
+    "pixel_xy": [
+      935,
+      1752
+    ],
+    "lonlat": [
+      -63.109350064125664,
+      45.790990066405485
+    ],
+    "guide_file": ".crown-grant-local/085-adjacent-guide.npy",
+    "reference_objectid": 1892,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1892,
+    "nearest_unfiltered_distance_guide_px": 1.3289332558799194,
+    "selected_distance_guide_px": 1.3289332558799194,
+    "guide_reference_pixel_xy": [
+      1017.3378863520338,
+      1539.152245249832
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

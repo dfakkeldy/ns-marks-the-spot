@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+  "raster_sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be",
+  "cutline_sha256": "d1209f2275defe74500402a140fcc4a67d0ba0d21b784f99fd0ac640a671c7ee",
+  "expected_interior_cells": 46439512,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

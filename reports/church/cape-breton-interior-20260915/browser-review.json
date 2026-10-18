@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-09-15T13:13:17.195473+00:00",
+  "web_code_commit": "516eaa62a3fcd5d3028aafb7e08a1bcfc4740725",
+  "artifact_sha256": "9ece5d16898647390987aa7614cb93367943947b6d62bceeafc95b34d0aaf072",
+  "native_raster_size": [
+    6655,
+    5344
+  ],
+  "actual_importer": "GeoTIFF file chooser in local production web app",
+  "saved_reload_verified": true,
+  "only_active_historical_import": "cape-breton-tps6-review-20m",
+  "opacity_percent": 70,
+  "full_view": [
+    45.99982,
+    -60.2401,
+    10
+  ],
+  "regional_2d_view": [
+    45.81006,
+    -60.5594,
+    13
+  ],
+  "regional_3d_view": [
+    45.81002,
+    -60.55939,
+    13
+  ],
+  "exaggeration": 10,
+  "tilt_degrees": 50,
+  "direction_degrees": 0,
+  "separate_low_ground_scale": false,
+  "error_logs": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/browser/tps6-full-2d.png",
+      "sha256": "0f206b7767d9755074abe51e0e020473980068077012fbdd4bbd81ef15b943b8"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/browser/tps6-uist-10x.png",
+      "sha256": "0d683105d734922b27aeb4228d176bb12f3d86b715c2f58706e9b5fc8ffc7457"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-interior-20260915/browser/tps6-uist-2d.png",
+      "sha256": "88b6a7d03127c59efcc30ed6e3693b5634c1806799474ac01cdba055b79168a0"
+    }
+  ],
+  "findings": [
+    "Complete retained mask is visible in the overview; prior inset exclusions remain.",
+    "Lake Uist northern connection and the adjacent Munroe/Enon context render after the western correction, with top-down and10x terrain views. This is control-region context, not fresh validation.",
+    "Steep distant foreground/background relief at10x can obscure shorelines; coordinates were measured only in original scan/reference frames."
+  ],
+  "geographic_acceptance": false
+}

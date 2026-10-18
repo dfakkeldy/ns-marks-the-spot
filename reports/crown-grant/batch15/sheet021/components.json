@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5678 x 3911 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 71.93 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          110,
+          135
+        ],
+        [
+          5580,
+          130
+        ],
+        [
+          5580,
+          3735
+        ],
+        [
+          100,
+          3765
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The full mapped frame retains Annapolis Basin and River, Goat Island, all inland lake islands and boundary extensions. Eight controls and seven excluded checks support northern, central and eastern features; the western third and much of the river remain provisional."
+    }
+  ]
+}

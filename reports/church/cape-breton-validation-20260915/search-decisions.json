@@ -1,0 +1,14 @@
+{
+  "Round_Island": {
+    "state": "correspondence-unresolved",
+    "physical_name_key": "CBGNT",
+    "excluded_community_key": "CBGNI",
+    "decision": "No point or score. The physical Mira River island is distinct from the community farther east. Reviewed source context and native detail did not establish a clearly isolated matching island; nearby peninsula and engraving geometry must not be substituted. This is not a claim of historical absence."
+  },
+  "South_Head": {
+    "decision": "Adopted CB22 on main geographic panel, not the separate Cow Bay inset. The source explicitly labels Cape Morien or South Head. Original reference class WACOIS10 is retained; geographic setting and continuous headland geometry establish the correspondence."
+  },
+  "Enon": {
+    "decision": "Adopted the eastern lake/stream junction. The old northern approach is drawn as a brook while modern geometry has a longer lake arm; no whole-basin centroid was substituted."
+  }
+}

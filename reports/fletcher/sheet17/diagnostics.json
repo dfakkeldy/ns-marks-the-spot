@@ -1,0 +1,108 @@
+{
+  "sheet": "sheet-17",
+  "fit_sha256": "cfad34018a018539e3c6b6056fa473bd23971509c5a687e88fee3cc8f57c04ad",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7155,
+        4952
+      ],
+      "lonlat": [
+        -60.5914593,
+        45.7944226
+      ],
+      "modern_node_id": "J0479",
+      "modern_objectids": [
+        139237,
+        139239,
+        195251
+      ],
+      "identity_evidence": "Northern Loch Lomond southwest outlet at mill",
+      "source_uncertainty_px": 15
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7989,
+        4350
+      ],
+      "lonlat": [
+        -60.5539977,
+        45.8136712
+      ],
+      "modern_node_id": "J0404",
+      "modern_objectids": [
+        135855,
+        135857,
+        295489
+      ],
+      "identity_evidence": "Northern upper pond southern outlet above Loch Lomond",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -60.762471084012375,
+        45.80550790462264
+      ],
+      "guide_xy": [
+        3351.8832601290196,
+        4744.824616930215
+      ],
+      "modern_objectid": 23627,
+      "modern_part": 0,
+      "modern_vertex": 355,
+      "modern_properties": {
+        "OBJECTID": 23627,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 3072.15148130193
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        3444,
+        4604
+      ],
+      "identity_evidence": "Red Island main island easternmost outer coast tip",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.53481378876622,
+        45.9125690595894
+      ],
+      "guide_xy": [
+        8337.578026019968,
+        1394.23871109006
+      ],
+      "modern_objectid": 14867,
+      "modern_part": 0,
+      "modern_vertex": 6,
+      "modern_properties": {
+        "OBJECTID": 14867,
+        "FEAT_CODE": "WACO25",
+        "FEAT_DESC": "Coastline Indefinite - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 21.916095064780606
+      },
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        8245,
+        1384
+      ],
+      "identity_evidence": "Small west-protruding coast point immediately southwest of Big Pond village; original modern proposal confused adjacent coastal bend, corrected before scoring",
+      "source_uncertainty_px": 20
+    }
+  ]
+}

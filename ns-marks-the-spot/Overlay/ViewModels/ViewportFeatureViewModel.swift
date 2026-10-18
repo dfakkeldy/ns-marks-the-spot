@@ -15,6 +15,7 @@ import Observation
 nonisolated enum ViewportLayerStatus: Equatable, Sendable {
     case off
     case licenceBlocked
+    case rightsBlocked
     case zoomGated(minZoom: Int)
     case loading
     case ready(drawn: Int, unreadable: Int)
@@ -26,6 +27,8 @@ nonisolated enum ViewportLayerStatus: Equatable, Sendable {
             return "Off"
         case .licenceBlocked:
             return "Province licence not accepted"
+        case .rightsBlocked:
+            return LayerUse.municipalQueryLockReason
         case .zoomGated(let minZoom):
             return "Zoom to \(minZoom)+ to load"
         case .loading:
@@ -52,7 +55,7 @@ nonisolated enum ViewportLayerStatus: Equatable, Sendable {
         case .off, .zoomGated: return .quiet
         case .loading: return .working
         case .ready(_, let unreadable): return unreadable > 0 ? .broken : .ready
-        case .failed, .licenceBlocked: return .broken
+        case .failed, .licenceBlocked, .rightsBlocked: return .broken
         }
     }
 }
@@ -178,7 +181,8 @@ final class ViewportFeatureViewModel {
             let descriptor = LayerCatalog.descriptor(for: id)
             visibility[id] = descriptor?.nativeDefaultVisible ?? false
             opacities[id] = descriptor?.opacity ?? 1
-            statuses[id] = visibility[id] == true ? .loading : .off
+            statuses[id] = descriptor.flatMap { LayerUse.queryLockReason(for: $0) } != nil
+                ? .rightsBlocked : (visibility[id] == true ? .loading : .off)
         }
     }
 
@@ -241,6 +245,14 @@ final class ViewportFeatureViewModel {
     }
 
     func setVisible(_ id: LayerID, to visible: Bool) {
+        if let layer = LayerCatalog.descriptor(for: id), LayerUse.queryLockReason(for: layer) != nil {
+            visibility[id] = false
+            refreshTasks[id]?.cancel()
+            requestNumbers[id] = (requestNumbers[id] ?? 0) + 1
+            clear(id)
+            statuses[id] = .rightsBlocked
+            return
+        }
         guard visibility[id] != visible else { return }
         visibility[id] = visible
         guard visible else {
@@ -287,6 +299,12 @@ final class ViewportFeatureViewModel {
         let request = (requestNumbers[id] ?? 0) + 1
         requestNumbers[id] = request
 
+        if let layer = LayerCatalog.descriptor(for: id), LayerUse.queryLockReason(for: layer) != nil {
+            visibility[id] = false
+            clear(id)
+            statuses[id] = .rightsBlocked
+            return
+        }
         guard isVisible(id) else {
             statuses[id] = .off
             return

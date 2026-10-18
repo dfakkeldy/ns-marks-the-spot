@@ -1,0 +1,132 @@
+[
+  {
+    "id": "Q01",
+    "label": "Fox Harbour island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2687,
+      2605
+    ],
+    "lonlat": [
+      -63.421878279375875,
+      45.84438184576077
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 18415,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18415,
+    "nearest_unfiltered_distance_guide_px": 1.2278823497460716,
+    "selected_distance_guide_px": 1.2278823497460716,
+    "guide_reference_pixel_xy": [
+      2711.6226745092426,
+      2654.1684693144634
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Oak Island southwest shore",
+    "role": "proposal",
+    "pixel_xy": [
+      2961,
+      2886
+    ],
+    "lonlat": [
+      -63.40231859352432,
+      45.837332876948956
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 20951,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20951,
+    "nearest_unfiltered_distance_guide_px": 1.8352333276130106,
+    "selected_distance_guide_px": 1.8352333276130106,
+    "guide_reference_pixel_xy": [
+      2929.2569558374234,
+      2915.5743504279526
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Palmer Point southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2378,
+      3076
+    ],
+    "lonlat": [
+      -63.432813584071276,
+      45.819770025605536
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 8163,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8163,
+    "nearest_unfiltered_distance_guide_px": 0.019956323096811335,
+    "selected_distance_guide_px": 0.019956323096811335,
+    "guide_reference_pixel_xy": [
+      2332.0178117714822,
+      3088.0089997571195
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Canfield Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2349,
+      3150
+    ],
+    "lonlat": [
+      -63.43127829716902,
+      45.81557970280134
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 3859,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3859,
+    "nearest_unfiltered_distance_guide_px": 0.48259953781539183,
+    "selected_distance_guide_px": 0.48259953781539183,
+    "guide_reference_pixel_xy": [
+      2316.244571723044,
+      3182.416037241346
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Lazy Bay northern promontory northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2186,
+      3184
+    ],
+    "lonlat": [
+      -63.439299133900896,
+      45.81084844093438
+    ],
+    "guide_file": ".crown-grant-local/077-northwest-guide.npy",
+    "reference_objectid": 3859,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3859,
+    "nearest_unfiltered_distance_guide_px": 0.1057849077470291,
+    "selected_distance_guide_px": 0.1057849077470291,
+    "guide_reference_pixel_xy": [
+      2158.1056534542004,
+      3229.994727967889
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

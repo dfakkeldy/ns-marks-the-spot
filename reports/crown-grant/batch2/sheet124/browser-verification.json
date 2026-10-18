@@ -1,0 +1,21 @@
+{
+  "verified_at_utc": "2026-09-23T05:14:41.647508+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet124/main-3857.png",
+      "complete": true,
+      "width": 6195,
+      "height": 5149
+    }
+  ],
+  "verified": [
+    "Full East Bay frame, islands and southern ponds inspected against NSTDB/OSM",
+    "40 percent opacity, modern-only and restore worked",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Standalone Leaflet raster review; sparse northern interior and companion-bound failures remain"
+  ]
+}

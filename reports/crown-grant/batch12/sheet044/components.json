@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5672 x 3933 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 103.26 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          125,
+          140
+        ],
+        [
+          5600,
+          140
+        ],
+        [
+          5600,
+          3825
+        ],
+        [
+          125,
+          3825
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Gaspereau Lake, Little River Lake, River Lake, Morton Flowage, Trout River, Black River and Lumsden Pond, North and South Alton, Canaan, New Minas, Kentville, Port Williams, Wolfville, White Rock Mills, Gaspereau, Newtonville and Greenfield. All lake water, islands, inland watersheds and the full northern Cornwallis River reach remain retained; no inset or internal crop."
+    }
+  ]
+}

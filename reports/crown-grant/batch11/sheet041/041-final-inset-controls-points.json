@@ -1,0 +1,83 @@
+[
+  {
+    "id": "C01",
+    "label": "Inset Cape Chignecto western tip",
+    "role": "control",
+    "pixel_xy": [
+      498,
+      1108
+    ],
+    "lonlat": [
+      -64.94456239007751,
+      45.328156817353005
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 3926,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3926,
+    "nearest_unfiltered_distance_guide_px": 1.2296840441737948,
+    "selected_distance_guide_px": 1.2296840441737948,
+    "guide_reference_pixel_xy": [
+      502.34498853678815,
+      1058.8197009878932
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native crosshairs and broad coastal context inspected before first inset fit or score; corner/tip corrections use image evidence only."
+  },
+  {
+    "id": "C02",
+    "label": "Inset northern lower headland northwest tip",
+    "role": "control",
+    "pixel_xy": [
+      818,
+      527
+    ],
+    "lonlat": [
+      -64.9396273699128,
+      45.359608971309015
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 4148,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4148,
+    "nearest_unfiltered_distance_guide_px": 0.9789337124773656,
+    "selected_distance_guide_px": 0.9789337124773656,
+    "guide_reference_pixel_xy": [
+      831.277779992146,
+      484.9386956319213
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native crosshairs and broad coastal context inspected before first inset fit or score; corner/tip corrections use image evidence only."
+  },
+  {
+    "id": "C03",
+    "label": "Inset southeastern southern coast bend",
+    "role": "control",
+    "pixel_xy": [
+      947,
+      1184
+    ],
+    "lonlat": [
+      -64.91333406026229,
+      45.333511888247386
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 1870,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1870,
+    "nearest_unfiltered_distance_guide_px": 1.1626607443431458,
+    "selected_distance_guide_px": 1.1626607443431458,
+    "guide_reference_pixel_xy": [
+      966.0690823710756,
+      1142.543006684631
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native crosshairs and broad coastal context inspected before first inset fit or score; corner/tip corrections use image evidence only."
+  }
+]

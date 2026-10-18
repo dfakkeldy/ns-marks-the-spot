@@ -1,0 +1,19 @@
+{
+  "geographic_acceptance": false,
+  "recommended_replacement": false,
+  "production_eligible": false,
+  "controls": 11,
+  "fresh_checks": 2,
+  "fresh_median_ground_m": 203.86946215443135,
+  "fresh_worst_ground_m": 227.6962313425496,
+  "reason": "Daphine local fit worsens F06 and nearby Cheticamp River; F04 barely improves. Both checks are concentrated near new control. Preserve prior ten-control baseline, itself unaccepted.",
+  "native_modern_figures_reviewed": 12,
+  "raster_figures_reviewed": 8,
+  "seam_figures_reviewed": 4,
+  "browser_screenshots_reviewed": 6,
+  "reviewed_figure_count": 30,
+  "seams": {
+    "05": "unaccepted: gaps, tilted boundaries and displaced northern/interior drainage; Cheticamp local correspondence only",
+    "09": "unaccepted: island and interior gaps/offset; no accepted continuation"
+  }
+}

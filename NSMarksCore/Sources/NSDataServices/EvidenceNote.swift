@@ -121,6 +121,9 @@ public struct EvidenceNoteInput: Sendable {
         /// Asked, and had not answered by the time the note was written. Not a
         /// source that failed, and not a parcel with no assessment account.
         case stillOut
+        /// Never asked, because the PID had no NSPRD geometry to ask with.
+        /// Not a source that failed; the web's `geometry-unavailable`.
+        case geometryUnavailable
     }
 
     public enum DwellingEvidence: Sendable, Equatable {
@@ -129,8 +132,13 @@ public struct EvidenceNoteInput: Sendable {
         /// Never asked, because no account was resolved to ask about. Not the
         /// same as asked-and-empty.
         case blocked
+        /// Never asked, because the account lookup it depends on was
+        /// unavailable. An outage upstream, not an answer of "no account".
+        case upstreamUnavailable
         /// Asked, and still out. See `AssessmentEvidence.stillOut`.
         case stillOut
+        /// Never asked: no NSPRD geometry, and no notice supplied an AAN.
+        case geometryUnavailable
     }
 
     public var generatedAt: Date
@@ -467,6 +475,13 @@ extension EvidenceNote {
         if case .stillOut = evidence {
             return [stillOut("PVSC assessment")]
         }
+        if case .geometryUnavailable = evidence {
+            // The web's sentence, word for word: never asked is not an outage.
+            return [
+                "Not evaluated — this PID's NSPRD geometry is unavailable, and no municipal "
+                    + "notice supplied an AAN."
+            ]
+        }
         guard case .ready(let result) = evidence else {
             return ["PVSC assessment source unavailable at export time."]
         }
@@ -519,6 +534,11 @@ extension EvidenceNote {
         switch evidence {
         case .error:
             return ["PVSC residential dwelling source unavailable at export time."]
+        case .geometryUnavailable:
+            return [
+                "Not evaluated — this PID's NSPRD geometry is unavailable, and no municipal "
+                    + "notice supplied an AAN."
+            ]
         case .stillOut:
             return [stillOut("PVSC residential dwelling")]
         case .blocked:
@@ -526,6 +546,13 @@ extension EvidenceNote {
                 """
                 Dwelling records were not looked up because no PVSC assessment account could be \
                 resolved.
+                """
+            ]
+        case .upstreamUnavailable:
+            return [
+                """
+                Dwelling records were not looked up because the PVSC assessment account lookup \
+                was unavailable.
                 """
             ]
         case .ready(let result) where result.accounts.isEmpty:

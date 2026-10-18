@@ -1,0 +1,8 @@
+{
+  "baseline_fit_sha256": "0ec9b754154ef5a6b9d0692b051e8545e044f3f6218697cdaeb91d9fe25443dc",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "scope": "Refine full Sheet11, resolve Mink/Gallant and other weak inland identities; retain full mainland extension/island. Then next sheet north.",
+  "criteria": "Existing working <=100m median / <=200m worst ground error; record every failure.",
+  "checks": "Q01-Q07 (six existing rows) remain excluded diagnostics. Q08 selected before current refinement fit. New independent checks only after final repair freeze.",
+  "prior_error": "Earlier report called northern stream Trunk Brook. Enlarged native label is Mink Brook, corroborated by NSTDB named Mink edges. Name alone is not a coordinate control."
+}

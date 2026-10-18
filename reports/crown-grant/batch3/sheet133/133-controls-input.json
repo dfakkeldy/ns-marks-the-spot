@@ -1,0 +1,119 @@
+[
+  [
+    "C01",
+    "Northwest McInnis Lake east end",
+    [
+      451,
+      459
+    ],
+    [
+      468,
+      473
+    ],
+    "WALK"
+  ],
+  [
+    "C02",
+    "Mira long island northeast tip",
+    [
+      1605,
+      958
+    ],
+    [
+      1613,
+      949
+    ],
+    "WACORVIS"
+  ],
+  [
+    "C03",
+    "Mohawk Lake north tip",
+    [
+      2534,
+      1325
+    ],
+    [
+      2560,
+      1320
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Oceanview Wilkinson Lake south tip",
+    [
+      3340,
+      1030
+    ],
+    [
+      3370,
+      1040
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Cape Gabarus east shore corner",
+    [
+      4330,
+      2800
+    ],
+    [
+      4345,
+      2810
+    ],
+    "WACO"
+  ],
+  [
+    "C06",
+    "Guyon Island west tip",
+    [
+      3417,
+      3605
+    ],
+    [
+      3445,
+      3610
+    ],
+    "WACOIS"
+  ],
+  [
+    "C07",
+    "Southwest Goose Lake south tip",
+    [
+      967,
+      2980
+    ],
+    [
+      1000,
+      2990
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Middle Lake western narrow bend",
+    [
+      422,
+      2470
+    ],
+    [
+      431,
+      2460
+    ],
+    "WALK"
+  ],
+  [
+    "C09",
+    "Northeast McInnis Lake south tip",
+    [
+      4410,
+      773
+    ],
+    [
+      4450,
+      773
+    ],
+    "WALK"
+  ]
+]

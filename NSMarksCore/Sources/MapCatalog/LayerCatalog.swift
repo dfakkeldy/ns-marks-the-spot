@@ -81,7 +81,12 @@ public enum LayerCatalog {
     private static let openGovernmentLicence = URL(
         string: "https://novascotia.ca/opendata/licence.asp"
     )
-    private static let unrestrictedLicence = URL(
+    /// Public because the credit table has to be able to find it. Two licences
+    /// wear the one `provinceOpen` case, and this document is the only field
+    /// that separates the coastal projections from the Open Government layers —
+    /// the browser draws the same line against its own
+    /// `COASTAL_HAZARD_LICENCE_URL`.
+    public static let unrestrictedLicence = URL(
         string: "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf"
     )
     private static let coastalHazardSource = URL(string: "https://nsgi.novascotia.ca/chm")
@@ -567,6 +572,7 @@ public enum LayerCatalog {
             uiOrder: 20,
             licence: .municipalNoStatedLicence,
             delivery: .featureQuery,
+            availability: .rightsPending,
             serviceURL: URL(string: "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/IN_Zoning/FeatureServer/708"),
             sourceURL: edpcPlanDocuments,
             minZoom: 12,
@@ -585,6 +591,7 @@ public enum LayerCatalog {
             uiOrder: 21,
             licence: .municipalNoStatedLicence,
             delivery: .featureQuery,
+            availability: .rightsPending,
             serviceURL: URL(string: "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/VIZoning_Clipped/FeatureServer/707"),
             sourceURL: edpcPlanDocuments,
             minZoom: 12,
@@ -603,6 +610,7 @@ public enum LayerCatalog {
             uiOrder: 22,
             licence: .municipalNoStatedLicence,
             delivery: .featureQuery,
+            availability: .rightsPending,
             serviceURL: URL(string: "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/RI_Plan_Richmond/FeatureServer/376"),
             sourceURL: edpcPlanDocuments,
             minZoom: 12,
@@ -621,6 +629,7 @@ public enum LayerCatalog {
             uiOrder: 23,
             licence: .municipalNoStatedLicence,
             delivery: .featureQuery,
+            availability: .rightsPending,
             serviceURL: URL(string: "https://services6.arcgis.com/9de72LkV8htkdfB9/arcgis/rest/services/Zoning_Cumberland_2018_abbr2/FeatureServer/0"),
             sourceURL: URL(string: "https://data-cumberlandns.opendata.arcgis.com/datasets/CumberlandNS::zoning-cumberland-2022"),
             minZoom: 13,
@@ -751,14 +760,15 @@ public enum LayerCatalog {
             uiOrder: 29,
             licence: .provinceOpen,
             delivery: .featureQuery,
-            serviceURL: URL(string: "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0"),
+            // The Province's own DP ME 10 version 9 copy; lower-case fields only.
+            serviceURL: URL(string: "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4"),
             sourceURL: URL(string: "https://novascotia.ca/natr/meb/download/dp010.asp"),
             minZoom: 11,
             maxZoom: 23,
             opacity: 0.92,
             webDefaultVisible: false,
             caveat: "Provincial hazard inventory; locations and conditions may change",
-            sourceDate: "2024 · version 9",
+            sourceDate: "Version 9 · extract June 11, 2024",
             scale: "Approximate point inventory",
             coverage: "Nova Scotia · incomplete inventory"
         ),
@@ -882,17 +892,21 @@ public enum LayerCatalog {
             // configured the row appears disabled rather than vanishing.
             serviceURL: nil,
             minZoom: 8,
-            maxZoom: 16,
-            maxNativeZoom: 16,
+            // Display range now runs past the sheets' native depth — the
+            // tiles upscale beyond maxNativeZoom instead of the layer
+            // vanishing at 16, so tracing zoom keeps the sheet on screen.
+            // Mirrors the web catalog (layer-parity fixture schema 3).
+            maxZoom: 23,
+            maxNativeZoom: 15,
             opacity: 0.72,
             webDefaultVisible: false,
             // The one layer the native app opens with. It is the reason the app
             // exists, and it is the only layer that needs no licence dialog.
             nativeDefaultVisible: true,
-            caveat: "24 direct-Rumsey sheets · zoom 8–16",
+            caveat: "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
             sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
-            scale: "Independently georeferenced historical sheets",
-            coverage: "Cape Breton Island · 24 individual sheets"
+            scale: "Georeferenced with cartographic seam adjustments · accuracy varies",
+            coverage: "Cape Breton Island · 24 source sheets in one mosaic"
         ),
     ]
 }

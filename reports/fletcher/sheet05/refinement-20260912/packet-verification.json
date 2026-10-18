@@ -1,0 +1,191 @@
+{
+  "passed": true,
+  "controls": 12,
+  "reused_checks": 6,
+  "qualified_fresh_checks": 2,
+  "old_eleven_controls_unchanged": true,
+  "new_control_matches_reviewed_repair": true,
+  "figure_count": 36,
+  "figures": [
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/03-north-west.jpg",
+      "sha256": "682f97fca977e21e27a29b5fdea069f1dfbe940e4941d52af9fbef63e91a878b"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/03-north-east.jpg",
+      "sha256": "e786d8d3e48112d3342c617ec7482f2d755d931445c7f397aebc318d0aed4836"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/04-east-north.jpg",
+      "sha256": "b154b85a54fa855d1706c11c9545ecdf50d786c34feaf4639df27932363ea1a3"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/04-east-south.jpg",
+      "sha256": "85cb357fb770eb3f0c7411557b2d6dddafa7e161106f2c2d2a690785f6ea2128"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/06-west-north.jpg",
+      "sha256": "b35dad7c9fd6afe5e0c4ef7eae46f9fe36b45ae2b770634cf98e712a6d722c41"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/06-west-south.jpg",
+      "sha256": "41cc769343e3e9bd2e099895b0325d21d36f8ae3e528c373470b08b8a8c09591"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/08-south-west.jpg",
+      "sha256": "dffb6c93b2cd02d2f99e104896502dedc8b59d66e9532b845185c5883b88044d"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/adjacent-sheet-review/08-south-east.jpg",
+      "sha256": "b794850a24bbaca0ba512ce59dc8f831c5071e388214f7765d57afdc5e84bb27"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-additional-close/sheet-05-F07.jpg",
+      "sha256": "bfc05090721ba42489cdaf527c4d175c332ca666e54f71727aaa3910807280a4"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-additional-corrected-close/sheet-05-F07.jpg",
+      "sha256": "239c2117e48a8977e3511d0c495b4da2158d6868127bea0369cbe44d141d0e92"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-additional-corrected-wide/sheet-05-F07.jpg",
+      "sha256": "026127a467143b37f5885004ef6cd279bb75c3c80b9fa68731c574e83b1fa034"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-additional-wide/sheet-05-F07.jpg",
+      "sha256": "691801ced4a3e8f21af2af7924575c2a6148f210d2c64025c68ab3327bd7743e"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-close/sheet-05-F05.jpg",
+      "sha256": "dc19b9d391d7e399276653a66f3dd292cf54a18c812cf9d2689478586c104fe1"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-close/sheet-05-F06.jpg",
+      "sha256": "f3b1dc8371f5b79d188e19f15ceb80012e16917455acd178f09cde4544db6ae1"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-corrected-close/sheet-05-F05.jpg",
+      "sha256": "55ea3d37edb9877114c7c88b653c66cb222a4de92abd72978b8c24f1e25a623e"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-corrected-wide/sheet-05-F05.jpg",
+      "sha256": "844be108da0ab49c8fdd9d4aa7b8d299ebb22205873794f17c92fc6f813c7e37"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-wide/sheet-05-F05.jpg",
+      "sha256": "4bcdaefd380b3e1bb65b0254462e6a95b8f9db53782c2f12eb20e12fbf513a30"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/fresh-wide/sheet-05-F06.jpg",
+      "sha256": "efa8dd8373c6546bf9576417c2633626c7b60a5d3aa2b6f4500ca05a4550a0a8"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/repair-close/sheet-05-R01.jpg",
+      "sha256": "11e22db93a3a769e6d2ee58906e5517dbf26a72d5310d082b3d7f70a44d3d0f4"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/repair-close/sheet-05-R02.jpg",
+      "sha256": "4c337fb1057ea15816615fc1b4fc794570df65e5f45ae6c73db2fb5cb042cf46"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/repair-corrected-close/sheet-05-R01.jpg",
+      "sha256": "230f41ce23788b1fc91c9dd812ae8e7bdedac949d15e93e40f3c7e964101e4e7"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/repair-corrected-wide/sheet-05-R01.jpg",
+      "sha256": "2f1fb6807c7335063844e10ee81d65b9eb37f6cf730978de5f6878cc7d1b35ad"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/repair-wide/sheet-05-R01.jpg",
+      "sha256": "dee01a8f3eaa58442ca8100c51780c90fa062080e475b8566bfa317d2d7ed6de"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/repair-wide/sheet-05-R02.jpg",
+      "sha256": "c0b7ca1ad1a511814f98700bab7ebe7b805e62171d3001d0cbf9fb87dcaf872e"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/fishing-mackenzie.jpg",
+      "sha256": "177a83ba461271f31c89de2900fce95e951c4b901df94d158e61c5c19fca42dc"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/aspy-southwest.jpg",
+      "sha256": "2a49e38af8fd011bbb19a6cd10751f16c245f11df694220ed107079deaa800a0"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/black-doherty.jpg",
+      "sha256": "ad4799bcd69d2029d04e759c0bccbe40c45b7d37fb34bb735ab94289acce9fe4"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/sunday-interior.jpg",
+      "sha256": "ff5b2c6ad20cc442487d4b2dbdb568fbb3dc3f1494860af9da4d85a06ea2eecc"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/clyburn-curtis.jpg",
+      "sha256": "1cdf48a064fb8ad88986be83aec259e4c05a81ab07bef2836e9ab5c086a8fd5b"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/cheticamp-west.jpg",
+      "sha256": "1c3e09bc451068a50cc7db86475638bb6012530e88c974df3afbb6c6f4099063"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/cheticamp-flowage.jpg",
+      "sha256": "7fe844f042a1fc0ddea9b45e67932281fa4a3171fee32c7b115033fdef6494e4"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/south-interior.jpg",
+      "sha256": "c78a1f24a14cc6fda7f3cf22867165d7fb0b061b656338ba4c0ead27aea89288"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/warped-review/full-sheet.jpg",
+      "sha256": "9f2a982e6d6ab0580139852f212efcc18f1d1d943d521cb70190ca061ba947bc"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/browser/import-desktop.png",
+      "sha256": "6087d17116486e6027862ad1375a0ea1a8cfd1d5eb62c3809e47c68cde37f692"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/browser/reload-desktop.png",
+      "sha256": "c1fd3ec4e7ffbb87d0342d96ed893d9f5762a5ef0297cfb222279fb812f3308f"
+    },
+    {
+      "path": "reports/fletcher/sheet05/refinement-20260912/browser/reload-mobile.png",
+      "sha256": "dd570bc3d800eb6123c7623474f25120dcbebe896037640104bcace1ac988b78"
+    }
+  ],
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif",
+    "sha256": "3affbba1a4d33c7b4e3a5ddc241fa20850473f170539426ee105dfd2c2d593c9",
+    "size": [
+      8559,
+      5687
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.8548867,
+            46.7835487
+          ],
+          [
+            -60.8548867,
+            46.6083531
+          ],
+          [
+            -60.4704527,
+            46.6083531
+          ],
+          [
+            -60.4704527,
+            46.7835487
+          ],
+          [
+            -60.8548867,
+            46.7835487
+          ]
+        ]
+      ]
+    }
+  },
+  "scope": "Provenance, computation, coverage and import only. Local Sunday Lake improvement; whole raster and seams remain geographically unaccepted."
+}

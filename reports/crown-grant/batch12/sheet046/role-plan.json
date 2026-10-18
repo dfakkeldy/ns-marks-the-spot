@@ -1,0 +1,36 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "controls": 6,
+  "checks": 6,
+  "reason": "Controls span northwestern Duck Lake, central lakes, southeastern Whitford and eastern Ponhook island.",
+  "rejections": [
+    {
+      "id": "C05",
+      "reason": "Veniot northern historical inlet versus extended modern waterbody does not provide a precise shared point; southern-tip check remains a separate observation."
+    },
+    {
+      "id": "C06",
+      "reason": "Mill northeastern historical lake head is represented by modern river geometry; WALK20 type filter selected another part of the shore."
+    },
+    {
+      "id": "Q02",
+      "reason": "Round Lake northern connection comprises differently depicted waterbody segments; ambiguous shared inlet."
+    },
+    {
+      "id": "Q06",
+      "reason": "Mill western historical narrow peninsula is represented as modern island geometry; the type-filtered point selected unrelated outer shore."
+    },
+    {
+      "id": "Q09",
+      "reason": "Ponhook historical northeast fin may correspond to a separately depicted modern islet; exact identity unresolved. Southern main-island control remains distinct."
+    }
+  ],
+  "limitations": [
+    "Four checks pair with control lakes; Veniot and Long lakes supply separate checks.",
+    "Eastern Ponhook area has a control but no independent local check. Some northern interior and southwestern margin remain unvalidated.",
+    "Historical waterbody connectivity differs for several rejected candidates; no cause of change is asserted.",
+    "Source uncertainty18 px and generalized shores limit precision."
+  ],
+  "created_at_utc": "2026-09-25T05:27:38.252943+00:00"
+}

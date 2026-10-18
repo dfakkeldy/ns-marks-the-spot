@@ -1,0 +1,68 @@
+[
+  {
+    "id": "IC01",
+    "label": "Inset southwestern cape southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2099,
+      3071
+    ],
+    "lonlat": [
+      -60.39999621798206,
+      45.6519176416335
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 5269,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2100.8033889572835,
+      3081.245453279
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Red Cape coastal corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3335,
+      2566
+    ],
+    "lonlat": [
+      -60.334489014108144,
+      45.695503291859566
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 5120,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3323.9870847014245,
+      2567.504322784138
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC03",
+    "label": "Fourchu Head southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4944,
+      2684
+    ],
+    "lonlat": [
+      -60.22860820024987,
+      45.71717792969103
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 5250,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4939.3685345984995,
+      2687.7705986729125
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,276 @@
+import { expect, test, type Locator, type Page } from "@playwright/test";
+
+const png = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAAsUlEQVR4nO3XMQrFMAzA0N9P75oz5ZK5Qrt36FbeEGk0GITw4mOtdf025q8FNAXQAprzORhjvC7MOT+TEWx/AQXQApoCaAFNAbSA5ugX2JwCaAFNAbSApgBaQFMALaApgBbQFEALaAqgBTQF0AKaAmgBTQG0gKYAWkBTAC2gKYAW0BRAC2gKoAU0BdACmgJoAU0BtICmAFpAUwAtoCmAFtAUQAtoCqAFNAXQApoCaAHNDbZrCxPxbzx1AAAAAElFTkSuQmCC",
+  "base64",
+);
+
+const runtimeErrors = new WeakMap<Page, string[]>();
+
+test.beforeEach(async ({ page }) => {
+  const errors: string[] = [];
+  runtimeErrors.set(page, errors);
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
+  // Deterministic map imagery; the checks concern rendered controls and page
+  // layout, not availability of the external tile server.
+  await page.route("https://*.tile.openstreetmap.org/**", (route) =>
+    route.fulfill({ contentType: "image/png", body: png }),
+  );
+});
+
+test.afterEach(async ({ page }) => {
+  await expect(page.locator("vite-error-overlay")).toHaveCount(0);
+  expect(runtimeErrors.get(page)).toEqual([]);
+});
+
+async function keyboardFocus(page: Page, control: Locator) {
+  await control.focus();
+  await page.keyboard.press("Shift+Tab");
+  await page.keyboard.press("Tab");
+  await expect(control).toBeFocused();
+  const outline = await control.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { visible: element.matches(":focus-visible"), style: style.outlineStyle, width: parseFloat(style.outlineWidth) };
+  });
+  expect(outline.visible).toBe(true);
+  expect(outline.style).not.toBe("none");
+  expect(outline.width).toBeGreaterThan(0);
+}
+
+for (const width of [320, 390, 844, 1440]) {
+  test(`ratio scale clears the distance bars and attribution at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/?basemap=osm&taxSale=off&layers=&position=45.81355,-61.47775,14");
+    await expect(page).toHaveTitle(/NS Marks The Spot/);
+    const ratio = page.locator(".display-scale-readout");
+    await expect(ratio).toContainText(/1:[\d,]+/);
+    const checkScale = async () => {
+      await expect(ratio).toBeInViewport();
+      await expect.poll(async () => {
+        const label = (await ratio.boundingBox())!;
+        const bars = (await page.locator(".leaflet-control-scale").boundingBox())!;
+        const footer = (await page.locator(".map-attribution").boundingBox())!;
+        const folded = await page.locator(".map-attribution").evaluate(element => element.classList.contains("collapsed"));
+        return width <= 860 && folded
+          ? label.x >= bars.x + bars.width && label.x + label.width <= footer.x
+            && bars.y + bars.height <= footer.y + footer.height
+            && label.y + label.height <= footer.y + footer.height
+          : label.y + label.height <= bars.y && bars.y + bars.height < footer.y;
+      }).toBe(true);
+    };
+    await checkScale();
+    const beforeZoom = await ratio.textContent();
+    await page.getByRole("button", { name: "Zoom in", exact: true }).click();
+    await expect(ratio).not.toHaveText(beforeZoom!);
+    await checkScale();
+    if (width <= 860) {
+      await page.getByRole("button", { name: "Show licences", exact: true }).click();
+      // Exercise the measured footer height, including extra space occupied
+      // by larger text or a home-indicator inset.
+      await page.locator(".map-attribution").evaluate((footer) => {
+        footer.style.minHeight = "106px";
+        footer.style.maxHeight = "106px";
+      });
+      await checkScale();
+    }
+  });
+}
+
+for (const width of [390, 1440]) {
+  test(`open road overlays redraw after toggling at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.route("**/data.novascotia.ca/resource/*.geojson?**", (route) =>
+      route.fulfill({ contentType: "application/geo+json", json: {
+        type: "FeatureCollection",
+        features: route.request().url().includes("484g-adjn") ? [{
+          type: "Feature", geometry: { type: "LineString", coordinates: [[-61.479,45.813],[-61.477,45.815]] },
+          properties: { source_row_id: "road-1", street: "Test Road", feat_desc: "PAVED ROAD", roadc_desc: "Local" },
+        }] : [],
+      } }),
+    );
+    await page.goto("/?basemap=osm&taxSale=off&layers=roads,main-roads&position=45.81355,-61.47775,16");
+    const roadLayers = page.locator(".map-layer-roads");
+    const checkOrder = async () => {
+      await expect(roadLayers).toHaveCount(1);
+      await expect(page.locator(".map-layer-main-roads")).toHaveCount(0);
+      await expect(roadLayers).toBeVisible();
+      const image = await roadLayers.evaluate((element) => ({
+        tag: element.tagName,
+        url: (element as HTMLImageElement).src,
+        zIndex: Number(getComputedStyle(element.parentElement!).zIndex),
+      }));
+      expect(image.tag).toBe("IMG");
+      expect(image.url).toMatch(/^data:image\/png;base64,/);
+      expect(image.zIndex).toBe(235);
+    };
+    await checkOrder();
+    if (width < 860) await page.getByRole("button", { name: "Search & layers", exact: true }).click();
+    await page.getByRole("button", { name: /^Roads & Places/ }).click();
+    const toggle = page.getByRole("checkbox", { name: "Roads, trails & culverts", exact: true });
+    await toggle.press("Space");
+    await expect(toggle).not.toBeChecked();
+    await expect(roadLayers).toHaveCount(0);
+    await expect(page.locator(".map-layer-main-roads")).toHaveCount(1);
+    await toggle.press("Space");
+    await expect(toggle).toBeChecked();
+    await checkOrder();
+  });
+}
+
+test("theme controls expose keyboard focus and open the manager", async ({ page }) => {
+  await page.goto("/?basemap=osm");
+  await expect(page).toHaveTitle(/NS Marks The Spot/);
+  await keyboardFocus(page, page.getByRole("combobox", { name: "Map setup", exact: true }));
+  const manage = page.getByRole("button", { name: "Manage themes", exact: true });
+  await keyboardFocus(page, manage);
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await keyboardFocus(page, dialog.getByRole("button", { name: "Cancel", exact: true }));
+  await page.keyboard.press("Enter");
+  await expect(dialog).toBeHidden();
+});
+
+test("phone categories keep touch controls and attribution reachable", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/?basemap=osm");
+  await page.getByRole("button", { name: "Search & layers", exact: true }).click();
+  const setup = page.getByRole("combobox", { name: "Map setup", exact: true });
+  const myMaps = page.getByRole("button", { name: /^My Maps/ });
+  for (const control of [setup, myMaps]) {
+    await control.scrollIntoViewIfNeeded();
+    const box = await control.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+    await expect(control).toBeInViewport();
+  }
+  await myMaps.click();
+  const back = page.getByRole("button", { name: "Back to categories", exact: true });
+  expect((await back.boundingBox())?.height).toBeGreaterThanOrEqual(44);
+  await back.click();
+  await page.getByRole("button", { name: "Show licences", exact: true }).click();
+  await page.getByRole("button", { name: "Data & licences", exact: true }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.getByText("Provincial-first Atlas sources", { exact: true }).click();
+  const closeSources = page.getByRole("dialog").getByRole("button", { name: "Close", exact: true });
+  await closeSources.scrollIntoViewIfNeeded();
+  await expect(closeSources).toBeInViewport();
+  await closeSources.click();
+  await expect(page.getByRole("dialog")).toBeHidden();
+});
+
+for (const width of [390, 1024]) {
+  test(`georeferencing leaves the map accessible at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/?basemap=osm");
+    const open = page.getByRole("button", { name: "Search & layers", exact: true });
+    if (width < 860) await open.click();
+    await page.getByRole("button", { name: /^My Maps/ }).click();
+    await page.getByLabel("Add a map file", { exact: true }).setInputFiles({ name: "scan.png", mimeType: "image/png", buffer: png });
+    const panel = page.getByRole("region", { name: /^Georeferencing scan/ });
+    await expect(panel).toBeVisible();
+    const box = await panel.boundingBox();
+    expect(box?.x).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(width);
+    await page.getByRole("tab", { name: "Map", exact: true }).click();
+    await expect(panel).toBeHidden();
+    const back = page.getByRole("button", { name: "Back to scan", exact: true });
+    await expect(back).toBeInViewport();
+    // A map click must reach the map, rather than an invisible scan panel.
+    await page.locator(".map-canvas .leaflet-container").click({ position: { x: Math.floor(width / 2), y: 150 } });
+    await back.click();
+    await expect(panel).toBeVisible();
+  });
+}
+
+test("retained parcel capture mounts no printable map after its PID is cleared", async ({ page }) => {
+  await page.goto("/e2e/print.html?retained-property");
+  await expect(page.getByRole("dialog", { name: "Print / export", exact: true })).toBeVisible();
+  await expect(page.getByRole("alert")).toContainText(/permission.*not been confirmed/i);
+  await expect(page.locator(".print-preview-backdrop")).toHaveCount(0);
+  await page.emulateMedia({ media: "print" });
+  await expect(page.locator(".print-field-page, .print-research-summary")).toHaveCount(0);
+});
+
+for (const template of ["research", "field"]) {
+  test(`${template} print stays within Letter bounds with visible attribution`, async ({ page }) => {
+    await page.goto("/e2e/print.html");
+    await page.getByLabel("Document template").selectOption(template);
+    if (template === "research") await page.getByLabel("Include evidence appendix").uncheck();
+    await expect(page.getByRole("button", { name: "Print / Save PDF", exact: true })).toBeEnabled();
+    await page.emulateMedia({ media: "print" });
+    const sheet = page.locator(template === "field" ? ".print-field-page" : ".print-research-summary");
+    await expect(sheet).toBeVisible();
+    const size = await sheet.boundingBox();
+    const maxWidth = (template === "field" ? 279.4 : 215.9) * 96 / 25.4;
+    const maxHeight = (template === "field" ? 215.9 : 279.4) * 96 / 25.4;
+    expect(size?.width).toBeLessThanOrEqual(maxWidth);
+    expect(size?.height).toBeLessThanOrEqual(maxHeight);
+    const overflow = await sheet.evaluate((element) => ({
+      x: element.scrollWidth - element.clientWidth,
+      y: element.scrollHeight - element.clientHeight,
+    }));
+    expect(overflow.x).toBeLessThanOrEqual(1);
+    expect(overflow.y).toBeLessThanOrEqual(1);
+    const support = sheet.locator(template === "field" ? ".print-field-support" : ".print-research-support");
+    const supportOverflow = await support.evaluate((element) => element.scrollHeight - element.clientHeight);
+    expect(supportOverflow).toBeLessThanOrEqual(1);
+    await expect(sheet.getByText(/OpenStreetMap contributors/).first()).toBeVisible();
+    await expect(sheet.getByText(/not a survey/i).first()).toBeVisible();
+    await expect(page.locator(".print-preview-backdrop")).not.toHaveCSS("position", "fixed");
+  });
+}
+
+for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
+  for (const colorScheme of ["light", "dark"] as const) {
+    test(`shared mobile measurement row at ${viewport.width}x${viewport.height} in ${colorScheme}`, async ({ page }, testInfo) => {
+      await page.setViewportSize(viewport);
+      await page.emulateMedia({ colorScheme });
+      await page.goto("/?basemap=osm&taxSale=off&layers=&position=45.81355,-61.47775,14");
+      await expect(page).toHaveTitle(/NS Marks The Spot/);
+      const map = page.locator(".map-canvas .leaflet-container");
+      for (const mode of ["distance", "area"]) {
+        await page.getByRole("button", { name: `Measure ${mode}`, exact: true }).click();
+        await expect(page.locator(".map-attribution")).toHaveClass(/collapsed/);
+        const readout = page.locator(".measure-readout");
+        await expect(readout).toContainText(mode === "distance" ? "Tap the map to measure distance" : "Tap the map to outline an area");
+        const actions = page.locator(".measure-actions");
+        await expect.poll(async () => {
+          const row = (await actions.boundingBox())!;
+          const instructions = (await readout.boundingBox())!;
+          const footer = (await page.locator(".map-attribution").boundingBox())!;
+          const bars = (await page.locator(".leaflet-control-scale").boundingBox())!;
+          const ratio = (await page.locator(".display-scale-readout").boundingBox())!;
+          return row.y + row.height <= Math.min(footer.y, bars.y, ratio.y)
+            && instructions.y + instructions.height <= row.y;
+        }).toBe(true);
+        for (const label of ["Finish", "Clear", "Undo point"]) {
+          const button = page.getByRole("button", { name: label, exact: true });
+          await expect(button).toBeInViewport({ ratio: 1 });
+          expect((await button.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+          await expect(button).toHaveCSS("backdrop-filter", "blur(8px)");
+        }
+        for (const position of [{ x: 180, y: 170 }, { x: 220, y: 170 }, { x: 220, y: 210 }]) {
+          await map.click({ position });
+        }
+        await page.getByRole("button", { name: "Finish", exact: true }).click();
+        await expect(page.getByRole("button", { name: "Finish", exact: true })).toBeDisabled();
+        await expect(readout).toHaveCount(0);
+        await expect(page.getByRole("tooltip", { name: mode === "distance" ? /^Total distance/ : /^Area/ })).toBeVisible();
+        await page.screenshot({ path: testInfo.outputPath(`${mode}-${colorScheme}.png`) });
+        await page.getByRole("button", { name: "Clear", exact: true }).click();
+        await expect(readout).toContainText("Tap the map");
+      }
+      // Reopening credits preserves both the source links and a clear row.
+      await page.getByRole("button", { name: "Show licences", exact: true }).click();
+      await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toBeVisible();
+      await expect.poll(async () => {
+        const actions = (await page.locator(".measure-actions").boundingBox())!;
+        const ratio = (await page.locator(".display-scale-readout").boundingBox())!;
+        return actions.y + actions.height < ratio.y;
+      }).toBe(true);
+    });
+  }
+}

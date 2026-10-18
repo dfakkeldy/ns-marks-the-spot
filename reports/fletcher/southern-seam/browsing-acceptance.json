@@ -1,0 +1,63 @@
+{
+  "status": "accepted-for-approximate-corridor-browsing",
+  "decision_date": "2026-09-07",
+  "authority": {
+    "user_message": "Let\u2019s go with your recommendation",
+    "recommendation_accepted": "Accept the existing approximately 28 m road step for browsing; assess the colour transition without changing geographic evidence."
+  },
+  "scope": "Checked Port Hawkesbury\u2013Mabou road corridor only, including Highway 4 to Port Hastings and Route 19 northward. Not whole sheets, survey use, or a seamless production tileset.",
+  "road_step_ground_m_at_rendered_cut": 27.79481913594159,
+  "original_seam_target_ground_m": 25,
+  "passes_original_25m_target": false,
+  "exception": "The user accepted this specific 27.79 m seam for approximate browsing. This does not raise a general threshold for other seams.",
+  "colour_review": {
+    "decision": "Preserve source colours; no blending applied",
+    "evidence": "join-comparison.jpg and colour-review-sheet19.png / colour-review-sheet22.png",
+    "reason": "Native facing edges show olive hatching and orange printed fill inside their frames, with much closer paper colours outside. Matching the fills would alter printed map information. Cross-fading displaced road linework risks ghosting. No reliable paper-only correction was identified that would remove this dominant contrast."
+  },
+  "geographic_evidence": {
+    "artifact_receipt_sha256": "c804b88e84d330329d53c273b48babfca2145670e844e754346fda7da15e2690",
+    "scores_sha256": "83d1c067bee96924a4015a911c28b18a20023b47c4675a7f42fbcfccc6f3798d",
+    "coverage_sha256": "5f1499a5e177ce2166a904907fbf6756fdf91324d8638bfbbff0170ac94088fa",
+    "unchanged": true
+  },
+  "rasters": [
+    {
+      "file": "hawkesbury-mabou-browsing-preview.tif",
+      "sha256": "df654367879697a98f99a110ebd17d9bb4a9ad53d43551f87855c00458f23ebe",
+      "dimensions": [
+        4010,
+        14749
+      ],
+      "bytes": 7143035,
+      "derived_from": "hawkesbury-mabou-joined-diagnostic.tif",
+      "pixels_and_georeferencing": "Byte-identical copy; no resampling or colour changes"
+    },
+    {
+      "file": "judique-hawkesbury-browsing-detail.tif",
+      "sha256": "cb0aec4731727ded72fb758749238c0156b7dc61110cee669220f36e60dbcf2f",
+      "dimensions": [
+        445,
+        542
+      ],
+      "bytes": 154669,
+      "derived_from": "judique-hawkesbury-seam-detail.tif",
+      "pixels_and_georeferencing": "Byte-identical copy; no resampling or colour changes"
+    }
+  ],
+  "coverage": {
+    "reference_samples": 10462,
+    "missing_count": 0,
+    "missing_lonlat": [],
+    "scope": "Route 19 samples between 45.6473 and 46.0799; no more than 10 projected metre spacing. Coverage is not geographic acceptance.",
+    "reference_line_cells": 21568,
+    "transparent_line_cells": 0
+  },
+  "remaining_limitations": [
+    "Visible printed-colour seam and 27.79 m road step remain.",
+    "Known 513 m inland lake mismatch remains outside the accepted corridor.",
+    "Long raster display preview is reduced to 1114 \u00d7 4096 by NSMtS; use the detail TIFF for close inspection.",
+    "No merge, deployment, production layer replacement or final tile publication."
+  ],
+  "verification": "Accepted TIFFs are byte-identical to the previously browser-tested inputs; existing import, reload, alpha and geographic evidence applies. No new geographic accuracy claim."
+}

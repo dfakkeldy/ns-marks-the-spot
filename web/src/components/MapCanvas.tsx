@@ -1,3 +1,26 @@
+import { RhodenaVisibility } from "../rhodena/RhodenaVisibility";
+import { RhodenaLayer } from "../rhodena/RhodenaLayer";
+import { FocusFit } from "../focus/FocusFit";
+import type { FocusFitRequest } from "../focus/focusDefinition";
+import { FishingSpotsLayer, type FishingSpotsPageState } from "../fishing/FishingSpotsLayer";
+import { isRhodenaLayerId } from "../rhodena/catalog";
+import { atlasPalettes } from "../atlas/palette";
+import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
+import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
+import type { ElectoralSelection } from "../elections/electoralData";
+import { ContextTileLayer } from "./ContextTileLayer";
+import "../terrain/researchTerrain.css";
+import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
+import { ReliefControls } from "../terrain/ReliefControls";
+import type { TerrainStatus } from "../terrain/terrainStatus";
+import { TerrainCameraControls } from "../terrain/TerrainCameraControls";
+import type { Map as TerrainMap } from "maplibre-gl";
+import { DEFAULT_RELIEF } from "../terrain/reliefMath";
+import { OpenDataLayer } from "./OpenDataLayer";
+import { ContextImageLayer } from "./ContextImageLayer";
+import { ContextFeatureLayer } from "./ContextFeatureLayer";
+import { contextLayerCatalog, hiddenContextLayers, type ContextLayerId, type ContextMapLayer } from "../layers/contextLayerCatalog";
+import { PokerMapTools, type PokerSession } from "./PokerMapTools";
 import {
   lazy,
   memo,
@@ -19,13 +42,18 @@ import {
   CircleMarker,
   GeoJSON,
   MapContainer,
+  Marker,
   Pane,
+  Polyline,
   ScaleControl,
+  AttributionControl,
   TileLayer,
   useMap,
   useMapEvents,
 } from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
+import type { BasemapStyle } from "../atlas/basemap";
+
 import {
   hydroPilotLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -33,10 +61,12 @@ import {
   floodHazardLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
   allResourceLayerCatalog,
+  liveConditionsLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
   wellLogLayerCatalog,
   type HydroPilotLayerId,
+  type LiveConditionsLayerId,
   type EnvironmentalHealthLayerDescriptor,
   type EnvironmentalHealthLayerId,
   type ForestryLayerId,
@@ -47,6 +77,8 @@ import {
   type ResourceFeatureLayerDescriptor,
   type ResourceLayerId,
   type ResourceMapLayerDescriptor,
+  type TrafficCameraLayerDescriptor,
+  type WeatherRadarLayerDescriptor,
   type WebLayerDescriptor,
   zoningLayerCatalog,
   type ZoningLayerId,
@@ -66,10 +98,15 @@ import type {
   NsprdFeatureCollection,
   NsprdFeatureProperties,
 } from "../services/nsprd";
-import {
-  getBrowserLocation,
-  type BrowserLocation,
-} from "../services/browserLocation";
+import { useLiveLocation } from "../location/useLiveLocation";
+import type { LiveFix } from "../location/liveLocation";
+import { isUsableMarkFix } from "../location/markFix";
+import { useTrackRecording } from "../location/useTrackRecording";
+import { SaveTrackDialog } from "../location/SaveTrackDialog";
+import { buildRecordedTrackFeature } from "../location/trackFeature";
+import { rawTrackGpxBlob } from "../location/rawTrackGpx";
+import type { StopResult } from "../location/trackRecorder";
+import { formatDistance } from "../services/geodesy";
 import {
   hydroLineStyle,
   hydroPotentialLabel,
@@ -84,12 +121,15 @@ import {
   representativeParcelPoints,
 } from "../services/parcelMarkers";
 import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot";
-import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
+import { parcelOutlineColor, parcelBoundaryRenderer, parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { FletcherTileLayer } from "./FletcherTileLayer";
+import { FletcherFullSheetsPreview } from "./FletcherFullSheetsPreview";
 import { ZoningLayer } from "./ZoningLayer";
 import { OldGrowthPolicyLayer } from "./OldGrowthPolicyLayer";
+import { TrafficCameraLayer } from "./TrafficCameraLayer";
+import { WeatherRadarLayer } from "./WeatherRadarLayer";
 import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
@@ -99,12 +139,17 @@ import {
   OLD_GROWTH_POLICY_PANE,
   OLD_GROWTH_POLICY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
+  TRAFFIC_CAMERA_PANE,
+  TRAFFIC_CAMERA_PANE_Z_INDEX,
   ZONING_PANE,
   ZONING_PANE_Z_INDEX,
   WELL_LOG_PANE,
   WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
 import { textTooltip } from "./mapTooltip";
+import type { FixRejection } from "../location/trackFilter";
+import { prefersReducedMotion } from "./mapMotion";
+import { useSettledWarning } from "./useSettledWarning";
 import {
   fetchWellLogs,
   printWellLogMarkerStyle,
@@ -126,6 +171,19 @@ import {
 } from "../userMaps/components/GeoreferenceMapLayer";
 import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
 import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
+import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
+import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
+
+const AtlasBasemapLayer = lazy(() => import("../atlas/AtlasBasemapLayer"));
+const ResearchTerrainLayer = lazy(() => import("../terrain/ResearchTerrainLayer"));
+const FletcherFeaturesLayer = lazy(() => import("./FletcherFeaturesLayer").then(module => ({ default: module.FletcherFeaturesLayer })));
+
+// Lazy like EditableVectorLayer: both exist only inside an edit session.
+const ParcelSnapTargetsLayer = lazy(() =>
+  import("../userMaps/vector/edit/ParcelSnapTargetsLayer").then((module) => ({
+    default: module.ParcelSnapTargetsLayer,
+  })),
+);
 // Geoman (572 KB JS + 26 KB CSS, ~60 KB gzip) patches L at module evaluation
 // and is only needed while a layer is actively being edited — lazy keeps it
 // out of every visitor's first paint. Module-eval side effects run identically
@@ -143,7 +201,23 @@ import { ExportFrameLayer } from "../print/pdf/ExportFrameLayer";
 import type { FrameState } from "../print/pdf/frameGeometry";
 import type { PdfTemplateId } from "../print/pdf/templates/types";
 
+/**
+ * The scale a locate brings a reader to when their view is further out than
+ * it: the web's long-standing 14, kept as a floor rather than a target.
+ */
+const LOCATE_MIN_ZOOM = 14;
+
 type MapCanvasProps = {
+  /** Each new revision fits the map to a focus page's area. */
+  focusFit?: FocusFitRequest;
+  /** The /fishing page's filter and selection for the curated spots; the full map passes none. */
+  fishingSpots?: FishingSpotsPageState;
+  /** A two-way Map/Aerial background switch under the 3D control. */
+  backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
+  /** A request to start choosing a viewpoint once the terrain is ready. */
+  rhodenaPickPending?: boolean;
+  onRhodenaPickStarted?: () => void;
+  poker?: PokerSession | null;
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
   historicalTaxSalePids: Set<string>;
@@ -153,11 +227,18 @@ type MapCanvasProps = {
   hydroPilotLayers?: Record<HydroPilotLayerId, boolean>;
   floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
   environmentalHealthLayers?: Record<EnvironmentalHealthLayerId, boolean>;
+  contextLayers?: Record<ContextLayerId, boolean>;
+  electoralModes?: Record<ElectoralLayerId, ElectoralMode>;
+  electoralLicenceAccepted?: boolean;
+  onElectoralSelect?: (selection: ElectoralSelection) => void;
   forestryLayers?: Record<ForestryLayerId, boolean>;
   zoningLayers?: Record<ZoningLayerId, boolean>;
   wellLogLayers?: Record<WellLogLayerId, boolean>;
+  liveConditionsLayers?: Record<LiveConditionsLayerId, boolean>;
   wellLogAccuracyFilter?: WellLogAccuracyFilter;
   fletcherVisible?: boolean;
+  fletcherFeaturesVisible?: boolean;
+  onFletcherFeaturesStatus?: (status: string) => void;
   fletcherOpacity?: number;
   fletcherTileBaseUrl?: string | null;
   fletcherRetryToken?: number;
@@ -166,8 +247,12 @@ type MapCanvasProps = {
   userVectorLayers?: VisibleUserVectorLayer[];
   userVectorFitRequest?: UserVectorFitRequest | null;
   userVectorEdit?: VectorEditBinding | null;
+  /** Photo thumbnails in user-feature popups and the lightbox opener. */
+  userVectorPhotoUi?: PopupPhotoUi | null;
   georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
+  basemapStyle?: BasemapStyle;
+  onUseOsmBasemap?: () => void;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
   onSelectPid: (pid: string) => void;
@@ -175,8 +260,52 @@ type MapCanvasProps = {
   focusRequest?: ParcelFocusRequest | null;
   initialPosition?: MapPosition;
   preserveInitialPosition?: boolean;
-  onPositionChange?: (position: MapPosition) => void;
+  /**
+   * The map's centre on every moveend, and null from movestart until it
+   * settles: a caller that puts something AT the centre must not be handed
+   * the centre an animation started from.
+   */
+  onPositionChange?: (position: MapPosition | null) => void;
   onViewportChange?: (viewport: PrintMapViewport) => void;
+  /**
+   * Saves a point at the user's position; resolves to a status message for
+   * the location live region (null for silence). Receives the current watch
+   * fix when it is fresh and accurate enough, else null — the handler then
+   * requests a one-shot fix itself.
+   */
+  onMarkLocation?: (fix: LiveFix | null) => Promise<string | null>;
+  /**
+   * Saves a finished track recording as a new layer; resolves to a status
+   * message for the location live region (null for silence) and whether the
+   * layer actually reached this device. The collection holds the processed
+   * track feature; rawGpx is every received fix. `persisted` is load-bearing:
+   * the unsaved recording is forgotten only when it is true, so a refused
+   * write never destroys the last copy of the walk.
+   */
+  onSaveTrack?: (input: {
+    name: string;
+    collection: GeoJSON.FeatureCollection;
+    rawGpx: Blob;
+    startedAt: string;
+    endedAt: string;
+    /**
+     * True only for a walk recovered from an interrupted session: it ends at
+     * the last fix this device stored rather than at a Stop, and the saved
+     * layer says so for the life of the record.
+     */
+    interrupted: boolean;
+    /**
+     * The layer a refused save of this same walk already left on the map.
+     * Set on a retry, so the walk is rewritten there instead of appearing a
+     * second time.
+     */
+    replaceLayerId?: string;
+  }) => Promise<{
+    message: string | null;
+    persisted: boolean;
+    /** The layer the walk is on, refused or not — what a retry aims at. */
+    layerId: string;
+  }>;
   onLayerStatusChange?: (
     id: MapLayerId,
     status: MapLayerStatus,
@@ -215,12 +344,15 @@ export type MapLayerId =
   | EnvironmentalHealthLayerId
   | ForestryLayerId
   | ZoningLayerId
-  | WellLogLayerId;
+  | WellLogLayerId
+  | LiveConditionsLayerId
+  | ContextLayerId;
 
 export type MapLayerStatus =
-  | { status: "idle" | "loading" | "error" }
+  | { status: "idle" | "loading" | "error" | "source-error" | "returned-empty" | "outside-coverage" | "licence-blocked"; message?: string }
   | { status: "zoom"; minZoom: number }
-  | { status: "ready"; count?: number };
+  /** `observedAt`: ISO observation time of a live frame, when the source states one. */
+  | { status: "ready"; count?: number; observedAt?: string; message?: string };
 
 export type ResourceLayerStatus = MapLayerStatus;
 
@@ -263,6 +395,10 @@ const HIDDEN_ZONING_LAYERS: Record<ZoningLayerId, boolean> = {
 const HIDDEN_WELL_LOG_LAYERS: Record<WellLogLayerId, boolean> = {
   "ns-well-logs": false,
 };
+const HIDDEN_LIVE_CONDITIONS_LAYERS: Record<LiveConditionsLayerId, boolean> = {
+  "highway-cameras": false,
+  "weather-radar": false,
+};
 // Stable reference: a fresh `[]` default would be a new array identity every
 // render, churning the UserMapLayers bridge (and its layer-construction
 // effects) on every unrelated MapCanvas re-render.
@@ -270,6 +406,58 @@ const EMPTY_USER_MAPS: VisibleUserMap[] = [];
 const EMPTY_USER_VECTOR_LAYERS: VisibleUserVectorLayer[] = [];
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
+// The recorder's caveats are said in two places: under the numbers, where a
+// reader watching the screen sees them, and in the one-line announcement a
+// screen reader hears. They are written once here so the two cannot end up
+// saying different things about the same walk.
+const RECORDER_PAUSED_NOTE = "Paused — the gap will not be connected.";
+const RECORDER_WAKE_LOCK_NOTE =
+  "Keep your screen on — this browser can't hold it awake.";
+const RECORDER_QUOTA_NOTE =
+  "Storage is full — this recording isn't being kept as you go. A reload " +
+  "would lose it.";
+const RECORDER_DRAFT_REFUSED_NOTE =
+  "This browser isn't keeping this recording as you go. A reload would " +
+  "lose it.";
+// A write that ran past its deadline is still out there and may yet land, so
+// this says what was not confirmed rather than what was refused.
+const RECORDER_DRAFT_UNVERIFIED_NOTE =
+  "This browser hasn't confirmed the recording is being kept. A reload may " +
+  "lose it.";
+// The quality dot goes red for two different situations, and this is the one
+// the location message never covers: the watch is healthy and delivering, and
+// every fix is being thrown out by the accuracy gate, so the track has stopped
+// growing. Rendered in the HUD as well as announced — the dot alone said it in
+// colour, which is not a channel every reader has.
+const RECORDER_FIXES_TOO_ROUGH_NOTE =
+  "Positions are too rough to add to the track right now.";
+/**
+ * One sentence per way the contract's filter turns a fix down. They are not
+ * interchangeable: a reader told their positions are too rough walks on and
+ * waits for the sky, which is the wrong thing to do about a device whose clock
+ * is running backwards or whose reported accuracy is not a number.
+ */
+/**
+ * How long a change has to hold before it is announced. A fix that lands on
+ * the accuracy gate flips between accepted and rejected once a second, and a
+ * live region reads every flip aloud — the flooding the clock was taken out of
+ * the live region to stop.
+ */
+const ANNOUNCEMENT_SETTLE_MS = 4_000;
+
+const REJECTION_NOTES: Record<FixRejection | "none", string | null> = {
+  none: null,
+  "too-rough": RECORDER_FIXES_TOO_ROUGH_NOTE,
+  "accuracy-invalid":
+    "This device is reporting positions with no usable accuracy, so they are "
+    + "not being added to the track.",
+  "out-of-order":
+    "Positions are arriving out of order, so they are not being added to the "
+    + "track.",
+  "too-fast":
+    "The last position was too far from the one before it to have been walked, "
+    + "so it was not added to the track.",
+};
 const CSS_METRES_PER_PIXEL = 0.0254 / 96;
 const DISPLAY_SCALE_SAMPLE_WIDTH_CSS_PIXELS = 100;
 const DISPLAY_SCALE_EXPLANATION =
@@ -293,7 +481,7 @@ type PrintableViewportGuardRef = {
 
 const VIEWPORT_COMPARISON_EPSILON = 1e-9;
 
-function samePrintMapViewport(
+function samePrintMapPosition(
   left: PrintMapViewport,
   right: PrintMapViewport,
 ): boolean {
@@ -301,19 +489,11 @@ function samePrintMapViewport(
     left.position.latitude,
     left.position.longitude,
     left.position.zoom,
-    left.bounds.north,
-    left.bounds.east,
-    left.bounds.south,
-    left.bounds.west,
   ];
   const rightValues = [
     right.position.latitude,
     right.position.longitude,
     right.position.zoom,
-    right.bounds.north,
-    right.bounds.east,
-    right.bounds.south,
-    right.bounds.west,
   ];
   return leftValues.every(
     (value, index) =>
@@ -326,7 +506,9 @@ function ArcGISMapLayer({
   visible,
   onStatusChange,
   renderMode,
+  outlineColor,
 }: {
+  outlineColor?: string;
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
@@ -340,7 +522,9 @@ function ArcGISMapLayer({
       return;
     }
 
-    const tileLayers = [layer.exportOptions, layer.exportOverlayOptions]
+    // Draw contrast beneath the source cartography: its road names and
+    // route shields must not be crossed by the added strokes.
+    const tileLayers = [layer.exportOverlayOptions, layer.exportOptions]
       .filter((options) => options !== undefined)
       .map(
         (options, index) =>
@@ -348,13 +532,14 @@ function ArcGISMapLayer({
             {
               serviceUrl: layer.serviceUrl,
               ...options,
+              ...(layer.id === "nsprd" && outlineColor && renderMode !== "print" ? { dynamicLayers: parcelBoundaryRenderer(outlineColor) } : {}),
             },
             {
               minZoom: layer.minZoom,
               maxZoom: layer.maxZoom,
               opacity: layer.opacity,
               zIndex: PROVINCE_LAYER_Z_INDEXES[layer.id] + index,
-              maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
+              maxNativeZoom: layer.maxNativeZoom,
               updateWhenZooming: false,
               keepBuffer: 2,
               // Carried on screen too, not only in print. These layers arrive
@@ -424,7 +609,7 @@ function ArcGISMapLayer({
       map.off("zoomend", reportZoom);
       tileLayers.forEach((tileLayer) => map.removeLayer(tileLayer));
     };
-  }, [layer, map, onStatusChange, renderMode, visible]);
+  }, [layer, map, onStatusChange, renderMode, visible, outlineColor]);
 
   return null;
 }
@@ -433,8 +618,10 @@ function resourceExportZIndex(
   layer:
     | ResourceMapLayerDescriptor
     | FloodHazardLayerDescriptor
-    | EnvironmentalHealthLayerDescriptor,
+    | EnvironmentalHealthLayerDescriptor
+    | ContextMapLayer,
 ): number {
+  if ("zIndex" in layer) return layer.zIndex;
   if ("screening" in layer) {
     return ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX;
   }
@@ -450,7 +637,8 @@ function ResourceArcGISMapLayer({
   layer:
     | ResourceMapLayerDescriptor
     | FloodHazardLayerDescriptor
-    | EnvironmentalHealthLayerDescriptor;
+    | EnvironmentalHealthLayerDescriptor
+    | ContextMapLayer;
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
   renderMode: MapRenderMode;
@@ -471,12 +659,13 @@ function ResourceArcGISMapLayer({
       {
         minZoom: layer.minZoom,
         maxZoom: layer.maxZoom,
+        maxNativeZoom: "maxNativeZoom" in layer ? layer.maxNativeZoom : undefined,
         opacity: layer.opacity,
         zIndex: resourceExportZIndex(layer),
         updateWhenZooming: false,
         keepBuffer: 2,
         className:
-          renderMode === "print" ? `print-layer-${layer.id}` : undefined,
+          renderMode === "print" ? `print-layer-${layer.id}` : `map-layer-${layer.id}`,
       },
     );
     let loadedTiles = 0;
@@ -536,15 +725,17 @@ function resourceFeatureLabel(
   layerId: ResourceLayerId,
   properties: Record<string, unknown>,
 ): string {
-  const name = String(properties.Name ?? "").trim();
   if (layerId === "mineral-occurrences") {
+    const name = String(properties.Name ?? "").trim();
     const commodity = String(
       properties.Comm_list ?? properties.Comm_prim ?? "",
     ).trim();
     return [name || "Mineral occurrence", commodity].filter(Boolean).join(" · ");
   }
 
-  const hazard = String(properties.Degree_Haz ?? "").trim();
+  // The provincial abandoned-mine service publishes lower-case field names.
+  const name = String(properties.name ?? "").trim();
+  const hazard = String(properties.degree_haz ?? "").trim();
   return [name || "Abandoned mine opening", hazard && `Hazard: ${hazard}`]
     .filter(Boolean)
     .join(" · ");
@@ -972,6 +1163,13 @@ function MapPositionController({
       };
 
       const guard = printableViewportGuard.current;
+      if (isTerrainCameraUpdate(map) && (guard.suppressBrowserLocation || guard.lastSuppressed !== null)) {
+        // Changing renderer, relief or perspective does not authorize sharing
+        // the location-centred camera. Retain the newly projected private view.
+        guard.lastSuppressed = viewport;
+        if (event?.type === "moveend") guard.suppressBrowserLocation = false;
+        return;
+      }
       if (guard.suppressBrowserLocation) {
         guard.lastSuppressed = viewport;
         if (event?.type === "moveend") {
@@ -981,20 +1179,26 @@ function MapPositionController({
       }
       if (
         guard.lastSuppressed !== null &&
-        samePrintMapViewport(guard.lastSuppressed, viewport)
+        samePrintMapPosition(guard.lastSuppressed, viewport)
       ) {
         return;
       }
       guard.lastSuppressed = null;
       onViewportChange?.(viewport);
     };
+    // A flight to a parcel takes about a second, and the centre does not
+    // reach its destination until moveend. Anything aiming at the centre is
+    // told there is no answer yet rather than given the one it is leaving.
+    const forgetPosition = () => onPositionChange?.(null);
     reportPosition();
     // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
     // same call, so a zoomend subscription made every zoom issue a doomed
     // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", reportPosition);
+    map.on("movestart", forgetPosition);
     return () => {
       map.off("moveend", reportPosition);
+      map.off("movestart", forgetPosition);
     };
   }, [map, onPositionChange, onViewportChange, printableViewportGuard]);
 
@@ -1050,7 +1254,7 @@ function LayerZoomController({
 
     if (waterfallsBecameVisible) {
       map.fitBounds(WATERFALL_DISCOVERY_BOUNDS, {
-        animate: true,
+        animate: !prefersReducedMotion(),
         padding: [48, 48],
         maxZoom: 8,
       });
@@ -1065,7 +1269,7 @@ function LayerZoomController({
 
     if (hydroPilotBecameVisible) {
       map.fitBounds(INVERNESS_HYDRO_PILOT_BOUNDS, {
-        animate: true,
+        animate: !prefersReducedMotion(),
         padding: [48, 48],
         maxZoom: 9,
       });
@@ -1081,7 +1285,7 @@ function LayerZoomController({
     );
 
     if (targetDetailZoom > 0 && map.getZoom() < targetDetailZoom) {
-      map.setZoom(targetDetailZoom, { animate: true });
+      map.setZoom(targetDetailZoom, { animate: !prefersReducedMotion() });
     }
   }, [hydroPilotLayers, map, provinceLayers]);
 
@@ -1119,7 +1323,11 @@ function ParcelFocusController({
     }
 
     handledRequestId.current = focusRequest.requestId;
-    map.fitBounds(bounds, { padding: [64, 64], maxZoom: 16 });
+    map.fitBounds(bounds, {
+      padding: [64, 64],
+      maxZoom: 16,
+      animate: !prefersReducedMotion(),
+    });
   }, [focusRequest, map, parcels]);
 
   return null;
@@ -1217,7 +1425,7 @@ function InitialHistoricalBoundsController({
 
     hasFittedHistoricalLayer.current = true;
     map.fitBounds(bounds, {
-      animate: true,
+      animate: !prefersReducedMotion(),
       padding: [48, 48],
       maxZoom: 11,
     });
@@ -1540,17 +1748,11 @@ const OverviewMarker = memo(function OverviewMarker({
 
 function ParcelGeometryOverlay({
   collection,
-  selectedPid,
-  showTaxSale,
-  showHistoricalTaxSales,
   style,
   onSelectPid,
   renderMode,
 }: {
   collection: NsprdFeatureCollection;
-  selectedPid: string | null;
-  showTaxSale: boolean;
-  showHistoricalTaxSales: boolean;
   style: (
     feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
   ) => PathOptions;
@@ -1558,6 +1760,8 @@ function ParcelGeometryOverlay({
   renderMode: MapRenderMode;
 }) {
   const map = useMap();
+  const selectPidRef = useRef(onSelectPid);
+  useLayoutEffect(() => { selectPidRef.current = onSelectPid; }, [onSelectPid]);
   const [zoom, setZoom] = useState(() => map.getZoom());
   useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
 
@@ -1571,12 +1775,12 @@ function ParcelGeometryOverlay({
       // GeoJSON never re-reads `data`, so an equal-length parcel-set change —
       // switching to a different single-parcel event, changing a filter that
       // swaps N parcels for N others — kept rendering the previous set's
-      // geometry. visibleParcels is the small selected/tax-sale subset, so
-      // the join stays cheap.
+      // geometry. Selection and tax-sale styling update through `style`;
+      // including them in the key would rebuild every path for a highlight.
       key={`${collection.features
         .map(({ properties }) => properties.PID)
         .sort()
-        .join(",")}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}`}
+        .join(",")}:${renderMode}`}
       data={collection}
       pane={ESTABLISHED_PARCEL_PANE}
       style={style}
@@ -1593,12 +1797,61 @@ function ParcelGeometryOverlay({
                 // Controller free to fire a second, unrequested identify
                 // 250 ms after every parcel click. Same form as MeasureTool.
                 L.DomEvent.stopPropagation(event);
-                onSelectPid(pid);
+                selectPidRef.current(pid);
               });
               layer.bindTooltip(textTooltip(`PID ${pid}`), { sticky: true });
             }
       }
     />
+  );
+}
+
+function headingDivIcon(headingDeg: number): L.DivIcon {
+  // The interpolated value is forced numeric — nothing user-authored can
+  // reach this HTML string.
+  const rotation = Math.round(headingDeg) % 360;
+  return L.divIcon({
+    className: "location-heading-anchor",
+    html: `<div class="location-heading" style="transform: rotate(${rotation}deg)"></div>`,
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
+  });
+}
+
+function formatElapsed(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1_000);
+  const hours = Math.floor(totalSeconds / 3_600);
+  const minutes = Math.floor((totalSeconds % 3_600) / 60);
+  const seconds = totalSeconds % 60;
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return hours > 0
+    ? `${hours}:${pad(minutes)}:${pad(seconds)}`
+    : `${minutes}:${pad(seconds)}`;
+}
+
+function RecordTrackIcon() {
+  return (
+    <svg
+      className="location-button-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="3.5" fill="currentColor" />
+    </svg>
+  );
+}
+
+function MarkLocationIcon() {
+  return (
+    <svg
+      className="location-button-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M12 21s-6.5-5.9-6.5-10.4a6.5 6.5 0 0 1 13 0C18.5 15.1 12 21 12 21Z" />
+      <path d="M9.5 10h5M12 7.5v5" />
+    </svg>
   );
 }
 
@@ -1615,7 +1868,15 @@ function LocationControlIcon() {
   );
 }
 
+const NO_FOCUS_FIT: FocusFitRequest = { revision: 0, bounds: null };
+
 export function MapCanvas({
+  focusFit = NO_FOCUS_FIT,
+  fishingSpots,
+  rhodenaPickPending = false,
+  onRhodenaPickStarted,
+  backgroundSwitch = null,
+  poker = null,
   parcels,
   taxSalePids,
   historicalTaxSalePids,
@@ -1625,11 +1886,18 @@ export function MapCanvas({
   hydroPilotLayers = HIDDEN_HYDRO_PILOT_LAYERS,
   floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
   environmentalHealthLayers = HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS,
+  contextLayers = hiddenContextLayers,
+  electoralModes = initialElectoralModes,
+  electoralLicenceAccepted = false,
+  onElectoralSelect,
   forestryLayers = HIDDEN_FORESTRY_LAYERS,
   zoningLayers = HIDDEN_ZONING_LAYERS,
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
+  liveConditionsLayers = HIDDEN_LIVE_CONDITIONS_LAYERS,
   wellLogAccuracyFilter = "surveyed",
   fletcherVisible = false,
+  fletcherFeaturesVisible = false,
+  onFletcherFeaturesStatus,
   fletcherOpacity = 0.72,
   fletcherTileBaseUrl = null,
   fletcherRetryToken = 0,
@@ -1638,8 +1906,11 @@ export function MapCanvas({
   userVectorLayers = EMPTY_USER_VECTOR_LAYERS,
   userVectorFitRequest = null,
   userVectorEdit = null,
+  userVectorPhotoUi = null,
   georeference = null,
   showModernMap,
+  basemapStyle = "osm",
+  onUseOsmBasemap,
   showTaxSale,
   showHistoricalTaxSales,
   onSelectPid,
@@ -1649,6 +1920,8 @@ export function MapCanvas({
   preserveInitialPosition = false,
   onPositionChange,
   onViewportChange,
+  onMarkLocation,
+  onSaveTrack,
   onLayerStatusChange,
   onResourceLayerStatusChange,
   renderMode = "interactive",
@@ -1659,6 +1932,25 @@ export function MapCanvas({
   onExportFrameContinue,
 }: MapCanvasProps) {
   const isPrintMode = renderMode === "print";
+  /**
+   * Reduce Motion reaching Leaflet's own controls, not just the app's flights.
+   * Pressing + on the zoom bar goes through Leaflet's animated zoom path, and
+   * a reader who asked the system for less motion was still given a full
+   * animated zoom on every press.
+   *
+   * Read once, at construction: these are Map constructor options with no
+   * supported setter, so a reader who changes the system setting mid-session
+   * gets the new behaviour on the next load. That is the cost of reaching the
+   * built-in controls at all, and it is stated rather than hidden.
+   */
+  const [zoomMotion] = useState(() => {
+    const still = prefersReducedMotion();
+    return {
+      zoomAnimation: !still,
+      markerZoomAnimation: !still,
+      fadeAnimation: !still,
+    };
+  });
   const modernPrintError = useRef(false);
   const reportLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
@@ -1698,12 +1990,50 @@ export function MapCanvas({
     suppressBrowserLocation: false,
     lastSuppressed: null,
   });
-  const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
+  const [locationOn, setLocationOn] = useState(false);
+  // Armed while a recording session exists (recording OR paused): the watch
+  // restarts with maximumAge 0 so no cached fix ever enters a track.
+  const [recorderArmed, setRecorderArmed] = useState(false);
+  const live = useLiveLocation(locationOn && !isPrintMode, recorderArmed);
+  const recording = useTrackRecording(live.fix);
+  const [stopResult, setStopResult] = useState<StopResult | null>(null);
+  // The layer a refused save left on the map, held with the walk it carries
+  // and with the name and tolerance that save was made with. A retry is aimed
+  // at that layer; pairing it with the walk is what keeps a later, different
+  // recording from being written over it. The user's own two choices travel
+  // with it because the retry rewrites that layer: reopening on the generated
+  // default name would rename the track already on the map, and the default
+  // tolerance would re-simplify it at a setting nobody picked.
+  const [refusedSave, setRefusedSave] = useState<{
+    result: StopResult;
+    layerId: string;
+    name: string;
+    toleranceM: number;
+  } | null>(null);
+  const [savingTrack, setSavingTrack] = useState(false);
+  const [followOn, setFollowOn] = useState(false);
+  const [marking, setMarking] = useState(false);
+  // Once per toggle-on: the success message and the fly-to happen on the
+  // first fix only; later fixes just move the marker (and pan under follow).
+  const hasCenteredRef = useRef(false);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
+  const [modernMapFailure, setModernMapFailure] = useState<string | null>(null);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
-  const measuring = measureMode !== "off";
+  const [visibilityPicking, setVisibilityPicking] = useState(false);
+  const measuring = poker !== null || measureMode !== "off" || visibilityPicking;
+  const [terrainRequested, setTerrainRequested] = useState(false);
+  const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
+  const [terrainStatus, setTerrainStatus] = useState<TerrainStatus>({ kind: "loading", message: "Loading 3D terrain…" });
+  const reportTerrainStatus = useCallback((status: TerrainStatus) => {
+    setTerrainStatus(previous => previous.kind === status.kind && previous.message === status.message ? previous : status);
+  }, []);
+  const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
+  const [terrainRetry, setTerrainRetry] = useState(0);
+  const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
+  const terrainBlocked = Boolean(contextLayers["rhodena-visibility"] || isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
+  const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
   useLayoutEffect(() => {
     measuringRef.current = measuring;
@@ -1720,7 +2050,20 @@ export function MapCanvas({
   );
 
   useEffect(() => {
-    if (locationMessage !== LOCATION_SUCCESS_MESSAGE) {
+    // Good news auto-dismisses; problems ("permission was not granted",
+    // "signal lost") stay until the state changes.
+    // Good news is a whole sentence about a point or a track that landed:
+    // "Point saved to Field notes (±7.4 m).". A message that starts the same
+    // way and then says the write did not reach the device is a warning, and
+    // warnings stay until the state changes.
+    const autoDismisses =
+      locationMessage === LOCATION_SUCCESS_MESSAGE ||
+      (locationMessage !== null &&
+        /^(Point (saved|added) to |Track saved as ).*\(±[^)]*\)\.$/.test(
+          locationMessage,
+        )) ||
+      (locationMessage?.startsWith("Track saved") ?? false);
+    if (!autoDismisses) {
       return;
     }
 
@@ -1756,11 +2099,18 @@ export function MapCanvas({
   // every feature sub-layer rewriting SVG attributes. A fresh closure per
   // render restyled every visible parcel on every App render — each map move,
   // keystroke, and tile-status event.
+  // An image above Atlas may hide its roads and names; retain overlays there.
+  const exposedBasemap = showModernMap && !provinceLayers['ns-aerial'] && !fletcherVisible
+    && !contextLayers['sentinel-2'] && !contextLayers['ns-topographic'] && userMaps.length === 0;
+  const atlasRoads = exposedBasemap && basemapStyle !== 'osm' && !modernMapFailed;
+  const backgroundLabels = exposedBasemap || contextLayers['ns-topographic'];
+  const outlineColor = parcelOutlineColor(basemapStyle, Boolean(contextLayers["sentinel-2"] || provinceLayers["ns-aerial"]));
   const parcelStyle = useCallback(
     (
       feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
     ): PathOptions =>
       parcelStyleForFeature(feature, {
+        outlineColor,
         selectedPid,
         showTaxSale,
         taxSalePids,
@@ -1769,6 +2119,7 @@ export function MapCanvas({
       }, renderMode),
     [
       historicalTaxSalePids,
+      outlineColor,
       renderMode,
       selectedPid,
       showHistoricalTaxSales,
@@ -1777,28 +2128,379 @@ export function MapCanvas({
     ],
   );
 
-  const requestLocation = () => {
+  const toggleLocation = () => {
+    if (recording.status !== "idle" || stopResult) {
+      // Turning the watch off mid-recording would silently truncate the
+      // track; the user decides through the recorder controls instead.
+      setLocationMessage("Stop the track recording first.");
+      return;
+    }
+    if (locationOn) {
+      setLocationOn(false);
+      setFollowOn(false);
+      setLocationMessage(null);
+      hasCenteredRef.current = false;
+      return;
+    }
+    setLocationOn(true);
+    // Follow is the point of turning location on; dragging opts back out.
+    setFollowOn(true);
     setLocationMessage("Finding your location…");
-    getBrowserLocation()
-      .then((location) => {
-        setUserLocation(location);
-        setLocationMessage(LOCATION_SUCCESS_MESSAGE);
-        if (map) {
-          printableViewportGuard.current.suppressBrowserLocation = true;
-          printableViewportGuard.current.lastSuppressed = null;
-          map.flyTo([location.latitude, location.longitude], 14);
-        }
-      })
-      .catch(() => {
-        setLocationMessage(
-          "Location permission was not granted. You can keep using the map.",
-        );
-      });
   };
 
+  // Watch-status messages. Denial, a missing API, and a device that kept
+  // reporting no position are final for this toggle-on, so the button resets;
+  // signal loss keeps the (dimmed) marker.
+  // The transient reason is a dependency of its own: a watch that goes from
+  // "still trying" to "cannot place you" stays `signal-lost` throughout, and
+  // the sentence has to follow the change the status does not show.
+  const lostReason = live.status === "signal-lost" ? live.reason : null;
+  // A watch that has never delivered a position has not lost a signal; it has
+  // never had one. `fix === null` is the same test the marker is drawn by, so
+  // the sentence and the map agree: nothing found, so nothing drawn. It also
+  // moves with a watch restart (arming the recorder starts a new one), which a
+  // "have we ever had a fix" flag would not. The native map draws the same
+  // line: MapController.LocationMessage.signalLost ("GPS signal lost — still
+  // trying.") is reported only while an established fix is being followed, and
+  // a search that has produced nothing settles on .unavailable ("Your location
+  // couldn't be found. Try again outdoors.").
+  const lostWithoutAnyFix = live.status === "signal-lost" && live.fix === null;
+  // The terminal reason is a dependency of its own, for the reason lostReason
+  // is: the status alone does not say which of the three endings this was,
+  // and the sentence has to follow it.
+  const stoppedReason =
+    live.status === "position-unavailable" ? live.reason : null;
+  useEffect(() => {
+    if (!locationOn) {
+      return;
+    }
+    if (live.status === "active") {
+      // Every return to a fix, not only the first: a watch that timed out
+      // and then answered would otherwise leave "still trying" on screen
+      // over a map that is showing the reader where they are.
+      setLocationMessage(LOCATION_SUCCESS_MESSAGE);
+    } else if (lostWithoutAnyFix) {
+      // Nothing has been found, so nothing is on the map and nothing was
+      // lost. Both watches are still running, so both sentences end in the
+      // present tense — but they part company on what has been heard back: one
+      // has had no answer yet, the other has been told the position could not
+      // be worked out. The cause is not guessed either — location switched off
+      // for the device, and a device under a roof, answer identically — so
+      // both are named and neither is claimed.
+      setLocationMessage(
+        lostReason === "timeout"
+          ? "Your location hasn't been found yet — still looking. Move " +
+              "outdoors, or check that location is switched on for this device."
+          : "Your location is unavailable — the device cannot work out where " +
+              "it is. Still trying. Move outdoors, or check that location is " +
+              "switched on for this device.",
+      );
+    } else if (live.status === "signal-lost") {
+      // A fix was had and stopped coming. Not "GPS": the browser answers from
+      // a satellite fix, a Wi-Fi lookup or an IP estimate and never says
+      // which. And a device still trying is not a device that cannot place
+      // itself.
+      setLocationMessage(
+        lostReason === "timeout"
+          ? "Your location is taking longer than expected — still trying."
+          : "Your location is unavailable right now — still trying.",
+      );
+    } else if (live.status === "denied") {
+      setLocationOn(false);
+      setFollowOn(false);
+      hasCenteredRef.current = false;
+      setLocationMessage(
+        "Location permission was not granted. You can keep using the map.",
+      );
+    } else if (live.status === "position-unavailable") {
+      // The watch is already cleared, so the toggle has to come back up: a
+      // pressed button over a search that has stopped is a lie the reader has
+      // no way to see through. Only what the device reported is said — no
+      // refusal, and no claim that this machine cannot locate itself — and the
+      // way back is named, because the toggle is the retry. The latch is reset
+      // for the same reason the denial branch resets it: every path that ends
+      // a toggle-on leaves it as a fresh one would find it.
+      //
+      // The two endings are not the same account. One device said it could
+      // not place itself several times; the other said it once and then said
+      // nothing at all, and reporting that as several would be a count nobody
+      // made.
+      setLocationOn(false);
+      setFollowOn(false);
+      hasCenteredRef.current = false;
+      setLocationMessage(
+        (stoppedReason === "repeated"
+          ? "The device reported your location as unavailable several times, " +
+            "so the map stopped asking. "
+          : stoppedReason === "no-answer"
+            ? "The device reported your location as unavailable and then " +
+              "stopped answering, so the map stopped asking. "
+            : "Your location wasn't found in half a minute, so the map " +
+              "stopped looking. ") +
+          "Location may be switched off for this device, or there may be " +
+          "nothing here to place you by. Press Use my location to try again.",
+      );
+    } else if (live.status === "unavailable") {
+      setLocationOn(false);
+      setFollowOn(false);
+      setLocationMessage("Location is not available in this browser.");
+    }
+  }, [live.status, lostReason, lostWithoutAnyFix, locationOn, stoppedReason]);
+
+  // Dragging the map is how the user says "stop following me around".
+  useEffect(() => {
+    if (!map || !locationOn) {
+      return;
+    }
+    const onDragStart = () => setFollowOn(false);
+    map.on("dragstart", onDragStart);
+    return () => {
+      map.off("dragstart", onDragStart);
+    };
+  }, [map, locationOn]);
+
+  // Follow mode: every location-driven move arms the same viewport guard the
+  // old one-shot fly-to used, so a follow session never leaks the user's
+  // position into share URLs, print viewports, or evidence notes.
+  const lastCenteredFixRef = useRef<LiveFix | null>(null);
+
+  // Pressing Follow again is a request to be taken back to the fix, and it
+  // must not depend on a new one arriving: the last fix has already been
+  // centred on, so the effect below would otherwise do nothing at all and
+  // the press would have no result to see or hear.
+  const followRecentre = () => {
+    lastCenteredFixRef.current = null;
+    setFollowOn(true);
+    setLocationMessage(LOCATION_SUCCESS_MESSAGE);
+  };
+
+  useEffect(() => {
+    if (!map || !followOn || !live.fix) {
+      return;
+    }
+    if (lastCenteredFixRef.current === live.fix) {
+      return;
+    }
+    lastCenteredFixRef.current = live.fix;
+    printableViewportGuard.current.suppressBrowserLocation = true;
+    printableViewportGuard.current.lastSuppressed = null;
+    // Reduce Motion is a system setting about movement, and Leaflet's fly
+    // and pan animate in JavaScript, where the stylesheet's media rule
+    // cannot reach them. The map still goes to the fix; it just arrives.
+    const animate = !prefersReducedMotion();
+    const target: [number, number] = [live.fix.latitude, live.fix.longitude];
+    const onScreen = map.getBounds().contains(target);
+    const zoom = map.getZoom();
+    if (!hasCenteredRef.current) {
+      hasCenteredRef.current = true;
+      // The reader's zoom is theirs. A parcel searched at 16, or imagery
+      // read at 18, is not something the locate button may throw away to
+      // reach a fixed 14: at that scale a 12 m accuracy circle is sub-pixel
+      // and the lot they were reading is gone. The fixed locate scale is
+      // for the case it was written for — a view further out than it.
+      if (onScreen && zoom >= LOCATE_MIN_ZOOM) {
+        map.panTo(target, { animate });
+      } else {
+        map.flyTo(target, Math.max(zoom, LOCATE_MIN_ZOOM), { animate });
+      }
+      return;
+    }
+    // Following: the zoom stays where the reader left it, and only a fix on
+    // screen is panned to. Leaflet declines to animate a pan longer than the
+    // viewport for good reason — the tiles between are never fetched — so a
+    // fix that has moved out of view is flown to instead.
+    if (onScreen) {
+      map.panTo(target, { animate });
+    } else {
+      map.flyTo(target, zoom, { animate });
+    }
+  }, [followOn, live.fix, map]);
+
+  const handleMark = async () => {
+    if (!onMarkLocation || marking) {
+      return;
+    }
+    setMarking(true);
+    setLocationMessage("Saving a point at your location…");
+    try {
+      // A fresh, tight watch fix saves instantly; anything stale, rough,
+      // future-dated or off the globe makes the handler re-request, so a
+      // mark never lands on data the one-shot would have refused. One rule,
+      // shared with that path.
+      const usable =
+        live.fix !== null && isUsableMarkFix(live.fix, Date.now())
+          ? live.fix
+          : null;
+      const message = await onMarkLocation(usable);
+      setLocationMessage(message);
+    } finally {
+      setMarking(false);
+    }
+  };
+
+  // A walk that has not been saved or discarded: this session's own Stop, or
+  // a recording this device stored before the tab went away.
+  const unsavedTrack = recording.unsaved;
+  // Only the second kind carries the truncation caveat, and only it is marked
+  // interrupted on the record it becomes.
+  const recoveredDraft =
+    unsavedTrack !== null &&
+    unsavedTrack.interrupted &&
+    stopResult === unsavedTrack.result;
+
+  // The refused save this dialog is a retry of, if it is a retry at all.
+  // Identity of the walk, not a flag: a different recording must never inherit
+  // another walk's layer, name or tolerance.
+  const retryOfRefusedSave =
+    refusedSave !== null && refusedSave.result === stopResult
+      ? refusedSave
+      : null;
+
+  const startRecording = () => {
+    setRecorderArmed(true);
+    recording.start();
+  };
+
+  const stopRecording = () => {
+    const result = recording.stop();
+    setRecorderArmed(false);
+    if (result) {
+      setStopResult(result);
+    }
+  };
+
+  const handleSaveTrack = async (name: string, simplifyToleranceM: number) => {
+    if (!onSaveTrack || !stopResult) {
+      return;
+    }
+    const feature = buildRecordedTrackFeature(stopResult, name, simplifyToleranceM);
+    if (!feature) {
+      // The dialog disables Save in this state; this is the belt to its
+      // braces if the two ever disagree. Nothing here can be saved, so the
+      // device's copy goes too rather than being offered back forever.
+      setLocationMessage("Too little movement was recorded to save a track.");
+      recording.clearUnsaved();
+      setRefusedSave(null);
+      setStopResult(null);
+      return;
+    }
+    setSavingTrack(true);
+    try {
+      const outcome = await onSaveTrack({
+        name,
+        collection: { type: "FeatureCollection", features: [feature] },
+        rawGpx: rawTrackGpxBlob(name, stopResult.rawSegments),
+        startedAt: stopResult.startedAt,
+        endedAt: stopResult.endedAt,
+        interrupted: recoveredDraft,
+        // Only ever this walk's own layer: a retry rewrites what the refused
+        // save left on the map instead of adding a second copy of the track.
+        replaceLayerId: retryOfRefusedSave?.layerId,
+      });
+      setLocationMessage(outcome.message);
+      // A layer the device refused leaves the walk with no durable copy at
+      // all, so it is kept and offered back instead of being forgotten on the
+      // strength of a message.
+      if (outcome.persisted) {
+        recording.clearUnsaved();
+        setRefusedSave(null);
+      } else {
+        setRefusedSave({
+          result: stopResult,
+          layerId: outcome.layerId,
+          // What the user typed and chose, so the retry opens on their track
+          // rather than on a freshly generated default.
+          name,
+          toleranceM: simplifyToleranceM,
+        });
+      }
+      setStopResult(null);
+    } finally {
+      setSavingTrack(false);
+    }
+  };
+
+  // Quality dot thresholds match the accuracy gate: green is survey-walk
+  // quality, amber still passes the 25 m gate, red means fixes are being
+  // rejected (or the signal is gone) and the track is not growing.
+  // Red when the last fix was turned down for ANY of the filter's reasons,
+  // not only for a wide accuracy circle. A fix one kilometre away one second
+  // later is rejected on speed and reports 5 m accuracy; a fix with a broken
+  // accuracy or a timestamp out of order does the same. Green over a track
+  // that has stopped growing is the dot saying the opposite of what is
+  // happening.
+  const fixQuality =
+    live.status !== "active" || !live.fix
+      ? "red"
+      : recording.status === "recording" && recording.stats.lastRejection !== null
+        ? "red"
+        : live.fix.accuracyM <= 10
+          ? "green"
+          : live.fix.accuracyM <= 25
+            ? "amber"
+            : "red";
+
+  // Which refusal the device gave, in the words the HUD already shows.
+  const recorderDraftNote =
+    recording.draftError === "quota"
+      ? RECORDER_QUOTA_NOTE
+      : recording.draftError === "unverified"
+        ? RECORDER_DRAFT_UNVERIFIED_NOTE
+        : recording.draftError
+          ? RECORDER_DRAFT_REFUSED_NOTE
+          : null;
+  // Everything a screen reader is told about the recorder, and it changes only
+  // when the recorder does: a walk starts, pauses, resumes, or stops being
+  // written to the device. The elapsed time, distance and point count are
+  // deliberately absent. They move every second, and a live region carrying
+  // them reads the clock over the top of everything else for the length of the
+  // walk; they are read from the "Track recording" region instead, whenever the
+  // reader goes and asks for them.
+  // The red dot's other meaning, as a sentence. The watch is healthy and
+  // delivering and the filter is throwing the fixes away, so the track has
+  // stopped growing — and on screen that was a colour and nothing else, which
+  // a reader who cannot tell the dot's two states apart never received.
+  //
+  // Which sentence matters: what the reader should do about a fix too rough to
+  // use (walk on, wait for the sky) is not what they should do about a clock
+  // running backwards. The filter's four refusals stay four sentences.
+  const rejectionNote =
+    recording.status === "recording" && live.status === "active"
+      ? REJECTION_NOTES[recording.stats.lastRejection ?? "none"]
+      : null;
+  const settledRejectionNote = useSettledWarning(
+    rejectionNote,
+    ANNOUNCEMENT_SETTLE_MS,
+  );
+  const recorderAnnouncement =
+    recording.status === "idle"
+      ? ""
+      : [
+          recording.status === "paused"
+            ? RECORDER_PAUSED_NOTE
+            : "Recording a track.",
+          recording.wakeLockSupported === false
+            ? RECORDER_WAKE_LOCK_NOTE
+            : null,
+          // Settled, not live: the visible line above changes with the fix,
+          // but a reader hearing it must not be read a new sentence every
+          // second while accuracy hovers on the gate.
+          settledRejectionNote,
+          recorderDraftNote,
+        ]
+          .filter((part) => part !== null)
+          .join(" ");
+
   return (
+    /* The wrapper carried this label from the start, but a name on a div with
+       no role is discarded, so the map had no name in the accessibility tree
+       at all — the enclosing section is a named region, so what a reader
+       reached was "Map and parcel details", the whole area, and the map
+       inside it was an unnamed box. The role is what lets the name it was
+       already given be heard. */
     <div
       className={`map-canvas${georeference ? " map-canvas--georeferencing" : ""}`}
+      role="region"
       aria-label="Nova Scotia municipal parcel map"
     >
       <MapContainer
@@ -1814,6 +2516,7 @@ export function MapCanvas({
         boxZoom={!isPrintMode}
         keyboard={!isPrintMode}
         attributionControl={false}
+        {...zoomMotion}
         ref={setMap}
       >
         <MapSizeController />
@@ -1825,17 +2528,35 @@ export function MapCanvas({
         {/* User vector data never reaches PrintMap: the print pipeline takes
             no userVectorLayers prop, keeping uploads out of the sealed print
             capture by construction (documented print/export boundary). */}
-        <UserVectorLayers layers={userVectorLayers} fitRequest={userVectorFitRequest} />
+        <UserVectorLayers
+          layers={userVectorLayers}
+          fitRequest={userVectorFitRequest}
+          photoUi={userVectorPhotoUi}
+          snapAsTargets={Boolean(
+            userVectorEdit &&
+              userVectorEdit.snap.enabled &&
+              userVectorEdit.snap.myFeatures,
+          )}
+        />
         {userVectorEdit ? (
           <Suspense fallback={null}>
             <EditableVectorLayer
               key={userVectorEdit.record.id}
               record={userVectorEdit.record}
               data={userVectorEdit.data}
+              snap={userVectorEdit.snap}
               mode={userVectorEdit.mode}
               onGeometryChange={userVectorEdit.onGeometryChange}
               onSelectFeature={userVectorEdit.onSelectFeature}
             />
+            {userVectorEdit.snap.enabled && userVectorEdit.snap.parcels ? (
+              <ParcelSnapTargetsLayer
+                onStatusChange={userVectorEdit.onParcelSnapStatus}
+              />
+            ) : null}
+            {userVectorEdit.conversionPreview ? (
+              <ConversionPreviewLayer {...userVectorEdit.conversionPreview} />
+            ) : null}
           </Suspense>
         ) : null}
         {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
@@ -1847,10 +2568,26 @@ export function MapCanvas({
             onContinue={onExportFrameContinue!}
           />
         ) : null}
+        {!isPrintMode && contextLayers["sentinel-2"] ? <AttributionControl prefix={false} position="bottomright" /> : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
-        {showModernMap ? (
+        {terrainActive ? null : showModernMap && basemapStyle !== "osm" ? (
+          <Suspense fallback={null}>
+            <AtlasBasemapLayer
+              key={`atlas-${basemapStyle}-${modernMapRetry}`}
+              mode={basemapStyle}
+              print={isPrintMode}
+              onStatus={(status) => {
+                if (!isPrintMode) {
+                  setModernMapFailed(status.status === "error");
+                  setModernMapFailure(status.status === "error" ? status.message ?? null : null);
+                }
+                reportModernStatus(status);
+              }}
+            />
+          </Suspense>
+        ) : showModernMap && !terrainActive ? (
           <TileLayer
             key={`modern-${modernMapRetry}`}
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -1877,6 +2614,10 @@ export function MapCanvas({
         ) : (
           <MapStatusController id="modern" visible={false} onStatusChange={reportLayerStatus} />
         )}
+        <FletcherFullSheetsPreview renderMode={renderMode} />
+        {!isPrintMode && fletcherFeaturesVisible && onFletcherFeaturesStatus ? (
+          <Suspense fallback={null}><FletcherFeaturesLayer onStatus={onFletcherFeaturesStatus} /></Suspense>
+        ) : null}
         <FletcherTileLayer
           visible={fletcherVisible}
           opacity={fletcherOpacity}
@@ -1885,10 +2626,13 @@ export function MapCanvas({
           renderMode={renderMode}
           onStatusChange={reportFletcherStatus}
         />
-        {provinceLayerCatalog.map((layer) => (
+        {provinceLayerCatalog.map((layer) => layer.openData ? (
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
+        ) : (
           <ArcGISMapLayer
             key={layer.id}
             layer={layer}
+            outlineColor={outlineColor}
             visible={provinceLayers[layer.id]}
             onStatusChange={reportLayerStatus}
             renderMode={renderMode}
@@ -1908,6 +2652,35 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
+        <FocusFit request={focusFit} />
+        {contextLayerCatalog.map((layer) => layer.id === "rhodena-visibility" ? (
+          contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} pickPending={rhodenaPickPending} onPickStarted={onRhodenaPickStarted} /> : null
+        ) : isRhodenaLayerId(layer.id) ? (
+          <RhodenaLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
+        ) : layer.id === "fishing-spots" ? (
+          <FishingSpotsLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} page={fishingSpots} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
+        ) : isElectoralLayerId(layer.id) ? (
+          <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
+        ) : layer.openData ? (
+          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} />
+        ) : layer.delivery === "tile" ? (
+          <ContextTileLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+        ) : layer.delivery === "static-image" ? (
+          <ContextImageLayer key={layer.id} layer={layer}
+            visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} />
+        ) : layer.delivery === "feature-query" ? (
+          <ContextFeatureLayer key={layer.id} layer={layer}
+            visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange}
+            renderMode={renderMode} />
+        ) : (
+          <ResourceArcGISMapLayer
+            key={layer.id}
+            layer={layer}
+            visible={contextLayers[layer.id]}
+            onStatusChange={onLayerStatusChange}
+            renderMode={renderMode}
+          />
+        ))}
         {environmentalHealthLayerCatalog.map((layer) => (
           <ResourceArcGISMapLayer
             key={layer.id}
@@ -1926,6 +2699,20 @@ export function MapCanvas({
             renderMode={renderMode}
           />
         ))}
+        {liveConditionsLayerCatalog
+          .filter(
+            (layer): layer is WeatherRadarLayerDescriptor =>
+              layer.delivery === "wms-raster",
+          )
+          .map((layer) => (
+            <WeatherRadarLayer
+              key={layer.id}
+              layer={layer}
+              visible={liveConditionsLayers[layer.id]}
+              onStatusChange={reportLayerStatus}
+              renderMode={renderMode}
+            />
+          ))}
         <Pane
           name={OLD_GROWTH_POLICY_PANE}
           pane="tilePane"
@@ -1965,6 +2752,25 @@ export function MapCanvas({
           ))}
         </Pane>
         <Pane
+          name={TRAFFIC_CAMERA_PANE}
+          style={{ zIndex: TRAFFIC_CAMERA_PANE_Z_INDEX }}
+        >
+          {liveConditionsLayerCatalog
+            .filter(
+              (layer): layer is TrafficCameraLayerDescriptor =>
+                layer.delivery === "bundled-points-live-images",
+            )
+            .map((layer) => (
+              <TrafficCameraLayer
+                key={layer.id}
+                layer={layer}
+                visible={liveConditionsLayers[layer.id]}
+                onStatusChange={reportLayerStatus}
+                renderMode={renderMode}
+              />
+            ))}
+        </Pane>
+        <Pane
           name={MINERAL_PROXIMITY_PANE}
           style={{ zIndex: MINERAL_PROXIMITY_PANE_Z_INDEX }}
         >
@@ -1981,9 +2787,6 @@ export function MapCanvas({
         >
           <ParcelGeometryOverlay
             collection={visibleParcels}
-            selectedPid={selectedPid}
-            showTaxSale={showTaxSale}
-            showHistoricalTaxSales={showHistoricalTaxSales}
             style={parcelStyle}
             onSelectPid={guardedSelectPid}
             renderMode={renderMode}
@@ -2021,32 +2824,62 @@ export function MapCanvas({
               renderMode={renderMode}
             />
           ))}
-        {!isPrintMode && userLocation ? (
+        {!isPrintMode && live.fix ? (
           <>
             <Circle
-              center={[userLocation.latitude, userLocation.longitude]}
-              radius={Math.max(userLocation.accuracy, 12)}
+              center={[live.fix.latitude, live.fix.longitude]}
+              radius={Math.max(live.fix.accuracyM, 12)}
               interactive={false}
               pathOptions={{
                 color: "#2f80ed",
                 fillColor: "#2f80ed",
-                fillOpacity: 0.18,
+                // A lost signal dims the marker in place: the last fix stays
+                // visible but no longer claims to be current.
+                opacity: live.status === "signal-lost" ? 0.45 : 1,
+                fillOpacity: live.status === "signal-lost" ? 0.08 : 0.18,
                 weight: 2,
               }}
             />
             <CircleMarker
-              center={[userLocation.latitude, userLocation.longitude]}
+              center={[live.fix.latitude, live.fix.longitude]}
               radius={8}
               interactive={false}
               pathOptions={{
-              color: "#ffffff",
-              fillColor: "#2f80ed",
-              fillOpacity: 1,
-              weight: 3,
+                color: "#ffffff",
+                fillColor: "#2f80ed",
+                opacity: live.status === "signal-lost" ? 0.6 : 1,
+                fillOpacity: live.status === "signal-lost" ? 0.5 : 1,
+                weight: 3,
               }}
             />
+            {live.fix.headingDeg !== null && (live.fix.speedMps ?? 0) > 0.5 ? (
+              <Marker
+                position={[live.fix.latitude, live.fix.longitude]}
+                icon={headingDivIcon(live.fix.headingDeg)}
+                interactive={false}
+                keyboard={false}
+              />
+            ) : null}
           </>
         ) : null}
+        {!isPrintMode && recording.status !== "idle"
+          ? recording.liveSegments
+              .filter((segment) => segment.length >= 2)
+              .map((segment, index) => (
+                <Polyline
+                  // Index keys are safe here: segments only ever append.
+                  key={index}
+                  positions={segment}
+                  interactive={false}
+                  pathOptions={{
+                    color: "#2f80ed",
+                    weight: 3,
+                    dashArray: "6 8",
+                    opacity: 0.9,
+                  }}
+                />
+              ))
+          : null}
         {isPrintMode ? <PrintBoundsController bounds={fitBounds} /> : <>
           <InitialTaxSaleBoundsController
             parcels={parcels}
@@ -2071,8 +2904,15 @@ export function MapCanvas({
           <ParcelIdentifyController
             // A click during georeferencing places a control point; letting
             // it also open the parcel inspector would fight the user for the
-            // same gesture. Same reasoning as the measure tool above.
-            enabled={provinceLayers.nsprd && !measuring && !georeference}
+            // same gesture. Same reasoning as the measure tool above — and
+            // the same again for an edit session, whose drawing clicks used
+            // to ALSO fire an identify 250 ms later.
+            enabled={
+              provinceLayers.nsprd &&
+              !measuring &&
+              !georeference &&
+              !userVectorEdit
+            }
             onIdentifyParcel={onIdentifyParcel}
           />
           {/* Unmounted for the duration of a session, not merely forced to
@@ -2089,9 +2929,22 @@ export function MapCanvas({
               as a dead button. `measureMode` itself is left alone, so the
               user's tool choice survives the session. */}
           {georeference ? null : (
-            <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
+            poker ? <div className="poker-workspace" ref={(node) => {
+              if (!node) return;
+              L.DomEvent.disableClickPropagation(node);
+              L.DomEvent.disableScrollPropagation(node);
+              // Leaflet's simulated double-tap calls stopPropagation on the
+              // second click, swallowing rapid button taps before React sees
+              // them. Block native dblclick only; keep the map-click guard.
+              L.DomEvent.off(node, "dblclick", L.DomEvent.stopPropagation);
+              node.addEventListener("dblclick", L.DomEvent.stopPropagation);
+            }}>
+              <PokerMapTools session={poker} />
+              <MeasureTool key={`poker-${poker.revision}`} driveway suspended={terrainActive} mode="distance" onModeChange={setMeasureMode} />
+            </div> : <MeasureTool suspended={visibilityPicking} mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
+        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer key={terrainRetry} basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={reportTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}
         <MapPositionController
           onPositionChange={onPositionChange}
           onViewportChange={onViewportChange}
@@ -2100,18 +2953,214 @@ export function MapCanvas({
       </MapContainer>
 
       {!isPrintMode ? <>
+      <div className="research-terrain-controls" aria-label="Map dimension">
+        <div className="terrain-control-bar">
+          <button type="button" aria-label={terrainActive ? "Return to 2D" : "3D terrain"} aria-pressed={terrainActive} disabled={terrainBlocked}
+            title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
+            onClick={() => { setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" }); setTerrainSettingsOpen(false); setTerrainRequested(value => !value); }}>
+            {terrainActive ? "2D" : "3D terrain"}
+          </button>
+          {terrainActive ? <button type="button" aria-expanded={terrainSettingsOpen} aria-controls="terrain-settings" onClick={() => setTerrainSettingsOpen(value => !value)}>3D settings</button> : null}
+        </div>
+        {backgroundSwitch ? <div className="background-switch" role="group" aria-label="Background">
+          <button type="button" aria-pressed={!backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(false)}>
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 5.2 7 3.5l6 2 4.5-1.7v11L13 16.5l-6-2-4.5 1.7Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /><path d="M7 3.5v11M13 5.5v11" stroke="currentColor" strokeWidth="1.6" /></svg>
+            Map
+          </button>
+          <button type="button" aria-pressed={backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(true)}>
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="2.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M2.8 13.5 7.5 9l3.2 3.2 2.3-2.2 4.2 3.8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="13.2" cy="6.8" r="1.5" fill="currentColor" /></svg>
+            Aerial
+          </button>
+        </div> : null}
+        {terrainActive && terrainSettingsOpen ? <div id="terrain-settings" className="terrain-settings-body">
+          {terrainMap ? <TerrainCameraControls map={terrainMap} /> : null}
+          <details className="terrain-height-settings"><summary>Terrain height</summary><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /></details>
+          <small className="terrain-touch-help">One finger moves. Pinch to zoom; twist to rotate. Slide two fingers up/down to tilt.</small>
+          <small className="terrain-mouse-help">Right-drag to tilt/rotate. Scroll to zoom.</small>
+          <small>Mapzen terrain; source detail varies.</small>
+        </div> : null}
+      </div>
+      {terrainActive && terrainStatus.kind !== "ready" ? <div className="research-terrain-status" role="status">
+        <span>{terrainStatus.message}</span>
+        {terrainStatus.kind === "error" ? <button type="button" onClick={() => {
+          setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" });
+          setTerrainRetry(value => value + 1);
+        }}>Retry 3D</button> : null}
+      </div> : null}
       <button
         className="location-button"
         type="button"
         aria-label="Use my location"
-        aria-pressed={userLocation !== null}
-        onClick={requestLocation}
+        aria-pressed={locationOn}
+        onClick={toggleLocation}
       >
         <LocationControlIcon />
       </button>
-      {showModernMap && modernMapFailed ? (
+      {locationOn ? (
+        <div className="location-cluster">
+          {onMarkLocation ? (
+            <button
+              type="button"
+              className="location-cluster-button"
+              aria-label="Mark my location"
+              disabled={marking}
+              onClick={() => void handleMark()}
+            >
+              <MarkLocationIcon />
+            </button>
+          ) : null}
+          {onSaveTrack &&
+          recording.status === "idle" &&
+          !stopResult &&
+          !unsavedTrack ? (
+            <button
+              type="button"
+              className="location-cluster-button"
+              aria-label="Record a track"
+              // Held until this device has said what it is already holding: a
+              // walk it has not been asked about lives under the same key the
+              // first write of a new recording would take.
+              disabled={recording.restore === "pending"}
+              onClick={startRecording}
+            >
+              <RecordTrackIcon />
+            </button>
+          ) : null}
+          {!followOn ? (
+            <button
+              type="button"
+              className="location-follow"
+              onClick={followRecentre}
+            >
+              Follow
+            </button>
+          ) : null}
+          <small className="location-privacy">
+            Location stays on this device.
+          </small>
+        </div>
+      ) : null}
+      {/* A named region, not a live region. These numbers change once a
+          second, and role="status" had a screen reader reading the clock, the
+          distance and the point count over the top of everything else for the
+          length of the walk. The reader now goes to "Track recording" and
+          reads them when they want them, and hears the recorder's state
+          changes from the announcement further down. The three notices below
+          this one keep their live regions: each is written once when
+          something happens and then sits still, which is what a live region
+          is for. */}
+      {recording.status !== "idle" ? (
+        <div
+          className="location-hud"
+          role="region"
+          aria-label="Track recording"
+        >
+          <div className="location-hud-stats">
+            <span
+              className={`location-hud-quality location-hud-quality-${fixQuality}`}
+              aria-hidden="true"
+            />
+            {/* Read aloud on their own, "12:34" and "1.20 km" say nothing
+                about which is which. The labels are hidden because on screen
+                the column position already says it. */}
+            <span>
+              <span className="visually-hidden">Elapsed </span>
+              {formatElapsed(recording.stats.elapsedMs)}
+            </span>
+            <span>
+              <span className="visually-hidden">Distance </span>
+              {formatDistance(recording.stats.distanceM)}
+            </span>
+            <span>
+              {recording.stats.keptVertexCount.toLocaleString("en-CA")} pts
+            </span>
+          </div>
+          {recording.status === "paused" ? (
+            <small>{RECORDER_PAUSED_NOTE}</small>
+          ) : null}
+          {recording.wakeLockSupported === false ? (
+            <small>{RECORDER_WAKE_LOCK_NOTE}</small>
+          ) : null}
+          {rejectionNote ? <small>{rejectionNote}</small> : null}
+          {recorderDraftNote ? <small>{recorderDraftNote}</small> : null}
+          <div className="location-hud-actions">
+            {recording.status === "recording" ? (
+              <button type="button" onClick={recording.pause}>
+                Pause
+              </button>
+            ) : (
+              <button type="button" onClick={recording.resume}>
+                Resume
+              </button>
+            )}
+            <button type="button" onClick={stopRecording}>
+              Stop
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {onSaveTrack && unsavedTrack && !stopResult && recording.status === "idle" ? (
+        <div className="location-hud" role="status">
+          <small>A track recording is waiting to be saved.</small>
+          <div className="location-hud-actions">
+            <button
+              type="button"
+              onClick={() => setStopResult(unsavedTrack.result)}
+            >
+              Recover unsaved track
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {onSaveTrack &&
+      recording.restore === "unreadable" &&
+      !unsavedTrack &&
+      !stopResult &&
+      recording.status === "idle" ? (
+        <div className="location-hud" role="status">
+          <small>
+            This browser couldn't read what's stored here, so a recording may
+            still be on this device. Starting a new one replaces it.
+          </small>
+        </div>
+      ) : null}
+      {recording.clearError ? (
+        <div className="location-hud" role="status">
+          <small>
+            {recording.clearError === "unverified"
+              ? "This browser hasn't confirmed that copy of the recording was " +
+                "deleted, so it may be offered again after a reload."
+              : "This device still has a copy of that recording — it wouldn't " +
+                "be deleted, so it may be offered again after a reload."}
+          </small>
+          <div className="location-hud-actions">
+            <button type="button" onClick={recording.retryClear}>
+              Delete it
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {stopResult ? (
+        <SaveTrackDialog
+          result={stopResult}
+          recovered={recoveredDraft}
+          initialName={retryOfRefusedSave?.name}
+          initialToleranceM={retryOfRefusedSave?.toleranceM}
+          saving={savingTrack}
+          onSave={(name, toleranceM) => void handleSaveTrack(name, toleranceM)}
+          onDiscard={() => {
+            recording.clearUnsaved();
+            setRefusedSave(null);
+            setStopResult(null);
+          }}
+        />
+      ) : null}
+      {showModernMap && modernMapFailed && !terrainActive ? (
         <div className="modern-map-error" role="status">
-          <span>Modern map did not load.</span>
+          <span>{modernMapFailure ?? "Some modern-map data did not load. The map may be incomplete."}</span>
+          {basemapStyle !== "osm" && onUseOsmBasemap ? (
+            <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
+          ) : null}
           <button
             type="button"
             onClick={() => {
@@ -2123,6 +3172,16 @@ export function MapCanvas({
           </button>
         </div>
       ) : null}
+      {/* Outside the HUD, and rendered whether or not a walk is running: a
+          live region has to be in the document before its text changes, or
+          the first change — the recording starting — is the one nobody hears.
+          Stopping empties it, and the save dialog that opens takes focus,
+          which is what says the walk has ended. It is kept apart from the
+          location message below because that one belongs to the watch and to
+          save outcomes, and it dismisses itself on its own schedule. */}
+      <p className="visually-hidden" role="status" aria-live="polite">
+        {recorderAnnouncement}
+      </p>
       <p className="location-message" role="status" aria-live="polite">
         {locationMessage}
       </p>

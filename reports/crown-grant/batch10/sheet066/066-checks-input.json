@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Jack Lake southern tip",
+    [
+      968,
+      573
+    ],
+    [
+      933,
+      540
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Georges Island southern tip",
+    [
+      1848,
+      3253
+    ],
+    [
+      1838,
+      3232
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q03",
+    "East Lake northern island southern tip",
+    [
+      3873,
+      992
+    ],
+    [
+      3867,
+      973
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q04",
+    "Grassy Lake southern tip",
+    [
+      5354,
+      207
+    ],
+    [
+      5378,
+      192
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Pound Lake southern tip",
+    [
+      5501,
+      474
+    ],
+    [
+      5525,
+      455
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Gammon Lake southern tip",
+    [
+      4659,
+      3347
+    ],
+    [
+      4654,
+      3312
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Snow Lake western narrow horn tip",
+    [
+      5394,
+      3779
+    ],
+    [
+      5395,
+      3734
+    ],
+    "WALK20"
+  ]
+]

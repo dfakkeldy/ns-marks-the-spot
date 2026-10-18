@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6022 x 4091 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 81.30 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          95,
+          100
+        ],
+        [
+          5915,
+          100
+        ],
+        [
+          5915,
+          3980
+        ],
+        [
+          95,
+          3980
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains St Marys River and Wine Harbour, Cape St Marys, Tobacco, Wedge and Walter Islands, Holland Harbour Island and Holland Head, Port Bickerton and Bickerton Island, Cape Mocodome, Country Harbour Head, Harbour Island and Saladin Point, Drumhead, and the entire southern Atlantic frame. No displaced inset identified."
+    }
+  ]
+}

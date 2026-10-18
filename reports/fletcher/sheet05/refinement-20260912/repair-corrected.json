@@ -1,0 +1,33 @@
+{
+  "sheet": "sheet-05",
+  "collected_at_utc": "2026-09-12T14:03:40.845268+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.6126044,
+        46.7363776
+      ],
+      "source_guide_xy": [
+        6374.99367087963,
+        2817.160138240084
+      ],
+      "objectids": [
+        139422,
+        139423,
+        181023
+      ],
+      "id": "R01",
+      "role": "check",
+      "modern_node_id": "J1033",
+      "pixel_xy": [
+        6410,
+        2697
+      ],
+      "identity_evidence": "Sunday Lake northeastern outlet to Black Brook drainage",
+      "source_uncertainty_px": 20,
+      "status": "Corrected outlet awaiting final close/wide review.",
+      "review_note": "Corrected before scoring from downstream tributary J1027 to actual lake outlet J1033 and native shoreline outlet."
+    }
+  ],
+  "corrected_at_utc": "2026-09-12T14:04:33.553762+00:00"
+}

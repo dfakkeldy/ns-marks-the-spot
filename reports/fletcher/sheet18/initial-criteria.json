@@ -1,0 +1,10 @@
+{
+  "sheet": "sheet-18",
+  "provisional_criteria_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "rationale": "Research-scale target for current Fletcher queue; requires stable identities, geographic coverage, actual warped-raster review and browser verification. Prior single Crane Island check cannot establish whole-sheet accuracy.",
+  "prior_control_policy": "Preserve the four rounded half-resolution controls and prior check. Any native-coordinate conversion and later correction must be explicit with original records retained.",
+  "starting_transform": "Reproduce prior affine as a baseline; consider TPS only with additional reviewed physical support and separate diagnostics, then freeze before fresh validation."
+}

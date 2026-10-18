@@ -1,0 +1,397 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "lonlat": [
+        -61.12050058884525,
+        45.706478090205344
+      ],
+      "guide_xy": [
+        3671.38873679284,
+        2514.904017222114
+      ],
+      "modern_objectid": 13595,
+      "modern_part": 0,
+      "modern_vertex": 12,
+      "modern_properties": {
+        "OBJECTID": 13595,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 446.10288499284053
+      },
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        3730,
+        2295
+      ],
+      "identity_evidence": "Ballam Head northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -61.11466030676841,
+        45.737682461866385
+      ],
+      "guide_xy": [
+        3798.968530704966,
+        1557.803529634839
+      ],
+      "modern_objectid": 13688,
+      "modern_part": 0,
+      "modern_vertex": 24,
+      "modern_properties": {
+        "OBJECTID": 13688,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 378.7027241225687
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        3845,
+        1332
+      ],
+      "identity_evidence": "Spruce Point easternmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3080,
+        1754
+      ],
+      "lonlat": [
+        -61.1519997,
+        45.7236303
+      ],
+      "modern_node_id": "J0132",
+      "modern_objectids": [
+        13397,
+        13414,
+        261642
+      ],
+      "identity_evidence": "Cameron Brook mouth into West Bay",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        6570,
+        2670
+      ],
+      "lonlat": [
+        -60.9920609,
+        45.6948582
+      ],
+      "modern_node_id": "J0301",
+      "modern_objectids": [
+        137990,
+        137991,
+        283111
+      ],
+      "identity_evidence": "Mountain Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        7150,
+        1920
+      ],
+      "lonlat": [
+        -60.9611606,
+        45.718229
+      ],
+      "modern_node_id": "J0162",
+      "modern_objectids": [
+        59409,
+        59410,
+        223488
+      ],
+      "identity_evidence": "McDonald Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        8620,
+        2390
+      ],
+      "lonlat": [
+        -60.8948463,
+        45.7056054
+      ],
+      "modern_node_id": "J0219",
+      "modern_objectids": [
+        135327,
+        135330,
+        194021
+      ],
+      "identity_evidence": "Murray Lakes eastern basin southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        4917,
+        3638
+      ],
+      "lonlat": [
+        -60.9867337,
+        45.6700217
+      ],
+      "modern_node_id": "J0499",
+      "modern_objectids": [
+        199039,
+        283230,
+        283231
+      ],
+      "identity_evidence": "Northern tributary joins Black River",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        4245,
+        4210
+      ],
+      "lonlat": [
+        -61.098232,
+        45.6453133
+      ],
+      "modern_node_id": "J0691",
+      "modern_objectids": [
+        124550,
+        125812,
+        198106
+      ],
+      "identity_evidence": "Buchanan Lake eastern basin southeast outlet",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        5890,
+        4305
+      ],
+      "lonlat": [
+        -61.0337471,
+        45.6444922
+      ],
+      "modern_node_id": "J0696",
+      "modern_objectids": [
+        139538,
+        139540,
+        198081
+      ],
+      "identity_evidence": "False Bay Lake east outlet into small eastern basin",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        3120,
+        5210
+      ],
+      "lonlat": [
+        -61.1475212,
+        45.6144228
+      ],
+      "modern_node_id": "J0900",
+      "modern_objectids": [
+        141255,
+        141355,
+        272019
+      ],
+      "identity_evidence": "White Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -61.088087977528666,
+        45.58512220824061
+      ],
+      "guide_xy": [
+        4379.435748481657,
+        6237.131628844421
+      ],
+      "modern_objectid": 5701,
+      "modern_part": 0,
+      "modern_vertex": 10,
+      "modern_properties": {
+        "OBJECTID": 5701,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 488.73790492110896
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        4510,
+        6132
+      ],
+      "identity_evidence": "Burnt Point easternmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -61.18386585745589,
+        45.58573415106713
+      ],
+      "guide_xy": [
+        2287.187117047375,
+        6218.362118469551
+      ],
+      "modern_objectid": 16916,
+      "modern_part": 0,
+      "modern_vertex": 62,
+      "modern_properties": {
+        "OBJECTID": 16916,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1244.9998640143692
+      },
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        2350,
+        6130
+      ],
+      "identity_evidence": "Freeman Island easternmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -60.9765015866024,
+        45.607603186687115
+      ],
+      "guide_xy": [
+        6817.018140987493,
+        5547.595057933126
+      ],
+      "modern_objectid": 16828,
+      "modern_part": 0,
+      "modern_vertex": 45,
+      "modern_properties": {
+        "OBJECTID": 16828,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1806.4478187366085
+      },
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        6830,
+        5440
+      ],
+      "identity_evidence": "Cascarette Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -60.8890930277233,
+        45.57742998764084
+      ],
+      "guide_xy": [
+        8726.440627990058,
+        6473.067419080529
+      ],
+      "modern_objectid": 7036,
+      "modern_part": 0,
+      "modern_vertex": 23,
+      "modern_properties": {
+        "OBJECTID": 7036,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 386.0516920563251
+      },
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        8680,
+        6400
+      ],
+      "identity_evidence": "Cape Round easternmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -60.89464500438247,
+        45.64559412877022
+      ],
+      "guide_xy": [
+        8605.15880826558,
+        4382.336882360047
+      ],
+      "modern_objectid": 5906,
+      "modern_part": 0,
+      "modern_vertex": 12,
+      "modern_properties": {
+        "OBJECTID": 5906,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 495.5257003674333
+      },
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        8600,
+        4290
+      ],
+      "identity_evidence": "Tillard Point easternmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Candidate; not fitted"
+    }
+  ]
+}

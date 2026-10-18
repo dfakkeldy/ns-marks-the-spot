@@ -1,0 +1,7 @@
+{
+  "score_sets_replayed": 5,
+  "new_observation_frames_and_reference_vertices": 2,
+  "frozen_controls_byte_identical": true,
+  "raster_and_screenshot_hashes_verified": true,
+  "geographic_acceptance": false
+}

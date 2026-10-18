@@ -1,0 +1,13 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Five lakes and one distinctive projecting coast point form a broad triangle across eastern and southwestern mainland.",
+  "not_adopted": [
+    "Cheverie, Horton Bluff and generalized estuarine/coastal outlines lack precise matched vertices in inspected context; no forced points."
+  ],
+  "limitations": [
+    "All five checks are paired with control lakes; no independent coast check.",
+    "Northwestern Grand Pre/Hortonville, western interior, major estuarine rivers and northern/southern margins are unvalidated.",
+    "Source uncertainty18 px; lake outlines are generalized."
+  ]
+}

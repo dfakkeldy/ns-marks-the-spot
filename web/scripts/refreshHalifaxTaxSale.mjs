@@ -5,20 +5,31 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { buildHalifaxHistoricalAddition, findHalifaxResultPdf, parseHalifaxResultText } from "./halifaxTaxSaleResults.mjs";
+import { fetchOfficial } from "./taxSaleWatch/fetchOfficial.mjs";
+import { formatDataset, formatLedger } from "./taxSaleWatch/dataset.mjs";
+import { updateHistoricalDatasetHash } from "./watchTaxSaleSources.mjs";
 
 const execFile = promisify(execFileCallback);
 const LANDING_PAGE_URL = "https://www.halifax.ca/home-property/property-taxes/tax-sale";
+const RESULTS_PAGE_URL =
+  "https://www.halifax.ca/home-property/property-taxes/tax-sale/tax-sale-results";
+const CURRENT_TENDER_NUMBER = "HRM-TaxSale23";
+const CURRENT_EVENT_DATE = "2026-09-15";
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.snapshot.json");
 const MODEL_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.ts");
+const RESULT_SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSaleResults.snapshot.json");
+const HISTORICAL_DATASET_PATH = resolve(SCRIPT_DIR, "../src/data/historicalTaxSales.json");
+const HISTORICAL_LEDGER_PATH = resolve(SCRIPT_DIR, "../src/data/historicalSourceLedger.json");
+const HISTORICAL_MODEL_PATH = resolve(SCRIPT_DIR, "../src/data/historicalTaxSales.ts");
 const MONTHS = [
   "January", "February", "March", "April", "May", "June", "July",
   "August", "September", "October", "November", "December",
 ];
-export const HALIFAX_GEOMETRY_EXCEPTIONS = [
-  { aan: "09417036", pid: "41051889", reason: "no-nsprd-geometry", checkedOn: "2026-08-15" },
-  { aan: "09417044", pid: "41051897", reason: "no-nsprd-geometry", checkedOn: "2026-08-15" },
-];
+// The sept11 Schedule A continues to omit the two parking-space PIDs that
+// previously had empty NSPRD geometry. A non-empty pin must match a live row.
+export const HALIFAX_GEOMETRY_EXCEPTIONS = [];
 
 function decodeHtml(value) {
   return value
@@ -35,22 +46,127 @@ function uniqueMatchingUrls(html, pattern) {
   const officialOrigin = new URL(LANDING_PAGE_URL).origin;
   return [...new Set(Array.from(
     html.matchAll(/href=["']([^"']+)["']/giu),
-    ([, href]) => String(new URL(decodeHtml(href), LANDING_PAGE_URL)),
+    ([, href]) => {
+      try {
+        return String(new URL(decodeHtml(href), LANDING_PAGE_URL));
+      } catch {
+        // Official HTML has included broken hrefs (spaces in a fake absolute
+        // URL). Skip those so PDF discovery can still fail closed on count.
+        return null;
+      }
+    },
   ).filter((url) => {
+    if (!url) return false;
     const parsed = new URL(url);
     return parsed.origin === officialOrigin && pattern.test(parsed.pathname);
   }))];
 }
 
-export function parseLandingPage(html) {
-  const pageText = textContent(html.replace(/<script\b[\s\S]*?<\/script>/giu, " ").replace(/<style\b[\s\S]*?<\/style>/giu, " "));
-  const tenderNumbers = [...new Set(pageText.match(/HRM-TaxSale\d+/gu) ?? [])];
-  const tenderUrls = uniqueMatchingUrls(html, /\/tender-doc-sept15\.26\.pdf$/iu);
-  const scheduleUrls = uniqueMatchingUrls(html, /\/sept15\.2026newspaper\.website-draft-aug-\d{1,2}\.26\.pdf$/iu);
-  if (tenderNumbers.length !== 1 || tenderUrls.length !== 1 || scheduleUrls.length !== 1) {
-    throw new Error(`Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${tenderNumbers.length}, ${tenderUrls.length}, and ${scheduleUrls.length}.`);
+function landingPageText(html) {
+  return textContent(
+    html
+      .replace(/<script\b[\s\S]*?<\/script>/giu, " ")
+      .replace(/<style\b[\s\S]*?<\/style>/giu, " "),
+  );
+}
+
+function isClosedAwaitingResults(pageText) {
+  return (
+    /Bidding for\s+TAXSALE23 LIST\s+[–—-]\s+Tuesday,\s+September\s+15,\s*2026\s+is now\s+Closed/iu.test(
+      pageText,
+    ) && /monitor this website page for the Results/iu.test(pageText)
+  );
+}
+
+function currentNoticeDocuments(html) {
+  return {
+    tenderNumbers: [...new Set(landingPageText(html).match(/HRM-TaxSale\d+/gu) ?? [])],
+    tenderUrls: uniqueMatchingUrls(html, /\/tender-doc-sept15\.26\.pdf$/iu),
+    scheduleUrls: uniqueMatchingUrls(
+      html,
+      /\/(?:copy-of-)?sept15\.2026newspaper\.website-draft-[a-z]{3,9}-?\d{1,2}\.26\.pdf$/iu,
+    ),
+    taxSalePdfs: uniqueMatchingUrls(
+      html,
+      /\/documents\/home-property\/property-taxes\/[^/]+\.pdf$/iu,
+    ),
+  };
+}
+
+export function classifyLandingPage(html) {
+  const pageText = landingPageText(html);
+  const closed = isClosedAwaitingResults(pageText);
+  const { tenderNumbers, tenderUrls, scheduleUrls, taxSalePdfs } =
+    currentNoticeDocuments(html);
+
+  if (/TAXSALE23 LIST\s+[–—-]\s+Tuesday,\s+September\s+15,\s*2026\s+RESULTS\b/iu.test(pageText)) {
+    if (tenderNumbers.length || tenderUrls.length || scheduleUrls.length || taxSalePdfs.length) {
+      throw new Error("Halifax landing page mixes published results with current tender documents; refusing to guess.");
+    }
+    return { kind: "published-results", tenderNumber: CURRENT_TENDER_NUMBER, eventDate: CURRENT_EVENT_DATE };
   }
-  return { tenderNumber: tenderNumbers[0], tenderUrl: tenderUrls[0], scheduleUrl: scheduleUrls[0] };
+
+  if (closed) {
+    if (
+      tenderNumbers.length > 0 ||
+      tenderUrls.length > 0 ||
+      scheduleUrls.length > 0 ||
+      taxSalePdfs.length > 0
+    ) {
+      throw new Error(
+        "Halifax landing page mixes a closed TaxSale23 notice with current tender documents; refusing to guess which is current.",
+      );
+    }
+    return {
+      kind: "closed-awaiting-results",
+      tenderNumber: CURRENT_TENDER_NUMBER,
+      eventDate: CURRENT_EVENT_DATE,
+    };
+  }
+
+  if (tenderNumbers.length !== 1 || tenderUrls.length !== 1 || scheduleUrls.length !== 1) {
+    throw new Error(
+      `Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${tenderNumbers.length}, ${tenderUrls.length}, and ${scheduleUrls.length}.`,
+    );
+  }
+  return {
+    kind: "current-tender",
+    tenderNumber: tenderNumbers[0],
+    tenderUrl: tenderUrls[0],
+    scheduleUrl: scheduleUrls[0],
+  };
+}
+
+export function parseLandingPage(html) {
+  const landing = classifyLandingPage(html);
+  if (landing.kind !== "current-tender") {
+    throw new Error(
+      `Expected a current Halifax tender, found ${landing.kind}.`,
+    );
+  }
+  return {
+    tenderNumber: landing.tenderNumber,
+    tenderUrl: landing.tenderUrl,
+    scheduleUrl: landing.scheduleUrl,
+  };
+}
+
+export function assertHalifaxResultsStillHistorical(html) {
+  const pageText = landingPageText(html);
+  if (/TAXSALE\s*23|HRM[- ]?TaxSale\s*23/iu.test(pageText)) {
+    throw new Error(
+      "Official Halifax TaxSale23 results appear on the results page; refusing to guess outcomes.",
+    );
+  }
+  const currentResultPdfs = uniqueMatchingUrls(
+    html,
+    /sept(?:ember)?-?15.*2026|sept15\.2026|taxsale23/iu,
+  );
+  if (currentResultPdfs.length > 0) {
+    throw new Error(
+      "Official Halifax PDFs for the September 15, 2026 sale appear on the results page; refusing to guess outcomes.",
+    );
+  }
 }
 
 function parseDate(monthName, day, year) {
@@ -88,9 +204,14 @@ export function parseScheduleText(source) {
   const listings = candidateLines.map((line, index) => {
     const item = index + 1;
     const aan = line.slice(0, 8);
-    const description = line.slice(130, 196).trim();
-    const ownerFreeTail = line.slice(196);
-    const pids = ownerFreeTail.match(/\b\d{8}\b/gu) ?? [];
+    // Official pdftotext keeps description at column 130; the PID column has
+    // sat at both 196 (aug-25 fixture) and ~189 (sept3 revision). Take every
+    // complete 8-digit token after the description start, not a fixed split.
+    const pidMatches = [...line.matchAll(/\b\d{8}\b/gu)].filter((match) => (match.index ?? 0) >= 130);
+    const firstPidIndex = pidMatches[0]?.index;
+    const description = firstPidIndex === undefined ? "" : line.slice(130, firstPidIndex).trim();
+    const ownerFreeTail = firstPidIndex === undefined ? "" : line.slice(firstPidIndex);
+    const pids = pidMatches.map((match) => match[0]);
     const amountText = ownerFreeTail.match(/\$[\d,]+\.\d{2}/u)?.[0];
     const flags = ownerFreeTail.match(/\b(?:Yes|No)\b/gu) ?? [];
     const openingBidCents = amountText ? parseMoneyCents(amountText) : null;
@@ -118,9 +239,9 @@ export function parseScheduleText(source) {
 }
 
 export function assertCurrentScheduleCounts(listings) {
-  if (listings.length !== 29) throw new Error(`Expected 29 Halifax Schedule A rows, found ${listings.length}.`);
+  if (listings.length !== 10) throw new Error(`Expected 10 Halifax Schedule A rows, found ${listings.length}.`);
   const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
-  if (pidCount !== 30) throw new Error(`Expected 30 Halifax Schedule A PIDs, found ${pidCount}.`);
+  if (pidCount !== 11) throw new Error(`Expected 11 Halifax Schedule A PIDs, found ${pidCount}.`);
 }
 
 function sha256(contents) {
@@ -134,18 +255,18 @@ function halifaxDate(now = new Date()) {
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-function reconcileGeometryExceptions(listings) {
-  for (const exception of HALIFAX_GEOMETRY_EXCEPTIONS) {
+function reconcileGeometryExceptions(listings, exceptions = HALIFAX_GEOMETRY_EXCEPTIONS) {
+  for (const exception of exceptions) {
     const listing = listings.find(({ aan }) => aan === exception.aan);
     if (!listing || listing.pids.length !== 1 || listing.pids[0] !== exception.pid) {
       throw new Error(`Could not reconcile Halifax geometry exception AAN ${exception.aan} and PID ${exception.pid}.`);
     }
   }
-  return HALIFAX_GEOMETRY_EXCEPTIONS;
+  return exceptions;
 }
 
-export function buildSnapshot(current, receipt, tenderBytes, scheduleBytes, now = new Date()) {
-  const geometryExceptions = reconcileGeometryExceptions(receipt.listings);
+export function buildSnapshot(current, receipt, tenderBytes, scheduleBytes, now = new Date(), exceptions = HALIFAX_GEOMETRY_EXCEPTIONS) {
+  const geometryExceptions = reconcileGeometryExceptions(receipt.listings, exceptions);
   const exceptionPids = new Set(geometryExceptions.map(({ pid }) => pid));
   const mappedListings = receipt.listings.filter(({ pids }) => pids.every((pid) => !exceptionPids.has(pid)));
   const tenderDocumentSha256 = sha256(tenderBytes);
@@ -200,23 +321,82 @@ async function pdfText(pdfBytes) {
 }
 
 async function fetchBytes(url) {
-  const response = await fetch(url, {
-    headers: { Accept: "application/pdf", "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
-    signal: AbortSignal.timeout(30_000),
-  });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
+  const response = await fetchOfficial(url, { accept: "application/pdf" });
   return Buffer.from(await response.arrayBuffer());
 }
 
+async function fetchHtml(url) {
+  const response = await fetchOfficial(url);
+  return response.text();
+}
+
+async function ingestResults(resultUrl) {
+  const [noticeSource, modelSource, resultBytes, datasetSource, ledgerSource, historicalModel, currentSource] = await Promise.all([
+    readFile(SNAPSHOT_PATH, "utf8"), readFile(MODEL_PATH, "utf8"), fetchBytes(resultUrl),
+    readFile(HISTORICAL_DATASET_PATH, "utf8"), readFile(HISTORICAL_LEDGER_PATH, "utf8"),
+    readFile(HISTORICAL_MODEL_PATH, "utf8"),
+    readFile(RESULT_SNAPSHOT_PATH, "utf8").catch((error) => {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    }),
+  ]);
+  const addition = buildHalifaxHistoricalAddition(
+    JSON.parse(noticeSource), parseHalifaxResultText(await pdfText(resultBytes)), resultUrl,
+    sha256(resultBytes), halifaxDate(), currentSource ? JSON.parse(currentSource) : null,
+  );
+  const dataset = JSON.parse(datasetSource);
+  const ledger = JSON.parse(ledgerSource);
+  const existing = dataset.events.find(({ id }) => id === addition.event.id);
+  if (existing) {
+    const records = dataset.records.filter(({ eventId }) => eventId === addition.event.id);
+    if (JSON.stringify(existing) !== JSON.stringify(addition.event) || JSON.stringify(records) !== JSON.stringify(addition.records)) {
+      throw new Error(`${addition.event.id} changed after ingestion; refusing to rewrite verified records.`);
+    }
+  } else {
+    if (dataset.records.some(({ eventId }) => eventId === addition.event.id)) {
+      throw new Error("Halifax historical records exist without their event; refusing to double-ingest.");
+    }
+    dataset.events.push(addition.event);
+    dataset.records.push(...addition.records);
+    ledger.retrievedOn = addition.snapshot.retrievedDate;
+    ledger.coverage.push(addition.ledgerEntry);
+  }
+  const resultSource = `${JSON.stringify(addition.snapshot, null, 2)}\n`;
+  const resultHashPattern = /(HALIFAX_TAX_SALE_RESULT_DATASET_SHA256\s*=\s*\n\s*")[a-f\d]{64}(";)/u;
+  if (!resultHashPattern.test(modelSource) || !/eventStatus: "(?:upcoming|historical)"/u.test(modelSource)) {
+    throw new Error("Could not find the Halifax result hash and lifecycle fields.");
+  }
+  const nextModel = modelSource.replace(resultHashPattern, `$1${sha256(resultSource)}$2`)
+    .replace(/eventStatus: "(?:upcoming|historical)"/u, 'eventStatus: "historical"');
+  const nextDataset = existing ? datasetSource : formatDataset(dataset);
+  const nextHistoricalModel = updateHistoricalDatasetHash(historicalModel, sha256(nextDataset));
+  await Promise.all([
+    writeFile(RESULT_SNAPSHOT_PATH, resultSource), writeFile(MODEL_PATH, nextModel),
+    writeFile(HISTORICAL_DATASET_PATH, nextDataset),
+    writeFile(HISTORICAL_LEDGER_PATH, existing ? ledgerSource : formatLedger(ledger)),
+    writeFile(HISTORICAL_MODEL_PATH, nextHistoricalModel),
+  ]);
+  console.log(`Halifax ${addition.event.saleDate}: ${addition.snapshot.resultRowCount} verified result rows; ${addition.snapshot.missingNoticeRowCount} missing notice rows remain unknown; result SHA-256 ${addition.snapshot.sourceDocumentSha256}.`);
+}
+
 async function main() {
-  const landingResponse = await fetch(LANDING_PAGE_URL, {
-    headers: { Accept: "text/html", "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
-    signal: AbortSignal.timeout(30_000),
-  });
-  if (!landingResponse.ok) throw new Error(`${landingResponse.status} ${landingResponse.statusText}: ${LANDING_PAGE_URL}`);
-  const landing = parseLandingPage(await landingResponse.text());
+  const landingHtml = await fetchHtml(LANDING_PAGE_URL);
+  const landing = classifyLandingPage(landingHtml);
+  if (landing.kind !== "current-tender") {
+    const resultsHtml = await fetchHtml(RESULTS_PAGE_URL);
+    let resultUrl;
+    try { resultUrl = findHalifaxResultPdf(resultsHtml, landing.eventDate); } catch (error) {
+      if (landing.kind !== "closed-awaiting-results" || !/found 0\./u.test(error.message)) throw error;
+      assertHalifaxResultsStillHistorical(resultsHtml);
+      console.log(`Halifax ${landing.tenderNumber} (${landing.eventDate}) is closed pending official results; retaining the last verified Schedule A snapshot.`);
+      return;
+    }
+    await ingestResults(resultUrl);
+    return;
+  }
+  const { tenderNumber, tenderUrl, scheduleUrl } = landing;
   const [tenderBytes, scheduleBytes, currentSource, modelSource] = await Promise.all([
-    fetchBytes(landing.tenderUrl), fetchBytes(landing.scheduleUrl),
+    fetchBytes(tenderUrl), fetchBytes(scheduleUrl),
     readFile(SNAPSHOT_PATH, "utf8").catch((error) => {
       if (error?.code === "ENOENT") return null;
       throw error;
@@ -224,10 +404,10 @@ async function main() {
     readFile(MODEL_PATH, "utf8"),
   ]);
   const [tenderText, scheduleText] = await Promise.all([pdfText(tenderBytes), pdfText(scheduleBytes)]);
-  const tender = parseTenderText(tenderText, landing.tenderNumber);
+  const tender = parseTenderText(tenderText, tenderNumber);
   const listings = parseScheduleText(scheduleText);
   assertCurrentScheduleCounts(listings);
-  const receipt = { ...landing, ...tender, listings };
+  const receipt = { tenderNumber, tenderUrl, scheduleUrl, ...tender, listings };
   const current = currentSource ? JSON.parse(currentSource) : null;
   const snapshot = buildSnapshot(current, receipt, tenderBytes, scheduleBytes);
   const nextSnapshotSource = `${JSON.stringify(snapshot, null, 2)}\n`;

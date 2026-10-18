@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Isolated west-central lake northwest shoulder",
+    [
+      1320,
+      1684
+    ],
+    [
+      1350,
+      1662
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Rocky Lake north of Big Lake northeast tip",
+    [
+      2198,
+      1502
+    ],
+    [
+      2237,
+      1476
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Nix Lake northeast lobe northern extremity",
+    [
+      620,
+      2001
+    ],
+    [
+      644,
+      1998
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Knowles Lake southeast shore southern tip",
+    [
+      930,
+      2036
+    ],
+    [
+      954,
+      2037
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Pond south of Nine Mile River southern tip",
+    [
+      4386,
+      1768
+    ],
+    [
+      4450,
+      1727
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Copper Mine Lake southwest lobe southern tip",
+    [
+      3373,
+      2624
+    ],
+    [
+      3438,
+      2583
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Carrigan Lake northern tip",
+    [
+      2803,
+      2197
+    ],
+    [
+      2860,
+      2166
+    ],
+    "WALK20"
+  ]
+]

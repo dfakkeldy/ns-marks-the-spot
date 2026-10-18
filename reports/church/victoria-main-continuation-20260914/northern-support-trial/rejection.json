@@ -1,0 +1,6 @@
+{
+  "status": "Not selected as a replacement; preserve trial and observation",
+  "reason": "Same five diagnostics: original affine4 RMS549.97m, affine5 RMS632.47m, TPS5 RMS574.86m. The coastline point alone does not repair distributed geography; identify independent interior support before further fitting. VM17 first1180.19m remains preserved; original VM15 first235.92m is now diagnostic for comparisons.",
+  "next_work": "Prospective physical interior junctions around North River and Baddeck River; no source point yet adopted there.",
+  "geographic_acceptance": false
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-20-V02.jpg",
+    "point_record": "sheet20/validation.json",
+    "point_id": "V02",
+    "native_box": [
+      2378,
+      2072,
+      3078,
+      2772
+    ],
+    "native_coordinates": [
+      2728,
+      2422
+    ],
+    "modern_lonlat": [
+      -60.78819165556398,
+      45.70627716813678
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-V03.jpg",
+    "point_record": "sheet20/validation.json",
+    "point_id": "V03",
+    "native_box": [
+      1977,
+      5147,
+      2677,
+      5847
+    ],
+    "native_coordinates": [
+      2327,
+      5497
+    ],
+    "modern_lonlat": [
+      -60.806406792541694,
+      45.604033851006896
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-V05.jpg",
+    "point_record": "sheet20/validation.json",
+    "point_id": "V05",
+    "native_box": [
+      3465,
+      6328,
+      4165,
+      7028
+    ],
+    "native_coordinates": [
+      3815,
+      6678
+    ],
+    "modern_lonlat": [
+      -60.74065013530659,
+      45.56829709158974
+    ],
+    "rotation_degrees": 0
+  }
+]

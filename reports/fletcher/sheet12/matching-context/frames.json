@@ -1,0 +1,67 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1500,
+      750,
+      4550,
+      3400
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten Cartesian printed-graticule points give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "northcentral",
+    "native_box": [
+      4300,
+      750,
+      7300,
+      3400
+    ],
+    "source_image": "northcentral-grid.jpg",
+    "modern_image": "northcentral-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten Cartesian printed-graticule points give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "northeast",
+    "native_box": [
+      7100,
+      750,
+      9710,
+      3600
+    ],
+    "source_image": "northeast-grid.jpg",
+    "modern_image": "northeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten Cartesian printed-graticule points give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1490,
+      3300,
+      4900,
+      6960
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten Cartesian printed-graticule points give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      4800,
+      3400,
+      9690,
+      6930
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten Cartesian printed-graticule points give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]

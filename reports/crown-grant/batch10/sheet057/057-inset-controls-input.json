@@ -1,0 +1,41 @@
+[
+  [
+    "IC01",
+    "Inset Peggy Point western head",
+    [
+      262,
+      2904
+    ],
+    [
+      259,
+      2935
+    ],
+    "WACO20"
+  ],
+  [
+    "IC02",
+    "Inset Dover peninsula southern tip",
+    [
+      878,
+      3252
+    ],
+    [
+      865,
+      3280
+    ],
+    "WACO20"
+  ],
+  [
+    "IC03",
+    "Inset Taylor Island western tip",
+    [
+      804,
+      3319
+    ],
+    [
+      798,
+      3362
+    ],
+    "WACOIS10"
+  ]
+]

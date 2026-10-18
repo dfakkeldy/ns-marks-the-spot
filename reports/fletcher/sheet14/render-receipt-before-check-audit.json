@@ -1,0 +1,103 @@
+{
+  "fit_sha256": "46837fbcd06c83ae9256fa324edebba820e7e1ab25e14dc010c136400c2b84af",
+  "boundary_sha256": "03983c1d7ed4bdfefde19d469abba2b60cd9e05fb36567508e17411c5b606ec5",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Six retained unfitted diagnostic checks after consuming the failed Loch Ban shoreline check. No fresh validation of the final revision.",
+  "checks_sha256": "bb96a34f09eaa4efee02dd90c6a0a8d3f916a8b3e5b65007e1d3bf6cfc12b8b4",
+  "median_ground_m": 103.0970663657873,
+  "worst_ground_m": 168.6616964872469,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 62.397642939365866,
+      "predicted_lonlat": [
+        -61.337884109603166,
+        46.18541913131205
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 25.985172895782394,
+      "predicted_lonlat": [
+        -61.379744355282895,
+        46.14323233497868
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 123.8304568499179,
+      "predicted_lonlat": [
+        -61.368587301691115,
+        46.102091157062844
+      ]
+    },
+    {
+      "id": "F06",
+      "error_ground_m": 168.62176655350612,
+      "predicted_lonlat": [
+        -61.27623079718678,
+        46.24296887659652
+      ]
+    },
+    {
+      "id": "F07",
+      "error_ground_m": 82.3636758816567,
+      "predicted_lonlat": [
+        -61.40379780296478,
+        46.17857082284331
+      ]
+    },
+    {
+      "id": "G01",
+      "error_ground_m": 168.6616964872469,
+      "predicted_lonlat": [
+        -61.43879347834336,
+        46.10711327838051
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 70997,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -43.60482538392495,
+      -17.461020855501648
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/result/sheet-14-full-sheet.tif",
+    "sha256": "fcd823bc891904d737346105ef9de9818f582ead53093f6b2fe11802d5c334e0",
+    "size": [
+      9155,
+      5618
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.6203861,
+            46.2685222
+          ],
+          [
+            -61.6203861,
+            46.0938094
+          ],
+          [
+            -61.2091823,
+            46.0938094
+          ],
+          [
+            -61.2091823,
+            46.2685222
+          ],
+          [
+            -61.6203861,
+            46.2685222
+          ]
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "count": 7,
+  "rms_ground_m": 81.3003369036623,
+  "median_ground_m": 81.2766038884732,
+  "p95_ground_m": 117.72784082956856,
+  "max_ground_m": 123.90870085313085,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 4.7958436069336505,
+  "mean_north_ground_m": -22.537323306410368,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Tobacco Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        198,
+        1626
+      ],
+      "lonlat": [
+        -61.912757424670076,
+        45.012176544367115
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 22380,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22380,
+      "nearest_unfiltered_distance_guide_px": 0.48497056161748464,
+      "selected_distance_guide_px": 0.48497056161748464,
+      "guide_reference_pixel_xy": [
+        186.84368884935975,
+        1564.5409103902057
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Source coordinates corrected before fitting; all checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.91155571640874,
+        45.01210657835651
+      ],
+      "error_ground_m": 95.04944717657156,
+      "east_ground_m": 94.73093738748054,
+      "north_ground_m": -7.774761106369129
+    },
+    {
+      "id": "Q02",
+      "label": "Cape St Marys south shore",
+      "role": "check",
+      "pixel_xy": [
+        1289,
+        1481
+      ],
+      "lonlat": [
+        -61.85130572848828,
+        45.03686931289626
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 10306,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 10306,
+      "nearest_unfiltered_distance_guide_px": 12.759474519493478,
+      "selected_distance_guide_px": 12.759474519493478,
+      "guide_reference_pixel_xy": [
+        1288.743657633313,
+        1421.243100744905
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Source coordinates corrected before fitting; all checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.85075205227714,
+        45.03625225880695
+      ],
+      "error_ground_m": 81.2766038884732,
+      "east_ground_m": 43.62807904925159,
+      "north_ground_m": -68.57460942736775
+    },
+    {
+      "id": "Q03",
+      "label": "Walter Island south end",
+      "role": "check",
+      "pixel_xy": [
+        1946,
+        1284
+      ],
+      "lonlat": [
+        -61.81725136195526,
+        45.05521942159447
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 17661,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17661,
+      "nearest_unfiltered_distance_guide_px": 0.638426275507656,
+      "selected_distance_guide_px": 0.638426275507656,
+      "guide_reference_pixel_xy": [
+        1937.6041397323716,
+        1245.2064056516392
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Source coordinates corrected before fitting; all checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.81673553282375,
+        45.05536088833163
+      ],
+      "error_ground_m": 43.567848545698695,
+      "east_ground_m": 40.632309332531975,
+      "north_ground_m": 15.721732258449604
+    },
+    {
+      "id": "Q04",
+      "label": "Bickerton Island north tip",
+      "role": "check",
+      "pixel_xy": [
+        3744,
+        1157
+      ],
+      "lonlat": [
+        -61.71238421127271,
+        45.090461326195296
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 21317,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 21317,
+      "nearest_unfiltered_distance_guide_px": 0.7796470638056773,
+      "selected_distance_guide_px": 0.7796470638056773,
+      "guide_reference_pixel_xy": [
+        3759.6581981411437,
+        1139.5821187356487
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Source coordinates corrected before fitting; all checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.713690028846294,
+        45.09036922581807
+      ],
+      "error_ground_m": 103.30583410792326,
+      "east_ground_m": -102.79760738181626,
+      "north_ground_m": -10.23461173214274
+    },
+    {
+      "id": "Q05",
+      "label": "Small lake northwest of Harpellville, northeast nub",
+      "role": "check",
+      "pixel_xy": [
+        2678,
+        268
+      ],
+      "lonlat": [
+        -61.79748764652922,
+        45.109896975784295
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 134679,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134679,
+      "nearest_unfiltered_distance_guide_px": 0.9704425496364429,
+      "selected_distance_guide_px": 0.9704425496364429,
+      "guide_reference_pixel_xy": [
+        2676.5066967419116,
+        235.16429033887107
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Source coordinates corrected before fitting; all checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.79786118761573,
+        45.10993238972987
+      ],
+      "error_ground_m": 29.658460523284933,
+      "east_ground_m": -29.396157644639853,
+      "north_ground_m": 3.935758674351448
+    },
+    {
+      "id": "Q06",
+      "label": "Cape Mocodome south tip",
+      "role": "check",
+      "pixel_xy": [
+        4603,
+        1511
+      ],
+      "lonlat": [
+        -61.65390895068534,
+        45.090739991200806
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 8551,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 8551,
+      "nearest_unfiltered_distance_guide_px": 4.546063795812206,
+      "selected_distance_guide_px": 4.546063795812206,
+      "guide_reference_pixel_xy": [
+        4616.430630873132,
+        1479.1846314501017
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Source coordinates corrected before fitting; all checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.654535567535774,
+        45.08971720202271
+      ],
+      "error_ground_m": 123.90870085313085,
+      "east_ground_m": -49.32959026261457,
+      "north_ground_m": -113.6659917109477
+    },
+    {
+      "id": "Q07",
+      "label": "Holland Harbour Island west shore extremity",
+      "role": "check",
+      "pixel_xy": [
+        2846,
+        1055
+      ],
+      "lonlat": [
+        -61.76958277789792,
+        45.07960649604673
+      ],
+      "guide_file": ".crown-grant-local/102-adjacent-guide.npy",
+      "reference_objectid": 20400,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20400,
+      "nearest_unfiltered_distance_guide_px": 0.7928694203926767,
+      "selected_distance_guide_px": 0.7928694203926767,
+      "guide_reference_pixel_xy": [
+        2834.792867267737,
+        1025.0018475780962
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad island/lake/shore topology compared; paired native crosshairs inspected before first fit or score.",
+      "review": "Source coordinates corrected before fitting; all checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.76912425395646,
+        45.07981193501409
+      ],
+      "error_ground_m": 42.71634934039517,
+      "east_ground_m": 36.10293476834214,
+      "north_ground_m": 22.831219899153687
+    }
+  ],
+  "fit_sha256": "d03123634d08ad53edaf2ed5248e56a75758fc4334140a4f1f950b820f042148",
+  "checks_sha256": "60b0c8f3eab1cc1405cb38a44841682d851c4a3c178090e0ec6a1646bffcc0a2",
+  "status": "Seven independent physical checks reserved and audited before first affine fit and score; some same-island/lake endpoints are spatially correlated"
+}

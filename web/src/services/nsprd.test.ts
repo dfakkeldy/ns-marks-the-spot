@@ -5,7 +5,10 @@ import {
   buildPidQueryUrl,
   fetchParcelAtPoint,
   fetchParcels,
+  hasQueryablePolygon,
+  identifyParcelsAtPoint,
   normalizePid,
+  type NsprdFeatureCollection,
 } from "./nsprd";
 
 afterEach(() => {
@@ -189,5 +192,144 @@ describe("NSPRD PID queries", () => {
     await expect(collectionPromise).resolves.toEqual(
       expect.objectContaining({ features: expect.any(Array) }),
     );
+  });
+});
+
+describe("NSPRD point replies", () => {
+  // NSPRD may answer with a null, blank, or numeric PID. The declared
+  // `PID: string` says what a stored parcel may be assumed to carry, not what
+  // the wire is allowed to send, and the cast is that gap in one place.
+  const pointFeature = (pid: unknown) =>
+    ({
+      type: "Feature",
+      properties: { PID: pid },
+      geometry: { type: "Point", coordinates: [-61.414138, 46.059488] },
+    }) as unknown as NsprdFeatureCollection["features"][number];
+
+  const reply = (
+    ...features: NsprdFeatureCollection["features"]
+  ): NsprdFeatureCollection => ({ type: "FeatureCollection", features });
+
+  it("tells an empty reply apart from one carrying no readable PID", () => {
+    expect(identifyParcelsAtPoint(reply())).toEqual({
+      identified: { type: "FeatureCollection", features: [] },
+      pids: [],
+      unidentifiedCount: 0,
+    });
+
+    // A padded or non-canonical PID is a gap too: the selection, the share
+    // URL and the evidence requests all key on the eight-digit form, and
+    // repairing the wire value would put a PID the user never saw on the page.
+    const unreadable = identifyParcelsAtPoint(
+      reply(
+        pointFeature(null),
+        pointFeature(""),
+        pointFeature(50251750),
+        pointFeature("   "),
+        pointFeature("50251750 "),
+        pointFeature("unknown"),
+      ),
+    );
+    expect(unreadable.pids).toEqual([]);
+    expect(unreadable.identified.features).toEqual([]);
+    expect(unreadable.unidentifiedCount).toBe(6);
+  });
+
+  it("counts a feature with no properties at all as unidentified", () => {
+    const result = identifyParcelsAtPoint(
+      reply(
+        { type: "Feature", properties: null, geometry: null } as unknown as
+          NsprdFeatureCollection["features"][number],
+        pointFeature("50251750"),
+      ),
+    );
+
+    expect(result.pids).toEqual(["50251750"]);
+    expect(result.unidentifiedCount).toBe(1);
+  });
+
+  it("keeps every distinct PID where parcels meet, in the order NSPRD listed", () => {
+    const result = identifyParcelsAtPoint(
+      reply(
+        pointFeature("50251750"),
+        pointFeature("50334317"),
+        pointFeature("50251750"),
+      ),
+    );
+
+    expect(result.pids).toEqual(["50251750", "50334317"]);
+    expect(result.identified.features).toHaveLength(3);
+    expect(result.unidentifiedCount).toBe(0);
+  });
+
+  it("does not let one unreadable shape hide the parcels behind it", () => {
+    const result = identifyParcelsAtPoint(
+      reply(pointFeature(null), pointFeature("50251750")),
+    );
+
+    expect(result.pids).toEqual(["50251750"]);
+    expect(result.identified.features).toHaveLength(1);
+    expect(result.unidentifiedCount).toBe(1);
+  });
+});
+
+describe("queryable parcel geometry", () => {
+  const parcel = (geometry: unknown) =>
+    ({
+      type: "Feature",
+      properties: { PID: "50251750", "SHAPE.AREA": 100 },
+      geometry,
+    }) as unknown as NsprdFeatureCollection["features"][number];
+
+  it("accepts a closed polygon with area", () => {
+    expect(
+      hasQueryablePolygon(
+        parcel({
+          type: "Polygon",
+          coordinates: [[[-61, 46], [-60.9, 46], [-60.9, 46.1], [-61, 46]]],
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  // Each of these answers "outside" for every point on the map, so every
+  // spatial lookup would come back empty — a negative about the ground
+  // produced by a shape that encloses nothing.
+  it.each([
+    ["null", null],
+    ["a point", { type: "Point", coordinates: [-61, 46] }],
+    ["a line", { type: "LineString", coordinates: [[-61, 46], [-60.9, 46]] }],
+    ["an unclosed ring", {
+      type: "Polygon",
+      coordinates: [[[-61, 46], [-60.9, 46], [-60.9, 46.1]]],
+    }],
+    ["a collinear ring", {
+      type: "Polygon",
+      coordinates: [[[-61, 46], [-60.999, 46.001], [-60.998, 46.002], [-61, 46]]],
+    }],
+    ["a ring off the globe", {
+      type: "Polygon",
+      coordinates: [[[-361, 46], [-60.9, 46], [-60.9, 46.1], [-361, 46]]],
+    }],
+    ["a ring with a non-finite position", {
+      type: "Polygon",
+      coordinates: [[[-61, 46], [Number.NaN, 46], [-60.9, 46.1], [-61, 46]]],
+    }],
+  ])("refuses %s", (_label, geometry) => {
+    expect(hasQueryablePolygon(parcel(geometry))).toBe(false);
+  });
+
+  it("accepts a MultiPolygon with one usable part", () => {
+    expect(
+      hasQueryablePolygon(
+        parcel({
+          type: "MultiPolygon",
+          coordinates: [
+            [[[-61, 46], [-60.9, 46], [-60.9, 46.1]]],
+            [[[-61, 46], [-60.9, 46], [-60.9, 46.1], [-61, 46]]],
+          ],
+        }),
+      ),
+    ).toBe(true);
   });
 });

@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Blackrock Point east tip",
+    [
+      3190,
+      2110
+    ],
+    [
+      3150,
+      2068
+    ],
+    "WACO"
+  ],
+  [
+    "Q02",
+    "Largest southwestern lake southwest tip",
+    [
+      2750,
+      3348
+    ],
+    [
+      2714,
+      3335
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Small pond southeast of largest lake northeast tip",
+    [
+      2925,
+      3350
+    ],
+    [
+      2890,
+      3327
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Elongated southern pond northeast tip",
+    [
+      2920,
+      3390
+    ],
+    [
+      2884,
+      3376
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Lower eastern pond south tip below Cape St Lawrence",
+    [
+      2783,
+      2080
+    ],
+    [
+      2758,
+      2044
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Small western interior pond south tip",
+    [
+      1170,
+      3353
+    ],
+    [
+      1140,
+      3340
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Island off Cape North north tip",
+    [
+      5148,
+      2714
+    ],
+    [
+      5104,
+      2692
+    ],
+    "WACOIS"
+  ]
+]

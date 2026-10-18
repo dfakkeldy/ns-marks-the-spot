@@ -1,0 +1,93 @@
+{
+  "source_frame": "Original 5618 x 3842 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      55,
+      105
+    ],
+    [
+      5560,
+      105
+    ],
+    [
+      5560,
+      3740
+    ],
+    [
+      55,
+      3740
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 248.95 m exceeds 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          775,
+          105
+        ],
+        [
+          5560,
+          105
+        ],
+        [
+          5560,
+          3740
+        ],
+        [
+          55,
+          3740
+        ],
+        [
+          55,
+          770
+        ],
+        [
+          775,
+          770
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "16b9064adaf058f38fe81514bd6c8561cec2955626f4a2ec806850c39e4f9301"
+    },
+    {
+      "id": "gray-point-inset",
+      "status": "RMS 74.66 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          55,
+          105
+        ],
+        [
+          775,
+          105
+        ],
+        [
+          775,
+          770
+        ],
+        [
+          55,
+          770
+        ]
+      ],
+      "fit_file": "fit-inset-similarity-01.json",
+      "fit_sha256": "7d26d4be82afc537024ffe90f78aa8ee5c83649a6eaf0ecd4ea1a3572bd52b6b",
+      "matrix": [
+        [
+          4.9776048098281,
+          1.8933714092079568
+        ],
+        [
+          1.8933714092079568,
+          -4.9776048098281
+        ],
+        [
+          639972.8450647736,
+          5145335.703174741
+        ]
+      ]
+    }
+  ]
+}

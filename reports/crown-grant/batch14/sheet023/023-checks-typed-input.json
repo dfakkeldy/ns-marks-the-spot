@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Flat Lake southern tip",
+    [
+      1574,
+      630
+    ],
+    [
+      1554,
+      770
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Poplar Lake southeastern lobe south",
+    [
+      1157,
+      1200
+    ],
+    [
+      1128,
+      1321
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Luxton Lake central island south",
+    [
+      2461,
+      1509
+    ],
+    [
+      2459,
+      1595
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q04",
+    "Ber Lake southwestern lobe south",
+    [
+      2443,
+      1939
+    ],
+    [
+      2435,
+      2020
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Central Lake southern lobe south",
+    [
+      3497,
+      545
+    ],
+    [
+      3496,
+      650
+    ],
+    "WARVLK20"
+  ],
+  [
+    "Q06",
+    "Turtle Lake western long island south",
+    [
+      5476,
+      2829
+    ],
+    [
+      5501,
+      2865
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q07",
+    "Sisketch Lake northeastern peninsula east tip",
+    [
+      1574,
+      3548
+    ],
+    [
+      1598,
+      3600
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Irving Lake western narrow island south",
+    [
+      1794,
+      3189
+    ],
+    [
+      1803,
+      3220
+    ],
+    "WARVLKIS10"
+  ],
+  [
+    "Q09",
+    "Little Red Lake southern tip",
+    [
+      1472,
+      1666
+    ],
+    [
+      1429,
+      1779
+    ],
+    "WALK20"
+  ]
+]

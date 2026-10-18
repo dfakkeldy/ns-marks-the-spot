@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Cranberry Point northeast tip",
+    [
+      305,
+      705
+    ],
+    [
+      268,
+      708
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Low Point northern apex",
+    [
+      1454,
+      1027
+    ],
+    [
+      1408,
+      1013
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Petrie Lake northeast corner",
+    [
+      880,
+      1460
+    ],
+    [
+      842,
+      1435
+    ],
+    "WALK"
+  ],
+  [
+    "C04",
+    "Kilkenny Lake south tip",
+    [
+      755,
+      2180
+    ],
+    [
+      740,
+      2150
+    ],
+    "WALK"
+  ],
+  [
+    "C05",
+    "Lingan North Head east tip",
+    [
+      2610,
+      2005
+    ],
+    [
+      2572,
+      1991
+    ],
+    "WACO"
+  ],
+  [
+    "C06",
+    "McPherson Point east tip",
+    [
+      3475,
+      3350
+    ],
+    [
+      3435,
+      3320
+    ],
+    "WACO"
+  ],
+  [
+    "C07",
+    "New Aberdeen pond north apex",
+    [
+      3220,
+      3015
+    ],
+    [
+      3158,
+      2994
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Inglis Lake northeast tip",
+    [
+      439,
+      2835
+    ],
+    [
+      398,
+      2805
+    ],
+    "WALK"
+  ]
+]

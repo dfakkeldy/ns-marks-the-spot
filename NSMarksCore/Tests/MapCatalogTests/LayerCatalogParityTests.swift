@@ -123,6 +123,10 @@ struct LayerCatalogParityTests {
             #expect(layer.group.rawValue == web["group"]?.nonNull?.string, "\(id) group")
             #expect(layer.minZoom == web["minZoom"]?.int, "\(id) minZoom")
             #expect(layer.maxZoom == web["maxZoom"]?.int, "\(id) maxZoom")
+            #expect(
+                layer.maxNativeZoom == web["maxNativeZoom"]?.nonNull?.int,
+                "\(id) maxNativeZoom"
+            )
             #expect(layer.caveat == web["webCaveat"]?.nonNull?.string, "\(id) caveat")
             #expect(layer.sourceDate == web["sourceDate"]?.nonNull?.string, "\(id) sourceDate")
             #expect(layer.scale == web["scale"]?.nonNull?.string, "\(id) scale")
@@ -234,6 +238,7 @@ struct LayerCatalogParityTests {
             }
 
             let webAvailability = web["webAvailability"]?.nonNull?.string
+                ?? web["availability"]?.nonNull?.string
             if let webAvailability {
                 #expect(
                     layer.availability.rawValue == webAvailability,
@@ -437,9 +442,9 @@ struct LayerCatalogParityTests {
     func everyFixtureFieldIsModelledOrDeferred() {
         let modelled: Set<String> = [
             "id", "name", "group", "uiOrder", "licence", "delivery",
-            "webAvailability", "serviceUrl", "sourceUrl", "licenceUrl",
+            "webAvailability", "availability", "serviceUrl", "sourceUrl", "licenceUrl",
             "manualUrl",
-            "minZoom", "maxZoom", "opacity", "webDefaultVisible",
+            "minZoom", "maxZoom", "maxNativeZoom", "opacity", "webDefaultVisible",
             "nativeDefaultVisibility", "requiresProvinceLicence", "webCaveat",
             "sourceDate", "scale", "coverage", "exportOptions",
             "exportOverlayOptions",

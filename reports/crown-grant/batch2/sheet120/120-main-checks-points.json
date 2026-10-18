@@ -1,0 +1,178 @@
+[
+  {
+    "id": "MQ01",
+    "label": "Cheticamp Island western cape shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      2257,
+      475
+    ],
+    "lonlat": [
+      -61.0560179290317,
+      46.607866824183176
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 3809,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2198.2738811158342,
+      454.09296651906334
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ02",
+    "label": "Grand Etang upper lake southeastern hook",
+    "role": "proposal",
+    "pixel_xy": [
+      2363,
+      1647
+    ],
+    "lonlat": [
+      -61.018762915199595,
+      46.555966914482816
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 126294,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2309.2722550937324,
+      1656.3312777942047
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ03",
+    "label": "Grand Etang narrow lake southwestern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2067,
+      1775
+    ],
+    "lonlat": [
+      -61.03469504955376,
+      46.5458120298679
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 134448,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2017.9729194263928,
+      1772.5444229997229
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ04",
+    "label": "St Joseph narrow cape northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1413,
+      1936
+    ],
+    "lonlat": [
+      -61.0728883168664,
+      46.52746357295728
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 2710,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1364.6248385653016,
+      1934.0274496542988
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ05",
+    "label": "Pembroke western satellite pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2150,
+      3025
+    ],
+    "lonlat": [
+      -61.00526044587083,
+      46.49460464600916
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 134550,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2029.488631590968,
+      2921.3730958641972
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ06",
+    "label": "Pembroke lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2289,
+      3108
+    ],
+    "lonlat": [
+      -60.99443194843853,
+      46.493558430330026
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 134321,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2167.7906585893943,
+      2997.284016459598
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ07",
+    "label": "Park round pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4814,
+      1835
+    ],
+    "lonlat": [
+      -60.85367620820673,
+      46.590313026322185
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 140151,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4793.23278815113,
+      1830.1030884033535
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ08",
+    "label": "Park hooked lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4752,
+      1955
+    ],
+    "lonlat": [
+      -60.854365554792196,
+      46.58394706931823
+    ],
+    "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+    "reference_objectid": 140148,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4736.262483647559,
+      1950.7542269921396
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

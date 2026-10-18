@@ -1,0 +1,3248 @@
+[
+  {
+    "lonlat": [
+      -60.94393053738075,
+      45.72250153339623
+    ],
+    "branches": [
+      {
+        "feature_id": 194730,
+        "vertex": 51,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 264907,
+        "vertex": 57,
+        "name": "East River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 265033,
+        "vertex": 0,
+        "name": "East River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      13989.6157403251,
+      12456.0615741066
+    ]
+  },
+  {
+    "lonlat": [
+      -61.2381320202576,
+      45.725317262002825
+    ],
+    "branches": [
+      {
+        "feature_id": 198208,
+        "vertex": 74,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 269267,
+        "vertex": 0,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 269268,
+        "vertex": 128,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5469.12719103557,
+      12371.8629523386
+    ]
+  },
+  {
+    "lonlat": [
+      -61.222590427575625,
+      45.724093298359534
+    ],
+    "branches": [
+      {
+        "feature_id": 198210,
+        "vertex": 114,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 269268,
+        "vertex": 0,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 269270,
+        "vertex": 27,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5919.64240130417,
+      12419.5122166039
+    ]
+  },
+  {
+    "lonlat": [
+      -61.167603499604276,
+      45.72236324108481
+    ],
+    "branches": [
+      {
+        "feature_id": 261518,
+        "vertex": 273,
+        "name": "Cameron Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 198192,
+        "vertex": 57,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 261642,
+        "vertex": 0,
+        "name": "Cameron Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7512.59884839103,
+      12483.6147763342
+    ]
+  },
+  {
+    "lonlat": [
+      -61.21817584379767,
+      45.72360534280278
+    ],
+    "branches": [
+      {
+        "feature_id": 269266,
+        "vertex": 203,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 198426,
+        "vertex": 145,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 269269,
+        "vertex": 0,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6047.66442379981,
+      12438.6833558497
+    ]
+  },
+  {
+    "lonlat": [
+      -61.01755030928414,
+      45.721450363979635
+    ],
+    "branches": [
+      {
+        "feature_id": 273930,
+        "vertex": 0,
+        "name": "MacRaes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 194478,
+        "vertex": 74,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273931,
+        "vertex": 39,
+        "name": "MacRaes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      11858.1512278239,
+      12505.5345854083
+    ]
+  },
+  {
+    "lonlat": [
+      -60.995117084529625,
+      45.693297164307
+    ],
+    "branches": [
+      {
+        "feature_id": 193288,
+        "vertex": 65,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283111,
+        "vertex": 38,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283112,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12518.4688376036,
+      13634.1463857714
+    ]
+  },
+  {
+    "lonlat": [
+      -60.9890652435918,
+      45.70511161716758
+    ],
+    "branches": [
+      {
+        "feature_id": 193289,
+        "vertex": 112,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283496,
+        "vertex": 85,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283497,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12689.226413931,
+      13159.0743077682
+    ]
+  },
+  {
+    "lonlat": [
+      -60.98791296793936,
+      45.708868115262604
+    ],
+    "branches": [
+      {
+        "feature_id": 193292,
+        "vertex": 41,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283495,
+        "vertex": 14,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283496,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12721.1658433174,
+      13008.0763162555
+    ]
+  },
+  {
+    "lonlat": [
+      -60.9968164406609,
+      45.6913881785296
+    ],
+    "branches": [
+      {
+        "feature_id": 193293,
+        "vertex": 66,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283113,
+        "vertex": 48,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283114,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12469.9847226168,
+      13710.9703408752
+    ]
+  },
+  {
+    "lonlat": [
+      -60.994928328308156,
+      45.692936512477274
+    ],
+    "branches": [
+      {
+        "feature_id": 193433,
+        "vertex": 73,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283112,
+        "vertex": 8,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283113,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12524.0718513001,
+      13648.6102824606
+    ]
+  },
+  {
+    "lonlat": [
+      -61.03469060062104,
+      45.716526974572794
+    ],
+    "branches": [
+      {
+        "feature_id": 193634,
+        "vertex": 35,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274311,
+        "vertex": 116,
+        "name": "Malcolms Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274312,
+        "vertex": 0,
+        "name": "Malcolms Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      11363.6785234907,
+      12705.0170896005
+    ]
+  },
+  {
+    "lonlat": [
+      -61.01063829838508,
+      45.71561728974701
+    ],
+    "branches": [
+      {
+        "feature_id": 193636,
+        "vertex": 26,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273929,
+        "vertex": 58,
+        "name": "MacRaes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273932,
+        "vertex": 0,
+        "name": "MacRaes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12060.5253227697,
+      12739.1963031858
+    ]
+  },
+  {
+    "lonlat": [
+      -61.013629593375384,
+      45.71880617692151
+    ],
+    "branches": [
+      {
+        "feature_id": 193637,
+        "vertex": 64,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273931,
+        "vertex": 0,
+        "name": "MacRaes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273932,
+        "vertex": 43,
+        "name": "MacRaes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      11972.691735427,
+      12611.3812168953
+    ]
+  },
+  {
+    "lonlat": [
+      -60.98641400338429,
+      45.7127571019022
+    ],
+    "branches": [
+      {
+        "feature_id": 194344,
+        "vertex": 111,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283498,
+        "vertex": 214,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283499,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12763.0941471396,
+      12851.7119702192
+    ]
+  },
+  {
+    "lonlat": [
+      -61.20631143429613,
+      45.64874602999311
+    ],
+    "branches": [
+      {
+        "feature_id": 195612,
+        "vertex": 126,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273527,
+        "vertex": 0,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273658,
+        "vertex": 259,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6419.67577033275,
+      15443.220690961
+    ]
+  },
+  {
+    "lonlat": [
+      -61.214899335748655,
+      45.61724651515725
+    ],
+    "branches": [
+      {
+        "feature_id": 195615,
+        "vertex": 0,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284760,
+        "vertex": 56,
+        "name": "Proctors Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284761,
+        "vertex": 0,
+        "name": "Proctors Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6182.94693432431,
+      16707.6131211512
+    ]
+  },
+  {
+    "lonlat": [
+      -61.213255678523765,
+      45.64297723067223
+    ],
+    "branches": [
+      {
+        "feature_id": 195616,
+        "vertex": 153,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273527,
+        "vertex": 171,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273659,
+        "vertex": 0,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6220.77637703222,
+      15675.3620282305
+    ]
+  },
+  {
+    "lonlat": [
+      -61.20975926624445,
+      45.661811051058926
+    ],
+    "branches": [
+      {
+        "feature_id": 195617,
+        "vertex": 64,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 277333,
+        "vertex": 0,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 277334,
+        "vertex": 31,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6314.87263797263,
+      14919.2708584494
+    ]
+  },
+  {
+    "lonlat": [
+      -61.21162456601206,
+      45.6859853435753
+    ],
+    "branches": [
+      {
+        "feature_id": 195619,
+        "vertex": 68,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272288,
+        "vertex": 0,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272289,
+        "vertex": 315,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6251.67415280485,
+      13949.0364374174
+    ]
+  },
+  {
+    "lonlat": [
+      -61.16523958775082,
+      45.705349582084
+    ],
+    "branches": [
+      {
+        "feature_id": 195858,
+        "vertex": 92,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 282780,
+        "vertex": 0,
+        "name": "Urquharts Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 282781,
+        "vertex": 144,
+        "name": "Urquharts Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7587.52039333814,
+      13166.8421893806
+    ]
+  },
+  {
+    "lonlat": [
+      -61.2082851013085,
+      45.66138469004464
+    ],
+    "branches": [
+      {
+        "feature_id": 196231,
+        "vertex": 44,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 277334,
+        "vertex": 0,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 277335,
+        "vertex": 175,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6357.7230970228,
+      14936.2373420761
+    ]
+  },
+  {
+    "lonlat": [
+      -61.21640727880816,
+      45.676926873154784
+    ],
+    "branches": [
+      {
+        "feature_id": 196232,
+        "vertex": 0,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263317,
+        "vertex": 0,
+        "name": "Ferguson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 311478,
+        "vertex": 46,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6116.6191572893,
+      14313.1860468208
+    ]
+  },
+  {
+    "lonlat": [
+      -61.23549660459142,
+      45.68738365357531
+    ],
+    "branches": [
+      {
+        "feature_id": 196241,
+        "vertex": 61,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272152,
+        "vertex": 54,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272153,
+        "vertex": 0,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5559.86190199746,
+      13895.239554249
+    ]
+  },
+  {
+    "lonlat": [
+      -61.23027110847503,
+      45.68746122017212
+    ],
+    "branches": [
+      {
+        "feature_id": 196242,
+        "vertex": 51,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272152,
+        "vertex": 0,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272154,
+        "vertex": 41,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5711.15112591755,
+      13891.6111821322
+    ]
+  },
+  {
+    "lonlat": [
+      -61.225731514932754,
+      45.68647899355737
+    ],
+    "branches": [
+      {
+        "feature_id": 196243,
+        "vertex": 92,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272154,
+        "vertex": 0,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272288,
+        "vertex": 114,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5842.98084210501,
+      13930.603036504
+    ]
+  },
+  {
+    "lonlat": [
+      -61.06756133689605,
+      45.676533245780554
+    ],
+    "branches": [
+      {
+        "feature_id": 196556,
+        "vertex": 43,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281148,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281149,
+        "vertex": 135,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      10427.0147708554,
+      14314.3498951554
+    ]
+  },
+  {
+    "lonlat": [
+      -61.23006211442936,
+      45.6695361919303
+    ],
+    "branches": [
+      {
+        "feature_id": 196567,
+        "vertex": 136,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263317,
+        "vertex": 213,
+        "name": "Ferguson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263318,
+        "vertex": 0,
+        "name": "Ferguson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5724.01322369062,
+      14611.2062088839
+    ]
+  },
+  {
+    "lonlat": [
+      -61.216283975061536,
+      45.63267250750858
+    ],
+    "branches": [
+      {
+        "feature_id": 196722,
+        "vertex": 19,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284856,
+        "vertex": 0,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284993,
+        "vertex": 142,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6136.99581140542,
+      16089.0513666257
+    ]
+  },
+  {
+    "lonlat": [
+      -61.208817132846335,
+      45.63314880999871
+    ],
+    "branches": [
+      {
+        "feature_id": 196723,
+        "vertex": 57,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284990,
+        "vertex": 131,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284993,
+        "vertex": 0,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6353.03807667861,
+      16069.2110346817
+    ]
+  },
+  {
+    "lonlat": [
+      -61.153114241583516,
+      45.60993990446654
+    ],
+    "branches": [
+      {
+        "feature_id": 196883,
+        "vertex": 121,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272019,
+        "vertex": 181,
+        "name": "Morgans Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272020,
+        "vertex": 0,
+        "name": "Morgans Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7974.87800243889,
+      16994.5273625769
+    ]
+  },
+  {
+    "lonlat": [
+      -61.14772511475107,
+      45.696658209911135
+    ],
+    "branches": [
+      {
+        "feature_id": 196887,
+        "vertex": 45,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266553,
+        "vertex": 72,
+        "name": "Daniels Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266555,
+        "vertex": 0,
+        "name": "Daniels Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8098.00378237732,
+      13514.1827227324
+    ]
+  },
+  {
+    "lonlat": [
+      -61.15865645186861,
+      45.61998995863388
+    ],
+    "branches": [
+      {
+        "feature_id": 197064,
+        "vertex": 87,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263854,
+        "vertex": 196,
+        "name": "Fall Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263996,
+        "vertex": 0,
+        "name": "Fall Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7810.57406987531,
+      16592.0617478802
+    ]
+  },
+  {
+    "lonlat": [
+      -61.17051912038278,
+      45.696267732534295
+    ],
+    "branches": [
+      {
+        "feature_id": 197237,
+        "vertex": 57,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 282779,
+        "vertex": 81,
+        "name": "Urquharts Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 282781,
+        "vertex": 0,
+        "name": "Urquharts Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7438.0886817349,
+      13532.1054677521
+    ]
+  },
+  {
+    "lonlat": [
+      -61.16424363611322,
+      45.68487535800355
+    ],
+    "branches": [
+      {
+        "feature_id": 197238,
+        "vertex": 64,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268168,
+        "vertex": 92,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268170,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7624.14182949968,
+      13988.9436302663
+    ]
+  },
+  {
+    "lonlat": [
+      -61.09583593721544,
+      45.63232902189021
+    ],
+    "branches": [
+      {
+        "feature_id": 197239,
+        "vertex": 140,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274174,
+        "vertex": 82,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274175,
+        "vertex": 0,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      9625.03238986481,
+      16090.9841825608
+    ]
+  },
+  {
+    "lonlat": [
+      -61.157310216279065,
+      45.69570704571642
+    ],
+    "branches": [
+      {
+        "feature_id": 197241,
+        "vertex": 24,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275476,
+        "vertex": 93,
+        "name": "Kuliks Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275478,
+        "vertex": 0,
+        "name": "Kuliks Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7820.80212946674,
+      13553.3227362973
+    ]
+  },
+  {
+    "lonlat": [
+      -61.002421780529204,
+      45.64562902088661
+    ],
+    "branches": [
+      {
+        "feature_id": 197741,
+        "vertex": 145,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263148,
+        "vertex": 300,
+        "name": "False Bay Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263297,
+        "vertex": 0,
+        "name": "False Bay Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12325.0483669418,
+      15548.2343206413
+    ]
+  },
+  {
+    "lonlat": [
+      -61.119524254872644,
+      45.66295051305857
+    ],
+    "branches": [
+      {
+        "feature_id": 197866,
+        "vertex": 125,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281266,
+        "vertex": 171,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281390,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8927.44427096458,
+      14864.6652496715
+    ]
+  },
+  {
+    "lonlat": [
+      -61.1174891160406,
+      45.66216090204187
+    ],
+    "branches": [
+      {
+        "feature_id": 197867,
+        "vertex": 104,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281390,
+        "vertex": 34,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281393,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8986.67725107753,
+      14896.1556857355
+    ]
+  },
+  {
+    "lonlat": [
+      -61.124507326671946,
+      45.67006671872424
+    ],
+    "branches": [
+      {
+        "feature_id": 197869,
+        "vertex": 12,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281151,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281265,
+        "vertex": 278,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8780.4426222875,
+      14579.5303488941
+    ]
+  },
+  {
+    "lonlat": [
+      -61.220452562293076,
+      45.722891064234325
+    ],
+    "branches": [
+      {
+        "feature_id": 197873,
+        "vertex": 101,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 269269,
+        "vertex": 21,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 269270,
+        "vertex": 0,
+        "name": "MacDonalds Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5982.00732740204,
+      12467.60554168
+    ]
+  },
+  {
+    "lonlat": [
+      -61.15258939959729,
+      45.60143531387883
+    ],
+    "branches": [
+      {
+        "feature_id": 197901,
+        "vertex": 34,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272020,
+        "vertex": 149,
+        "name": "Morgans Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272021,
+        "vertex": 0,
+        "name": "Morgans Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7993.30313150563,
+      17335.4563757611
+    ]
+  },
+  {
+    "lonlat": [
+      -61.061578657079544,
+      45.63560422082391
+    ],
+    "branches": [
+      {
+        "feature_id": 197972,
+        "vertex": 52,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 285080,
+        "vertex": 84,
+        "name": "Rae Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 285081,
+        "vertex": 0,
+        "name": "Rae Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      10615.8033901878,
+      15956.2340345316
+    ]
+  },
+  {
+    "lonlat": [
+      -61.187557735872666,
+      45.70563752466182
+    ],
+    "branches": [
+      {
+        "feature_id": 197983,
+        "vertex": 180,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273044,
+        "vertex": 0,
+        "name": "MacPhees Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275025,
+        "vertex": 70,
+        "name": "MacPhees Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6941.12721694734,
+      13157.4717718288
+    ]
+  },
+  {
+    "lonlat": [
+      -61.14091339977445,
+      45.68542597886796
+    ],
+    "branches": [
+      {
+        "feature_id": 197992,
+        "vertex": 45,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268305,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268306,
+        "vertex": 11,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8299.5241547768,
+      13964.5414597112
+    ]
+  },
+  {
+    "lonlat": [
+      -61.156972214567546,
+      45.685861764438556
+    ],
+    "branches": [
+      {
+        "feature_id": 197993,
+        "vertex": 49,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268169,
+        "vertex": 54,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268304,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7834.33115606504,
+      13948.6235351731
+    ]
+  },
+  {
+    "lonlat": [
+      -61.14245460254586,
+      45.685421344080474
+    ],
+    "branches": [
+      {
+        "feature_id": 197994,
+        "vertex": 133,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268303,
+        "vertex": 15,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268306,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8254.89612544471,
+      13964.879118851
+    ]
+  },
+  {
+    "lonlat": [
+      -61.16316494692603,
+      45.68507043681912
+    ],
+    "branches": [
+      {
+        "feature_id": 197995,
+        "vertex": 25,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268169,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268170,
+        "vertex": 18,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7655.30413626307,
+      13981.0050352645
+    ]
+  },
+  {
+    "lonlat": [
+      -61.13828714863254,
+      45.60487278548645
+    ],
+    "branches": [
+      {
+        "feature_id": 198009,
+        "vertex": 173,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 295326,
+        "vertex": 56,
+        "name": "Coal Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 295327,
+        "vertex": 0,
+        "name": "Coal Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8406.16016622884,
+      17196.2350486051
+    ]
+  },
+  {
+    "lonlat": [
+      -61.08048974791128,
+      45.629745352143175
+    ],
+    "branches": [
+      {
+        "feature_id": 198082,
+        "vertex": 147,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274048,
+        "vertex": 139,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274049,
+        "vertex": 0,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      10070.4045197367,
+      16193.1107306276
+    ]
+  },
+  {
+    "lonlat": [
+      -61.08466686893544,
+      45.661632253568
+    ],
+    "branches": [
+      {
+        "feature_id": 198089,
+        "vertex": 19,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281268,
+        "vertex": 39,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281392,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      9937.33701285703,
+      14914.1445530483
+    ]
+  },
+  {
+    "lonlat": [
+      -61.14181885159494,
+      45.67033799474371
+    ],
+    "branches": [
+      {
+        "feature_id": 198098,
+        "vertex": 112,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281150,
+        "vertex": 78,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281265,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8279.03647287742,
+      14570.3438466436
+    ]
+  },
+  {
+    "lonlat": [
+      -61.14948903533491,
+      45.67316912437633
+    ],
+    "branches": [
+      {
+        "feature_id": 198099,
+        "vertex": 41,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281147,
+        "vertex": 104,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281150,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8055.84960472105,
+      14457.4537470576
+    ]
+  },
+  {
+    "lonlat": [
+      -61.14382259584193,
+      45.68622666815623
+    ],
+    "branches": [
+      {
+        "feature_id": 198100,
+        "vertex": 33,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268303,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268304,
+        "vertex": 73,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8214.97609494102,
+      13932.678996962
+    ]
+  },
+  {
+    "lonlat": [
+      -61.102579687981645,
+      45.632775195944795
+    ],
+    "branches": [
+      {
+        "feature_id": 198105,
+        "vertex": 34,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274050,
+        "vertex": 93,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274174,
+        "vertex": 0,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      9429.57905608056,
+      16073.750044359
+    ]
+  },
+  {
+    "lonlat": [
+      -61.178981285877455,
+      45.617763162080955
+    ],
+    "branches": [
+      {
+        "feature_id": 198148,
+        "vertex": 23,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263855,
+        "vertex": 0,
+        "name": "Fall Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263856,
+        "vertex": 135,
+        "name": "Fall Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7222.85737396015,
+      16683.3621241486
+    ]
+  },
+  {
+    "lonlat": [
+      -61.113154154625086,
+      45.63384690911169
+    ],
+    "branches": [
+      {
+        "feature_id": 198231,
+        "vertex": 68,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274047,
+        "vertex": 181,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 274050,
+        "vertex": 0,
+        "name": "MacPherson Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      9122.95927923202,
+      16031.799847435
+    ]
+  },
+  {
+    "lonlat": [
+      -61.192824336030775,
+      45.679782090688526
+    ],
+    "branches": [
+      {
+        "feature_id": 198233,
+        "vertex": 109,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272289,
+        "vertex": 0,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272290,
+        "vertex": 304,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6798.4437593928,
+      14196.2419458066
+    ]
+  },
+  {
+    "lonlat": [
+      -61.1941726217551,
+      45.66074477425727
+    ],
+    "branches": [
+      {
+        "feature_id": 198235,
+        "vertex": 161,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 277332,
+        "vertex": 388,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 277335,
+        "vertex": 0,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6766.63203032346,
+      14960.5314245543
+    ]
+  },
+  {
+    "lonlat": [
+      -61.135530226643795,
+      45.68422119743286
+    ],
+    "branches": [
+      {
+        "feature_id": 198268,
+        "vertex": 38,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268305,
+        "vertex": 24,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268307,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8455.8666004542,
+      14012.3845029859
+    ]
+  },
+  {
+    "lonlat": [
+      -61.18179013915323,
+      45.669488440825006
+    ],
+    "branches": [
+      {
+        "feature_id": 198346,
+        "vertex": 246,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 277332,
+        "vertex": 0,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 278040,
+        "vertex": 71,
+        "name": "Steeles Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7121.87996413028,
+      14608.3756333229
+    ]
+  },
+  {
+    "lonlat": [
+      -61.1787048155903,
+      45.676891627195815
+    ],
+    "branches": [
+      {
+        "feature_id": 198347,
+        "vertex": 204,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272151,
+        "vertex": 235,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 272290,
+        "vertex": 0,
+        "name": "Morrisons Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7208.41168420876,
+      14310.8931610203
+    ]
+  },
+  {
+    "lonlat": [
+      -61.1903462084386,
+      45.62833622716907
+    ],
+    "branches": [
+      {
+        "feature_id": 198364,
+        "vertex": 1,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284991,
+        "vertex": 0,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284992,
+        "vertex": 89,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6889.74164108491,
+      16260.4350829867
+    ]
+  },
+  {
+    "lonlat": [
+      -61.19889785516491,
+      45.631477035132626
+    ],
+    "branches": [
+      {
+        "feature_id": 198365,
+        "vertex": 75,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284990,
+        "vertex": 0,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 284991,
+        "vertex": 111,
+        "name": "Peters Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6640.91282529642,
+      16135.295029595
+    ]
+  },
+  {
+    "lonlat": [
+      -61.143946202228186,
+      45.62434595951839
+    ],
+    "branches": [
+      {
+        "feature_id": 198384,
+        "vertex": 170,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 198385,
+        "vertex": 0,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263854,
+        "vertex": 0,
+        "name": "Fall Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8234.89677496891,
+      16415.9154905509
+    ]
+  },
+  {
+    "lonlat": [
+      -61.23602160508932,
+      45.70135939968525
+    ],
+    "branches": [
+      {
+        "feature_id": 198428,
+        "vertex": 200,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266604,
+        "vertex": 0,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266608,
+        "vertex": 232,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5539.34787198348,
+      13334.0636878167
+    ]
+  },
+  {
+    "lonlat": [
+      -61.21078908609708,
+      45.696115409863246
+    ],
+    "branches": [
+      {
+        "feature_id": 198429,
+        "vertex": 39,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266475,
+        "vertex": 299,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266608,
+        "vertex": 0,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      6272.01829554709,
+      13542.182850146
+    ]
+  },
+  {
+    "lonlat": [
+      -61.157948303877674,
+      45.70263725223687
+    ],
+    "branches": [
+      {
+        "feature_id": 198439,
+        "vertex": 86,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275477,
+        "vertex": 0,
+        "name": "Kuliks Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275478,
+        "vertex": 95,
+        "name": "Kuliks Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7799.69063244258,
+      13275.0635780695
+    ]
+  },
+  {
+    "lonlat": [
+      -61.14732316110319,
+      45.69716114301359
+    ],
+    "branches": [
+      {
+        "feature_id": 198441,
+        "vertex": 33,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266554,
+        "vertex": 0,
+        "name": "Daniels Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266555,
+        "vertex": 15,
+        "name": "Daniels Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8109.45232455628,
+      13493.9458671825
+    ]
+  },
+  {
+    "lonlat": [
+      -61.12497754409664,
+      45.68796564823727
+    ],
+    "branches": [
+      {
+        "feature_id": 198442,
+        "vertex": 72,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268302,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268308,
+        "vertex": 74,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8760.02593139766,
+      13861.0021222655
+    ]
+  },
+  {
+    "lonlat": [
+      -61.163491570195355,
+      45.6476559413882
+    ],
+    "branches": [
+      {
+        "feature_id": 198467,
+        "vertex": 78,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273526,
+        "vertex": 135,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273660,
+        "vertex": 0,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7660.05733181493,
+      15482.7484597836
+    ]
+  },
+  {
+    "lonlat": [
+      -61.17224974114203,
+      45.617609720590146
+    ],
+    "branches": [
+      {
+        "feature_id": 198469,
+        "vertex": 90,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263856,
+        "vertex": 0,
+        "name": "Fall Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263996,
+        "vertex": 308,
+        "name": "Fall Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7417.84610883629,
+      16688.8534703048
+    ]
+  },
+  {
+    "lonlat": [
+      -61.18594108746065,
+      45.64805344315751
+    ],
+    "branches": [
+      {
+        "feature_id": 198490,
+        "vertex": 0,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273658,
+        "vertex": 0,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 273660,
+        "vertex": 227,
+        "name": "Mill Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      7009.81851001078,
+      15469.0069276717
+    ]
+  },
+  {
+    "lonlat": [
+      -61.12451087986792,
+      45.66554108629461
+    ],
+    "branches": [
+      {
+        "feature_id": 198493,
+        "vertex": 129,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281151,
+        "vertex": 100,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 281266,
+        "vertex": 0,
+        "name": "Black River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8782.05878448349,
+      14761.1813619653
+    ]
+  },
+  {
+    "lonlat": [
+      -61.23862340674566,
+      45.702364451585325
+    ],
+    "branches": [
+      {
+        "feature_id": 198537,
+        "vertex": 78,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266477,
+        "vertex": 0,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 266604,
+        "vertex": 41,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5463.62350645248,
+      13293.9540357286
+    ]
+  },
+  {
+    "lonlat": [
+      -61.11611911290664,
+      45.69365068196585
+    ],
+    "branches": [
+      {
+        "feature_id": 198542,
+        "vertex": 64,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268301,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268302,
+        "vertex": 212,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      9014.38597606553,
+      13631.8501850042
+    ]
+  },
+  {
+    "lonlat": [
+      -61.133749242525134,
+      45.68367545391901
+    ],
+    "branches": [
+      {
+        "feature_id": 198546,
+        "vertex": 56,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268309,
+        "vertex": 8,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268310,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8507.64728287299,
+      14034.1208269333
+    ]
+  },
+  {
+    "lonlat": [
+      -61.1284186736503,
+      45.68409857751181
+    ],
+    "branches": [
+      {
+        "feature_id": 198547,
+        "vertex": 98,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268308,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268310,
+        "vertex": 64,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8661.84788404271,
+      14016.608301437
+    ]
+  },
+  {
+    "lonlat": [
+      -61.1346196243192,
+      45.68399300545593
+    ],
+    "branches": [
+      {
+        "feature_id": 198548,
+        "vertex": 50,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268307,
+        "vertex": 5,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 268309,
+        "vertex": 0,
+        "name": "Ben Hughies Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      8482.32231383511,
+      14021.4568305743
+    ]
+  },
+  {
+    "lonlat": [
+      -61.01182340493451,
+      45.65918479294989
+    ],
+    "branches": [
+      {
+        "feature_id": 198607,
+        "vertex": 34,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263147,
+        "vertex": 61,
+        "name": "False Bay Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 263148,
+        "vertex": 0,
+        "name": "False Bay Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12047.6505958149,
+      15005.2044553055
+    ]
+  },
+  {
+    "lonlat": [
+      -61.06526068929153,
+      45.70508491344768
+    ],
+    "branches": [
+      {
+        "feature_id": 198738,
+        "vertex": 74,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275186,
+        "vertex": 253,
+        "name": "Kens Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275314,
+        "vertex": 0,
+        "name": "Kens Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      10482.7866183574,
+      13167.6402539915
+    ]
+  },
+  {
+    "lonlat": [
+      -60.98797806408125,
+      45.67174655335317
+    ],
+    "branches": [
+      {
+        "feature_id": 198903,
+        "vertex": 287,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283229,
+        "vertex": 463,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283230,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12733.3870479413,
+      14498.6742177158
+    ]
+  },
+  {
+    "lonlat": [
+      -60.945739665398634,
+      45.66419255241325
+    ],
+    "branches": [
+      {
+        "feature_id": 199012,
+        "vertex": 110,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 199013,
+        "vertex": 0,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283352,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283494,
+        "vertex": 79,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      13959.3861304728,
+      14797.7250807631
+    ]
+  },
+  {
+    "lonlat": [
+      -60.98673374711337,
+      45.67002166370519
+    ],
+    "branches": [
+      {
+        "feature_id": 199039,
+        "vertex": 16,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283230,
+        "vertex": 56,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283231,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12770.0749213386,
+      14567.7895929262
+    ]
+  },
+  {
+    "lonlat": [
+      -60.9555050906311,
+      45.66432999783507
+    ],
+    "branches": [
+      {
+        "feature_id": 199136,
+        "vertex": 18,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283351,
+        "vertex": 113,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283353,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      13676.5490190188,
+      14793.1689948905
+    ]
+  },
+  {
+    "lonlat": [
+      -60.94067110356158,
+      45.664203874307645
+    ],
+    "branches": [
+      {
+        "feature_id": 199164,
+        "vertex": 274,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283350,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283352,
+        "vertex": 130,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      14106.156061695,
+      14796.7722052746
+    ]
+  },
+  {
+    "lonlat": [
+      -60.94758380085163,
+      45.66336521527792
+    ],
+    "branches": [
+      {
+        "feature_id": 199287,
+        "vertex": 18,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283353,
+        "vertex": 202,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283494,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      13906.2983263255,
+      14831.1118629705
+    ]
+  },
+  {
+    "lonlat": [
+      -60.971600497784884,
+      45.66400945336234
+    ],
+    "branches": [
+      {
+        "feature_id": 199561,
+        "vertex": 413,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283355,
+        "vertex": 32,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283356,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      13210.583722991,
+      14807.6171249819
+    ]
+  },
+  {
+    "lonlat": [
+      -60.98346213241196,
+      45.6650800194125
+    ],
+    "branches": [
+      {
+        "feature_id": 199562,
+        "vertex": 26,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283231,
+        "vertex": 97,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283233,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12866.6906446559,
+      14765.8155753931
+    ]
+  },
+  {
+    "lonlat": [
+      -60.961867637421555,
+      45.66453103966626
+    ],
+    "branches": [
+      {
+        "feature_id": 199566,
+        "vertex": 34,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283351,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283354,
+        "vertex": 55,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      13492.2275121391,
+      14785.7257479205
+    ]
+  },
+  {
+    "lonlat": [
+      -60.99849966437982,
+      45.689820029650036
+    ],
+    "branches": [
+      {
+        "feature_id": 199835,
+        "vertex": 19,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283114,
+        "vertex": 44,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 283229,
+        "vertex": 0,
+        "name": "River Tillard",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      12421.838224554,
+      13774.1041769617
+    ]
+  },
+  {
+    "lonlat": [
+      -61.248345513751396,
+      45.70527454808205
+    ],
+    "branches": [
+      {
+        "feature_id": 266477,
+        "vertex": 105,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 198536,
+        "vertex": 86,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 266476,
+        "vertex": 0,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      5180.98689146498,
+      13178.0289373773
+    ]
+  },
+  {
+    "lonlat": [
+      -60.96215130640833,
+      45.64037197248862
+    ],
+    "branches": [
+      {
+        "feature_id": 275498,
+        "vertex": 67,
+        "name": "Joes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 275621,
+        "vertex": 0,
+        "name": "Joes Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      },
+      {
+        "feature_id": 311336,
+        "vertex": 73,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      13493.1873621884,
+      15755.1888792099
+    ]
+  },
+  {
+    "lonlat": [
+      -61.261619811011414,
+      45.700264029580815
+    ],
+    "branches": [
+      {
+        "feature_id": 196245,
+        "vertex": 2,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 266476,
+        "vertex": 207,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 266605,
+        "vertex": 0,
+        "name": "Dowlings Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4798.49731538195,
+      13380.5732416981
+    ]
+  },
+  {
+    "lonlat": [
+      -61.27637267401474,
+      45.66878992493166
+    ],
+    "branches": [
+      {
+        "feature_id": 196432,
+        "vertex": 179,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267568,
+        "vertex": 21,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267569,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4383.2463154128,
+      14645.715120219
+    ]
+  },
+  {
+    "lonlat": [
+      -61.270778574080616,
+      45.67468199850787
+    ],
+    "branches": [
+      {
+        "feature_id": 196593,
+        "vertex": 254,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267562,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267563,
+        "vertex": 11,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4543.00070389826,
+      14408.65122844
+    ]
+  },
+  {
+    "lonlat": [
+      -61.26030285696999,
+      45.675092671666995
+    ],
+    "branches": [
+      {
+        "feature_id": 196939,
+        "vertex": 160,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267435,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267561,
+        "vertex": 251,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4846.19806342467,
+      14391.1352399011
+    ]
+  },
+  {
+    "lonlat": [
+      -61.271235295885404,
+      45.66960787414843
+    ],
+    "branches": [
+      {
+        "feature_id": 197067,
+        "vertex": 52,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267570,
+        "vertex": 37,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 315525,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4531.70260855552,
+      14612.378074308
+    ]
+  },
+  {
+    "lonlat": [
+      -61.27333294032263,
+      45.668235456290205
+    ],
+    "branches": [
+      {
+        "feature_id": 197070,
+        "vertex": 171,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267569,
+        "vertex": 61,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267570,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4471.48083148352,
+      14667.6718252581
+    ]
+  },
+  {
+    "lonlat": [
+      -61.277921284351045,
+      45.66990960177241
+    ],
+    "branches": [
+      {
+        "feature_id": 197072,
+        "vertex": 27,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267564,
+        "vertex": 42,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267568,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4337.97669912669,
+      14600.9243819751
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28170011198163,
+      45.67169829953809
+    ],
+    "branches": [
+      {
+        "feature_id": 197105,
+        "vertex": 52,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267564,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267565,
+        "vertex": 38,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4227.87081929604,
+      14529.4970815686
+    ]
+  },
+  {
+    "lonlat": [
+      -61.290420277641644,
+      45.670265693449394
+    ],
+    "branches": [
+      {
+        "feature_id": 197245,
+        "vertex": 94,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267433,
+        "vertex": 43,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267567,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      3975.89850010722,
+      14587.8601313808
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28925221990044,
+      45.67029950900319
+    ],
+    "branches": [
+      {
+        "feature_id": 197247,
+        "vertex": 35,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267566,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267567,
+        "vertex": 11,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4009.70999839661,
+      14586.3879044859
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28752996123312,
+      45.670782252917554
+    ],
+    "branches": [
+      {
+        "feature_id": 197248,
+        "vertex": 59,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267565,
+        "vertex": 0,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 267566,
+        "vertex": 14,
+        "name": "Black Brook",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4059.39938467541,
+      14566.8411188873
+    ]
+  },
+  {
+    "lonlat": [
+      -61.299456545414124,
+      45.62203243355542
+    ],
+    "branches": [
+      {
+        "feature_id": 197416,
+        "vertex": 31,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 269908,
+        "vertex": 27,
+        "name": "Little River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 269909,
+        "vertex": 0,
+        "name": "Little River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      3732.54261608803,
+      16523.9958585153
+    ]
+  },
+  {
+    "lonlat": [
+      -61.27999530474736,
+      45.63178748598126
+    ],
+    "branches": [
+      {
+        "feature_id": 197419,
+        "vertex": 42,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 271590,
+        "vertex": 41,
+        "name": "North Little River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 271591,
+        "vertex": 0,
+        "name": "North Little River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4292.39394626799,
+      16130.8176182415
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28380127858166,
+      45.62256199230703
+    ],
+    "branches": [
+      {
+        "feature_id": 197569,
+        "vertex": 130,
+        "name": "",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 271591,
+        "vertex": 257,
+        "name": "North Little River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      },
+      {
+        "feature_id": 271592,
+        "vertex": 0,
+        "name": "North Little River",
+        "reference_path": "/Users/dfakkeldy/Downloads/church-south-extension-validation-20260916/extension-water-lines.geojson"
+      }
+    ],
+    "inverse_search_guide": [
+      4185.68319300865,
+      16501.2179845682
+    ]
+  }
+]

@@ -1,0 +1,63 @@
+{
+  "id": "CB18",
+  "role": "check",
+  "label": "Stewarts Lake northeastern Six Mile Brook junction",
+  "pixel_xy": [
+    24434.166666666668,
+    21490.833333333332
+  ],
+  "lonlat": [
+    -60.01112251931553,
+    45.94592528898134
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      24000,
+      21100
+    ],
+    "extent": [
+      1200,
+      1000
+    ],
+    "display": [
+      1440,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    521,
+    469
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/CB5-stewarts-north-native.jpg",
+  "source_crop_sha256": "d7f675c2f7fad31346aeffed2ba815bc2807f37596c9b8550ed73b67b8128dce",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    140008,
+    140009,
+    294720
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 140008,
+      "vertex": 20
+    },
+    {
+      "feature_id": 140009,
+      "vertex": 0
+    },
+    {
+      "feature_id": 294720,
+      "vertex": 26
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "official_identity_key": "CBKOG",
+  "identity_evidence": "The source explicitly labels Stewarts Lake west of Louisbourg and southwest of Grand Lake, with Morrison Lake immediately west. Its northern arm has a western/northern tributary and a distinct northeastern connection to the labelled Six Mile Brook crossing the road to the east. Match the northeastern shore/stream junction, not the separate northern tributary or the road crossing farther east. Original lake banks140008v20/140009v0 and Six Mile Brook294720v26 share the reference coordinate. The main lake outlines are generalized differently; the paired north-arm connections and adjoining named water bodies establish the intended junction. The official name point supplies identity only.",
+  "phase": "Fresh physical check after frozen TPS11; no fitting or selection use",
+  "recorded_at": "2026-09-15T14:29:50.802657+00:00"
+}

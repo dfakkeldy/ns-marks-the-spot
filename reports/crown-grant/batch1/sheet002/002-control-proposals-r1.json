@@ -1,0 +1,107 @@
+[
+  {
+    "id": "C01",
+    "label": "Cape St Mary southern headland",
+    "role": "control-proposal",
+    "pixel_xy": [
+      4415,
+      1325
+    ],
+    "lonlat": [
+      -66.20831388522807,
+      44.083386598267126
+    ],
+    "reference_objectid": 2358,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4413.10224045912,
+      1324.0703991508344
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "C02",
+    "label": "Northern bulb headland",
+    "role": "control-proposal",
+    "pixel_xy": [
+      4572,
+      849
+    ],
+    "lonlat": [
+      -66.21224368518004,
+      44.107199724316885
+    ],
+    "reference_objectid": 4762,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4570.9824158234405,
+      866.8438591329614
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "C03",
+    "label": "Black Point western corner",
+    "role": "control-proposal",
+    "pixel_xy": [
+      4397,
+      2588
+    ],
+    "lonlat": [
+      -66.17344331016218,
+      44.02872350681207
+    ],
+    "reference_objectid": 12588,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4470.135626280913,
+      2600.953098544036
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "C04",
+    "label": "Cedar Lake northern prong",
+    "role": "control-proposal",
+    "pixel_xy": [
+      5417,
+      2807
+    ],
+    "lonlat": [
+      -66.11151709887325,
+      44.03195348548866
+    ],
+    "reference_objectid": 125124,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5504.560510369134,
+      3087.461925186799
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "C05",
+    "label": "Churchill Lake western arm",
+    "role": "control-proposal",
+    "pixel_xy": [
+      4425,
+      3544
+    ],
+    "lonlat": [
+      -66.14673111593677,
+      43.98808610190966
+    ],
+    "reference_objectid": 140485,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4526.116391537478,
+      3557.3701378166443
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  }
+]

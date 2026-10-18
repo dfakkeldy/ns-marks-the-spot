@@ -1,0 +1,54 @@
+[
+  [
+    "C01",
+    "Fountain Lake northern tip",
+    [
+      794,
+      2440
+    ],
+    [
+      704,
+      2450
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Gamble Lake northwest tip",
+    [
+      543,
+      3599
+    ],
+    [
+      444,
+      3618
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Newfound Lake northern tip",
+    [
+      2104,
+      2696
+    ],
+    [
+      2034,
+      2713
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Snake Lake northern tip",
+    [
+      5356,
+      3626
+    ],
+    [
+      5290,
+      3648
+    ],
+    "WALK20"
+  ]
+]

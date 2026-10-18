@@ -26,6 +26,44 @@ struct UserVectorShapeTests {
         )
     }
 
+    /// A point is solid in its colour with a white rim unless its file said
+    /// otherwise; an authored opacity or stroke survives the import.
+    @Test func aPointIsSolidUnlessItsFileSaidOtherwise() {
+        let plain = GeoJsonFeature(id: "p", geometry: .point(GeoJsonPosition(lng: -63, lat: 44)))
+        let style = VectorStyle.pointStyle(for: plain, layerColorHex: "#0072b2")
+        #expect(style.fillHex == "#0072b2")
+        #expect(style.fillOpacity == 1)
+        #expect(style.rimHex == "#ffffff")
+
+        let authored = GeoJsonFeature(
+            id: "a", geometry: .point(GeoJsonPosition(lng: -63, lat: 44)),
+            properties: [
+                "marker-color": .string("#ff0000"), "fill-opacity": .number(0.1),
+                "stroke": .string("#000000"), "stroke-opacity": .number(0),
+                "stroke-width": .number(8),
+            ]
+        )
+        let kept = VectorStyle.pointStyle(for: authored, layerColorHex: "#0072b2")
+        #expect(kept.fillHex == "#ff0000")
+        #expect(kept.fillOpacity == 0.1)
+        #expect(kept.rimHex == "#000000")
+        #expect(kept.rimOpacity == 0)
+        // Clamped: an eight-point rim would be the whole disc.
+        #expect(kept.rimWidth == 6)
+        #expect(style.rimOpacity == 1)
+        #expect(style.rimWidth == 2.5)
+
+        // The marker is a 44-point target whatever it is filled with.
+        #expect(UserVectorMarkerImage.image(for: kept).size == CGSize(width: 44, height: 44))
+
+        // An eight-digit colour the style layer accepts is drawn, with its
+        // alpha, rather than falling to the diagnostic magenta.
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        UIColor(featureHex: "#ff000080").getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        #expect(red == 1 && green == 0 && blue == 0)
+        #expect(abs(alpha - 128.0 / 255.0) < 0.001)
+    }
+
     /// A ring after the first is a hole. A parcel with a right-of-way cut out
     /// of it must not be painted over the strip it excludes.
     @Test func holesAreDrawnAsInteriorPolygons() throws {
@@ -352,5 +390,64 @@ struct VectorSelectionHandleTests {
             VectorSelectionHandles(feature: feature(.polygon([outer, hole])), colorHex: "#d55e00")
         )
         #expect(handles.handles().filter { $0.ring == 1 }.count == 3)
+    }
+
+    /// Only a layer of single points with unique ids is diffed by id: a
+    /// `MultiPoint` expands to several annotations under one id, and two of
+    /// them under one key made the diff drop one.
+    @MainActor @Test func onlySinglePointsWithUniqueIDsAreDiffedByID() {
+        func drawing(_ features: [GeoJsonFeature]) -> UserVectorDrawing {
+            UserVectorDrawing(
+                record: UserVectorLayerRecord(
+                    id: "layer", name: "Sites", source: .photos,
+                    origin: .photos(createdAt: Date(timeIntervalSince1970: 0), count: features.count),
+                    createdAt: Date(timeIntervalSince1970: 0), colorHex: "#7c3aed",
+                    featureCount: features.count, bbox: nil
+                ),
+                parsed: ParsedVector(features: features, bbox: nil)
+            )
+        }
+        let a = GeoJsonPosition(lng: -61.47, lat: 45.80)
+        let b = GeoJsonPosition(lng: -61.40, lat: 45.90)
+        #expect(MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: "one", geometry: .point(a), properties: [:]),
+            GeoJsonFeature(id: "two", geometry: .point(b), properties: [:]),
+        ])))
+        #expect(!MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: "sites", geometry: .multiPoint([a, b]), properties: [:]),
+        ])))
+        #expect(!MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: "one", geometry: .point(a), properties: [:]),
+            GeoJsonFeature(id: "one", geometry: .point(b), properties: [:]),
+        ])))
+        #expect(!MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: nil, geometry: .point(a), properties: [:]),
+        ])))
+    }
+
+    /// Only points that carry photos cluster, and only within their layer: a
+    /// plain point drawn into a photo layer is not a photo.
+    @Test func onlyPhotoPointsCluster() {
+        let record = UserVectorLayerRecord(
+            id: "layer", name: "Photos", source: .photos,
+            origin: .photos(createdAt: Date(timeIntervalSince1970: 0), count: 2),
+            createdAt: Date(timeIntervalSince1970: 0), colorHex: "#7c3aed",
+            featureCount: 2, bbox: nil
+        )
+        let at = GeoJsonPosition(lng: -61.47, lat: 45.80)
+        let withPhoto = GeoJsonFeature(
+            id: "p", geometry: .point(at),
+            properties: [
+                CaptureSpec.photosKey: PhotoDescriptor.propertyValue(internalForm: [PhotoDescriptor(id: "one")])
+            ]
+        )
+        let plain = GeoJsonFeature(id: "q", geometry: .point(at), properties: [:])
+        let drawing = UserVectorDrawing(
+            record: record, parsed: ParsedVector(features: [withPhoto, plain], bbox: nil)
+        )
+        let annotations = drawing.annotations()
+        #expect(annotations.count == 2)
+        #expect(annotations[0].clusteringIdentifier == "nsmts-photos-layer")
+        #expect(annotations[1].clusteringIdentifier == nil)
     }
 }

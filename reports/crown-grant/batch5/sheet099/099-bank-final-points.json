@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C08",
+    "label": "River bend southwest of Addington Forks, outer south bank",
+    "role": "proposal",
+    "pixel_xy": [
+      2335,
+      1004
+    ],
+    "lonlat": [
+      -62.07584935718528,
+      45.55828907360244
+    ],
+    "guide_file": ".crown-grant-local/099-adjacent-guide.npy",
+    "reference_objectid": 176390,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 176390,
+    "nearest_unfiltered_distance_guide_px": 0.5542171329008297,
+    "selected_distance_guide_px": 0.5542171329008297,
+    "guide_reference_pixel_xy": [
+      2305.787470610754,
+      972.488152474747
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

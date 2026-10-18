@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Black Rock northern coastal tip",
+    [
+      740,
+      396
+    ],
+    [
+      675,
+      326
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Halls Point northern tip",
+    [
+      2950,
+      624
+    ],
+    [
+      2920,
+      548
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Murray Brook main fork",
+    [
+      1455,
+      823
+    ],
+    [
+      1391,
+      768
+    ],
+    "WARV"
+  ],
+  [
+    "C04",
+    "Cornwallis River Cambridge southern tributary junction",
+    [
+      1678,
+      3184
+    ],
+    [
+      1612,
+      3120
+    ],
+    "WARV"
+  ],
+  [
+    "C05",
+    "Cornwallis River Brooklyn Corner northern tributary junction",
+    [
+      2437,
+      3164
+    ],
+    [
+      2378,
+      3095
+    ],
+    "WARV"
+  ]
+]

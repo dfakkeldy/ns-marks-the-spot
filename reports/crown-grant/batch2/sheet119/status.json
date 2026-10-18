@@ -1,0 +1,45 @@
+{
+  "sheet": "119",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full raster and comparison controls browser-verified; RMS exceeds 100 m",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/119.pdf",
+    "pdf_sha256": "57f093b4d124ea92b1c05d39b425c5dd1aff80c6b1fd02d10e6fa2729c2c24a6",
+    "jpeg_sha256": "9e47cf45020f5c516c4820b9583f5b6eba18b58f3d12fb30881320127afd526e",
+    "dimensions": [
+      5577,
+      3823
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 3,
+      "independent_checks": 5,
+      "rms_ground_m": 128.15367108852973,
+      "rms_gate_passed": false,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Five checks give RMS 128.15 m, median 81.65 m, P95 211.90 m and maximum 229.83 m; the 100 m RMS ceiling and companion bounds fail",
+    "Only three controls and five checks can be defended on the narrow mapped land strip; no whole-interior accuracy claim is supported",
+    "Enrage Cape and Caveau endpoint checks share local landforms with controls and are spatially correlated",
+    "The Enrage northern outline is generalized beside a printed survey symbol; source uncertainty is larger there"
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "5 independent checks: RMS 128.15 m, median 81.65 m, P95 211.90 m, maximum 229.83 m. 3 controls; fit unchanged after scoring.",
+    "coverage": "Complete original frame, including its broad mapped Gulf area, southeastern coastal strip, Cheticamp Island fragment, Jumping Brook and Shag Roost edge. No separate inset or displaced island component identified."
+  }
+}

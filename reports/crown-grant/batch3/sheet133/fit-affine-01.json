@@ -1,0 +1,231 @@
+{
+  "sheet": "133",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.9247072265470555,
+      2.0439591489104574
+    ],
+    [
+      2.028612653517075,
+      -4.965424870444855
+    ],
+    [
+      700211.3898440413,
+      5083049.1702533895
+    ]
+  ],
+  "source_sha256": "a18f7e2e700cdf00b415a8eee9c012b8e26fc299dd9b34187fe66896864491ab",
+  "source_dimensions": [
+    5802,
+    3879
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Northwest McInnis Lake east end",
+      "role": "control",
+      "pixel_xy": [
+        451,
+        459
+      ],
+      "lonlat": [
+        -60.37988222381632,
+        45.85808587232939
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 136746,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        463.93692124664085,
+        469.23199175216723
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Mira long island northeast tip",
+      "role": "control",
+      "pixel_xy": [
+        1605,
+        958
+      ],
+      "lonlat": [
+        -60.294754162851504,
+        45.85593248206026
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 305416,
+      "reference_feature_code": "WARVIS10",
+      "guide_reference_pixel_xy": [
+        1612.9635016512475,
+        948.4840022654971
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Mohawk Lake north tip",
+      "role": "control",
+      "pixel_xy": [
+        2524,
+        1333
+      ],
+      "lonlat": [
+        -60.22573997712924,
+        45.85494977220057
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 135687,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2550.465569374268,
+        1321.2787656364962
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Oceanview Wilkinson Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        3364,
+        1068
+      ],
+      "lonlat": [
+        -60.178816049130866,
+        45.87996192710532
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 136107,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3374.2757539819577,
+        1073.7453040549299
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Cape Gabarus east shore corner",
+      "role": "control",
+      "pixel_xy": [
+        4330,
+        2800
+      ],
+      "lonlat": [
+        -60.0750562250551,
+        45.81799709058845
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 14158,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4347.160886079073,
+        2811.2845766688697
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Guyon Island west tip",
+      "role": "control",
+      "pixel_xy": [
+        3398,
+        3602
+      ],
+      "lonlat": [
+        -60.115894805979515,
+        45.7656890808717
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 21417,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3408.8663906518486,
+        3622.867695650202
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Southwest Goose Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        890,
+        3017
+      ],
+      "lonlat": [
+        -60.29101991392705,
+        45.75079475379425
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 126545,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        898.9004458806012,
+        3015.7220043787966
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C09",
+      "label": "Northeast McAuley Lake southeast tip",
+      "role": "control",
+      "pixel_xy": [
+        4410,
+        773
+      ],
+      "lonlat": [
+        -60.11817079890978,
+        45.911403984766075
+      ],
+      "guide_file": ".crown-grant-local/133-adjacent-guide.npy",
+      "reference_objectid": 132193,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4431.957231751119,
+        770.162193010794
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Native paired crosshair plus broad physical topology inspected before fitting; source and reference feature types audited.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    80.86920130096786,
+    52.29649259050242,
+    90.63538333386899,
+    47.51637254825659,
+    12.483750188938295,
+    49.55128353662357,
+    43.7853822390676,
+    18.181081875762974
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

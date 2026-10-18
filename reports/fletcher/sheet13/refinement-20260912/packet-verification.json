@@ -1,0 +1,495 @@
+{
+  "passed": true,
+  "final_controls": 14,
+  "fresh_checks": 3,
+  "reused_checks": 8,
+  "source_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f",
+  "final_fit_sha256": "2ae5ef8d16c4ab1209367778466dc4720f04727e093768ffa1f716f4465277a1",
+  "complete_boundary_sha256": "f7cd2eca10af9fb59a12d66abc02926d57f739f0da11b01f6eddc2822023f746",
+  "previous_eleven_controls_unchanged": true,
+  "promotions_preserve_old_pixels_coordinates_and_scores": true,
+  "figure_count": 64,
+  "figures": [
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/adjacent-sheet-review/12-east-north.jpg",
+      "sha256": "e46e83ae1e4ddcdb362397a3a011ac0ed83c0136ecd4f084036236d5e5b0fefd"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/adjacent-sheet-review/12-east-south.jpg",
+      "sha256": "61f6440e3ac9887b21e8e1f0dac1de12590ff84ba0d2f3f130e030175cc9f932"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/adjacent-sheet-review/11-margaree.jpg",
+      "sha256": "277abf45d3aa147a7f4110ccaa11b5a53291156aea0046a853bb52156343b201"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/adjacent-sheet-review/11-middle-river.jpg",
+      "sha256": "ead15f243a75d8eca02eadfee50494f187fd9c12e74feddf75a7025711616825"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/adjacent-sheet-review/14-western-interior.jpg",
+      "sha256": "a17342e2924378b4a4193b368fc49f2c70f37699fa929f1f3d5e62b097b35633"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/adjacent-sheet-review/14-west-lake.jpg",
+      "sha256": "df0b044402084e67b9065f89649a7e5daec4aba3fd7b4d2bba32204e5554a467"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-adjacent-sheet-review/12-east-north.jpg",
+      "sha256": "9fbb2f42e4a193b847206239266a44cadb4c36b5009da3b60aca74ac6c29df2f"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-adjacent-sheet-review/12-east-south.jpg",
+      "sha256": "8a267769ba7093e0fc7125585c7e8e0766c99840d1826c7d8b7400d1c7c01eb9"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-adjacent-sheet-review/11-margaree.jpg",
+      "sha256": "807ad26d63523e7d898a1868b7dbf4ad801f4b06ddad63fe7422d22dcc5e6d1c"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-adjacent-sheet-review/11-middle-river.jpg",
+      "sha256": "6bf1b91233167ab31fc3e6515863f21b992aa713eb0834fb80622fa46273b894"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-adjacent-sheet-review/14-western-interior.jpg",
+      "sha256": "2fc37970ad171aab1ae6578ac171adba8038b66bcbce79cc52de75b9ea0180a3"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-adjacent-sheet-review/14-west-lake.jpg",
+      "sha256": "dff1e0ab7c7228f9c52191389d048669f92bac20bd2e8e0feecc513b280c4061"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-corrected-close/sheet-13-F04.jpg",
+      "sha256": "df39bb6bd05744658a071df321656e374c4468c978d06d8b46807665ff10d2ae"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-corrected-wide/sheet-13-F04.jpg",
+      "sha256": "99631b24aef1c58bfb97bc4e26c9150bc4be8d3969229e480a66d234979f58d7"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-fresh-close/sheet-13-F04.jpg",
+      "sha256": "0b150dc840b9a99999a3cf5b755f6a9c62873160a1be3e54ef6ed046b1c8ccd9"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-fresh-close/sheet-13-F05.jpg",
+      "sha256": "94608d257a3c02c789ebf764b1e5d731dba6eac94adaaf972f567c59cf4b79d0"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-fresh-close/sheet-13-F06.jpg",
+      "sha256": "35f78e20058ffc11f8eb28792332ae420305495886db30aa11e13135d61eff46"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-fresh-wide/sheet-13-F04.jpg",
+      "sha256": "72e1dac3037dcf7ec5f56a945d156b7db8176e2cd69e4c525fe31bd9f62adee5"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-fresh-wide/sheet-13-F05.jpg",
+      "sha256": "613bbf70bfb2a7b9478dd85173a5d5ea98c31f803e7732f3fef50cb460d7768f"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-fresh-wide/sheet-13-F06.jpg",
+      "sha256": "9f34ee16f0cbf625434d6909b04ca7ac5ede8498be4e8a371511f4de5a655120"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/full-sheet.jpg",
+      "sha256": "217f9abb3ed1ad54844bd6ecb07795d1ecbb087ce1c1f153fef5b994b52bf82c"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/northwest.jpg",
+      "sha256": "867ba20b0a3cf58d8d3e781382808f059acbd263bc309d5b40b15d7f287ae8b6"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/northeast.jpg",
+      "sha256": "b46276868823dc5507ef38727e97d093ae4329526dba1c94284558e6d1a69623"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/lake-ainslie.jpg",
+      "sha256": "ae3fb7eaa09c5fed38f0dd3dc363c4f68b3951521097ea8dca6ec2aa9c6fbc53"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/southeast.jpg",
+      "sha256": "010e79376f53723c2ec2e073d3fe09831d5248097e7325ca96f2d5ac49c95669"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/mount-pleasant.jpg",
+      "sha256": "3025f2be68b6fb89db5a01117f5f5c1c625530bb43e8855457384fdd95c5294a"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/coopers.jpg",
+      "sha256": "426d092152c2701066aad36c124e0bbd4ad553fd7928f1b3c41f0ae9f050fe37"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/north-brook.jpg",
+      "sha256": "6342a40464b9b2abc83eecea8251f0e8cbae75f3796e3f6347b2a5ac6135db19"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/southern-interior.jpg",
+      "sha256": "96d754444fb76dfbfb49b16e8e3a79e66ccd58967729699e28d98f92e7e08867"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/final-warped-review/central-eastern.jpg",
+      "sha256": "1481192470f93a12e6d3c1a04e8e660141a4558eb631c26fb53a04d69cc9ee42"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-close/sheet-13-F01.jpg",
+      "sha256": "3490ebddb07f4fdeb9f41b80b158441f6cbb0a2b1aebe46d320c532e28218e6a"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-close/sheet-13-F02.jpg",
+      "sha256": "ab985c3996545ccf6883c1c4510723293aebd3fc280761514b95b0066911ab07"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-close/sheet-13-F03.jpg",
+      "sha256": "f09ce0c9e6202100d6083189f5c278e2f0d2c7e344ecc1ceb2a4d8e603795524"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-corrected-close/sheet-13-F01.jpg",
+      "sha256": "551ab8fc9c62a1a3dec51440d49042eafe89564cd2c6941ad673784b1fc3674a"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-corrected-close/sheet-13-F02.jpg",
+      "sha256": "094bf3238df514c936fafe952bd7006c4cca9e575fad9155751dc1a342dad1c7"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-corrected-wide/sheet-13-F01.jpg",
+      "sha256": "abdf59c4ee17d466c16fb0009688792964c0f9eaf16f6aa05f6545ddb4308769"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-corrected-wide/sheet-13-F02.jpg",
+      "sha256": "f2a3174679d94e0b2ad30be06beb273d5b9932f8fbff7c98a1dd9435891627f3"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-wide/sheet-13-F01.jpg",
+      "sha256": "be96f366f6ba938cda9793dfe58abbb678016a63aa681a30524b92018f1ba854"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-wide/sheet-13-F02.jpg",
+      "sha256": "b61f2af35d062d168c94bba7f7d58df9d9276a3604497868eb1cf7a1ddd2875c"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/fresh-wide/sheet-13-F03.jpg",
+      "sha256": "41cb8c9cbc745415e5d5ffccc2e0f94e74adce6c402e04177cae373621804926"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-close/sheet-13-Q04.jpg",
+      "sha256": "9247db4c3d842913607d88a56b8e808cb42b7019b47675cf983a6615a57c5aca"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-close/sheet-13-Q07.jpg",
+      "sha256": "1f6f9df91e95555ebd4359e2b629f449348a238eb912764415d78b0df60fe5ca"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-close/sheet-13-V02.jpg",
+      "sha256": "e7504f5ce56aa4c4658f4383c92cd159025824ceeb0530f01c201407bf76c338"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-close/sheet-13-V03.jpg",
+      "sha256": "86a0a880613789017cd23e25e4911d12d8adc9eaad43209dd097ab5e66b56db2"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-wide/sheet-13-Q04.jpg",
+      "sha256": "75129a92f90cdf9f4a5502769a568fcf3385352f1932e7b12bbcaa94e416d162"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-wide/sheet-13-Q07.jpg",
+      "sha256": "d52b26c94d895bca1e2e80c8ba2c7292eb8defb0db6957e368484c9c3c281eb1"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-wide/sheet-13-V02.jpg",
+      "sha256": "ef3b2d1127285e770ad47ff64ae3b2199468f48040be3201e427364529073221"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/prior-wide/sheet-13-V03.jpg",
+      "sha256": "b5d3cf9836fc9ef74ff75be704363c95bda5b4061331820498001c65502ba2e4"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/full-sheet.jpg",
+      "sha256": "26ce0403c58715e797d859109ed720275822dc74160656651fc88ced8371d141"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/northwest.jpg",
+      "sha256": "c6b9426e265b04714133d3e5f3cbd1144065dbc9565755f66face8f9545b5e7e"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/northeast.jpg",
+      "sha256": "e2a25f353b1887cd27b801c8f40dfeb548b3ce91bb2979df5b6ef33e5f6d012a"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/lake-ainslie.jpg",
+      "sha256": "c2718563661ad2b5133046d8a97737f01bccdd0c7b34eb3055c8e6d5971cee41"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/southeast.jpg",
+      "sha256": "65faf3fa41cc41bb048b35859a51bad42e1f25a492f9a917c50fc48b2957eade"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/mount-pleasant.jpg",
+      "sha256": "644e7bf88bd51cd28a6b2e08e5b9e097b2224036b8909875a70e61962c04892b"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/coopers.jpg",
+      "sha256": "95fe0baef0ba7a25d4c8aae6394ae86b7f9b15bac0f9f6e24007717f2ff44ef7"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/north-brook.jpg",
+      "sha256": "97500810223fd522bbff0d69b922107abb93f64c6e20e63e8e369295f01ab6f2"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/southern-interior.jpg",
+      "sha256": "b8d1184b16b0e003c9b9307d3185dd80b1eb338ce370bd250a1a4e5148b8eb39"
+    },
+    {
+      "path": "reports/fletcher/sheet13/refinement-20260912/warped-review/central-eastern.jpg",
+      "sha256": "f0aeb17e53b8fee8093cadc7d9e30f5bf15ebd2300bb12c64037d4833f0b34d8"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/browser/import-desktop.png",
+      "sha256": "f10afa4a53f1706ef2417bbdb758b870cd410e8dd924c309657f0399d690591d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/browser/reload-desktop.png",
+      "sha256": "f043db8aaa20177ad2819e9dbc59ff99353f84614728db73ab3fcbb07f3482e0"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/browser/reload-mobile.png",
+      "sha256": "dc993fae594f00473cabdd021614e9ce5fbbac0a7239cb0e93502d4318573435"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/browser/import-desktop.png",
+      "sha256": "24c031de30b65b9490483d9c9ed36b265a70dc2d74df334fae4a3851c80de794"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/browser/reload-desktop.png",
+      "sha256": "86b7c1064c615cf07e66461e168daf694761f9a7e43017d8f1ff4c9b39efa483"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/browser/reload-mobile.png",
+      "sha256": "2877acd9a6897475f4f69c817f5091c2072e196bdc137a60c3f04dfeaf6d3f20"
+    }
+  ],
+  "raster_experiments": [
+    {
+      "fit_sha256": "d1c2b2c7c6d6b7227afbce48293e06d7fc9a79a16937e19ff2d943337b43c198",
+      "boundary_sha256": "f7cd2eca10af9fb59a12d66abc02926d57f739f0da11b01f6eddc2822023f746",
+      "scope": "Complete inner neatline, no corridor or control-hull clipping",
+      "check_status": "Supplied frozen check set; see check file for independence and revision history",
+      "checks_sha256": "d43a0d78218b1b3b823fd3133be866e1d882a07f3eea73d1fe3247ed4b67b638",
+      "median_ground_m": 99.54991916092075,
+      "worst_ground_m": 278.3899936321594,
+      "points": [
+        {
+          "id": "Q01",
+          "error_ground_m": 2.64177688019364,
+          "predicted_lonlat": [
+            -61.170373583182155,
+            46.25642428350961
+          ]
+        },
+        {
+          "id": "Q03",
+          "error_ground_m": 89.91358866521027,
+          "predicted_lonlat": [
+            -60.891069205179114,
+            46.22842821481608
+          ]
+        },
+        {
+          "id": "Q04",
+          "error_ground_m": 278.3899936321594,
+          "predicted_lonlat": [
+            -61.04516040446842,
+            46.176601440844415
+          ]
+        },
+        {
+          "id": "Q07",
+          "error_ground_m": 226.05427328785456,
+          "predicted_lonlat": [
+            -61.07613232920155,
+            46.106951223029235
+          ]
+        },
+        {
+          "id": "V01",
+          "error_ground_m": 100.19382912571555,
+          "predicted_lonlat": [
+            -61.06666403665502,
+            46.21110689891396
+          ]
+        },
+        {
+          "id": "V04",
+          "error_ground_m": 98.90600919612596,
+          "predicted_lonlat": [
+            -61.11543075623994,
+            46.12771484653755
+          ]
+        }
+      ],
+      "orientation": {
+        "samples": 71721,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -29.029888759312406,
+          -18.511130388079973
+        ]
+      },
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/sheet-13-full-sheet.tif",
+        "sha256": "c432e6ec72c17c6d8522a5ee3c3351e3ff30209e402ab733bf2cd0885d06c0a3",
+        "size": [
+          8680,
+          5763
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.2311011,
+                46.2747938
+              ],
+              [
+                -61.2311011,
+                46.0955848
+              ],
+              [
+                -60.8412323,
+                46.0955848
+              ],
+              [
+                -60.8412323,
+                46.2747938
+              ],
+              [
+                -61.2311011,
+                46.2747938
+              ]
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "fit_sha256": "2ae5ef8d16c4ab1209367778466dc4720f04727e093768ffa1f716f4465277a1",
+      "boundary_sha256": "f7cd2eca10af9fb59a12d66abc02926d57f739f0da11b01f6eddc2822023f746",
+      "scope": "Complete inner neatline, no corridor or control-hull clipping",
+      "check_status": "Supplied frozen check set; see check file for independence and revision history",
+      "checks_sha256": "843b34cf51d25437e0b7bbba1dcf0c764585828b3f33e35d4a41c9136f607967",
+      "median_ground_m": 99.87811524580265,
+      "worst_ground_m": 256.3745050455264,
+      "points": [
+        {
+          "id": "Q01",
+          "error_ground_m": 2.705586504418733,
+          "predicted_lonlat": [
+            -61.17037383376621,
+            46.256425016347904
+          ]
+        },
+        {
+          "id": "Q03",
+          "error_ground_m": 92.2395735205882,
+          "predicted_lonlat": [
+            -60.89106178660162,
+            46.228406507951384
+          ]
+        },
+        {
+          "id": "Q04",
+          "error_ground_m": 256.3745050455264,
+          "predicted_lonlat": [
+            -61.04503916272608,
+            46.17624634987139
+          ]
+        },
+        {
+          "id": "Q07",
+          "error_ground_m": 217.52473515459675,
+          "predicted_lonlat": [
+            -61.07618868475282,
+            46.10711648446603
+          ]
+        },
+        {
+          "id": "V01",
+          "error_ground_m": 101.0108007405467,
+          "predicted_lonlat": [
+            -61.066667426911025,
+            46.21111682197885
+          ]
+        },
+        {
+          "id": "V04",
+          "error_ground_m": 98.7454297510586,
+          "predicted_lonlat": [
+            -61.11543276793849,
+            46.1277207435862
+          ]
+        },
+        {
+          "id": "F01",
+          "error_ground_m": 154.07300490965125,
+          "predicted_lonlat": [
+            -61.06961557858213,
+            46.12358458631246
+          ]
+        },
+        {
+          "id": "F03",
+          "error_ground_m": 29.900806159998126,
+          "predicted_lonlat": [
+            -61.17257689607015,
+            46.26142470875262
+          ]
+        }
+      ],
+      "orientation": {
+        "samples": 71721,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -29.76524298618211,
+          -18.28362640872746
+        ]
+      },
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/sheet-13-full-sheet.tif",
+        "sha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2",
+        "size": [
+          8678,
+          5773
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.2311011,
+                46.2751353
+              ],
+              [
+                -61.2311011,
+                46.0956159
+              ],
+              [
+                -60.8413221,
+                46.0956159
+              ],
+              [
+                -60.8413221,
+                46.2751353
+              ],
+              [
+                -61.2311011,
+                46.2751353
+              ]
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "scope": "Provenance, computational and rendering verification. Geographic acceptance remains false."
+}

@@ -1,0 +1,17 @@
+exec(open('reports/fletcher/sheet07/point_tools.py').read())
+pts=[]
+def node(i,xy,k,e):
+ r=nodes[k].copy();r.update(id=i,role='control',pixel_xy=xy,modern_node_id=k,identity_evidence=e,source_uncertainty_px=20,status='Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting.');pts.append(r)
+node('C01',[1469,1598],'J0223','Northwestern brook small southern tributary')
+node('C02',[3214,2272],'J0286','Pathend Brook coastal mouth')
+node('C03',[3125,2486],'J0311','Morrison Brook coastal mouth')
+node('C04',[2880,2887],'J0344','McLeod Brook coastal mouth')
+node('C05',[1920,2963],'J0355','Ferry Brook western tributary confluence')
+node('C06',[2473,4038],'J0431','Wreck Cove Brook coastal mouth')
+node('C07',[1535,3981],'J0426','Mill Brook southwestern tributary confluence')
+node('C08',[2307,4350],'J0462','Mill Brook coastal mouth')
+node('C09',[2074,5269],'J0556','North Shore main brook coastal mouth')
+node('C11',[1525,5680],'J0598','Northern brook above Breeding Cove western tributary')
+node('C12',[1622,6020],'J0606','Western inlet to large Breeding Cove pond')
+r=select([1540,5900,1680,6000],1,'max').copy();r.update(id='C10',role='control',pixel_xy=[1720,5920],identity_evidence='Large Breeding Cove pond northern shore tip',source_uncertainty_px=20,status='Unreviewed shore proposal; water body component identity must be established before fitting.');pts.append(r)
+(D/'candidate-controls.json').write_text(json.dumps(dict(sheet='sheet-07',source_sha256=json.loads((D/'source-receipt.json').read_text())['source_sha256'],points=pts),indent=2)+'\n')

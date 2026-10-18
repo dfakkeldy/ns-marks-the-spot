@@ -1,0 +1,16 @@
+{
+  "sunday": {
+    "key": "CBLBV",
+    "point_in_selected_ring": true,
+    "reference_feature_ids": [
+      139421,
+      139422,
+      139423
+    ]
+  },
+  "lake_of_islands": {
+    "key": "CARRN",
+    "point_in_selected_ring": true
+  },
+  "scope": "Official name points corroborate basin identity only. Existing measured centroids and first results unchanged. They do not eliminate historical geometry distortion or provide GCP coordinates."
+}

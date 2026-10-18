@@ -212,6 +212,27 @@ struct ReleaseReadinessTests {
         #expect(Bundle.main.url(forResource: "Tiles", withExtension: nil) == nil)
         #expect(Bundle.main.url(forResource: "Tiles/Fletcher/11/676/724", withExtension: "png") == nil)
     }
+
+    /// The Info sheet's version footer and feedback subject both come from
+    /// these formatters. A beta report is only traceable to its build if the
+    /// build number survives formatting — and a preview host with no version
+    /// must produce no row rather than "Version  ()".
+    @Test func versionDescriptionFormatsMarketingAndBuildNumbers() {
+        #expect(
+            InfoSheetView.versionDescription(shortVersion: "1.0", build: "7") == "1.0 (7)"
+        )
+        #expect(InfoSheetView.versionDescription(shortVersion: "1.0", build: nil) == "1.0")
+        #expect(InfoSheetView.versionDescription(shortVersion: "1.0", build: "") == "1.0")
+        #expect(InfoSheetView.versionDescription(shortVersion: nil, build: "7") == nil)
+        #expect(InfoSheetView.versionDescription(shortVersion: "", build: "7") == nil)
+    }
+
+    @Test func feedbackSubjectCarriesTheBuildWhenThereIsOne() {
+        #expect(
+            InfoSheetView.feedbackSubject(version: "1.0 (7)") == "NS Marks The Spot 1.0 (7)"
+        )
+        #expect(InfoSheetView.feedbackSubject(version: nil) == "NS Marks The Spot")
+    }
 }
 
 /// Both suites below drive the same stubbed `URLProtocol`, whose response is a
@@ -408,6 +429,22 @@ struct TileStubbedSuites {
             await #expect(throws: TileFetcherError.invalidContentType("application/json")) {
                 _ = try await fetcher.imageData(from: url)
             }
+        }
+
+        /// Every provincial map image comes through `imageData`, on screen,
+        /// in print and in saved areas, so the request it sends has to name
+        /// the app: that is how the Province tells the public's traffic from
+        /// bulk scraping.
+        @Test func imageRequestsIdentifyThisApp() async throws {
+            let png = try #require(Data(base64Encoded: Self.onePixelPNGBase64))
+            TileFetcherURLProtocol.reset(statusCode: 200, contentType: "image/png", data: png)
+            let fetcher = TileFetcher(urlSession: makeURLSession())
+            let url = try #require(URL(string: "https://example.com/arcgis/rest/services/layer/MapServer/export"))
+
+            _ = try await fetcher.imageData(from: url)
+
+            let request = try #require(TileFetcherURLProtocol.requests.first)
+            #expect(request.value(forHTTPHeaderField: "User-Agent") == ClientIdentity.userAgent)
         }
 
         static let onePixelPNGBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII="

@@ -111,6 +111,27 @@ struct UserVectorParseTests {
         #expect(refused.code == .emptyFile)
     }
 
+    /// The app's store reads its own files with this parser. A drawn layer
+    /// with no features yet is a legitimate empty collection there, not a
+    /// file with nothing to import, and refusing it made the layer
+    /// unreadable after relaunch. The import default keeps refusing.
+    @Test func aStoredEmptyCollectionReadsBackWhenTheCallerAllowsIt() throws {
+        let empty = Data(#"{"type":"FeatureCollection","features":[]}"#.utf8)
+        let parsed = try UserVectorParse.parseGeoJson(empty, allowingEmpty: true)
+        #expect(parsed.featureCount == 0)
+        #expect(parsed.bbox == nil)
+
+        // Only a collection that is empty is let through; a collection whose
+        // features have nothing to draw is still refused.
+        let nothingToDraw = Data(
+            #"{"type":"FeatureCollection","features":[{"type":"Feature","geometry":null,"properties":{}}]}"#
+                .utf8
+        )
+        #expect(throws: UserMapImportRefusal.self) {
+            try UserVectorParse.parseGeoJson(nothingToDraw, allowingEmpty: true)
+        }
+    }
+
     /// A ring of two corners encloses no ground. Kept, it would be an invisible
     /// overlay that still gets hit-tested on every tap, in a layer that claims
     /// in the panel to be drawing. Refusing says which shape is wrong.

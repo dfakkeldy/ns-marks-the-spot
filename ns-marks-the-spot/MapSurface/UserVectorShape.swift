@@ -10,6 +10,9 @@ import UIKit
 nonisolated struct UserVectorDrawing: Identifiable, Equatable, Sendable {
     var record: UserVectorLayerRecord
     var parsed: ParsedVector
+    /// The feature to draw with the just-committed halo, if any. Part of the
+    /// drawing so the map's own diff sees it come and go.
+    var highlightedFeatureID: String? = nil
 
     var id: String { record.id }
 
@@ -90,7 +93,10 @@ nonisolated struct UserVectorDrawing: Identifiable, Equatable, Sendable {
                     position: position,
                     feature: feature,
                     record: record,
-                    style: VectorStyle.style(for: feature, layerColorHex: record.colorHex)
+                    style: VectorStyle.style(for: feature, layerColorHex: record.colorHex),
+                    pointStyle: VectorStyle.pointStyle(for: feature, layerColorHex: record.colorHex),
+                    hasPhotos: !PhotoDescriptor.read(from: feature.properties).isEmpty,
+                    isHighlighted: feature.id != nil && feature.id == highlightedFeatureID
                 )
             }
         }
@@ -130,6 +136,9 @@ nonisolated struct VectorDraftPreview: Equatable, Sendable {
     var vertices: [GeoJsonPosition]
     var colorHex: String
 
+    /// Only measurements carry a readout. Ordinary drawing vertices remain dots.
+    var endpointLabel: String? = nil
+
     /// The line through the vertices so far, closed for an area once it is a
     /// shape rather than a corner.
     func overlay() -> VectorDraftPolyline? {
@@ -150,8 +159,24 @@ nonisolated struct VectorDraftPreview: Equatable, Sendable {
     /// have put down — including the single tap of a point, which has no line.
     func handles() -> [VectorDraftVertexAnnotation] {
         vertices.enumerated().map { index, position in
-            VectorDraftVertexAnnotation(index: index, position: position, colorHex: colorHex)
+            VectorDraftVertexAnnotation(
+                index: index, position: position, colorHex: colorHex,
+                endpointLabel: index == vertices.count - 1 ? endpointLabel : nil
+            )
         }
+    }
+}
+
+extension VectorDraftPreview {
+    init(measuring session: MeasureSession) {
+        self.init(
+            shape: session.mode == .distance ? .line : .area,
+            vertices: session.points.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) },
+            colorHex: "#d97706",
+            endpointLabel: session.canFinish
+                ? "\(session.mode == .distance ? "Total distance" : "Area")\n\(session.readout)"
+                : nil
+        )
     }
 }
 
@@ -222,10 +247,17 @@ nonisolated final class VectorDraftVertexAnnotation: MKPointAnnotation,
 {
     let mapAnnotationID: String
     let colorHex: String
+    /// Which corner this is, counting from one, so VoiceOver can tell
+    /// identical dots apart the way it already tells the selection's handles
+    /// apart.
+    let ordinal: Int
+    let endpointLabel: String?
 
-    init(index: Int, position: GeoJsonPosition, colorHex: String) {
+    init(index: Int, position: GeoJsonPosition, colorHex: String, endpointLabel: String? = nil) {
         mapAnnotationID = "draft-vertex-\(index)"
         self.colorHex = colorHex
+        ordinal = index + 1
+        self.endpointLabel = endpointLabel
         super.init()
         coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
     }
@@ -285,8 +317,18 @@ nonisolated struct VectorSelectionHandles: Equatable, Sendable {
         self.colorHex = colorHex
     }
 
-    func handles() -> [VectorVertexHandleAnnotation] {
-        var annotations: [VectorVertexHandleAnnotation] = []
+    /// One draggable corner, addressed the way `VectorEdit.moving` wants it.
+    struct Corner: Equatable, Sendable {
+        var ring: Int
+        var vertex: Int
+        var position: GeoJsonPosition
+    }
+
+    /// The corners a reader can move, in ring order, without the closing
+    /// duplicate of a ring. The same list the handles are made from, so the
+    /// panel's "corner 3 of 5" is the third handle on the map.
+    static func corners(of rings: [[GeoJsonPosition]]) -> [Corner] {
+        var corners: [Corner] = []
         for (ring, positions) in rings.enumerated() {
             for (vertex, position) in positions.enumerated() {
                 // A closed ring's last position is its first one. Two handles
@@ -297,15 +339,96 @@ nonisolated struct VectorSelectionHandles: Equatable, Sendable {
                 {
                     continue
                 }
-                annotations.append(
-                    VectorVertexHandleAnnotation(
-                        featureID: featureID, ring: ring, vertex: vertex,
-                        position: position, colorHex: colorHex
-                    )
-                )
+                corners.append(Corner(ring: ring, vertex: vertex, position: position))
             }
         }
-        return annotations
+        return corners
+    }
+
+    /// The reshapable corners of a feature; empty for one with too many, and
+    /// for one with no id, which no edit could be addressed to.
+    static func corners(of feature: GeoJsonFeature) -> [Corner] {
+        guard feature.id != nil, isReshapable(feature), let geometry = feature.geometry else {
+            return []
+        }
+        return corners(of: VectorEdit.rings(of: geometry))
+    }
+
+    func handles() -> [VectorVertexHandleAnnotation] {
+        let corners = Self.corners(of: rings)
+        return corners.enumerated().map { index, corner in
+            VectorVertexHandleAnnotation(
+                featureID: featureID, ring: corner.ring, vertex: corner.vertex,
+                position: corner.position, colorHex: colorHex,
+                ordinal: index + 1, total: corners.count
+            )
+        }
+    }
+}
+
+/// The view a vertex or move handle is drawn in.
+///
+/// MapKit's contract for a draggable annotation view: the map view moves it
+/// to `.starting`, `.canceling` and `.ending` on its own, and the implementer
+/// moves it on to `.dragging` and back to `.none`. A plain `MKAnnotationView`
+/// never does, so a handle was left in `.ending` after its first drag, handed
+/// back by the reuse queue in that state, and could not be dragged again.
+/// `super` is told the state MapKit set first, so the delegate still sees
+/// `.starting` and `.ending`; the follow-on state is set straight after.
+nonisolated final class VectorHandleAnnotationView: MKAnnotationView {
+    override func setDragState(_ newState: MKAnnotationView.DragState, animated: Bool) {
+        super.setDragState(newState, animated: animated)
+        switch newState {
+        case .starting:
+            dragState = .dragging
+        case .ending, .canceling:
+            dragState = .none
+        case .none, .dragging:
+            break
+        @unknown default:
+            break
+        }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        dragState = .none
+    }
+}
+
+/// The handle a selected feature's corner is drawn as: a white disc with a
+/// coloured rim and centre, on a 44-point canvas.
+///
+/// Unlike the small hollow draft dot on purpose: those cannot be dragged and
+/// these can, and two handles that looked alike made the drag feel absent.
+/// The canvas is the touch target; the disc is what is seen.
+nonisolated enum VectorVertexHandleImage {
+    private static let cache = MarkerImageCache()
+
+    static let canvasSize: CGFloat = 44
+    static let discDiameter: CGFloat = 22
+
+    static func image(colorHex: String) -> UIImage {
+        cache.image(for: colorHex) { render(colorHex: colorHex) }
+    }
+
+    private static func render(colorHex: String) -> UIImage {
+        let canvas = canvasSize
+        let colour = UIColor(featureHex: colorHex)
+        let disc = CGRect(
+            x: (canvas - discDiameter) / 2, y: (canvas - discDiameter) / 2,
+            width: discDiameter, height: discDiameter
+        )
+        return UIGraphicsImageRenderer(size: CGSize(width: canvas, height: canvas)).image { _ in
+            UIColor.white.setFill()
+            UIBezierPath(ovalIn: disc).fill()
+            let rim = UIBezierPath(ovalIn: disc.insetBy(dx: 1.5, dy: 1.5))
+            rim.lineWidth = 3
+            colour.setStroke()
+            rim.stroke()
+            colour.setFill()
+            UIBezierPath(ovalIn: disc.insetBy(dx: 8, dy: 8)).fill()
+        }
     }
 }
 
@@ -318,13 +441,23 @@ nonisolated final class VectorVertexHandleAnnotation: MKPointAnnotation,
     let ring: Int
     let vertex: Int
     let colorHex: String
+    /// Which corner this is of how many, as the panel counts them, so
+    /// VoiceOver can tell four identical handles apart; a total of one is a
+    /// point, not a corner.
+    let ordinal: Int
+    let total: Int
 
-    init(featureID: String, ring: Int, vertex: Int, position: GeoJsonPosition, colorHex: String) {
+    init(
+        featureID: String, ring: Int, vertex: Int, position: GeoJsonPosition, colorHex: String,
+        ordinal: Int = 1, total: Int = 1
+    ) {
         mapAnnotationID = "vertex-\(featureID)-\(ring)-\(vertex)"
         self.featureID = featureID
         self.ring = ring
         self.vertex = vertex
         self.colorHex = colorHex
+        self.ordinal = ordinal
+        self.total = total
         super.init()
         coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
     }
@@ -365,13 +498,19 @@ nonisolated enum VectorMoveHandleImage {
         cache.image(for: colorHex) { render(colorHex: colorHex) }
     }
 
+    static let canvasSize: CGFloat = 44
+    static let discDiameter: CGFloat = 36
+
     private static func render(colorHex: String) -> UIImage {
-        let diameter: CGFloat = 30
-        let size = CGSize(width: diameter, height: diameter)
-        return UIGraphicsImageRenderer(size: size).image { _ in
-            let circle = UIBezierPath(
-                ovalIn: CGRect(x: 1, y: 1, width: diameter - 2, height: diameter - 2)
-            )
+        // A 44-point canvas, the touch target the guidelines ask for; the
+        // disc inside it is what is seen.
+        let canvas = canvasSize
+        let disc = CGRect(
+            x: (canvas - discDiameter) / 2, y: (canvas - discDiameter) / 2,
+            width: discDiameter, height: discDiameter
+        )
+        return UIGraphicsImageRenderer(size: CGSize(width: canvas, height: canvas)).image { _ in
+            let circle = UIBezierPath(ovalIn: disc.insetBy(dx: 1, dy: 1))
             UIColor(featureHex: colorHex).setFill()
             circle.fill()
             UIColor.white.setStroke()
@@ -381,7 +520,7 @@ nonisolated enum VectorMoveHandleImage {
             let glyph = UIImage(systemName: "arrow.up.and.down.and.arrow.left.and.right")?
                 .withTintColor(.white, renderingMode: .alwaysOriginal)
             glyph?.draw(
-                in: CGRect(x: diameter / 2 - 7, y: diameter / 2 - 7, width: 14, height: 14)
+                in: CGRect(x: canvas / 2 - 9, y: canvas / 2 - 9, width: 18, height: 18)
             )
         }
     }
@@ -418,15 +557,31 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
     let mapAnnotationID: String
     let layerID: String
     let style: UserVectorStyle
+    /// How the marker is drawn: solid by default, the file's own look when
+    /// it gave one.
+    let pointStyle: VectorStyle.PointStyle
     let provenance: String
+    /// Set for photo-map / bulk-photo points so MapKit clusters them.
+    let clusteringIdentifier: String?
+    /// The point carries photos, and its marker says so.
+    let hasPhotos: Bool
+    /// Just committed: drawn with a halo for a moment.
+    let isHighlighted: Bool
 
     init(
         position: GeoJsonPosition,
         feature: GeoJsonFeature,
         record: UserVectorLayerRecord,
-        style: UserVectorStyle
+        style: UserVectorStyle,
+        pointStyle: VectorStyle.PointStyle? = nil,
+        hasPhotos: Bool = false,
+        isHighlighted: Bool = false
     ) {
         layerID = record.id
+        self.pointStyle = pointStyle
+            ?? VectorStyle.PointStyle(fillHex: style.fillHex, fillOpacity: 1, rimHex: "#ffffff")
+        self.hasPhotos = hasPhotos
+        self.isHighlighted = isHighlighted
         // Layer-qualified: two imported layers can both hold a feature the
         // parser called `feature-1`, and an id that collided would select the
         // wrong one.
@@ -434,6 +589,12 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
         self.style = style
         let callout = VectorFeatureCallout(feature: feature, record: record)
         provenance = callout.provenance
+        // Layer-qualified: a cluster is opened as one card, and a card can
+        // load photos from one layer's store. Two photo layers at one spot
+        // stay two clusters. Only points that carry photos cluster: a plain
+        // point drawn into a photo layer is not a photo, and a cluster that
+        // counted it as one would be wrong.
+        clusteringIdentifier = record.source == .photos && hasPhotos ? "nsmts-photos-\(record.id)" : nil
         super.init()
         title = callout.title
         subtitle = callout.detail
@@ -446,27 +607,72 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
 /// A fixed size in points rather than a circle on the ground: an imported
 /// waypoint is a position, and a circle that grew with the zoom would read as a
 /// measured radius around it that the file never claimed.
+///
+/// Twenty points of solid colour in a white casing, on a 44-point canvas.
+/// The twelve-point ring at a quarter opacity this used to be took the
+/// polygon fill default, and over dark imagery a point vanished the instant
+/// it was deselected. The disc sits centred on the larger canvas so the halo
+/// and the photo badge never move it off its coordinate; the canvas is the
+/// touch target, at the guidelines' minimum.
 nonisolated enum UserVectorMarkerImage {
     private static let cache = MarkerImageCache()
 
-    static func image(for style: UserVectorStyle) -> UIImage {
-        let key = "\(style.fillHex)|\(style.fillOpacity)|\(style.strokeHex)|\(style.strokeOpacity)|\(style.weight)"
-        return cache.image(for: key) { render(style) }
+    static let discDiameter: CGFloat = 20
+    static let canvasSize: CGFloat = 44
+    static let haloDiameter: CGFloat = 34
+
+    static func image(
+        for style: VectorStyle.PointStyle, hasPhotos: Bool = false, isHighlighted: Bool = false
+    ) -> UIImage {
+        let key = "\(style.fillHex)|\(style.fillOpacity)|\(style.rimHex)|\(style.rimOpacity)|\(style.rimWidth)|\(hasPhotos)|\(isHighlighted)"
+        return cache.image(for: key) {
+            render(style, hasPhotos: hasPhotos, isHighlighted: isHighlighted)
+        }
     }
 
-    private static func render(_ style: UserVectorStyle) -> UIImage {
-        let radius: CGFloat = 6
-        let inset = CGFloat(style.weight)
-        let size = CGSize(width: (radius + inset) * 2, height: (radius + inset) * 2)
-        return UIGraphicsImageRenderer(size: size).image { _ in
-            let circle = UIBezierPath(
-                ovalIn: CGRect(x: inset, y: inset, width: radius * 2, height: radius * 2)
-            )
-            UIColor(featureHex: style.fillHex, alpha: style.fillOpacity).setFill()
-            circle.fill()
-            UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).setStroke()
-            circle.lineWidth = inset
-            circle.stroke()
+    private static func render(
+        _ style: VectorStyle.PointStyle, hasPhotos: Bool, isHighlighted: Bool
+    ) -> UIImage {
+        let canvas = canvasSize
+        let colour = UIColor(featureHex: style.fillHex, alpha: style.fillOpacity)
+        let discRect = CGRect(
+            x: (canvas - discDiameter) / 2, y: (canvas - discDiameter) / 2,
+            width: discDiameter, height: discDiameter
+        )
+        return UIGraphicsImageRenderer(size: CGSize(width: canvas, height: canvas)).image { _ in
+            if isHighlighted {
+                // The just-committed halo: the layer's colour, translucent.
+                UIColor(featureHex: style.fillHex, alpha: 0.35).setFill()
+                UIBezierPath(
+                    ovalIn: CGRect(
+                        x: (canvas - haloDiameter) / 2, y: (canvas - haloDiameter) / 2,
+                        width: haloDiameter, height: haloDiameter
+                    )
+                ).fill()
+            }
+            // The whole disc is the fill; the rim is a ring stroked over its
+            // edge, its width and opacity the file's when the file gave them.
+            // Over, not instead: a transparent or translucent rim shows the
+            // fill beneath it rather than a hole down to the map.
+            let rim = CGFloat(style.rimWidth)
+            colour.setFill()
+            UIBezierPath(ovalIn: discRect).fill()
+            if rim > 0 {
+                let ring = UIBezierPath(ovalIn: discRect.insetBy(dx: rim / 2, dy: rim / 2))
+                ring.lineWidth = rim
+                UIColor(featureHex: style.rimHex, alpha: style.rimOpacity).setStroke()
+                ring.stroke()
+            }
+            if hasPhotos {
+                // A camera on a white badge at the disc's top right: a point
+                // that carries photos says so before it is tapped.
+                let badge = CGRect(x: discRect.maxX - 8, y: discRect.minY - 4, width: 12, height: 12)
+                UIColor.white.setFill()
+                UIBezierPath(ovalIn: badge).fill()
+                UIImage(systemName: "camera.fill")?
+                    .withTintColor(UIColor(featureHex: style.fillHex), renderingMode: .alwaysOriginal)
+                    .draw(in: badge.insetBy(dx: 2.5, dy: 3))
+            }
         }
     }
 }

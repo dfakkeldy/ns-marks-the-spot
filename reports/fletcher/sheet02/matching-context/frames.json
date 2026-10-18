@@ -1,0 +1,28 @@
+[
+  {
+    "name": "north",
+    "native_box": [
+      1250,
+      950,
+      5100,
+      4000
+    ],
+    "source_image": "north-grid.jpg",
+    "modern_image": "north-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossings retained; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "south",
+    "native_box": [
+      1250,
+      3800,
+      5100,
+      6510
+    ],
+    "source_image": "south-grid.jpg",
+    "modern_image": "south-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossings retained; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]

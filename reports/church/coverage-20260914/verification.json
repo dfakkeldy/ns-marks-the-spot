@@ -1,0 +1,15 @@
+{
+  "numerical_replays": 37,
+  "source_reference_observations": 8,
+  "fresh_affine_checks": 6,
+  "preserved_predecessor_inputs": true,
+  "raster_sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "geographic_acceptance": false,
+  "recorded_at": "2026-09-14T06:47:25.469108+00:00",
+  "command": "PYTHONPATH=. /opt/local/bin/python3.12 reports/church/coverage-20260914/verify_reports.py",
+  "church_unit_tests": {
+    "command": "python3 -m unittest discover -s tools/church/tests -t .",
+    "tests": 428,
+    "result": "passed"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "bbox": "-60.90,45.64,-59.68,46.38",
+  "count": 30864,
+  "sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "retrieved": "2026-09-13T03:43:57.967244+00:00",
+  "crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "method": "existing paged fetch helper, complete original geometry",
+  "path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson"
+}
