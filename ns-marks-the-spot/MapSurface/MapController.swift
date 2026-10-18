@@ -43,6 +43,52 @@ enum MapEvent {
 /// mutate the desired state and apply it.
 @Observable
 final class MapController: NSObject {
+#if DEBUG
+    @ObservationIgnored private var layersDiagnosticEntries: [String] = []
+    @ObservationIgnored private var layersDiagnosticSequence = 0
+    @ObservationIgnored private var layersDiagnosticRecognizers: Set<ObjectIdentifier> = []
+
+    private static let layersDiagnosticsEnabled =
+        ProcessInfo.processInfo.arguments.contains("UITestMode")
+        && ProcessInfo.processInfo.arguments.contains("LayersInteractionDiagnostic")
+
+    /// Bounded evidence for the isolated Layers diagnostic, not a release
+    /// feature. Only synthetic screen positions and interaction state enter
+    /// this trace; no geographic coordinates, provider data or user files.
+    func recordLayersDiagnostic(_ message: @autoclosure () -> String) {
+        guard Self.layersDiagnosticsEnabled else { return }
+        layersDiagnosticSequence += 1
+        layersDiagnosticEntries.append(
+            "\(layersDiagnosticSequence) @\(Date().timeIntervalSince1970) uptime=\(ProcessInfo.processInfo.systemUptime): \(message())"
+        )
+        if layersDiagnosticEntries.count > 200 { layersDiagnosticEntries.removeFirst() }
+        mapView?.accessibilityValue = layersDiagnosticEntries.joined(separator: "\n")
+    }
+
+    /// Observes existing recognizers only. It installs no recognizer,
+    /// delegate, failure requirement or recognition decision.
+    func observeLayersDiagnosticGestures(in view: UIView) {
+        guard Self.layersDiagnosticsEnabled else { return }
+        for recognizer in view.gestureRecognizers ?? [] {
+            guard layersDiagnosticRecognizers.insert(ObjectIdentifier(recognizer)).inserted else { continue }
+            recognizer.addTarget(self, action: #selector(observedLayersDiagnosticGesture(_:)))
+            recordLayersDiagnostic("observe \(Self.layersDiagnosticDescription(recognizer))")
+        }
+        for child in view.subviews { observeLayersDiagnosticGestures(in: child) }
+    }
+
+    @objc private func observedLayersDiagnosticGesture(_ recognizer: UIGestureRecognizer) {
+        recordLayersDiagnostic("recognized \(Self.layersDiagnosticDescription(recognizer)) point=\(recognizer.location(in: mapView))")
+    }
+
+    private static func layersDiagnosticDescription(_ recognizer: UIGestureRecognizer) -> String {
+        var description = "\(type(of: recognizer)) name=\(recognizer.name ?? "nil") state=\(recognizer.state.rawValue)"
+        if let tap = recognizer as? UITapGestureRecognizer {
+            description += " taps=\(tap.numberOfTapsRequired) touches=\(tap.numberOfTouchesRequired)"
+        }
+        return description
+    }
+#endif
     /// Whether the reader has asked the system for less motion.
     ///
     /// SwiftUI hands its own views `\.accessibilityReduceMotion`, and the app's
@@ -1962,12 +2008,18 @@ final class MapController: NSObject {
     }
 
     @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+#if DEBUG
+        recordLayersDiagnostic("identify action state=\(recognizer.state.rawValue) point=\(recognizer.location(in: mapView))")
+#endif
         guard recognizer.state == .ended,
               let mapView = recognizer.view as? MKMapView else { return }
         let coordinate = mapView.convert(
             recognizer.location(in: mapView), toCoordinateFrom: mapView
         )
         guard CLLocationCoordinate2DIsValid(coordinate) else { return }
+#if DEBUG
+        recordLayersDiagnostic("identify emits mapTapped handler=\(events != nil)")
+#endif
         events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
     }
 
@@ -2819,12 +2871,20 @@ extension MapController: UIGestureRecognizerDelegate {
     /// matures: a drag that started on a handle and crept off it before the
     /// press timer fired is the handle's, and must not become a placement.
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+#if DEBUG
+        if gestureRecognizer.name == Self.identifyTapName {
+            recordLayersDiagnostic("identify receives touch point=\(touch.location(in: gestureRecognizer.view)) view=\(touch.view.map { String(describing: type(of: $0)) } ?? "nil")")
+        }
+#endif
         guard gestureRecognizer.name == Self.placeLongPressName else { return true }
         return Self.longPressMayBegin(over: touch.view)
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.name == Self.identifyTapName {
+#if DEBUG
+            recordLayersDiagnostic("identify shouldBegin=\(!isSelectingBounds)")
+#endif
             return !isSelectingBounds
         }
         if gestureRecognizer.name == Self.placeLongPressName {
@@ -2855,6 +2915,9 @@ extension MapController: UIGestureRecognizerDelegate {
                 : nil
         guard let identify, let mapView = identify.view as? MKMapView else { return false }
         let other = identify === gestureRecognizer ? otherGestureRecognizer : gestureRecognizer
+#if DEBUG
+        recordLayersDiagnostic("simultaneous considers \(Self.layersDiagnosticDescription(other))")
+#endif
         guard let tap = other as? UITapGestureRecognizer,
               tap.numberOfTapsRequired == 1, tap.numberOfTouchesRequired == 1 else { return false }
         let point = identify.location(in: mapView)
@@ -2864,12 +2927,18 @@ extension MapController: UIGestureRecognizerDelegate {
         // A measurement badge is deliberately transparent to these taps.
         if Self.measurementEndpointCovers(point, in: mapView) { return true }
         var hit = mapView.hitTest(point, with: nil)
+#if DEBUG
+        recordLayersDiagnostic("simultaneous hit point=\(point) view=\(hit.map { String(describing: type(of: $0)) } ?? "nil")")
+#endif
         while let view = hit {
             // A selectable marker still owns its tap; do not identify the
             // parcel underneath it as a second action.
             if view is MKAnnotationView { return false }
             hit = view.superview
         }
+#if DEBUG
+        recordLayersDiagnostic("simultaneous allows bare map")
+#endif
         return true
     }
 

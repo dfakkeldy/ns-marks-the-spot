@@ -81,9 +81,12 @@ extension XCUIApplication {
     /// the app at that text size, which is the only way to ask a built layout
     /// what it does under Dynamic Type; the default leaves the launch exactly
     /// as it was, at the device's own setting.
-    static func launchedForUITests(textSize: String? = nil) -> XCUIApplication {
+    static func launchedForUITests(
+        textSize: String? = nil, diagnosticArguments: [String] = []
+    ) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments.append("UITestMode")
+        app.launchArguments += diagnosticArguments
         if let textSize {
             app.launchArguments += ["-UIPreferredContentSizeCategoryName", textSize]
         }

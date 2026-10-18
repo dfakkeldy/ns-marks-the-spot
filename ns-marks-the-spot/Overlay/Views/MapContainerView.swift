@@ -1299,11 +1299,17 @@ struct MapContainerView: View {
                 .disabled(isSelectingSaveArea || editSession != nil)
 
                 Button {
+#if DEBUG
+                    controller.recordLayersDiagnostic("layers button action before=\(isLayersMenuExpanded)")
+#endif
                     withAnimation(
                         .spring(response: 0.35, dampingFraction: 0.85)
                             .unlessReduced(reduceMotion)
                     ) {
                         isLayersMenuExpanded.toggle()
+#if DEBUG
+                        controller.recordLayersDiagnostic("layers button action after=\(isLayersMenuExpanded)")
+#endif
                     }
                 } label: {
                     MapControlIcon(
@@ -1392,6 +1398,9 @@ struct MapContainerView: View {
                 value: overlayVM.inspection
             )
             .onAppear {
+#if DEBUG
+                controller.recordLayersDiagnostic("container appears layers=\(isLayersMenuExpanded); installing event handler")
+#endif
                 controller.events = { event in
                     switch event {
                     case .headingChanged:
@@ -1543,6 +1552,9 @@ struct MapContainerView: View {
                             handleEditTap(session: editSession, latitude: latitude, longitude: longitude)
                         }
                     case .mapTapped(let latitude, let longitude):
+#if DEBUG
+                        controller.recordLayersDiagnostic("mapTapped route layers=\(isLayersMenuExpanded) measuring=\(measure != nil)")
+#endif
                         // An open layers panel takes the first tap on the map
                         // and spends it on closing itself.
                         //
@@ -1561,6 +1573,9 @@ struct MapContainerView: View {
                                     .unlessReduced(reduceMotion)
                             ) {
                                 isLayersMenuExpanded = false
+#if DEBUG
+                                controller.recordLayersDiagnostic("mapTapped set layers=false")
+#endif
                             }
                             break
                         }
@@ -1685,6 +1700,11 @@ struct MapContainerView: View {
                 // answer.
                 restoreCheckpointedWalk()
             }
+#if DEBUG
+            .onChange(of: isLayersMenuExpanded) { before, after in
+                controller.recordLayersDiagnostic("layers state observed \(before) -> \(after)")
+            }
+#endif
             // Spoken as well as drawn, which is what the web's polite live
             // region does. A reader using VoiceOver taps a button and needs to
             // be told the answer, not to go looking for where it appeared.
