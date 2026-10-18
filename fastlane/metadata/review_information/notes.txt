@@ -10,4 +10,4 @@ Location permission is optional and requested When In Use. It supports showing p
 
 A recording Live Activity shows elapsed time, distance and recording status, with Pause and Resume. It contains no coordinates and uses no remote activity-push server. Stop and Save are in the app. A local checkpoint can offer recovery after an interrupted recording; that checkpoint directory is excluded from system backup.
 
-Camera and Photos permissions are optional tools for attaching images to features. Imported maps, drawings, marks, tracks and attached photo files are stored locally; the user chooses any export or sharing destination.
+Camera access is optional for taking feature photos. Attaching selected images uses the system photo picker. The optional Photo map requests Photos access to display accessible geotagged library images on the map. Imported maps, drawings, marks, tracks and attached photo files are stored locally; the user chooses any export or sharing destination.
