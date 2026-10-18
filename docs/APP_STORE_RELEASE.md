@@ -75,9 +75,13 @@ Source configuration:
   Inspect the exported final app/extension entitlements before submission.
 - Background mode is `location` only. When In Use location supports positioning,
   marking and recording; `CLBackgroundActivitySession` exists only for an active
-  recording. No Always permission request/string is configured. Camera and
-  Photos purpose strings describe local feature photos and on-device photo-map
-  indexing. Live Activity shows elapsed time/distance and pause/resume, not
+  recording. No Always permission request/string is configured. Location purpose
+  string shows your position and, when you ask, saves a point or records a
+  track; viewing your area can send map and layer requests to selected
+  providers. Camera purpose string takes photos to attach to your map features.
+  Photos purpose string shows accessible geotagged library photos on your map;
+  viewing a photo's area can send map and layer requests to selected providers.
+  Live Activity shows elapsed time/distance and pause/resume, not
   coordinates; stop/save remain in the app.
 
 ## Store fields and prepared copy
