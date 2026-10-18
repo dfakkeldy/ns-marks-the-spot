@@ -48,7 +48,7 @@ final class MapController: NSObject {
     @ObservationIgnored private var layersDiagnosticSequence = 0
     @ObservationIgnored private var layersDiagnosticRecognizers: Set<ObjectIdentifier> = []
 
-    private static let layersDiagnosticsEnabled =
+    static let layersDiagnosticsEnabled =
         ProcessInfo.processInfo.arguments.contains("UITestMode")
         && ProcessInfo.processInfo.arguments.contains("LayersInteractionDiagnostic")
 

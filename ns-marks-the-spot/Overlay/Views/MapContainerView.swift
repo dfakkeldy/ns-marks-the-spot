@@ -1331,6 +1331,16 @@ struct MapContainerView: View {
                 // Edit rows would end the session under the reader's feet.
                 .disabled(isSelectingSaveArea || editSession != nil)
             }
+#if DEBUG
+            .background {
+                if MapController.layersDiagnosticsEnabled {
+                    LayersRailDiagnosticProbe(controller: controller) {
+                        "layers=\(isLayersMenuExpanded) selectingSave=\(isSelectingSaveArea) editing=\(editSession != nil) selectingBounds=\(controller.isSelectingBounds)"
+                    }
+                    .allowsHitTesting(false)
+                }
+            }
+#endif
             .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
                 controlsHeight = height
             }
@@ -1338,6 +1348,13 @@ struct MapContainerView: View {
                 controlsWidth = width
             }
         }
+#if DEBUG
+        .onScrollPhaseChange { before, after in
+            controller.recordLayersDiagnostic(
+                "rail scroll phase \(before) -> \(after) layers=\(isLayersMenuExpanded) selectingSave=\(isSelectingSaveArea) editing=\(editSession != nil)"
+            )
+        }
+#endif
         // The indicator is left visible. It appears only while the column is
         // actually scrolling, and that is the one moment a reader needs to be
         // told there is more of it below the fold.
@@ -3674,3 +3691,137 @@ private struct CompassResetButton: View {
         }
     }
 }
+#if DEBUG
+/// Observes only existing recognizers inside the control rail. Callback hit
+/// tests are contemporaneous samples, not proof of the original touch target.
+@MainActor
+private struct LayersRailDiagnosticProbe: UIViewRepresentable {
+    let controller: MapController
+    let flags: @MainActor () -> String
+
+    func makeUIView(context: Context) -> ProbeView {
+        let view = ProbeView()
+        view.controller = controller
+        view.flags = flags
+        view.isUserInteractionEnabled = false
+        view.isAccessibilityElement = false
+        view.accessibilityElementsHidden = true
+        return view
+    }
+
+    func updateUIView(_ view: ProbeView, context: Context) {
+        view.flags = flags
+        view.scheduleCoverage()
+    }
+
+    static func dismantleUIView(_ view: ProbeView, coordinator: ()) {
+        view.dismantle()
+    }
+
+    final class ProbeView: UIView {
+        private struct WeakGesture {
+            weak var recognizer: UIGestureRecognizer?
+        }
+        weak var controller: MapController?
+        var flags: (@MainActor () -> String)?
+        private var observed: [WeakGesture] = []
+        private var isAttached = false
+        private var isDismantled = false
+        private var coverageGeneration = 0
+        private var coverageScheduled = false
+        private var lastCoverage = ""
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            if window == nil {
+                stopObserving()
+            } else if !isDismantled {
+                isAttached = true
+                scheduleCoverage()
+            }
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            scheduleCoverage()
+        }
+
+        func scheduleCoverage() {
+            guard isAttached, !isDismantled, controller != nil,
+                  window != nil, !coverageScheduled else { return }
+            coverageScheduled = true
+            let generation = coverageGeneration
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.isAttached, !self.isDismantled,
+                      self.coverageGeneration == generation else { return }
+                self.coverageScheduled = false
+                self.refreshCoverage()
+            }
+        }
+
+        private func refreshCoverage() {
+            guard isAttached, !isDismantled, controller != nil, window != nil else { return }
+            var ancestors: [UIView] = []
+            var candidate = superview
+            while let view = candidate, ancestors.count < 12 {
+                ancestors.append(view)
+                if view is UIScrollView { break }
+                candidate = view.superview
+            }
+            guard let rail = ancestors.last as? UIScrollView else {
+                let coverage = "rail probe no scroll ancestor path=\(ancestors.map { String(describing: type(of: $0)) })"
+                if coverage != lastCoverage {
+                    lastCoverage = coverage
+                    controller?.recordLayersDiagnostic(coverage)
+                }
+                return
+            }
+            var recognizers: [UIGestureRecognizer] = ancestors.flatMap { $0.gestureRecognizers ?? [] }
+            func collect(_ view: UIView) {
+                recognizers += view.gestureRecognizers ?? []
+                for child in view.subviews { collect(child) }
+            }
+            collect(rail)
+            for recognizer in recognizers {
+                guard isAttached, !isDismantled else { return }
+                guard !observed.contains(where: { $0.recognizer === recognizer }) else { continue }
+                observed.append(WeakGesture(recognizer: recognizer))
+                recognizer.addTarget(self, action: #selector(observeGesture(_:)))
+                controller?.recordLayersDiagnostic("rail observes \(type(of: recognizer)) state=\(recognizer.state.rawValue)")
+            }
+            let coverage = "rail probe attached frame=\(rail.convert(rail.bounds, to: window)) recognizers=\(observed.compactMap(\.recognizer).count) \(flags?() ?? "flags unavailable")"
+            if coverage != lastCoverage {
+                lastCoverage = coverage
+                controller?.recordLayersDiagnostic(coverage)
+            }
+        }
+
+        @objc private func observeGesture(_ recognizer: UIGestureRecognizer) {
+            guard isAttached, !isDismantled, let window else { return }
+            let point = recognizer.location(in: window)
+            let hit = window.hitTest(point, with: nil)
+            controller?.recordLayersDiagnostic(
+                "rail callback \(type(of: recognizer)) state=\(recognizer.state.rawValue) point=\(point) hitSample=\(hit.map { String(describing: type(of: $0)) } ?? "nil") \(flags?() ?? "flags unavailable")"
+            )
+        }
+
+        func stopObserving() {
+            isAttached = false
+            coverageGeneration &+= 1
+            coverageScheduled = false
+            for entry in observed {
+                entry.recognizer?.removeTarget(self, action: #selector(observeGesture(_:)))
+            }
+            observed.removeAll()
+            lastCoverage = ""
+        }
+
+        func dismantle() {
+            isDismantled = true
+            stopObserving()
+            flags = nil
+            controller = nil
+        }
+    }
+}
+#endif
