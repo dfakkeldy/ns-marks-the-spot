@@ -14,6 +14,10 @@ final class ns_marks_the_spotUITests: XCTestCase {
         continueAfterFailure = false
     }
 
+    override func tearDownWithError() throws {
+        attachUIFailure()
+    }
+
     /// The three ways off the map, on screen rather than merely built. An
     /// element can exist and sit under the fold, which is the state this whole
     /// bundle was written to catch.
@@ -83,46 +87,55 @@ final class ns_marks_the_spotUITests: XCTestCase {
         )
     }
 
-    /// Compare a settled header's centre with its disclosure indicator. The
-    /// indicator probe is diagnostic only: it never makes the centre assertion
-    /// pass, and every cycle begins with a fresh app launch and one centre tap.
+    /// Compare first taps at the centre and indicator in separate fresh launches.
+    /// The indicator result cannot satisfy a failed centre assertion.
     @MainActor
     func testHistoricalSectionAcceptsACentreTap() throws {
+        let tapTargets: [(String, CGFloat)] = [("centre", 0.5), ("indicator", 0.97)]
         for cycle in 1...5 {
-            let app = XCUIApplication.launchedForUITests()
-            defer { app.terminate() }
-            let layers = app.buttons["toggle-layers-menu"]
-            XCTAssertTrue(layers.waitForHittable(timeout: timeout))
-            layers.tap()
-            XCTAssertTrue(app.buttons["Close layers menu"].waitForHittable(timeout: timeout))
+            var centreOpened = false
+            var observations: [String] = []
+            for (name, x) in tapTargets {
+                let app = XCUIApplication.launchedForUITests()
+                let layers = app.buttons["toggle-layers-menu"]
+                XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+                layers.tap()
+                XCTAssertTrue(app.buttons["Close layers menu"].waitForHittable(timeout: timeout))
 
-            let panel = app.scrollRegion("layer-panel-scroll")
-            let historical = app.buttons.matching(identifier: "layer-section-historical-maps").firstMatch
-            XCTAssertTrue(historical.waitForExistence(timeout: timeout))
-            XCTAssertTrue(app.scroll(historical, into: panel, fullyVisible: true))
-            XCTAssertTrue(historical.waitForStableFrame(in: panel, timeout: timeout))
-            let frame = historical.frame
-            historical.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
-            let fletcher = app.switches["Fletcher visibility"]
-            let centreOpened = fletcher.waitForExistence(timeout: timeout)
-            var indicatorOpened: Bool?
-            if !centreOpened {
-                let beforeProbe = XCTAttachment(string: app.debugDescription)
-                beforeProbe.name = "Centre tap failed, cycle \(cycle)"
-                beforeProbe.lifetime = .keepAlways
-                add(beforeProbe)
-                let screenshot = XCTAttachment(screenshot: app.screenshot())
-                screenshot.lifetime = .keepAlways
-                add(screenshot)
-                historical.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tap()
-                indicatorOpened = fletcher.waitForExistence(timeout: timeout)
+                let panel = app.scrollRegion("layer-panel-scroll")
+                let historical = app.buttons.matching(identifier: "layer-section-historical-maps").firstMatch
+                XCTAssertTrue(historical.waitForExistence(timeout: timeout))
+                let reached = app.scroll(historical, into: panel)
+                let scrollReceipt = "cycle=\(cycle) arm=\(name) reached=\(reached) header=\(historical.frame) panel=\(panel.frame)"
+                print(scrollReceipt)
+                XCTAssertTrue(reached, scrollReceipt)
+                // The experiment needs the tap point inside the visible panel.
+                // A full-rectangle containment check stopped the first hosted
+                // diagnostic before either tap despite a visible header. Keep
+                // the frame stable in the window and record both AX frames.
+                XCTAssertTrue(historical.waitForStableFrame(in: app.windows.firstMatch, timeout: timeout), scrollReceipt)
+                let frame = historical.frame
+                let point = CGPoint(x: frame.minX + frame.width * x, y: frame.midY)
+                let pointReceipt = "\(scrollReceipt) settledHeader=\(frame) tap=\(point)"
+                XCTAssertTrue(panel.frame.contains(point), pointReceipt)
+                historical.coordinate(withNormalizedOffset: CGVector(dx: x, dy: 0.5)).tap()
+                let opened = app.switches["Fletcher visibility"].waitForExistence(timeout: timeout)
+                if name == "centre" { centreOpened = opened }
+                let observation = "\(pointReceipt) opened=\(opened)"
+                print(observation)
+                observations.append(observation)
+                let receipt = XCTAttachment(string: observation + "\n" + app.debugDescription)
+                receipt.name = "Historical section first tap: \(name), cycle \(cycle)"
+                receipt.lifetime = .keepAlways
+                add(receipt)
+                if !opened {
+                    let screenshot = XCTAttachment(screenshot: app.screenshot())
+                    screenshot.lifetime = .keepAlways
+                    add(screenshot)
+                }
+                app.terminate()
             }
-            let observation = "cycle=\(cycle) frame=\(frame) centreOpened=\(centreOpened) indicatorOpened=\(String(describing: indicatorOpened))"
-            let receipt = XCTAttachment(string: observation)
-            receipt.name = "Historical section tap comparison"
-            receipt.lifetime = .keepAlways
-            add(receipt)
-            XCTAssertTrue(centreOpened, observation)
+            XCTAssertTrue(centreOpened, observations.joined(separator: "\n"))
         }
     }
 
