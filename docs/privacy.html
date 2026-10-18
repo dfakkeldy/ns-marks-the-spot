@@ -37,47 +37,20 @@
       <article class="content-shell">
         <p class="eyebrow">Privacy Policy</p>
         <h1>NS Marks The Spot</h1>
-        <p class="content-lede">Last updated September 13, 2026.</p>
+        <p class="content-lede">Native app policy and browser map information.</p>
 
         <section>
-          <h2>Summary</h2>
-          <p>
-            NS Marks The Spot does not require an account and does not include
-            advertising, analytics, tracking SDKs, or in-app purchases. Location access
-            is optional. When you choose to enable it, both the native app and the
-            browser map can show where you are, mark a point, or save a track locally
-            on the device.
-          </p>
+          <h2>Native iPhone And iPad App</h2>
+          <p>The native app is covered by the dedicated
+            <a href="https://kinnokilabs.com/nsmarksthespot-privacy/">NS Marks The Spot Privacy Policy</a>,
+            including map-provider requests, location and track recording, Photos,
+            local storage, system backups, sharing and support email.</p>
+          <p>The sections below describe the browser map. They do not replace
+            the dedicated native app policy.</p>
         </section>
 
         <section>
-          <h2>Location</h2>
-          <p>
-            If you grant location permission, the native app uses optional When In Use
-            location to show where you are on the map, to mark a point, and to record
-            a track. It does not ask for Always authorization. An active iOS recording
-            continues while the app is off screen — in a pocket or with the screen
-            locked — and iOS shows its own blue status-bar indicator for as long as
-            that recording session is held. While a track is recording, the Lock
-            Screen and Dynamic Island may show elapsed time and distance (never
-            coordinates) and may offer Pause and Resume; Stop and save stay in the
-            app. Anyone holding the locked phone can see that readout. While an iOS
-            recording is in progress, the app also writes a local checkpoint on the
-            device so that if iOS ends the app, the walk can be offered back at the
-            next launch. That checkpoint stays on the device, is not uploaded, and
-            is not a second tracking channel. It is cleared when you save the walk
-            to a layer or discard it. If you mark a point or save a track
-            recording, those geometries — and for a saved recording, the raw GPX
-            original — are stored locally as your user layers.
-            They are not uploaded by NS Marks The Spot. They leave the device only if
-            you export or share them yourself. The native app does not link location
-            to your identity, sell it, or use it for tracking.
-          </p>
-          <p>
-            The native app is built with Apple's MapKit. Apple map services and iOS may
-            process map and location requests as part of providing the system map
-            experience.
-          </p>
+          <h2>Browser Location</h2>
           <p>
             On the browser map, location is also optional and stays on your device. A
             live watch can show your position without saving it. A track recording in
@@ -95,7 +68,7 @@
         </section>
 
         <section>
-          <h2>Map And Tile Requests</h2>
+          <h2>Browser Map And Tile Requests</h2>
           <p>
             On the browser map, the default NS Marks Atlas (Day, Night, or System
             appearance) draws original NS Marks cartography over a pinned
@@ -123,15 +96,7 @@
             · © OpenStreetMap contributors; the Atlas is a hybrid, not wholly
             provincial. An explicit OpenStreetMap raster basemap remains
             available as a choice and as a fallback if the Atlas source fails.
-            The native app uses Apple MapKit. Its default NS Marks Atlas base
-            map (Day, Night, or Fletcher) is drawn from raster tiles published at
-            https://tiles.kinnokilabs.com/atlas-raster/ (public HTTP requests,
-            no app credentials). Those tiles were pre-rendered from the prior
-            provincial archive and OpenFreeMap context; they do not yet include
-            the browser Atlas Crown Land fills. The phone does not contact
-            OpenFreeMap or the provincial archive directly; Apple's standard,
-            satellite and hybrid maps and the OpenStreetMap raster remain
-            available as choices. Hugh Fletcher
+            Hugh Fletcher
             historical overlay tiles and Nova Scotia provincial geographic
             services are also displayed. Those map providers may receive
             standard network requests for the tiles or layers you view.
@@ -141,10 +106,7 @@
             Address Register shards from this app's own origin; the browser does
             not query Canada Post, a paid mailing API, or Statistics Canada live
             for that lookup. Those mailing records are addresses, not residents
-            or ownership. If you turn on parcel snapping
-            while drawing, the native app sends only a licence-gated viewport
-            rectangle to the same provincial parcel service the identify tool
-            already queries. If you turn on the optional live-conditions layers
+            or ownership. If you turn on the optional live-conditions layers
             in the browser map, your browser also requests camera imagery from
             511 Nova Scotia and radar tiles from Environment and Climate Change
             Canada's MSC GeoMet. If you turn on the optional Sentinel-2
@@ -169,32 +131,23 @@
         </section>
 
         <section>
-          <h2>Your Own Maps And Drawings</h2>
+          <h2>Your Browser Maps And Drawings</h2>
           <p>
             Maps you import, the placements you give them, the layers you draw, and
             GPS marks or tracks you save are stored only on your device. NS Marks The
             Spot does not upload them, and they leave the device only when you export
-            or share something yourself through the iOS share sheet. Features traced
+            or share something yourself. Features traced
             from parcel boundaries carry the not-a-survey caveat.
           </p>
           <p>
-            Photos you attach to features on the native app or the browser map are
-            stored only on your device. On the native app, Camera and Photos library
-            access are used when you attach a photo, and Photos library access is
-            also used to index geotagged photos for the on-device photo-library map.
-            Photos are re-encoded so
+            Photos you attach to features on the browser map are
+            stored only on your device. Photos are re-encoded so
             EXIF (including GPS) is stripped from stored and exported bytes. A KMZ
             export can embed those re-encoded photo bytes; GeoJSON and KML exports
             do not include photos. Attached photos and their locations leave this
             device only when you export or share a layer yourself. If a photo includes
             a geotag, that location is used only if you accept a one-time offer to
             move the point.
-          </p>
-          <p>
-            The native app can also show your photo library as a map layer. That
-            index stays on your device and is never uploaded. If you place
-            photos as points on the map, their geotags are read on the device to
-            create those points and are not uploaded.
           </p>
         </section>
 
@@ -210,10 +163,9 @@
 
         <section>
           <h2>Contact</h2>
-          <p>
-            Questions about privacy can be sent to
-            <a href="mailto:dfakkeldy@gmail.com">dfakkeldy@gmail.com</a>.
-          </p>
+          <p>Privacy questions can be sent to
+            <a href="mailto:hello@kinnokilabs.com">hello@kinnokilabs.com</a>.
+            The dedicated native app policy describes support-email handling.</p>
         </section>
       </article>
     </main>
