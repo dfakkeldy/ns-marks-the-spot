@@ -1,26 +1,13 @@
-NS Marks the Spot is a screening and research map for Nova Scotia property. It is built for tax-sale research, land curiosity, and field work — and it is honest about what a map can and cannot prove.
+Explore Nova Scotia with historical maps, public reference layers and tools for field notes.
 
-Find a property:
-- Search by PID or civic address, or open a shared map link.
-- Tap a parcel to open an inspector with the boundary drawn from provincial records.
-- Export an evidence note that records what each source answered, and when.
+NS Marks the Spot brings Fletcher historical imagery together with modern map backgrounds and public property information. Search by PID or civic address, inspect a selected parcel, and follow each record back to its source. Municipal tax-sale notices are dated public records, with their source identified; they are not listings or offers.
 
-Tax-sale research:
-- Browse municipal tax-sale notices as dated records, each tied to the notice it came from.
-- Bundled datasets carry the SHA-256 of the file they were built from, so a dataset cannot change without its receipt changing.
-- Historical results are kept separate from current notices, so a dated record never reads as a current offering.
+Compare available layers, measure distance and area, import your own maps, and draw your own features. Save Fletcher tiles for an offline area. Recently viewed tiles can redraw from the limited local cache; provincial reference layers and property lookups still need a connection.
 
-Layers and tools:
-- Nova Scotia reference layers: property boundaries, Crown lands, aerial imagery, zoning where a municipality publishes it, river and coastal flood zones, well-water risk, contours, waterfalls, and more.
-- Measure distance and area.
-- Export a framed PDF map with scale and attribution.
-- Import your own maps — an old scan can be placed by hand over today's map — and draw your own layers. Both stay on your device.
-- Historical overlay support, with saved offline areas that hold overlay sheets. Recently viewed tiles redraw without a connection.
-- NS Marks Atlas (Day, Night, Fletcher), OpenStreetMap, standard, satellite, and hybrid base maps.
+With optional location permission, show your position, place a mark or record a track. An active recording can continue off screen when iOS permits it. Tracks and imported files are stored locally. System backups may include them, depending on your device settings. You choose any export or sharing destination. Map services receive separate requests for the area you view.
 
-What it will not do:
-- Nothing here is a survey, a title search, or legal proof. Every parcel boundary is a drawing of a record, not a line on the ground.
-- An empty answer and a failed source are reported differently, and neither is treated as proof that nothing exists.
-- Not for route guidance or emergency use.
+Every layer identifies its source and licence. Some provincial features require acceptance of the Province of Nova Scotia's viewing terms, which you can withdraw in the app. Sources and export types with unconfirmed permissions remain locked.
 
-Every layer names its source, its scale, and its licence. Some provincial services require accepting the Province of Nova Scotia's licence, which you can withdraw in the app at any time. Location access is optional and only shows your position on the map.
+This is a screening and research tool. Parcel outlines are representations of records, not surveyed boundaries. Empty results and failed sources are distinguished. Nothing here establishes title, access rights, site conditions or flood risk. Not for navigation or emergency use.
+
+No NS Marks account is required.
