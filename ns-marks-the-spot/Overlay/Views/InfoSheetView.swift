@@ -107,8 +107,8 @@ struct InfoSheetView: View {
         "Every tax-sale notice ships inside the app with the SHA-256 of the file it was built from, so a dataset cannot change without its receipt changing.",
         "Unknown outcomes stay unknown. A result is never inferred, so a dated record cannot read as a current offering.",
         "An empty answer and a failed source are reported differently. Absence of evidence is never shown as evidence of absence.",
-        "No assessed-owner name is ingested. Saved areas and imported maps are stored on this device.",
-        "Location access is optional. When the map follows your position, map and layer requests can disclose the surrounding viewed area to the selected providers. Recorded tracks stay on this device unless you export or share them.",
+        "No assessed-owner name is ingested. Saved areas, imported maps and recorded tracks are stored locally. System backups may include saved library files, depending on your device settings.",
+        "Location access is optional. When the map follows your position, map and layer requests can disclose the surrounding viewed area to the selected providers. You choose any export or sharing destination.",
     ]
 
     /// Who made the map, which is part of what a reader is judging when they

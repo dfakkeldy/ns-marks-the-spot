@@ -4,7 +4,7 @@ NS Marks the Spot brings Fletcher historical imagery together with modern map ba
 
 Compare available layers, measure distance and area, import your own maps, and draw your own features. Save Fletcher tiles for an offline area. Recently viewed tiles can redraw from the limited local cache; provincial reference layers and property lookups still need a connection.
 
-With optional location permission, show your position, place a mark or record a track. An active recording can continue off screen when iOS permits it. Tracks and imported files stay on your device unless you choose to export or share them. Map services receive separate requests for the area you view.
+With optional location permission, show your position, place a mark or record a track. An active recording can continue off screen when iOS permits it. Tracks and imported files are stored locally. System backups may include them, depending on your device settings. You choose any export or sharing destination. Map services receive separate requests for the area you view.
 
 Every layer identifies its source and licence. Some provincial features require acceptance of the Province of Nova Scotia's viewing terms, which you can withdraw in the app. Sources and export types with unconfirmed permissions remain locked.
 
