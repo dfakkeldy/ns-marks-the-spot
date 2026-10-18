@@ -9,8 +9,7 @@ submission, pricing, agreement acceptance, or legal declarations.
 
 **Hold public release.** A recent internal upload exists, but the current native
 test gate now passes at the earlier documentation head and the native privacy
-link is implemented; native/offline rights and policy-content reconciliation
-remain unresolved. Complete those
+link is implemented; native/offline rights remain unresolved. Complete those
 bounded items before choosing a final build. Keep existing features intact while
 resolving them; any alternative release scope needs an explicit decision.
 
@@ -95,21 +94,25 @@ Existing source fields are in `fastlane/metadata/`:
 | Primary / secondary category | Reference / Education |
 | Promotional text | Existing 162-character text describes parcel search, dated notices, measuring and locked unconfirmed exports |
 | Keywords | Existing 92-byte list; validate the actual files before use |
-| Privacy URL | `https://kinnokilabs.com/privacy` |
+| Privacy URL | `https://dfakkeldy.github.io/ns-marks-the-spot/privacy.html` |
 | Support URL | `https://kinnokilabs.com/nsmarksthespot-help` |
 | Marketing URL | `https://kinnokilabs.com/apps/nsmarksthespot/map/` is a browser map; confirm the chosen public destination accurately presents the native app |
 | Review contact | Existing file-backed name/email; phone is required from the authorized secret or ignored local file. Verify in ASC without copying private values into this packet |
 | Copyright | Required in ASC; no `copyright.txt` is staged. Owner must confirm the exact line |
 | Price / territories / release timing | Unread in ASC; historical free/no-IAP intent is not a newly approved pricing or availability answer |
 
-The existing privacy URL returned HTTP 200 on 6 Oct and now appears in native
-Map Info with an accessibility identifier and a 44-point target. Its global
-policy still claims only Apple-service traffic and no servers, which does not
-reconcile the app's provincial/OSM/hosted-tile requests. Reachability and a link
-are therefore verified separately from policy accuracy. Prepare factual native
-network/photo/location/export disclosures and verify retention before owner
-confirmation; no public policy or legal answer changed. Support/marketing
-browser reachability and actual native link opening remain candidate checks.
+The native Map Info Privacy Policy link and the prepared App Store privacy URL
+both point to `https://dfakkeldy.github.io/ns-marks-the-spot/privacy.html`, the
+native NS Marks The Spot policy. Source is `docs/privacy.html`, published via
+[PR #610](https://github.com/dfakkeldy/ns-marks-the-spot/pull/610).
+[PR #611](https://github.com/dfakkeldy/ns-marks-the-spot/pull/611) switched
+those two links. The Map Info control keeps accessibility identifier
+`map-info.privacy-policy` and a 44-point target. The published page returned
+HTTP 200 after its Pages deployment. App Privacy answers in App Store Connect,
+selected signed-build checks, and owner confirmation remain release gates.
+Support/marketing browser reachability and actual native link opening remain
+candidate checks. This change is prepared source and metadata; it is not an
+App Store submission, approval or public release.
 
 The current `fastlane/metadata/en-US/description.txt` (after #606) is the
 prepared native store description. Copy it once the selected build's journey
