@@ -18,12 +18,16 @@ final class MapChromeUITests: XCTestCase {
         attachUIFailure()
         let map = XCUIApplication().descendants(matching: .any)
             .matching(NSPredicate(format: "label == %@", "Map of Nova Scotia")).firstMatch
-        if map.exists {
-            let trace = XCTAttachment(string: String(describing: map.value ?? "No diagnostic value"))
-            trace.name = "Map tap event path"
-            trace.lifetime = .keepAlways
-            add(trace)
-        }
+        let diagnostic = map.exists
+            ? String(describing: map.value ?? "TRACE_VALUE_ABSENT")
+            : "MAP_ABSENT"
+        // Successful CI does not archive xcresult. Preserve this synthetic,
+        // bounded trace in test stdout too, after the original assertions.
+        print("MAP_TAP_DIAGNOSTIC_BEGIN test=\(name)\n\(diagnostic)\nMAP_TAP_DIAGNOSTIC_END test=\(name)")
+        let trace = XCTAttachment(string: diagnostic)
+        trace.name = "Map tap event path: \(name)"
+        trace.lifetime = .keepAlways
+        add(trace)
         super.tearDown()
     }
 
