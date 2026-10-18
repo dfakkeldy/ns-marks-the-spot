@@ -83,10 +83,8 @@ struct InfoSheetView: View {
     /// deciding how much this map is claiming, and the answer has to be
     /// somewhere they can find it.
     ///
-    /// The location sentence is the one that had to be rewritten rather than
-    /// copied. The browser promises location never leaves the browser; here
-    /// the promise is about the device, which is the same promise in the only
-    /// words that are true of an app.
+    /// Following the device's position can request tiles and layers around
+    /// it. Explain those provider requests alongside the local track files.
     private var methodSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("How It Treats Data")
@@ -109,7 +107,8 @@ struct InfoSheetView: View {
         "Every tax-sale notice ships inside the app with the SHA-256 of the file it was built from, so a dataset cannot change without its receipt changing.",
         "Unknown outcomes stay unknown. A result is never inferred, so a dated record cannot read as a current offering.",
         "An empty answer and a failed source are reported differently. Absence of evidence is never shown as evidence of absence.",
-        "No assessed-owner name is ingested. Your location, your saved areas and the maps you import stay on this device.",
+        "No assessed-owner name is ingested. Saved areas and imported maps are stored on this device.",
+        "Location access is optional. When the map follows your position, map and layer requests can disclose the surrounding viewed area to the selected providers. Recorded tracks stay on this device unless you export or share them.",
     ]
 
     /// Who made the map, which is part of what a reader is judging when they
