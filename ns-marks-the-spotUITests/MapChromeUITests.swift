@@ -16,6 +16,14 @@ final class MapChromeUITests: XCTestCase {
 
     override func tearDown() {
         attachUIFailure()
+        let map = XCUIApplication().descendants(matching: .any)
+            .matching(NSPredicate(format: "label == %@", "Map of Nova Scotia")).firstMatch
+        if map.exists {
+            let trace = XCTAttachment(string: String(describing: map.value ?? "No diagnostic value"))
+            trace.name = "Map tap event path"
+            trace.lifetime = .keepAlways
+            add(trace)
+        }
         super.tearDown()
     }
 
