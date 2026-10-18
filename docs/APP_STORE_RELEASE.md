@@ -89,7 +89,7 @@ Existing source fields are in `fastlane/metadata/`:
 | Name | NS Marks the Spot |
 | Subtitle | Nova Scotia property research |
 | Primary / secondary category | Reference / Education |
-| Promotional text | Existing 169-character text describes parcel search, dated notices, measuring, PDF export and local imports |
+| Promotional text | Existing 162-character text describes parcel search, dated notices, measuring and locked unconfirmed exports |
 | Keywords | Existing 92-byte list; validate the actual files before use |
 | Privacy URL | `https://kinnokilabs.com/privacy` |
 | Support URL | `https://kinnokilabs.com/nsmarksthespot-help` |
@@ -107,48 +107,43 @@ network/photo/location/export disclosures and verify retention before owner
 confirmation; no public policy or legal answer changed. Support/marketing
 browser reachability and actual native link opening remain candidate checks.
 
-The following replacement description is ready to copy once the selected
-build's journey and content clearance are verified. It corrects the existing
-metadata's claim that location only displays position, and limits offline
-promises to what the native code implements:
+The current `fastlane/metadata/en-US/description.txt` (after #606) is the
+prepared native store description. Copy it once the selected build's journey
+and content clearance are verified:
 
 ```text
-NS Marks the Spot is a screening and research map for Nova Scotia property, tax-sale research, local history and field work.
+Explore Nova Scotia with historical maps, public reference layers and tools for field notes.
 
-Find and understand a place:
-- Search by PID or civic address and inspect the provincial parcel record.
-- Read municipal tax-sale notices as dated source records, with historical results kept separate from current notices.
-- Export an evidence note that records each source's answer and date.
+NS Marks the Spot brings Fletcher historical imagery together with modern map backgrounds and public property information. Search by PID or civic address, inspect a selected parcel, and follow each record back to its source. Municipal tax-sale notices are dated public records, with their source identified; they are not listings or offers.
 
-Work with maps:
-- Choose NS Marks Atlas, OpenStreetMap or Apple's standard, satellite and hybrid backgrounds.
-- Explore available provincial and municipal reference layers, with sources, licence terms and suitability notes.
-- Measure distance and area, and export a framed PDF map with scale and attribution.
-- Import and place your own maps, draw layers and attach photos on your device.
-- With optional location permission, show your position, mark a point or record a track. An active iOS recording can continue off screen; iOS shows its recording indicator. Saved tracks stay on this device unless you export or share them.
-- Historical-overlay saved areas prepare Fletcher tiles where supported. Queried parcels and other live services need a connection; recently viewed cached tiles are not a guaranteed offline download of every layer.
+Compare available layers, measure distance and area, import your own maps, and draw your own features. Save Fletcher tiles for an offline area. Recently viewed tiles can redraw from the limited local cache; provincial reference layers and property lookups still need a connection.
 
-No account is required. Imported maps, drawings and attached photos stay on your device unless you export or share them yourself.
+With optional location permission, show your position, place a mark or record a track. An active recording can continue off screen when iOS permits it. Tracks and imported files are stored locally. System backups may include them, depending on your device settings. You choose any export or sharing destination. Map services receive separate requests for the area you view.
 
-This is reference material, not a survey, title search, legal proof, route guidance or emergency tool. A mapped parcel is a drawing of a record, not a line on the ground. Source errors and empty answers remain distinct. Confirm important decisions with the official source.
+Every layer identifies its source and licence. Some provincial features require acceptance of the Province of Nova Scotia's viewing terms, which you can withdraw in the app. Sources and export types with unconfirmed permissions remain locked.
 
-Some provincial services require accepting the Province of Nova Scotia's licence before loading. You can withdraw acceptance in the app. Historical imagery has separate attribution and noncommercial licence terms; the software licence does not cover the maps.
+This is a screening and research tool. Parcel outlines are representations of records, not surveyed boundaries. Empty results and failed sources are distinguished. Nothing here establishes title, access rights, site conditions or flood risk. Not for navigation or emergency use.
+
+No NS Marks account is required.
 ```
 
-Prepared review notes, subject to final-build verification and rights clearance:
+Prepared review notes in `fastlane/metadata/review_information/notes.txt`,
+subject to final-build verification and rights clearance:
 
 ```text
-NS Marks the Spot requires no account or login and has no in-app purchases.
+NS Marks the Spot is an iPhone and iPad map and research app. No login, account or purchase is required.
 
-The native app is a Nova Scotia screening and research map. Use PID or civic-address search, then inspect a provincial parcel record. The tax-sale control shows dated municipal notices with their sources, not property offers. Map Info lists data sources, licences and limits. Data is not suitable for surveying, title/legal decisions, route guidance, emergency use or flood-risk assessment.
+The app opens a map of Nova Scotia. The Layers control opens the map-layer panel; Historical Maps contains Fletcher. Offline Maps manages saved Fletcher areas, and Save Area prepares an estimate before a download. Online public-data services and the configured tile host require a network connection. A saved offline area does not make parcel searches or provincial reference services available offline.
 
-Restricted provincial layers load only after the user's explicit Province of Nova Scotia Restricted Geographic Services License acceptance. The user can withdraw acceptance and clear restricted cached tiles. Unanswered licences and source failures are shown separately from empty results.
+Search by PID or civic address, or tap a parcel to inspect its public record. Tax-sale notices are dated municipal records with source links, not listings or offers. The map is for screening and research, not surveying, title decisions, route guidance, emergency use or flood-risk assessment. Map Info lists source credits, licences and limitations.
 
-Imported maps, drawn layers and photos are local. Camera/Photos access is requested for the relevant action; the photo-map index is on device. Export/share is initiated by the user. Recently viewed tiles can be cached; named saved areas prepare supported Fletcher historical tiles. Other queried services need a connection.
+Province-restricted features require the in-app viewing disclosure before requests or display. Acceptance can be withdrawn in Map Info. Four municipal query services and unconfirmed reproduction/export uses remain locked. Fletcher viewing and saved offline tiles remain available; the app does not treat viewing permission as permission to reproduce restricted material in an export.
 
-Location is optional When In Use. The location controls can show position, mark a point or record a track. Background location is held only during an active recording, with the iOS indicator; the app never requests Always permission. During recording, a Live Activity may show elapsed time/distance and Pause/Resume on the Lock Screen/Dynamic Island. Open the app to stop and save. A local checkpoint offers interrupted recordings at the next launch. No coordinates are shown in the Live Activity and tracks leave the device only through the user's export/share.
+Location permission is optional and requested When In Use. It supports showing position, placing a mark and recording a track. During an active recording, location updates can continue off screen when iOS permits it. The app does not request Always authorization. Recorded tracks are stored locally. System backups may include saved library files, depending on device settings. The user chooses any export or sharing destination. When the map follows the device position, separate map and layer requests can disclose the surrounding viewed area to the selected providers.
 
-The Fletcher historical overlay uses tiles.kinnokilabs.com. Historical map rights and attribution are separate from the software licence.
+A recording Live Activity shows elapsed time, distance and recording status, with Pause and Resume. It contains no coordinates and uses no remote activity-push server. Stop and Save are in the app. A local checkpoint can offer recovery after an interrupted recording; that checkpoint directory is excluded from system backup.
+
+Camera access is optional for taking feature photos. Attaching selected images uses the system photo picker. The optional Photo map requests Photos access to display accessible geotagged library images on the map. Imported maps, drawings, marks, tracks and attached photo files are stored locally; the user chooses any export or sharing destination.
 ```
 
 Attach the final build/version, actual device/OS acceptance results, and exact
